@@ -12,19 +12,23 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import org.assertj.core.api.*;
-import org.assertj.core.internal.*;
-import org.junit.*;
-
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
-import static org.assertj.core.internal.ErrorMessages.*;
-import static org.assertj.core.test.DoubleArrays.*;
-import static org.assertj.core.test.TestData.*;
-import static org.assertj.core.util.FailureMessages.*;
-import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.DoubleArrays.arrayOf;
+import static org.assertj.core.test.DoubleArrays.emptyArray;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.emptyList;
+import static org.assertj.core.util.Lists.newArrayList;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.DoubleArrays;
+import org.assertj.core.internal.DoubleArraysBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DoubleArrays#assertContainsExactlyInAnyOrder(AssertionInfo, double[], double[])}</code>.

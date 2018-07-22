@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Throwables#appendStackTraceInCurrentThreadToThrowable(Throwable, String)}.
@@ -30,7 +30,7 @@ import org.junit.Test;
 public class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
   private AtomicReference<RuntimeException> exceptionReference;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     exceptionReference = new AtomicReference<>();
   }

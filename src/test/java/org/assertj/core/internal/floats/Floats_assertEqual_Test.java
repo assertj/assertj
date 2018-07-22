@@ -23,7 +23,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

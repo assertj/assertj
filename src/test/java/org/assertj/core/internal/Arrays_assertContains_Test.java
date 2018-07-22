@@ -25,7 +25,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Arrays_assertContains_Test extends BaseArraysTest {
 

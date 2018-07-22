@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import java.util.function.Consumer;
 
 import org.assertj.core.test.Jedi;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AbstractAssert_satisfies_with_Consumer_Test {
 
@@ -28,7 +28,7 @@ public class AbstractAssert_satisfies_with_Consumer_Test {
   private Jedi luke;
   private Consumer<Jedi> jediRequirements;
 
-  @Before
+  @BeforeEach
   public void setup() {
     yoda = new Jedi("Yoda", "Green");
     luke = new Jedi("Luke Skywalker", "Green");

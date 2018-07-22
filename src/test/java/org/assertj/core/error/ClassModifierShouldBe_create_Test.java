@@ -18,7 +18,7 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ClassModifierShouldBe_create_Test {
 

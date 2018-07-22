@@ -22,7 +22,7 @@ import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class MockPathsBaseTest extends PathsBaseTest {
 
@@ -31,7 +31,7 @@ public class MockPathsBaseTest extends PathsBaseTest {
   Path actual;
   Path other;
 
-  @Before
+  @BeforeEach
   public void init() {
     actual = mock(Path.class);
     other = mock(Path.class);

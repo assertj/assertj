@@ -21,7 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
 import org.assertj.core.internal.ShortArrays;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -37,7 +37,7 @@ public class ShortArrayAssert_usingComparator_Test extends ShortArrayAssertBaseT
 
   private ShortArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     arraysBefore = getArrays(assertions);

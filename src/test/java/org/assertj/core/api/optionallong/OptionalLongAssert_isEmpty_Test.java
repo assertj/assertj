@@ -20,7 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.OptionalLong;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OptionalLongAssert_isEmpty_Test extends BaseTest {
 

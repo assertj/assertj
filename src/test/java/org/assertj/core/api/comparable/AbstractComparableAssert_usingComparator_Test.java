@@ -17,7 +17,7 @@ import java.util.Comparator;
 import org.assertj.core.api.AbstractComparableAssert;
 import org.assertj.core.api.AbstractComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +33,7 @@ public class AbstractComparableAssert_usingComparator_Test extends AbstractCompa
   @Mock
   private Comparator<Integer> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

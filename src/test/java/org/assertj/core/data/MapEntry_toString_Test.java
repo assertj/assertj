@@ -15,7 +15,7 @@ package org.assertj.core.data;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <{@link MapEntry#toString()}.

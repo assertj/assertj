@@ -15,8 +15,8 @@ package org.assertj.core.data;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Offset.offset;
 
-import org.assertj.core.data.Offset;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Offset#toString()}.
@@ -26,7 +26,7 @@ import org.junit.*;
 public class Offset_toString_Test {
   private static Offset<Integer> offset;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     offset = offset(8);
   }

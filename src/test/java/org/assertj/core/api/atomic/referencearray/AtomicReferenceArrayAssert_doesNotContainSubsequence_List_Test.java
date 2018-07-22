@@ -22,7 +22,7 @@ import java.util.List;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.assertj.core.util.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AtomicReferenceArrayAssert#doesNotContainSubsequence(List)}</code>.

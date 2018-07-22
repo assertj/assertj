@@ -20,8 +20,8 @@ import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintains
 
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 public class Delta_equals_hashCode_Test {
@@ -29,7 +29,7 @@ public class Delta_equals_hashCode_Test {
   private Chunk<String> chunk;
   private Delta<String> delta;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     chunk = new Chunk<>(1, Collections.<String>emptyList());
     delta = new ChangeDelta<>(chunk, chunk);

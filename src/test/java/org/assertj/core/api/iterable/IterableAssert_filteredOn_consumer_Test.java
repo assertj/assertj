@@ -26,7 +26,7 @@ import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.test.Employee;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_filteredOn_consumer_Test extends IterableAssert_filtered_baseTest {
 

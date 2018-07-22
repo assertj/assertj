@@ -18,14 +18,14 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 
 import org.assertj.core.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ShouldNotContainPattern_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldNotContainPattern("Frodo", "Fr.do");
   }

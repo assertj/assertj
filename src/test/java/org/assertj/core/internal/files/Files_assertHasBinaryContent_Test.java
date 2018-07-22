@@ -30,8 +30,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -45,7 +45,7 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   private static File actual;
   private static byte[] expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = new File("src/test/resources/actual_file.txt");

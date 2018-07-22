@@ -20,7 +20,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#usingDefaultComparator()}</code>.
@@ -29,7 +29,7 @@ import org.junit.Before;
  */
 public class CharSequenceAssert_usingDefaultComparator_Test extends CharSequenceAssertBaseTest {
 
-  @Before
+  @BeforeEach
   public void before() {
     assertions.usingComparator(CaseInsensitiveCharSequenceComparator.instance);
   }

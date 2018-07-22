@@ -22,7 +22,7 @@ import org.assertj.core.api.IntArrayAssert;
 import org.assertj.core.api.IntArrayAssertBaseTest;
 import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -38,7 +38,7 @@ public class IntArrayAssert_usingDefaultElementComparator_Test extends IntArrayA
 
   private Objects objectsBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     objectsBefore = getObjects(assertions);

@@ -21,7 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
 import org.assertj.core.internal.CharArrays;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -37,7 +37,7 @@ public class CharArrayAssert_usingComparator_Test extends CharArrayAssertBaseTes
 
   private CharArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     arraysBefore = getArrays(assertions);

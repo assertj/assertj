@@ -22,9 +22,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.rules.ExternalResource;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 
@@ -64,7 +62,7 @@ public abstract class PathsBaseTest {
   protected Diff diff;
   protected BinaryDiff binaryDiff;
 
-  @Before
+  @BeforeEach
   public void setUp() {
 	failures = spy(new Failures());
 	nioFilesWrapper = mock(NioFilesWrapper.class);
@@ -79,13 +77,8 @@ public abstract class PathsBaseTest {
 
   /**
    * A {@link FileSystem} for test classes which need them
-   *
-   * <p>
-   * For test classes which do need a filesystem to test assertions and not only paths, declare a {@code static}
-   * instance field of this class as a {@link ClassRule} and initialize at declaration time.
-   * </p>
    */
-  public static class FileSystemResource extends ExternalResource {
+  public static class FileSystemResource {
 
 	private final FileSystem fs;
 
@@ -101,8 +94,7 @@ public abstract class PathsBaseTest {
 	  return fs;
 	}
 
-	@Override
-	protected void after() {
+	public void close() {
 	  try {
 		fs.close();
 	  } catch (IOException e) {

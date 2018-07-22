@@ -38,9 +38,8 @@ import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Person;
 import org.assertj.core.test.TestClassWithRandomId;
-import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Objects#assertIsEqualToIgnoringGivenFields(AssertionInfo, Object, Object, Map, TypeComparators, String...)}</code>.
@@ -201,7 +200,6 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
 
   @Test
   public void should_pass_when_private_fields_differ_but_are_not_compared_or_are_ignored() {
-    boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
     Assertions.setAllowComparingPrivateFields(false);
     TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
     TestClassWithRandomId other = new TestClassWithRandomId("1", 2);
@@ -209,7 +207,7 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
                                                defaultTypeComparators(), "n");
     // reset
-    Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
+    Assertions.setAllowComparingPrivateFields(true);
   }
 
   @Test

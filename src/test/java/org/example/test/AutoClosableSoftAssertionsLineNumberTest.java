@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.assertj.core.api.AutoCloseableSoftAssertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test has to be in a package other than org.assertj because otherwise the

@@ -16,10 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.assertj.core.description.*;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldHaveSameSizeAs#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -30,7 +31,7 @@ public class ShouldHaveSameSizeAs_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldHaveSameSizeAs(newArrayList('a', 'b'), 2, 4);
   }

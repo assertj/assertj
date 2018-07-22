@@ -17,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 
 import org.assertj.core.util.BigDecimalComparator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FieldByFieldComparator_toString_Test {
 
   private FieldByFieldComparator fieldByFieldComparator;
 
-  @Before
+  @BeforeEach
   public void setup() {
     fieldByFieldComparator = new FieldByFieldComparator();
   }

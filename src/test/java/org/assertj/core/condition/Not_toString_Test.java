@@ -17,8 +17,8 @@ import static org.assertj.core.condition.Not.not;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Not#toString()}</code>.
@@ -30,7 +30,7 @@ public class Not_toString_Test {
   private TestCondition<Object> condition;
   private Condition<Object> not;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     condition = new TestCondition<>("Jedi");
     not = not(condition);

@@ -22,7 +22,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -41,7 +41,7 @@ public class ComparablesBaseTest {
   protected ComparatorBasedComparisonStrategy customComparisonStrategy;
   protected Comparables comparablesWithCustomComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     comparables = new Comparables();

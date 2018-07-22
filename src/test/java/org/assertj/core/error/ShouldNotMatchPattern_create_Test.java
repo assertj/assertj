@@ -15,9 +15,10 @@ package org.assertj.core.error;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 
-import org.assertj.core.description.*;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldNotMatchPattern#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -28,7 +29,7 @@ public class ShouldNotMatchPattern_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldNotMatch("Yoda", "Luke");
   }

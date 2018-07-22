@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link PathAssert#hasBinaryContent(byte[])}</code>.
@@ -25,7 +25,7 @@ public class PathAssert_hasBinaryContent_Test extends PathAssertBaseTest {
 
   private static byte[] expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeOnce() {
 	expected = new byte[] { 0, 1 };
   }

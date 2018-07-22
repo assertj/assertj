@@ -28,8 +28,8 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -43,7 +43,7 @@ public class BooleanArrays_assertIsSortedAccordingToComparator_Test extends Bool
   private Comparator<Boolean> booleanAscendingOrderComparator;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = new boolean[] { true, true, false, false };

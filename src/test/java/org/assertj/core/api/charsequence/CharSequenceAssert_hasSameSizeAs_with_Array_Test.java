@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#hasSameSizeAs(Object[])}</code>.
@@ -27,7 +27,7 @@ import org.junit.BeforeClass;
 public class CharSequenceAssert_hasSameSizeAs_with_Array_Test extends CharSequenceAssertBaseTest {
   private static Object[] other;
   
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     other = new Object[] { "Luke" };
   }

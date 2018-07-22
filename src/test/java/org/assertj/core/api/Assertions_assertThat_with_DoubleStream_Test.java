@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.DoubleStream;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_assertThat_with_DoubleStream_Test {
 

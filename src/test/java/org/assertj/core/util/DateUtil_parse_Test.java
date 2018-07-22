@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.text.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DateUtil#parse(String)}</code>.

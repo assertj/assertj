@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.internal.Dates;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * 
@@ -41,7 +41,7 @@ public abstract class AbstractDateAssertWithOneIntArg_Test extends DateAssertBas
   protected int intArg;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     intArg = 5;

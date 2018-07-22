@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.within;
 
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

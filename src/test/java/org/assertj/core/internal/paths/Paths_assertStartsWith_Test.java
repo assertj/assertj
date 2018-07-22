@@ -25,15 +25,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import org.assertj.core.api.exception.PathsException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 
   private Path canonicalActual;
   private Path canonicalOther;
 
-  @Before
+  @BeforeEach
   public void init() {
 	super.init();
 	canonicalActual = mock(Path.class);

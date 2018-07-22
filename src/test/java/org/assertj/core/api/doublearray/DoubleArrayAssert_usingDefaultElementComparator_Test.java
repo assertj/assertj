@@ -22,7 +22,7 @@ import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
 import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -38,7 +38,7 @@ public class DoubleArrayAssert_usingDefaultElementComparator_Test extends Double
 
   private Objects objectsBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     objectsBefore = getObjects(assertions);

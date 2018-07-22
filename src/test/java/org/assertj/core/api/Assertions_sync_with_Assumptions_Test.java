@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_sync_with_Assumptions_Test extends BaseAssertionsTest {
 

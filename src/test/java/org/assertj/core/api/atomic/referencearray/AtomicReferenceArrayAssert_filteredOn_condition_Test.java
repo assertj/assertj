@@ -18,15 +18,15 @@ import static org.assertj.core.api.Assertions.not;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.test.Employee;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_filteredOn_condition_Test extends AtomicReferenceArrayAssert_filtered_baseTest {
 
   protected Condition<Employee> oldEmployees;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     oldEmployees = new Condition<Employee>("old employees") {

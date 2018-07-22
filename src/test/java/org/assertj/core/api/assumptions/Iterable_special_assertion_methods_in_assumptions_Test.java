@@ -24,31 +24,14 @@ import org.assertj.core.api.IterableAssert;
 import org.assertj.core.api.ProxyableIterableAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.CartoonCharacter;
-import org.junit.AfterClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 /**
  * verify that assertions final methods or methods changing the object under test in {@link IterableAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableIterableAssert}).
  */
-@RunWith(Parameterized.class)
 public class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
-  protected static int ranTests = 0;
-
-  public Iterable_special_assertion_methods_in_assumptions_Test(AssumptionRunner<?> assumptionRunner) {
-    super(assumptionRunner);
-  }
-
-  @Override
-  protected void incrementRunTests() {
-    ranTests++;
-  }
-
   @SuppressWarnings("unchecked")
-  @Parameters
   public static Object[][] provideAssumptionsRunners() {
     return new AssumptionRunner[][] {
         // extracting methods
@@ -211,11 +194,6 @@ public class Iterable_special_assertion_methods_in_assumptions_Test extends Base
             value -> assumeThat(value).endsWith(2, 3),
             value -> assumeThat(value).endsWith(2, 4))
     };
-  }
-
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).as("number of tests run").isEqualTo(provideAssumptionsRunners().length);
   }
 
 }

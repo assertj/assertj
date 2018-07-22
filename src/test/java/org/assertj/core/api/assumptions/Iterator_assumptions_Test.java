@@ -13,7 +13,6 @@
 package org.assertj.core.api.assumptions;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.util.Arrays.array;
@@ -28,30 +27,13 @@ import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.util.Streams;
-import org.junit.AfterClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 /**
  * verify that assertions final methods in {@link IterableAssert} work with assumptions (i.e. that they are proxied correctly in {@link ProxyableIterableAssert}).
  */
-@RunWith(Parameterized.class)
 public class Iterator_assumptions_Test extends BaseAssumptionsRunnerTest {
 
-  private static int ranTests = 0;
-
-  public Iterator_assumptions_Test(AssumptionRunner<?> assumptionRunner) {
-    super(assumptionRunner);
-  }
-
-  @Override
-  protected void incrementRunTests() {
-    ranTests++;
-  }
-
   @SuppressWarnings("unchecked")
-  @Parameters
   public static Object[][] provideAssumptionsRunners() {
     return new AssumptionRunner[][] {
         run(iterator(TolkienCharacter.of("Frodo", 33, Race.HOBBIT), TolkienCharacter.of("Sam", 35, Race.HOBBIT)),
@@ -118,11 +100,6 @@ public class Iterator_assumptions_Test extends BaseAssumptionsRunnerTest {
             value -> assumeThat(value).endsWith(2, 4))
     };
   };
-
-  @AfterClass
-  public static void afterClass() {
-    assertThat(ranTests).as("number of tests run").isEqualTo(provideAssumptionsRunners().length);
-  }
 
   // iterator assumptions runner utility
 

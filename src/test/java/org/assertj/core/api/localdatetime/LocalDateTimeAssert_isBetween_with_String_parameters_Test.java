@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 import org.assertj.core.api.LocalDateTimeAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LocalDateTimeAssert_isBetween_with_String_parameters_Test
     extends org.assertj.core.api.LocalDateTimeAssertBaseTest {

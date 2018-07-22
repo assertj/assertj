@@ -20,7 +20,7 @@ import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldConta
 import java.util.Optional;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 

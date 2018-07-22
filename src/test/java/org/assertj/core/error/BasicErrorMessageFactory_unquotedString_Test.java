@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.BasicErrorMessageFactory.unquotedString;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link BasicErrorMessageFactory#unquotedString(String)}</code>.

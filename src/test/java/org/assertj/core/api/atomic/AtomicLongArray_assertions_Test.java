@@ -18,7 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.concurrent.atomic.AtomicLongArray;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicLongArray_assertions_Test {
 

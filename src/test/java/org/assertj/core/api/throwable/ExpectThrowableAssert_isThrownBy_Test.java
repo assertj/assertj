@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.NoSuchElementException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ExpectThrowableAssert_isThrownBy_Test {
 

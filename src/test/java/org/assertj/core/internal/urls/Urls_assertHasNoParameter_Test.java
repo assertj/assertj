@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.assertj.core.internal.UrlsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
 

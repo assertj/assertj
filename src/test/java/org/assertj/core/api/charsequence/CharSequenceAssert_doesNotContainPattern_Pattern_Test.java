@@ -14,7 +14,7 @@ package org.assertj.core.api.charsequence;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.util.regex.Pattern;
 
@@ -28,7 +28,7 @@ public class CharSequenceAssert_doesNotContainPattern_Pattern_Test extends CharS
 
   private static Pattern pattern;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     pattern = matchAnything();
   }

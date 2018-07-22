@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Lists#newArrayList(Iterable)}</code>.

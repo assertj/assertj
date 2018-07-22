@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.ArrayList;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ComparatorBasedComparisonStrategy#caseInsensitiveComparisonStrategy.duplicatesFrom(java.util.Collection)}.<br>

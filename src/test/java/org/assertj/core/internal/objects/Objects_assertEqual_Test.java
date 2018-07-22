@@ -23,11 +23,9 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for <code>{@link Objects#assertEqual(AssertionInfo, Object, Object)}</code>.
@@ -35,7 +33,6 @@ import com.tngtech.java.junit.dataprovider.DataProviderRunner;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-@RunWith(DataProviderRunner.class)
 public class Objects_assertEqual_Test extends ObjectsBaseTest {
 
   private static final Objects OBJECTS_WITH_ALWAY_EQUALS_COMPARATOR = new Objects(new ComparatorBasedComparisonStrategy(ALWAY_EQUALS));
@@ -62,8 +59,8 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
     objectsWithCustomComparisonStrategy.assertEqual(someInfo(), "Yoda", "YODA");
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "foo, bar",
       "null, foo",
       "null, bar",

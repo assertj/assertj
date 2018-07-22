@@ -35,8 +35,8 @@ import org.assertj.core.api.TestCondition;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -48,7 +48,7 @@ public class List_assertIs_Test extends ListsBaseTest {
   private static TestCondition<String> condition;
   private static List<String> actual = newArrayList("Yoda", "Luke", "Leia");
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     condition = new TestCondition<>();
   }

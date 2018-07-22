@@ -19,7 +19,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeUpperCase#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.

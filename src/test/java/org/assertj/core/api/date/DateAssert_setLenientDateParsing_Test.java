@@ -21,9 +21,9 @@ import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssertBaseTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the lenient mode of date parsing used in date assertions with date represented as {@link String}.
@@ -33,7 +33,7 @@ import org.junit.Test;
 public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     setLenientDateParsing(true);
@@ -85,7 +85,7 @@ public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
   }
 
   @Override
-  @After
+  @AfterEach
   public void tearDown() {
     super.tearDown();
     setLenientDateParsing(false);

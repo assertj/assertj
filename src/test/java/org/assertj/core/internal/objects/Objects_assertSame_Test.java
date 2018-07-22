@@ -22,7 +22,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Person;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

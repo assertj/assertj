@@ -19,7 +19,7 @@ import static org.assertj.core.test.TestData.someIndex;
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.data.Index;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.verify;
 

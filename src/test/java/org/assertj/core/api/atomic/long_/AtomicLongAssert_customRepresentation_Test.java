@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicLongAssert_customRepresentation_Test {
 

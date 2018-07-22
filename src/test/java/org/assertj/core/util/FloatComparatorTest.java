@@ -14,13 +14,9 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-
-@RunWith(DataProviderRunner.class)
 public class FloatComparatorTest {
 
   private static FloatComparator comparator = new FloatComparator(0.01f);
@@ -33,9 +29,8 @@ public class FloatComparatorTest {
     return new FloatComparator(epsilon).compare(a, b) == 0;
   }
 
-  // @format:off
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1.0, 1.0",
     "1.001, 1.0",
     "1.0, 1.001",
@@ -44,28 +39,25 @@ public class FloatComparatorTest {
     "0.0, 0.001",
     "-1.001, -1.0",
     "-1.0, -1.001",
-    "null, null"
+    ","
   })
-  // @format:on
   public void should_be_equal_if_difference_is_less_than_or_equal_to_epsilon(Float actual, Float other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f with epsilon %f", actual, other,
                                               comparator.getEpsilon())
                                           .isTrue();
   }
 
-  // @format:off
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1.0, 2.0",
     "1.010001, 1.0",
     "1.0, 1.010001",
     "0.0, 0.010001",
     "-1.010001, -1.0",
     "-1.0, -1.010001",
-    "null, 1.0",
-    "1.0, null"
+    ", 1.0",
+    "1.0,"
   })
-  // @format:on
   public void should_not_be_equal_if_difference_is_more_than_epsilon(Float actual, Float other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f with epsilon %f", actual, other,
                                               comparator.getEpsilon())

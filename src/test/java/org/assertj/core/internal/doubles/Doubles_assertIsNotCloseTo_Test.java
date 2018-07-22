@@ -28,13 +28,10 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoublesBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-
-@RunWith(DataProviderRunner.class)
 public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
 
   private static final Double ZERO = 0d;
@@ -97,8 +94,8 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1.0, 1.0, 0.0",
       "1.0, 0.0, 1.0",
       "1.0, 2.0, 1.0"

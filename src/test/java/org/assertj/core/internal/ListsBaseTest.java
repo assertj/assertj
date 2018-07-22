@@ -20,7 +20,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -40,7 +40,7 @@ public class ListsBaseTest {
   protected Failures failures;
   protected Lists lists;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     lists = new Lists();

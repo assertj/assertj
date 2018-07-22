@@ -19,7 +19,7 @@ import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.util.Date;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DateUtil#timeDifference(java.util.Date, java.util.Date)}</code>.

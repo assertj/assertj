@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.Assertions#assertThat(java.util.Optional)}</code>.
@@ -30,7 +30,7 @@ public class Assertions_assertThat_with_Optional_Test {
 
     private Optional<String> actual;
 
-    @Before
+    @BeforeEach
     public void before(){
         actual = Optional.of("String");
     }

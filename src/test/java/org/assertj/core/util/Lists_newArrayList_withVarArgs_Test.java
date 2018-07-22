@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Lists#newArrayList(Object...)}.

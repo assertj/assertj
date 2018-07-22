@@ -20,7 +20,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 
 import org.assertj.core.api.OffsetDateTimeAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OffsetDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
     extends org.assertj.core.api.OffsetDateTimeAssertBaseTest {

@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ThrowableAssert_built_from_ThrowingCallable_Test {
 

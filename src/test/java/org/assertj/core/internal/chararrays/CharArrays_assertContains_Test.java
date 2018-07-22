@@ -21,7 +21,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link CharArrays#assertContains(AssertionInfo, char[], char[])}</code>.
@@ -33,6 +34,7 @@ public class CharArrays_assertContains_Test extends CharArraysBaseTest {
 
   private Arrays internalArrays;
 
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

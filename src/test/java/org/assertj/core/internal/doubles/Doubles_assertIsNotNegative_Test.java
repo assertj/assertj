@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.DoublesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

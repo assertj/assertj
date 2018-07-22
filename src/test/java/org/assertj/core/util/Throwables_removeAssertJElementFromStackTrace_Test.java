@@ -15,7 +15,7 @@ package org.assertj.core.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Throwables#removeAssertJRelatedElementsFromStackTrace(Throwable)}</code>.

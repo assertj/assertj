@@ -20,8 +20,8 @@ import java.lang.annotation.Annotation;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Lists;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -33,7 +33,7 @@ public class ShouldHaveAnnotations_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldHaveAnnotations(ShouldHaveAnnotations_create_Test.class,
                                    Lists.<Class<? extends Annotation>> newArrayList(Override.class, Deprecated.class),

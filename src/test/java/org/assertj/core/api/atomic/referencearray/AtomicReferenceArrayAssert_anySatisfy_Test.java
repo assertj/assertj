@@ -14,7 +14,7 @@ package org.assertj.core.api.atomic.referencearray;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.function.Consumer;
 
@@ -26,7 +26,7 @@ public class AtomicReferenceArrayAssert_anySatisfy_Test extends AtomicReferenceA
 
   private Consumer<Object> restrictions;
 
-  @Before
+  @BeforeEach
   public void beforeOnce() {
     restrictions = o -> assertThat(o).isNotNull();
   }

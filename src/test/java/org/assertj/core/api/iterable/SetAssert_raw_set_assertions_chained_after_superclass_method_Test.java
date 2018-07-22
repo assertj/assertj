@@ -21,13 +21,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.description.Description;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class SetAssert_raw_set_assertions_chained_after_superclass_method_Test {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  @Ignore
+  @Disabled
   @Test
   public void raw_set_assertions_mixed_with_inherited_methods() {
     Description description = emptyDescription();

@@ -22,7 +22,7 @@ import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -35,7 +35,7 @@ public class DoubleAssert_usingDefaultComparator_Test extends DoubleAssertBaseTe
   @Mock
   private Comparator<Double> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

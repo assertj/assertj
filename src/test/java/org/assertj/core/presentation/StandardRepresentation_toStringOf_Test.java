@@ -43,7 +43,7 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.util.OtherStringTestComparator;
 import org.assertj.core.util.OtherStringTestComparatorWithAt;
 import org.assertj.core.util.StringTestComparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link org.assertj.core.presentation.StandardRepresentation#toStringOf(Object)}.

@@ -34,8 +34,8 @@ import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.diff.Delta;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -50,7 +50,7 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
   private static String expected;
   private static Charset charset;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = new File("src/test/resources/actual_file.txt");

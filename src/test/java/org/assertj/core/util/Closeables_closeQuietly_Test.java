@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.Closeable;
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Closeables#closeQuietly(Closeable...)}.

@@ -14,7 +14,7 @@ package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Properties#ofType(Class)}</code>.

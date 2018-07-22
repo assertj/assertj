@@ -22,8 +22,8 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Maps#assertDoesNotContainKeys(org.assertj.core.api.AssertionInfo, java.util.Map, Object...)}</code>.
@@ -33,7 +33,7 @@ import org.junit.Test;
 public class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual.put(null, null);

@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -36,7 +36,7 @@ public class ShouldNotContainKeys_create_Test {
 
   private Map<?, ?> map;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     map = mapOf(entry("name", "Yoda"), entry("color", "green"));
   }

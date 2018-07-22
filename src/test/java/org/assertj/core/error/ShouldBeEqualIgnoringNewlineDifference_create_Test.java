@@ -18,14 +18,14 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.sho
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ShouldBeEqualIgnoringNewlineDifference_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldBeEqualIgnoringNewLineDifferences("foo", "bar");
   }

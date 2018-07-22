@@ -33,9 +33,8 @@ import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.Person;
 import org.assertj.core.test.Player;
-import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends ObjectsBaseTest {
 
@@ -182,7 +181,6 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
 
   @Test
   public void should_fail_when_selected_field_is_not_accessible_and_private_field_use_is_forbidden() {
-    boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
     Assertions.setAllowComparingPrivateFields(false);
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
       Jedi actual = new Jedi("Yoda", "Green");
@@ -190,7 +188,7 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
       objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, noFieldComparators(),
                                                       defaultTypeComparators(), "strangeNotReadablePrivateField");
     }).withMessageContaining("Can't find any field or property with name 'strangeNotReadablePrivateField'.");
-    Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
+    Assertions.setAllowComparingPrivateFields(true);
   }
 
   @Test

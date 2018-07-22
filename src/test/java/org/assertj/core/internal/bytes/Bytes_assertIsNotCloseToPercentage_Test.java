@@ -12,13 +12,6 @@
  */
 package org.assertj.core.internal.bytes;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.BytesBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -31,7 +24,12 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
-@RunWith(DataProviderRunner.class)
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.BytesBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 public class Bytes_assertIsNotCloseToPercentage_Test extends BytesBaseTest {
 
   private static final Byte ZERO = 0;
@@ -60,8 +58,8 @@ public class Bytes_assertIsNotCloseToPercentage_Test extends BytesBaseTest {
     assertThatIllegalArgumentException().isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 2, 1",
       "1, 11, 90",
       "-1, -2, 1",
@@ -72,8 +70,8 @@ public class Bytes_assertIsNotCloseToPercentage_Test extends BytesBaseTest {
     bytes.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 1, 0",
       "2, 1, 100",
       "1, 2, 50",

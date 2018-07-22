@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 

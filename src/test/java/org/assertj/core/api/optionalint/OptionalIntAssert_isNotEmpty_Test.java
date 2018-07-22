@@ -13,7 +13,7 @@
 package org.assertj.core.api.optionalint;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.OptionalInt;
 

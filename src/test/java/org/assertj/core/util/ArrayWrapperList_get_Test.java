@@ -16,8 +16,8 @@ package org.assertj.core.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.assertj.core.util.ArrayWrapperList;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ArrayWrapperList#get(int)}</code>.
@@ -28,7 +28,7 @@ public class ArrayWrapperList_get_Test {
 
   private ArrayWrapperList list;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     int[] array = { 6, 8 };
     list = ArrayWrapperList.wrap(array);

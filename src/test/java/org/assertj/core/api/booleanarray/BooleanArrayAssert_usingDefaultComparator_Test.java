@@ -22,7 +22,7 @@ import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
 import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -38,7 +38,7 @@ public class BooleanArrayAssert_usingDefaultComparator_Test extends BooleanArray
 
   private BooleanArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

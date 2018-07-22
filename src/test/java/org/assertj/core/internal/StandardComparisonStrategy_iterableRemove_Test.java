@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link StandardComparisonStrategy#iterableRemoves(Iterable, Object)}.

@@ -19,7 +19,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Paths_assertIsRelative_Test extends MockPathsBaseTest {
 

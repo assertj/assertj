@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.internal.ErrorMessages.percentageValueIsInRange;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Percentage#withPercentage(Number)}.

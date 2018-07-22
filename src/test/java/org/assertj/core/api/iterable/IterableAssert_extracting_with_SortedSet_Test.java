@@ -42,14 +42,15 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.assertj.core.api.AbstractListAssert;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_extracting_with_SortedSet_Test {
 
@@ -80,8 +81,10 @@ public class IterableAssert_extracting_with_SortedSet_Test {
     }
   };
 
-  @Before
+  @BeforeEach
   public void setUp() {
+    // Workaround necessary because resetting isn't done somewhere else, TODO: remove
+    Assertions.setAllowExtractingPrivateFields(true);
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     jedis = new TreeSet<>(comparing(Employee::getAge));

@@ -19,8 +19,8 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.test.CartoonCharacter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_flatExtracting_with_String_parameter_Test {
   private CartoonCharacter bart;
@@ -30,7 +30,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_with_String_parameter_Tes
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     bart = new CartoonCharacter("Bart Simpson");
     lisa = new CartoonCharacter("Lisa Simpson");

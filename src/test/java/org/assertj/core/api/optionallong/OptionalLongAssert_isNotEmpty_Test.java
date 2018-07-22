@@ -13,7 +13,7 @@
 package org.assertj.core.api.optionallong;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.OptionalLong;
 

@@ -46,13 +46,10 @@ import java.time.temporal.Temporal;
 import java.time.temporal.UnsupportedTemporalTypeException;
 
 import org.assertj.core.data.TemporalUnitOffset;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
 
   private static AbstractTemporalAssert<?, ?>[] nullAsserts = {
@@ -145,9 +142,7 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
   private static TemporalUnitOffset[] inapplicableOffsets = { null, null, within(1, MINUTES),
       within(1, DAYS), null, null, within(1, WEEKS) };
 
-  @Parameters
-  public static Object[][] getParameters() {
-    
+  public static Object[][] parameters() {
     DateTimeFormatter[] formatters = {
         ISO_INSTANT,
         ISO_LOCAL_DATE_TIME,
@@ -174,87 +169,109 @@ public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
     return parameters;
   }
 
-  @Parameter(value = 0)
-  public AbstractTemporalAssert<?, Temporal> nullAssert;
+  @SuppressWarnings("unchecked")
+  private static AbstractTemporalAssert<?, Temporal> nullAssert(ArgumentsAccessor arguments) {
+    return arguments.get(0, AbstractTemporalAssert.class);
+  }
 
-  @Parameter(value = 1)
-  public AbstractTemporalAssert<?, Temporal> temporalAssert;
+  @SuppressWarnings("unchecked")
+  private static AbstractTemporalAssert<?, Temporal> temporalAssert(ArgumentsAccessor arguments) {
+    return arguments.get(1, AbstractTemporalAssert.class);
+  }
 
-  @Parameter(value = 2)
-  public TemporalUnitOffset offset;
+  private static TemporalUnitOffset offset(ArgumentsAccessor arguments) {
+    return arguments.get(2, TemporalUnitOffset.class);
+  }
 
-  @Parameter(value = 3)
-  public Temporal closeTemporal;
+  private static Temporal closeTemporal(ArgumentsAccessor arguments) {
+    return arguments.get(3, Temporal.class);
+  }
 
-  @Parameter(value = 4)
-  public String closeTemporalAsString;
+  private static String closeTemporalAsString(ArgumentsAccessor arguments) {
+    return arguments.getString(4);
+  }
 
-  @Parameter(value = 5)
-  public Temporal farTemporal;
+  private static Temporal farTemporal(ArgumentsAccessor arguments) {
+    return arguments.get(5, Temporal.class);
+  }
 
-  @Parameter(value = 6)
-  public String farTemporalAsString;
+  private static String farTemporalAsString(ArgumentsAccessor arguments) {
+    return arguments.getString(6);
+  }
 
-  @Parameter(value = 7)
-  public String differenceMessage;
+  private static String differenceMessage(ArgumentsAccessor arguments) {
+    return arguments.getString(7);
+  }
 
-  @Parameter(value = 8)
-  public TemporalUnitOffset inapplicableOffset;
+  private static TemporalUnitOffset inapplicableOffset(ArgumentsAccessor arguments) {
+    return arguments.get(8, TemporalUnitOffset.class);
+  }
 
-  @Test
-  public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> nullAssert.isCloseTo(closeTemporal, offset))
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_fail_if_actual_is_null(ArgumentsAccessor args) {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> nullAssert(args).isCloseTo(closeTemporal(args), offset(args)))
                                                    .withMessage(actualIsNull());
   }
 
-  @Test
-  public void should_fail_if_temporal_parameter_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> temporalAssert.isCloseTo((Temporal) null, offset))
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_fail_if_temporal_parameter_is_null(ArgumentsAccessor args) {
+    assertThatNullPointerException().isThrownBy(() -> temporalAssert(args).isCloseTo((Temporal) null, offset(args)))
                                     .withMessage("The temporal object to compare actual with should not be null");
   }
 
-  @Test
-  public void should_fail_if_temporal_parameter_as_string_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> temporalAssert.isCloseTo((String) null, offset))
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_fail_if_temporal_parameter_as_string_is_null(ArgumentsAccessor args) {
+    assertThatNullPointerException().isThrownBy(() -> temporalAssert(args).isCloseTo((String) null, offset(args)))
                                     .withMessage("The String representing of the temporal object to compare actual with should not be null");
   }
 
-  @Test
-  public void should_fail_if_offset_parameter_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> temporalAssert.isCloseTo(closeTemporal, null))
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_fail_if_offset_parameter_is_null(ArgumentsAccessor args) {
+    assertThatNullPointerException().isThrownBy(() -> temporalAssert(args).isCloseTo(closeTemporal(args), null))
                                     .withMessage("The offset should not be null");
   }
 
-  @Test
-  public void should_fail_when_offset_is_inapplicable() {
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_fail_when_offset_is_inapplicable(ArgumentsAccessor args) {
+    TemporalUnitOffset inapplicableOffset = inapplicableOffset(args);
     if (inapplicableOffset != null) {
-      assertThatExceptionOfType(UnsupportedTemporalTypeException.class).isThrownBy(() -> temporalAssert.isCloseTo(closeTemporal,
-                                                                                                                  inapplicableOffset))
-                                                                       .withMessage("Unsupported unit: "
-                                                                                    + inapplicableOffset.getUnit());
+      assertThatExceptionOfType(UnsupportedTemporalTypeException.class).isThrownBy(() -> temporalAssert(args).isCloseTo(closeTemporal(args),
+                                                                                                                        inapplicableOffset))
+                                                                       .withMessage("Unsupported unit: " + inapplicableOffset.getUnit());
     }
   }
 
-  @Test
-  public void should_pass_when_within_offset() {
-    temporalAssert.isCloseTo(closeTemporal, offset);
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_pass_when_within_offset(ArgumentsAccessor args) {
+    temporalAssert(args).isCloseTo(closeTemporal(args), offset(args));
   }
 
-  @Test
-  public void should_pass_when_temporal_passed_as_string_is_within_offset() {
-    temporalAssert.isCloseTo(closeTemporalAsString, offset);
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_pass_when_temporal_passed_as_string_is_within_offset(ArgumentsAccessor args) {
+    temporalAssert(args).isCloseTo(closeTemporalAsString(args), offset(args));
   }
 
-  @Test
-  public void should_fail_outside_offset() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert.isCloseTo(farTemporal, offset))
-                                                   .withMessage(differenceMessage);
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_fail_outside_offset(ArgumentsAccessor args) {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert(args).isCloseTo(farTemporal(args),
+                                                                                                    offset(args)))
+                                                   .withMessage(differenceMessage(args));
   }
 
-  @Test
-  public void should_fail_when_temporal_passed_as_string_is_outside_offset() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert.isCloseTo(farTemporalAsString, offset))
-                                                   .withMessage(differenceMessage);
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void should_fail_when_temporal_passed_as_string_is_outside_offset(ArgumentsAccessor args) {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert(args).isCloseTo(farTemporalAsString(args),
+                                                                                                    offset(args)))
+                                                   .withMessage(differenceMessage(args));
   }
 
 }

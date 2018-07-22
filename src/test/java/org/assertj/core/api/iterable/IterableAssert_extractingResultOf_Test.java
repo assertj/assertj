@@ -27,11 +27,12 @@ import java.sql.Timestamp;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.test.FluentJedi;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for:
@@ -48,8 +49,10 @@ public class IterableAssert_extractingResultOf_Test {
   private static FluentJedi vader;
   private static Iterable<FluentJedi> jedis;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
+    // Workaround necessary because resetting isn't done somewhere else, TODO: remove
+    Assertions.setAllowExtractingPrivateFields(true);
     yoda = new FluentJedi(new Name("Yoda"), 800, false);
     vader = new FluentJedi(new Name("Darth Vader"), 50, true);
     jedis = newArrayList(yoda, vader);

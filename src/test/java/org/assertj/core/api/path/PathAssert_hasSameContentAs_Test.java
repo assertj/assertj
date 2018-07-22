@@ -25,8 +25,8 @@ import java.nio.file.Path;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link PathAssert#hasSameContentAs(java.nio.file.Path)}</code>.
@@ -35,7 +35,7 @@ public class PathAssert_hasSameContentAs_Test extends PathAssertBaseTest {
 
   private static Path expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeOnce() {
 	expected = mock(Path.class);
   }

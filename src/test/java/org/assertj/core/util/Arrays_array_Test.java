@@ -18,7 +18,7 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLongArray;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Arrays_array_Test {
 

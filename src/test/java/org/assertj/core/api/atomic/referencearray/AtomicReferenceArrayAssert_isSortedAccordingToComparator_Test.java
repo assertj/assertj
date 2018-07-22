@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 public class AtomicReferenceArrayAssert_isSortedAccordingToComparator_Test extends AtomicReferenceArrayAssertBaseTest {
@@ -28,7 +28,7 @@ public class AtomicReferenceArrayAssert_isSortedAccordingToComparator_Test exten
   @Mock
   private Comparator<Object> mockComparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

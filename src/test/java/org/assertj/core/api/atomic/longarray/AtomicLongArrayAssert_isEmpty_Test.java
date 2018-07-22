@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicLongArrayAssert_isEmpty_Test extends AtomicLongArrayAssertBaseTest {
 

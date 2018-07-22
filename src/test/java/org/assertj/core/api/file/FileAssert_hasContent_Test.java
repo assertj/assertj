@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link FileAssert#hasContent(String)}</code>.
@@ -28,7 +28,7 @@ public class FileAssert_hasContent_Test extends FileAssertBaseTest {
 
   private static String expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeOnce() {
     expected = "xyz";
   }

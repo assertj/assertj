@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.internal.IntegersBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

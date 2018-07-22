@@ -24,7 +24,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Arrays_containsAnyOf_Test extends BaseArraysTest {
 

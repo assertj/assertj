@@ -20,7 +20,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
 import org.assertj.core.api.ZonedDateTimeAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ZonedDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
     extends org.assertj.core.api.ZonedDateTimeAssertBaseTest {

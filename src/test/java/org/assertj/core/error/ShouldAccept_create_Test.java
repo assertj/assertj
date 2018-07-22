@@ -20,7 +20,7 @@ import static org.assertj.core.error.ShouldAccept.shouldAccept;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldAccept_create_Test {
 

@@ -19,8 +19,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.List;
 
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Class for testing <code>{@link IterableDiff}</code>
@@ -33,7 +33,7 @@ public class IterableDiff_Test {
   private List<String> expected;
   private ComparisonStrategy comparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     comparisonStrategy = StandardComparisonStrategy.instance();
   }

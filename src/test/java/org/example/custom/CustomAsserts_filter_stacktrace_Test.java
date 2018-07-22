@@ -18,9 +18,9 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Condition;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CustomAsserts_filter_stacktrace_Test {
 
@@ -70,8 +70,8 @@ public class CustomAsserts_filter_stacktrace_Test {
     }
   }
   
-  @Before
-  @After
+  @BeforeEach
+  @AfterEach
   public void enableStackTraceFiltering() {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(true);
   }

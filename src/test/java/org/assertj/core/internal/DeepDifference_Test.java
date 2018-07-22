@@ -48,7 +48,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Based on the deep equals tests of https://github.com/jdereg/java-util

@@ -12,7 +12,8 @@
  */
 package org.assertj.core.api.assumptions;
 
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -23,7 +24,9 @@ import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
 import org.assertj.core.test.CartoonCharacter;
-import org.junit.Test;
+import org.junit.AssumptionViolatedException;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public abstract class BaseAssumptionsRunnerTest {
 
@@ -49,12 +52,6 @@ public abstract class BaseAssumptionsRunnerTest {
   protected static Function<TolkienCharacter, String> nameExtractorFunction;
   protected static Function<TolkienCharacter, Integer> ageExtractorFunction;
   protected static Extractor<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
-
-  protected AssumptionRunner<?> assumptionRunner;
-
-  public BaseAssumptionsRunnerTest(AssumptionRunner<?> assumptionRunner) {
-    this.assumptionRunner = assumptionRunner;
-  }
 
   private static void setupData() {
     bart = new CartoonCharacter("Bart Simpson");
@@ -82,18 +79,15 @@ public abstract class BaseAssumptionsRunnerTest {
     childrenExtractor = CartoonCharacter::getChildren;
   }
 
-  @Test
-  public void should_ignore_test_when_assumption_fails() {
-    assumptionRunner.runFailingAssumption();
-    fail("should not arrive here");
+  @ParameterizedTest
+  @MethodSource("provideAssumptionsRunners")
+  public void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumptionRunner.runFailingAssumption());
   }
 
-  @Test
-  public void should_run_test_when_assumption_passes() {
-    assumptionRunner.runPassingAssumption();
-    incrementRunTests();
+  @ParameterizedTest
+  @MethodSource("provideAssumptionsRunners")
+  public void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
+    assertThatCode(() -> assumptionRunner.runPassingAssumption()).doesNotThrowAnyException();
   }
-
-  protected abstract void incrementRunTests();
-
 }

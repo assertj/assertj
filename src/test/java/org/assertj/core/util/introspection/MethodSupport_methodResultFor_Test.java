@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import org.assertj.core.test.Person;
 import org.assertj.core.util.introspection.beans.SuperHero;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link MethodSupport#methodResultFor(Object, String)}</code>.
@@ -32,7 +32,7 @@ public class MethodSupport_methodResultFor_Test {
   private Person joker;
   private SuperHero batman;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     bruceWayne = new Person("Bruce Wayne");
     joker = new Person("Joker");

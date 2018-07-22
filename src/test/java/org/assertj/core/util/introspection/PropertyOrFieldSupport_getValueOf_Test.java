@@ -23,14 +23,14 @@ import java.util.Map;
 
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PropertyOrFieldSupport_getValueOf_Test {
   private static final Employee yoda = new Employee(1L, new Name("Yoda"), 800);
   private PropertyOrFieldSupport propertyOrFieldSupport;
 
-  @Before
+  @BeforeEach
   public void setup() {
     propertyOrFieldSupport = PropertyOrFieldSupport.EXTRACTION;
   }

@@ -17,7 +17,7 @@ import org.assertj.core.api.TestCondition;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.*;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
 import static org.assertj.core.util.Lists.newArrayList;

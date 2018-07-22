@@ -19,8 +19,8 @@ import java.util.Comparator;
 
 import org.assertj.core.api.BooleanAssert;
 import org.assertj.core.api.BooleanAssertBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class BooleanAssert_usingComparator_Test extends BooleanAssertBaseTest {
   @Mock
   private Comparator<Boolean> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

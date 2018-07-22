@@ -19,7 +19,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.description.TextDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NoElementsShouldSatisfy_create_Test {
 

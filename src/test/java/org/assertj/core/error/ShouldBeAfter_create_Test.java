@@ -20,8 +20,8 @@ import static org.assertj.core.util.DateUtil.parse;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeAfter#create(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -32,7 +32,7 @@ public class ShouldBeAfter_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldBeAfter(parse("2011-01-01"), parse("2012-01-01"));
   }

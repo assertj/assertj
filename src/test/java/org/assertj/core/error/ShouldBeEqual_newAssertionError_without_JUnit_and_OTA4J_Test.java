@@ -23,13 +23,9 @@ import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
 import org.junit.ComparisonFailure;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.mockito.quality.Strictness;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 /**
@@ -40,14 +36,11 @@ import org.opentest4j.AssertionFailedError;
  */
 public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
 
-  @Rule
-  public final MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
-
   private Description description;
   private ShouldBeEqual factory;
   private ConstructorInvoker constructorInvoker;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
     description = new TestDescription("Jedi");

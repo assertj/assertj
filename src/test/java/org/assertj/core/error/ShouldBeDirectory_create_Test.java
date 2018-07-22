@@ -15,8 +15,8 @@ package org.assertj.core.error;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -36,7 +36,7 @@ public class ShouldBeDirectory_create_Test
     private String message;
     private String expectedMessage;
 
-    @Before
+    @BeforeEach
     public void setup()
     {
         description = new TestDescription("Test");

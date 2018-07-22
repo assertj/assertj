@@ -34,8 +34,8 @@ import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ListAssert_assertionState_propagation_with_extracting_Test {
 
@@ -43,7 +43,7 @@ public class ListAssert_assertionState_propagation_with_extracting_Test {
   private Employee luke;
   private List<Employee> jedis;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);

@@ -20,7 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.IntArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBaseTest {
 

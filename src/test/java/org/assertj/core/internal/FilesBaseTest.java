@@ -24,7 +24,7 @@ import java.io.InputStream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.diff.Delta;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -46,7 +46,7 @@ public class FilesBaseTest {
   protected BinaryDiff binaryDiff;
   protected NioFilesWrapper nioFilesWrapper;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     actual = mock(File.class);
     failures = spy(new Failures());

@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link FieldSupport#fieldValues(String, Class, Iterable)}</code>.
@@ -37,7 +37,7 @@ public class FieldSupport_fieldValues_Test {
   private List<Employee> employees;
   private FieldSupport fieldSupport = FieldSupport.extraction();
 
-  @Before
+  @BeforeEach
   public void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);

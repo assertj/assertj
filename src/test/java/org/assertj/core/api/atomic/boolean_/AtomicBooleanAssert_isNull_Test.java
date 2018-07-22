@@ -17,7 +17,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicBooleanAssert_isNull_Test {
 

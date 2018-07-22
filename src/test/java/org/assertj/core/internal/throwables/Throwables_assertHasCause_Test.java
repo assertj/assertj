@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ThrowablesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
 

@@ -21,7 +21,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShortArrays#assertContains(AssertionInfo, short[], short[])}</code>.
@@ -33,6 +34,7 @@ public class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
 
   private Arrays internalArrays;
 
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

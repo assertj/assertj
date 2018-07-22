@@ -29,7 +29,7 @@ import java.util.stream.DoubleStream;
 import org.assertj.core.api.DoublePredicateAssert;
 import org.assertj.core.api.DoublePredicateAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov

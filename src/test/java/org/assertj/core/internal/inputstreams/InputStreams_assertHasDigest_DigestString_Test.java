@@ -32,7 +32,7 @@ import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsBaseTest;
 import org.assertj.core.internal.InputStreamsException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link InputStreams#assertHasDigest(AssertionInfo, InputStream, MessageDigest, String)}</code>

@@ -19,8 +19,8 @@ import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsS
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link org.assertj.core.data.Percentage#equals(Object)} and
@@ -31,7 +31,7 @@ import org.junit.Test;
 public class Percentage_equals_hashCode_Test {
   private static Percentage percentage;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     percentage = withPercentage(8.0);
   }

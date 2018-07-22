@@ -30,8 +30,8 @@ import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.test.FluentJedi;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for:
@@ -48,7 +48,7 @@ public class ObjectArrayAssert_extractingResultOf_Test {
   private static FluentJedi vader;
   private static FluentJedi[] jedis;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     yoda = new FluentJedi(new Name("Yoda"), 800, false);
     vader = new FluentJedi(new Name("Darth Vader"), 50 ,true);

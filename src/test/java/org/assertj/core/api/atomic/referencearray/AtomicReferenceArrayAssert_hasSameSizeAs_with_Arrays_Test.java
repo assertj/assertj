@@ -21,7 +21,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_hasSameSizeAs_with_Arrays_Test {
 

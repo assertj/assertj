@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.WithPlayerData;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -37,7 +37,7 @@ public class MapsBaseTest extends WithPlayerData {
   protected Failures failures;
   protected Maps maps;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     actual = mapOf(entry("name", "Yoda"), entry("color", "green"));
     failures = spy(new Failures());

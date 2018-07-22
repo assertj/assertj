@@ -23,8 +23,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -35,7 +35,7 @@ import org.junit.Test;
 public class Maps_assertHasSameSizeAs_with_Array_Test extends MapsBaseTest {
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));

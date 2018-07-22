@@ -19,7 +19,7 @@ import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeBetween#create(Description, org.assertj.core.presentation.Representation)}</code>.

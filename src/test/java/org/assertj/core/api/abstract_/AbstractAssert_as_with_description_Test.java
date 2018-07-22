@@ -18,8 +18,8 @@ import static org.assertj.core.test.TestData.someDescription;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.description.Description;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractAssert#as(Description)}</code>
@@ -31,7 +31,7 @@ public class AbstractAssert_as_with_description_Test {
   private ConcreteAssert assertions;
   private Description d;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     assertions = new ConcreteAssert(6L);
     d = someDescription();

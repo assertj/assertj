@@ -20,8 +20,8 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.WithAssertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ConditionBuiltWithPredicateTest implements WithAssertions {
 
@@ -30,7 +30,7 @@ public class ConditionBuiltWithPredicateTest implements WithAssertions {
   private Condition<String> jediPower;
   private static final String JEDI = "jedi";
 
-  @Before
+  @BeforeEach
   public void setup() {
     Predicate<String> jediPredicate = s -> jedis.contains(s);
     jedi = new Condition<>(jediPredicate, "a %s", JEDI);

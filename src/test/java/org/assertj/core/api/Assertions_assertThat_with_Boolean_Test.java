@@ -15,7 +15,7 @@ package org.assertj.core.api;
 import static java.lang.Boolean.TRUE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(Boolean)}</code>.

@@ -17,7 +17,7 @@ import static org.mockito.Mockito.spy;
 
 import org.assertj.core.internal.Booleans;
 import org.assertj.core.internal.Failures;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -32,7 +32,7 @@ public class BooleansBaseTest {
   protected Failures failures;
   protected Booleans booleans;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     booleans = new Booleans();

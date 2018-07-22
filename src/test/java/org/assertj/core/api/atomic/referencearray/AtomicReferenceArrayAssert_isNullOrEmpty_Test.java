@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_isNullOrEmpty_Test extends AtomicReferenceArrayAssertBaseTest {
 

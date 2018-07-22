@@ -22,8 +22,8 @@ import org.assertj.core.description.Description;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Failures#failure(AssertionInfo, ErrorMessageFactory)}</code>.
@@ -36,7 +36,7 @@ public class Failures_failure_with_ErrorMessage_Test {
   private ErrorMessageFactory errorMessage;
   private Failures failures;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     info = new WritableAssertionInfo();
     errorMessage = mock(ErrorMessageFactory.class);

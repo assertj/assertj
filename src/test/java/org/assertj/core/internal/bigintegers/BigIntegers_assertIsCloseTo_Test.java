@@ -31,16 +31,13 @@ import java.math.BigInteger;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigIntegersBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.BigIntegers#assertIsCloseTo(AssertionInfo, BigInteger, BigInteger, org.assertj.core.data.Offset)}</code>.
  */
-@RunWith(DataProviderRunner.class)
 public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   private static final BigInteger TWO = new BigInteger("2");
@@ -58,8 +55,8 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
     numbers.assertIsCloseTo(someInfo(), ONE, TWO, byLessThan(TEN));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 1, 0",
       "1, 0, 1",
       "-1, 0, 1",
@@ -68,21 +65,19 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
       "0, 1, 1",
       "-1, -1, 0"
   })
-  // @format:on
   public void should_pass_if_big_integers_difference_is_equal_to_given_offset(BigInteger actual, BigInteger expected,
                                                                               BigInteger offset) {
     numbers.assertIsCloseTo(someInfo(), actual, expected, offset(offset));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 0, 1",
       "-1, 0, 1",
       "0, -1, 1",
       "-1, 1, 2",
       "0, 1, 1"
   })
-  // @format:on
   public void should_fail_if_big_integers_difference_is_equal_to_given_strict_offset(BigInteger actual,
                                                                                      BigInteger expected,
                                                                                      BigInteger offset) {
@@ -112,7 +107,6 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
-  // @format:off
   // error or failure
 
   @Test

@@ -32,7 +32,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

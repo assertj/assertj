@@ -19,8 +19,8 @@ import java.util.Comparator;
 
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 /**
@@ -36,7 +36,7 @@ public class CollectionAssert_usingComparator_Test {
   @Mock
   private Comparator<Byte> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

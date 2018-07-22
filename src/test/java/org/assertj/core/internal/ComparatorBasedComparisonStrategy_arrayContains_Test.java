@@ -17,7 +17,7 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ComparatorBasedComparisonStrategy#arrayContains(Object, Object)}.

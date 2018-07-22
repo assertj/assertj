@@ -38,7 +38,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
 public class AutoCloseableSoftAssertionsTest {

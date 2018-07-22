@@ -16,7 +16,7 @@ import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class BaseArraysTest {
 
@@ -26,7 +26,7 @@ public class BaseArraysTest {
   protected ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy;
   protected Arrays arraysWithCustomComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     actual = array("Luke", "Yoda", "Leia");
     failures = spy(new Failures());

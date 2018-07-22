@@ -19,7 +19,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DiffTest {
 

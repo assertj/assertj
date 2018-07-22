@@ -20,7 +20,7 @@ import org.assertj.core.condition.JediCondition;
 import org.assertj.core.condition.JediPowerCondition;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Iterables;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -38,7 +38,7 @@ public class IterablesWithConditionsBaseTest extends IterablesBaseTest {
   protected Conditions conditions;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     testCondition = new TestCondition<>();

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Booleans;
 import org.assertj.core.internal.BooleansBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

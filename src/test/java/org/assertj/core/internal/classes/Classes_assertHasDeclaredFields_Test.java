@@ -21,8 +21,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.assertj.core.internal.ClassesBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -33,7 +33,7 @@ import org.junit.Test;
  */
 public class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
 
-  @Before
+  @BeforeEach
   public void setupActual() {
     actual = AnnotatedClass.class;
   }

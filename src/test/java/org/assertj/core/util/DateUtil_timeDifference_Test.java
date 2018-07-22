@@ -19,7 +19,7 @@ import static org.assertj.core.util.DateUtil.timeDifference;
 
 import java.util.Date;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.util.DateUtil#timeDifference(java.util.Date, java.util.Date)}</code>.

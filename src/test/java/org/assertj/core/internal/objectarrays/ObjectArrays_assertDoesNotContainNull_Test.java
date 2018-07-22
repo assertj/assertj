@@ -26,7 +26,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.assertj.core.util.Arrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

@@ -14,7 +14,7 @@ package org.assertj.core.api.iterable;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.function.Consumer;
 
@@ -25,7 +25,7 @@ public class IterableAssert_allSatisfy_Test extends IterableAssertBaseTest {
 
   private Consumer<Object> restrictions;
 
-  @Before
+  @BeforeEach
   public void beforeOnce() {
     restrictions = o -> assertThat(o).isNotNull();
   }

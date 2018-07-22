@@ -17,8 +17,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.description.Description;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link WritableAssertionInfo#descriptionText()}</code>.
@@ -29,7 +29,7 @@ public class WritableAssertionInfo_descriptionText_Test {
 
   private WritableAssertionInfo info;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     info = new WritableAssertionInfo();
   }

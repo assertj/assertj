@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalTime;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
 

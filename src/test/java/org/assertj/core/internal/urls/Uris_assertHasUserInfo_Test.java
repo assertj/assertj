@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
 

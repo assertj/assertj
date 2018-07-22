@@ -19,7 +19,7 @@ import java.util.Date;
 
 import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.YearAndMonthComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -39,7 +39,7 @@ public abstract class DatesBaseTest {
 
   private YearAndMonthComparator yearAndMonthComparator = new YearAndMonthComparator();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     dates = new Dates();

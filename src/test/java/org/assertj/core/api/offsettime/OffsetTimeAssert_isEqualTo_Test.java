@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.fail;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
 

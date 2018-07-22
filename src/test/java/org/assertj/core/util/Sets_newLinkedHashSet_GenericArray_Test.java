@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.LinkedHashSet;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Sets#newLinkedHashSet(Object...)}.

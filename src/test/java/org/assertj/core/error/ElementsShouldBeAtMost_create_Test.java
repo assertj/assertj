@@ -20,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -33,7 +33,7 @@ public class ElementsShouldBeAtMost_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = elementsShouldBeAtMost(newArrayList("Yoda", "Luke", "Obiwan"), 2, new TestCondition<String>("a Jedi"));
   }

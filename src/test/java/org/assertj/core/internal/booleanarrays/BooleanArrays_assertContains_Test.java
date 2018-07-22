@@ -21,7 +21,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link BooleanArrays#assertContains(AssertionInfo, boolean[], boolean[])}</code>.
@@ -33,6 +34,7 @@ public class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
 
   private Arrays internalArrays;
 
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

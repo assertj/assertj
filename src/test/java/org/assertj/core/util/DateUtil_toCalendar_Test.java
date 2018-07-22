@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.text.*;
 import java.util.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DateUtil#toCalendar(java.util.Date)}</code>.

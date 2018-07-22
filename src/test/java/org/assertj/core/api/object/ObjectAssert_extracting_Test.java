@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectAssert#extracting(String[])}</code>.
@@ -31,7 +31,7 @@ public class ObjectAssert_extracting_Test {
 
   private Employee luke;
 
-  @Before
+  @BeforeEach
   public void setup() {
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
   }

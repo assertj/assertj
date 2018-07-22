@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link LongArrays#assertContainsOnlyOnce(AssertionInfo, long[], long[])}</code>.

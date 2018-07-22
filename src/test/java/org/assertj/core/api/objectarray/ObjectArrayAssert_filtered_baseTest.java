@@ -19,7 +19,7 @@ import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class ObjectArrayAssert_filtered_baseTest {
 
@@ -28,7 +28,7 @@ public class ObjectArrayAssert_filtered_baseTest {
   protected Employee luke;
   protected Employee noname;
   protected Employee[] employees;
-  @Before
+  @BeforeEach
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     obiwan = new Employee(2L, new Name("Obi"), 800);

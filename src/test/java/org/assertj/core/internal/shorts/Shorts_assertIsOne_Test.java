@@ -18,7 +18,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Shorts#assertIsOne(AssertionInfo, Short)}</code>.

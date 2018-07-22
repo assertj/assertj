@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static com.tngtech.junit.dataprovider.DataProviders.$;
-import static com.tngtech.junit.dataprovider.DataProviders.$$;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -21,28 +19,27 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.stream.Stream;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for <code>{@link MessageFormatter#format(Description, String, Object...)}</code>.
  * 
  * @author Alex Ruiz
  */
-@RunWith(DataProviderRunner.class)
 public class MessageFormatter_format_Test {
 
   private DescriptionFormatter descriptionFormatter;
   private MessageFormatter messageFormatter;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     descriptionFormatter = spy(new DescriptionFormatter());
     messageFormatter = new MessageFormatter();
@@ -70,8 +67,8 @@ public class MessageFormatter_format_Test {
     verify(descriptionFormatter).format(description);
   }
 
-  @Test
-  @UseDataProvider("messages")
+  @ParameterizedTest
+  @MethodSource("messages")
   public void should_format_message_and_correctly_escape_percentage(String input, String formatted) {
     // GIVEN
     Description description = new TextDescription("Test");
@@ -81,13 +78,12 @@ public class MessageFormatter_format_Test {
     assertThat(finalMessage).isEqualTo("[Test] " + formatted);
   }
 
-  @DataProvider
-  public static Object[][] messages() {
-    return $$($("%E", "%E"),
-              $("%%E", "%%E"),
-              $("%%%E", "%%%E"),
-              $("%n", format("%n")),
-              $("%%%n%E", "%%" + format("%n") + "%E"),
-              $("%%n", "%" + format("%n")));
+  public static Stream<Arguments> messages() {
+    return Stream.of(Arguments.of("%E", "%E"),
+                     Arguments.of("%%E", "%%E"),
+                     Arguments.of("%%%E", "%%%E"),
+                     Arguments.of("%n", format("%n")),
+                     Arguments.of("%%%n%E", "%%" + format("%n") + "%E"),
+                     Arguments.of("%%n", "%" + format("%n")));
   }
 }

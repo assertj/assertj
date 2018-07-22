@@ -22,7 +22,7 @@ import java.net.URI;
 import java.net.URL;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveParameter_create_Test {
 

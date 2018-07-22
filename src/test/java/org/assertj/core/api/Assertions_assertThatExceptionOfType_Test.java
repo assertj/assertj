@@ -23,31 +23,15 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class Assertions_assertThatExceptionOfType_Test {
-
-  private final Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator;
-  private final Class<? extends Exception> exceptionType;
-  private final Supplier<? extends Exception> exceptionGenerator;
-
-  public Assertions_assertThatExceptionOfType_Test(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                                   Class<? extends Exception> exceptionType,
-                                                   Supplier<? extends Exception> exceptionBuilder) {
-    this.assertionGenerator = assertionGenerator;
-    this.exceptionType = exceptionType;
-    this.exceptionGenerator = exceptionBuilder;
-  }
 
   private static <E> Supplier<E> s(Supplier<E> supplier) {
     return supplier;
   }
 
-  @Parameters
   public static Iterable<? extends Object> data() {
     return Arrays.asList(
       new Object[] {
@@ -62,29 +46,41 @@ public class Assertions_assertThatExceptionOfType_Test {
     );
   }
 
-  @Test
-  public void should_create_ExpectThrowableAssert() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_create_ExpectThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
+                                                  Class<? extends Exception> exceptionType,
+                                                  Supplier<? extends Exception> exceptionBuilder) {
     ThrowableTypeAssert<? extends Exception> assertions = assertionGenerator.get();
     assertThat(assertions).isNotNull();
   }
 
-  @Test
-  public void should_pass_ExceptionType() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_pass_ExceptionType(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
+                                        Class<? extends Exception> exceptionType,
+                                        Supplier<? extends Exception> exceptionBuilder) {
     ThrowableTypeAssert<? extends Exception> assertions = assertionGenerator.get();
     assertThat(assertions.expectedThrowableType).isSameAs(exceptionType);
   }
 
-  @Test
-  public void should_create_ChainedThrowableAssert() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_create_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
+                                                   Class<? extends Exception> exceptionType,
+                                                   Supplier<? extends Exception> exceptionBuilder) {
     ThrowableAssertAlternative<? extends Exception> assertions = assertionGenerator.get().isThrownBy(() -> {
-      throw exceptionGenerator.get();
+      throw exceptionBuilder.get();
     });
     assertThat(assertions).isNotNull();
   }
 
-  @Test
-  public void should_pass_thrown_exception_to_ChainedThrowableAssert() {
-    Exception exception = exceptionGenerator.get();
+  @ParameterizedTest
+  @MethodSource("data")
+  public void should_pass_thrown_exception_to_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
+                                                                     Class<? extends Exception> exceptionType,
+                                                                     Supplier<? extends Exception> exceptionBuilder) {
+    Exception exception = exceptionBuilder.get();
     ThrowableAssertAlternative<? extends Exception> assertions = assertionGenerator.get().isThrownBy(() -> {
       throw exception;
     });

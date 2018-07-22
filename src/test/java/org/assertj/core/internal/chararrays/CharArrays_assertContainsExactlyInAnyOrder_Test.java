@@ -12,20 +12,24 @@
  */
 package org.assertj.core.internal.chararrays;
 
-import org.assertj.core.api.*;
-import org.assertj.core.internal.*;
-import org.junit.*;
-
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
-import static org.assertj.core.internal.ErrorMessages.*;
-import static org.assertj.core.test.CharArrays.*;
-import static org.assertj.core.test.TestData.*;
-import static org.assertj.core.test.TestFailures.*;
-import static org.assertj.core.util.FailureMessages.*;
-import static org.assertj.core.util.Lists.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.CharArrays.arrayOf;
+import static org.assertj.core.test.CharArrays.emptyArray;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.emptyList;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.CharArrays;
+import org.assertj.core.internal.CharArraysBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link CharArrays#assertContainsExactlyInAnyOrder(AssertionInfo, char[], char[])}</code>.

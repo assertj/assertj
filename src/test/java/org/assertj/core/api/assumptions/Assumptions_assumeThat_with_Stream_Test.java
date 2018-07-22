@@ -12,29 +12,29 @@
  */
 package org.assertj.core.api.assumptions;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.assertj.core.util.Lists.newArrayList;
+import org.junit.AssumptionViolatedException;
+import org.junit.jupiter.api.Test;
 
 public class Assumptions_assumeThat_with_Stream_Test {
 
   @Test
   public void stream_test() {
-     
     Stream<String> stream = Stream.of("test");
-    assumeThat(stream).containsAnyOf("other", "foo");
-    fail("should not arrive here");
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(stream).containsAnyOf("other",
+                                                                                                                   "foo"));
   }
-  
+
   @Test
   public void list_test() {
     List<String> list = newArrayList("test");
-    assumeThat(list).contains("other", "foo");
-    fail("should not arrive here");
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(list).contains("other",
+                                                                                                            "foo"));
   }
 }

@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_filteredOn_in_Test extends AtomicReferenceArrayAssert_filtered_baseTest {
 

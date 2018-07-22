@@ -25,7 +25,7 @@ import org.assertj.core.api.AssertDelegateTarget;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.ObjectAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov

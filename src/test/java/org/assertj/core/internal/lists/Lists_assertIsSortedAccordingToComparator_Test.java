@@ -29,7 +29,7 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

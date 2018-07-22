@@ -12,16 +12,9 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.BigDecimalsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.math.BigDecimal;
-
-import static java.math.BigDecimal.*;
+import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.TEN;
+import static java.math.BigDecimal.ZERO;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -33,7 +26,14 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
-@RunWith(DataProviderRunner.class)
+import java.math.BigDecimal;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.BigDecimalsBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 public class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBaseTest {
 
   @Test
@@ -57,23 +57,20 @@ public class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBa
     assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
-  // @format:off
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1, 2, 1",
     "1, 11, 90",
     "-1, -2, 1",
     "-1, -11, 90",
     "0, -1, 99"
   })
-  // @format:on
   public void should_pass_if_difference_is_greater_than_given_percentage(BigDecimal actual, BigDecimal other, Integer percentage) {
     numbers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
-  // @format:off
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1, 1, 0",
     "2, 1, 100",
     "1, 2, 50",
@@ -81,7 +78,6 @@ public class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBa
     "-2, -1, 100",
     "-1, -2, 50"
   })
-  // @format:on
   public void should_fail_if_difference_is_equal_to_given_percentage(BigDecimal actual, BigDecimal other, Integer percentage) {
     AssertionInfo info = someInfo();
     try {

@@ -29,8 +29,8 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.test.Jedi;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest {
 
@@ -39,7 +39,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
 
   private Iterables iterablesBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     iterablesBefore = getIterables(assertions);
   }

@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.util.Sets;
 
@@ -31,7 +31,7 @@ public class ShouldBeAssignableFrom_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldBeAssignableFrom(ShouldBeAssignableFrom_create_Test.class,
                                      Sets.<Class<?>> newLinkedHashSet(String.class, Integer.class), Sets.<Class<?>> newLinkedHashSet((String.class)));

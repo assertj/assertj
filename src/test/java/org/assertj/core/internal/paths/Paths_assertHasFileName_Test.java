@@ -22,14 +22,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class Paths_assertHasFileName_Test extends PathsBaseTest {
 
-  @ClassRule
-  public static FileSystemResource resource = new FileSystemResource();
+  public static FileSystemResource resource;
 
   private static Path existingFile;
   private static Path symlinkToExistingFile;
@@ -38,9 +37,9 @@ public class Paths_assertHasFileName_Test extends PathsBaseTest {
   private static Path existingDirectory;
   private static Path symlinkToExistingDirectory;
   
-  @BeforeClass
+  @BeforeAll
   public static void initPaths() throws IOException {
-
+    resource = new FileSystemResource();
 	final FileSystem fs = resource.getFileSystem();
 
 	existingDirectory = fs.getPath("/dir1/dir2");
@@ -57,6 +56,11 @@ public class Paths_assertHasFileName_Test extends PathsBaseTest {
 	nonExistingPath = fs.getPath("/dir1/fake.log");
 	symlinkToNonExistingPath = fs.getPath("/dir1/bad-symlink");
 	Files.createSymbolicLink(symlinkToNonExistingPath, nonExistingPath);
+  }
+
+  @AfterAll
+  public static void tearDown() {
+    resource.close();
   }
 
   @Test

@@ -22,8 +22,8 @@ import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintains
 
 import java.util.Map.Entry;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link MapEntry#equals(Object)} and {@link MapEntry#hashCode()}.
@@ -34,7 +34,7 @@ public class MapEntry_equals_hashCode_Test {
   private static MapEntry<String, String> entry;
   private static Entry<String, String> javaEntry;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     entry = entry("key", "value");
     javaEntry = singletonMap("key", "value").entrySet().iterator().next();

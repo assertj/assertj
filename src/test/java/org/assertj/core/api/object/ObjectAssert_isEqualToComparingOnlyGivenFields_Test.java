@@ -23,7 +23,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectAssert#isEqualToComparingOnlyGivenFields(Object, String...)}</code>.

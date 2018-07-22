@@ -21,7 +21,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Sets;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for

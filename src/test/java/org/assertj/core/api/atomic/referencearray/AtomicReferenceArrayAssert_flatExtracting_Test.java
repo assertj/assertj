@@ -23,8 +23,8 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.test.CartoonCharacter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_flatExtracting_Test {
   private CartoonCharacter bart;
@@ -41,7 +41,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
     }
   };
 
-  @Before
+  @BeforeEach
   public void setUp() {
     bart = new CartoonCharacter("Bart Simpson");
     lisa = new CartoonCharacter("Lisa Simpson");

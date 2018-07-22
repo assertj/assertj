@@ -15,7 +15,7 @@ package org.assertj.core.api;
 import java.util.List;
 
 import org.assertj.core.util.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runners.model.MultipleFailureException;
 
 import static java.lang.String.format;

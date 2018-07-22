@@ -23,7 +23,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Doubles#assertEqual(AssertionInfo, Double, double)}</code>.

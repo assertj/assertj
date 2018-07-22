@@ -48,7 +48,7 @@ import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.test.Patient;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends ObjectsBaseTest {
 

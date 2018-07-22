@@ -17,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_assertThat_with_URL_Test {
 
   private static URL url;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeClass() throws MalformedURLException {
     url = new URL("http://www.helloworld.org:8080/pages");
   }

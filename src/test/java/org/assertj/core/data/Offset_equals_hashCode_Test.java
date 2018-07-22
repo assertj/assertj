@@ -20,8 +20,8 @@ import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsS
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Offset#equals(Object)} and {@link Offset#hashCode()}.
@@ -32,7 +32,7 @@ public class Offset_equals_hashCode_Test {
   private static Offset<Integer> offset;
   private static Offset<Integer> strictOffset;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     offset = offset(8);
     strictOffset = strictOffset(8);

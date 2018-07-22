@@ -22,14 +22,14 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_should_honor_SortedSet_comparator_Test {
 
   private Iterable<Set<String>> sets;
 
-  @Before
+  @BeforeEach
   public void setup() {
     Set<String> treeSetWithComparator = new TreeSet<>(Comparator.comparing(String::toUpperCase));
     treeSetWithComparator.add("FOO");

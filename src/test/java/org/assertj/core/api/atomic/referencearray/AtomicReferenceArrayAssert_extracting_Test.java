@@ -24,8 +24,8 @@ import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_extracting_Test {
 
@@ -33,7 +33,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   private static Employee luke;
   private static AtomicReferenceArray<Employee> employees;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);

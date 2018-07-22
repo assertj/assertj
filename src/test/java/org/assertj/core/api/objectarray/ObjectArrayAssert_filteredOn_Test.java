@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectArrayAssert_filteredOn_Test extends ObjectArrayAssert_filtered_baseTest {
 

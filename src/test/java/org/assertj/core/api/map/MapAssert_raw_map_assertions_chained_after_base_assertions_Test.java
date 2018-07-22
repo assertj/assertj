@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.assertj.core.description.Description;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  @Ignore
+  @Disabled
   @Test
   public void raw_map_mixing_assertions_from_AbstractAssert_and_AbstractMapAssert() {
     Description description = emptyDescription();

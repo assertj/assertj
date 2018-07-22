@@ -20,7 +20,7 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.api.TestCondition;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#are(org.assertj.core.api.Condition)}</code>.
@@ -31,7 +31,7 @@ public class IterableAssert_are_Test extends IterableAssertBaseTest {
 
   private static Condition<Object> condition;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeOnce() {
     condition = new TestCondition<>();
   }

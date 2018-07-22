@@ -19,7 +19,8 @@ import static org.assertj.core.test.TestData.someInfo;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Bytes#assertIsNegative(AssertionInfo, Comparable)}</code>.
@@ -29,6 +30,7 @@ import org.junit.Test;
  */
 public class Bytes_assertIsZero_Test extends BytesBaseTest {
 
+  @BeforeEach
   @Override
   public void setUp() {
     super.setUp();

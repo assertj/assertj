@@ -25,14 +25,14 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends ObjectArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     arraysBefore = getArrays(assertions);
   }

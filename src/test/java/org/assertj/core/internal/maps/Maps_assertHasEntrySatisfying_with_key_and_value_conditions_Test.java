@@ -26,7 +26,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Maps#assertHasEntrySatisfyingConditions(AssertionInfo, Map, Condition, Condition)}</code>.

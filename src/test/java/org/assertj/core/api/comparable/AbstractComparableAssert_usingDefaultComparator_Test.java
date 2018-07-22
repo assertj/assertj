@@ -22,7 +22,7 @@ import org.assertj.core.api.AbstractComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -35,7 +35,7 @@ public class AbstractComparableAssert_usingDefaultComparator_Test extends Abstra
   @Mock
   private Comparator<Integer> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

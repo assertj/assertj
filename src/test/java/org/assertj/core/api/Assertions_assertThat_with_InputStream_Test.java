@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(InputStream)}</code>.
@@ -29,7 +29,7 @@ public class Assertions_assertThat_with_InputStream_Test {
 
   private static InputStream actual;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     actual = new ByteArrayInputStream(new byte[0]);
   }

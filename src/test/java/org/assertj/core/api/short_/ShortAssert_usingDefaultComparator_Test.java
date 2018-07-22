@@ -22,7 +22,7 @@ import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.Shorts;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -35,7 +35,7 @@ public class ShortAssert_usingDefaultComparator_Test extends ShortAssertBaseTest
   @Mock
   private Comparator<Short> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

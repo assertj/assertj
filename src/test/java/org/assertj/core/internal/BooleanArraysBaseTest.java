@@ -15,7 +15,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.mockito.Mockito.spy;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -32,7 +32,7 @@ public class BooleanArraysBaseTest {
   protected Failures failures;
   protected BooleanArrays arrays;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     actual = arrayOf(true, false);
     failures = spy(new Failures());

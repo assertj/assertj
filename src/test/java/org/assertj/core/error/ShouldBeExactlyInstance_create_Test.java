@@ -22,8 +22,8 @@ import java.io.File;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeExactlyInstanceOf#create(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -34,7 +34,7 @@ public class ShouldBeExactlyInstance_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldBeExactlyInstance("Yoda", File.class);
   }

@@ -30,7 +30,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.assertj.core.test.Name;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertContainsAnyOf(AssertionInfo, Iterable, Object[])} </code>.

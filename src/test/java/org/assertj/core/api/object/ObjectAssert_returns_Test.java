@@ -24,7 +24,7 @@ import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.test.Jedi;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractObjectAssert#returns(Object, Function)}</code>.

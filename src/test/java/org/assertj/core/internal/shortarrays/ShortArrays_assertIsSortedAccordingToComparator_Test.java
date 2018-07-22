@@ -28,8 +28,8 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -43,7 +43,7 @@ public class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortA
   private Comparator<Short> shortAscendingOrderComparator;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = new short[] { 4, 3, 2, 2, 1 };

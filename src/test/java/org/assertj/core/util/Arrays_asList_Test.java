@@ -20,23 +20,17 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
-
-@RunWith(DataProviderRunner.class)
 public class Arrays_asList_Test {
 
-  @Test
-  @UseDataProvider("dataProvider")
+  @ParameterizedTest
+  @MethodSource("dataProvider")
   public void should_return_a_list_corresponding_to_the_given_object(Object arrayAsObject, List<Object> expected) {
     assertThat(asList(arrayAsObject)).isEqualTo(expected);
   }
 
-  @DataProvider
   public static Object[][] dataProvider() {
     return new Object[][] {
         { new String[0], newArrayList() },
@@ -45,8 +39,8 @@ public class Arrays_asList_Test {
     };
   }
 
-  @Test
-  @UseDataProvider("notArrays")
+  @ParameterizedTest
+  @MethodSource("notArrays")
   public void should_throw_IllegalArgumentException_if_given_object_is_not_an_array(final Object notArray,
                                                                                     final String error) {
     // WHEN
@@ -65,7 +59,6 @@ public class Arrays_asList_Test {
     });
   }
 
-  @DataProvider
   public static Object[][] notArrays() {
     return new Object[][] {
         { null, "Given object null is not an array" },

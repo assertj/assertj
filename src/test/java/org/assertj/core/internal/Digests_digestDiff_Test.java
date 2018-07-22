@@ -23,8 +23,8 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Digests#digestDiff(InputStream, MessageDigest, byte[])}</code>.
@@ -37,7 +37,7 @@ public class Digests_digestDiff_Test extends DigestsBaseTest {
   private MessageDigest digest;
   private byte[] expected = new byte[] { 0, 1 };
 
-  @Before
+  @BeforeEach
   public void init() {
     stream = mock(InputStream.class);
     digest = mock(MessageDigest.class);

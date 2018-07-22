@@ -19,7 +19,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -37,7 +37,7 @@ public class DoublesBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Doubles doublesWithAbsValueComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     doubles = new Doubles();

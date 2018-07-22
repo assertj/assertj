@@ -19,7 +19,7 @@ import java.util.List;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class BaseNavigableListAssert_Test
     extends GenericNavigableAssert_Test<List<Vehicle>, AbstractListAssert<?, List<Vehicle>, Vehicle, VehicleAssert>> {

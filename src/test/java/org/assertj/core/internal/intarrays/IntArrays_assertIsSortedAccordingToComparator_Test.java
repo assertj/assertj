@@ -28,8 +28,8 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.IntArraysBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -43,7 +43,7 @@ public class IntArrays_assertIsSortedAccordingToComparator_Test extends IntArray
   private Comparator<Integer> intSquareComparator;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = new int[] { 4, 3, 2, 2, 1 };

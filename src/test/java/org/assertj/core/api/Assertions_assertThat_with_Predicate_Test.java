@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.function.Predicate;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(Predicate)}</code>.
@@ -28,7 +28,7 @@ public class Assertions_assertThat_with_Predicate_Test {
 
   private Predicate<String> actual;
 
-  @Before
+  @BeforeEach
   public void before() {
     actual = value -> value.equals("something");
   }

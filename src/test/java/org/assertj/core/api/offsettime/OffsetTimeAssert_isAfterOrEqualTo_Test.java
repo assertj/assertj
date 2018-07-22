@@ -22,7 +22,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Paweł Stawicki

@@ -23,17 +23,17 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Jedi;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class Objects_assertHasSameHashCodeAs_Test extends ObjectsBaseTest {
 
   public static final Jedi OTHER_JEDI = new Jedi("Yoda", "Green");
 
-  private Jedi greenYoda;
+  private static Jedi greenYoda;
 
-  @Before
-  public void setUpOnce() {
+  @BeforeAll
+  public static void setUpOnce() {
     greenYoda = new Jedi("Yoda", "green");
   }
 

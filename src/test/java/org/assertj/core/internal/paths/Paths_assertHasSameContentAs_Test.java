@@ -38,7 +38,7 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.util.diff.Delta;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Paths#assertHasSameContentAs(AssertionInfo, Path, Charset, Path, Charset)}</code>.

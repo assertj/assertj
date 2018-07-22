@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceAssert_customComparator_Test {
 

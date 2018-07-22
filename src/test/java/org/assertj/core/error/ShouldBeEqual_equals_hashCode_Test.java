@@ -13,12 +13,15 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeEqual#equals(Object)}</code> and <code>{@link ShouldBeEqual#hashCode()}</code>.
@@ -29,7 +32,7 @@ public class ShouldBeEqual_equals_hashCode_Test {
 
   private static ShouldBeEqual factory;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     factory = (ShouldBeEqual) shouldBeEqual("Yoda", "Luke", new StandardRepresentation());
   }

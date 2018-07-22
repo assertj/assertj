@@ -23,7 +23,7 @@ import org.assertj.core.api.BigDecimalAssert;
 import org.assertj.core.api.BigDecimalAssertBaseTest;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -37,7 +37,7 @@ public class BigDecimalAssert_usingDefaultComparator_Test extends BigDecimalAsse
   @Mock
   private Comparator<BigDecimal> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     assertions.usingComparator(comparator);

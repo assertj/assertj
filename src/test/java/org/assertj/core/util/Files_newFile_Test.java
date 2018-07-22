@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.File;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Files#newFile(String)}</code>.

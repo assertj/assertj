@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

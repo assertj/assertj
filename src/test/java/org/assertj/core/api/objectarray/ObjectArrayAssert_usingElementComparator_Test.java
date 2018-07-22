@@ -19,7 +19,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class ObjectArrayAssert_usingElementComparator_Test extends ObjectArrayAs
   @Mock
   private Comparator<Object> elementComparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

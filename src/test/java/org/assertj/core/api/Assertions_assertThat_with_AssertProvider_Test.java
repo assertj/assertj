@@ -15,8 +15,8 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.internal.Strings;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Assertions#assertThat(AssertProvider)}.
@@ -27,7 +27,7 @@ public class Assertions_assertThat_with_AssertProvider_Test {
 
   private TestedObject object;
 
-  @Before
+  @BeforeEach
   public void setup() {
 	object = new TestedObject("Test");
   }

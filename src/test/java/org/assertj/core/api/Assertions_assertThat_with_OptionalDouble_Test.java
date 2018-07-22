@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.OptionalDouble;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(java.util.OptionalDouble)}</code>.
@@ -31,7 +31,7 @@ public class Assertions_assertThat_with_OptionalDouble_Test {
 
   private OptionalDouble actual;
 
-  @Before
+  @BeforeEach
   public void before() {
     actual = OptionalDouble.of(10.0);
   }

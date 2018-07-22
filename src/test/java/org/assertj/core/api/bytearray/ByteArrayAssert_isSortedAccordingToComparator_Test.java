@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -33,7 +33,7 @@ public class ByteArrayAssert_isSortedAccordingToComparator_Test extends ByteArra
   @Mock
   private Comparator<Byte> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

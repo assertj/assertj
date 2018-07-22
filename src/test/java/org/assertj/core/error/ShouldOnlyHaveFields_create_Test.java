@@ -26,7 +26,7 @@ import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.Player;
 import org.assertj.core.util.Sets;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for

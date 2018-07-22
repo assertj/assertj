@@ -12,12 +12,11 @@
  */
 package org.assertj.core.internal.integers;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.IntegersBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -31,7 +30,6 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
-@RunWith(DataProviderRunner.class)
 public class Integers_assertIsNotCloseToPercentage_Test extends IntegersBaseTest {
 
   private static final Integer ZERO = 0;
@@ -60,22 +58,20 @@ public class Integers_assertIsNotCloseToPercentage_Test extends IntegersBaseTest
     assertThatIllegalArgumentException().isThrownBy(() -> integers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
-  // @format:off
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1, 2, 1",
     "1, 11, 90",
     "-1, -2, 1",
     "-1, -11, 90",
     "0, -1, 99"
   })
-  // @format:on
   public void should_pass_if_difference_is_greater_than_given_percentage(Integer actual, Integer other, Integer percentage) {
     integers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1, 1, 0",
     "2, 1, 100",
     "1, 2, 50",

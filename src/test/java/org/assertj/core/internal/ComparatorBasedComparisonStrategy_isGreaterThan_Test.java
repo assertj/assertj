@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 import java.awt.Rectangle;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ComparatorBasedComparisonStrategy#isGreaterThan(Object, Object)}.

@@ -17,14 +17,14 @@ import static org.assertj.core.internal.ErrorMessages.predicateIsNull;
 
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.test.Jedi;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MatchPredicateTest implements WithAssertions {
 
   private Jedi yoda;
 
-  @Before
+  @BeforeEach
   public void setup() {
 	yoda = new Jedi("Yoda", "Green");
   }

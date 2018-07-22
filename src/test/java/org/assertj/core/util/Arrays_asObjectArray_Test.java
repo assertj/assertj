@@ -18,23 +18,17 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asObjectArray;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
-
-@RunWith(DataProviderRunner.class)
 public class Arrays_asObjectArray_Test {
 
-  @Test
-  @UseDataProvider("dataProvider")
+  @ParameterizedTest
+  @MethodSource("dataProvider")
   public void should_return_an_Object_array_corresponding_to_the_given_object(Object arrayAsObject, Object[] expected) {
     assertThat(asObjectArray(arrayAsObject)).isEqualTo(expected);
   }
 
-  @DataProvider
   public static Object[][] dataProvider() {
     return new Object[][] {
         { new String[0], array() },
@@ -43,8 +37,8 @@ public class Arrays_asObjectArray_Test {
     };
   }
 
-  @Test
-  @UseDataProvider("notArrays")
+  @ParameterizedTest
+  @MethodSource("notArrays")
   public void should_throw_IllegalArgumentException_if_given_object_is_not_an_array(final Object notArray,
                                                                                     final String error) {
     // WHEN
@@ -63,7 +57,6 @@ public class Arrays_asObjectArray_Test {
     });
   }
 
-  @DataProvider
   public static Object[][] notArrays() {
     return new Object[][] {
         { null, "Given object null is not an array" },

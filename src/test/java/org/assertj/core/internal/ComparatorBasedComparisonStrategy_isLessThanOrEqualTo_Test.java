@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.awt.Rectangle;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ComparatorBasedComparisonStrategy#isLessThanOrEqualTo(Object, Object)}.

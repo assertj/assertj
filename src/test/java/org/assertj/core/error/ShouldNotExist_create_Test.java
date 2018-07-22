@@ -22,8 +22,8 @@ import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -41,7 +41,7 @@ public class ShouldNotExist_create_Test {
   private String actualMessage;
   private String expectedMessage;
 
-  @Before
+  @BeforeEach
   public void setUp() {
 	description = new TestDescription("Test");
 	representation = new StandardRepresentation();

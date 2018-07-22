@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ComparableAssertion_should_be_flexible_Test {
 

@@ -24,7 +24,7 @@ import java.util.Optional;
 import org.assertj.core.api.BaseTest;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OptionalAssert_hasValueSatisfying_Condition_Test extends BaseTest {
 

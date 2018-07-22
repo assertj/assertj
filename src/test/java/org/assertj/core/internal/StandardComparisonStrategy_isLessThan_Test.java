@@ -18,7 +18,7 @@ import java.awt.Rectangle;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.Employee;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link StandardComparisonStrategy#isLessThan(Object, Object)}.

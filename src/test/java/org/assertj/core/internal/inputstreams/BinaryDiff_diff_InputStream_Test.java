@@ -20,8 +20,8 @@ import java.io.InputStream;
 
 import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -33,7 +33,7 @@ public class BinaryDiff_diff_InputStream_Test {
 
   private static BinaryDiff binaryDiff;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     binaryDiff = new BinaryDiff();
   }

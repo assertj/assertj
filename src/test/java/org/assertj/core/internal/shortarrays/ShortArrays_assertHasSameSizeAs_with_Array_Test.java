@@ -21,14 +21,14 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortArraysBaseTest;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class ShortArrays_assertHasSameSizeAs_with_Array_Test extends ShortArraysBaseTest {
 
   private static short[] actual;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     // don't use a static import here, it leads to a compilation error with oracle jdk 1.7.0_05 compiler due to the
     // other array static import.

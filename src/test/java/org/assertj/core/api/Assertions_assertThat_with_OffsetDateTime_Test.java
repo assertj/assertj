@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
 
@@ -28,7 +28,7 @@ public class Assertions_assertThat_with_OffsetDateTime_Test {
 
     private OffsetDateTime actual;
 
-    @Before
+    @BeforeEach
     public void before() {
         actual = OffsetDateTime.now();
     }

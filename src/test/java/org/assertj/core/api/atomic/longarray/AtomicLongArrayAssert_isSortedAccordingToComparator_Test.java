@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 public class AtomicLongArrayAssert_isSortedAccordingToComparator_Test extends AtomicLongArrayAssertBaseTest {
@@ -28,7 +28,7 @@ public class AtomicLongArrayAssert_isSortedAccordingToComparator_Test extends At
   @Mock
   private Comparator<Long> comparator;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
   }

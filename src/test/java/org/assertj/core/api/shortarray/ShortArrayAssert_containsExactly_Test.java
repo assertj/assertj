@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.ShortArrayAssert#containsExactly(short...)}</code>.

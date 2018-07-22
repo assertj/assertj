@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -26,7 +26,7 @@ public class ObjectArrayAssert_allMatch_with_description_Test extends ObjectArra
 
   private Predicate<Object> predicate;
 
-  @Before
+  @BeforeEach
   public void beforeOnce() {
     predicate = o -> o != null;
   }

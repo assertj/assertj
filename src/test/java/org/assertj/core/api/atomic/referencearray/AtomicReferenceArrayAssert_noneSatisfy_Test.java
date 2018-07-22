@@ -20,13 +20,13 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class AtomicReferenceArrayAssert_noneSatisfy_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private Consumer<Object> restrictions;
 
-  @Before
+  @BeforeEach
   public void beforeOnce() {
     restrictions = o -> assertThat(o).isNotNull();
   }

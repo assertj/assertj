@@ -17,7 +17,7 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import java.math.BigDecimal;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BigDecimalComparatorTest {
 

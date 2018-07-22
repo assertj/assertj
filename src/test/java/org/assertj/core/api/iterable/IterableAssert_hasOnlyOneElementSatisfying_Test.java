@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.test.Jedi;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IterableAssert_hasOnlyOneElementSatisfying_Test {
 

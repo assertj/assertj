@@ -21,7 +21,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

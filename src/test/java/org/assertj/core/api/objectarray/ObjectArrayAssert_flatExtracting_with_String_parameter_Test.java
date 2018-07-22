@@ -28,8 +28,8 @@ import java.sql.Timestamp;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.assertj.core.test.CartoonCharacter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ObjectArrayAssert_flatExtracting_with_String_parameter_Test {
   private CartoonCharacter bart;
@@ -39,7 +39,7 @@ public class ObjectArrayAssert_flatExtracting_with_String_parameter_Test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     bart = new CartoonCharacter("Bart Simpson");
     lisa = new CartoonCharacter("Lisa Simpson");

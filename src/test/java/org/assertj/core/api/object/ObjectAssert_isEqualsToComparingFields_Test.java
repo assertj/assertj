@@ -31,7 +31,7 @@ import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Patient;
 import org.assertj.core.test.Person;
 import org.assertj.core.test.PersonCaseInsensitiveNameComparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectAssert#isEqualToComparingFieldByField(Object)}</code>.

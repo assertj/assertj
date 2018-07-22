@@ -21,7 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
 import org.assertj.core.internal.DoubleArrays;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 /**
@@ -37,7 +37,7 @@ public class DoubleArrayAssert_usingComparator_Test extends DoubleArrayAssertBas
 
   private DoubleArrays arraysBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     arraysBefore = getArrays(assertions);

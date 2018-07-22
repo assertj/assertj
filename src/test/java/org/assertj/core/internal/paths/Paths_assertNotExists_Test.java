@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 import java.nio.file.LinkOption;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Paths_assertNotExists_Test extends MockPathsBaseTest {
 

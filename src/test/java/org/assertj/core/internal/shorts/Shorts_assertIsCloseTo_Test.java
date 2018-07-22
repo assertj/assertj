@@ -25,20 +25,16 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortsBaseTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-
-@RunWith(DataProviderRunner.class)
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
 
   private static final Short ZERO = 0;
   private static final Short ONE = 1;
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 1, 1",
       "1, 2, 10",
       "-2, 0, 3",
@@ -50,8 +46,8 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
     shorts.assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
     "1, 1, 0",
     "1, 0, 1",
     "-1, 0, 1",
@@ -65,8 +61,8 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
     shorts.assertIsCloseTo(someInfo(), actual, expected, within(offset));
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 3, 1",
       "3, 1, 1",
       "-2, 0, 1",
@@ -84,8 +80,8 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test
-  @DataProvider({
+  @ParameterizedTest
+  @CsvSource({
       "1, 2, 1",
       "3, 2, 1",
       "-2, -1, 1",

@@ -21,7 +21,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.internal.ObjectArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTest {
 

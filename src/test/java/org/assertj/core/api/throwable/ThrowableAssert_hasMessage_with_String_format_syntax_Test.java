@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ThrowableAssert_hasMessage_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
 

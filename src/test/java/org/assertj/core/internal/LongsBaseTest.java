@@ -20,7 +20,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -40,7 +40,7 @@ public class LongsBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Longs longsWithAbsValueComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     longs = new Longs();

@@ -13,10 +13,13 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link BasicErrorMessageFactory#equals(Object)}</code> and
@@ -28,7 +31,7 @@ public class BasicErrorMessageFactory_equals_hashCode_Test {
 
   private static BasicErrorMessageFactory factory;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     factory = new BasicErrorMessageFactory("Hello %s", "Yoda");
   }

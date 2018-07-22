@@ -27,7 +27,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

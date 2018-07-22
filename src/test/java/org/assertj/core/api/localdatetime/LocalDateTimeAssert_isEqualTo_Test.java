@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDateTime;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Only test String based assertion (tests with {@link java.time.LocalDateTime} are already defined in assertj-core)

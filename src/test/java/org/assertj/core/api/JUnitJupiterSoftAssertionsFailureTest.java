@@ -20,11 +20,8 @@ import static org.assertj.core.util.Lists.list;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.opentest4j.MultipleFailuresError;
 
-@RunWith(JUnitPlatform.class)
 public class JUnitJupiterSoftAssertionsFailureTest {
 
   // we cannot register the extension here, because we need to test the failure without this test failing!

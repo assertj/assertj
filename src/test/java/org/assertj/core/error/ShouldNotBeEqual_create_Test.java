@@ -18,8 +18,8 @@ import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import org.assertj.core.internal.*;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -32,7 +32,7 @@ public class ShouldNotBeEqual_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldNotBeEqual("Yoda", "Luke");
   }

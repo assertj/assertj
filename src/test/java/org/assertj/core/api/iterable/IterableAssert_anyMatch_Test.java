@@ -19,13 +19,13 @@ import java.util.function.Predicate;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class IterableAssert_anyMatch_Test extends IterableAssertBaseTest {
 
   private Predicate<Object> predicate;
 
-  @Before
+  @BeforeEach
   public void beforeOnce() {
     predicate = o -> o != null;
   }

@@ -19,7 +19,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldSatisfy_create_Test {
 

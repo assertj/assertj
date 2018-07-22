@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
 
 import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AtomicLongArrayAssert_containsExactlyInAnyOrder_Test extends AtomicLongArrayAssertBaseTest {
 

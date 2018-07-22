@@ -34,9 +34,9 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Paths#assertHasBinaryContent(AssertionInfo, Path, byte[])}</code>.
@@ -47,14 +47,14 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   private static byte[] expected;
   private Path mockPath;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
 	// Does not matter if the values binaryDiffer, the actual comparison is mocked in this test
 	path = new File("src/test/resources/actual_file.txt").toPath();
 	expected = new byte[] { 0, 1 };
   }
 
-  @Before
+  @BeforeEach
   public void init() {
 	mockPath = mock(Path.class);
   }

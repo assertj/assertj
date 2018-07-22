@@ -46,11 +46,11 @@ import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.util.Lists;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * results in 3.9.0  : ~3000ms
@@ -60,7 +60,7 @@ import org.junit.Test;
  * results in 3.10.0 with 1.8.10: ~5100ms
  * results in 3.10.0 with 1.8.11: ~5000ms
  */
-@Ignore
+@Disabled
 public class SoftAssertionsPerfTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
@@ -75,18 +75,18 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
 
   private static long start;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeAll() {
     start = System.currentTimeMillis();
   }
 
-  @AfterClass
+  @AfterAll
   public static void afterAll() {
     long duration = System.currentTimeMillis() - start;
     System.out.println("SoftAssertionsTest execution time (ms): " + duration);
   }
 
-  @Before
+  @BeforeEach
   public void setup() {
     softly = new SoftAssertions();
 

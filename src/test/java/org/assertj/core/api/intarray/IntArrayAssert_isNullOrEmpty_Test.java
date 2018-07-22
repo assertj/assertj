@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.IntArrayAssert;
 import org.assertj.core.api.IntArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link IntArrayAssert#isNullOrEmpty()}</code>.

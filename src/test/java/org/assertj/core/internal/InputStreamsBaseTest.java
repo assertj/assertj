@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 
 
 /**
@@ -46,14 +46,14 @@ public class InputStreamsBaseTest {
   protected static InputStream expected;
   protected static String expectedString;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     actual = new ByteArrayInputStream(new byte[0]);
     expected = new ByteArrayInputStream(new byte[0]);
     expectedString = "";
   }
 
-  @Before
+  @BeforeEach
   public void setUp() {
     diff = mock(Diff.class);
     failures = spy(new Failures());

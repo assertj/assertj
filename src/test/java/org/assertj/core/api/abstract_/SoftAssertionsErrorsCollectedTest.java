@@ -15,7 +15,7 @@ package org.assertj.core.api.abstract_; // Make sure that package-private access
 import java.util.List;
 
 import org.assertj.core.api.AbstractStandardSoftAssertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

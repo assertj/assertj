@@ -22,7 +22,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Files#contentOf(File, Charset)} and {@link Files#contentOf(File, String)}.

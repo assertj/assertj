@@ -17,7 +17,8 @@ import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparable
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -29,7 +30,7 @@ public class ShouldHaveComparableElements_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldHaveMutuallyComparableElements(new Object[] { "b", new Integer(5), "a" });
   }

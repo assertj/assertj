@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link IterableUtil#nonNullElementsIn(Iterable)}</code>.

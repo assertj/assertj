@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import java.awt.Rectangle;
 
 import org.assertj.core.util.Employee;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link StandardComparisonStrategy#isGreaterThanOrEqualTo(Object, Object)}.

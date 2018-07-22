@@ -26,7 +26,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.assertj.core.test.ByteArrays;
 import org.assertj.core.test.IntArrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ByteArrays#assertContains(AssertionInfo, byte[], int[])}</code>.

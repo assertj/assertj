@@ -14,8 +14,8 @@ package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.assertj.core.api.ConcreteAssert;
 
 /**
@@ -27,7 +27,7 @@ public class AbstractAssert_failWithMessage_Test {
 
   private ConcreteAssert assertion;
 
-  @Before
+  @BeforeEach
   public void setup() {
 	assertion = new ConcreteAssert("foo");
   }

@@ -12,20 +12,20 @@
  */
 package org.assertj.core.presentation;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author Filip Hrisafov
  */
 public abstract class AbstractBaseRepresentationTest {
 
-  @Before
+  @BeforeEach
   public void setUp() {
     StandardRepresentation.resetDefaults();
   }
 
-  @After
+  @AfterEach
   public void afterTests() {
     StandardRepresentation.resetDefaults();
   }

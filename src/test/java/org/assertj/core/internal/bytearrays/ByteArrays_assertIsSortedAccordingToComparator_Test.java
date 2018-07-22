@@ -28,8 +28,8 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -43,7 +43,7 @@ public class ByteArrays_assertIsSortedAccordingToComparator_Test extends ByteArr
   private Comparator<Byte> byteAscendingOrderComparator;
 
   @Override
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     actual = new byte[] { 4, 3, 2, 2, 1 };

@@ -17,8 +17,8 @@ import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shoul
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -31,7 +31,7 @@ public class ShouldNotBeEqualNormalizingWhitespace_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = shouldNotBeEqualNormalizingWhitespace(" my\tfoo bar ", " my  foo bar ");
   }

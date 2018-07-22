@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.text.*;
 import java.util.Date;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DateUtil#formatAsDatetimeWithMs(Date)}</code>.

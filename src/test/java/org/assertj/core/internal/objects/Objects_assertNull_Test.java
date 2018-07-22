@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

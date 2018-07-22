@@ -22,7 +22,7 @@ import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.Objects;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
 public class AtomicLongArrayAssert_usingDefaultElementComparator_Test extends AtomicLongArrayAssertBaseTest {
@@ -32,7 +32,7 @@ public class AtomicLongArrayAssert_usingDefaultElementComparator_Test extends At
 
   private Objects objectsBefore;
 
-  @Before
+  @BeforeEach
   public void before() {
     initMocks(this);
     objectsBefore = getObjects(assertions);

@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DatesBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**

@@ -21,7 +21,7 @@ import static org.assertj.core.test.TestData.someIndex;
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
 import org.assertj.core.data.Index;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.verify;
 

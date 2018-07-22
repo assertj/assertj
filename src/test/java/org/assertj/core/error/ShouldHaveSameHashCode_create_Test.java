@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldHaveSameHashCode.shouldHaveSameHashCo
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShouldHaveSameHashCode_create_Test {
 

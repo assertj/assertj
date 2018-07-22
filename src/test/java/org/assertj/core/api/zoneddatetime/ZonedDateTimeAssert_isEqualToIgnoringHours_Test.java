@@ -24,7 +24,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import org.assertj.core.api.BaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
 

@@ -19,7 +19,7 @@ import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CaseInsensitiveCharacterComparator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 
 /**
@@ -38,7 +38,7 @@ public class CharactersBaseTest {
   protected ComparatorBasedComparisonStrategy caseInsensitiveComparisonStrategy;
   protected Characters charactersWithCaseInsensitiveComparisonStrategy;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     failures = spy(new Failures());
     characters = new Characters();

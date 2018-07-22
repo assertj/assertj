@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.test.StringStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Assertions_assertThat_with_Stream_Test {
 

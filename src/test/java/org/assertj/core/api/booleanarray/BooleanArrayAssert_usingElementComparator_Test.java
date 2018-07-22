@@ -19,7 +19,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 /**

@@ -16,13 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for <code>{@link DescriptionFormatter#format(Description)}</code>.
@@ -30,12 +27,11 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
  * @author Alex Ruiz
  * @author Dan Corder
  */
-@RunWith(DataProviderRunner.class)
 public class DescriptionFormatter_format_Test {
 
   private static DescriptionFormatter formatter;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     formatter = DescriptionFormatter.instance();
   }
@@ -45,13 +41,12 @@ public class DescriptionFormatter_format_Test {
     assertThat(formatter.format(new TestDescription("Leia"))).isEqualTo("[Leia] ");
   }
 
-  @Test
-  @UseDataProvider("descriptionGeneratorDataProvider")
+  @ParameterizedTest
+  @MethodSource("descriptionGeneratorDataProvider")
   public void should_return_empty_String(TestDescription testDescription) {
     assertThat(formatter.format(testDescription)).isEmpty();
   }
 
-  @DataProvider
   public static Object[][] descriptionGeneratorDataProvider() {
     return new Object[][] {
         { null },

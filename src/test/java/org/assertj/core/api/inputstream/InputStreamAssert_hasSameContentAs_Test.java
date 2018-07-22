@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 import org.assertj.core.api.InputStreamAssert;
 import org.assertj.core.api.InputStreamAssertBaseTest;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 
 /**
@@ -32,7 +32,7 @@ public class InputStreamAssert_hasSameContentAs_Test extends InputStreamAssertBa
 
   private static InputStream expected;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     expected = new ByteArrayInputStream(new byte[] { 'b' });
   }

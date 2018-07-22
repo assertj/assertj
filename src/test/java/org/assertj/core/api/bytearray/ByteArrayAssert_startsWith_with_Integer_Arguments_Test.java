@@ -16,7 +16,7 @@ package org.assertj.core.api.bytearray;
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.test.IntArrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
