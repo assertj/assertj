@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
+import java.math.BigDecimal;
 import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,15 +31,14 @@ import org.xml.sax.SAXParseException;
  */
 public class XmlStringPrettyFormatter_prettyFormat_Test {
 
-  private final String javaVersion = System.getProperty("java.specification.version");
+  private final BigDecimal javaVersion = new BigDecimal(System.getProperty("java.specification.version"));
   private String expected_formatted_xml;
 
   @BeforeEach
   public void before() {
     // Set locale to be able to check exception message in English.
     Locale.setDefault(ENGLISH);
-    if (javaVersion.equals("9") || javaVersion.equals("10") || javaVersion.equals("11")) {
-      // seems to be a bug in java 9/10/11
+    if (javaVersion.compareTo(new BigDecimal("9")) >= 0) {
       expected_formatted_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\">\n"
                                + "    <channel>\n"
                                + "        <title>Java Tutorials and Examples 1</title>\n"
@@ -65,7 +65,7 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
   @Test
   public void should_format_xml_string_without_xml_declaration_prettily() {
     String xmlString = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel></rss>";
-    if (javaVersion.equals("9") || javaVersion.equals("10") || javaVersion.equals("11")) {
+    if (javaVersion.compareTo(new BigDecimal("9")) >= 0) {
       assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml.substring("<?xml version='1.0' encoding='UTF-8'?>".length()));
     } else {
       assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml.substring("<?xml version='1.0' encoding='UTF-8'?>\n".length()));
