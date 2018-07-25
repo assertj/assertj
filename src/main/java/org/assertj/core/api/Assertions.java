@@ -2649,9 +2649,25 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link Stream}.
+   * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link Stream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the Stream as it is converted to a List
+   * assertThat(Stream.of(1, 2, 3)).contains(1)
+   *                               .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the Stream under test is converted to a List before being compared to the expected Stream:
+   * <pre><code class='java'> // FAIL: the Stream under test is converted to a List and compared to a Stream but a List is not a Stream.
+   * assertThat(Stream.of(1, 2, 3)).isEqualTo(Stream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the Stream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the Stream to a List
+   * Stream&lt;Integer&gt; stream = Stream.of(1, 2, 3);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
@@ -2665,9 +2681,25 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link DoubleStream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link DoubleStream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link DoubleStream}.
+   * <b>Be aware that the {@code DoubleStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code DoubleStream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link DoubleStream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the DoubleStream as it is converted to a List
+   * assertThat(DoubleStream.of(1.0, 2.0, 3.0)).contains(1.0)
+   *                                           .doesNotContain(42.0);</code></pre>
+   * <p>
+   * The following assertion fails as the DoubleStream under test is converted to a List before being compared to the expected DoubleStream:
+   * <pre><code class='java'> // FAIL: the DoubleStream under test is converted to a List and compared to a DoubleStream but a List is not a DoubleStream.
+   * assertThat(DoubleStream.of(1.0, 2.0, 3.0)).isEqualTo(DoubleStream.of(1.0, 2.0, 3.0));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the DoubleStream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the DoubleStream to a List
+   * DoubleStream stream = DoubleStream.of(1.0, 2.0, 3.0);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
    *
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
@@ -2680,9 +2712,25 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link LongStream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link LongStream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link LongStream}.
+   * <b>Be aware that the {@code LongStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code LongStream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link LongStream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the LongStream as it is converted to a List
+   * assertThat(LongStream.of(1, 2, 3)).contains(1)
+   *                                   .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the LongStream under test is converted to a List before being compared to the expected LongStream:
+   * <pre><code class='java'> // FAIL: the LongStream under test is converted to a List and compared to a LongStream but a List is not a LongStream.
+   * assertThat(LongStream.of(1, 2, 3)).isEqualTo(LongStream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the LongStream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the LongStream to a List
+   * LongStream stream = LongStream.of(1, 2, 3);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
    *
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
@@ -2695,9 +2743,25 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link IntStream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link IntStream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link IntStream}.
+   * <b>Be aware that the {@code IntStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code IntStream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link IntStream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the IntStream as it is converted to a List
+   * assertThat(IntStream.of(1, 2, 3)).contains(1)
+   *                                  .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the IntStream under test is converted to a List before being compared to the expected IntStream:
+   * <pre><code class='java'> // FAIL: the IntStream under test is converted to a List and compared to a IntStream but a List is not a IntStream.
+   * assertThat(IntStream.of(1, 2, 3)).isEqualTo(IntStream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the IntStream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the IntStream to a List
+   * IntStream stream = IntStream.of(1, 2, 3);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
    *
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.

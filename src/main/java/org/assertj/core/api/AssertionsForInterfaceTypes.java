@@ -40,8 +40,8 @@ import org.assertj.core.util.CheckReturnValue;
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6); </code></pre>
- * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded, 
- * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve 
+ * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded,
+ * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve
  * the proper <code>assertThat</code> method (normally <code>assertThat(Throwable)</code> as foo might implement an interface like List,
  * if that occurred <code>assertThat(List)</code> would also be a possible choice - thus confusing java 8.
  * <p>
@@ -65,11 +65,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
 
   /**
    * Delegates the creation of the {@link Assert} to the {@link AssertProvider#assertThat()} of the given component.
-   * 
+   *
    * <p>
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
-   * 
+   *
    * @param <T> the AssertProvider wrapped type.
    * @param component the component that creates its own assert
    * @return the associated {@link Assert} of the given component
@@ -137,9 +137,25 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link Stream}.
+   * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link Stream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the Stream as it is converted to a List
+   * assertThat(Stream.of(1, 2, 3)).contains(1)
+   *                               .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the Stream under test is converted to a List before being compared to the expected Stream:
+   * <pre><code class='java'> // FAIL: the Stream under test is converted to a List and compared to a Stream but a List is not a Stream.
+   * assertThat(Stream.of(1, 2, 3)).isEqualTo(Stream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the Stream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the Stream to a List
+   * Stream&lt;Integer&gt; stream = Stream.of(1, 2, 3);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
@@ -153,9 +169,25 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link DoubleStream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link DoubleStream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link DoubleStream}.
+   * <b>Be aware that the {@code DoubleStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code DoubleStream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link DoubleStream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the DoubleStream as it is converted to a List
+   * assertThat(DoubleStream.of(1.0, 2.0, 3.0)).contains(1.0)
+   *                                           .doesNotContain(42.0);</code></pre>
+   * <p>
+   * The following assertion fails as the DoubleStream under test is converted to a List before being compared to the expected DoubleStream:
+   * <pre><code class='java'> // FAIL: the DoubleStream under test is converted to a List and compared to a DoubleStream but a List is not a DoubleStream.
+   * assertThat(DoubleStream.of(1.0, 2.0, 3.0)).isEqualTo(DoubleStream.of(1.0, 2.0, 3.0));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the DoubleStream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the DoubleStream to a List
+   * DoubleStream stream = DoubleStream.of(1.0, 2.0, 3.0);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
    *
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
@@ -168,9 +200,25 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link LongStream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link LongStream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link LongStream}.
+   * <b>Be aware that the {@code LongStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code LongStream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link LongStream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the LongStream as it is converted to a List
+   * assertThat(LongStream.of(1, 2, 3)).contains(1)
+   *                                   .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the LongStream under test is converted to a List before being compared to the expected LongStream:
+   * <pre><code class='java'> // FAIL: the LongStream under test is converted to a List and compared to a LongStream but a List is not a LongStream.
+   * assertThat(LongStream.of(1, 2, 3)).isEqualTo(LongStream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the LongStream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the LongStream to a List
+   * LongStream stream = LongStream.of(1, 2, 3);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
    *
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
@@ -183,9 +231,25 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link IntStream}.
    * <p>
-   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link IntStream} is consumed so it won't be
-   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link IntStream}.
+   * <b>Be aware that the {@code IntStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code IntStream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link IntStream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the IntStream as it is converted to a List
+   * assertThat(IntStream.of(1, 2, 3)).contains(1)
+   *                                  .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the IntStream under test is converted to a List before being compared to the expected IntStream:
+   * <pre><code class='java'> // FAIL: the IntStream under test is converted to a List and compared to a IntStream but a List is not a IntStream.
+   * assertThat(IntStream.of(1, 2, 3)).isEqualTo(IntStream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the IntStream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the IntStream to a List
+   * IntStream stream = IntStream.of(1, 2, 3);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
    *
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.
@@ -207,34 +271,34 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    */
 //@format:off
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
-         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual, 
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return new FactoryBasedNavigableIterableAssert(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
-         ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual, 
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+         ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
                                                                                           Class<ELEMENT_ASSERT> assertClass) {
     return new ClassBasedNavigableIterableAssert(actual, ClassBasedNavigableIterableAssert.class, assertClass);
   }
-         
+
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
-         FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual, 
+  public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+         FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return new FactoryBasedNavigableListAssert(actual, FactoryBasedNavigableListAssert.class, assertFactory);
   }
-         
+
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> 
+  public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                       Class<ELEMENT_ASSERT> assertClass) {
     return new ClassBasedNavigableListAssert(actual, assertClass);
   }
 //@format:on
-         
+
   /**
    * Creates a new instance of {@link PathAssert}
    *
@@ -251,7 +315,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * <p>
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
    * annoying warnings.
-   * 
+   *
    * @param <K> the type of keys in the map.
    * @param <V> the type of values in the map.
    * @param actual the actual value.
@@ -321,7 +385,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    *
    *   assertThat(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
    * }</code></pre>
-   * 
+   *
    * @param <T> the generic type of the user-defined assert.
    * @param assertion the assertion to return.
    * @return the given assertion.
