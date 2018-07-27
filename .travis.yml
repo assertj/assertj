@@ -1,5 +1,4 @@
 language: java
-sudo: false
 install: true
 
 addons:
@@ -13,33 +12,19 @@ addons:
     branches:
       - master
 
-
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
 
-# Get latest install-jdk.sh script
-before_install:
-  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
-
-matrix:
-  include:
-    - env: JDK_RELEASE='OpenJDK 8'
-      jdk: openjdk8
-    - env: JDK_RELEASE='OracleJDK 8'
-      jdk: oraclejdk8
-    - env: JDK_RELEASE='OracleJDK 9'
-      jdk: oraclejdk9
-    - env: JDK_RELEASE='OracleJDK 10'
-      jdk: oraclejdk10
-    - env: JDK_RELEASE='OpenJDK 10'
-      jdk: openjdk10
-# Java 11 "Oracle JDK" (not yet provided by Travis CI)
-    - env: JDK='Oracle JDK 11'
-      install: . ./install-jdk.sh -F 11 -L BCL
-    - env: JDK='OpenJDK 12 EA'
-      jdk: openjdk-ea
+jdk:
+  - openjdk8
+  - oraclejdk8
+  - oraclejdk9
+  - oraclejdk10
+  - openjdk10
+  - openjdk11
+  - openjdk-ea
 
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./mvnw clean verify javadoc:javadoc; fi'
