@@ -64,6 +64,7 @@ import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNul
 import static org.assertj.core.internal.CommonValidations.checkLineCounts;
 import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSameSizes;
+import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -367,6 +368,21 @@ public class Strings {
     if (actual.length() < expectedMinSizeIncluded) {
       throw failures.failure(info, shouldHaveSizeGreaterThanOrEqualTo(actual, actual.length(), expectedMinSizeIncluded));
     }
+  }
+
+  /**
+   * Asserts that the size of the given {@code CharSequence} is between the given lower and higher boundary (inclusive).
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the number of elements in the given array is not between the boundaries.
+   */
+  public void assertHasSizeBetween(AssertionInfo info, CharSequence actual, int lowerBoundary, int higherBoundary) {
+    assertNotNull(info, actual);
+    checkSizeBetween(actual, actual.length(), lowerBoundary, higherBoundary, info);
   }
 
   /**

@@ -27,27 +27,28 @@ public class AtomicReferenceArrayAssert_hasSameSizeAs_with_Arrays_Test {
 
   @Test
   public void should_pass_if_actual_object_array_has_same_size_as_other_object_array() {
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new Byte[]{2, 3});
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new String[]{"1", "2"});
+    assertThat(new String[] { "1", "2" }).hasSameSizeAs(new Byte[] { 2, 3 });
+    assertThat(new String[] { "1", "2" }).hasSameSizeAs(new String[] { "1", "2" });
   }
 
   @Test
   public void should_pass_if_actual_object_array_has_same_size_as_other_primitive_array() {
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new byte[]{2, 3});
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new int[]{2, 3});
+    assertThat(new String[] { "1", "2" }).hasSameSizeAs(new byte[] { 2, 3 });
+    assertThat(new String[] { "1", "2" }).hasSameSizeAs(new int[] { 2, 3 });
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       final String[] actual = null;
-      assertThat(actual).hasSameSizeAs(new String[]{"1"});
+      assertThat(actual).hasSameSizeAs(new String[] { "1" });
     }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_other_is_not_an_array() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicReferenceArray<Byte>(new Byte[]{1, 2})).hasSameSizeAs("a string"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicReferenceArray<>(new Byte[] { 1,
+        2 })).hasSameSizeAs("a string"))
                                                    .withMessage(format("%nExpecting an array but was:<\"a string\">"));
   }
 
@@ -56,6 +57,7 @@ public class AtomicReferenceArrayAssert_hasSameSizeAs_with_Arrays_Test {
     final String[] actual = array("Luke", "Yoda");
     final String[] other = array("Yoda");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameSizeAs(other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
+                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
+                                                                                     other.length).create());
   }
 }

@@ -107,7 +107,7 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[0])).isNullOrEmpty();
    * AtomicReferenceArray array = null;
    * assertThat(array).isNullOrEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[] {"a", "b", "c"})).isNullOrEmpty();</code></pre>
    *
@@ -126,7 +126,7 @@ public class AtomicReferenceArrayAssert<T>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[0])).isEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"})).isEmpty();</code></pre>
    *
@@ -144,7 +144,7 @@ public class AtomicReferenceArrayAssert<T>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"})).isNotEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicReferenceArray&lt;&gt;(new String[0])).isNotEmpty();</code></pre>
    *
@@ -163,10 +163,10 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; atomicArray = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicArray).hasArray(new String[]{"a", "b", "c"});
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicArray).hasArray(new String[]{"a", "b", "c", "d"});</code></pre>
    *
@@ -177,28 +177,6 @@ public class AtomicReferenceArrayAssert<T>
    */
   public AtomicReferenceArrayAssert<T> hasArray(T[] expected) {
     arrays.assertContainsExactly(info, array, expected);
-    return myself;
-  }
-
-  /**
-   * Verifies that the number of values in the AtomicReferenceArray is equal to the given one.
-   * <p>
-   * Example:
-   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; atomicArray = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
-   * 
-   * assertThat(atomicArray).hasSize(3);
-   * 
-   * // assertion will fail
-   * assertThat(atomicArray).hasSize(1);</code></pre>
-   *
-   * @param expected the expected number of values in the actual AtomicReferenceArray.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the number of values of the AtomicReferenceArray is not equal to the given one.
-   * @since 2.7.0 / 3.7.0
-   */
-  @Override
-  public AtomicReferenceArrayAssert<T> hasSize(int expected) {
-    arrays.assertHasSize(info, array, expected);
     return myself;
   }
 
@@ -263,6 +241,144 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that the number of values in the AtomicReferenceArray is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; atomicArray = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
+   *
+   * assertThat(atomicArray).hasSize(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicArray).hasSize(1);</code></pre>
+   *
+   * @param expected the expected number of values in the actual AtomicReferenceArray.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the AtomicReferenceArray is not equal to the given one.
+   * @since 2.7.0 / 3.7.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasSize(int expected) {
+    arrays.assertHasSize(info, array, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is greater than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray atomicReferenceArray = new AtomicReferenceArray(new String[] { "a", "b", "c" });
+   *
+   * // assertion will pass
+   * assertThat(atomicReferenceArray).hasSizeGreaterThan(1);
+   *
+   * // assertion will fail
+   * assertThat(atomicReferenceArray).hasSizeGreaterThan(3);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray atomicReferenceArray = new AtomicReferenceArray(new String[] { "a", "b", "c" });
+   *
+   * // assertion will pass
+   * assertThat(atomicReferenceArray).hasSizeGreaterThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicReferenceArray).hasSizeGreaterThanOrEqualTo(5);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray atomicReferenceArray = new AtomicReferenceArray(new String[] { "a", "b", "c" });
+   *
+   * // assertion will pass
+   * assertThat(atomicReferenceArray).hasSizeLessThan(4);
+   *
+   * // assertion will fail
+   * assertThat(atomicReferenceArray).hasSizeLessThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray atomicReferenceArray = new AtomicReferenceArray(new String[] { "a", "b", "c" });
+   *
+   * // assertion will pass
+   * assertThat(atomicReferenceArray).hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicReferenceArray).hasSizeLessThanOrEqualTo(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray atomicReferenceArray = new AtomicReferenceArray(new String[] { "a", "b", "c" });
+   *
+   * // assertion will pass
+   * assertThat(atomicReferenceArray).hasSizeBetween(3, 4);
+   *
+   * // assertion will fail
+   * assertThat(atomicReferenceArray).hasSizeBetween(4, 6);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, array, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual AtomicReferenceArray has the same size as the given array.
    * <p>
    * Parameter is declared as Object to accept both {@code Object[]} and primitive arrays (e.g. {@code int[]}).
@@ -300,7 +416,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will pass
    * assertThat(abc).hasSameSizeAs(elvesRings);
-   * 
+   *
    * // assertion will fail
    * assertThat(abc).hasSameSizeAs(Arrays.asList("a", "b"));</code></pre>
    *
@@ -410,7 +526,7 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail because items2 contains not null element
    * AtomicReferenceArray&lt;String&gt; items2 = new AtomicReferenceArray&lt;&gt;(new String[]{null, null, "notNull"});
    * assertThat(items2).containsOnlyNulls();
-   * 
+   *
    * // assertion will fail since an empty array does not contain any elements and therefore no null ones.
    * AtomicReferenceArray&lt;String&gt; empty = new AtomicReferenceArray&lt;&gt;(new String[0]);
    * assertThat(empty).containsOnlyNulls();</code></pre>
@@ -841,16 +957,16 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Example :
    * <pre><code class='java'> AtomicReferenceArray&lt;Object&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Object[]{"", new StringBuilder()});
-   * 
+   *
    * // assertions will pass
    * assertThat(objects).hasOnlyElementsOfTypes(CharSequence.class);
    * assertThat(objects).hasOnlyElementsOfTypes(String.class, StringBuilder.class);
-   * 
+   *
    * // assertions will fail
    * assertThat(objects).hasOnlyElementsOfTypes(Number.class);
    * assertThat(objects).hasOnlyElementsOfTypes(String.class, Number.class);
    * assertThat(objects).hasOnlyElementsOfTypes(String.class);</code></pre>
-   * 
+   *
    * @param types the expected classes and interfaces
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -1293,7 +1409,7 @@ public class AtomicReferenceArrayAssert<T>
    * Example:
    * <pre><code class='java'> // jedi is a Condition&lt;String&gt;
    * AtomicReferenceArray&lt;String&gt; rebels = new AtomicReferenceArray&lt;&gt;(new String[]{"Luke", "Solo", "Leia"});
-   * 
+   *
    * assertThat(rebels).areAtLeastOne(jedi);</code></pre>
    *
    * @see #haveAtLeast(int, Condition)
@@ -1452,10 +1568,10 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;Number&gt; numbers = new AtomicReferenceArray&lt;&gt;(new Number[]{ 2, 6L, 8.0 });
-   * 
+   *
    * // successful assertion:
    * assertThat(numbers).hasAtLeastOneElementOfType(Long.class);
-   * 
+   *
    * // assertion failure:
    * assertThat(numbers).hasAtLeastOneElementOfType(Float.class);</code></pre>
    *
@@ -1476,10 +1592,10 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;Number&gt; numbers = new AtomicReferenceArray&lt;&gt;(new Number[]{ 2, 6, 8 });
-   * 
+   *
    * // successful assertion:
    * assertThat(numbers).hasOnlyElementsOfType(Integer.class);
-   * 
+   *
    * // assertion failure:
    * assertThat(numbers).hasOnlyElementsOfType(Long.class);</code></pre>
    *
@@ -1540,7 +1656,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will pass
    * assertThat(abc).containsAll(Arrays.asList("b", "c"));
-   * 
+   *
    * // assertions will fail
    * assertThat(abc).containsAll(Arrays.asList("d"));
    * assertThat(abc).containsAll(Arrays.asList("a", "b", "c", "d"));</code></pre>
@@ -1736,7 +1852,7 @@ public class AtomicReferenceArrayAssert<T>
    *                    .usingFieldByFieldElementComparator()
    *                    .contains(reallyTallFrodo);</code></pre>
    *
-   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance 
+   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance
    * chain to the given {@code type} is chosen in the following order:
    * <ol>
    * <li>The comparator for the exact given {@code type}</li>
@@ -2366,11 +2482,11 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Let's take an example to make things clearer :
    * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
-   * AtomicReferenceArray&lt;WesterosHouse&gt; greatHousesOfWesteros = new AtomicReferenceArray&lt;&gt;(new WesterosHouse[]{ 
+   * AtomicReferenceArray&lt;WesterosHouse&gt; greatHousesOfWesteros = new AtomicReferenceArray&lt;&gt;(new WesterosHouse[]{
    *     new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Coming&quot;),
-   *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;), 
+   *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;),
    *     new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
-   *     new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;), 
+   *     new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;),
    *     new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
    *     new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;) });
    *
@@ -2415,11 +2531,11 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Let's take an example to make things clearer :
    * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
-   * AtomicReferenceArray&lt;WesterosHouse&gt; greatHousesOfWesteros = new AtomicReferenceArray&lt;&gt;(new WesterosHouse[]{ 
+   * AtomicReferenceArray&lt;WesterosHouse&gt; greatHousesOfWesteros = new AtomicReferenceArray&lt;&gt;(new WesterosHouse[]{
    *     new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Coming&quot;),
-   *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;), 
+   *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;),
    *     new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
-   *     new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;), 
+   *     new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;),
    *     new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
    *     new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;) });
    *
@@ -2462,7 +2578,7 @@ public class AtomicReferenceArrayAssert<T>
    * It can be useful to better understand what the error was with a more meaningful error message.
    * <p>
    * Example
-   * <pre><code class='java'> 
+   * <pre><code class='java'>
    * AtomicReferenceArray&lt;Byte&gt; bytes = new AtomicReferenceArray&lt;&gt;(new Byte[]{ 0x10, 0x20 });
    * assertThat(bytes).inHexadecimal().contains(new Byte[] { 0x30 });</code></pre>
    *
@@ -2788,7 +2904,7 @@ public class AtomicReferenceArrayAssert<T>
    * This is useful to perform a group of assertions on elements.
    * <p>
    * Grouping assertions example:
-   * <pre><code class='java'> // myIcelanderFriends is an AtomicReferenceArray&lt;Person&gt; 
+   * <pre><code class='java'> // myIcelanderFriends is an AtomicReferenceArray&lt;Person&gt;
    * assertThat(myIcelanderFriends).allSatisfy(person -&gt; {
    *                                 assertThat(person.getCountry()).isEqualTo("Iceland");
    *                                 assertThat(person.getPhoneCountryCode()).isEqualTo("+354");
@@ -2848,8 +2964,8 @@ public class AtomicReferenceArrayAssert<T>
    *                                 assertThat(person.getPhoneCountryCode()).isEqualTo("+354");
    *                                 assertThat(person.getSurname()).endsWith("son");
    *                               });
-   *                               
-   * // assertion fails for empty group, whatever the requirements are.  
+   *
+   * // assertion fails for empty group, whatever the requirements are.
    * assertThat(emptyArray).anySatisfy($ -&gt; {
    *                         assertThat(true).isTrue();
    *                       });</code></pre>
@@ -2879,7 +2995,7 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that the actual AtomicReferenceArray contains at least one of the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"}); 
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
    *
    * // assertions will pass
    * assertThat(abc).containsAnyOf("b")
@@ -2910,7 +3026,7 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that the actual AtomicReferenceArray contains at least one of the given {@link Iterable} elements.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"}); 
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
    *
    * // assertions will pass
    * assertThat(abc).containsAnyElementsOf(Arrays.asList("b"))

@@ -12,6 +12,18 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.error.ShouldContainAnyOf;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -32,24 +44,11 @@ import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.internal.Arrays.assertIsArray;
-import static org.assertj.core.internal.CommonValidations.checkSizes;
-import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.CommonValidations.*;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
-
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
-import org.assertj.core.error.ShouldContainAnyOf;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Map}</code>s.
@@ -137,6 +136,77 @@ public class Maps {
   public void assertHasSize(AssertionInfo info, Map<?, ?> actual, int expectedSize) {
     assertNotNull(info, actual);
     checkSizes(actual, actual.size(), expectedSize, info);
+  }
+
+  /**
+   * Asserts that the number of entries in the given {@code Map} is greater than the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the number of entries in the given {@code Map} is greater than the boundary.
+   */
+  public void assertHasSizeGreaterThan(AssertionInfo info, Map<?, ?> actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeGreaterThan(actual, boundary, actual.size(), info);
+  }
+
+  /**
+   * Asserts that the number of entries in the given {@code Map} is greater than or equal to the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the number of entries in the given {@code Map} is greater than or equal to the boundary.
+   */
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, Map<?, ?> actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeGreaterThanOrEqualTo(actual, boundary, actual.size(), info);
+  }
+
+  /**
+   * Asserts that the number of entries in the given {@code Map} is less than the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the number of entries in the given {@code Map} is less than the expected one.
+   */
+  public void assertHasSizeLessThan(AssertionInfo info, Map<?, ?> actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeLessThan(actual, boundary, actual.size(), info);
+  }
+
+  /**
+   * Asserts that the number of entries in the given {@code Map} is less than or equal to the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the number of entries in the given {@code Map} is less than or equal to the boundary.
+   */
+  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, Map<?, ?> actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeLessThanOrEqualTo(actual, boundary, actual.size(), info);
+  }
+
+  /**
+   * Asserts that the number of entries in the given {@code Map} is between the given lower and higher boundary (inclusive).
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the number of elements in the given array is not between the boundaries.
+   */
+  public void assertHasSizeBetween(AssertionInfo info, Map<?, ?> actual, int lowerBoundary, int higherBoundary) {
+    assertNotNull(info, actual);
+    checkSizeBetween(actual, lowerBoundary, higherBoundary, actual.size(), info);
   }
 
   /**

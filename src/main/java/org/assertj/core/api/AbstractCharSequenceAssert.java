@@ -438,6 +438,31 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} has length between the given boundaries (inclusive)
+   * using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSizeBetween(5, 25);
+   * assertThat(bookName).hasSizeBetween(16, 17);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSizeBetween(2, 5);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual length should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual length should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    strings.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} has the expected line count.
    * <p>
    * A line is considered to be <i>terminated</i> by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),

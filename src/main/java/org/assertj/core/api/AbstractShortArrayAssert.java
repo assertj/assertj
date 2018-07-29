@@ -56,6 +56,116 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
     return myself;
   }
 
+  /**
+   * Verifies that the number of values in the actual array is greater than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeGreaterThan(2);
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeGreaterThan(6);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeGreaterThanOrEqualTo(2)
+   *                                    .hasSizeGreaterThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeGreaterThanOrEqualTo(4);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeLessThan(5);
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeLessThan(4);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeLessThanOrEqualTo(5)
+   *                                    .hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeLessThanOrEqualTo(4);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeBetween(0, 4)
+   *                                    .hasSizeBetween(3, 3);
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeBetween(4, 6);
+   * assertThat(new short[] { 1, 2, 3 }).hasSizeBetween(0, 2);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
   /** {@inheritDoc} */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
@@ -120,12 +230,12 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * Examples :
    * <pre><code class='java'> // assertion will pass
    * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce((short) 1,(short) 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(new short[] { 1, 2, 1 }).containsOnlyOnce((short) 1);
    * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce((short) 4);
    * assertThat(new short[] { 1, 2, 3, 3 }).containsOnlyOnce((short) 0, (short) 1, (short) 2, (short) 3, (short) 4, (short) 5);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -145,11 +255,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new short[] { 1, 2, 3 }).containsSequence((short) 1, (short) 2);
-   * 
+   *
    * // assertion will fail
    * assertThat(new short[] { 1, 2, 3 }).containsSequence((short) 1, (short) 3);
    * assertThat(new short[] { 1, 2, 3 }).containsSequence((short) 2, (short) 1);</code></pre>
-   * 
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -168,10 +278,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <pre><code class='java'> // assertion will pass
    * assertThat(new short[] { 1, 2, 3 }).containsSubsequence((short) 1, (short) 2);
    * assertThat(new short[] { 1, 2, 3 }).containsSubsequence((short) 1, (short) 3);
-   * 
+   *
    * // assertion will fail
    * assertThat(new short[] { 1, 2, 3 }).containsSubsequence((short) 2, (short) 1);</code></pre>
-   * 
+   *
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -194,7 +304,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * // assertions will fail
    * assertThat(new short[] { 1, 2, 3 }).contains((short) 1, atIndex(1));
    * assertThat(new short[] { 1, 2, 3 }).contains((short) 4, atIndex(2));</code></pre>
-   * 
+   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -218,7 +328,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * // assertion will fail
    * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 2);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -242,7 +352,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * // assertions will fail
    * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 1, atIndex(0));
    * assertThat(new short[] { 1, 2, 3 }).doesNotContain((short) 2, atIndex(1));</code></pre>
-   * 
+   *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
@@ -264,7 +374,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * // assertion will fail
    * assertThat(new short[] { 1, 1, 2, 3 }).doesNotHaveDuplicates();</code></pre>
-   * 
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
@@ -285,7 +395,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * // assertion will fail
    * assertThat(new short[] { 1, 2, 3 }).startsWith((short) 2, (short) 3);</code></pre>
-   * 
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -309,7 +419,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * // assertion will fail
    * assertThat(new short[] { 1, 2, 3 }).endsWith((short) 3, (short) 4);</code></pre>
-   * 
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -357,13 +467,13 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <p>
    * Example :
    * <pre><code class='java'> short[] shorts = { 1, 2, 3 };
-   * 
+   *
    * // assertion will pass
    * assertThat(shorts).containsExactly((short) 1, (short) 2, (short) 3);
-   * 
+   *
    * // assertion will fail as actual and expected order differ
    * assertThat(shorts).containsExactly((short) 2, (short) 1, (short) 3);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -384,12 +494,12 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <pre><code class='java'> // assertions will pass
    * assertThat(new short[] { 1, 2 }).containsExactlyInAnyOrder((short) 1, (short) 2);
    * assertThat(new short[] { 1, 2, 1 }).containsExactlyInAnyOrder((short) 1, (short) 1, (short) 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(new short[] { 1, 2 }).containsExactlyInAnyOrder((short) 1);
    * assertThat(new short[] { 1 }).containsExactlyInAnyOrder((short) 1, (short) 2);
    * assertThat(new short[] { 1, 2, 1 }).containsExactlyInAnyOrder((short) 1, (short) 2);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -407,7 +517,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * Verifies that the actual array contains at least one of the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> short[] oneTwoThree = { 1, 2, 3 }; 
+   * <pre><code class='java'> short[] oneTwoThree = { 1, 2, 3 };
    *
    * // assertions will pass
    * assertThat(abc).containsAnyOf((short) 2)

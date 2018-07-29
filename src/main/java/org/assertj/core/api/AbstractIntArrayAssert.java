@@ -56,6 +56,116 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
     return myself;
   }
 
+  /**
+   * Verifies that the number of values in the actual array is greater than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeGreaterThan(2);
+   *
+   * // assertion will fail
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeGreaterThan(6);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeGreaterThanOrEqualTo(2)
+   *                                  .hasSizeGreaterThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeGreaterThanOrEqualTo(4);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeLessThan(5);
+   *
+   * // assertion will fail
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeLessThan(4);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeLessThanOrEqualTo(5)
+   *                                  .hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertions will fail
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeLessThanOrEqualTo(4);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeBetween(0, 4)
+   *                                  .hasSizeBetween(3, 3);
+   *
+   * // assertions will fail
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeBetween(4, 6);
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeBetween(0, 2);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
   /** {@inheritDoc} */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
@@ -120,19 +230,19 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * Examples :
    * <pre><code class='java'> // assertion will pass
    * assertThat(new int[] { 1, 2, 3 }).containsOnlyOnce(1, 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(new int[] { 1, 2, 1 }).containsOnlyOnce(1);
    * assertThat(new int[] { 1, 2, 3 }).containsOnlyOnce(4);
    * assertThat(new int[] { 1, 2, 3, 3 }).containsOnlyOnce(0, 1, 2, 3, 4, 5);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
-   *           or none of the given values, or the actual group contains more than once these values.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
+   *           or none of the given values, or the actual array contains more than once these values.
    */
   public SELF containsOnlyOnce(int... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
@@ -145,11 +255,11 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new int[] { 1, 2, 3 }).containsSequence(1, 2);
-   * 
+   *
    * // assertion will fail
    * assertThat(new int[] { 1, 2, 3 }).containsSequence(1, 3);
    * assertThat(new int[] { 1, 2, 3 }).containsSequence(2, 1);</code></pre>
-   * 
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -168,10 +278,10 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * <pre><code class='java'> // assertion will pass
    * assertThat(new int[] { 1, 2, 3 }).containsSubsequence(1, 2);
    * assertThat(new int[] { 1, 2, 3 }).containsSubsequence(1, 3);
-   * 
+   *
    * // assertion will fail
    * assertThat(new int[] { 1, 2, 3 }).containsSubsequence(2, 1);</code></pre>
-   * 
+   *
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -353,23 +463,23 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
   }
 
   /**
-   * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
+   * Verifies that the actual array contains only the given values and nothing else, <b>in order</b>.
    * <p>
    * Example :
    * <pre><code class='java'> int[] ints = { 1, 2, 3 };
-   * 
+   *
    * // assertion will pass
    * assertThat(ints).containsExactly(1, 2, 3);
-   * 
+   *
    * // assertion will fail as actual and expected order differ
    * assertThat(ints).containsExactly(2, 1, 3);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values with same order, i.e. the actual array
+   *           contains some or none of the given values, or the actual array contains more values than the given ones
    *           or values are the same but the order is not.
    */
   public SELF containsExactly(int... values) {
@@ -378,24 +488,24 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
   }
 
   /**
-   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   * Verifies that the actual array contains exactly the given values and nothing else, <b>in any order</b>.<br>
    * <p>
    * Example :
    * <pre><code class='java'> // assertions will pass
    * assertThat(new int[] { 1, 2 }).containsExactlyInAnyOrder(1, 2);
    * assertThat(new int[] { 1, 2, 1 }).containsExactlyInAnyOrder(1, 1, 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(new int[] { 1, 2 }).containsExactlyInAnyOrder(1);
    * assertThat(new int[] { 1 }).containsExactlyInAnyOrder(1, 2);
    * assertThat(new int[] { 1, 2, 1 }).containsExactlyInAnyOrder(1, 2);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array
+   *           contains some or none of the given values, or the actual array contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(int... values) {
@@ -407,7 +517,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * Verifies that the actual array contains at least one of the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> int[] oneTwoThree = { 1, 2, 3 }; 
+   * <pre><code class='java'> int[] oneTwoThree = { 1, 2, 3 };
    *
    * // assertions will pass
    * assertThat(oneTwoThree).containsAnyOf(2)

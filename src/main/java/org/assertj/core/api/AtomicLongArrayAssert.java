@@ -44,10 +44,10 @@ public class AtomicLongArrayAssert
    * assertThat(new AtomicLongArray(new long[0])).isNullOrEmpty();
    * AtomicLongArray array = null;
    * assertThat(array).isNullOrEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 3 })).isNullOrEmpty();</code></pre>
-   
+  
    * @throws AssertionError if the AtomicLongArray is not {@code null} or not empty.
    * @since 2.7.0 / 3.7.0
    */
@@ -63,10 +63,10 @@ public class AtomicLongArrayAssert
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new AtomicLongArray(new long[0])).isEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 3 })).isEmpty();</code></pre>
-   
+  
    * @throws AssertionError if the AtomicLongArray is not empty.
    * @since 2.7.0 / 3.7.0
    */
@@ -81,10 +81,10 @@ public class AtomicLongArrayAssert
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 3 })).isNotEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicLongArray(new long[0])).isNotEmpty();</code></pre>
-   
+  
    * @return {@code this} assertion object.
    * @throws AssertionError if the AtomicLongArray is empty.
    * @since 2.7.0 / 3.7.0
@@ -101,13 +101,13 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).hasArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicLongArray).hasArray(new long[] { 2, 3, 4 });</code></pre>
-   
+  
    * @param expected the long[] array expected to be in the actual AtomicLongArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the AtomicLongArray does not have the given array.
@@ -123,12 +123,12 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * assertThat(atomicLongArray).hasSize(3);
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicLongArray).hasSize(1);</code></pre>
-   
+  
    * @param expected the expected number of values in the actual AtomicLongArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the AtomicLongArray is not equal to the given one.
@@ -141,19 +141,135 @@ public class AtomicLongArrayAssert
   }
 
   /**
+   * Verifies that the number of values in the actual array is greater than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicLongArray).hasSizeGreaterThan(1);
+   *
+   * // assertion will fail
+   * assertThat(atomicLongArray).hasSizeGreaterThan(3);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicLongArrayAssert hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicLongArray).hasSizeGreaterThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicLongArray).hasSizeGreaterThanOrEqualTo(5);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicLongArrayAssert hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicLongArray).hasSizeLessThan(4);
+   *
+   * // assertion will fail
+   * assertThat(atomicLongArray).hasSizeLessThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicLongArrayAssert hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicLongArray).hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicLongArray).hasSizeLessThanOrEqualTo(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicLongArrayAssert hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicLongArray).hasSizeBetween(3, 4);
+   *
+   * // assertion will fail
+   * assertThat(atomicLongArray).hasSizeBetween(4, 6);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicLongArrayAssert hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, array, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
+  /**
    * Verifies that the AtomicLongArray has the same size as given {@link Iterable}.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).hasSameSizeAs(abc);
-   * 
+   *
    * // assertions will fail
    * assertThat(atomicLongArray).hasSameSizeAs(Arrays.asList(1, 2));
    * assertThat(atomicLongArray).hasSameSizeAs(Arrays.asList(1, 2, 3, 4));</code></pre>
-   * 
+   *
    * @param other the {@code Iterable} to compare size with actual AtomicLongArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual AtomicLongArray is {@code null}.
@@ -172,7 +288,7 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicLongArray).contains(1, 2)
    *                            .contains(3, 1)
@@ -181,7 +297,7 @@ public class AtomicLongArrayAssert
    * // assertions will fail
    * assertThat(atomicLongArray).contains(2, 3, 4);
    * assertThat(atomicLongArray).contains(4, 5, 6);</code></pre>
-   
+  
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -200,7 +316,7 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicLongArray).containsOnly(1, 2, 3)
    *                            .containsOnly(2, 3, 1);
@@ -209,7 +325,7 @@ public class AtomicLongArrayAssert
    * // assertions will fail
    * assertThat(atomicLongArray).containsOnly(1, 2, 3, 4);
    * assertThat(atomicLongArray).containsOnly(4, 7);</code></pre>
-   
+  
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -229,15 +345,15 @@ public class AtomicLongArrayAssert
    * <p>
    * Examples :
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).containsOnlyOnce(1, 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(atomicLongArray).containsOnlyOnce(4);
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 1 })).containsOnlyOnce(1);
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 3, 3 })).containsOnlyOnce(1, 2, 3);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -256,14 +372,14 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).containsSequence(1, 2);
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicLongArray).containsSequence(1, 3);
    * assertThat(atomicLongArray).containsSequence(2, 1);</code></pre>
-   * 
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual atomic array is {@code null}.
@@ -281,14 +397,14 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicLongArray).containsSubsequence(1, 2)
    *                            .containsSubsequence(1, 3);
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicLongArray).containsSubsequence(2, 1);</code></pre>
-   * 
+   *
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual atomic array is {@code null}.
@@ -306,7 +422,7 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicLongArray).contains(1, atIndex(O))
    *                            .contains(3, atIndex(2));
@@ -335,7 +451,7 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).doesNotContain(4);
    *
@@ -360,7 +476,7 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicLongArray).doesNotContain(1, atIndex(1))
    *                            .doesNotContain(2, atIndex(0));
@@ -387,7 +503,7 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).doesNotHaveDuplicates();
    *
@@ -411,7 +527,7 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).startsWith(1, 2);
    *
@@ -438,7 +554,7 @@ public class AtomicLongArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).endsWith(2, 3);
    *
@@ -462,9 +578,9 @@ public class AtomicLongArrayAssert
    * Verifies that the actual AtomicLongArray is sorted in ascending order according to the natural ordering of its elements.
    * <p>
    * Empty or one element arrays are considered sorted (unless the array element type is not Comparable).<br><br>
-   * 
+   *
    * @return {@code this} assertion object.
-   * 
+   *
    * @throws AssertionError if the actual AtomicLongArray is not sorted in ascending order according to the natural ordering of its
    *           elements.
    * @throws AssertionError if the actual AtomicLongArray is {@code null}.
@@ -478,11 +594,11 @@ public class AtomicLongArrayAssert
    * Verifies that the actual AtomicLongArray is sorted according to the given comparator.<br> Empty arrays are considered sorted whatever
    * the comparator is.<br> One element arrays are considered sorted if the element is compatible with comparator, otherwise an
    * AssertionError is thrown.
-   * 
+   *
    * @param comparator the {@link Comparator} used to compare array elements
-   * 
+   *
    * @return {@code this} assertion object.
-   * 
+   *
    * @throws AssertionError if the actual AtomicLongArray is not sorted according to the given comparator.
    * @throws AssertionError if the actual AtomicLongArray is {@code null}.
    * @throws NullPointerException if the given comparator is {@code null}.
@@ -500,11 +616,11 @@ public class AtomicLongArrayAssert
    * <p>
    * Examples :
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
-   * // absolute value comparator 
-   * Comparator&lt;Long&gt; absComparator = ...; 
+   *
+   * // absolute value comparator
+   * Comparator&lt;Long&gt; absComparator = ...;
    * assertThat(invoiceList).usingComparator(absComparator).contains(-1, -2, 3);</code></pre>
-   * 
+   *
    * @param customComparator the comparator to use for incoming assertion checks.
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
@@ -528,13 +644,13 @@ public class AtomicLongArrayAssert
    * <p>
    * Example :
    * <pre><code class='java'> AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicLongArray).containsExactly(1, 2, 3);
-   * 
+   *
    * // assertion will fail as actual and expected order differ
    * assertThat(atomicLongArray).containsExactly(2, 1, 3);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -555,12 +671,12 @@ public class AtomicLongArrayAssert
    * <pre><code class='java'> // assertions will pass
    * assertThat(new AtomicLongArray(new long[] { 1, 2 })).containsExactlyInAnyOrder(1, 2);
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 1 })).containsExactlyInAnyOrder(1, 1, 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(new AtomicLongArray(new long[] { 1, 2 })).containsExactlyInAnyOrder(1);
    * assertThat(new AtomicLongArray(new long[] { 1 })).containsExactlyInAnyOrder(1, 2);
    * assertThat(new AtomicLongArray(new long[] { 1, 2, 1 })).containsExactlyInAnyOrder(1, 2);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -578,7 +694,7 @@ public class AtomicLongArrayAssert
    * Verifies that the actual array contains at least one of the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicLongArray oneTwoThree = new AtomicLongArray(new long[] { 1L, 2L, 3L }); 
+   * <pre><code class='java'> AtomicLongArray oneTwoThree = new AtomicLongArray(new long[] { 1L, 2L, 3L });
    *
    * // assertions will pass
    * assertThat(oneTwoThree).containsAnyOf(2L)

@@ -16,7 +16,7 @@ import static java.lang.String.format;
 
 /**
  * Creates an error message indicating that an assertion that verifies a maximum size failed.
- * 
+ *
  * @author Sandra Parsick
  * @author Georg Berky
  */
@@ -29,11 +29,11 @@ public class ShouldHaveSizeLessThan extends BasicErrorMessageFactory {
    * @param expectedMaxSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSizeLessThan(CharSequence actual, int actualSize, int expectedMaxSize) {
+  public static ErrorMessageFactory shouldHaveSizeLessThan(Object actual, int actualSize, int expectedMaxSize) {
     return new ShouldHaveSizeLessThan(actual, actualSize, expectedMaxSize);
   }
 
-  private ShouldHaveSizeLessThan(CharSequence actual, int actualSize, int expectedSize) {
+  private ShouldHaveSizeLessThan(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%nExpecting size of:%n <%s>%nto be less than:<%s> but was:<%s>", expectedSize, actualSize, "%s"), actual);

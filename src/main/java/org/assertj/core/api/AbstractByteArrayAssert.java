@@ -66,14 +66,123 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   }
 
   /**
+   * Verifies that the number of values in the actual array is greater than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new byte[] { 2, 3 }).hasSizeGreaterThan(1);
+   *
+   * // assertion will fail
+   * assertThat(new byte[] { 8 }).hasSizeGreaterThan(1);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual group is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new byte[] { 17, 1 }).hasSizeGreaterThanOrEqualTo(1)
+   *                                 .hasSizeGreaterThanOrEqualTo(2);
+   *
+   * // assertion will fail
+   * assertThat(new byte[] { 3 }).hasSizeGreaterThanOrEqualTo(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new byte[] { 2, 9 }).hasSizeLessThan(3);
+   *
+   * // assertion will fail
+   * assertThat(new byte[] { 100, 101 }).hasSizeLessThan(1);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new byte[] { 56, 57 }).hasSizeLessThanOrEqualTo(3)
+   *                                  .hasSizeLessThanOrEqualTo(2);
+   *
+   * // assertion will fail
+   * assertThat(new byte[] { 42, 43 }).hasSizeLessThanOrEqualTo(1);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new byte[] { 22, 23 }).hasSizeBetween(1, 3)
+   *                                  .hasSizeBetween(2, 2);
+   *
+   * // assertion will fail
+   * assertThat(new byte[] { 37, 38 }).hasSizeBetween(4, 5);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual group has the same size as given {@link Iterable}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2 }).hasSameSizeAs(Arrays.asList(2, 3));
+   * assertThat(new byte[] { 95, 96 }).hasSameSizeAs(Arrays.asList(2, 3));
    *
    * // assertion will fail
-   * assertThat(new byte[] { 1, 2 }).hasSameSizeAs(Arrays.asList(1, 2, 3));</code></pre>
+   * assertThat(new byte[] { 126, 127 }).hasSameSizeAs(Arrays.asList(1, 2, 3));</code></pre>
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
@@ -696,12 +805,12 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <pre><code class='java'> // assertions will pass
    * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder((byte) 1, (byte) 2);
    * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder((byte) 1, (byte) 1, (byte) 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder((byte) 1);
    * assertThat(new byte[] { 1 }).containsExactlyInAnyOrder((byte) 1, (byte) 2);
    * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder((byte) 1, (byte) 2);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -722,12 +831,12 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <pre><code class='java'> // assertions will pass
    * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder(1, 2);
    * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder(1, 1, 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder(1);
    * assertThat(new byte[] { 1 }).containsExactlyInAnyOrder(1, 2);
    * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder(1, 2);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -740,12 +849,12 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     arrays.assertContainsExactlyInAnyOrder(info, actual, arrays.toByteArray(values));
     return myself;
   }
-  
+
   /**
    * Verifies that the actual array contains at least one of the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> byte[] oneTwoThree = { 1, 2, 3 }; 
+   * <pre><code class='java'> byte[] oneTwoThree = { 1, 2, 3 };
    *
    * // assertions will pass
    * assertThat(oneTwoThree).containsAnyOf((byte)2)
@@ -775,7 +884,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * Verifies that the actual array contains at least one of the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> byte[] oneTwoThree = { 1, 2, 3 }; 
+   * <pre><code class='java'> byte[] oneTwoThree = { 1, 2, 3 };
    *
    * // assertions will pass
    * assertThat(oneTwoThree).containsAnyOf(2)
