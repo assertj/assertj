@@ -12,39 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Arrays.copyOf;
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.filter.Filters.filter;
-import static org.assertj.core.description.Description.mostRelevantDescription;
-import static org.assertj.core.extractor.Extractors.byName;
-import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
-import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
-import static org.assertj.core.extractor.Extractors.resultOf;
-import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
-import static org.assertj.core.internal.Iterables.byPassingAssertions;
-import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.IterableUtil.toArray;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
@@ -54,22 +21,37 @@ import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.CommonErrors;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ExtendedByTypesComparator;
-import org.assertj.core.internal.FieldByFieldComparator;
-import org.assertj.core.internal.IgnoringFieldsComparator;
-import org.assertj.core.internal.Iterables;
-import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
-import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.internal.*;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.internal.OnFieldsComparator;
-import org.assertj.core.internal.RecursiveFieldByFieldComparator;
-import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import static java.util.Arrays.copyOf;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.filter.Filters.filter;
+import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.extractor.Extractors.*;
+import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
+import static org.assertj.core.internal.Iterables.byPassingAssertions;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.IterableUtil.toArray;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * Assertion methods for arrays of objects.
@@ -155,6 +137,41 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
     return myself;
   }
 

@@ -12,15 +12,15 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
 /**

@@ -12,19 +12,15 @@
  */
 package org.assertj.core.internal.objectarrays;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
-import static org.mockito.Mockito.verify;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
 /**
@@ -43,20 +39,12 @@ public class ObjectArrays_assertHasSize_Test extends ObjectArraysBaseTest {
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
-    AssertionInfo info = someInfo();
-    Character[] actual = new Character[2];
-    try {
-      arrays.assertHasSize(info, actual, 6);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.length, 6));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), actual, 6))
+                                                   .withMessage(shouldHaveSize(actual, actual.length, 6).create());
   }
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    Byte[] actual = new Byte[2];
-    arrays.assertHasSize(someInfo(), actual, 2);
+    arrays.assertHasSize(someInfo(), actual, 3);
   }
 }
