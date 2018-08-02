@@ -12,13 +12,18 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 public class AtomicReferenceArrayAssert_containsAnyElementsOf_Test extends AtomicReferenceArrayAssertBaseTest {
 
@@ -32,6 +37,17 @@ public class AtomicReferenceArrayAssert_containsAnyElementsOf_Test extends Atomi
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertContainsAnyOf(info(), internalArray(), iterable.toArray());
+  }
+
+  @Test
+  public void should_allow_assertion_on_atomic_reference_array() {
+    // GIVEN
+    AtomicReferenceArray<Object> objectArray = new AtomicReferenceArray<>(array("foo", "bar"));
+    AtomicReferenceArray<String> stringArray = new AtomicReferenceArray<>(array("foo", "bar"));
+    // THEN
+    assertThat(objectArray).containsAnyElementsOf(list("foo", "baz"));
+    assertThat(stringArray).containsAnyElementsOf(list("foo", "baz"));
+
   }
 
 }

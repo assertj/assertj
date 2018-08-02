@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api.objectarray;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -19,6 +22,7 @@ import java.util.List;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 public class ObjectArrayAssert_containsAnyElementsOf_Test extends ObjectArrayAssertBaseTest {
 
@@ -32,6 +36,16 @@ public class ObjectArrayAssert_containsAnyElementsOf_Test extends ObjectArrayAss
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertContainsAnyOf(info(), getActual(assertions), iterable.toArray());
+  }
+
+  @Test
+  public void should_allow_assertion_on_object_array() {
+    // GIVEN
+    Object[] objectArray = array("foo", "bar");
+    String[] stringArray = array("foo", "bar");
+    // THEN
+    assertThat(objectArray).containsAnyElementsOf(list("foo", "baz"));
+    assertThat(stringArray).containsAnyElementsOf(list("foo", "baz"));
   }
 
 }
