@@ -656,8 +656,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime, zonedDateTime.plusSeconds(1));
    * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(1), zonedDateTime);</code></pre>
    * 
-   * @param startInclusive the start value (inclusive), expected not to be null.
-   * @param endInclusive the end value (inclusive), expected not to be null.
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
@@ -666,8 +666,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * 
    * @since 3.7.1
    */
-  public SELF isStrictlyBetween(ZonedDateTime startInclusive, ZonedDateTime endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+  public SELF isStrictlyBetween(ZonedDateTime startExclusive, ZonedDateTime endExclusive) {
+    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
 
@@ -686,9 +686,9 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01T00:00:01Z", "1999-12-31T23:59:59Z");
    * assertThat(firstOfJanuary2000).isStrictlyBetween("2000-01-01T00:00:00Z", "2000-01-01T00:00:01Z");
    * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-12-31T23:59:59Z", "2000-01-01T00:00:00Z");</code></pre>
-   * 
-   * @param startInclusive the start value (inclusive), expected not to be null.
-   * @param endInclusive the end value (inclusive), expected not to be null.
+   *
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
    * 
    * @throws AssertionError if the actual value is {@code null}.
@@ -699,8 +699,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * 
    * @since 3.7.1
    */
-  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
-    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
+  public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
+    return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
   }
 
   private ZonedDateTime[] convertToDateTimeArray(String... dateTimesAsString) {
