@@ -13,7 +13,7 @@
 package org.assertj.core.api.iterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -23,8 +23,6 @@ import java.util.Iterator;
 import org.assertj.core.api.AbstractIteratorAssert;
 import org.assertj.core.api.IteratorAssert;
 import org.assertj.core.api.IteratorAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -33,9 +31,6 @@ import org.junit.Test;
  * @author Stephan Windmüller
  */
 public class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   @Override
   protected IteratorAssert<Object> invoke_api_method() {
@@ -55,10 +50,10 @@ public class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
 
   @Test
   public void should_fail_for_exhausted_iterator() {
-    thrown.expectAssertionError("\nExpecting iterator to contain another value.");
-
     Iterator<Object> iterator = emptyList().iterator();
-    assertThat(iterator).hasNext();
+
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(iterator).hasNext())
+                                                   .withMessageContaining("\nExpecting iterator to contain another value.");
   }
 
 }

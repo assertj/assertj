@@ -13,12 +13,9 @@
 package org.assertj.core.api;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.test.ExpectedException.none;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Iterators;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 
 import java.util.Iterator;
 
@@ -29,9 +26,6 @@ import java.util.Iterator;
  * @author Stephan Windmüller
  */
 public abstract class IteratorAssertBaseTest extends BaseTestTemplate<IteratorAssert<Object>, Iterator<?>> {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   protected Iterators iterators;
 

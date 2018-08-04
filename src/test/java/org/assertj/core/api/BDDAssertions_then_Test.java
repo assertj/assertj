@@ -19,11 +19,7 @@ import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
@@ -104,8 +100,8 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_Iterator() {
-    Iterator<String> iterator = Arrays.asList("1").iterator();
-    then(iterator).toIterable().contains("1");
+    Iterator<String> iterator = Collections.singletonList("1").iterator();
+    then(iterator).hasNext();
   }
 
   @Test
