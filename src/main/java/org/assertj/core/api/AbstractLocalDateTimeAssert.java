@@ -501,17 +501,17 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();
-   * 
+   *
    * // assertions succeed:
    * assertThat(localDateTime).isBetween(localDateTime.minusSeconds(1), localDateTime.plusSeconds(1))
    *                          .isBetween(localDateTime, localDateTime.plusSeconds(1))
    *                          .isBetween(localDateTime.minusSeconds(1), localDateTime)
    *                          .isBetween(localDateTime, localDateTime);
-   * 
+   *
    * // assertions fail:
    * assertThat(localDateTime).isBetween(localDateTime.minusSeconds(10), localDateTime.minusSeconds(1));
    * assertThat(localDateTime).isBetween(localDateTime.plusSeconds(1), localDateTime.plusSeconds(10));</code></pre>
-   * 
+   *
    * @param startInclusive the start value (inclusive), expected not to be null.
    * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
@@ -519,7 +519,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] period.
-   * 
+   *
    * @since 3.7.1
    */
   public SELF isBetween(LocalDateTime startInclusive, LocalDateTime endInclusive) {
@@ -528,32 +528,32 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Same assertion as {@link #isBetween(LocalDateTime, LocalDateTime)} but here you pass {@link LocalDateTime} String representations 
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE_TIME">ISO LocalDateTime format</a> 
+   * Same assertion as {@link #isBetween(LocalDateTime, LocalDateTime)} but here you pass {@link LocalDateTime} String representations
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE_TIME">ISO LocalDateTime format</a>
    * to allow calling {@link LocalDateTime#parse(CharSequence)} method.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime firstOfJanuary2000 = LocalDateTime.parse("2000-01-01T00:00:00");
-   * 
+   *
    * // assertions succeed:
-   * assertThat(firstOfJanuary2000).isBetween("1999-12-31T23:59:59", "2000-01-01T00:00:01")         
-   *                               .isBetween("2000-01-01T00:00:00", "2000-01-01T00:00:01")         
-   *                               .isBetween("1999-12-31T23:59:59", "2000-01-01T00:00:00")         
+   * assertThat(firstOfJanuary2000).isBetween("1999-12-31T23:59:59", "2000-01-01T00:00:01")
+   *                               .isBetween("2000-01-01T00:00:00", "2000-01-01T00:00:01")
+   *                               .isBetween("1999-12-31T23:59:59", "2000-01-01T00:00:00")
    *                               .isBetween("2000-01-01T00:00:00", "2000-01-01T00:00:00");
-   *                               
+   *
    * // assertion fails:
    * assertThat(firstOfJanuary2000).isBetween("1999-01-01T00:00:01", "1999-12-31T23:59:59");</code></pre>
-   * 
+   *
    * @param startInclusive the start value (inclusive), expected not to be null.
    * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
-   * 
+   *
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws DateTimeParseException if any of the given String can't be converted to a {@link LocalDateTime}.
    * @throws AssertionError if the actual value is not in [start, end] period.
-   * 
+   *
    * @since 3.7.1
    */
   public SELF isBetween(String startInclusive, String endInclusive) {
@@ -565,61 +565,61 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();
-   * 
+   *
    * // assertion succeeds:
    * assertThat(localDateTime).isStrictlyBetween(localDateTime.minusSeconds(1), localDateTime.plusSeconds(1));
-   * 
+   *
    * // assertions fail:
    * assertThat(localDateTime).isStrictlyBetween(localDateTime.minusSeconds(10), localDateTime.minusSeconds(1));
    * assertThat(localDateTime).isStrictlyBetween(localDateTime.plusSeconds(1), localDateTime.plusSeconds(10));
    * assertThat(localDateTime).isStrictlyBetween(localDateTime, localDateTime.plusSeconds(1));
    * assertThat(localDateTime).isStrictlyBetween(localDateTime.minusSeconds(1), localDateTime);</code></pre>
-   * 
-   * @param startInclusive the start value (inclusive), expected not to be null.
-   * @param endInclusive the end value (inclusive), expected not to be null.
+   *
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ period.
-   * 
+   *
    * @since 3.7.1
    */
-  public SELF isStrictlyBetween(LocalDateTime startInclusive, LocalDateTime endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+  public SELF isStrictlyBetween(LocalDateTime startExclusive, LocalDateTime endExclusive) {
+    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
 
   /**
-   * Same assertion as {@link #isStrictlyBetween(LocalDateTime, LocalDateTime)} but here you pass {@link LocalDateTime} String representations 
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE_TIME">ISO LocalDateTime format</a> 
+   * Same assertion as {@link #isStrictlyBetween(LocalDateTime, LocalDateTime)} but here you pass {@link LocalDateTime} String representations
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE_TIME">ISO LocalDateTime format</a>
    * to allow calling {@link LocalDateTime#parse(CharSequence)} method.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime firstOfJanuary2000 = LocalDateTime.parse("2000-01-01T00:00:00");
-   * 
+   *
    * // assertion succeeds:
    * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-12-31T23:59:59", "2000-01-01T00:00:01");
-   * 
+   *
    * // assertions fail:
    * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01T00:00:01", "1999-12-31T23:59:59");
    * assertThat(firstOfJanuary2000).isStrictlyBetween("2000-01-01T00:00:00", "2000-01-01T00:00:01");
    * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-12-31T23:59:59", "2000-01-01T00:00:00");</code></pre>
-   * 
-   * @param startInclusive the start value (inclusive), expected not to be null.
-   * @param endInclusive the end value (inclusive), expected not to be null.
+   *
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
-   * 
+   *
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws DateTimeParseException if any of the given String can't be converted to a {@link LocalDateTime}.
    * @throws AssertionError if the actual value is not in ]start, end[ period.
-   * 
+   *
    * @since 3.7.1
    */
-  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
-    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
+  public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
+    return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
   }
 
   /**
