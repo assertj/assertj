@@ -25,7 +25,6 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.ComparisonFailure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
@@ -60,7 +59,7 @@ public class ShouldBeEqual_newAssertionError_Test {
                      .hasMessage("[Jedi] expected:<\"[Yoda]\"> but was:<\"[Luke]\">");
   }
 
-  public static Stream<Arguments> parameters() {
-    return Stream.of(Arguments.of("[Jedi]"), Arguments.of("[Jedi]  "));
+  public static Stream<String> parameters() {
+    return Stream.of("[Jedi]", "[Jedi]  ");
   }
 }

@@ -20,19 +20,18 @@ import java.util.stream.Stream;
 
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class Strings_assertBlank_Test extends StringsBaseTest {
 
-  public static Stream<Arguments> blank() {
-    return Stream.of(Arguments.of((String) null),
-                     Arguments.of(""),
-                     Arguments.of(" "),
-                     Arguments.of("\u005Ct"), // tab
-                     Arguments.of("\u005Cn"), // line feed
-                     Arguments.of("\u005Cr"), // carriage return
-                     Arguments.of(" \u005Cn\u005Cr  "));
+  public static Stream<String> blank() {
+    return Stream.of(null,
+                     "",
+                     " ",
+                     "\u005Ct", // tab
+                     "\u005Cn", // line feed
+                     "\u005Cr", // carriage return
+                     " \u005Cn\u005Cr  ");
   }
 
   @ParameterizedTest
@@ -41,12 +40,12 @@ public class Strings_assertBlank_Test extends StringsBaseTest {
     strings.assertBlank(someInfo(), actual);
   }
 
-  public static Stream<Arguments> notBlank() {
-    return Stream.of(Arguments.of("a"),
-                     Arguments.of(" bc "),
-                     Arguments.of("\u00A0"), // non-breaking space
-                     Arguments.of("\u2007"), // non-breaking space
-                     Arguments.of("\u202F")); // non-breaking space);
+  public static Stream<String> notBlank() {
+    return Stream.of("a",
+                     " bc ",
+                     "\u00A0", // non-breaking space
+                     "\u2007", // non-breaking space
+                     "\u202F"); // non-breaking space);
   }
 
   @ParameterizedTest
