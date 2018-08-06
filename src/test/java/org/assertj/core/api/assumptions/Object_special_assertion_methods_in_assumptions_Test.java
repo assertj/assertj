@@ -50,5 +50,5 @@ public class Object_special_assertion_methods_in_assumptions_Test extends BaseAs
             value -> assumeThat(value).extracting("name", "age")
                                       .contains("Gandalf", 1000))
     };
-  };
+  }
 }
