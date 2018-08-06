@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 /**
  * Mechanism for extending assertion classes.
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
@@ -69,13 +68,23 @@ public interface ExtensionPoints<SELF extends ExtensionPoints<SELF, ACTUAL>, ACT
   SELF doesNotHave(Condition<? super ACTUAL> condition);
 
   /**
-   * Verifies that the actual value satisfies the given condition. This method is an alias for <code>{@link #is(Condition)}</code>
-   * .
+   * Verifies that the actual value satisfies the given condition. This method is an alias for <code>{@link #is(Condition)}</code>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Given
+   * Condition&lt;String&gt; fairyTale = new Condition&lt;&gt;(s -&gt; s.startsWith("Once upon a time"), "fairy tale start");
+   * // When
+   * String littleRedCap = "Once upon a time there was a dear little girl ...";
+   * // Then
+   * assertThat(littleRedCap).satisfies(fairyTale);</code></pre>
+   *
    * @param condition the given condition.
    * @return {@code this ExtensionPoints} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
+   *
+   * @since 3.11
    */
   SELF satisfies(Condition<? super ACTUAL> condition);
 

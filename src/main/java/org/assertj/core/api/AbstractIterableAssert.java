@@ -2191,16 +2191,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Filter the iterable under test keeping only elements matching the given assertions specified with a {@link Consumer}.
    * <p>
-   * Example : check old employees whose age &gt; 100:
+   * Example : check young hobbits whose age &lt; 34:
    *
-   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
-   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
-   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * <pre><code class='java'> TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter merry = new TolkienCharacter("Merry", 36, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan);
+   * List&lt;TolkienCharacter&gt; hobbits = list(frodo, sam, merry, pippin);
    *
-   * assertThat(employees).filteredOnAssertions(employee -&gt; assertThat(employee.getAge()).isGreaterThan(100))
-   *                      .containsOnly(yoda, obiwan);</code></pre>
+   * assertThat(hobbits).filteredOnAssertions(hobbit -&gt; assertThat(hobbit.age).isLessThan(34))
+   *                    .containsOnly(frodo, pippin);</code></pre>
    *
    * @param elementAssertions containing AssertJ assertions to filter on
    * @return a new assertion object with the filtered iterable under test
