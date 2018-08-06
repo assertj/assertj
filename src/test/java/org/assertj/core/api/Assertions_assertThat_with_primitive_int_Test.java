@@ -64,7 +64,7 @@ public class Assertions_assertThat_with_primitive_int_Test {
 
   @Test
   public void should_fail_if_expected_long_is_different_from_actual_int() {
-    assertThatThrownBy(() -> assertThat(123).isEqualTo(456l));
+    assertThatThrownBy(() -> assertThat(123).isEqualTo(456L));
   }
 
   @Test
