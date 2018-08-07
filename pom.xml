@@ -209,8 +209,19 @@
             <configuration>
               <instructions>
                 <Export-Package>org.assertj.core.*</Export-Package>
-                <!-- Don't import what assertj-core exports but import everything else -->
-                <Import-Package>!org.assertj.core.*, *</Import-Package>
+                <!--
+                  Don't import what assertj-core exports but import everything else.
+                  Also need to explicitly import packages that are dynamically loaded using
+                  Class.forName() (org.junit, org.opentest4j and org.testng are needed
+                  by the assumptions engine).
+                -->
+                <Import-Package>
+                  !org.assertj.core.*,
+                  org.junit;resolution:="optional",
+                  org.opentest4j;resolution:="optional",
+                  org.testng;resolution:="optional",
+                  *
+                </Import-Package>
                 <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
                 <_removeheaders>Bnd-LastModified</_removeheaders>
               </instructions>
