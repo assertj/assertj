@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bigintegers;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -35,7 +36,7 @@ public class BigIntegers_assertIsZero_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsZero(someInfo(), BigInteger.ONE))
-                                                   .withMessage("expected:<[0]> but was:<[1]>");
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
   }
 
   @Test
@@ -46,7 +47,7 @@ public class BigIntegers_assertIsZero_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigInteger.ONE))
-                                                   .withMessage("expected:<[0]> but was:<[1]>");
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
   }
 
 }

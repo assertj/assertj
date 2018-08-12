@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -36,7 +37,7 @@ public class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
   @Test
   public void test_isEqualTo_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isEqualTo("03:03:03Z"))
-                                                   .withMessage("expected:<03:0[3:03]Z> but was:<03:0[0:05]Z>");
+                                                   .withMessage(format("%nExpecting:%n <03:00:05Z>%nto be equal to:%n <03:03:03Z>%nbut was not."));
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -53,7 +54,7 @@ public class AbstractAssert_satisfies_with_Consumer_Test {
   public void should_fail_according_to_requirements() {
     Jedi vader = new Jedi("Vader", "Red");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(vader).satisfies(jediRequirements))
-                                                   .withMessage("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
+                                                   .withMessage(format("[check light saber] %nExpecting:%n <\"Red\">%nto be equal to:%n <\"Green\">%nbut was not."));
   }
 
   @Test

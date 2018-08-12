@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,79 +29,86 @@ public class Assertions_assertThat_inBinary_Test {
   public void should_assert_byte_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((byte) 2).inBinary()
                                                                                          .isEqualTo((byte) 3))
-                                                   .withMessage("expected:<0b0000001[1]> but was:<0b0000001[0]>");
+                                                   .withMessage(shouldBeEqualMessage("0b00000010", "0b00000011"));
   }
 
   @Test
   public void should_assert_signed_byte_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((byte) -2).inBinary()
                                                                                           .isEqualTo((byte) 3))
-                                                   .withMessage("expected:<0b[00000011]> but was:<0b[11111110]>");
+                                                   .withMessage(shouldBeEqualMessage("0b11111110", "0b00000011"));
   }
 
   @Test
   public void should_assert_bytes_in_binary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[] { 2,
-        3 }).inBinary()
-            .isEqualTo(new byte[] { 1 })).withMessage("expected:<[0b000000[0]1]> but was:<[0b000000[10, 0b0000001]1]>");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[] { 2, 3 }).inBinary()
+                                                                                                    .isEqualTo(new byte[] { 1 }))
+                                                   .withMessage(shouldBeEqualMessage("[0b00000010, 0b00000011]", "[0b00000001]"));
   }
 
   @Test
   public void should_assert_short_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((short) 2).inBinary()
                                                                                           .isEqualTo((short) 3))
-                                                   .withMessage("expected:<0b00000000_0000001[1]> but was:<0b00000000_0000001[0]>");
+                                                   .withMessage(shouldBeEqualMessage("0b00000000_00000010",
+                                                                                     "0b00000000_00000011"));
   }
 
   @Test
   public void should_assert_signed_short_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((short) -1).inBinary()
                                                                                            .isEqualTo((short) 3))
-                                                   .withMessage("expected:<0b[00000000_000000]11> but was:<0b[11111111_111111]11>");
+                                                   .withMessage(shouldBeEqualMessage("0b11111111_11111111",
+                                                                                     "0b00000000_00000011"));
   }
 
   @Test
   public void should_assert_integer_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(2).inBinary().isEqualTo(3))
-                                                   .withMessage("expected:<...000_00000000_0000001[1]> but was:<...000_00000000_0000001[0]>");
+                                                   .withMessage(shouldBeEqualMessage("0b00000000_00000000_00000000_00000010",
+                                                                                     "0b00000000_00000000_00000000_00000011"));
   }
 
   @Test
   public void should_assert_negative_integer_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(3).inBinary().isEqualTo(-3))
-                                                   .withMessage("expected:<0b[11111111_11111111_11111111_1111110]1> but was:<0b[00000000_00000000_00000000_0000001]1>");
+                                                   .withMessage(shouldBeEqualMessage("0b00000000_00000000_00000000_00000011",
+                                                                                     "0b11111111_11111111_11111111_11111101"));
   }
 
   @Test
   public void should_assert_long_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((long) 2).inBinary().isEqualTo(3))
-                                                   .withMessage("expected:<...000_00000000_0000001[1]> but was:<...000_00000000_0000001[0]>");
+                                                   .withMessage(shouldBeEqualMessage("0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000010",
+                                                                                     "0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000011"));
   }
 
   @Test
   public void should_assert_negative_long_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((long) -2).inBinary().isEqualTo(3))
-                                                   .withMessage("expected:<0b[00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000011]> "
-                                                                + "but was:<0b[11111111_11111111_11111111_11111111_11111111_11111111_11111111_11111110]>");
+                                                   .withMessage(shouldBeEqualMessage("0b11111111_11111111_11111111_11111111_11111111_11111111_11111111_11111110",
+                                                                                     "0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000011"));
   }
 
   @Test
   public void should_assert_float_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(2.1f).inBinary().isEqualTo(3f))
-                                                   .withMessage("expected:<0b01000000_0[1000000_00000000_0000000]0> but was:<0b01000000_0[0000110_01100110_0110011]0>");
+                                                   .withMessage(shouldBeEqualMessage("0b01000000_00000110_01100110_01100110",
+                                                                                     "0b01000000_01000000_00000000_00000000"));
   }
 
   @Test
   public void should_assert_double_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(2.1d).inBinary().isEqualTo(3d))
-                                                   .withMessage("expected:<0b01000000_0000[1000_00000000_00000000_00000000_00000000_00000000_00000000]> "
-                                                                + "but was:<0b01000000_0000[0000_11001100_11001100_11001100_11001100_11001100_11001101]>");
+                                                   .withMessage(shouldBeEqualMessage("0b01000000_00000000_11001100_11001100_11001100_11001100_11001100_11001101",
+                                                                                     "0b01000000_00001000_00000000_00000000_00000000_00000000_00000000_00000000"));
   }
 
   @Test
   public void should_assert_String_in_binary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("ab").inBinary().isEqualTo("a6"))
-                                                   .withMessage("expected:<...0001', '0b00000000_0[01101]10']\"> but was:<...0001', '0b00000000_0[11000]10']\">");
+                                                   .withMessage(shouldBeEqualMessage("\"['0b00000000_01100001', '0b00000000_01100010']\"",
+                                                                                     "\"['0b00000000_01100001', '0b00000000_00110110']\""));
   }
 
 }

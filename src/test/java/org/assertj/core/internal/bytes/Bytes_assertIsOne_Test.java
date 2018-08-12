@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
@@ -44,13 +45,13 @@ public class Bytes_assertIsOne_Test extends BytesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsOne(someInfo(), (byte) 0))
-                                                   .withMessage("expected:<[1]> but was:<[0]>");
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
   }
 
   @Test
   public void should_fail_since_actual_is_not_one_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsOne(someHexInfo(), (byte) 0x00))
-                                                   .withMessage("expected:<0x0[1]> but was:<0x0[0]>");
+                                                   .withMessage(format("%nExpecting:%n <0x00>%nto be equal to:%n <0x01>%nbut was not."));
   }
 
   @Test
@@ -66,13 +67,13 @@ public class Bytes_assertIsOne_Test extends BytesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), (byte) 0))
-                                                   .withMessage("expected:<[1]> but was:<[0]>");
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
   }
 
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsOne(someHexInfo(), (byte) 0x0))
-                                                   .withMessage("expected:<0x0[1]> but was:<0x0[0]>");
+                                                   .withMessage(format("%nExpecting:%n <0x00>%nto be equal to:%n <0x01>%nbut was not."));
   }
 
 }

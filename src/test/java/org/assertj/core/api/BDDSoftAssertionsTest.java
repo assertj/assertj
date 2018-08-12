@@ -217,7 +217,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(8.0d).isEqualTo(9.0d);
     softly.then(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
     softly.then(new File("a"))
-          .overridingErrorMessage("expected:<File(b)> but was:<File(a)>")
+          .overridingErrorMessage(format("%nExpecting:%n <File(a)>%nto be equal to:%n <File(b)>%nbut was not."))
           .isEqualTo(new File("b"));
     softly.then(new Float(12f)).isEqualTo(new Float(13f));
     softly.then(14f).isEqualTo(15f);
@@ -284,53 +284,53 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
     assertThat(errors).hasSize(52);
-    assertThat(errors.get(0)).contains("expected:<[1]> but was:<[0]>");
-    assertThat(errors.get(1)).contains("expected:<[tru]e> but was:<[fals]e>");
-    assertThat(errors.get(2)).contains("expected:<[tru]e> but was:<[fals]e>");
-    assertThat(errors.get(3)).contains("expected:<[[tru]e]> but was:<[[fals]e]>");
-    assertThat(errors.get(4)).contains("expected:<[1]> but was:<[0]>");
-    assertThat(errors.get(5)).contains("expected:<0x0[3]> but was:<0x0[2]>");
-    assertThat(errors.get(6)).contains("expected:<[[5]]> but was:<[[4]]>");
-    assertThat(errors.get(7)).contains("expected:<'[B]'> but was:<'[A]'>");
-    assertThat(errors.get(8)).contains("expected:<'[D]'> but was:<'[C]'>");
-    assertThat(errors.get(9)).contains("expected:<['[F]']> but was:<['[E]']>");
-    assertThat(errors.get(10)).contains("expected:<[b]> but was:<[a]>");
-    assertThat(errors.get(11)).contains("expected:<java.lang.[String]> but was:<java.lang.[Object]>");
-    assertThat(errors.get(12)).contains("expected:<[2000-01-01T00:00:01].000> but was:<[1999-12-31T23:59:59].000>");
-    assertThat(errors.get(13)).contains("expected:<[7].0> but was:<[6].0>");
-    assertThat(errors.get(14)).contains("expected:<[9].0> but was:<[8].0>");
-    assertThat(errors.get(15)).contains("expected:<[1[1].0]> but was:<[1[0].0]>");
-    assertThat(errors.get(16)).contains("expected:<File(b)> but was:<File(a)>");
-    assertThat(errors.get(17)).contains("expected:<1[3].0f> but was:<1[2].0f>");
-    assertThat(errors.get(18)).contains("expected:<1[5].0f> but was:<1[4].0f>");
-    assertThat(errors.get(19)).contains("expected:<[1[7].0f]> but was:<[1[6].0f]>");
+    assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
+    assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
+    assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
+    assertThat(errors.get(3)).contains(format("%nExpecting:%n <[false]>%nto be equal to:%n <[true]>%nbut was not."));
+    assertThat(errors.get(4)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
+    assertThat(errors.get(5)).contains(format("%nExpecting:%n <0x02>%nto be equal to:%n <0x03>%nbut was not."));
+    assertThat(errors.get(6)).contains(format("%nExpecting:%n <[4]>%nto be equal to:%n <[5]>%nbut was not."));
+    assertThat(errors.get(7)).contains(format("%nExpecting:%n <'A'>%nto be equal to:%n <'B'>%nbut was not."));
+    assertThat(errors.get(8)).contains(format("%nExpecting:%n <'C'>%nto be equal to:%n <'D'>%nbut was not."));
+    assertThat(errors.get(9)).contains(format("%nExpecting:%n <['E']>%nto be equal to:%n <['F']>%nbut was not."));
+    assertThat(errors.get(10)).contains(format("%nExpecting:%n <a>%nto be equal to:%n <b>%nbut was not."));
+    assertThat(errors.get(11)).contains(format("%nExpecting:%n <java.lang.Object>%nto be equal to:%n <java.lang.String>%nbut was not."));
+    assertThat(errors.get(12)).contains(format("%nExpecting:%n <1999-12-31T23:59:59.000>%nto be equal to:%n <2000-01-01T00:00:01.000>%nbut was not."));
+    assertThat(errors.get(13)).contains(format("%nExpecting:%n <6.0>%nto be equal to:%n <7.0>%nbut was not."));
+    assertThat(errors.get(14)).contains(format("%nExpecting:%n <8.0>%nto be equal to:%n <9.0>%nbut was not."));
+    assertThat(errors.get(15)).contains(format("%nExpecting:%n <[10.0]>%nto be equal to:%n <[11.0]>%nbut was not."));
+    assertThat(errors.get(16)).contains(format("%nExpecting:%n <File(a)>%nto be equal to:%n <File(b)>%nbut was not."));
+    assertThat(errors.get(17)).contains(format("%nExpecting:%n <12.0f>%nto be equal to:%n <13.0f>%nbut was not."));
+    assertThat(errors.get(18)).contains(format("%nExpecting:%n <14.0f>%nto be equal to:%n <15.0f>%nbut was not."));
+    assertThat(errors.get(19)).contains(format("%nExpecting:%n <[16.0f]>%nto be equal to:%n <[17.0f]>%nbut was not."));
     assertThat(errors.get(20)).contains(format("%nInputStreams do not have same content:%n%n"
                                                + "Changed content at line 1:%n"
                                                + "expecting:%n"
                                                + "  [\"B\"]%n"
                                                + "but was:%n"
                                                + "  [\"A\"]%n"));
-    assertThat(errors.get(21)).contains("expected:<2[1]> but was:<2[0]>");
-    assertThat(errors.get(22)).contains("expected:<2[3]> but was:<2[2]>");
-    assertThat(errors.get(23)).contains("expected:<[2[5]]> but was:<[2[4]]>");
-    assertThat(errors.get(24)).contains("expected:<[\"2[7]\"]> but was:<[\"2[6]\"]>");
+    assertThat(errors.get(21)).contains(format("%nExpecting:%n <20>%nto be equal to:%n <21>%nbut was not."));
+    assertThat(errors.get(22)).contains(format("%nExpecting:%n <22>%nto be equal to:%n <23>%nbut was not."));
+    assertThat(errors.get(23)).contains(format("%nExpecting:%n <[24]>%nto be equal to:%n <[25]>%nbut was not."));
+    assertThat(errors.get(24)).contains(format("%nExpecting:%n <[\"26\"]>%nto be equal to:%n <[\"27\"]>%nbut was not."));
     assertThat(errors.get(25)).contains(format("%nExpecting:%n" +
                                                " <[\"28\"]>%n" +
                                                "to contain:%n" +
                                                " <[\"29\"]>%n" +
                                                "but could not find:%n" +
                                                " <[\"29\"]>%n"));
-    assertThat(errors.get(26)).contains("expected:<[\"3[1]\"]> but was:<[\"3[0]\"]>");
-    assertThat(errors.get(27)).contains("expected:<3[3]L> but was:<3[2]L>");
-    assertThat(errors.get(28)).contains("expected:<3[5]L> but was:<3[4]L>");
-    assertThat(errors.get(29)).contains("expected:<[3[7]L]> but was:<[3[6]L]>");
-    assertThat(errors.get(30)).contains("expected:<{\"[40\"=\"41]\"}> but was:<{\"[38\"=\"39]\"}>");
-    assertThat(errors.get(31)).contains("expected:<4[3]> but was:<4[2]>");
-    assertThat(errors.get(32)).contains("expected:<4[5]> but was:<4[4]>");
-    assertThat(errors.get(33)).contains("expected:<[4[7]]> but was:<[4[6]]>");
-    assertThat(errors.get(34)).contains("expected:<\"4[9]\"> but was:<\"4[8]\">");
-    assertThat(errors.get(35)).contains("expected:<5[1]> but was:<5[0]>");
-    assertThat(errors.get(36)).contains("expected:<[5[3]]> but was:<[5[2]]>");
+    assertThat(errors.get(26)).contains(format("%nExpecting:%n <[\"30\"]>%nto be equal to:%n <[\"31\"]>%nbut was not."));
+    assertThat(errors.get(27)).contains(format("%nExpecting:%n <32L>%nto be equal to:%n <33L>%nbut was not."));
+    assertThat(errors.get(28)).contains(format("%nExpecting:%n <34L>%nto be equal to:%n <35L>%nbut was not."));
+    assertThat(errors.get(29)).contains(format("%nExpecting:%n <[36L]>%nto be equal to:%n <[37L]>%nbut was not."));
+    assertThat(errors.get(30)).contains(format("%nExpecting:%n <{\"38\"=\"39\"}>%nto be equal to:%n <{\"40\"=\"41\"}>%nbut was not."));
+    assertThat(errors.get(31)).contains(format("%nExpecting:%n <42>%nto be equal to:%n <43>%nbut was not."));
+    assertThat(errors.get(32)).contains(format("%nExpecting:%n <44>%nto be equal to:%n <45>%nbut was not."));
+    assertThat(errors.get(33)).contains(format("%nExpecting:%n <[46]>%nto be equal to:%n <[47]>%nbut was not."));
+    assertThat(errors.get(34)).contains(format("%nExpecting:%n <\"48\">%nto be equal to:%n <\"49\">%nbut was not."));
+    assertThat(errors.get(35)).contains(format("%nExpecting:%n <50>%nto be equal to:%n <51>%nbut was not."));
+    assertThat(errors.get(36)).contains(format("%nExpecting:%n <[52]>%nto be equal to:%n <[53]>%nbut was not."));
     assertThat(errors.get(37)).contains(format("%nExpecting message:%n"
                                                + " <\"NullPointerException message\">%n"
                                                + "but was:%n"
@@ -345,12 +345,12 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
                                                + "but could not find:%n"
                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
-    assertThat(errors.get(40)).contains("expected:<1[3]:00> but was:<1[2]:00>");
-    assertThat(errors.get(41)).contains("expected:<1[3]:00Z> but was:<1[2]:00Z>");
-    assertThat(errors.get(42)).contains("expected:<[\"empty\"]> but was:<[Optional[not empty]]>");
-    assertThat(errors.get(43)).contains("expected:<[1]> but was:<[OptionalInt[0]]>");
-    assertThat(errors.get(44)).contains("expected:<[1.0]> but was:<[OptionalDouble[0.0]]>");
-    assertThat(errors.get(45)).contains("expected:<[1L]> but was:<[OptionalLong[0]]>");
+    assertThat(errors.get(40)).contains(format("%nExpecting:%n <12:00>%nto be equal to:%n <13:00>%nbut was not."));
+    assertThat(errors.get(41)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
+    assertThat(errors.get(42)).contains(format("%nExpecting:%n <Optional[not empty]>%nto be equal to:%n <\"empty\">%nbut was not."));
+    assertThat(errors.get(43)).contains(format("%nExpecting:%n <OptionalInt[0]>%nto be equal to:%n <1>%nbut was not."));
+    assertThat(errors.get(44)).contains(format("%nExpecting:%n <OptionalDouble[0.0]>%nto be equal to:%n <1.0>%nbut was not."));
+    assertThat(errors.get(45)).contains(format("%nExpecting:%n <OptionalLong[0]>%nto be equal to:%n <1L>%nbut was not."));
     assertThat(errors.get(46)).contains("Expecting port of");
     assertThat(errors.get(47)).contains("to have failed");
     assertThat(errors.get(48)).contains(format("%nExpecting:%n  <given predicate>%n"

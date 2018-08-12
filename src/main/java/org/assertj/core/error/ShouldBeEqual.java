@@ -113,16 +113,21 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    */
   @Override
   public AssertionError newAssertionError(Description description, Representation representation) {
+    String message = smartErrorMessage(description, representation);
     // only use JUnit error message if the comparison strategy used was standard, otherwise we need to mention
     // comparison strategy in the assertion error message to make it clear to the user it was used.
     if (comparisonStrategy.isStandard() && !actualAndExpectedHaveSameStringRepresentation()) {
-      // comparison strategy is standard -> try to build a JUnit ComparisonFailure that is nicely displayed in IDEs.
+      // comparison strategy is standard -> try to build an AssertionFailedError used in JUnit 5 that is nicely displayed in IDEs
+      AssertionError assertionFailedError = assertionFailedError(message);
+      // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
+      if (assertionFailedError != null) return assertionFailedError;
+      // Junit5 was not used, try to build a JUnit ComparisonFailure that is nicely displayed in IDEs
       AssertionError error = comparisonFailure(description);
-      // error != null means that JUnit 4 was in the classpath and we were to build a ComparisonFailure.
+      // error != null means that JUnit 4 was in the classpath and we build a ComparisonFailure.
       if (error != null) return error;
     }
-    String message = smartErrorMessage(description, representation);
     AssertionError assertionFailedError = assertionFailedError(message);
+    // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
     if (assertionFailedError != null) return assertionFailedError;
     // No JUnit in the classpath => fall back to default error message
     return Failures.instance().failure(message);
@@ -134,7 +139,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
 
   /**
    * Builds and returns an error message from the given description using {@link #expected} and {@link #actual} basic
-   * representation if their description differ otherwise use 
+   * representation if their description differ otherwise use
    * {@link #defaultDetailedErrorMessage(Description, Representation)} to represent them differently.
    *
    * @param description the {@link Description} used to build the returned error message
@@ -150,7 +155,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       // "java.lang.String expected:java.lang.String<42.0> but was: java.lang.String<42.0>"
       // which makes things even more confusing since we lost the fact that 42 was a float or a double.
       // It is therefore better to built our own description without using ComparisonFailure, the
-      // only drawbacj is that it won't look nice in IDEs.
+      // only drawback is that it won't look nice in IDEs.
       return defaultDetailedErrorMessage(description, representation);
     }
     return comparisonStrategy.isStandard()
@@ -172,8 +177,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   private String defaultDetailedErrorMessage(Description description, Representation representation) {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
       return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
-                                     detailedActual(),
-                                     detailedExpected(), comparisonStrategy);
+                                     detailedActual(), detailedExpected(), comparisonStrategy);
     return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedActual(),
                                    detailedExpected());
   }
@@ -185,7 +189,11 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                                 message,
                                                 expected,
                                                 actual);
-      if (o instanceof AssertionError) return (AssertionError) o;
+      if (o instanceof AssertionError) {
+        AssertionError assertionError = (AssertionError) o;
+        Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+        return assertionError;
+      }
       return null;
     } catch (Throwable e) {
       return null;
@@ -237,4 +245,5 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     result = HASH_CODE_PRIME * result + hashCodeFor(expected);
     return result;
   }
+
 }

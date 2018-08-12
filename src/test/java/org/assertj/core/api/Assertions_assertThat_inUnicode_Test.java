@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -27,19 +28,19 @@ public class Assertions_assertThat_inUnicode_Test {
   @Test
   public void should_assert_String_in_unicode() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c").inUnicode().isEqualTo("abó"))
-                                                   .withMessage("expected:<a[b\\u00f3]> but was:<a[6c]>");
+                                                   .withMessage(format("%nExpecting:%n <a6c>%nto be equal to:%n <ab\\u00f3>%nbut was not."));
   }
 
   @Test
   public void should_assert_Character_in_unicode() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat('o').inUnicode().isEqualTo('ó'))
-                                                   .withMessage("expected:<[\\u00f3]> but was:<[o]>");
+                                                   .withMessage(format("%nExpecting:%n <o>%nto be equal to:%n <\\u00f3>%nbut was not."));
   }
 
   @Test
   public void should_assert_char_array_in_unicode_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c".toCharArray()).inUnicode()
                                                                                                     .isEqualTo("abó".toCharArray()))
-                                                   .withMessage("expected:<[a, [b, \\u00f3]]> but was:<[a, [6, c]]>");
+                                                   .withMessage(format("%nExpecting:%n <[a, 6, c]>%nto be equal to:%n <[a, b, \\u00f3]>%nbut was not."));
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Only test String based assertion (tests with {@link java.time.OffsetDateTime} are already defined in assertj-core)
- * 
+ *
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
@@ -44,7 +45,7 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends OffsetDateTimeAssertBas
   @Test
   public void test_isEqualTo_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isEqualTo(of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
-                                                   .withMessage("expected:<20[12-01-01T03:03:03]Z> but was:<20[00-01-05T03:00:05]Z>");
+                                                   .withMessage(format("%nExpecting:%n <2000-01-05T03:00:05Z>%nto be equal to:%n <2012-01-01T03:03:03Z>%nbut was not."));
   }
 
   @Test

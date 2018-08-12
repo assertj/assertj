@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.integers;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -23,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Integers#assertIsNegative(AssertionInfo, Integer)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -37,7 +38,7 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsZero(someInfo(), 2))
-                                                   .withMessage("expected:<[0]> but was:<[2]>");
+                                                   .withMessage(format("%nExpecting:%n <2>%nto be equal to:%n <0>%nbut was not."));
   }
 
   @Test
@@ -48,7 +49,7 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 1))
-                                                   .withMessage("expected:<[0]> but was:<[1]>");
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
   }
 
 }

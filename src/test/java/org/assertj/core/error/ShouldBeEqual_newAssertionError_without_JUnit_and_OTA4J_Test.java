@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -66,13 +67,13 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
   }
 
   private void check(AssertionError error) throws Exception {
-    verify(constructorInvoker).newInstance(ComparisonFailure.class.getName(),
-                                           new Class<?>[] { String.class, String.class, String.class },
-                                           "[Jedi]", "\"Yoda\"", "\"Luke\"");
-    verify(constructorInvoker).newInstance(AssertionFailedError.class.getName(),
+    verify(constructorInvoker, times(2)).newInstance(AssertionFailedError.class.getName(),
                                            new Class<?>[] { String.class, Object.class, Object.class },
                                            String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
                                            "Yoda", "Luke");
+    verify(constructorInvoker).newInstance(ComparisonFailure.class.getName(),
+                                           new Class<?>[] { String.class, String.class, String.class },
+                                           "[Jedi]", "\"Yoda\"", "\"Luke\"");
     assertThat(error).isNotInstanceOfAny(ComparisonFailure.class, AssertionFailedError.class)
                      .hasMessage(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.perf;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -204,7 +205,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThat(8.0d).isEqualTo(9.0d);
     softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
     softly.assertThat(new File("a"))
-          .overridingErrorMessage("expected:<File(b)> but was:<File(a)>")
+          .overridingErrorMessage(format("%nExpecting:%n <File(a)>%nto be equal to:%n <File(b)>%nbut was not."))
           .isEqualTo(new File("b"));
     softly.assertThat(new Float(12f)).isEqualTo(new Float(13f));
     softly.assertThat(14f).isEqualTo(15f);

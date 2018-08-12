@@ -12,8 +12,10 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -21,16 +23,15 @@ import java.util.stream.Stream;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.ComparisonFailure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Dan Corder
  */
@@ -43,21 +44,25 @@ public class ShouldBeEqual_newAssertionError_Test {
   @BeforeEach
   public void setUp() {
     description = new TestDescription("Jedi");
-    factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", new StandardRepresentation());
+    factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
     factory.descriptionFormatter = mock(DescriptionFormatter.class);
     formatter = factory.descriptionFormatter;
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_create_ComparisonFailure_if_JUnit4_is_present_and_trim_spaces_in_formatted_description(String formattedDescription) {
+  public void should_create_AssertionFailedError_if_JUnit5_is_present_and_trim_spaces_in_formatted_description(String formattedDescription) {
     // GIVEN
     given(formatter.format(description)).willReturn(formattedDescription);
     // WHEN
-    AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
+    AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
-    assertThat(error).isInstanceOf(ComparisonFailure.class)
-                     .hasMessage("[Jedi] expected:<\"[Yoda]\"> but was:<\"[Luke]\">");
+    assertThat(error).isInstanceOf(AssertionFailedError.class)
+                     .hasMessage(format("[Jedi] %nExpecting:%n" +
+                                        " <\"Luke\">%n" +
+                                        "to be equal to:%n" +
+                                        " <\"Yoda\">%n" +
+                                        "but was not."));
   }
 
   public static Stream<Arguments> parameters() {

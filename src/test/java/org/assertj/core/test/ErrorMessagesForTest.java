@@ -10,25 +10,14 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.error;
+package org.assertj.core.test;
 
-import org.assertj.core.description.Description;
-import org.assertj.core.presentation.Representation;
+import static java.lang.String.format;
 
-/**
- * Factory of <code>{@link AssertionError}</code>s.
- *
- * @author Alex Ruiz
- * @author Yvonne Wang
- */
-public interface AssertionErrorFactory {
+public class ErrorMessagesForTest {
 
-  /**
-   * Creates an <code>{@link AssertionError}</code>.
-   * @param d the description of the failed assertion.
-   * @param representation the Representation used
-   * @return the created {@code AssertionError}.
-   */
-  AssertionError newAssertionError(Description d, Representation representation);
+  public static String shouldBeEqualMessage(String actual, String expected) {
+    return format("%nExpecting:%n <" + actual + ">%nto be equal to:%n <" + expected + ">%nbut was not.");
+  }
 
 }

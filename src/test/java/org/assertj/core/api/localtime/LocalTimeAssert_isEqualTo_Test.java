@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localtime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -34,7 +35,7 @@ public class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
   @Test
   public void test_isEqualTo_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalTime.of(3, 0, 5)).isEqualTo("03:03:03"))
-                                                   .withMessage("expected:<03:0[3:03]> but was:<03:0[0:05]>");
+                                                   .withMessage(format("%nExpecting:%n <03:00:05>%nto be equal to:%n <03:03:03>%nbut was not."));
   }
 
   @Test

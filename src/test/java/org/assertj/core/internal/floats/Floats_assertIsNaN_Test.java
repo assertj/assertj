@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.floats;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -23,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Floats#assertIsNaN(AssertionInfo, Float)}</code>.
- * 
+ *
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
@@ -37,7 +38,7 @@ public class Floats_assertIsNaN_Test extends FloatsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNaN(someInfo(), 6.0f))
-                                                   .withMessage("expected:<[NaN]f> but was:<[6.0]f>");
+                                                   .withMessage(format("%nExpecting:%n <6.0f>%nto be equal to:%n <NaNf>%nbut was not."));
   }
 
   @Test
@@ -48,6 +49,6 @@ public class Floats_assertIsNaN_Test extends FloatsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6.0f))
-                                                   .withMessage("expected:<[NaN]f> but was:<[6.0]f>");
+                                                   .withMessage(format("%nExpecting:%n <6.0f>%nto be equal to:%n <NaNf>%nbut was not."));
   }
 }

@@ -111,13 +111,14 @@ public final class Throwables {
    * @param throwable the {@code Throwable} to filter stack trace.
    */
   public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {
+    if (throwable == null) return;
     List<StackTraceElement> filtered = newArrayList(throwable.getStackTrace());
     StackTraceElement previous = null;
     for (StackTraceElement element : throwable.getStackTrace()) {
       if (element.getClassName().contains(ORG_ASSERTJ)) {
         filtered.remove(element);
-        // Handle the case when AssertJ builds a ComparisonFailure by reflection (see ShouldBeEqual.newAssertionError
-        // method), the stack trace looks like:
+        // Handle the case when AssertJ builds a ComparisonFailure/AssertionFailedError by reflection
+        // (see ShouldBeEqual.newAssertionError method), the stack trace looks like:
         //
         // java.lang.reflect.Constructor.newInstance(Constructor.java:501),
         // org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34),

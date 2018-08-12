@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.double_;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -65,7 +66,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
       assertThat(notZero).isZero();
     } catch (AssertionError e) {
       // THEN
-      assertThat(e).hasMessage("expected:<[0].0> but was:<[1].0>");
+      assertThat(e).hasMessage(format("%nExpecting:%n <1.0>%nto be equal to:%n <0.0>%nbut was not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -80,7 +81,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
       assertThat(negativeZero).isZero();
     } catch (AssertionError e) {
       // THEN
-      assertThat(e).hasMessage("expected:<[]0.0> but was:<[-]0.0>");
+      assertThat(e).hasMessage(format("%nExpecting:%n <-0.0>%nto be equal to:%n <0.0>%nbut was not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -27,7 +28,7 @@ import org.junit.jupiter.api.Test;
 
 public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest {
 
-  // init here to make it available in create_assertions() 
+  // init here to make it available in create_assertions()
   private Jedi yoda = new Jedi("Yoda", "Green");
   private Jedi luke = new Jedi("Luke Skywalker", "Green");
   private Consumer<Jedi> jediRequirements;
@@ -39,12 +40,12 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
       assertThat(jedi.getName()).as("check name").doesNotContain("Dark");
     };
   }
-  
+
   @Override
   protected ConcreteAssert create_assertions() {
     return new ConcreteAssert(yoda);
   }
-  
+
   @Override
   protected ConcreteAssert invoke_api_method() {
     return assertions.isInstanceOfSatisfying(Jedi.class, jediRequirements);
@@ -54,7 +55,7 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
   protected void verify_internal_effects() {
     verify(objects).assertIsInstanceOf(getInfo(assertions), getActual(assertions), Jedi.class);
   }
-  
+
   @Test
   public void should_satisfy_single_requirement() {
     assertThat(yoda).isInstanceOfSatisfying(Jedi.class, jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"));
@@ -69,7 +70,7 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
   @Test
   public void should_fail_according_to_requirements() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements))
-                                                   .withMessage("[check light saber] expected:<\"[Green]\"> but was:<\"[Red]\">");
+                                                   .withMessage(format("[check light saber] %nExpecting:%n <\"Red\">%nto be equal to:%n <\"Green\">%nbut was not."));
   }
 
   @Test

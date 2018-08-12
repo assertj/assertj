@@ -21,10 +21,9 @@ import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.LongsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Longs#assertIsZero(AssertionInfo, Long)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -38,7 +37,7 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsZero(someInfo(), 2L))
-                                                   .withMessage("expected:<[0]L> but was:<[2]L>");
+                                                   .withMessage(format("%nExpecting:%n <2L>%nto be equal to:%n <0L>%nbut was not."));
   }
 
   @Test
@@ -48,7 +47,8 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
+                                                                                                                         0L))
                                                    .withMessage(format("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n"));
   }
 
