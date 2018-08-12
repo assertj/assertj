@@ -12,17 +12,21 @@
  */
 package org.assertj.core.api.iterable;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#containsAnyOf(Object[])} }</code>.
+ * Tests for <code>{@link AbstractIterableAssert#containsAnyElementsOf(Iterable)}}</code>.
  *
  * @author Marko Bekhta
  */
@@ -38,6 +42,15 @@ public class IterableAssert_containsAnyElementsOf_Test extends IterableAssertBas
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertContainsAnyOf(getInfo(assertions), getActual(assertions), iterable.toArray());
+  }
+
+  @Test
+  public void should_allow_assertion_on_values_extracted_from_given_map_keys() {
+    Map<Object, Object> map = new HashMap<>();
+    map.put("foo", "bar");
+
+    assertThat(map).extracting("foo")
+      .containsAnyElementsOf(iterable);
   }
 
 }

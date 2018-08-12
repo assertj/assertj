@@ -1312,7 +1312,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the {@code Iterable} under test does not contain any of elements from the given {@code Iterable}.
    * @since 2.9.0 / 3.9.0
    */
-  SELF containsAnyElementsOf(Iterable<ELEMENT> iterable);
+  SELF containsAnyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
    * Verifies that no elements match the given {@link Predicate}.

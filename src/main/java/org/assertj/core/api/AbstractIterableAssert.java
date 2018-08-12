@@ -745,7 +745,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 2.9.0 / 3.9.0
    */
   @Override
-  public SELF containsAnyElementsOf(Iterable<ELEMENT> iterable) {
+  public SELF containsAnyElementsOf(Iterable<? extends ELEMENT> iterable) {
     return containsAnyOf(toArray(iterable));
   }
 

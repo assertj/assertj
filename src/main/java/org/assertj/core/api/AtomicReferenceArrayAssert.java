@@ -2872,7 +2872,7 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.9.0 / 3.9.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsAnyElementsOf(Iterable<T> iterable) {
+  public AtomicReferenceArrayAssert<T> containsAnyElementsOf(Iterable<? extends T> iterable) {
     return containsAnyOf(toArray(iterable));
   }
 
