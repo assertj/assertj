@@ -35,7 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Throwable}</code>s.
- * 
+ *
  * @author Joel Costigliola
  * @author Libor Ondrusek
  */
@@ -45,7 +45,7 @@ public class Throwables {
 
   /**
    * Returns the singleton instance of this class.
-   * 
+   *
    * @return the singleton instance of this class.
    */
   public static Throwables instance() {
@@ -60,17 +60,17 @@ public class Throwables {
 
   /**
    * Asserts that the given actual {@code Throwable} message is equal to the given one.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
-   * @param message the expected message.
+   * @param expectedMessage the expected message.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
    */
-  public void assertHasMessage(AssertionInfo info, Throwable actual, String message) {
+  public void assertHasMessage(AssertionInfo info, Throwable actual, String expectedMessage) {
     assertNotNull(info, actual);
-    if (areEqual(actual.getMessage(), message)) return;
-    throw failures.failure(info, shouldHaveMessage(actual, message));
+    if (areEqual(actual.getMessage(), expectedMessage)) return;
+    throw failures.failure(info, shouldHaveMessage(actual, expectedMessage), actual.getMessage(), expectedMessage);
   }
 
   public void assertHasCause(AssertionInfo info, Throwable actual, Throwable expectedCause) {
@@ -88,7 +88,7 @@ public class Throwables {
 
   /**
    * Asserts that the actual {@code Throwable} does not have a cause.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
@@ -103,7 +103,7 @@ public class Throwables {
 
   /**
    * Asserts that the message of the actual {@code Throwable} starts with the given description.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param description the description expected to start the actual {@code Throwable}'s message.
@@ -118,7 +118,7 @@ public class Throwables {
 
   /**
    * Asserts that the message of the actual {@code Throwable} contains with the given description.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param description the description expected to be contained in the actual {@code Throwable}'s message.
@@ -133,7 +133,7 @@ public class Throwables {
 
   /**
    * Asserts that the stack trace of the actual {@code Throwable} contains with the given description.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
@@ -166,7 +166,7 @@ public class Throwables {
 
   /**
    * Asserts that the message of the actual {@code Throwable} ends with the given description.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param description the description expected to end the actual {@code Throwable}'s message.
@@ -181,7 +181,7 @@ public class Throwables {
 
   /**
    * Assert that the cause of actual {@code Throwable} is an instance of the given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param type the expected cause type.
@@ -199,7 +199,7 @@ public class Throwables {
 
   /**
    * Assert that the cause of actual {@code Throwable} is <b>exactly</b> an instance of the given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param type the expected cause type.
@@ -219,7 +219,7 @@ public class Throwables {
 
   /**
    * Assert that the root cause of actual {@code Throwable} is an instance of the given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param type the expected cause type.
@@ -237,7 +237,7 @@ public class Throwables {
 
   /**
    * Assert that the root cause of actual {@code Throwable} is <b>exactly</b> an instance of the given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param type the expected cause type.

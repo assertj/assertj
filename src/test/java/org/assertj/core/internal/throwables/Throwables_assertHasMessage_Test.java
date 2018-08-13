@@ -12,11 +12,11 @@
  */
 package org.assertj.core.internal.throwables;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Throwables#assertHasMessage(AssertionInfo, Throwable, String)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 public class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
@@ -50,7 +50,7 @@ public class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
       throwables.assertHasMessage(info, actual, "expected message");
       fail("AssertionError expected");
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveMessage(actual, "expected message"));
+      verify(failures).failure(info, shouldHaveMessage(actual, "expected message"), "Throwable message", "expected message");
     }
   }
 }
