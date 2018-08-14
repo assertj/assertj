@@ -17,7 +17,7 @@ import org.assertj.core.internal.Failures;
 
 /**
  * Common failures.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -26,7 +26,7 @@ public final class Fail {
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
-   * 
+   *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
@@ -35,33 +35,39 @@ public final class Fail {
 
   /**
    * Throws an {@link AssertionError} with the given message.
-   * 
+   *
+   * @param <T> dummy return value type
    * @param failureMessage error message.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom")));.
    * @throws AssertionError with the given message.
    */
-  public static void fail(String failureMessage) {
+  public static <T> T fail(String failureMessage) {
     throw Failures.instance().failure(failureMessage);
   }
 
   /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
-   * 
+   *
+   * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
    * @throws AssertionError with the given built message.
    */
-  public static void fail(String failureMessage, Object... args) {
-    fail(String.format(failureMessage, args));
+  public static <T> T fail(String failureMessage, Object... args) {
+    return fail(String.format(failureMessage, args));
   }
 
   /**
    * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that caused the failure.
-   * 
+   *
+   * @param <T> dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
-  public static void fail(String failureMessage, Throwable realCause) {
+  public static <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
     throw error;
@@ -70,26 +76,30 @@ public final class Fail {
   /**
    * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
-   * 
+   *
+   * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; failBecauseExceptionWasNotThrown(IOException.class)));.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    *
    * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
-  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
-    shouldHaveThrown(throwableClass);
+  public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+    return shouldHaveThrown(throwableClass);
   }
 
   /**
    * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
-   * 
+   *
+   * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
-  public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+  public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     throw Failures.instance().expectedThrowableNotThrown(throwableClass);
   }
 
