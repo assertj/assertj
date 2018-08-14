@@ -44,7 +44,7 @@ import org.assertj.core.api.Assertions;
 public interface Representation {
 
   /**
-   * Returns the {@code String} representation of the given object. It may or not the object's own implementation of
+   * Returns the {@code String} representation of the given object. It may or may not be the object's own implementation of
    * {@code toString}.
    *
    * @param object the object to represent.
@@ -53,11 +53,11 @@ public interface Representation {
   String toStringOf(Object object);
 
   /**
-   * Returns the {@code String} representation of the given object with its type and hexadecimal hash code so that 
-   * it can be differentied from other objects with the same {@link #toStringOf(Object)} representation.
+   * Returns the {@code String} representation of the given object with its type and hexadecimal identity hash code so that
+   * it can be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
    *
    * @param object the object to represent.
-   * @return the {@code toString} representation of the given object.
+   * @return the unambiguous {@code toString} representation of the given object.
    */
   String unambiguousToStringOf(Object object);
 
