@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 public class Assertions_fail_Test {
@@ -36,5 +37,12 @@ public class Assertions_fail_Test {
     Throwable cause = new Throwable();
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Assertions.fail(message, cause))
                                                    .withMessage(message).withCause(cause);
+  }
+
+  @Test
+  public void should_return_a_value() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      int i = Optional.<Integer>empty().orElseGet(() -> Assertions.fail("Failed :("));
+    }).withMessage("Failed :(");
   }
 }

@@ -1329,8 +1329,8 @@ public class Assertions {
    * @param failureMessage error message.
    * @throws AssertionError with the given message.
    */
-  public static void fail(String failureMessage) {
-    Fail.fail(failureMessage);
+  public static <T> T fail(String failureMessage) {
+    return Fail.fail(failureMessage);
   }
 
   /**
@@ -1340,8 +1340,8 @@ public class Assertions {
    * @param args Arguments referenced by the format specifiers in the format string.
    * @throws AssertionError with the given built message.
    */
-  public static void fail(String failureMessage, Object... args) {
-    Fail.fail(failureMessage, args);
+  public static <T> T fail(String failureMessage, Object... args) {
+    return Fail.fail(failureMessage, args);
   }
 
   /**
@@ -1350,8 +1350,8 @@ public class Assertions {
    * @param realCause cause of the error.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
-  public static void fail(String failureMessage, Throwable realCause) {
-    Fail.fail(failureMessage, realCause);
+  public static <T> T fail(String failureMessage, Throwable realCause) {
+    return Fail.fail(failureMessage, realCause);
   }
 
   /**
@@ -1365,8 +1365,8 @@ public class Assertions {
    *           not been.
    *
    */
-  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
-    Fail.shouldHaveThrown(throwableClass);
+  public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+    return Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
@@ -1376,8 +1376,8 @@ public class Assertions {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
-  public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
-    Fail.shouldHaveThrown(throwableClass);
+  public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+    return Fail.shouldHaveThrown(throwableClass);
   }
 
   /**
