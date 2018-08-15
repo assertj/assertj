@@ -1380,6 +1380,7 @@ public class Assertions {
   /**
    * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
+   * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
