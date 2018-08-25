@@ -202,6 +202,13 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasOnlyOneElementSatisfying(Consumer<T> elementAssertions) {
+    iterables.assertHasOnlyOneElementSatisfying(info, newArrayList(array), elementAssertions);
+    return myself;
+  }
+
   /**
    * Verifies that the actual AtomicReferenceArray has the same size as the given array.
    * <p>
