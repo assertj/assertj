@@ -99,6 +99,8 @@ import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
  * type-specific assertion object.
@@ -1331,6 +1333,7 @@ public class Assertions {
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom")));.
    * @throws AssertionError with the given message.
    */
+  @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage) {
     return Fail.fail(failureMessage);
   }
@@ -1344,6 +1347,7 @@ public class Assertions {
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
    * @throws AssertionError with the given built message.
    */
+  @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Object... args) {
     return Fail.fail(failureMessage, args);
   }
@@ -1356,6 +1360,7 @@ public class Assertions {
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
+  @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Throwable realCause) {
     return Fail.fail(failureMessage, realCause);
   }
@@ -1373,6 +1378,7 @@ public class Assertions {
    *           not been.
    *
    */
+  @CanIgnoreReturnValue
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     return Fail.shouldHaveThrown(throwableClass);
   }
@@ -1386,6 +1392,7 @@ public class Assertions {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
+  @CanIgnoreReturnValue
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     return Fail.shouldHaveThrown(throwableClass);
   }
