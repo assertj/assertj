@@ -94,12 +94,11 @@ import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
+import org.assertj.core.util.CanIgnoreReturnValue;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
-
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
