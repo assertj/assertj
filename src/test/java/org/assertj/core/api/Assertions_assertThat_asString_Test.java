@@ -12,11 +12,10 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for Assert.asString() methods
@@ -25,16 +24,28 @@ public class Assertions_assertThat_asString_Test {
 
   @Test
   public void should_pass_string_asserts_on_string_objects_with_asString() {
-	Object stringAsObject = "hello world";
-	assertThat(stringAsObject).asString().contains("hello");
+    Object stringAsObject = "hello world";
+    assertThat(stringAsObject).asString().contains("hello");
   }
 
   @Test
-  public void should_fail_string_asserts_on_non_string_objects_even_with_asString() {
+  public void should_pass_string_asserts_on_non_string_objects_with_asString() {
     Object nonString = new Object();
+    assertThat(nonString).asString().isEqualTo(nonString.toString());
+  }
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(nonString).asString().contains("hello"))
-                                                   .withMessageContaining(format("an instance of:%n  <java.lang.String>%nbut was instance of:%n  <java.lang.Object>"));
+  @Test
+  public void should_fail_string_asserts_on_non_string_objects_with_asString() {
+    Object nonString = new Object();
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(nonString).asString().contains("probably not this"));
+  }
+
+  @Test
+  public void should_fail_if_actual_is_null_with_asString() {
+    Object nullObject = null;
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(nullObject).asString().isEqualTo("never gonna happen"));
   }
 
 }

@@ -456,8 +456,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   @CheckReturnValue
   public AbstractStringAssert<?> asString() {
-    objects.assertIsInstanceOf(info, actual, String.class);
-    return Assertions.assertThat((String) actual);
+    objects.assertNotNull(info, actual);
+    return Assertions.assertThat(actual.toString());
   }
 
   /**
