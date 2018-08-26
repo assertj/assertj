@@ -23,6 +23,11 @@ import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+/**
+ * Tests for <code>{@link AtomicReferenceArrayAssert#hasOnlyOneElementSatisfying(Consumer)}</code>.
+ *
+ * @author Vladimir Chernikov
+ */
 public class AtomicReferenceArrayAssert_hasOnlyOneElementSatisfying_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Mock

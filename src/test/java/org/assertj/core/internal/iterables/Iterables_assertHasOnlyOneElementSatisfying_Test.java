@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.iterables;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +27,11 @@ import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
+/**
+ * Tests for <code>{@link Iterables#assertHasOnlyOneElementSatisfying(AssertionInfo, Iterable, Consumer)}</code>.
+ *
+ * @author Vladimir Chernikov
+ */
 class Iterables_assertHasOnlyOneElementSatisfying_Test extends IterablesBaseTest {
 
   private List<Jedi> actual;
