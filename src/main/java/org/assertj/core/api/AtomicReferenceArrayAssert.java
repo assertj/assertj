@@ -202,7 +202,60 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the unique element of the {@link AtomicReferenceArray} satisfies the given assertions expressed as a {@link Consumer},
+   * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Jedi&gt; jedis = new AtomicReferenceArray&lt;&gt;(new Jedi[]{
+   *   new Jedi("Yoda", "red")
+   * });
+   *
+   * // assertions will pass
+   *
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Y"));
+   *
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
+   *   assertThat(yoda.getName()).isEqualTo("Yoda");
+   *   assertThat(yoda.getLightSaberColor()).isEqualTo("red");
+   * });
+   *
+   * // assertions will fail
+   *
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Vad"));
+   *
+   * // fail as one the assertions is not satisfied
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
+   *   assertThat(yoda.getName()).isEqualTo("Yoda");
+   *   assertThat(yoda.getLightSaberColor()).isEqualTo("purple");
+   * });
+   *
+   * // fail but only report the first error
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
+   *   assertThat(yoda.getName()).isEqualTo("Luke");
+   *   assertThat(yoda.getLightSaberColor()).isEqualTo("green");
+   * });
+   *
+   * // fail and reports the errors thanks to Soft assertions
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
+   *   SoftAssertions softly = new SoftAssertions();
+   *   softly.assertThat(yoda.getName()).isEqualTo("Luke");
+   *   softly.assertThat(yoda.getLightSaberColor()).isEqualTo("green");
+   *   softly.assertAll();
+   * });
+   *
+   * // even if the assertion is correct, there are too many jedis !
+   * jedis = new AtomicReferenceArray&lt;&gt;(new Jedi[]{
+   *   new Jedi("Yoda", "red"),
+   *   new Jedi("Luke", "green")
+   * });
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
+   *
+   * @param elementAssertions the assertions to perform on the unique element.
+   * @throws AssertionError if the {@link Iterable} does not have a unique element.
+   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
+   * @since 3.12.0
+   */
   @Override
   public AtomicReferenceArrayAssert<T> hasOnlyOneElementSatisfying(Consumer<T> elementAssertions) {
     iterables.assertHasOnlyOneElementSatisfying(info, newArrayList(array), elementAssertions);
