@@ -26,6 +26,7 @@ public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
 
   private DeltaComparator() {}
 
+  @Override
   public int compare(final Delta<?> a, final Delta<?> b) {
     final int posA = a.getOriginal().getPosition();
     final int posB = b.getOriginal().getPosition();
