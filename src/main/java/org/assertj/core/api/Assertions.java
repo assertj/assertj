@@ -100,6 +100,8 @@ import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
  * type-specific assertion object.
