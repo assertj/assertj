@@ -25,7 +25,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
 
@@ -65,7 +64,7 @@ public class ShouldBeEqual_newAssertionError_Test {
                                         "but was not."));
   }
 
-  public static Stream<Arguments> parameters() {
-    return Stream.of(Arguments.of("[Jedi]"), Arguments.of("[Jedi]  "));
+  public static Stream<String> parameters() {
+    return Stream.of("[Jedi]", "[Jedi]  ");
   }
 }
