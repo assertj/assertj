@@ -399,6 +399,24 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} has a minimum length using the {@code length()}  method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeGreaterThan(0);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeGreaterThan(17);</code></pre>
+   *
+   * @param expected the expected maximum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is equal or greater than the expected length.
+   */
+  public SELF hasSizeGreaterThan(int expected) {
+    strings.assertHasSizeGreaterThan(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} has the expected line count.
    * <p>
    * A line is considered to be <i>terminated</i> by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
