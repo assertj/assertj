@@ -20,22 +20,22 @@ import static java.lang.String.format;
  * @author Sandra Parsick
  * @author Georg Berky
  */
-public class ShouldHaveSizeLessThan extends BasicErrorMessageFactory {
+public class ShouldHaveSizeLessThanOrEqualTo extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldHaveSizeLessThan}</code>.
+   * Creates a new <code>{@link ShouldHaveSizeLessThanOrEqualTo}</code>.
    * @param actual the actual value in the failed assertion.
    * @param actualSize the size of {@code actual}.
    * @param expectedMaxSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSizeLessThan(Object actual, int actualSize, int expectedMaxSize) {
-    return new ShouldHaveSizeLessThan(actual, actualSize, expectedMaxSize);
+  public static ErrorMessageFactory shouldHaveSizeLessThanOrEqualTo(Object actual, int actualSize, int expectedMaxSize) {
+    return new ShouldHaveSizeLessThanOrEqualTo(actual, actualSize, expectedMaxSize);
   }
 
-  private ShouldHaveSizeLessThan(Object actual, int actualSize, int expectedSize) {
+  private ShouldHaveSizeLessThanOrEqualTo(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
-    super(format("%nExpected size less than:<%s> but was:<%s> in:%n<%s>", expectedSize, actualSize, "%s"), actual);
+    super(format("%nExpected size less than or equal to:<%s> but was:<%s> in:%n<%s>", expectedSize, actualSize, "%s"), actual);
   }
 }
