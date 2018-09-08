@@ -75,7 +75,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.assertj.core.api.Assert;
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldBeLess;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -295,6 +297,23 @@ public class Strings {
   public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {
     assertNotNull(info, actual);
     checkSizes(actual, actual.length(), expectedSize, info);
+  }
+
+  /**
+   * Asserts that the size of the given {@code CharSequence} is less than the expected size
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param expectedMaxSizeExcluded the expected max size of {@code actual}
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the size of the given {@code CharSequence} is equal or greater than the expected max size
+   */
+  public void assertHasSizeLessThan(AssertionInfo info, CharSequence actual, int expectedMaxSizeExcluded) {
+    assertNotNull(info, actual);
+
+    if(actual.length() >= expectedMaxSizeExcluded) {
+      throw failures.failure(info, ShouldBeLess.shouldBeLess(actual.length(), expectedMaxSizeExcluded));
+    }
   }
 
   /**
