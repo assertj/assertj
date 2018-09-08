@@ -21,12 +21,13 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
 /**
- * Tests for <code>{@link Strings#assertHasSize(AssertionInfo, CharSequence, int)}</code>.
+ * Tests for <code>{@link Strings#assertHasSizeLessThan(AssertionInfo, CharSequence, int)}</code>.
  * 
  * @author Sandra Parsick
  * @author Georg Berky
@@ -45,7 +46,7 @@ public class Strings_assertHasSizeLessThan_Test extends StringsBaseTest {
     String actual = "Han";
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeLessThan(info, actual, 3))
-                                                   .withMessage(shouldBeLess(actual.length(), 3).create()); //TODO 1319: create better message
+                                                   .withMessage(shouldHaveSizeLessThan(actual, actual.length(), 3).create());
   }
 
   @Test
@@ -54,7 +55,7 @@ public class Strings_assertHasSizeLessThan_Test extends StringsBaseTest {
     String actual = "Han";
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeLessThan(info, actual, 2))
-                                                   .withMessage(shouldBeLess(actual.length(), 2).create()); //TODO 1319: create better message
+                                                   .withMessage(shouldHaveSizeLessThan(actual, actual.length(), 2).create());
   }
 
   @Test

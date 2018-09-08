@@ -40,6 +40,7 @@ import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
+import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -312,7 +313,7 @@ public class Strings {
     assertNotNull(info, actual);
 
     if(actual.length() >= expectedMaxSizeExcluded) {
-      throw failures.failure(info, ShouldBeLess.shouldBeLess(actual.length(), expectedMaxSizeExcluded));
+      throw failures.failure(info, shouldHaveSizeLessThan(actual, actual.length(), expectedMaxSizeExcluded));
     }
   }
 
