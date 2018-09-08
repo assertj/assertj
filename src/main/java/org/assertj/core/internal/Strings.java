@@ -54,6 +54,7 @@ import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldC
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThan.shouldHaveSizeGreaterThan;
+import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHaveSizeGreaterThanOrEqualTo;
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.error.ShouldHaveSizeLessThanOrEqualTo.shouldHaveSizeLessThanOrEqualTo;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
@@ -344,6 +345,23 @@ public class Strings {
 
     if(actual.length() <= expectedMinSizeExcluded) {
       throw failures.failure(info, shouldHaveSizeGreaterThan(actual, actual.length(), expectedMinSizeExcluded));
+    }
+  }
+
+  /**
+   * Asserts that the size of the given {@code CharSequence} is greater than or equal to the expected size
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param expectedMinSizeIncluded the expected min size of {@code actual}
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the size of the given {@code CharSequence} is greater than the expected max size
+   */
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, CharSequence actual, int expectedMinSizeIncluded) {
+    assertNotNull(info, actual);
+
+    if(actual.length() < expectedMinSizeIncluded) {
+      throw failures.failure(info, shouldHaveSizeGreaterThanOrEqualTo(actual, actual.length(), expectedMinSizeIncluded));
     }
   }
 
