@@ -736,4 +736,51 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return myself;
   }
 
+  /**
+   * Specifies objects to use for testing equals() and hashCode() contracts.
+   * <p>
+   * This method serves as an entry point for testing whether a given object
+   * satisfies Object.equals() and Object.hashCode() contracts.
+   * <pre><code class='java'>
+   class ClassWithBrokenEquals {
+     int x;
+     int y;
+     // constructor omitted for brevity
+     public boolean equals(Object o) {
+       if (this == o) return true;
+       if (o == null || getClass() != o.getClass()) return false;
+       ClassWithBrokenEquals that = (ClassWithBrokenEquals) o;
+       return this.x == that.x; // oops, forgot to check 'y'!
+     }
+
+     public int hashCode() { return x; }
+
+     public String toString() { return "(" + x + "," + y + ")"; }
+   }
+
+   ClassWithBrokenEquals obj = new ClassWithBrokenEquals(1, 1);
+   ClassWithBrokenEquals eq1 = new ClassWithBrokenEquals(1, 1);
+   ClassWithBrokenEquals eq2 = new ClassWithBrokenEquals(1, 1);
+   ClassWithBrokenEquals notEq1 = new ClassWithBrokenEquals(2, 1);
+   ClassWithBrokenEquals notEq2 = new ClassWithBrokenEquals(1, 2);
+   assertThat(obj)
+     .withEqualObjects(eq1, eq2)
+     .withNotEqualObjectsHavingDifferentHashCodes(notEq1, notEq2)
+     .satisfiesEqualsAndHashCodeContracts();
+   * </code></pre>
+   * This example will fail with message 'actual.equals((1,2))'.
+   * <p>
+   * Instead of
+   * {@link EqualsAndHashCodeAssert#withNotEqualObjectsHavingDifferentHashCodes(Object...) withNotEqualObjectsHavingDifferentHashCodes},
+   * {@link EqualsAndHashCodeAssert#withNotEqualObjectsAllowedToHaveEqualHashCode(Object...) withNotEqualObjectsAllowedToHaveEqualHashCode}
+   * can be used, which can be especially useful for testing that objects are not equal to objects of a subclass,
+   * even if they have the same field-by-field representation.
+   *
+   * @param eq1 an object that is supposed to be equal to the actual object
+   * @param eq2 another object that is supposed to be equal to the actual object
+   * @return a new assertion object that should be used to further specify and execute the assertion
+   */
+  public EqualsAndHashCodeAssert<?, ACTUAL> withEqualObjects(ACTUAL eq1, ACTUAL eq2) {
+    return new EqualsAndHashCodeAssert<>(actual, eq1, eq2);
+  }
 }
