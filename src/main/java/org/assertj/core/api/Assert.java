@@ -559,9 +559,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList();
 
   /**
-   * Verifies that the actual value is an instance of String,
-   * and returns a String assertion, to allow chaining of String-specific
-   * assertions from this call.
+   * Returns a String assertion for the <code>toString()</code> of the actual
+   * value, to allow chaining of String-specific assertions from this call.
    * <p>
    * Example :
    * <pre><code class='java'> Object stringAsObject = "hello world";
