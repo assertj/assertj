@@ -365,10 +365,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} has a maximum length using the {@code length()}  method.
    * <p>
    * This assertion will succeed:
-   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeLessThan(18);</code></pre>
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(4);</code></pre>
    *
    * Whereas this assertion will fail:
-   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeLessThan(17);</code></pre>
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(3);</code></pre>
    *
    * @param expected the expected maximum length of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
@@ -384,10 +384,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * {@code length()}  method.
    * <p>
    * This assertion will succeed:
-   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeLessThanOrEqualTo(17);</code></pre>
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(3);</code></pre>
    *
    * Whereas this assertion will fail:
-   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeLessThanOrEqualTo(18);</code></pre>
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(2);</code></pre>
    *
    * @param expected the expected maximum length of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
@@ -402,12 +402,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} has a minimum length using the {@code length()}  method.
    * <p>
    * This assertion will succeed:
-   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeGreaterThan(0);</code></pre>
+   * <pre><code class='java'>assertThat(&quot;abcs&quot;).hasSizeGreaterThan(2);</code></pre>
    *
    * Whereas this assertion will fail:
-   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeGreaterThan(17);</code></pre>
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThan(3);</code></pre>
    *
-   * @param expected the expected maximum length of the actual {@code CharSequence}.
+   * @param expected the expected minimum length of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual length is equal or greater than the expected length.
    */
@@ -421,12 +421,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * {@code length()}  method.
    * <p>
    * This assertion will succeed:
-   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeGreaterThanOrEqualTo(17);</code></pre>
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
    *
    * Whereas this assertion will fail:
-   * <pre><code class='java'>assertThat(&quot;A Game of Thrones&quot;).hasSizeGreaterThanOrEqualTo(18);</code></pre>
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
    *
-   * @param expected the expected maximum length of the actual {@code CharSequence}.
+   * @param expected the expected minimum length of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual length is equal or greater than the expected length.
    */
