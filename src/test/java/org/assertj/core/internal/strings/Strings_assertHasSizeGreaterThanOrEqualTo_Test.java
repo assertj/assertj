@@ -49,11 +49,11 @@ public class Strings_assertHasSizeGreaterThanOrEqualTo_Test extends StringsBaseT
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    strings.assertHasSizeLessThanOrEqualTo(someInfo(), "Han", 3);
+    strings.assertHasSizeGreaterThanOrEqualTo(someInfo(), "Han", 3);
   }
 
   @Test
   public void should_pass_if_size_of_actual_is_greater_than_expected_size() {
-    strings.assertHasSizeLessThanOrEqualTo(someInfo(), "Han", 3);
+    strings.assertHasSizeGreaterThanOrEqualTo(someInfo(), "Han", 2);
   }
 }
