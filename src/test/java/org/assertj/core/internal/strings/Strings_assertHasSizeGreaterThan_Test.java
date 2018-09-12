@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThan.shouldHaveSizeGreaterThan;
-import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -44,20 +43,22 @@ public class Strings_assertHasSizeGreaterThan_Test extends StringsBaseTest {
     String actual = "Han";
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeGreaterThan(info, actual, 3))
-                                                   .withMessage(shouldHaveSizeGreaterThan(actual, actual.length(), 3).create());
+                                                   .withMessage(shouldHaveSizeGreaterThan(actual, actual.length(), 3)
+                                                   .create());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_greater_than_expected_size() {
+  public void should_fail_if_size_of_actual_is_less_than_expected_size() {
     AssertionInfo info = someInfo();
     String actual = "Han";
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeLessThan(info, actual, 2))
-                                                   .withMessage(shouldHaveSizeLessThan(actual, actual.length(), 2).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeGreaterThan(info, actual, 4))
+                                                   .withMessage(shouldHaveSizeGreaterThan(actual, actual.length(), 4)
+                                                   .create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_less_than_expected_size() {
-    strings.assertHasSizeLessThan(someInfo(), "Han", 4);
+  public void should_pass_if_size_of_actual_is_greater_than_expected_size() {
+    strings.assertHasSizeGreaterThan(someInfo(), "Han", 2);
   }
 }
