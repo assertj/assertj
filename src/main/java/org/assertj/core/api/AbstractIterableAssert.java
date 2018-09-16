@@ -165,7 +165,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@inheritDoc}
    */
   @Override
-  public SELF hasOnlyOneElementSatisfying(Consumer<ELEMENT> elementAssertions) {
+  public SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions) {
     iterables.assertHasSize(info, actual, 1);
     elementAssertions.accept(actual.iterator().next());
     return myself;

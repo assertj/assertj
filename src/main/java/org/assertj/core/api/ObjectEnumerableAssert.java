@@ -935,7 +935,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
    * @since 3.5.0
    */
-  SELF hasOnlyOneElementSatisfying(Consumer<ELEMENT> elementAssertions);
+  SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions);
 
   /**
    * Verifies that all elements of the actual group are instances of the given types.

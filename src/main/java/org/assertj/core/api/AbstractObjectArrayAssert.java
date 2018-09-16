@@ -376,7 +376,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.5.0
    */
   @Override
-  public SELF hasOnlyOneElementSatisfying(Consumer<ELEMENT> elementAssertions) {
+  public SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions) {
     arrays.assertHasSize(info, actual, 1);
     elementAssertions.accept(actual[0]);
     return myself;

@@ -257,7 +257,7 @@ public class AtomicReferenceArrayAssert<T>
    * @since 3.12.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> hasOnlyOneElementSatisfying(Consumer<T> elementAssertions) {
+  public AtomicReferenceArrayAssert<T> hasOnlyOneElementSatisfying(Consumer<? super T> elementAssertions) {
     iterables.assertHasOnlyOneElementSatisfying(info, newArrayList(array), elementAssertions);
     return myself;
   }
