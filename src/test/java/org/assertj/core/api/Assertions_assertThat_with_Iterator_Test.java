@@ -14,21 +14,13 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.util.Iterator;
 
-import org.assertj.core.api.IterableAssert.LazyIterable;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -123,21 +115,6 @@ public class Assertions_assertThat_with_Iterator_Test {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void isNotInstanceOf_should_check_the_original_iterator() {
-    assertThat(stringIterator).isNotInstanceOf(LazyIterable.class);
-  }
-
-  @Test
-  public void isNotInstanceOfAny_should_check_the_original_iterator() {
-    assertThat(stringIterator).isNotInstanceOfAny(LazyIterable.class, String.class);
-  }
-
-  @Test
-  public void isNotOfAnyClassIn_should_check_the_original_iterator() {
-    assertThat(stringIterator).isNotOfAnyClassIn(LazyIterable.class, String.class);
   }
 
   @Test

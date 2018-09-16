@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.test.StringStream;
 import org.junit.jupiter.api.Test;
 
@@ -104,21 +103,6 @@ public class Assertions_assertThat_with_Stream_Test {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void isNotInstanceOf_should_check_the_original_stream() {
-    assertThat(stringStream).isNotInstanceOf(LazyIterable.class);
-  }
-
-  @Test
-  public void isNotInstanceOfAny_should_check_the_original_stream() {
-    assertThat(stringStream).isNotInstanceOfAny(LazyIterable.class, String.class);
-  }
-
-  @Test
-  public void isNotOfAnyClassIn_should_check_the_original_stream() {
-    assertThat(stringStream).isNotOfAnyClassIn(LazyIterable.class, String.class);
   }
 
   @Test

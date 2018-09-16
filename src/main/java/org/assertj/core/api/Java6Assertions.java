@@ -416,22 +416,6 @@ public class Java6Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code>.
-   * <p>
-   * <b>Be aware that calls to most methods on returned IterableAssert will consume Iterator so it won't be possible to
-   * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
-   * cached by IterableAssert first time Iterator is consumed.
-   *
-   * @param <T> the actual elements type
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  @CheckReturnValue
-  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(Iterator<? extends T> actual) {
-    return new IterableAssert<>(actual);
-  }
-
-  /**
    * Creates a new instance of <code>{@link DoubleAssert}</code>.
    *
    * @param actual the actual value.
