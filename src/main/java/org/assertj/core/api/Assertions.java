@@ -2640,6 +2640,11 @@ public class Assertions {
    *  The {@link IteratorAssert} has limited assertions because it does not consume elements.
    *  In order to access assertions from {@link IterableAssert}, use {@link IteratorAssert#toIterable()}.
    * </p>
+   * Examples:
+   * <pre><code class='java'>
+   * assertThat(listOfNames.iterator()).hasNext();
+   * assertThat(listOfNames.iterator()).toIterable().contains("Londo");
+   * </code></pre>
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
