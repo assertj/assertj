@@ -53,6 +53,7 @@ public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends AbstractAt
    * @return this assertion object.
    * @since 2.7.0 / 3.7.0
    */
+  @Override
   public AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> hasValue(FIELD expectedValue, OBJECT obj) {
     return super.hasValue(expectedValue, obj);
   }

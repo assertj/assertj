@@ -45,6 +45,7 @@ public class BinaryRepresentation extends StandardRepresentation {
     return concat("\"", representation.toStringOf(s.toCharArray()), "\"");
   }
 
+  @Override
   protected String toStringOf(Number number) {
     if (number instanceof Byte) return toStringOf((Byte) number);
     if (number instanceof Short) return toStringOf((Short) number);
@@ -67,10 +68,12 @@ public class BinaryRepresentation extends StandardRepresentation {
     return toGroupedBinary(Integer.toBinaryString(i), 32);
   }
 
+  @Override
   protected String toStringOf(Long l) {
     return toGroupedBinary(Long.toBinaryString(l), 64);
   }
 
+  @Override
   protected String toStringOf(Float f) {
     return toGroupedBinary(Integer.toBinaryString(Float.floatToIntBits(f)), 32);
   }
@@ -79,6 +82,7 @@ public class BinaryRepresentation extends StandardRepresentation {
     return toGroupedBinary(Long.toBinaryString(Double.doubleToRawLongBits(d)), 64);
   }
 
+  @Override
   protected String toStringOf(Character character) {
     return concat("'", toStringOf((short) (int) character), "'");
   }
