@@ -887,6 +887,57 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsAll(Iterable<? extends ELEMENT> iterable);
 
   /**
+   * Verifies that the unique element of the {@link Iterable} satisfies the given assertions expressed as a {@link Consumer},
+   * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
+   * <p>
+   * Example:
+   * <pre><code class='java'> List&lt;Jedi&gt; jedis = asList(new Jedi("Yoda", "red"));
+   *
+   * // assertions will pass
+   *
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Y"));
+   *
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
+   *   assertThat(yoda.getName()).isEqualTo("Yoda");
+   *   assertThat(yoda.getLightSaberColor()).isEqualTo("red");
+   * });
+   *
+   * // assertions will fail
+   *
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Vad"));
+   *
+   * // fail as one the assertions is not satisfied
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
+   *   assertThat(yoda.getName()).isEqualTo("Yoda");
+   *   assertThat(yoda.getLightSaberColor()).isEqualTo("purple");
+   * });
+   *
+   * // fail but only report the first error
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
+   *   assertThat(yoda.getName()).isEqualTo("Luke");
+   *   assertThat(yoda.getLightSaberColor()).isEqualTo("green");
+   * });
+   *
+   * // fail and reports the errors thanks to Soft assertions
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
+   *   SoftAssertions softly = new SoftAssertions();
+   *   softly.assertThat(yoda.getName()).isEqualTo("Luke");
+   *   softly.assertThat(yoda.getLightSaberColor()).isEqualTo("green");
+   *   softly.assertAll();
+   * });
+   *
+   * // even if the assertion is correct, there are too many jedis !
+   * jedis.add(new Jedi("Luke", "green"));
+   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
+   *
+   * @param elementAssertions the assertions to perform on the unique element.
+   * @throws AssertionError if the {@link Iterable} does not have a unique element.
+   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
+   * @since 3.5.0
+   */
+  SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions);
+
+  /**
    * Verifies that all elements of the actual group are instances of the given types.
    * <p>
    * Example:

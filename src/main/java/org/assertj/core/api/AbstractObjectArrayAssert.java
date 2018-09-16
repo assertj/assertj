@@ -327,7 +327,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the unique element of the array satifies the given assertions expressed as a {@link Consumer},
+   * Verifies that the unique element of the array satisfies the given assertions expressed as a {@link Consumer},
    * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
    * <p>
    * Example:
@@ -372,13 +372,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the array does not have a unique element.
-   * @throws AssertionError if the array's unique element does not satifies the given assertions.
-   *
+   * @throws AssertionError if the array's unique element does not satisfies the given assertions.
    * @since 3.5.0
    */
-  public void hasOnlyOneElementSatisfying(Consumer<ELEMENT> elementAssertions) {
-    arrays.assertHasSize(info, actual, 1);
-    elementAssertions.accept(actual[0]);
+  @Override
+  public SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions) {
+    iterables.assertHasOnlyOneElementSatisfying(info, newArrayList(actual), elementAssertions);
+    return myself;
   }
 
   /**
