@@ -221,8 +221,8 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public <T> ProxyableIteratorAssert<T> assertThat(Iterator<? extends T> actual) {
-    return proxy(ProxyableIteratorAssert.class, Iterator.class, actual);
+  public <T> IteratorAssert<T> assertThat(Iterator<? extends T> actual) {
+    return proxy(IteratorAssert.class, Iterator.class, actual);
   }
 
   /**

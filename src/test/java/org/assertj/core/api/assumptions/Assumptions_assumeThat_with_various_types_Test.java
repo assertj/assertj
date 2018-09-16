@@ -273,17 +273,6 @@ public class Assumptions_assumeThat_with_various_types_Test {
             assumeThat(actual).containsOnlyOnce(4);
           }
         } },
-        { new AssumptionRunner<Iterator<Integer>>(asList(2, 4, 2).iterator()) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).containsOnlyOnce(2);
-          }
-
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).containsOnlyOnce(4);
-          }
-        } },
         { new AssumptionRunner<List<Integer>>(asList(2, 4, 2)) {
           @Override
           public void runFailingAssumption() {

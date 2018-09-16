@@ -228,7 +228,6 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(22).isEqualTo(23);
     softly.then(new int[] { 24 }).isEqualTo(new int[] { 25 });
     softly.then((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-    softly.then(Lists.newArrayList("28").iterator()).contains("29");
     softly.then(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
     softly.then(new Long(32L)).isEqualTo(new Long(33L));
     softly.then(34L).isEqualTo(35L);
@@ -283,7 +282,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
     // THEN
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
-    assertThat(errors).hasSize(52);
+    assertThat(errors).hasSize(51);
     assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
     assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
     assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -314,52 +313,46 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(22)).contains(format("%nExpecting:%n <22>%nto be equal to:%n <23>%nbut was not."));
     assertThat(errors.get(23)).contains(format("%nExpecting:%n <[24]>%nto be equal to:%n <[25]>%nbut was not."));
     assertThat(errors.get(24)).contains(format("%nExpecting:%n <[\"26\"]>%nto be equal to:%n <[\"27\"]>%nbut was not."));
-    assertThat(errors.get(25)).contains(format("%nExpecting:%n" +
-                                               " <[\"28\"]>%n" +
-                                               "to contain:%n" +
-                                               " <[\"29\"]>%n" +
-                                               "but could not find:%n" +
-                                               " <[\"29\"]>%n"));
-    assertThat(errors.get(26)).contains(format("%nExpecting:%n <[\"30\"]>%nto be equal to:%n <[\"31\"]>%nbut was not."));
-    assertThat(errors.get(27)).contains(format("%nExpecting:%n <32L>%nto be equal to:%n <33L>%nbut was not."));
-    assertThat(errors.get(28)).contains(format("%nExpecting:%n <34L>%nto be equal to:%n <35L>%nbut was not."));
-    assertThat(errors.get(29)).contains(format("%nExpecting:%n <[36L]>%nto be equal to:%n <[37L]>%nbut was not."));
-    assertThat(errors.get(30)).contains(format("%nExpecting:%n <{\"38\"=\"39\"}>%nto be equal to:%n <{\"40\"=\"41\"}>%nbut was not."));
-    assertThat(errors.get(31)).contains(format("%nExpecting:%n <42>%nto be equal to:%n <43>%nbut was not."));
-    assertThat(errors.get(32)).contains(format("%nExpecting:%n <44>%nto be equal to:%n <45>%nbut was not."));
-    assertThat(errors.get(33)).contains(format("%nExpecting:%n <[46]>%nto be equal to:%n <[47]>%nbut was not."));
-    assertThat(errors.get(34)).contains(format("%nExpecting:%n <\"48\">%nto be equal to:%n <\"49\">%nbut was not."));
-    assertThat(errors.get(35)).contains(format("%nExpecting:%n <50>%nto be equal to:%n <51>%nbut was not."));
-    assertThat(errors.get(36)).contains(format("%nExpecting:%n <[52]>%nto be equal to:%n <[53]>%nbut was not."));
-    assertThat(errors.get(37)).contains(format("%nExpecting message:%n"
+    assertThat(errors.get(25)).contains(format("%nExpecting:%n <[\"30\"]>%nto be equal to:%n <[\"31\"]>%nbut was not."));
+    assertThat(errors.get(26)).contains(format("%nExpecting:%n <32L>%nto be equal to:%n <33L>%nbut was not."));
+    assertThat(errors.get(27)).contains(format("%nExpecting:%n <34L>%nto be equal to:%n <35L>%nbut was not."));
+    assertThat(errors.get(28)).contains(format("%nExpecting:%n <[36L]>%nto be equal to:%n <[37L]>%nbut was not."));
+    assertThat(errors.get(29)).contains(format("%nExpecting:%n <{\"38\"=\"39\"}>%nto be equal to:%n <{\"40\"=\"41\"}>%nbut was not."));
+    assertThat(errors.get(30)).contains(format("%nExpecting:%n <42>%nto be equal to:%n <43>%nbut was not."));
+    assertThat(errors.get(31)).contains(format("%nExpecting:%n <44>%nto be equal to:%n <45>%nbut was not."));
+    assertThat(errors.get(32)).contains(format("%nExpecting:%n <[46]>%nto be equal to:%n <[47]>%nbut was not."));
+    assertThat(errors.get(33)).contains(format("%nExpecting:%n <\"48\">%nto be equal to:%n <\"49\">%nbut was not."));
+    assertThat(errors.get(34)).contains(format("%nExpecting:%n <50>%nto be equal to:%n <51>%nbut was not."));
+    assertThat(errors.get(35)).contains(format("%nExpecting:%n <[52]>%nto be equal to:%n <[53]>%nbut was not."));
+    assertThat(errors.get(36)).contains(format("%nExpecting message:%n"
                                                + " <\"NullPointerException message\">%n"
                                                + "but was:%n"
                                                + " <\"IllegalArgumentException message\">"));
-    assertThat(errors.get(38)).contains(format("%nExpecting message:%n"
+    assertThat(errors.get(37)).contains(format("%nExpecting message:%n"
                                                + " <\"something was good\">%n"
                                                + "but was:%n"
                                                + " <\"something was wrong\">"));
-    assertThat(errors.get(39)).contains(format("%nExpecting:%n"
+    assertThat(errors.get(38)).contains(format("%nExpecting:%n"
                                                + " <{\"54\"=\"55\"}>%n"
                                                + "to contain:%n"
                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
                                                + "but could not find:%n"
                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
-    assertThat(errors.get(40)).contains(format("%nExpecting:%n <12:00>%nto be equal to:%n <13:00>%nbut was not."));
-    assertThat(errors.get(41)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
-    assertThat(errors.get(42)).contains(format("%nExpecting:%n <Optional[not empty]>%nto be equal to:%n <\"empty\">%nbut was not."));
-    assertThat(errors.get(43)).contains(format("%nExpecting:%n <OptionalInt[0]>%nto be equal to:%n <1>%nbut was not."));
-    assertThat(errors.get(44)).contains(format("%nExpecting:%n <OptionalDouble[0.0]>%nto be equal to:%n <1.0>%nbut was not."));
-    assertThat(errors.get(45)).contains(format("%nExpecting:%n <OptionalLong[0]>%nto be equal to:%n <1L>%nbut was not."));
-    assertThat(errors.get(46)).contains("Expecting port of");
-    assertThat(errors.get(47)).contains("to have failed");
-    assertThat(errors.get(48)).contains(format("%nExpecting:%n  <given predicate>%n"
+    assertThat(errors.get(39)).contains(format("%nExpecting:%n <12:00>%nto be equal to:%n <13:00>%nbut was not."));
+    assertThat(errors.get(40)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
+    assertThat(errors.get(41)).contains(format("%nExpecting:%n <Optional[not empty]>%nto be equal to:%n <\"empty\">%nbut was not."));
+    assertThat(errors.get(42)).contains(format("%nExpecting:%n <OptionalInt[0]>%nto be equal to:%n <1>%nbut was not."));
+    assertThat(errors.get(43)).contains(format("%nExpecting:%n <OptionalDouble[0.0]>%nto be equal to:%n <1.0>%nbut was not."));
+    assertThat(errors.get(44)).contains(format("%nExpecting:%n <OptionalLong[0]>%nto be equal to:%n <1L>%nbut was not."));
+    assertThat(errors.get(45)).contains("Expecting port of");
+    assertThat(errors.get(46)).contains("to have failed");
+    assertThat(errors.get(47)).contains(format("%nExpecting:%n  <given predicate>%n"
                                                + "to accept <\"something else\"> but it did not."));
-    assertThat(errors.get(49)).contains(format("%nExpecting:%n  <given predicate>%n"
+    assertThat(errors.get(48)).contains(format("%nExpecting:%n  <given predicate>%n"
                                                + "to accept <2> but it did not."));
-    assertThat(errors.get(50)).contains(format("%nExpecting:%n  <given predicate>%n"
+    assertThat(errors.get(49)).contains(format("%nExpecting:%n  <given predicate>%n"
                                                + "to accept <2L> but it did not."));
-    assertThat(errors.get(51)).contains(format("%nExpecting:%n  <given predicate>%n"
+    assertThat(errors.get(50)).contains(format("%nExpecting:%n  <given predicate>%n"
                                                + "to accept <2.0> but it did not."));
   }
 
@@ -523,20 +516,6 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
       softly.then(namesAsArray)
             .extractingResultOf("getFirst")
             .as("using extractingResultOf(method)")
-            .contains("John")
-            .contains("Jane");
-    }
-  }
-
-  @Test
-  public void should_pass_when_using_extracting_with_iterator() {
-
-    Iterator<Name> names = asList(name("John", "Doe"), name("Jane", "Doe")).iterator();
-
-    try (AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
-      softly.then(names)
-            .extracting("first")
-            .as("using extracting()")
             .contains("John")
             .contains("Jane");
     }

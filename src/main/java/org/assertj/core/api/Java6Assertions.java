@@ -416,6 +416,18 @@ public class Java6Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   *
+   * @param <T> the actual elements type
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public static <T> AbstractIteratorAssert<?, T> assertThat(Iterator<? extends T> actual) {
+    return new IteratorAssert<>(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link DoubleAssert}</code>.
    *
    * @param actual the actual value.

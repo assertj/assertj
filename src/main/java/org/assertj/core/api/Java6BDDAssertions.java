@@ -362,17 +362,14 @@ public class Java6BDDAssertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.IterableAssert}</code>. The <code>{@link
-   * java.util.Iterator}</code> is first
-   * converted
-   * into an <code>{@link Iterable}</code>
+   * Creates a new instance of <code>{@link org.assertj.core.api.IteratorAssert}</code>.
    *
    * @param <T> the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> then(Iterator<? extends T> actual) {
+  public static <T> AbstractIteratorAssert<?, T> then(Iterator<? extends T> actual) {
     return assertThat(actual);
   }
 
