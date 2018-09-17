@@ -12,14 +12,11 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.description.Description.mostRelevantDescription;
-import static org.assertj.core.extractor.Extractors.byName;
-import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.IterableUtil.toCollection;
-import static org.assertj.core.util.Preconditions.checkNotNull;
+import org.assertj.core.description.Description;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.Maps;
+import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,11 +27,14 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.assertj.core.description.Description;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.Maps;
-import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.IterableUtil.toCollection;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
@@ -182,6 +182,141 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @Override
   public SELF hasSize(int expected) {
     maps.assertHasSize(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is greater than the boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertion will pass
+   * assertThat(map).hasSizeGreaterThan(1);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeGreaterThan(3);
+   * assertThat(map).hasSizeGreaterThan(5);</code></pre>
+   *
+   * @param boundary the given value to compare the size of {@code actual} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not greater than the boundary.
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    maps.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is greater than or equal to the boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertion will pass
+   * assertThat(map).hasSizeGreaterThanOrEqualTo(1);
+   * assertThat(map).hasSizeGreaterThanOrEqualTo(2);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeGreaterThanOrEqualTo(3);
+   * assertThat(map).hasSizeGreaterThanOrEqualTo(5);</code></pre>
+   *
+   * @param boundary the given value to compare the size of {@code actual} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not greater than or equal to the boundary.
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    maps.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is less than the boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertion will pass
+   * assertThat(map).hasSizeLessThan(3);
+   * assertThat(map).hasSizeLessThan(5);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeLessThan(1);
+   * assertThat(map).hasSizeLessThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the size of {@code actual} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not less than the boundary.
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    maps.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is less than or equal to the boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertion will pass
+   * assertThat(map).hasSizeLessThanOrEqualTo(2);
+   * assertThat(map).hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeLessThanOrEqualTo(0);
+   * assertThat(map).hasSizeLessThanOrEqualTo(1);</code></pre>
+   *
+   * @param boundary the given value to compare the size of {@code actual} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not less than the boundary.
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    maps.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertion will pass
+   * assertThat(map).hasSizeLessThanOrEqualTo(2);
+   * assertThat(map).hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeLessThanOrEqualTo(0);
+   * assertThat(map).hasSizeLessThanOrEqualTo(1);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not between the boundaries.
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    maps.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
     return myself;
   }
 

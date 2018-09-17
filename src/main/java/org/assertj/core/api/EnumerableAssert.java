@@ -98,6 +98,99 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
   SELF hasSize(int expected);
 
   /**
+   * Verifies that the number of values in the actual group is greater than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeGreaterThan(1);
+   * assertThat(Arrays.asList(1, 2, 3)).hasSizeGreaterThan(2);
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList()).hasSizeGreaterThan(0);
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeGreaterThan(6);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual group is not greater than the boundary.
+   */
+  SELF hasSizeGreaterThan(int boundary);
+
+  /**
+   * Verifies that the number of values in the actual group is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeGreaterThanOrEqualTo(0);
+   * assertThat(Arrays.asList(1, 2, 3)).hasSizeGreaterThanOrEqualTo(3);
+   * assertThat(Arrays.asList(1, 2)).hasSizeGreaterThanOrEqualTo(1);
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList()).hasSizeGreaterThanOrEqualTo(1);
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeGreaterThanOrEqualTo(4);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual group is not greater than or equal to the boundary.
+   */
+  SELF hasSizeGreaterThanOrEqualTo(int boundary);
+
+  /**
+   * Verifies that the number of values in the actual group is less than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeLessThan(5);
+   * assertThat(Arrays.asList(1, 2, 3)).hasSizeLessThan(4);
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList()).hasSizeLessThan(0);
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeLessThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual group is not less than the boundary.
+   */
+  SELF hasSizeLessThan(int boundary);
+
+  /**
+   * Verifies that the number of values in the actual group is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeLessThanOrEqualTo(3);
+   * assertThat(Arrays.asList(1, 2, 3)).hasSizeLessThanOrEqualTo(5);
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList()).hasSizeLessThanOrEqualTo(1);
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeLessThanOrEqualTo(4);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual group is not less than or equal to the boundary.
+   */
+  SELF hasSizeLessThanOrEqualTo(int boundary);
+
+  /**
+   * Verifies that the number of values in the actual group is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeBetween(0, 4);
+   * assertThat(Arrays.asList(1, 2, 3)).hasSizeBetween(2, 3);
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList()).hasSizeBetween(1, 3);
+   * assertThat(new int[] { 1, 2, 3 }).hasSizeBetween(4, 6);
+   * assertThat(new int[] { 1, 2, 3, 4 }).hasSizeBetween(0, 2);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual group is not between the boundaries.
+   */
+  SELF hasSizeBetween(int lowerBoundary, int higherBoundary);
+
+  /**
    * Verifies that the actual group has the same size as given {@link Iterable}.
    * <p>
    * Example:

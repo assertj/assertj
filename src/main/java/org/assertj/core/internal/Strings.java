@@ -12,6 +12,19 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.StringReader;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
@@ -30,10 +43,10 @@ import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
-import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
+import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
@@ -57,26 +70,9 @@ import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
-import static org.assertj.core.internal.CommonValidations.checkLineCounts;
-import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkSameSizes;
-import static org.assertj.core.internal.CommonValidations.checkSizes;
-import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.CommonValidations.*;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
-
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.io.StringReader;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link CharSequence}</code>s.
@@ -298,6 +294,77 @@ public class Strings {
   }
 
   /**
+   * Asserts that the size of the given {@code CharSequence} is greater than the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the size of the given {@code CharSequence}is greater than the boundary.
+   */
+  public void assertHasSizeGreaterThan(AssertionInfo info, CharSequence actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeGreaterThan(actual, actual.length(), boundary, info);
+  }
+
+  /**
+   * Asserts that the size of the given {@code CharSequence} is greater than or equal to the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the size of the given {@code CharSequence}is greater than or equal to the boundary.
+   */
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, CharSequence actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeGreaterThanOrEqualTo(actual, actual.length(), boundary, info);
+  }
+
+  /**
+   * Asserts that the size of the given {@code CharSequence} is less than the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the size of the given {@code CharSequence}is less than the expected one.
+   */
+  public void assertHasSizeLessThan(AssertionInfo info, CharSequence actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeLessThan(actual, actual.length(), boundary, info);
+  }
+
+  /**
+   * Asserts that the size of the given {@code CharSequence} is less than or equal to the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the size of the given {@code CharSequence}is less than or equal to the boundary.
+   */
+  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, CharSequence actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeLessThanOrEqualTo(actual, actual.length(), boundary, info);
+  }
+
+  /**
+   * Asserts that the size of the given {@code CharSequence} is between the given lower and higher boundary (inclusive).
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the number of elements in the given array is not between the boundaries.
+   */
+  public void assertHasSizeBetween(AssertionInfo info, CharSequence actual, int lowerBoundary, int higherBoundary) {
+    assertNotNull(info, actual);
+    checkSizeBetween(actual, actual.length(), lowerBoundary, higherBoundary, info);
+  }
+  
+  /**
    * Asserts that the line count of the given {@code CharSequence} is equal to the expected one.
    *
    * @param info contains information about the assertion.
@@ -493,7 +560,7 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are equal after normalizing newlines.
    */
   public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    String actualNormalized = normalizeNewlines(actual);
+    CharSequence actualNormalized = normalizeNewlines(actual);
     String expectedNormalized = normalizeNewlines(expected);
     if (!actualNormalized.equals(expectedNormalized))
       throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected));
@@ -993,7 +1060,7 @@ public class Strings {
    * @param expected the expected {@code CharSequence} (new lines will be ignored).
    */
   public void assertIsEqualToIgnoringNewLines(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    String actualWithoutNewLines = removeNewLines(actual);
+    CharSequence actualWithoutNewLines = removeNewLines(actual);
     String expectedWithoutNewLines = removeNewLines(expected);
     if (!actualWithoutNewLines.equals(expectedWithoutNewLines))
       throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected));

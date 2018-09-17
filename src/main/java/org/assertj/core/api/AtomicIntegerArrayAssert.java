@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Arrays.array;
-
-import java.util.Comparator;
-import java.util.concurrent.atomic.AtomicIntegerArray;
-
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IntArrays;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
+
+import java.util.Comparator;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+
+import static org.assertj.core.util.Arrays.array;
 
 public class AtomicIntegerArrayAssert
     extends AbstractEnumerableAssert<AtomicIntegerArrayAssert, AtomicIntegerArray, Integer> {
@@ -136,6 +136,96 @@ public class AtomicIntegerArrayAssert
   @Override
   public AtomicIntegerArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, array, expected);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeGreaterThan(1);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeGreaterThan(3);</code></pre>
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeGreaterThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeGreaterThanOrEqualTo(5);</code></pre>
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeLessThan(4);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeLessThan(2);</code></pre>
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeLessThanOrEqualTo(2);</code></pre>
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeBetween(3, 4);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeBetween(4, 6);</code></pre>
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, array, lowerBoundary, higherBoundary);
     return myself;
   }
 

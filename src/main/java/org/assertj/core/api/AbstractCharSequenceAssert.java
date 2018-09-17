@@ -12,8 +12,11 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.contentOf;
-import static org.assertj.core.util.IterableUtil.toArray;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Strings;
+import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.IterableUtil;
+import org.assertj.core.util.VisibleForTesting;
 
 import java.io.File;
 import java.io.LineNumberReader;
@@ -21,11 +24,8 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Strings;
-import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.IterableUtil;
-import org.assertj.core.util.VisibleForTesting;
+import static org.assertj.core.api.Assertions.contentOf;
+import static org.assertj.core.util.IterableUtil.toArray;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -358,6 +358,120 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   @Override
   public SELF hasSize(int expected) {
     strings.assertHasSize(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has greater length than the given boundary
+   * using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSizeGreaterThan(5);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSizeGreaterThan(25);</code></pre>
+   *
+   * @param boundary the given value to compare the actual length to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is not greater than the boundary.
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    strings.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has greater or equal length than the given boundary
+   * using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSizeGreaterThanOrEqualTo(5);
+   * assertThat(bookName).hasSizeGreaterThanOrEqualTo(17);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSizeGreaterThanOrEqualTo(25);</code></pre>
+   *
+   * @param boundary the given value to compare the actual length to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is not greater than or equal to the boundary.
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    strings.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has less length than the given boundary
+   * using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSizeLessThan(25);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSizeLessThan(5);</code></pre>
+   *
+   * @param boundary the given value to compare the actual length to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is not less than the boundary.
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    strings.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has greater or equal length than the given boundary
+   * using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSizeLessThanOrEqualTo(25);
+   * assertThat(bookName).hasSizeLessThanOrEqualTo(17);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSizeLessThanOrEqualTo(5);</code></pre>
+   *
+   * @param boundary the given value to compare the actual length to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is not greater than or equal to the boundary.
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    strings.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has length between the given boundaries (inclusive)
+   * using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSizeBetween(5, 25);
+   * assertThat(bookName).hasSizeBetween(16, 17);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSizeBetween(2, 5);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual length should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual length should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is not between the boundaries.
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    strings.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
     return myself;
   }
 

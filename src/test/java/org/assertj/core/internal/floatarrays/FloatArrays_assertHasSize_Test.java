@@ -12,18 +12,15 @@
  */
 package org.assertj.core.internal.floatarrays;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-import static org.mockito.Mockito.verify;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
  * Tests for <code>{@link FloatArrays#assertHasSize(AssertionInfo, float[], int)}</code>.
@@ -41,14 +38,8 @@ public class FloatArrays_assertHasSize_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
-    AssertionInfo info = someInfo();
-    try {
-      arrays.assertHasSize(info, actual, 4);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.length, 4));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), actual, 6))
+                                                   .withMessage(shouldHaveSize(actual, actual.length, 6).create());
   }
 
   @Test

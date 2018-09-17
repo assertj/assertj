@@ -12,14 +12,14 @@
  */
 package org.assertj.core.api;
 
-import java.util.Comparator;
-
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
+
+import java.util.Comparator;
 
 public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, float[], Float> {
@@ -65,6 +65,86 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   @Override
   public SELF hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).hasSizeGreaterThan(1);
+   *
+   * // assertion will fail
+   * assertThat(new float[] { 1.0f }).hasSizeGreaterThan(1);</code></pre>
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).hasSizeGreaterThanOrEqualTo(1);
+   *
+   * // assertion will fail
+   * assertThat(new float[] { 1.0f }).hasSizeGreaterThanOrEqualTo(2);</code></pre>
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).hasSizeLessThan(3);
+   *
+   * // assertion will fail
+   * assertThat(new float[] { 1.0f, 2.0f }).hasSizeLessThan(1);</code></pre>
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new byte[] { 1.0f, 2.0f }).hasSizeLessThanOrEqualTo(2);
+   *
+   * // assertion will fail
+   * assertThat(new byte[] { 1.0f, 2.0f }).hasSizeLessThanOrEqualTo(1);</code></pre>
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new byte[] { 1.0f, 2.0f }).hasSizeBetween(1, 3);
+   *
+   * // assertion will fail
+   * assertThat(new byte[] { 1.0f, 2.0f }).hasSizeBetween(4, 5);</code></pre>
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
     return myself;
   }
 

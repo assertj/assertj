@@ -12,42 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.filter.Filters.filter;
-import static org.assertj.core.description.Description.mostRelevantDescription;
-import static org.assertj.core.extractor.Extractors.byName;
-import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
-import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
-import static org.assertj.core.extractor.Extractors.resultOf;
-import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
-import static org.assertj.core.internal.Iterables.byPassingAssertions;
-import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.IterableUtil.toArray;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.assertj.core.api.IterableAssert.LazyIterable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -57,25 +21,40 @@ import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.CommonErrors;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.ExtendedByTypesComparator;
-import org.assertj.core.internal.FieldByFieldComparator;
-import org.assertj.core.internal.IgnoringFieldsComparator;
-import org.assertj.core.internal.IterableElementComparisonStrategy;
-import org.assertj.core.internal.Iterables;
-import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.internal.*;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.internal.OnFieldsComparator;
-import org.assertj.core.internal.RecursiveFieldByFieldComparator;
-import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.filter.Filters.filter;
+import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.extractor.Extractors.*;
+import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
+import static org.assertj.core.internal.Iterables.byPassingAssertions;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.IterableUtil.toArray;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -158,6 +137,51 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF hasSize(int expected) {
     iterables.assertHasSize(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    iterables.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    iterables.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    iterables.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    iterables.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    iterables.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
     return myself;
   }
 

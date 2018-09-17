@@ -12,6 +12,18 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
+import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
+import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
@@ -58,40 +70,15 @@ import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplic
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.internal.Arrays.assertIsArray;
-import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
-import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkSizes;
-import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
-import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.CommonValidations.*;
 import static org.assertj.core.internal.CommonValidations.iterableToLookForIsNull;
-import static org.assertj.core.internal.ErrorMessages.emptySequence;
-import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
-import static org.assertj.core.internal.ErrorMessages.nullSequence;
-import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
+import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
-
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
-import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
-import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
-import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Iterable}</code>s.
@@ -194,6 +181,77 @@ public class Iterables {
   public void assertHasSize(AssertionInfo info, Iterable<?> actual, int expectedSize) {
     assertNotNull(info, actual);
     checkSizes(actual, sizeOf(actual), expectedSize, info);
+  }
+
+  /**
+   * Asserts that the number of elements in the given {@code Iterable} is greater than the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the number of elements in the given {@code Iterable} is greater than the boundary.
+   */
+  public void assertHasSizeGreaterThan(AssertionInfo info, Iterable<?> actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeGreaterThan(actual, boundary, sizeOf(actual), info);
+  }
+
+  /**
+   * Asserts that the number of elements in the given {@code Iterable} is greater than or equal to the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the number of elements in the given {@code Iterable} is greater than or equal to the boundary.
+   */
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, Iterable<?> actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeGreaterThanOrEqualTo(actual, boundary, sizeOf(actual), info);
+  }
+
+  /**
+   * Asserts that the number of elements in the given {@code Iterable} is less than the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the number of elements in the given {@code Iterable} is less than the expected one.
+   */
+  public void assertHasSizeLessThan(AssertionInfo info, Iterable<?> actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeLessThan(actual, boundary, sizeOf(actual), info);
+  }
+
+  /**
+   * Asserts that the number of elements in the given {@code Iterable} is less than or equal to the boundary.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param boundary  the given value to compare the size of {@code actual} to.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the number of elements in the given {@code Iterable} is less than or equal to the boundary.
+   */
+  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, Iterable<?> actual, int boundary) {
+    assertNotNull(info, actual);
+    checkSizeLessThanOrEqualTo(actual, boundary, sizeOf(actual), info);
+  }
+
+  /**
+   * Asserts that the number of elements in the given {@code Iterable} is between the given lower and higher boundary (inclusive).
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the number of elements in the given array is not between the boundaries.
+   */
+  public void assertHasSizeBetween(AssertionInfo info, Iterable<?> actual, int lowerBoundary, int higherBoundary) {
+    assertNotNull(info, actual);
+    checkSizeBetween(actual, lowerBoundary, higherBoundary, sizeOf(actual), info);
   }
 
   /**
