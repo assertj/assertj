@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -43,7 +42,7 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
 
   @Test
   public void should_reuse_stream_after_assertion() {
-    Stream<String> names = asList("Luke", "Leia").stream();
+    Stream<String> names = Stream.of("Luke", "Leia");
     assertThat(names).startsWith(array("Luke", "Leia"))
                      .endsWith("Leia");
   }
@@ -56,14 +55,14 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
 
   @Test
   public void should_pass_if_actual_and_sequence_are_empty() {
-    Stream<Object> empty = asList().stream();
+    Stream<Object> empty = Stream.of();
     assertThat(empty).startsWith(emptyArray());
   }
 
   @Test
   public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      Stream<String> names = asList("Luke", "Leia").stream();
+      Stream<String> names = Stream.of("Luke", "Leia");
       assertThat(names).startsWith(new String[0]);
     });
   }
@@ -80,7 +79,7 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
   public void should_fail_if_sequence_is_bigger_than_actual() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       String[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-      Stream<String> names = asList("Luke", "Leia").stream();
+      Stream<String> names = Stream.of("Luke", "Leia");
       assertThat(names).startsWith(sequence);
     });
   }
@@ -89,7 +88,7 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
   public void should_fail_if_actual_does_not_start_with_sequence() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       String[] sequence = { "Han", "C-3PO" };
-      Stream<String> names = asList("Luke", "Leia").stream();
+      Stream<String> names = Stream.of("Luke", "Leia");
       assertThat(names).startsWith(sequence);
     });
   }
@@ -98,20 +97,20 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       String[] sequence = { "Luke", "Yoda" };
-      Stream<String> names = asList("Luke", "Leia").stream();
+      Stream<String> names = Stream.of("Luke", "Leia");
       assertThat(names).startsWith(sequence);
     });
   }
 
   @Test
   public void should_pass_if_actual_starts_with_sequence() {
-    Stream<String> names = asList("Luke", "Leia", "Yoda").stream();
+    Stream<String> names = Stream.of("Luke", "Leia", "Yoda");
     assertThat(names).startsWith(array("Luke", "Leia"));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    Stream<String> names = asList("Luke", "Leia").stream();
+    Stream<String> names = Stream.of("Luke", "Leia");
     assertThat(names).startsWith(array("Luke", "Leia"));
   }
 
@@ -122,7 +121,7 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
   @Test
   public void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      Stream<String> names = asList("Luke", "Leia").stream();
+      Stream<String> names = Stream.of("Luke", "Leia");
       String[] sequence = { "Han", "C-3PO" };
       assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
     });
@@ -131,7 +130,7 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
   @Test
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      Stream<String> names = asList("Luke", "Leia").stream();
+      Stream<String> names = Stream.of("Luke", "Leia");
       String[] sequence = { "Luke", "Obi-Wan", "Han" };
       assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
     });
@@ -139,14 +138,14 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
 
   @Test
   public void should_pass_if_actual_starts_with_sequence_according_to_custom_comparison_strategy() {
-    Stream<String> names = asList("Luke", "Leia").stream();
+    Stream<String> names = Stream.of("Luke", "Leia");
     String[] sequence = { "LUKE" };
     assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
-    Stream<String> names = asList("Luke", "Leia").stream();
+    Stream<String> names = Stream.of("Luke", "Leia");
     String[] sequence = { "LUKE", "lEIA" };
     assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.instance).startsWith(sequence);
   }

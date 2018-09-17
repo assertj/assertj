@@ -20,16 +20,15 @@ import java.util.stream.Stream;
 
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class Strings_assertDoesNotContainAnyWhitespaces_Test extends StringsBaseTest {
 
-  public static Stream<Arguments> doesNotContainAnyWhitespaces() {
-    return Stream.of(Arguments.of((String) null),
-                     Arguments.of(""),
-                     Arguments.of("a"),
-                     Arguments.of("bc"));
+  public static Stream<String> doesNotContainAnyWhitespaces() {
+    return Stream.of(null,
+                     "",
+                     "a",
+                     "bc");
   }
 
   @ParameterizedTest
@@ -38,14 +37,14 @@ public class Strings_assertDoesNotContainAnyWhitespaces_Test extends StringsBase
     strings.assertDoesNotContainAnyWhitespaces(someInfo(), actual);
   }
 
-  public static Stream<Arguments> containsWithspaces() {
-    return Stream.of(Arguments.of("a "),
-                     Arguments.of("a b"),
-                     Arguments.of("a  b"),
-                     Arguments.of("a\u005Ctb"), // tab
-                     Arguments.of("a\u005Cnb"), // line feed
-                     Arguments.of("a\u005Crb"), // carriage return
-                     Arguments.of("a \u005Cn\u005Cr  b"));
+  public static Stream<String> containsWithspaces() {
+    return Stream.of("a ",
+                     "a b",
+                     "a  b",
+                     "a\u005Ctb", // tab
+                     "a\u005Cnb", // line feed
+                     "a\u005Crb", // carriage return
+                     "a \u005Cn\u005Cr  b");
   }
 
   @ParameterizedTest
