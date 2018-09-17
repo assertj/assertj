@@ -391,7 +391,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param expected the expected maximum length of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual length is equal or greater than the expected length.
+   * @throws AssertionError if the actual length is greater than the expected length.
+   * @since 3.12.0
    */
   public SELF hasSizeLessThanOrEqualTo(int expected) {
     strings.assertHasSizeLessThanOrEqualTo(info, actual, expected);
@@ -409,7 +410,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param expected the expected minimum length of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual length is equal or greater than the expected length.
+   * @throws AssertionError if the actual length is equal or less than the expected length.
+   * @throws 3.12.0
    */
   public SELF hasSizeGreaterThan(int expected) {
     strings.assertHasSizeGreaterThan(info, actual, expected);
@@ -428,7 +430,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param expected the expected minimum length of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual length is equal or greater than the expected length.
+   * @throws AssertionError if the actual length is less than the expected length.
+   * @since 3.12.0
    */
   public SELF hasSizeGreaterThanOrEqualTo(int expected) {
     strings.assertHasSizeGreaterThanOrEqualTo(info, actual, expected);
