@@ -19,12 +19,19 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableTypeAssert;
 import org.assertj.core.description.TextDescription;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class ThrowableTypeAssert_description_Test {
+
+  @BeforeAll
+  public static void beforeAll() {
+    Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
+  }
 
   public static Object[][] parameters() {
     return new Function[][] {
@@ -38,7 +45,8 @@ public class ThrowableTypeAssert_description_Test {
   @ParameterizedTest
   @MethodSource("parameters")
   public void should_contain_provided_description_if_nothing_is_thrown_by_lambda(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class)).isThrownBy(() -> {}))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class))
+                                                                                     .isThrownBy(() -> {}))
                                                    .withMessage(format("[test description] %nExpecting code to raise a throwable."));
   }
 

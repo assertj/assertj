@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
-  <version>3.11.0-SNAPSHOT</version>
+  <version>3.11.2-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.1.11</version>
+    <version>2.2.1</version>
     <relativePath />
   </parent>
   <mailingLists>
@@ -36,7 +36,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.2.0</version>
+        <version>5.3.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -95,7 +95,7 @@
     <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
-      <version>1.8.15</version>
+      <version>1.8.21</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -209,8 +209,19 @@
             <configuration>
               <instructions>
                 <Export-Package>org.assertj.core.*</Export-Package>
-                <!-- Don't import what assertj-core exports but import everything else -->
-                <Import-Package>!org.assertj.core.*, *</Import-Package>
+                <!--
+                  Don't import what assertj-core exports but import everything else.
+                  Also need to explicitly import packages that are dynamically loaded using
+                  Class.forName() (org.junit, org.opentest4j and org.testng are needed
+                  by the assumptions engine).
+                -->
+                <Import-Package>
+                  !org.assertj.core.*,
+                  org.junit;resolution:="optional",
+                  org.opentest4j;resolution:="optional",
+                  org.testng;resolution:="optional",
+                  *
+                </Import-Package>
                 <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
                 <_removeheaders>Bnd-LastModified</_removeheaders>
               </instructions>

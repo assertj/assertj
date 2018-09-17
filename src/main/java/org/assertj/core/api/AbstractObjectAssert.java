@@ -585,7 +585,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   /**
    * Uses the given {@link Function} to extract a value from the object under test, the extracted value becoming the new object under test.
    * <p>
-   * Note that since the value is extracted as an Object, only Object assertions can be chained after extraction.
+   * Note that since the value is extracted as an Object, only Object assertions can be chained after extracting.
    * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race
@@ -602,6 +602,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @param extractor the extractor function used to extract the value from the object under test.
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted value
+   *
+   * @since 3.11.0
    */
   public AbstractObjectAssert<?, ?> extracting(Function<? super ACTUAL, ? extends Object> extractor) {
     requireNonNull(extractor, "The given java.util.function.Function extractor must not be null");

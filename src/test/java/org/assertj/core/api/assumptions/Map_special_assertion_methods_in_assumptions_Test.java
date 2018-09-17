@@ -94,6 +94,6 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
             value -> assumeThat(value).size().isPositive().returnToMap().size().isPositive(),
             value -> assumeThat(value).size().isPositive().returnToMap().size().isNegative()),
     };
-  };
+  }
 
 }

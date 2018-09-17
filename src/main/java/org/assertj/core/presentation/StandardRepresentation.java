@@ -199,7 +199,10 @@ public class StandardRepresentation implements Representation {
   @Override
   public String unambiguousToStringOf(Object obj) {
     return obj == null ? null
-        : String.format("%s (%s@%s)", toStringOf(obj), obj.getClass().getSimpleName(), toHexString(obj.hashCode()));
+        : String.format("%s (%s@%s)",
+                        toStringOf(obj),
+                        obj.getClass().isAnonymousClass() ? obj.getClass().getName() : obj.getClass().getSimpleName(),
+                        toHexString(System.identityHashCode(obj)));
   }
 
   /**

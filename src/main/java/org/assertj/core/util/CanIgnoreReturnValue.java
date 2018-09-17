@@ -10,25 +10,22 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.error;
+package org.assertj.core.util;
 
-import org.assertj.core.description.Description;
-import org.assertj.core.presentation.Representation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Factory of <code>{@link AssertionError}</code>s.
- *
- * @author Alex Ruiz
- * @author Yvonne Wang
+ * Annotation to skip "CheckReturnValue" check.
  */
-public interface AssertionErrorFactory {
-
-  /**
-   * Creates an <code>{@link AssertionError}</code>.
-   * @param d the description of the failed assertion.
-   * @param representation the Representation used
-   * @return the created {@code AssertionError}.
-   */
-  AssertionError newAssertionError(Description d, Representation representation);
-
+@Target({
+  ElementType.CONSTRUCTOR,
+  ElementType.METHOD,
+  ElementType.PACKAGE,
+  ElementType.TYPE,
+})
+@Retention(RetentionPolicy.CLASS)
+public @interface CanIgnoreReturnValue {
 }

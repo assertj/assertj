@@ -23,6 +23,9 @@ public class Streams {
   /**
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
    * Collection#stream} if possible.
+   * @param <T> the stream type
+   * @param iterable the iterable to built the stream from
+   * @return the stream built from the given {@link Iterable}
    */
   public static <T> Stream<T> stream(Iterable<T> iterable) {
     return (iterable instanceof Collection)

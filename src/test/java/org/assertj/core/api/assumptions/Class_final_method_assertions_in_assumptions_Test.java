@@ -34,6 +34,5 @@ public class Class_final_method_assertions_in_assumptions_Test extends BaseAssum
             value -> assumeThat(value).hasAnnotations(MyAnnotation.class, AnotherAnnotation.class),
             value -> assumeThat(value).hasAnnotations(SafeVarargs.class, VisibleForTesting.class))
     };
-  };
-  
+  }
 }

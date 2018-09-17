@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.Integer.toHexString;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.util.Strings.concat;
@@ -27,14 +28,13 @@ import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.ComparisonFailure;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for
  * <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Joel Costigliola (based on Tomasz Nurkiewicz ideas)
  */
 public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
@@ -58,8 +58,13 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
 
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
 
-    assertThat(error).isInstanceOf(ComparisonFailure.class)
-                     .hasMessage("[my test] expected:<42.0[]> but was:<42.0[f]>");
+    assertThat(error).isInstanceOf(AssertionFailedError.class)
+                     .hasMessage(format("[my test] %n" +
+                                        "Expecting:%n" +
+                                        " <42.0f>%n" +
+                                        "to be equal to:%n" +
+                                        " <42.0>%n" +
+                                        "but was not."));
   }
 
   @Test

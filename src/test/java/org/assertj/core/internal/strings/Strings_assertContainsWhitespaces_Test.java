@@ -20,17 +20,16 @@ import java.util.stream.Stream;
 
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
 
-  public static Stream<Arguments> containOnlyWhitespace() {
-    return Stream.of(Arguments.of(" "),
-                     Arguments.of("\u005Ct"), // tab
-                     Arguments.of("\u005Cn"), // line feed
-                     Arguments.of("\u005Cr"), // carriage return
-                     Arguments.of(" \u005Cn\u005Cr  "));
+  public static Stream<String> containOnlyWhitespace() {
+    return Stream.of(" ",
+                     "\u005Ct", // tab
+                     "\u005Cn", // line feed
+                     "\u005Cr", // carriage return
+                     " \u005Cn\u005Cr  ");
   }
 
   @ParameterizedTest
@@ -39,14 +38,14 @@ public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
     strings.assertContainsWhitespaces(someInfo(), actual);
   }
 
-  public static Stream<Arguments> containOneOrMoreWhitespaces() {
-    return Stream.of(Arguments.of("a "),
-                     Arguments.of("a b"),
-                     Arguments.of("a  b"),
-                     Arguments.of("a\u005Ctb"), // tab
-                     Arguments.of("a\u005Cnb"), // line feed
-                     Arguments.of("a\u005Crb"), // carriage return
-                     Arguments.of("a \u005Cn\u005Cr  b"));
+  public static Stream<String> containOneOrMoreWhitespaces() {
+    return Stream.of("a ",
+                     "a b",
+                     "a  b",
+                     "a\u005Ctb", // tab
+                     "a\u005Cnb", // line feed
+                     "a\u005Crb", // carriage return
+                     "a \u005Cn\u005Cr  b");
   }
 
   @ParameterizedTest
@@ -55,11 +54,11 @@ public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
     strings.assertContainsWhitespaces(someInfo(), actual);
   }
 
-  public static Stream<Arguments> doesNotcontainAnyWhitespaces() {
-    return Stream.of(Arguments.of((String) null),
-                     Arguments.of(""),
-                     Arguments.of("a"),
-                     Arguments.of("bc"));
+  public static Stream<String> doesNotcontainAnyWhitespaces() {
+    return Stream.of(null,
+                     "",
+                     "a",
+                     "bc");
   }
 
   @ParameterizedTest

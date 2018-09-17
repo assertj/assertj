@@ -53,8 +53,8 @@ public class CompletableFutureAssert_isCompletedWithValue_Test extends BaseTest 
     Throwable throwable = catchThrowable(() -> assertThat(future).isCompletedWithValue("foo"));
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessageContaining("[foo]")
-                         .hasMessageContaining("[done]");
+                         .hasMessageContaining("foo")
+                         .hasMessageContaining("done");
   }
 
   @Test

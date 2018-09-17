@@ -66,8 +66,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     List<Difference> differences = determineDifferences(withHashSet, withSortedSet, null, null);
     // WHEN
     // @format:off
-    String message = shouldBeEqualByComparingFieldByFieldRecursive(withSortedSet,
-                                                                   withHashSet,
+    String message = shouldBeEqualByComparingFieldByFieldRecursive(withHashSet,
+                                                                   withSortedSet,
                                                                    differences,
                                                                    REPRESENTATION)
         .create(new TextDescription("Test"), REPRESENTATION);
@@ -83,8 +83,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          "Path to difference: <collection>%n" +
                                          "- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@%s)>%n" +
                                          "- expected: <[\"bar\", \"foo\"] (TreeSet@%s)>",
-                                         toHexString(withSortedSet.collection.hashCode()),
-                                         toHexString(withHashSet.collection.hashCode())));
+                                         toHexString(System.identityHashCode(withHashSet.collection)),
+                                         toHexString(System.identityHashCode(withSortedSet.collection))));
   }
 
   @Test
@@ -98,8 +98,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     List<Difference> differences = determineDifferences(withLinkedHashMap, withTreeMap, null, null);
     // WHEN
     // @format:off
-    String message = shouldBeEqualByComparingFieldByFieldRecursive(withTreeMap,
-                                                                   withLinkedHashMap,
+    String message = shouldBeEqualByComparingFieldByFieldRecursive(withLinkedHashMap,
+                                                                   withTreeMap,
                                                                    differences,
                                                                    REPRESENTATION)
                                                           .create(new TextDescription("Test"), REPRESENTATION);
@@ -115,8 +115,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          "Path to difference: <map>%n" +
                                          "- actual  : <{1L=true, 2L=false} (LinkedHashMap@%s)>%n" +
                                          "- expected: <{1L=true, 2L=false} (TreeMap@%s)>",
-                                         toHexString(withTreeMap.map.hashCode()),
-                                         toHexString(withLinkedHashMap.map.hashCode())));
+                                         toHexString(System.identityHashCode(withLinkedHashMap.map)),
+                                         toHexString(System.identityHashCode(withTreeMap.map))));
   }
 
   @Test
@@ -152,6 +152,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          personHash, personDAOHash));
   }
 
+  @Test
   public void should_not_fall_with_npe_if_field_of_one_of_compared_objects_is_null() {
     final Name actualName = new Name("Andy");
     final Name nullName = new Name(null);

@@ -374,7 +374,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * OffsetTime OffsetTime1 = OffsetTime.of(12, 0, 1, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(12, 0, 1, 456, ZoneOffset.UTC);
    * assertThat(OffsetTime1).isEqualToIgnoringNanos(OffsetTime2);
-   * 
+   *
    * // failing assertions (even if time difference is only 1ns)
    * OffsetTime OffsetTimeA = OffsetTime.of(12, 0, 1, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTimeB = OffsetTime.of(12, 0, 0, 999999999, ZoneOffset.UTC);
@@ -411,7 +411,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * OffsetTime OffsetTime1 = OffsetTime.of(23, 50, 0, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(23, 50, 10, 456, ZoneOffset.UTC);
    * assertThat(OffsetTime1).isEqualToIgnoringSeconds(OffsetTime2);
-   * 
+   *
    * // failing assertions (even if time difference is only 1ms)
    * OffsetTime OffsetTimeA = OffsetTime.of(23, 50, 00, 000, ZoneOffset.UTC);
    * OffsetTime OffsetTimeB = OffsetTime.of(23, 49, 59, 999, ZoneOffset.UTC);
@@ -441,7 +441,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * OffsetTime offsetTime = OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC);
    * OffsetTime offsetTime2 = OffsetTime.of(12, 0, 0, 0, ZoneOffset.MAX);
    * assertThat(offsetTime).isEqualToIgnoringTimezone(offsetTime2);
-   * 
+   *
    * // failing assertions (even if time difference is only 1ms)
    * OffsetTime offsetTime = OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC);
    * OffsetTime offsetTime2 = OffsetTime.of(12, 1, 0, 0, ZoneOffset.UTC);
@@ -477,7 +477,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * OffsetTime OffsetTime1 = OffsetTime.of(23, 50, 0, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(23, 00, 2, 7, ZoneOffset.UTC);
    * assertThat(OffsetTime1).hasSameHourAs(OffsetTime2);
-   * 
+   *
    * // failing assertions (even if time difference is only 1ms)
    * OffsetTime OffsetTimeA = OffsetTime.of(01, 00, 00, 000, ZoneOffset.UTC);
    * OffsetTime OffsetTimeB = OffsetTime.of(00, 59, 59, 999, ZoneOffset.UTC);
@@ -504,17 +504,17 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * <p>
    * Example:
    * <pre><code class='java'> OffsetTime offsetTime = OffsetTime.now();
-   * 
+   *
    * // assertions succeed:
    * assertThat(offsetTime).isBetween(offsetTime.minusSeconds(1), offsetTime.plusSeconds(1))
    *                       .isBetween(offsetTime, offsetTime.plusSeconds(1))
    *                       .isBetween(offsetTime.minusSeconds(1), offsetTime)
    *                       .isBetween(offsetTime, offsetTime);
-   * 
+   *
    * // assertions fail:
    * assertThat(offsetTime).isBetween(offsetTime.minusSeconds(10), offsetTime.minusSeconds(1));
    * assertThat(offsetTime).isBetween(offsetTime.plusSeconds(1), offsetTime.plusSeconds(10));</code></pre>
-   * 
+   *
    * @param startInclusive the start value (inclusive), expected not to be null.
    * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
@@ -522,7 +522,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] period.
-   * 
+   *
    * @since 3.7.1
    */
   public SELF isBetween(OffsetTime startInclusive, OffsetTime endInclusive) {
@@ -531,32 +531,32 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
   }
 
   /**
-   * Same assertion as {@link #isBetween(OffsetTime, OffsetTime)} but here you pass {@link OffsetTime} String representations 
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_TIME">ISO OffsetTime format</a> 
+   * Same assertion as {@link #isBetween(OffsetTime, OffsetTime)} but here you pass {@link OffsetTime} String representations
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_TIME">ISO OffsetTime format</a>
    * to allow calling {@link OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example:
    * <pre><code class='java'> OffsetTime oneAm = OffsetTime.parse("01:00:00+02:00");
-   * 
+   *
    * // assertions succeed:
    * assertThat(oneAm).isBetween("00:59:59+02:00", "01:00:01+02:00")
    *                  .isBetween("01:00:00+02:00", "01:00:01+02:00")
    *                  .isBetween("00:59:59+02:00", "01:00:00+02:00")
    *                  .isBetween("01:00:00+02:00", "01:00:00+02:00")
-   *                               
+   *
    * // assertion fails:
    * assertThat(oneAm).isBetween("01:00:01+02:00", "02:00:01+02:00");</code></pre>
-   * 
+   *
    * @param startInclusive the start value (inclusive), expected not to be null.
    * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
-   * 
+   *
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws DateTimeParseException if any of the given String can't be converted to a {@link OffsetTime}.
    * @throws AssertionError if the actual value is not in [start, end] period.
-   * 
+   *
    * @since 3.7.1
    */
   public SELF isBetween(String startInclusive, String endInclusive) {
@@ -568,61 +568,61 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * <p>
    * Example:
    * <pre><code class='java'> OffsetTime offsetTime = OffsetTime.now();
-   * 
+   *
    * // assertion succeeds:
    * assertThat(offsetTime).isStrictlyBetween(offsetTime.minusSeconds(1), offsetTime.plusSeconds(1));
-   * 
+   *
    * // assertions fail:
    * assertThat(offsetTime).isStrictlyBetween(offsetTime.minusSeconds(10), offsetTime.minusSeconds(1));
    * assertThat(offsetTime).isStrictlyBetween(offsetTime.plusSeconds(1), offsetTime.plusSeconds(10));
    * assertThat(offsetTime).isStrictlyBetween(offsetTime, offsetTime.plusSeconds(1));
    * assertThat(offsetTime).isStrictlyBetween(offsetTime.minusSeconds(1), offsetTime);</code></pre>
-   * 
-   * @param startInclusive the start value (inclusive), expected not to be null.
-   * @param endInclusive the end value (inclusive), expected not to be null.
+   *
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ period.
-   * 
+   *
    * @since 3.7.1
    */
-  public SELF isStrictlyBetween(OffsetTime startInclusive, OffsetTime endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+  public SELF isStrictlyBetween(OffsetTime startExclusive, OffsetTime endExclusive) {
+    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
 
   /**
-   * Same assertion as {@link #isStrictlyBetween(OffsetTime, OffsetTime)} but here you pass {@link OffsetTime} String representations 
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_TIME">ISO OffsetTime format</a> 
+   * Same assertion as {@link #isStrictlyBetween(OffsetTime, OffsetTime)} but here you pass {@link OffsetTime} String representations
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_TIME">ISO OffsetTime format</a>
    * to allow calling {@link OffsetTime#parse(CharSequence)} method.
    * <p>
    * Example:
    * <pre><code class='java'> OffsetTime oneAm = OffsetTime.parse("01:00:00+02:00");
-   * 
+   *
    * // assertion succeeds:
    * assertThat(oneAm).isStrictlyBetween("00:59:59+02:00", "01:00:01+02:00");
-   * 
+   *
    * // assertions fail:
    * assertThat(oneAm).isStrictlyBetween("02:00:00+02:00", "03:00:00+02:00");
    * assertThat(oneAm).isStrictlyBetween("00:59:59+02:00", "01:00:00+02:00");
    * assertThat(oneAm).isStrictlyBetween("01:00:00+02:00", "01:00:01+02:00");</code></pre>
-   * 
-   * @param startInclusive the start value (inclusive), expected not to be null.
-   * @param endInclusive the end value (inclusive), expected not to be null.
+   *
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
-   * 
+   *
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws DateTimeParseException if any of the given String can't be converted to a {@link OffsetTime}.
    * @throws AssertionError if the actual value is not in ]start, end[ period.
-   * 
+   *
    * @since 3.7.1
    */
-  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
-    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
+  public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
+    return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
   }
 
   /**

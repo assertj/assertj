@@ -58,7 +58,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for <code>{@link Date}</code>s.
  *
@@ -93,8 +92,10 @@ public class Dates {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-        .getComparator(); }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
+                                                                     .getComparator();
+    }
     return null;
   }
 
@@ -111,7 +112,7 @@ public class Dates {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isBefore(actual, other))
-        throw failures.failure(info, shouldBeBefore(actual, other, comparisonStrategy));
+      throw failures.failure(info, shouldBeBefore(actual, other, comparisonStrategy));
   }
 
   /**
@@ -127,7 +128,7 @@ public class Dates {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isBeforeOrEqualTo(actual, other))
-        throw failures.failure(info, shouldBeBeforeOrEqualsTo(actual, other, comparisonStrategy));
+      throw failures.failure(info, shouldBeBeforeOrEqualsTo(actual, other, comparisonStrategy));
   }
 
   /**
@@ -143,7 +144,7 @@ public class Dates {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isAfter(actual, other))
-        throw failures.failure(info, shouldBeAfter(actual, other, comparisonStrategy));
+      throw failures.failure(info, shouldBeAfter(actual, other, comparisonStrategy));
   }
 
   /**
@@ -159,7 +160,7 @@ public class Dates {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isAfterOrEqualTo(actual, other))
-        throw failures.failure(info, shouldBeAfterOrEqualsTo(actual, other, comparisonStrategy));
+      throw failures.failure(info, shouldBeAfterOrEqualsTo(actual, other, comparisonStrategy));
   }
 
   /**
@@ -179,25 +180,25 @@ public class Dates {
     Calendar calendarOther = Calendar.getInstance();
     calendarOther.setTime(other);
     switch (precision) {
-      case DAYS:
-        calendarActual.set(Calendar.DAY_OF_WEEK, 0);
-        calendarOther.set(Calendar.DAY_OF_WEEK, 0);
-      case HOURS:
-        calendarActual.set(Calendar.HOUR_OF_DAY, 0);
-        calendarOther.set(Calendar.HOUR_OF_DAY, 0);
-      case MINUTES:
-        calendarActual.set(Calendar.MINUTE, 0);
-        calendarOther.set(Calendar.MINUTE, 0);
-      case SECONDS:
-        calendarActual.set(Calendar.SECOND, 0);
-        calendarOther.set(Calendar.SECOND, 0);
-      case MILLISECONDS:
-        calendarActual.set(Calendar.MILLISECOND, 0);
-        calendarOther.set(Calendar.MILLISECOND, 0);
-      case MICROSECONDS:
-        break;
-      default:
-        break;
+    case DAYS:
+      calendarActual.set(Calendar.DAY_OF_WEEK, 0);
+      calendarOther.set(Calendar.DAY_OF_WEEK, 0);
+    case HOURS:
+      calendarActual.set(Calendar.HOUR_OF_DAY, 0);
+      calendarOther.set(Calendar.HOUR_OF_DAY, 0);
+    case MINUTES:
+      calendarActual.set(Calendar.MINUTE, 0);
+      calendarOther.set(Calendar.MINUTE, 0);
+    case SECONDS:
+      calendarActual.set(Calendar.SECOND, 0);
+      calendarOther.set(Calendar.SECOND, 0);
+    case MILLISECONDS:
+      calendarActual.set(Calendar.MILLISECOND, 0);
+      calendarOther.set(Calendar.MILLISECOND, 0);
+    case MICROSECONDS:
+      break;
+    default:
+      break;
     }
     if (calendarActual.compareTo(calendarOther) != 0)
       throw failures.failure(info, ShouldBeEqualWithTimePrecision.shouldBeEqual(actual, other, precision));
@@ -218,12 +219,14 @@ public class Dates {
    * @throws NullPointerException if end {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not in <i>start:end</i> period.
    */
-  public void assertIsBetween(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
+  public void assertIsBetween(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart,
+                              boolean inclusiveEnd) {
     if (!actualIsBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd))
-        throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
+      throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
   }
 
-  private boolean actualIsBetweenGivenPeriod(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
+  private boolean actualIsBetweenGivenPeriod(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart,
+                                             boolean inclusiveEnd) {
     assertNotNull(info, actual);
     startDateParameterIsNotNull(start);
     endDateParameterIsNotNull(end);
@@ -249,9 +252,9 @@ public class Dates {
    * @throws AssertionError if the actual {@code Date} is in <i>start:end</i> period.
    */
   public void assertIsNotBetween(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart,
-      boolean inclusiveEnd) {
+                                 boolean inclusiveEnd) {
     if (actualIsBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd))
-        throw failures.failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
+      throw failures.failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
   }
 
   /**
@@ -263,8 +266,7 @@ public class Dates {
    */
   public void assertIsInThePast(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
-    if (!isBefore(actual, now()))
-        throw failures.failure(info, shouldBeInThePast(actual, comparisonStrategy));
+    if (!isBefore(actual, now())) throw failures.failure(info, shouldBeInThePast(actual, comparisonStrategy));
   }
 
   /**
@@ -279,8 +281,7 @@ public class Dates {
     assertNotNull(info, actual);
     Date todayWithoutTime = truncateTime(now());
     Date actualWithoutTime = truncateTime(actual);
-    if (!areEqual(actualWithoutTime, todayWithoutTime))
-        throw failures.failure(info, shouldBeToday(actual, comparisonStrategy));
+    if (!areEqual(actualWithoutTime, todayWithoutTime)) throw failures.failure(info, shouldBeToday(actual, comparisonStrategy));
   }
 
   /**
@@ -292,8 +293,7 @@ public class Dates {
    */
   public void assertIsInTheFuture(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
-    if (!isAfter(actual, now()))
-        throw failures.failure(info, shouldBeInTheFuture(actual, comparisonStrategy));
+    if (!isAfter(actual, now())) throw failures.failure(info, shouldBeInTheFuture(actual, comparisonStrategy));
   }
 
   /**
@@ -306,8 +306,7 @@ public class Dates {
    */
   public void assertIsBeforeYear(AssertionInfo info, Date actual, int year) {
     assertNotNull(info, actual);
-    if (yearOf(actual) >= year)
-        throw failures.failure(info, shouldBeBeforeYear(actual, year));
+    if (yearOf(actual) >= year) throw failures.failure(info, shouldBeBeforeYear(actual, year));
   }
 
   /**
@@ -320,8 +319,7 @@ public class Dates {
    */
   public void assertIsAfterYear(AssertionInfo info, Date actual, int year) {
     assertNotNull(info, actual);
-    if (yearOf(actual) <= year)
-        throw failures.failure(info, shouldBeAfterYear(actual, year));
+    if (yearOf(actual) <= year) throw failures.failure(info, shouldBeAfterYear(actual, year));
   }
 
   /**
@@ -334,8 +332,7 @@ public class Dates {
    */
   public void assertHasYear(AssertionInfo info, Date actual, int year) {
     assertNotNull(info, actual);
-    if (yearOf(actual) != year)
-        throw failures.failure(info, shouldHaveDateField(actual, "year", year));
+    if (yearOf(actual) != year) throw failures.failure(info, shouldHaveDateField(actual, "year", year));
   }
 
   /**
@@ -350,7 +347,7 @@ public class Dates {
   public void assertHasMonth(AssertionInfo info, Date actual, int month) {
     assertNotNull(info, actual);
     if (monthOf(actual) != month)
-        throw failures.failure(info, shouldHaveDateField(actual, "month", month));
+      throw failures.failure(info, shouldHaveDateField(actual, "month", month));
   }
 
   /**
@@ -363,8 +360,7 @@ public class Dates {
    */
   public void assertHasDayOfMonth(AssertionInfo info, Date actual, int dayOfMonth) {
     assertNotNull(info, actual);
-    if (dayOfMonthOf(actual) != dayOfMonth)
-        throw failures.failure(info, shouldHaveDateField(actual, "day of month", dayOfMonth));
+    if (dayOfMonthOf(actual) != dayOfMonth) throw failures.failure(info, shouldHaveDateField(actual, "day of month", dayOfMonth));
   }
 
   /**
@@ -377,8 +373,7 @@ public class Dates {
    */
   public void assertHasDayOfWeek(AssertionInfo info, Date actual, int dayOfWeek) {
     assertNotNull(info, actual);
-    if (dayOfWeekOf(actual) != dayOfWeek)
-        throw failures.failure(info, shouldHaveDateField(actual, "day of week", dayOfWeek));
+    if (dayOfWeekOf(actual) != dayOfWeek) throw failures.failure(info, shouldHaveDateField(actual, "day of week", dayOfWeek));
   }
 
   /**
@@ -392,7 +387,7 @@ public class Dates {
   public void assertHasHourOfDay(AssertionInfo info, Date actual, int hourOfDay) {
     assertNotNull(info, actual);
     if (hourOfDayOf(actual) != hourOfDay)
-        throw failures.failure(info, shouldHaveDateField(actual, "hour", hourOfDay));
+      throw failures.failure(info, shouldHaveDateField(actual, "hour", hourOfDay));
   }
 
   /**
@@ -405,8 +400,7 @@ public class Dates {
    */
   public void assertHasMinute(AssertionInfo info, Date actual, int minute) {
     assertNotNull(info, actual);
-    if (minuteOf(actual) != minute)
-        throw failures.failure(info, shouldHaveDateField(actual, "minute", minute));
+    if (minuteOf(actual) != minute) throw failures.failure(info, shouldHaveDateField(actual, "minute", minute));
   }
 
   /**
@@ -419,8 +413,7 @@ public class Dates {
    */
   public void assertHasSecond(AssertionInfo info, Date actual, int second) {
     assertNotNull(info, actual);
-    if (secondOf(actual) != second)
-        throw failures.failure(info, shouldHaveDateField(actual, "second", second));
+    if (secondOf(actual) != second) throw failures.failure(info, shouldHaveDateField(actual, "second", second));
   }
 
   /**
@@ -434,7 +427,7 @@ public class Dates {
   public void assertHasMillisecond(AssertionInfo info, Date actual, int millisecond) {
     assertNotNull(info, actual);
     if (millisecondOf(actual) != millisecond)
-        throw failures.failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
+      throw failures.failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
   }
 
   /**
@@ -449,8 +442,7 @@ public class Dates {
   public void assertIsInSameYearAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameYear(actual, other))
-        throw failures.failure(info, shouldBeInSameYear(actual, other));
+    if (!areInSameYear(actual, other)) throw failures.failure(info, shouldBeInSameYear(actual, other));
   }
 
   /**
@@ -475,8 +467,7 @@ public class Dates {
   public void assertIsInSameMonthAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameMonth(actual, other))
-        throw failures.failure(info, shouldBeInSameMonth(actual, other));
+    if (!areInSameMonth(actual, other)) throw failures.failure(info, shouldBeInSameMonth(actual, other));
   }
 
   /**
@@ -502,8 +493,7 @@ public class Dates {
   public void assertIsInSameDayAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameDayOfMonth(actual, other))
-        throw failures.failure(info, shouldBeInSameDay(actual, other));
+    if (!areInSameDayOfMonth(actual, other)) throw failures.failure(info, shouldBeInSameDay(actual, other));
   }
 
   /**
@@ -529,8 +519,7 @@ public class Dates {
   public void assertIsInSameHourAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameHour(actual, other))
-        throw failures.failure(info, shouldBeInSameHour(actual, other));
+    if (!areInSameHour(actual, other)) throw failures.failure(info, shouldBeInSameHour(actual, other));
   }
 
   /**
@@ -546,8 +535,7 @@ public class Dates {
   public void assertIsInSameHourWindowAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameHourWindow(actual, other))
-        throw failures.failure(info, shouldBeInSameHourWindow(actual, other));
+    if (!areInSameHourWindow(actual, other)) throw failures.failure(info, shouldBeInSameHourWindow(actual, other));
   }
 
   /**
@@ -582,8 +570,7 @@ public class Dates {
   public void assertIsInSameMinuteAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameMinute(actual, other))
-        throw failures.failure(info, shouldBeInSameMinute(actual, other));
+    if (!areInSameMinute(actual, other)) throw failures.failure(info, shouldBeInSameMinute(actual, other));
   }
 
   /**
@@ -598,8 +585,7 @@ public class Dates {
   public void assertIsInSameMinuteWindowAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameMinuteWindow(actual, other))
-        throw failures.failure(info, shouldBeInSameMinuteWindow(actual, other));
+    if (!areInSameMinuteWindow(actual, other)) throw failures.failure(info, shouldBeInSameMinuteWindow(actual, other));
   }
 
   /**
@@ -628,8 +614,7 @@ public class Dates {
   public void assertIsInSameSecondAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameSecond(actual, other))
-        throw failures.failure(info, shouldBeInSameSecond(actual, other));
+    if (!areInSameSecond(actual, other)) throw failures.failure(info, shouldBeInSameSecond(actual, other));
   }
 
   /**
@@ -644,8 +629,7 @@ public class Dates {
   public void assertIsInSameSecondWindowAs(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (!areInSameSecondWindow(actual, other))
-        throw failures.failure(info, shouldBeInSameSecondWindow(actual, other));
+    if (!areInSameSecondWindow(actual, other)) throw failures.failure(info, shouldBeInSameSecondWindow(actual, other));
   }
 
   /**
@@ -687,7 +671,7 @@ public class Dates {
     dateParameterIsNotNull(other);
     long difference = Math.abs(actual.getTime() - other.getTime());
     if (difference > deltaInMilliseconds)
-        throw failures.failure(info, shouldBeCloseTo(actual, other, deltaInMilliseconds, difference));
+      throw failures.failure(info, shouldBeCloseTo(actual, other, deltaInMilliseconds, difference));
   }
 
   /**
@@ -700,8 +684,7 @@ public class Dates {
    */
   public void assertHasTime(AssertionInfo info, Date actual, long timestamp) {
     assertNotNull(info, actual);
-    if (actual.getTime() != timestamp)
-        throw failures.failure(info, shouldHaveTime(actual, timestamp));
+    if (actual.getTime() != timestamp) throw failures.failure(info, shouldHaveTime(actual, timestamp));
   }
 
   /**
@@ -716,8 +699,7 @@ public class Dates {
   public void assertHasSameTime(AssertionInfo info, Date actual, Date expected) {
     assertNotNull(info, actual);
     assertNotNull(info, expected);
-    if (actual.getTime() != expected.getTime())
-        throw failures.failure(info, shouldHaveSameTime(actual, expected));
+    if (actual.getTime() != expected.getTime()) throw failures.failure(info, shouldHaveSameTime(actual, expected));
   }
 
   /**

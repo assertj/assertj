@@ -151,33 +151,40 @@ public interface WithAssertions {
   /**
    * Throws an {@link AssertionError} with the given message.
    *
+   * @param <T> dummy return value type
    * @param failureMessage error message.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom")));.
    * @throws AssertionError with the given message.
    */
-  default void fail(final String failureMessage) {
-    Assertions.fail(failureMessage);
+  default <T> T fail(final String failureMessage) {
+    return Assertions.fail(failureMessage);
   }
 
   /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
+   * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
    * @throws AssertionError with the given built message.
    * @since 3.9.0
    */
-  default void fail(String failureMessage, Object... args) {
-    Assertions.fail(failureMessage, args);
+  default <T> T fail(String failureMessage, Object... args) {
+    return Assertions.fail(failureMessage, args);
   }
 
   /**
    * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that caused the failure.
+   *
+   * @param <T> dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
-  default void fail(final String failureMessage, final Throwable realCause) {
-    Assertions.fail(failureMessage, realCause);
+  default <T> T fail(final String failureMessage, final Throwable realCause) {
+    return Assertions.fail(failureMessage, realCause);
   }
 
   /**
@@ -1822,24 +1829,28 @@ public interface WithAssertions {
    * <p>
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
    * <p>
+   * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; failBecauseExceptionWasNotThrown(IOException.class)));.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
-  default void failBecauseExceptionWasNotThrown(final Class<? extends Throwable> throwableClass) {
-    Assertions.failBecauseExceptionWasNotThrown(throwableClass);
+  default <T> T failBecauseExceptionWasNotThrown(final Class<? extends Throwable> throwableClass) {
+    return Assertions.failBecauseExceptionWasNotThrown(throwableClass);
   }
 
   /**
    * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
+   * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    * @since 3.9.0
    */
-  default void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
-    Assertions.shouldHaveThrown(throwableClass);
+  default <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
+    return Assertions.shouldHaveThrown(throwableClass);
   }
 
   /**

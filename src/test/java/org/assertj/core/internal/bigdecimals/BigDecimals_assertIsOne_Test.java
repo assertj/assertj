@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
@@ -37,7 +38,7 @@ public class BigDecimals_assertIsOne_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsOne(someInfo(), BigDecimal.ZERO))
-                                                   .withMessage("expected:<[1]> but was:<[0]>");
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
   }
 
   @Test
@@ -48,7 +49,7 @@ public class BigDecimals_assertIsOne_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigDecimal.ZERO))
-                                                   .withMessage("expected:<[1]> but was:<[0]>");
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
   }
 
 }

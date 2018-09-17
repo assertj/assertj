@@ -18,13 +18,13 @@ import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 public class AbstractAssert_satisfies_with_Condition_Test extends AbstractAssertBaseTest {
 
   private static Condition<Object> condition;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     condition = new TestCondition<>();
   }

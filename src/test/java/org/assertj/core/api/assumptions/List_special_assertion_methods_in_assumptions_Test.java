@@ -194,6 +194,6 @@ public class List_special_assertion_methods_in_assumptions_Test extends BaseAssu
             value -> assumeThat(value).endsWith(2, 3),
             value -> assumeThat(value).endsWith(2, 4))
     };
-  };
+  }
 
 }

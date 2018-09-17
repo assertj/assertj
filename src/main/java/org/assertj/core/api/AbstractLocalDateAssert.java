@@ -38,7 +38,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractLocalDateAssert}</code>.
-   * 
+   *
    * @param selfType the "self type"
    * @param actual the actual value to verify
    */
@@ -51,7 +51,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01")).isBefore(parse("2000-01-02"));</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -74,7 +74,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isBefore("2000-01-02");</code></pre>
-   * 
+   *
    * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -93,7 +93,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01")).isBeforeOrEqualTo(parse("2000-01-01"))
    *                                .isBeforeOrEqualTo(parse("2000-01-02"));</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -119,7 +119,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01")).isBeforeOrEqualTo("2000-01-01")
    *                                .isBeforeOrEqualTo("2000-01-02");</code></pre>
-   * 
+   *
    * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -138,7 +138,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01")).isAfterOrEqualTo(parse("2000-01-01"))
    *                                .isAfterOrEqualTo(parse("1999-12-31"));</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -164,7 +164,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01")).isAfterOrEqualTo("2000-01-01")
    *                                .isAfterOrEqualTo("1999-12-31");</code></pre>
-   * 
+   *
    * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -182,7 +182,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01")).isAfter(parse("1999-12-31"));</code></pre>
-   * 
+   *
    * @param other the given {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -207,7 +207,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01")).isAfter("1999-12-31");</code></pre>
-   * 
+   *
    * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -229,7 +229,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isEqualTo("2000-01-01");</code></pre>
-   * 
+   *
    * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -251,7 +251,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01")).isNotEqualTo("2000-01-15");</code></pre>
-   * 
+   *
    * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -273,7 +273,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Example :
    * <pre><code class='java'> // use String based representation of LocalDate
    * assertThat(parse("2000-01-01")).isIn("1999-12-31", "2000-01-01");</code></pre>
-   * 
+   *
    * @param localDatesAsString String array representing {@link LocalDate}s.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -295,7 +295,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * Example :
    * <pre><code class='java'> // use String based representation of LocalDate
    * assertThat(parse("2000-01-01")).isNotIn("1999-12-31", "2000-01-02");</code></pre>
-   * 
+   *
    * @param localDatesAsString Array of String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
@@ -333,17 +333,17 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <p>
    * Example:
    * <pre><code class='java'> LocalDate localDate = LocalDate.now();
-   * 
+   *
    * // assertions succeed:
    * assertThat(localDate).isBetween(localDate.minusDays(1), localDate.plusDays(1))
    *                      .isBetween(localDate, localDate.plusDays(1))
    *                      .isBetween(localDate.minusDays(1), localDate)
    *                      .isBetween(localDate, localDate);
-   * 
+   *
    * // assertions fail:
    * assertThat(localDate).isBetween(localDate.minusDays(10), localDate.minusDays(1));
    * assertThat(localDate).isBetween(localDate.plusDays(1), localDate.plusDays(10));</code></pre>
-   * 
+   *
    * @param startInclusive the start value (inclusive), expected not to be null.
    * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
@@ -351,7 +351,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] period.
-   * 
+   *
    * @since 3.7.1
    */
   public SELF isBetween(LocalDate startInclusive, LocalDate endInclusive) {
@@ -360,32 +360,32 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   }
 
   /**
-   * Same assertion as {@link #isBetween(LocalDate, LocalDate)} but here you pass {@link LocalDate} String representations 
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a> 
+   * Same assertion as {@link #isBetween(LocalDate, LocalDate)} but here you pass {@link LocalDate} String representations
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a>
    * to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDate firstOfJanuary2000 = LocalDate.parse("2000-01-01");
-   * 
+   *
    * // assertions succeed:
    * assertThat(firstOfJanuary2000).isBetween("1999-01-01", "2001-01-01")
    *                               .isBetween("2000-01-01", "2001-01-01")
    *                               .isBetween("1999-01-01", "2000-01-01")
    *                               .isBetween("2000-01-01", "2000-01-01");
-   * 
+   *
    * // assertion fails:
    * assertThat(firstOfJanuary2000).isBetween("1999-01-01", "1999-12-31");</code></pre>
-   * 
+   *
    * @param startInclusive the start value (inclusive), expected not to be null.
    * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
-   * 
+   *
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws DateTimeParseException if any of the given String can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual value is not in [start, end] period.
-   * 
+   *
    * @since 3.7.1
    */
   public SELF isBetween(String startInclusive, String endInclusive) {
@@ -397,61 +397,61 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <p>
    * Example:
    * <pre><code class='java'> LocalDate localDate = LocalDate.now();
-   * 
+   *
    * // assertion succeeds:
    * assertThat(localDate).isStrictlyBetween(localDate.minusDays(1), localDate.plusDays(1));
-   * 
+   *
    * // assertions fail:
    * assertThat(localDate).isStrictlyBetween(localDate.minusDays(10), localDate.minusDays(1));
    * assertThat(localDate).isStrictlyBetween(localDate.plusDays(1), localDate.plusDays(10));
    * assertThat(localDate).isStrictlyBetween(localDate, localDate.plusDays(1));
    * assertThat(localDate).isStrictlyBetween(localDate.minusDays(1), localDate);</code></pre>
-   * 
-   * @param startInclusive the start value (inclusive), expected not to be null.
-   * @param endInclusive the end value (inclusive), expected not to be null.
+   *
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ period.
-   * 
+   *
    * @since 3.7.1
    */
-  public SELF isStrictlyBetween(LocalDate startInclusive, LocalDate endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, false, false);
+  public SELF isStrictlyBetween(LocalDate startExclusive, LocalDate endExclusive) {
+    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
 
   /**
-   * Same assertion as {@link #isStrictlyBetween(LocalDate, LocalDate)} but here you pass {@link LocalDate} String representations 
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a> 
+   * Same assertion as {@link #isStrictlyBetween(LocalDate, LocalDate)} but here you pass {@link LocalDate} String representations
+   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a>
    * to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDate firstOfJanuary2000 = LocalDate.parse("2000-01-01");
-   * 
+   *
    * // assertion succeeds:
    * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01", "2001-01-01");
-   * 
+   *
    * // assertions fail:
    * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01", "1999-12-31");
    * assertThat(firstOfJanuary2000).isStrictlyBetween("2000-01-01", "2001-01-01");
    * assertThat(firstOfJanuary2000).isStrictlyBetween("1999-01-01", "2000-01-01");</code></pre>
-   * 
-   * @param startInclusive the start value (inclusive), expected not to be null.
-   * @param endInclusive the end value (inclusive), expected not to be null.
+   *
+   * @param startExclusive the start value (exclusive), expected not to be null.
+   * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
-   * 
+   *
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
    * @throws DateTimeParseException if any of the given String can't be converted to a {@link LocalDate}.
    * @throws AssertionError if the actual value is not in ]start, end[ period.
-   * 
+   *
    * @since 3.7.1
    */
-  public SELF isStrictlyBetween(String startInclusive, String endInclusive) {
-    return isStrictlyBetween(parse(startInclusive), parse(endInclusive));
+  public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
+    return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
   }
 
   /**
@@ -474,7 +474,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Check that the {@link LocalDate} string representation to compare actual {@link LocalDate} to is not null,
    * otherwise throws a {@link IllegalArgumentException} with an explicit message
-   * 
+   *
    * @param localDateAsString String representing the {@link LocalDate} to compare actual with
    * @throws IllegalArgumentException with an explicit message if the given {@link String} is null
    */
@@ -486,7 +486,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Check that the {@link LocalDate} to compare actual {@link LocalDate} to is not null, in that case throws a
    * {@link IllegalArgumentException} with an explicit message
-   * 
+   *
    * @param other the {@link LocalDate} to check
    * @throws IllegalArgumentException with an explicit message if the given {@link LocalDate} is null
    */

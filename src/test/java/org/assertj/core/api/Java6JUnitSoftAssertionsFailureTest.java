@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
 import java.util.List;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.model.MultipleFailureException;
-
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 public class Java6JUnitSoftAssertionsFailureTest {
   // we cannot make it a rule here, because we need to test the failure without this test failing!
@@ -39,7 +39,7 @@ public class Java6JUnitSoftAssertionsFailureTest {
       List<Throwable> failures = e.getFailures();
 
       assertThat(failures).hasSize(2);
-      assertThat(failures.get(0)).hasMessageContaining("expected:<[2]> but was:<[1]>");
+      assertThat(failures.get(0)).hasMessageContaining(format("%nExpecting:%n <1>%nto be equal to:%n <2>%nbut was not."));
       assertThat(failures.get(1)).hasMessageContaining(format("%n" +
                                                               "Expecting:%n" +
                                                               "  <[1, 2]>%n" +

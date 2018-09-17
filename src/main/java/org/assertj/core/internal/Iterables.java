@@ -255,6 +255,20 @@ public class Iterables {
   }
 
   /**
+   * Asserts that the unique element of the {@link Iterable} satisfies the given assertions expressed as a {@link Consumer},
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @throws AssertionError if the {@link Iterable} does not have a unique element.
+   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
+   */
+  public <T> void assertHasOnlyOneElementSatisfying(AssertionInfo info, Iterable<? extends T> actual,
+                                                    Consumer<? super T> consumer) {
+    assertHasSize(info, actual, 1);
+    consumer.accept(actual.iterator().next());
+  }
+
+  /**
    * Assert that the actual {@code Iterable} has the same size as the other array.
    *
    * @param info contains information about the assertion.

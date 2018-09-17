@@ -38,7 +38,7 @@ public class Shorts_assertIsZero_Test extends ShortsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsZero(someInfo(), (short) 2))
-                                                   .withMessage("expected:<[0]> but was:<[2]>");
+                                                   .withMessage(format("%nExpecting:%n <2>%nto be equal to:%n <0>%nbut was not."));
   }
 
   @Test

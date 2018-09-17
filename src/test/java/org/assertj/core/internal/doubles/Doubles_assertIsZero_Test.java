@@ -12,12 +12,12 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 public class Doubles_assertIsZero_Test extends DoublesBaseTest {
 
@@ -29,13 +29,14 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), 2.0d))
-                                                   .withMessage("expected:<[0].0> but was:<[2].0>");
+                                                   .withMessage(format("%nExpecting:%n <2.0>%nto be equal to:%n <0.0>%nbut was not."));
+
   }
 
   @Test
   public void should_fail_since_actual_is_negative_zero_and_not_primitive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), new Double(-0.0d)))
-                                                   .withMessage("expected:<[]0.0> but was:<[-]0.0>");
+                                                   .withMessage(format("%nExpecting:%n <-0.0>%nto be equal to:%n <0.0>%nbut was not."));
   }
 
   @Test
@@ -45,8 +46,9 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 2.0d))
-                                                   .withMessage("expected:<[0].0> but was:<[2].0>");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsZero(someInfo(),
+                                                                                                                        2.0d))
+                                                   .withMessage(format("%nExpecting:%n <2.0>%nto be equal to:%n <0.0>%nbut was not."));
   }
 
 }
