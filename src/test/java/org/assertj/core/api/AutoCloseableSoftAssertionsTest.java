@@ -135,6 +135,8 @@ public class AutoCloseableSoftAssertionsTest {
         }
       } });
 
+      softly.assertThat(list("54").iterator()).hasNext();
+
       final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("IllegalArgumentException message");
       softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
       softly.assertThatThrownBy(() -> {
