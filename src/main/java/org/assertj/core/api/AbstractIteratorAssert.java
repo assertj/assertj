@@ -12,16 +12,15 @@
  */
 package org.assertj.core.api;
 
+import java.util.Iterator;
+
 import org.assertj.core.internal.Iterators;
 import org.assertj.core.util.VisibleForTesting;
 
-import java.util.Iterator;
-
 /**
- * Base class for all implementations of assertions for {@link Iterator}s.
- * <p/>
- * Note that none of the assertions modify the actual iterator, i.e. they do not consume any elements.
- * In order to use consuming assertions, use {@link #toIterable()}.
+ * <p>Base class for all implementations of assertions for {@link Iterator}s.</p>
+ * <p>Note that none of the assertions modify the actual iterator, i.e. they do not consume any elements.
+ * In order to use consuming assertions, use {@link #toIterable()}.</p>
  *
  * @param <SELF> the "self" type of this assertion class.
  * @param <ELEMENT> the type of elements.
@@ -45,9 +44,8 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
   }
 
   /**
-   * Verifies that the actual {@code Iterator} has at least one more element.
+   * <p>Verifies that the actual {@code Iterator} has at least one more element.</p>
    *
-   * <p/>
    * Example:
    * <pre><code class='java'> assertThat(listOfNames.iterator()).hasNext();</code></pre>
    *
@@ -60,9 +58,8 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
   }
 
   /**
-   * Verifies that the actual {@code Iterator} has no more elements.
+   * <p>Verifies that the actual {@code Iterator} has no more elements.</p>
    *
-   * <p/>
    * Example:
    * <pre><code class='java'> assertThat(Collections.emptyList().iterator()).hasNext();</code></pre>
    *
@@ -75,9 +72,8 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
   }
 
   /**
-   * Creates a new {@link IterableAssert} from this {@link IteratorAssert} which allows for
-   * using consuming assertions like {@link IterableAssert#contains(Object[])}.
-   * <p/>
+   * <p>Creates a new {@link IterableAssert} from this {@link IteratorAssert} which allows for
+   * using consuming assertions like {@link IterableAssert#contains(Object[])}.</p>
    * Example:
    * <pre><code class='java'> assertThat(listOfNames.iterator()).toIterable().contains("Londo");</code></pre>
    *
