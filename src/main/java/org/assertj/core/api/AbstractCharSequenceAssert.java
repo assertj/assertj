@@ -362,6 +362,84 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} has a maximum length using the {@code length()}  method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(4);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(3);</code></pre>
+   *
+   * @param expected the expected maximum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is equal or greater than the expected length.
+   * @since 3.12.0
+   */
+  public SELF hasSizeLessThan(int expected) {
+    strings.assertHasSizeLessThan(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has a length less than or equal to the given value using the
+   * {@code length()}  method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(3);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(2);</code></pre>
+   *
+   * @param expected the expected maximum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is greater than the expected length.
+   * @since 3.12.0
+   */
+  public SELF hasSizeLessThanOrEqualTo(int expected) {
+    strings.assertHasSizeLessThanOrEqualTo(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has a minimum length using the {@code length()}  method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;abcs&quot;).hasSizeGreaterThan(2);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThan(3);</code></pre>
+   *
+   * @param expected the expected minimum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is equal or less than the expected length.
+   * @since 3.12.0
+   */
+  public SELF hasSizeGreaterThan(int expected) {
+    strings.assertHasSizeGreaterThan(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has a length greater than or equal to the given value using the
+   * {@code length()}  method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
+   *
+   * @param expected the expected minimum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is less than the expected length.
+   * @since 3.12.0
+   */
+  public SELF hasSizeGreaterThanOrEqualTo(int expected) {
+    strings.assertHasSizeGreaterThanOrEqualTo(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} has the expected line count.
    * <p>
    * A line is considered to be <i>terminated</i> by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
