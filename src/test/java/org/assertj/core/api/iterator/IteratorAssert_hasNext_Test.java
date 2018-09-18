@@ -23,6 +23,7 @@ import java.util.Iterator;
 import org.assertj.core.api.AbstractIteratorAssert;
 import org.assertj.core.api.IteratorAssert;
 import org.assertj.core.api.IteratorAssertBaseTest;
+import org.assertj.core.util.FailureMessages;
 import org.junit.Test;
 
 /**
@@ -54,6 +55,14 @@ public class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(iterator).hasNext())
                                                    .withMessageContaining("\nExpecting iterator to contain another value.");
+  }
+
+  @Test
+  public void should_fail_if_actual_is_null() {
+    Iterator<Object> iterator = null;
+
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(iterator).hasNext())
+                                                   .withMessage(FailureMessages.actualIsNull());
   }
 
 }

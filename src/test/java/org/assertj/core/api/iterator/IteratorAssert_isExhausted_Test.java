@@ -52,10 +52,9 @@ public class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
   @Test
   public void should_fail_if_actual_has_at_least_one_element() {
     // GIVEN
-    SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(newArrayList(1).iterator()).isExhausted();
+    IteratorAssert iteratorAssert = assertThat(newArrayList(1).iterator());
     // WHEN
-    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
+    AssertionError error = catchThrowableOfType(iteratorAssert::isExhausted, AssertionError.class);
     // THEN
     assertThat(error).hasMessageContaining("\nExpecting iterator to be exhausted.");
   }
