@@ -42,12 +42,12 @@ class ShouldHaveSizeLessThan_create_Test {
   @Test
   void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %nExpecting size of:%n <2>%nto be less than:<4> but was:<['a', 'b']>"));
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting size of:%n <2>%nto be less than:<4> but was:<\"ab\">"));
   }
 
   @Test
   void should_create_error_message_with_hexadecimal_representation() {
     String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %nExpecting size of:%n <2>%nto be less than:<4> but was:<['0x0061', '0x0062']>"));
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting size of:%n <2>%nto be less than:<4> but was:<\"['0x0061', '0x0062']\">"));
   }
 }
