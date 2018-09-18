@@ -29,11 +29,11 @@ public class ShouldHaveSizeGreaterThanOrEqualTo extends BasicErrorMessageFactory
    * @param expectedMinSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSizeGreaterThanOrEqualTo(Object actual, int actualSize, int expectedMinSize) {
+  public static ErrorMessageFactory shouldHaveSizeGreaterThanOrEqualTo(CharSequence actual, int actualSize, int expectedMinSize) {
     return new ShouldHaveSizeGreaterThanOrEqualTo(actual, actualSize, expectedMinSize);
   }
 
-  private ShouldHaveSizeGreaterThanOrEqualTo(Object actual, int actualSize, int expectedSize) {
+  private ShouldHaveSizeGreaterThanOrEqualTo(CharSequence actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%nExpecting size of:%n <%s>%nto be greater than or equal to:<%s> but was:<%s>", expectedSize, actualSize, "%s"), actual);

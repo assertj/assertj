@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHaveSizeGreaterThanOrEqualTo;
-import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * Tests for <code>{@link ShouldHaveSizeGreaterThanOrEqualTo#create(Description, Representation)}</code>.
@@ -36,7 +35,7 @@ class ShouldHaveSizeGreaterThanOrEqualTo_create_Test {
 
   @BeforeEach
   void setUp() {
-    factory = shouldHaveSizeGreaterThanOrEqualTo(newArrayList('a', 'b'), 4, 2);
+    factory = shouldHaveSizeGreaterThanOrEqualTo("ab", 4, 2);
   }
 
   @Test

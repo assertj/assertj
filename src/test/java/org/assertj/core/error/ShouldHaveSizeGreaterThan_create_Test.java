@@ -36,7 +36,7 @@ class ShouldHaveSizeGreaterThan_create_Test {
 
   @BeforeEach
   void setUp() {
-    factory = shouldHaveSizeGreaterThan(newArrayList('a', 'b'), 4, 2);
+    factory = shouldHaveSizeGreaterThan("ab", 4, 2);
   }
 
   @Test
