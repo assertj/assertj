@@ -198,22 +198,21 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   /**
    * Asserts that the actual object has no null fields or properties (inherited ones are taken into account).
    * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the  field.
+   * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
-   * Private fields are checked but this can be disabled using {@link Assertions#setAllowComparingPrivateFields(boolean)},
-   * if disabled only <b>accessible </b>fields values are
+   * Private fields are checked, but this can be disabled using {@link Assertions#setAllowComparingPrivateFields(boolean)},
+   * if disabled only <b>accessible</b> fields values are
    * checked, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p>
-   *
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, null);
    *
    * // assertion succeeds since all frodo's fields are set
-   * assertThat(frodo).hasNoNullFields();
+   * assertThat(frodo).hasNoNullFieldsOrProperties();
    *
-   * // assertion succeeds because sam does not have its race set
-   * assertThat(sam).hasNoNullFields();</code></pre>
+   * // assertion fails because sam does not have its race set
+   * assertThat(sam).hasNoNullFieldsOrProperties();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
@@ -227,23 +226,53 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
+   * Asserts that the actual object has null fields or properties.
+   * <p>
+   * If an object has a field and a property with the same name, the property value will be used over the field.
+   * <p>
+   * Private fields are checked, but this can be disable using {@link Assertions#setAllowComparingPrivateFields(boolean)},
+   * if disable only <b>accessible</b> fields values are checked,
+   * accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p>
+   * Example:
+   * <pre><code class='java'>TolkienCharacter frodo = new TolkienCharacter(null, null, null);
+   * TolkienCharacter sam = new TolkienCharacter("sam", null, null);
+   *
+   * // assertion succeeds since all frodo's fields are null
+   * assertThat(frodo).hasAllNullFieldsOrProperties();
+   *
+   * // assertion fails because sam has its name set
+   * assertThat(sam).hasAllNullFieldsOrProperties();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError if some field or properties of the actual object are not null.
+   *
+   * @since 3.12.0
+   */
+  public SELF hasAllNullFieldsOrProperties() {
+    objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual);
+    return myself;
+  }
+
+  /**
    * Asserts that the actual object has no null fields or properties <b>except for the given ones</b>
    * (inherited ones are taken into account).
    * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the  field.
+   * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
-   * Private fields are checked but this can be disabled using {@link Assertions#setAllowComparingPrivateFields(boolean)},
-   * if disabled only <b>accessible </b>fields values are
-   * checked, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * Private fields are checked, but this can be disabled using {@link Assertions#setAllowComparingPrivateFields(boolean)},
+   * if disabled only <b>accessible</b> fields values are checked,
+   * accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p>
    * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, null);
+   * <pre><code class='java'>TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, null);
    *
    * // assertion succeeds since frodo has only null field is race
-   * assertThat(frodo).hasNoNullFieldsExcept("race");
+   * assertThat(frodo).hasNoNullFieldsOrPropertiesExcept("race");
    *
    * // ... but if we require the race field, the assertion fails
-   * assertThat(frodo).hasNoNullFieldsExcept("name", "age");</code></pre>
+   * assertThat(frodo).hasNoNullFieldsOrPropertiesExcept("name", "age");</code></pre>
    *
    * @param propertiesOrFieldsToIgnore properties/fields that won't be checked for null.
    * @return {@code this} assertion object.
@@ -254,6 +283,37 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   public SELF hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
     objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);
+    return myself;
+  }
+
+  /**
+   * Asserts that the actual object has null fields or properties <b>except for the given ones</b>
+   * (inherited ones are taken into account).
+   * <p>
+   * If an object has a field and a property with the same name, the property value will be user over the field.
+   * <p>
+   * Private fields are checked, but this can be disable using {@link Assertions#setAllowComparingPrivateFields(boolean)},
+   * if disabled only <b>accessible</b> fields values are checked,
+   * accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p>
+   * Example:
+   * <pre><code class='java'>TolkienCharacter frodo = new TolkienCharacter("Frodo", null, null);
+   *
+   * // assertion succeeds since frodo has only not null field is name
+   * assertThat(frodo).hasAllNullFieldsOrPropertiesExcept("name");
+   *
+   * // ... but if we require the name field, the assertion fails
+   * assertThat(frodo).hasAllNullFieldsOrPropertiesExcept("age");</code></pre>
+   *
+   * @param propertiesOrFieldsToIgnore properties/fields that won't be checked for not null.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError if some (non ignored) fields or properties of the actual object are not null.
+   *
+   * @since 3.12.0
+   */
+  public SELF hasAllNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
+    objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);
     return myself;
   }
 

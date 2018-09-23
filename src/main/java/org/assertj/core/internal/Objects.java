@@ -26,6 +26,7 @@ import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
+import static org.assertj.core.error.ShouldHaveAllNullFields.shouldHaveAllNullFields;
 import static org.assertj.core.error.ShouldHaveNoNullFields.shouldHaveNoNullFieldsExcept;
 import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
 import static org.assertj.core.error.ShouldHavePropertyOrFieldWithValue.shouldHavePropertyOrFieldWithValue;
@@ -57,6 +58,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DeepDifference.Difference;
@@ -684,10 +686,10 @@ public class Objects {
   /**
    * Assert that the given object has no null fields except the given ones.
    *
-   * @param <A> the actual type
+   * @param <A> the actual type.
    * @param info contains information about the assertion.
    * @param actual the given object.
-   * @param propertiesOrFieldsToIgnore the fields to ignore in comparison
+   * @param propertiesOrFieldsToIgnore the fields to ignore in comparison.
    * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if some of the fields of the actual object are null.
    */
@@ -707,6 +709,39 @@ public class Objects {
     if (!nullFieldNames.isEmpty())
       throw failures.failure(info, shouldHaveNoNullFieldsExcept(actual, nullFieldNames,
                                                                 newArrayList(propertiesOrFieldsToIgnore)));
+  }
+
+  /**
+   * Asserts that the given object has null fields except the given ones.
+   *
+   * @param <A> the actual type.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param propertiesOrFieldsToIgnore the fields to ignore in comparison.
+   * @throws AssertionError is actual is {@code null}.
+   * @throws AssertionError if some of the fields of the actual object are not null.
+   */
+  public <A> void assertHasAllNullFieldsOrPropertiesExcept(AssertionInfo info, A actual,
+                                                           String... propertiesOrFieldsToIgnore) {
+    assertNotNull(info, actual);
+    Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
+    Set<String> ignoredFields = newLinkedHashSet(propertiesOrFieldsToIgnore);
+    List<String> notNullFieldNames = new LinkedList<>();
+    for (Field field : declaredFieldsIncludingInherited) {
+      String fieldName = field.getName();
+      if (ignoredFields.contains(fieldName) || !canReadFieldValue(field, actual)) {
+        continue;
+      }
+      Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
+      if (actualFieldValue != null) {
+        notNullFieldNames.add(fieldName);
+      }
+    }
+    if (!notNullFieldNames.isEmpty()) {
+      throw failures.failure(info, shouldHaveAllNullFields(
+        actual, notNullFieldNames, newArrayList(propertiesOrFieldsToIgnore)
+      ));
+    }
   }
 
   /**
