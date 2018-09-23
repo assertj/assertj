@@ -16,6 +16,11 @@ import static java.lang.String.format;
 import static org.assertj.core.error.ShouldHaveLineCount.shouldHaveLinesCount;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.core.error.ShouldHaveSizeBetween.shouldHaveSizeBetween;
+import static org.assertj.core.error.ShouldHaveSizeGreaterThan.shouldHaveSizeGreaterThan;
+import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHaveSizeGreaterThanOrEqualTo;
+import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
+import static org.assertj.core.error.ShouldHaveSizeLessThanOrEqualTo.shouldHaveSizeLessThanOrEqualTo;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsEmpty;
@@ -42,7 +47,7 @@ public final class CommonValidations {
   private static Failures failures = Failures.instance();
 
   private CommonValidations() {}
-  
+
   static void checkIndexValueIsValid(Index index, int maximum) {
     checkNotNull(index, "Index should not be null");
     if (index.value <= maximum) return;
@@ -119,6 +124,40 @@ public final class CommonValidations {
     if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther));
   }
 
+  public static void checkSizeGreaterThan(Object actual, int boundary, int sizeOfActual,
+                                          AssertionInfo info) {
+    if (!(sizeOfActual > boundary))
+      throw failures.failure(info, shouldHaveSizeGreaterThan(actual, sizeOfActual, boundary));
+  }
+
+  public static void checkSizeGreaterThanOrEqualTo(Object actual, int boundary, int sizeOfActual,
+                                                   AssertionInfo info) {
+    if (!(sizeOfActual >= boundary))
+      throw failures.failure(info, shouldHaveSizeGreaterThanOrEqualTo(actual, sizeOfActual, boundary));
+  }
+
+  public static void checkSizeLessThan(Object actual, int boundary, int sizeOfActual,
+                                       AssertionInfo info) {
+    if (!(sizeOfActual < boundary))
+      throw failures.failure(info, shouldHaveSizeLessThan(actual, sizeOfActual, boundary));
+  }
+
+  public static void checkSizeLessThanOrEqualTo(Object actual, int boundary, int sizeOfActual,
+                                                AssertionInfo info) {
+    if (!(sizeOfActual <= boundary))
+      throw failures.failure(info, shouldHaveSizeLessThanOrEqualTo(actual, sizeOfActual, boundary));
+  }
+
+  public static void checkSizeBetween(Object actual, int lowerBoundary, int higherBoundary,
+                                      int sizeOfActual, AssertionInfo info) {
+    if (!(higherBoundary >= lowerBoundary))
+      throw new IllegalArgumentException(format("The higher boundary <%s> must be greater than the lower boundary <%s>.",
+                                                higherBoundary, lowerBoundary));
+
+    if (!(lowerBoundary <= sizeOfActual && sizeOfActual <= higherBoundary))
+      throw failures.failure(info, shouldHaveSizeBetween(actual, sizeOfActual, lowerBoundary, higherBoundary));
+  }
+
   public static void checkLineCounts(Object actual, int lineCountOfActual, int lineCountOfOther, AssertionInfo info) {
     if (lineCountOfActual != lineCountOfOther)
       throw failures.failure(info, shouldHaveLinesCount(actual, lineCountOfActual, lineCountOfOther));
@@ -143,5 +182,4 @@ public final class CommonValidations {
   public static void checkSubsequenceIsNotNull(Object subsequence) {
     if (subsequence == null) throw new NullPointerException(nullSubsequence());
   }
-
 }

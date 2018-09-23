@@ -44,7 +44,7 @@ public class AtomicIntegerArrayAssert
    * assertThat(new AtomicIntegerArray(new int[0])).isNullOrEmpty();
    * AtomicIntegerArray array = null;
    * assertThat(array).isNullOrEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).isNullOrEmpty();</code></pre>
    *
@@ -63,7 +63,7 @@ public class AtomicIntegerArrayAssert
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new AtomicIntegerArray(new int[0])).isEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).isEmpty();</code></pre>
    *
@@ -81,7 +81,7 @@ public class AtomicIntegerArrayAssert
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).isNotEmpty();
-   * 
+   *
    * // assertion will fail
    * assertThat(new AtomicIntegerArray(new int[0])).isNotEmpty();</code></pre>
    *
@@ -100,10 +100,10 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).hasArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicIntegerArray).hasArray(new int[] { 2, 3, 4 });</code></pre>
    *
@@ -116,15 +116,15 @@ public class AtomicIntegerArrayAssert
     arrays.assertContainsExactly(info, array, expected);
     return myself;
   }
-  
+
   /**
    * Verifies that the number of values in the AtomicIntegerArray is equal to the given one.
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * assertThat(atomicIntegerArray).hasSize(3);
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicIntegerArray).hasSize(1);</code></pre>
    *
@@ -140,19 +140,135 @@ public class AtomicIntegerArrayAssert
   }
 
   /**
+   * Verifies that the number of values in the actual array is greater than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeGreaterThan(1);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeGreaterThan(3);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeGreaterThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeGreaterThanOrEqualTo(5);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeLessThan(4);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeLessThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeLessThanOrEqualTo(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, array, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
+   *
+   * // assertion will pass
+   * assertThat(atomicIntegerArray).hasSizeBetween(3, 4);
+   *
+   * // assertion will fail
+   * assertThat(atomicIntegerArray).hasSizeBetween(4, 6);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public AtomicIntegerArrayAssert hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, array, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
+  /**
    * Verifies that the AtomicIntegerArray has the same size as given {@link Iterable}.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).hasSameSizeAs(abc);
-   * 
+   *
    * // assertions will fail
    * assertThat(atomicIntegerArray).hasSameSizeAs(Arrays.asList(1, 2));
    * assertThat(atomicIntegerArray).hasSameSizeAs(Arrays.asList(1, 2, 3, 4));</code></pre>
-   * 
+   *
    * @param other the {@code Iterable} to compare size with actual AtomicIntegerArray.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual AtomicIntegerArray is {@code null}.
@@ -171,7 +287,7 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicIntegerArray).contains(1, 2)
    *                               .contains(3, 1)
@@ -199,7 +315,7 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicIntegerArray).containsOnly(1, 2, 3)
    *                               .containsOnly(2, 3, 1);
@@ -228,15 +344,15 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Examples :
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).containsOnlyOnce(1, 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(atomicIntegerArray).containsOnlyOnce(4);
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2, 1 })).containsOnlyOnce(1);
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3, 3 })).containsOnlyOnce(1, 2, 3);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -255,14 +371,14 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).containsSequence(1, 2);
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicIntegerArray).containsSequence(1, 3);
    * assertThat(atomicIntegerArray).containsSequence(2, 1);</code></pre>
-   * 
+   *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual atomic array is {@code null}.
@@ -280,14 +396,14 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicIntegerArray).containsSubsequence(1, 2)
    *                               .containsSubsequence(1, 3);
-   * 
+   *
    * // assertion will fail
    * assertThat(atomicIntegerArray).containsSubsequence(2, 1);</code></pre>
-   * 
+   *
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
    * @throws AssertionError if the actual atomic array is {@code null}.
@@ -305,7 +421,7 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicIntegerArray).contains(1, atIndex(O))
    *                               .contains(3, atIndex(2));
@@ -334,7 +450,7 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).doesNotContain(4);
    *
@@ -359,7 +475,7 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertions will pass
    * assertThat(atomicIntegerArray).doesNotContain(1, atIndex(1))
    *                               .doesNotContain(2, atIndex(0));
@@ -386,7 +502,7 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).doesNotHaveDuplicates();
    *
@@ -410,7 +526,7 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).startsWith(1, 2);
    *
@@ -437,7 +553,7 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example:
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).endsWith(2, 3);
    *
@@ -461,9 +577,9 @@ public class AtomicIntegerArrayAssert
    * Verifies that the actual AtomicIntegerArray is sorted in ascending order according to the natural ordering of its elements.
    * <p>
    * Empty or one element arrays are considered sorted (unless the array element type is not Comparable).<br><br>
-   * 
+   *
    * @return {@code this} assertion object.
-   * 
+   *
    * @throws AssertionError if the actual AtomicIntegerArray is not sorted in ascending order according to the natural ordering of its
    *           elements.
    * @throws AssertionError if the actual AtomicIntegerArray is {@code null}.
@@ -477,11 +593,11 @@ public class AtomicIntegerArrayAssert
    * Verifies that the actual AtomicIntegerArray is sorted according to the given comparator.<br> Empty arrays are considered sorted whatever
    * the comparator is.<br> One element arrays are considered sorted if the element is compatible with comparator, otherwise an
    * AssertionError is thrown.
-   * 
+   *
    * @param comparator the {@link Comparator} used to compare array elements
-   * 
+   *
    * @return {@code this} assertion object.
-   * 
+   *
    * @throws AssertionError if the actual AtomicIntegerArray is not sorted according to the given comparator.
    * @throws AssertionError if the actual AtomicIntegerArray is {@code null}.
    * @throws NullPointerException if the given comparator is {@code null}.
@@ -499,11 +615,11 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Examples :
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
-   * // absolute value comparator 
-   * Comparator&lt;Integer&gt; absComparator = ...; 
+   *
+   * // absolute value comparator
+   * Comparator&lt;Integer&gt; absComparator = ...;
    * assertThat(invoiceList).usingComparator(absComparator).contains(-1, -2, 3);</code></pre>
-   * 
+   *
    * @param customComparator the comparator to use for incoming assertion checks.
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
@@ -528,13 +644,13 @@ public class AtomicIntegerArrayAssert
    * <p>
    * Example :
    * <pre><code class='java'> AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
-   * 
+   *
    * // assertion will pass
    * assertThat(atomicIntegerArray).containsExactly(1, 2, 3);
-   * 
+   *
    * // assertion will fail as actual and expected order differ
    * assertThat(atomicIntegerArray).containsExactly(2, 1, 3);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -555,12 +671,12 @@ public class AtomicIntegerArrayAssert
    * <pre><code class='java'> // assertions will pass
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2 })).containsExactlyInAnyOrder(1, 2);
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2, 1 })).containsExactlyInAnyOrder(1, 1, 2);
-   * 
+   *
    * // assertions will fail
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2 })).containsExactlyInAnyOrder(1);
    * assertThat(new AtomicIntegerArray(new int[] { 1 })).containsExactlyInAnyOrder(1, 2);
    * assertThat(new AtomicIntegerArray(new int[] { 1, 2, 1 })).containsExactlyInAnyOrder(1, 2);</code></pre>
-   * 
+   *
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -578,7 +694,7 @@ public class AtomicIntegerArrayAssert
    * Verifies that the actual array contains at least one of the given values.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicIntegerArray oneTwoThree = new AtomicIntegerArray(new int[] { 1, 2, 3 }); 
+   * <pre><code class='java'> AtomicIntegerArray oneTwoThree = new AtomicIntegerArray(new int[] { 1, 2, 3 });
    *
    * // assertions will pass
    * assertThat(oneTwoThree).containsAnyOf(2)

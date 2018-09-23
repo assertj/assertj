@@ -362,6 +362,107 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} has has a length less than the given value using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(4);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(3);</code></pre>
+   *
+   * @param expected the expected maximum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is equal or greater than the expected length.
+   * @since 3.12.0
+   */
+  public SELF hasSizeLessThan(int expected) {
+    strings.assertHasSizeLessThan(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has a length less than or equal to the given value using the {@code length()}  method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(3);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(2);</code></pre>
+   *
+   * @param expected the expected maximum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is greater than the expected length.
+   * @since 3.12.0
+   */
+  public SELF hasSizeLessThanOrEqualTo(int expected) {
+    strings.assertHasSizeLessThanOrEqualTo(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has a length greater than the given value using the {@code length()}  method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;abcs&quot;).hasSizeGreaterThan(2);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThan(3);</code></pre>
+   *
+   * @param expected the expected minimum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is equal or less than the expected length.
+   * @since 3.12.0
+   */
+  public SELF hasSizeGreaterThan(int expected) {
+    strings.assertHasSizeGreaterThan(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has a length greater than or equal to the given value using the {@code length()}  method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
+   *
+   * @param expected the expected minimum length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is less than the expected length.
+   * @since 3.12.0
+   */
+  public SELF hasSizeGreaterThanOrEqualTo(int expected) {
+    strings.assertHasSizeGreaterThanOrEqualTo(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has length between the given boundaries (inclusive)
+   * using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSizeBetween(5, 25);
+   * assertThat(bookName).hasSizeBetween(16, 17);</code></pre>
+   *
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSizeBetween(2, 5);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual length should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual length should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    strings.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} has the expected line count.
    * <p>
    * A line is considered to be <i>terminated</i> by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),

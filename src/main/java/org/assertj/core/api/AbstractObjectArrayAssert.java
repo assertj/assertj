@@ -159,6 +159,115 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Verifies that the number of values in the actual array is greater than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeGreaterThan(1);
+   *
+   * // assertion will fail
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeGreaterThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    arrays.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeGreaterThanOrEqualTo(1)
+   *                                      .hasSizeGreaterThanOrEqualTo(2);
+   *
+   * // assertion will fail
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeGreaterThanOrEqualTo(3);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not greater than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeLessThan(5);
+   *
+   * // assertion will fail
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeLessThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    arrays.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeLessThanOrEqualTo(3)
+   *                                      .hasSizeLessThanOrEqualTo(2);
+   *
+   * // assertion will fail
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeLessThanOrEqualTo(1);</code></pre>
+   *
+   * @param boundary the given value to compare the actual size to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not less than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the actual array is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeBetween(0, 3)
+   *                                      .hasSizeBetween(2, 2);
+   *
+   * // assertions will fail
+   * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeBetween(3, 4);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the actual array is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array has the same size as the given array.
    * <p>
    * Parameter is declared as Object to accept both {@code Object[]} and primitive arrays (e.g. {@code int[]}).
@@ -174,11 +283,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion will fail
    * assertThat(oneTwoThree).hasSameSizeAs(sevenEight);</code></pre>
    *
-   * @param other the array to compare size with actual group.
+   * @param other the array to compare size with actual array.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
-   * @throws AssertionError if actual group and given array don't have the same size.
+   * @throws AssertionError if actual array and given array don't have the same size.
    */
   @Override
   public SELF hasSameSizeAs(Object other) {
@@ -188,7 +297,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the actual group has the same size as the given {@link Iterable}.
+   * Verifies that the actual array has the same size as the given {@link Iterable}.
    * <p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -200,11 +309,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion will fail
    * assertThat(oneTwoThree).hasSameSizeAs(Arrays.asList("a", "b"));</code></pre>
    *
-   * @param other the {@code Iterable} to compare size with actual group.
+   * @param other the {@code Iterable} to compare size with actual array.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the other {@code Iterable} is {@code null}.
-   * @throws AssertionError if actual group and given {@code Iterable} don't have the same size.
+   * @throws AssertionError if actual array and given {@code Iterable} don't have the same size.
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
@@ -213,7 +322,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the actual group contains the given values, in any order.
+   * Verifies that the actual array contains the given values, in any order.
    * <p>
    * Example :
    * <pre><code class='java'> String[] abc = {"a", "b", "c"};
@@ -230,8 +339,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values.
    */
   @Override
   public SELF contains(@SuppressWarnings("unchecked") ELEMENT... values) {
@@ -240,7 +349,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the actual group contains only the given values and nothing else, in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
+   * Verifies that the actual array contains only the given values and nothing else, in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * If you need to check exactly the elements and their duplicates use:
    * <ul>
@@ -267,9 +376,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
-   *           or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
+   *           or none of the given values, or the actual array contains more values than the given ones.
    */
   @Override
   public SELF containsOnly(@SuppressWarnings("unchecked") ELEMENT... values) {
@@ -327,7 +436,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the unique element of the array satifies the given assertions expressed as a {@link Consumer},
+   * Verifies that the unique element of the array satisfies the given assertions expressed as a {@link Consumer},
    * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
    * <p>
    * Example:
@@ -372,13 +481,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the array does not have a unique element.
-   * @throws AssertionError if the array's unique element does not satifies the given assertions.
-   *
+   * @throws AssertionError if the array's unique element does not satisfies the given assertions.
    * @since 3.5.0
    */
-  public void hasOnlyOneElementSatisfying(Consumer<ELEMENT> elementAssertions) {
-    arrays.assertHasSize(info, actual, 1);
-    elementAssertions.accept(actual[0]);
+  @Override
+  public SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions) {
+    iterables.assertHasOnlyOneElementSatisfying(info, newArrayList(actual), elementAssertions);
+    return myself;
   }
 
   /**
@@ -398,7 +507,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param iterable the {@code Iterable} whose elements we expect to be present
    * @return this assertion object
-   * @throws AssertionError if the actual group is {@code null}
+   * @throws AssertionError if the actual array is {@code null}
    * @throws NullPointerException if the given {@code Iterable} is {@code null}
    * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
    *           {@code Iterable}
@@ -409,7 +518,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the actual group contains the given values only once.
+   * Verifies that the actual array contains the given values only once.
    * <p>
    * Examples :
    * <pre><code class='java'> // array is a factory method to create arrays.
@@ -427,9 +536,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
-   *           or none of the given values, or the actual group contains more than once these values.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
+   *           or none of the given values, or the actual array contains more than once these values.
    */
   @Override
   public SELF containsOnlyOnce(@SuppressWarnings("unchecked") ELEMENT... values) {
@@ -452,9 +561,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values with same order, i.e. the actual array
+   *           contains some or none of the given values, or the actual array contains more values than the given ones
    *           or values are the same but the order is not.
    */
   @Override
@@ -481,7 +590,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual arrray does not contain the given values, i.e. the actual array
-   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   *           contains some or none of the given values, or the actual array contains more values than the given ones.
    */
   @Override
   public SELF containsExactlyInAnyOrder(@SuppressWarnings("unchecked") ELEMENT... values) {
@@ -535,9 +644,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given sequence.
+   * @throws AssertionError if the actual array does not contain the given sequence.
    */
   @Override
   public SELF containsSequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
@@ -563,9 +672,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given sequence.
+   * @throws AssertionError if the actual array does not contain the given sequence.
    */
   @Override
   public SELF containsSequence(Iterable<? extends ELEMENT> sequence) {
@@ -592,9 +701,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given sequence.
+   * @throws AssertionError if the actual array does not contain the given sequence.
    */
   @Override
   public SELF doesNotContainSequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
@@ -620,9 +729,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given sequence.
+   * @throws AssertionError if the actual array does not contain the given sequence.
    */
   @Override
   public SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence) {
@@ -646,9 +755,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param subsequence the subsequence of objects to look for.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given subsequence.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   @Override
   public SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
@@ -671,9 +780,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param subsequence the subsequence of objects to look for.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given subsequence.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   @Override
   public SELF containsSubsequence(Iterable<? extends ELEMENT> subsequence) {
@@ -698,9 +807,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param subsequence the subsequence of objects to look for.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the actual group contains the given subsequence.
+   * @throws AssertionError if the actual array contains the given subsequence.
    */
   @Override
   public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
@@ -724,9 +833,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param subsequence the subsequence of objects to look for.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the actual group contains the given subsequence.
+   * @throws AssertionError if the actual array contains the given subsequence.
    */
   @Override
   public SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> subsequence) {
@@ -752,13 +861,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(elvesRings).contains(narya, atIndex(0));</code></pre>
    *
    * @param value the object to look for.
-   * @param index the index where the object should be stored in the actual group.
+   * @param index the index where the object should be stored in the actual array.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null} or empty.
+   * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the actual
    *           group.
-   * @throws AssertionError if the actual group does not contain the given object at the given index.
+   * @throws AssertionError if the actual array does not contain the given object at the given index.
    */
   @Override
   public SELF contains(ELEMENT value, Index index) {
@@ -767,7 +876,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that all elements of the actual group are instances of given classes or interfaces.
+   * Verifies that all elements of the actual array are instances of given classes or interfaces.
    * <p>
    * Example :
    * <pre><code class='java'> Object[] objects = { "foo", new StringBuilder() };
@@ -784,8 +893,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param types the expected classes and interfaces
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if not all elements of the actual group are instances of one of the given types
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if not all elements of the actual array are instances of one of the given types
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -811,11 +920,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(elvesRings).doesNotContain(narya, atIndex(2));</code></pre>
    *
    * @param value the object to look for.
-   * @param index the index where the object should not be stored in the actual group.
+   * @param index the index where the object should not be stored in the actual array.
    * @return this assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual array is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws AssertionError if the actual group contains the given object at the given index.
+   * @throws AssertionError if the actual array contains the given object at the given index.
    */
   @Override
   public SELF doesNotContain(ELEMENT value, Index index) {
@@ -841,8 +950,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains any of the given values.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains any of the given values.
    */
   @Override
   public SELF doesNotContain(@SuppressWarnings("unchecked") ELEMENT... values) {
@@ -863,12 +972,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(actual).doesNotContainAnyElementsOf(newArrayList("a", "b"));
    * assertThat(actual).doesNotContainAnyElementsOf(newArrayList("d", "e", "a"));</code></pre>
    *
-   * @param iterable the {@link Iterable} whose elements must not be in the actual group.
+   * @param iterable the {@link Iterable} whose elements must not be in the actual array.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty iterable.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains some elements of the given {@link Iterable}.
    */
   @Override
   public SELF doesNotContainAnyElementsOf(Iterable<? extends ELEMENT> iterable) {
@@ -890,8 +999,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(lotsOfAs).doesNotHaveDuplicates();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains duplicates.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains duplicates.
    */
   @Override
   public SELF doesNotHaveDuplicates() {
@@ -917,8 +1026,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not start with the given sequence of objects.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not start with the given sequence of objects.
    */
   @Override
   public SELF startsWith(@SuppressWarnings("unchecked") ELEMENT... sequence) {
@@ -944,8 +1053,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not end with the given sequence of objects.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not end with the given sequence of objects.
    */
   @Override
   public SELF endsWith(ELEMENT[] sequence) {
@@ -971,8 +1080,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param sequence the rest of the end sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not end with the given sequence of objects.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not end with the given sequence of objects.
    */
   @Override
   public SELF endsWith(ELEMENT first, @SuppressWarnings("unchecked") ELEMENT... sequence) {
@@ -1044,8 +1153,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(abc).containsNull();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain a null element.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain a null element.
    */
   @Override
   public SELF containsNull() {
@@ -1067,8 +1176,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(abNull).doesNotContainNull();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains a null element.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains a null element.
    */
   @Override
   public SELF doesNotContainNull() {
@@ -1189,7 +1298,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there are <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>at least</b> <i>n</i> elements in the actual array satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1233,7 +1342,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there are <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>at most</b> <i>n</i> elements in the actual array satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1261,7 +1370,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual array satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1289,7 +1398,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
+   * Verifies that there is <b>at least <i>one</i></b> element in the actual array satisfying the given condition.
    * <p>
    * This method is an alias for {@code haveAtLeast(1, condition)}.
    * <p>
@@ -1307,7 +1416,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there are <b>at least <i>n</i></b> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>at least <i>n</i></b> elements in the actual array satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1329,7 +1438,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there are <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>at most</b> <i>n</i> elements in the actual array satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1352,7 +1461,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual array satisfying the given condition.
    * <p>
    * Example :
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
@@ -1425,8 +1534,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param iterable the given {@code Iterable} we will get elements from.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain all the elements of given {@code Iterable}.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain all the elements of given {@code Iterable}.
    */
   @Override
   public SELF containsAll(Iterable<? extends ELEMENT> iterable) {

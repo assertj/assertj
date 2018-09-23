@@ -99,7 +99,7 @@ public class Iterator_assumptions_Test extends BaseAssumptionsRunnerTest {
             value -> assumeThat(value).endsWith(2, 3),
             value -> assumeThat(value).endsWith(2, 4))
     };
-  };
+  }
 
   // iterator assumptions runner utility
 

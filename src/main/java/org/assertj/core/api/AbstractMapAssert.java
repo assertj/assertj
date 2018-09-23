@@ -38,14 +38,14 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <ACTUAL> the type of the "actual" value.
  * @param <K> the type of keys in the map.
  * @param <V> the type of values in the map.
- * 
+ *
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -68,16 +68,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * <p>
    * Example:
    * <pre><code class='java'> Map&lt;TolkienCharacter, Ring&gt; elvesRingBearers = new HashMap&lt;&gt;();
-   * elvesRingBearers.put(galadriel, nenya);                       
-   * elvesRingBearers.put(gandalf, narya);                         
-   * elvesRingBearers.put(elrond, vilya);                          
-   *                                                               
+   * elvesRingBearers.put(galadriel, nenya);
+   * elvesRingBearers.put(gandalf, narya);
+   * elvesRingBearers.put(elrond, vilya);
+   *
    * // this assertion succeeds:
    * assertThat(elvesRingBearers).allSatisfy((character, ring) -&gt; {
    *   assertThat(character.getRace()).isIn(ELF, MAIA);
-   *   assertThat(ring).isIn(nenya, narya, vilya);                 
+   *   assertThat(ring).isIn(nenya, narya, vilya);
    * });
-   * 
+   *
    * // this assertion fails as Gandalf is a maia and not an elf:
    * assertThat(elvesRingBearers).allSatisfy((character, ring) -&gt; {
    *   assertThat(character.getRace()).isEqualTo(ELF);
@@ -106,7 +106,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Map&lt;Integer, String&gt; map = null;
    * assertThat(map).isNullOrEmpty();
    * assertThat(new HashMap()).isNullOrEmpty();
-   * 
+   *
    * // assertion will fail
    * Map&lt;String, String&gt; keyToValue = new HashMap();
    * keyToValue.put(&quot;key&quot;, &quot;value&quot;);
@@ -125,7 +125,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new HashMap()).isEmpty();
-   * 
+   *
    * // assertion will fail
    * Map&lt;String, String&gt; map = new HashMap();
    * map.put(&quot;key&quot;, &quot;value&quot;);
@@ -144,7 +144,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Example:
    * <pre><code class='java'> Map&lt;String, String&gt; map = new HashMap();
    * map.put(&quot;key&quot;, &quot;value&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(map).isNotEmpty();
    *
@@ -167,10 +167,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * <pre><code class='java'>
    * Map&lt;String, String&gt; map = new HashMap();
    * map.put(&quot;key&quot;, &quot;value&quot;);
-   * 
+   *
    * // assertion will pass
    * assertThat(map).hasSize(1);
-   * 
+   *
    * // assertions will fail
    * assertThat(map).hasSize(0);
    * assertThat(map).hasSize(2);</code></pre>
@@ -186,25 +186,157 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * Verifies that the number of values in the {@link Map} is greater than the boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertion will pass
+   * assertThat(map).hasSizeGreaterThan(1);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeGreaterThan(3);</code></pre>
+   *
+   * @param boundary the given value to compare the size of {@code actual} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not greater than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThan(int boundary) {
+    maps.assertHasSizeGreaterThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is greater than or equal to the boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertions will pass
+   * assertThat(map).hasSizeGreaterThanOrEqualTo(1)
+   *                .hasSizeGreaterThanOrEqualTo(2);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeGreaterThanOrEqualTo(3);
+   * assertThat(map).hasSizeGreaterThanOrEqualTo(5);</code></pre>
+   *
+   * @param boundary the given value to compare the size of {@code actual} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not greater than or equal to the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
+    maps.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is less than the boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertion will pass
+   * assertThat(map).hasSizeLessThan(3);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeLessThan(1);
+   * assertThat(map).hasSizeLessThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the size of {@code actual} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThan(int boundary) {
+    maps.assertHasSizeLessThan(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is less than or equal to the boundary.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertions will pass
+   * assertThat(map).hasSizeLessThanOrEqualTo(2)
+   *                .hasSizeLessThanOrEqualTo(3);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeLessThanOrEqualTo(0);
+   * assertThat(map).hasSizeLessThanOrEqualTo(1);</code></pre>
+   *
+   * @param boundary the given value to compare the size of {@code actual} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not less than the boundary.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeLessThanOrEqualTo(int boundary) {
+    maps.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of values in the {@link Map} is between the given boundaries (inclusive).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, String&gt; map = new HashMap();
+   * map.put(&quot;key&quot;, &quot;value&quot;);
+   * map.put(&quot;key2&quot;, &quot;value2&quot;);
+   *
+   * // assertions will pass
+   * assertThat(map).hasSizeBetween(1, 3)
+   *                .hasSizeBetween(2, 2);
+   *
+   * // assertions will fail
+   * assertThat(map).hasSizeBetween(3, 4);</code></pre>
+   *
+   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the number of values of the {@link Map} is not between the boundaries.
+   * @since 3.12.0
+   */
+  @Override
+  public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
+    maps.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map has the same size as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
    * <p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
-   * 
+   *
    * Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
-   * 
+   *
    * // assertion will pass
    * assertThat(elvesRingBearers).hasSameSizeAs(oneTwoThree);
-   * 
+   *
    * // assertions will fail
    * assertThat(elvesRingBearers).hasSameSizeAs(new int[] {1});
    * assertThat(keyToValue).hasSameSizeAs(new char[] {'a', 'b', 'c', 'd'});</code></pre>
-   * 
+   *
    * @param other the array to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -225,14 +357,14 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
-   * 
+   *
    * // assertion will pass
    * assertThat(elvesRingBearers).hasSameSizeAs(Array.asList(vilya, nenya, narya));
-   * 
+   *
    * // assertions will fail
    * assertThat(elvesRingBearers).hasSameSizeAs(Array.asList(1));
    * assertThat(keyToValue).hasSameSizeAs(Array.asList('a', 'b', 'c', 'd'));</code></pre>
-   * 
+   *
    * @param other the {@code Iterable} to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual map is {@code null}.
@@ -254,19 +386,19 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertion will pass
    * assertThat(ringBearers).hasSameSizeAs(mapOf(entry(oneRing, frodo),
    *                                             entry(narya, gandalf),
    *                                             entry(nenya, galadriel),
    *                                             entry(vilya, elrond)));
-   * 
+   *
    * // assertions will fail
    * assertThat(elvesRingBearers).hasSameSizeAs(new HashMap());
    * Map&lt;String, String&gt; keyToValue = new HashMap();
    * keyToValue.put(&quot;key&quot;, &quot;value&quot;);
    * assertThat(keyToValue).hasSameSizeAs(keyToValue);</code></pre>
-   * 
+   *
    * @param other the {@code Map} to compare size with actual map
    * @return {@code this} assertion object
    * @throws NullPointerException if the other {@code Map} is {@code null}
@@ -279,7 +411,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
-   * Verifies that the actual map contains the given entries, in any order. 
+   * Verifies that the actual map contains the given entries, in any order.
    * <p>
    * This assertion succeeds if both actual map and given entries are empty.
    * <p>
@@ -289,11 +421,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertions will pass
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
    * assertThat(emptyMap).contains();
-   * 
+   *
    * // assertions will fail
    * assertThat(ringBearers).contains(entry(oneRing, sauron));
    * assertThat(ringBearers).contains(entry(oneRing, sauron), entry(oneRing, aragorn));
@@ -320,11 +452,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertions will pass
    * assertThat(ringBearers).containsAnyOf(entry(oneRing, frodo), entry(oneRing, sauron));
    * assertThat(emptyMap).containsAnyOf();
-   * 
+   *
    * // assertion will fail
    * assertThat(ringBearers).containsAnyOf(entry(oneRing, gandalf), entry(oneRing, aragorn));</code></pre>
    *
@@ -356,10 +488,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
-   * 
+   *
    * // assertion will succeed
    * assertThat(ringBearers).containsAllEntriesOf(elvesRingBearers);
-   * 
+   *
    * // assertion will fail
    * assertThat(elvesRingBearers).containsAllEntriesOf(ringBearers);</code></pre>
    *
@@ -385,13 +517,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertions will pass
    * assertThat(ringBearers).containsEntry(oneRing, frodo).containsEntry(nenya, galadriel);
-   * 
+   *
    * // assertion will fail
    * assertThat(ringBearers).containsEntry(oneRing, sauron);</code></pre>
-   * 
+   *
    * @param key the given key to check.
    * @param value the given value to check.
    * @return {@code this} assertion object.
@@ -415,7 +547,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * Condition&lt;TolkienCharacter&gt; elfBearer = new Condition&lt;&gt;(&quot;an elf bearer&quot;) {
    *   public boolean matches(TolkienCharacter character) {
    *     return character.getRace() == ELF;
@@ -451,7 +583,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // this assertion will pass
    * assertThat(ringBearers).hasEntrySatisfying(nenya, character -&gt; {
    *     assertThat(character.getName()).contains("driel");
@@ -515,7 +647,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
-   * Verifies that the actual map contains an entry with a key satisfying the given {@code keyCondition} 
+   * Verifies that the actual map contains an entry with a key satisfying the given {@code keyCondition}
    * and a value satisfying the given {@code valueCondition}.
    * <p>
    * Example:
@@ -647,14 +779,14 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertion will pass
    * assertThat(ringBearers).doesNotContain(entry(oneRing, aragorn), entry(oneRing, sauron));
-   * 
+   *
    * // assertions will fail
    * assertThat(ringBearers).doesNotContain(entry(oneRing, frodo));
    * assertThat(ringBearers).doesNotContain(entry(oneRing, frodo), entry(oneRing, aragorn));</code></pre>
-   * 
+   *
    * @param entries the given entries.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -676,13 +808,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertion will pass
    * assertThat(ringBearers).doesNotContainEntry(oneRing, aragorn);
-   * 
+   *
    * // assertion will fail
    * assertThat(ringBearers).doesNotContain(oneRing, frodo);</code></pre>
-   * 
+   *
    * @param key key of the entry.
    * @param value value of the entry.
    * @return {@code this} assertion object.
@@ -704,13 +836,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
-   * 
+   *
    * // assertion will pass
    * assertThat(ringBearers).containsKey(vilya);
-   * 
+   *
    * // assertion will fail
    * assertThat(ringBearers).containsKey(oneRing);</code></pre>
-   * 
+   *
    * @param key the given key
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
@@ -729,14 +861,14 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(nenya, galadriel);
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertions will pass
    * assertThat(ringBearers).containsKeys(nenya, oneRing);
-   * 
+   *
    * // assertions will fail
    * assertThat(ringBearers).containsKeys(vilya);
    * assertThat(ringBearers).containsKeys(vilya, oneRing);</code></pre>
-   * 
+   *
    * @param keys the given keys
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
@@ -757,13 +889,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
-   * 
+   *
    * // assertion will pass
    * assertThat(elvesRingBearers).doesNotContainKey(oneRing);
-   * 
+   *
    * // assertion will fail
    * assertThat(elvesRingBearers).doesNotContainKey(vilya);</code></pre>
-   * 
+   *
    * @param key the given key
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
@@ -782,14 +914,14 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * elvesRingBearers.put(nenya, galadriel);
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
-   * 
+   *
    * // assertion will pass
    * assertThat(elvesRingBearers).doesNotContainKeys(oneRing, someManRing);
-   * 
+   *
    * // assertions will fail
    * assertThat(elvesRingBearers).doesNotContainKeys(vilya, nenya);
    * assertThat(elvesRingBearers).doesNotContainKeys(vilya, oneRing);</code></pre>
-   * 
+   *
    * @param keys the given keys
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
@@ -810,13 +942,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertion will pass
    * assertThat(ringBearers).containsOnlyKeys(oneRing, nenya, narya, vilya);
-   * 
+   *
    * // assertion will fail
    * assertThat(ringBearers).containsOnlyKeys(oneRing, nenya);</code></pre>
-   * 
+   *
    * @param keys the given keys that should be in the actual map.
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
@@ -839,13 +971,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertion will pass
    * assertThat(ringBearers).containsValue(frodo);
-   * 
+   *
    * // assertion will fail
    * assertThat(ringBearers).containsValue(sauron);</code></pre>
-   * 
+   *
    * @param value the value to look for.
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
@@ -868,7 +1000,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * // assertion will pass
    * assertThat(ringBearers).containsValues(frodo, galadriel);
-   * 
+   *
    * // assertions will fail
    * assertThat(ringBearers).containsValues(sauron, aragorn);
    * assertThat(ringBearers).containsValues(sauron, frodo);</code></pre>
@@ -893,13 +1025,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertion will pass
    * assertThat(ringBearers).doesNotContainValue(aragorn);
-   * 
+   *
    * // assertion will fail
    * assertThat(ringBearers).doesNotContainValue(frodo);</code></pre>
-   * 
+   *
    * @param value the value that should not be in actual map.
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
@@ -912,7 +1044,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   /**
    * Verifies that the actual map contains only the given entries and nothing else, in any order.
-   * 
+   *
    * <p>
    * Examples :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
@@ -920,13 +1052,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(narya, gandalf);
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
-   * 
+   *
    * // assertion will pass
    * assertThat(ringBearers).containsOnly(entry(oneRing, frodo), entry(nenya, galadriel), entry(narya, gandalf), entry(vilya, elrond));
-   * 
+   *
    * // assertion will fail
    * assertThat(ringBearers).containsOnly(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
-   * 
+   *
    * @param entries the entries that should be in the actual map.
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
@@ -946,20 +1078,20 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * {@link java.util.HashMap}, prefer {@link #containsOnly(java.util.Map.Entry...)} in that case).
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),   
-   *                                                            entry(nenya, galadriel), 
-   *                                                            entry(narya, gandalf));  
-   * 
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
+   *                                                            entry(nenya, galadriel),
+   *                                                            entry(narya, gandalf));
+   *
    * // assertion will pass
-   * assertThat(ringBearers).containsExactly(entry(oneRing, frodo), 
-   *                                         entry(nenya, galadriel), 
+   * assertThat(ringBearers).containsExactly(entry(oneRing, frodo),
+   *                                         entry(nenya, galadriel),
    *                                         entry(narya, gandalf));
-   * 
+   *
    * // assertion will fail as actual and expected order differ
-   * assertThat(ringBearers).containsExactly(entry(nenya, galadriel), 
-   *                                         entry(narya, gandalf), 
+   * assertThat(ringBearers).containsExactly(entry(nenya, galadriel),
+   *                                         entry(narya, gandalf),
    *                                         entry(oneRing, frodo));</code></pre>
-   * 
+   *
    * @param entries the given entries.
    * @return {@code this} assertions object
    * @throws NullPointerException if the given entries array is {@code null}.
@@ -976,7 +1108,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   /**
    * Do not use this method.
-   * 
+   *
    * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    * @throws UnsupportedOperationException if this method is called.
    */
@@ -988,7 +1120,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   /**
    * Do not use this method.
-   * 
+   *
    * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    * @throws UnsupportedOperationException if this method is called.
    */
@@ -1185,20 +1317,20 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Returns an {@code Assert} object that allows performing assertions on the size of the {@link Map} under test.
    * <p>
    * Once this method is called, the object under test is no longer the {@link Map} but its size,
-   * to perform assertions on the {@link Map}, call {@link AbstractMapSizeAssert#returnToMap()}. 
+   * to perform assertions on the {@link Map}, call {@link AbstractMapSizeAssert#returnToMap()}.
    * <p>
    * Example :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newHashMap(entry(oneRing, frodo),
-   *                                                      entry(nenya, galadriel), 
-   *                                                      entry(narya, gandalf));  
-   * 
+   *                                                      entry(nenya, galadriel),
+   *                                                      entry(narya, gandalf));
+   *
    * // assertion will pass:
-   * assertThat(ringBearers).size().isGreaterThan(1)                
+   * assertThat(ringBearers).size().isGreaterThan(1)
    *                               .isLessThanOrEqualTo(3)
-   *                        returnToMap().contains(entry(oneRing, frodo), 
-   *                                               entry(nenya, galadriel), 
+   *                        returnToMap().contains(entry(oneRing, frodo),
+   *                                               entry(nenya, galadriel),
    *                                               entry(narya, gandalf));
-   * 
+   *
    * // assertion will fail:
    * assertThat(ringBearers).size().isGreaterThan(5);</code></pre>
    *
@@ -1216,23 +1348,23 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Extract the values of given keys from the map under test into an array, this new array becoming
    * the object under test.
    * <p>
-   * For example, if you specify "id", "name" and "email" keys then the array will contain the map values for 
+   * For example, if you specify "id", "name" and "email" keys then the array will contain the map values for
    * these keys, you can then perform array assertions on the extracted values.
    * <p>
    * If a given key is not present in the map under test, a null value is extracted.
    * <p>
    * Example:
-   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;(); 
-   * map.put("name", "kawhi");                  
-   * map.put("age", 25);                        
-   *                                            
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * map.put("name", "kawhi");
+   * map.put("age", 25);
+   *
    * assertThat(map).extracting("name", "age")
-   *                .contains("kawhi", 25);</code></pre>     
+   *                .contains("kawhi", 25);</code></pre>
    * <p>
    * Note that the order of extracted keys value is consistent with the iteration order of the array under test.
    * <p>
-   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract 
-   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.  
+   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
+   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
    *
    * @param keys the keys used to get values from the map under test
    * @return a new assertion object whose object under test is the array containing the extracted map values
@@ -1254,33 +1386,33 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * If a given key value is not an {@link Iterable} or an array, it is simply extracted but (obviously) not flattened.
    * <p>
    * Example:
-   * <pre><code class='java'> List&lt;String&gt; names = asList("Dave", "Jeff");                          
-   * LinkedHashSet&lt;String&gt; jobs = newLinkedHashSet("Plumber", "Builder");  
+   * <pre><code class='java'> List&lt;String&gt; names = asList("Dave", "Jeff");
+   * LinkedHashSet&lt;String&gt; jobs = newLinkedHashSet("Plumber", "Builder");
    * Iterable&lt;String&gt; cities = asList("Dover", "Boston", "Paris");
    * int[] ranks = { 1, 2, 3 };
-   * 
-   * Map&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();                                    
-   * map.put("name", names);                                         
-   * map.put("job", jobs);                                           
-   * map.put("city", cities);                                        
-   * map.put("rank", ranks);                                        
-   * 
+   *
+   * Map&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();
+   * map.put("name", names);
+   * map.put("job", jobs);
+   * map.put("city", cities);
+   * map.put("rank", ranks);
+   *
    * assertThat(map).flatExtracting("name","job","city", "rank")
-   *                .containsExactly("Dave", "Jeff", 
-   *                                 "Plumber", "Builder", 
+   *                .containsExactly("Dave", "Jeff",
+   *                                 "Plumber", "Builder",
    *                                 "Dover", "Boston", "Paris",
    *                                 1, 2, 3);
-   *                
-   * // the order of values in the resulting array is the order of map keys then key values:                
-   * assertThat(map).flatExtracting("city", "job", "name")                
-   *                .containsExactly("Dover", "Boston", "Paris", 
-   *                                 "Plumber", "Builder", 
+   *
+   * // the order of values in the resulting array is the order of map keys then key values:
+   * assertThat(map).flatExtracting("city", "job", "name")
+   *                .containsExactly("Dover", "Boston", "Paris",
+   *                                 "Plumber", "Builder",
    *                                 "Dave", "Jeff");
-   *                        
+   *
    * // contains exactly null twice (one for each unknown keys)
    * assertThat(map).flatExtracting("foo", "name", "bar")
    *                .containsExactly(null, "Dave", "Jeff", null);
-   *                
+   *
    * // if the key value is not an iterable/array, it will be simply extracted but not flattened.
    * map.put("year", 2017));
    * assertThat(map).flatExtracting("name","job","year")
