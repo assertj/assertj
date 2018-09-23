@@ -43,6 +43,11 @@ public class Jedi extends Person {
     return strangeNotReadablePrivateField;
   }
 
+  public Jedi setStrangeNotReadablePrivateField(Object value) {
+    strangeNotReadablePrivateField = value;
+    return this;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
