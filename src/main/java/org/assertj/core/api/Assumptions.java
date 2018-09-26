@@ -763,7 +763,7 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code> assumption.
+   * Creates a new instance of <code>{@link IteratorAssert}</code> assumption.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -772,8 +772,8 @@ public class Assumptions {
    */
   @CheckReturnValue
   @SuppressWarnings("unchecked")
-  public static <ELEMENT> ProxyableIterableAssert<ELEMENT> assumeThat(Iterator<? extends ELEMENT> actual) {
-    return asAssumption(ProxyableIterableAssert.class, Iterator.class, actual);
+  public static <ELEMENT> IteratorAssert<ELEMENT> assumeThat(Iterator<? extends ELEMENT> actual) {
+    return asAssumption(IteratorAssert.class, Iterator.class, actual);
   }
 
   /**

@@ -2635,18 +2635,23 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * <b>Be aware that calls to most methods on returned IterableAssert will consume Iterator so it won't be possible to
-   * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
-   * cached by IterableAssert first time Iterator is consumed.
+   *  The {@link IteratorAssert} has limited assertions because it does not consume elements.
+   *  In order to access assertions from {@link IterableAssert}, use {@link IteratorAssert#toIterable()}.
+   * </p>
+   * Examples:
+   * <pre><code class='java'>
+   * assertThat(listOfNames.iterator()).hasNext();
+   * assertThat(listOfNames.iterator()).toIterable().contains("Londo");
+   * </code></pre>
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <ELEMENT> IterableAssert<ELEMENT> assertThat(Iterator<? extends ELEMENT> actual) {
+  public static <ELEMENT> IteratorAssert<ELEMENT> assertThat(Iterator<? extends ELEMENT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 

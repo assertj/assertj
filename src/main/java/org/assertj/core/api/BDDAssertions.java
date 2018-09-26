@@ -366,7 +366,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public static <T> IterableAssert<T> then(Iterator<? extends T> actual) {
+  public static <T> IteratorAssert<T> then(Iterator<? extends T> actual) {
     return assertThat(actual);
   }
 

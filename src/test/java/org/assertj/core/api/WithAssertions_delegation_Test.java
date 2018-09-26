@@ -393,7 +393,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_iterator_Test() {
-    assertThat(Arrays.asList(ITEMS).iterator()).contains(ITEMS[0]);
+    assertThat(Arrays.asList(ITEMS).iterator()).hasNext();
   }
 
   /**

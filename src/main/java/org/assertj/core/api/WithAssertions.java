@@ -740,7 +740,7 @@ public interface WithAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default <T> IterableAssert<T> assertThat(final Iterator<? extends T> actual) {
+  default <T> IteratorAssert<T> assertThat(final Iterator<? extends T> actual) {
     return Assertions.assertThat(actual);
   }
 
