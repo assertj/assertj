@@ -95,7 +95,7 @@
     <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
-      <version>1.8.21</version>
+      <version>1.9.0</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
