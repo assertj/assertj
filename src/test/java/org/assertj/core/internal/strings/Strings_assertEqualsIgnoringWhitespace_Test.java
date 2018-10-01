@@ -94,6 +94,6 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
 
   private void verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(AssertionInfo info, String actual,
                                                                            String expected) {
-    verify(failures).failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
+    verify(failures).failure(info, shouldBeEqualIgnoringWhitespace(actual, expected), actual, expected);
   }
 }

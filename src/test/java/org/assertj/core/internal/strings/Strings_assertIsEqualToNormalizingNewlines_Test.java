@@ -51,7 +51,7 @@ public class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBase
     try {
       strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected));
+      verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected), actual, expected);
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
