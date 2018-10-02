@@ -226,7 +226,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Asserts that the actual object has null fields or properties.
+   * Asserts that the actual object has only null fields or properties.
    * <p>
    * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
@@ -287,7 +287,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Asserts that the actual object has null fields or properties <b>except for the given ones</b>
+   * Asserts that the actual object has only null fields or properties <b>except for the given ones</b>
    * (inherited ones are taken into account).
    * <p>
    * If an object has a field and a property with the same name, the property value will be user over the field.

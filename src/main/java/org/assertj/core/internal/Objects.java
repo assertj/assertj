@@ -44,6 +44,7 @@ import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -58,7 +59,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DeepDifference.Difference;
@@ -739,7 +739,7 @@ public class Objects {
     }
     if (!notNullFieldNames.isEmpty()) {
       throw failures.failure(info, shouldHaveAllNullFields(
-        actual, notNullFieldNames, newArrayList(propertiesOrFieldsToIgnore)
+        actual, notNullFieldNames, list(propertiesOrFieldsToIgnore)
       ));
     }
   }

@@ -65,7 +65,7 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
     ).withMessage(format("%n"
       + "Expecting%n"
       + "  <Kenobi the Jedi>%n"
-      + "to have null property or field, but <\"name\"> was not null.%n"
+      + "to only have null property or field, but <\"name\"> was not null.%n"
       + "Check was performed on all fields/properties.")
     );
   }
@@ -78,7 +78,8 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
     ).withMessage(format("%n"
       + "Expecting%n"
       + "  <Kenobi the Jedi>%n"
-      + "to have properties or fields named <[\"lightSaberColor\", \"name\"]> are null.%n"
+      + "to only have null properties or fields but these were not null:%n"
+      + " <[\"lightSaberColor\", \"name\"]> are null.%n"
       + "Check was performed on all fields/properties.")
     );
   }
@@ -91,7 +92,7 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
     ).withMessage(format("%n"
       + "Expecting%n"
       + "  <Kenobi the Jedi>%n"
-      + "to have null property or field, but <\"lightSaberColor\"> was not null.%n"
+      + "to only have null property or field, but <\"lightSaberColor\"> was not null.%n"
       + "Check was performed on all fields/properties except: <[\"name\"]>.")
     );
   }
@@ -104,7 +105,7 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
     ).withMessage(format("%n"
       + "Expecting%n"
       + "  <Person[name='null']>%n"
-      + "to have null property or field, but <\"privateField\"> was not null.%n"
+      + "to only have null property or field, but <\"privateField\"> was not null.%n"
       + "Check was performed on all fields/properties.")
     );
   }
