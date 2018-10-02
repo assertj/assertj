@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.BufferedInputStream;
@@ -393,7 +394,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_iterator_Test() {
-    assertThat(Arrays.asList(ITEMS).iterator()).contains(ITEMS[0]);
+    assertThat(list(ITEMS).iterator()).hasNext();
   }
 
   /**

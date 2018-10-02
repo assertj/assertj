@@ -36,7 +36,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.3.0</version>
+        <version>5.3.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -81,7 +81,7 @@
     <dependency>
       <groupId>org.opentest4j</groupId>
       <artifactId>opentest4j</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
@@ -95,7 +95,7 @@
     <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
-      <version>1.8.21</version>
+      <version>1.9.0</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -344,6 +344,16 @@
         <!-- jacoco does not work with java 11 yet, see https://github.com/jacoco/jacoco/issues/663 -->
         <jacoco.skip>true</jacoco.skip>
         <sonar.skip>true</sonar.skip>
+      </properties>
+    </profile>
+    <profile>
+      <id>java12+</id>
+      <activation>
+        <jdk>[12,)</jdk>
+      </activation>
+      <properties>
+        <!-- currently fails with "javadoc: error - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/ are in the unnamed module." -->
+        <maven.javadoc.skip>true</maven.javadoc.skip>
       </properties>
     </profile>
   </profiles>

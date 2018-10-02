@@ -931,6 +931,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
    *
    * @param elementAssertions the assertions to perform on the unique element.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
    * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
    * @since 3.5.0

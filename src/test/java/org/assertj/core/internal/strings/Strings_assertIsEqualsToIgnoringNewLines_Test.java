@@ -54,7 +54,7 @@ public class Strings_assertIsEqualsToIgnoringNewLines_Test extends StringsBaseTe
     try {
       strings.assertIsEqualToIgnoringNewLines(someInfo(), actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLines(actual, expected));
+      verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLines(actual, expected), actual, expected);
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

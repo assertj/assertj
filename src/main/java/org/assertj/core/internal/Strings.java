@@ -550,7 +550,7 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are not equal.
    */
   public void assertEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (!areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldBeEqual(actual, expected));
+    if (!areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldBeEqual(actual, expected), actual, expected);
   }
 
   /**
@@ -584,7 +584,7 @@ public class Strings {
     String actualNormalized = normalizeNewlines(actual);
     String expectedNormalized = normalizeNewlines(expected);
     if (!actualNormalized.equals(expectedNormalized))
-      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected));
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected), actual, expected);
   }
 
   private static String normalizeNewlines(CharSequence actual) {
@@ -601,7 +601,7 @@ public class Strings {
    */
   public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
     if (!areEqualIgnoringWhitespace(actual, expected))
-      throw failures.failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
+      throw failures.failure(info, shouldBeEqualIgnoringWhitespace(actual, expected), actual, expected);
   }
 
   /**
@@ -647,7 +647,7 @@ public class Strings {
    */
   public void assertEqualsNormalizingWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
     if (!areEqualNormalizingWhitespace(actual, expected))
-      throw failures.failure(info, shouldBeEqualNormalizingWhitespace(actual, expected));
+      throw failures.failure(info, shouldBeEqualNormalizingWhitespace(actual, expected), actual, expected);
   }
 
   /**
@@ -1084,7 +1084,7 @@ public class Strings {
     String actualWithoutNewLines = removeNewLines(actual);
     String expectedWithoutNewLines = removeNewLines(expected);
     if (!actualWithoutNewLines.equals(expectedWithoutNewLines))
-      throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected));
+      throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected), actual, expected);
   }
 
   public void assertLowerCase(AssertionInfo info, CharSequence actual) {

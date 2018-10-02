@@ -96,7 +96,7 @@ public class AutoCloseableSoftAssertionsTest {
       softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
       softly.assertThat((Iterable<String>) list("26")).isEqualTo(list("27"));
-      softly.assertThat(list("28").iterator()).contains("29");
+      softly.assertThat(list("28").iterator()).isExhausted();
       softly.assertThat(list("30")).isEqualTo(list("31"));
 
       softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
@@ -201,13 +201,7 @@ public class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(23)).contains(format("%nExpecting:%n <[24]>%nto be equal to:%n <[25]>%nbut was not."));
 
       assertThat(errors.get(24)).contains(format("%nExpecting:%n <[\"26\"]>%nto be equal to:%n <[\"27\"]>%nbut was not."));
-      assertThat(errors.get(25)).contains(format("%nExpecting:%n" +
-                                                   " <[\"28\"]>%n" +
-                                                   "to contain:%n" +
-                                                   " <[\"29\"]>%n" +
-                                                   "but could not find:%n" +
-                                                   " <[\"29\"]>%n"));
-
+      assertThat(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
       assertThat(errors.get(26)).contains(format("%nExpecting:%n <[\"30\"]>%nto be equal to:%n <[\"31\"]>%nbut was not."));
 
       assertThat(errors.get(27)).contains(format("%nExpecting:%n <32L>%nto be equal to:%n <33L>%nbut was not."));

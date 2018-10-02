@@ -12,12 +12,12 @@
  */
 package org.assertj.core.internal;
 
+import java.util.Comparator;
+
 import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
-
-import java.util.Comparator;
 
 /**
  * Reusable assertions for arrays of {@code long}s.
@@ -408,7 +408,7 @@ public class LongArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
-  public <E> void assertContainsAnyOf(AssertionInfo info, long[] actual, long[] values) {
+  public void assertContainsAnyOf(AssertionInfo info, long[] actual, long[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }

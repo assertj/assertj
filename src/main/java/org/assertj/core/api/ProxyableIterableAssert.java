@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,11 +24,7 @@ public class ProxyableIterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<ProxyableIterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public ProxyableIterableAssert(Iterable<? extends ELEMENT> actual) {
-    super(actual, ProxyableIterableAssert.class, new ObjectAssertFactory<ELEMENT>());
-  }
-
-  public ProxyableIterableAssert(Iterator<? extends ELEMENT> actual) {
-    this(toLazyIterable(actual));
+    super(actual, ProxyableIterableAssert.class, new ObjectAssertFactory<>());
   }
 
   @Override

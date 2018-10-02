@@ -13,10 +13,7 @@
 package org.assertj.core.api;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
-import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 
-import java.util.AbstractCollection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -24,9 +21,7 @@ import java.util.function.Function;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.util.Streams;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for {@link Iterable}.
@@ -47,11 +42,7 @@ public class IterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public IterableAssert(Iterable<? extends ELEMENT> actual) {
-    super(actual, IterableAssert.class, new ObjectAssertFactory<ELEMENT>());
-  }
-
-  public IterableAssert(Iterator<? extends ELEMENT> actual) {
-    this(toLazyIterable(actual));
+    super(actual, IterableAssert.class, new ObjectAssertFactory<>());
   }
 
   @Override
@@ -59,165 +50,7 @@ public class IterableAssert<ELEMENT> extends
     return new IterableAssert<>(iterable);
   }
 
-  @Override
-  public IterableAssert<ELEMENT> isEqualTo(Object expected) {
-    if (actual instanceof LazyIterable) {
-      objects.assertEqual(info, asLazyIterable().iterator, expected);
-      return myself;
-    }
-    return super.isEqualTo(expected);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isInstanceOf(Class<?> type) {
-    if (actual instanceof LazyIterable) {
-      objects.assertIsInstanceOf(info, asLazyIterable().iterator, type);
-      return myself;
-    }
-    return super.isInstanceOf(type);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isInstanceOfAny(Class<?>... types) {
-    if (actual instanceof LazyIterable) {
-      objects.assertIsInstanceOfAny(info, asLazyIterable().iterator, types);
-      return myself;
-    }
-    return super.isInstanceOfAny(types);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isOfAnyClassIn(Class<?>... types) {
-    if (actual instanceof LazyIterable) {
-      objects.assertIsOfAnyClassIn(info, asLazyIterable().iterator, types);
-      return myself;
-    }
-    return super.isOfAnyClassIn(types);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isExactlyInstanceOf(Class<?> type) {
-    if (actual instanceof LazyIterable) {
-      objects.assertIsExactlyInstanceOf(info, asLazyIterable().iterator, type);
-      return myself;
-    }
-    return super.isExactlyInstanceOf(type);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isNotInstanceOf(Class<?> type) {
-    if (actual instanceof LazyIterable) {
-      objects.assertIsNotInstanceOf(info, asLazyIterable().iterator, type);
-      return myself;
-    }
-    return super.isNotInstanceOf(type);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isNotInstanceOfAny(Class<?>... types) {
-    if (actual instanceof LazyIterable) {
-      objects.assertIsNotInstanceOfAny(info, asLazyIterable().iterator, types);
-      return myself;
-    }
-    return super.isNotInstanceOfAny(types);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isNotOfAnyClassIn(Class<?>... types) {
-    if (actual instanceof LazyIterable) {
-      objects.assertIsNotOfAnyClassIn(info, asLazyIterable().iterator, types);
-      return myself;
-    }
-    return super.isNotOfAnyClassIn(types);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isNotExactlyInstanceOf(Class<?> type) {
-    if (actual instanceof LazyIterable) {
-      objects.assertIsNotExactlyInstanceOf(info, asLazyIterable().iterator, type);
-      return myself;
-    }
-    return super.isNotExactlyInstanceOf(type);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isSameAs(Object expected) {
-    if (actual instanceof LazyIterable) {
-      objects.assertSame(info, asLazyIterable().iterator, expected);
-      return myself;
-    }
-    return super.isSameAs(expected);
-  }
-
-  @Override
-  public IterableAssert<ELEMENT> isNotSameAs(Object expected) {
-    if (actual instanceof LazyIterable) {
-      objects.assertNotSame(info, asLazyIterable().iterator, expected);
-      return myself;
-    }
-    return super.isNotSameAs(expected);
-  }
-
-  @Override
-  @SafeVarargs
-  public final IterableAssert<ELEMENT> startsWith(ELEMENT... sequence) {
-    if (!(actual instanceof LazyIterable)) {
-      return super.startsWith(sequence);
-    }
-    objects.assertNotNull(info, actual);
-    checkIsNotNull(sequence);
-    // To handle infinite iterator we use the internal iterator instead of iterator() that consumes it totally.
-    @SuppressWarnings({ "rawtypes" })
-    Iterator<? extends ELEMENT> iterator = ((LazyIterable) actual).iterator;
-    if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
-    int i = 0;
-    while (iterator.hasNext()) {
-      if (i >= sequence.length) break;
-      if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
-      throw actualDoesNotStartWithSequence(info, actual, sequence);
-    }
-    if (sequence.length > i) {
-      // sequence has more elements than actual
-      throw actualDoesNotStartWithSequence(info, actual, sequence);
-    }
-    return myself;
-  }
-
-  private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    return Failures.instance().failure(info, shouldStartWith(actual, sequence, iterables.getComparisonStrategy()));
-  }
-
-  @SuppressWarnings("rawtypes")
-  private LazyIterable asLazyIterable() {
-    return (LazyIterable) actual;
-  }
-
-  // will only consume iterator when needed
-  @VisibleForTesting
-  static class LazyIterable<T> extends AbstractCollection<T> {
-    private Iterator<T> iterator;
-    private Iterable<T> iterable;
-
-    public LazyIterable(Iterator<T> iterator) {
-      this.iterator = iterator;
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-      if (iterable == null) {
-        iterable = toIterable(iterator);
-      }
-      return iterable.iterator();
-    }
-
-    @Override
-    public int size() {
-      return Math.toIntExact(Streams.stream(iterator()).count());
-    }
-
-  }
-
-  private static <T> Iterable<T> toIterable(Iterator<T> iterator) {
+  static <T> Iterable<T> toIterable(Iterator<T> iterator) {
     return Streams.stream(iterator).collect(toList());
   }
 

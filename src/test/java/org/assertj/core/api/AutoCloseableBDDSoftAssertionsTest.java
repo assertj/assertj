@@ -16,7 +16,9 @@ import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.DateUtil.parseDatetime;
+import static org.assertj.core.util.Lists.list;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -32,7 +34,6 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
@@ -91,14 +92,14 @@ public class AutoCloseableBDDSoftAssertionsTest {
       softly.then(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
       softly.then((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-      softly.then(Lists.newArrayList("28").iterator()).contains("29");
-      softly.then(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
+      softly.then(list("28").iterator()).isExhausted();
+      softly.then(list("30")).isEqualTo(Lists.newArrayList("31"));
 
       softly.then(new Long(32L)).isEqualTo(new Long(33L));
       softly.then(34L).isEqualTo(35L);
       softly.then(new long[] { 36L }).isEqualTo(new long[] { 37L });
 
-      softly.then(Maps.mapOf(MapEntry.entry("38", "39"))).isEqualTo(Maps.mapOf(MapEntry.entry("40", "41")));
+      softly.then(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));
 
       softly.then(new Short((short) 42)).isEqualTo(new Short((short) 43));
       softly.then((short) 44).isEqualTo((short) 45);
@@ -187,12 +188,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
       assertThat(errors.get(23)).contains(format("%nExpecting:%n <[24]>%nto be equal to:%n <[25]>%nbut was not."));
 
       assertThat(errors.get(24)).contains(format("%nExpecting:%n <[\"26\"]>%nto be equal to:%n <[\"27\"]>%nbut was not."));
-      assertThat(errors.get(25)).contains(format("%nExpecting:%n" +
-                                                   " <[\"28\"]>%n" +
-                                                   "to contain:%n" +
-                                                   " <[\"29\"]>%n" +
-                                                   "but could not find:%n" +
-                                                   " <[\"29\"]>%n"));
+      assertThat(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
       assertThat(errors.get(26)).contains(format("%nExpecting:%n <[\"30\"]>%nto be equal to:%n <[\"31\"]>%nbut was not."));
 
       assertThat(errors.get(27)).contains(format("%nExpecting:%n <32L>%nto be equal to:%n <33L>%nbut was not."));
