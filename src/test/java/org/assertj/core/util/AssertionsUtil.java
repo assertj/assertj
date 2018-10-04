@@ -12,13 +12,22 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.ThrowableAssertAlternative;
 
 public class AssertionsUtil {
 
-  public static AssertionError catchAssertionError(ThrowingCallable shouldRaiseAssertionError) {
-    return Assertions.catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
+  public static AssertionError expectAssertionError(ThrowingCallable shouldRaiseAssertionError) {
+    AssertionError error = Assertions.catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
+    assertThat(error).as("The code under test should have raised an AssertionError").isNotNull();
+    return error;
+  }
+
+  public static ThrowableAssertAlternative<AssertionError> assertThatAssertionErrorIsThrownBy(ThrowingCallable shouldRaiseAssertionError) {
+    return Assertions.assertThatExceptionOfType(AssertionError.class).isThrownBy(shouldRaiseAssertionError);
   }
 
 }

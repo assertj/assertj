@@ -27,10 +27,11 @@ import org.junit.jupiter.api.Test;
  * Tests for <code>{@link ObjectAssert#hasNoNullFieldsOrPropertiesExcept(String...)}</code>.
  *
  * @author Johannes Brodwall
+ * @author Vladimir Chernikov
  */
 public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest {
 
-  public static final String FIELD_NAME = "color"; // field in org.assertj.core.test.Person
+  private static final String FIELD_NAME = "color"; // field in org.assertj.core.test.Person
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
@@ -43,7 +44,7 @@ public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertB
   }
 
   @Test
-  public void should_fail_if_a_public_field_is_null() {
+  void should_fail_if_a_public_field_is_null() {
     Jedi jedi = new Jedi("Yoda", null);
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedi).hasNoNullFieldsOrPropertiesExcept("name",
@@ -56,7 +57,7 @@ public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertB
   }
 
   @Test
-  public void should_fail_if_a_private_field_is_null() {
+  void should_fail_if_a_private_field_is_null() {
     Jedi jedi = new Jedi("Yoda", "Blue");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedi).hasNoNullFieldsOrProperties())
@@ -64,11 +65,22 @@ public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertB
                                                                        + "Expecting%n"
                                                                        + "  <Yoda the Jedi>%n"
                                                                        + "not to have any null property or field, but <\"strangeNotReadablePrivateField\"> was null.%n"
-                                                                       + "Check was performed on all fields/properties"));
+                                                                       + "Check was performed on all fields/properties."));
   }
 
   @Test
-  public void should_fail_if_a_property_is_null() {
+  void should_fail_if_all_fields_or_properties_are_not_set() {
+    Jedi jedi = new Jedi(null, null);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedi).hasNoNullFieldsOrProperties())
+                                                   .withMessage(format("%n"
+                                                                       + "Expecting%n"
+                                                                       + "  <null the Jedi>%n"
+                                                                       + "to have a property or a field named <[\"lightSaberColor\", \"strangeNotReadablePrivateField\", \"name\"]>.%n"
+                                                                       + "Check was performed on all fields/properties."));
+  }
+
+  @Test
+  void should_fail_if_a_property_is_null() {
     Person nobody = new Person(null);
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(nobody).hasNoNullFieldsOrProperties())
@@ -76,11 +88,11 @@ public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertB
                                                                        + "Expecting%n"
                                                                        + "  <Person[name='null']>%n"
                                                                        + "not to have any null property or field, but <\"name\"> was null.%n"
-                                                                       + "Check was performed on all fields/properties"));
+                                                                       + "Check was performed on all fields/properties."));
   }
 
   @Test
-  public void should_pass_if_all_fields_or_properties_but_the_ignored_ones_are_set() {
+  void should_pass_if_all_fields_or_properties_but_the_ignored_ones_are_set() {
     Jedi jedi = new Jedi("Yoda", null);
     assertThat(jedi).hasNoNullFieldsOrPropertiesExcept("lightSaberColor", "strangeNotReadablePrivateField");
   }
