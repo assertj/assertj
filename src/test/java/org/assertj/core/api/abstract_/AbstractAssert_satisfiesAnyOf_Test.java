@@ -19,7 +19,7 @@ import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.data.TolkienCharacter.Race.MAN;
-import static org.assertj.core.util.AssertionsUtil.catchAssertionError;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -45,7 +45,7 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   protected ConcreteAssert invoke_api_method() {
     Consumer<Object> isZero = i -> assertThat(i).isNull();
     Consumer<Object> isNegative = i -> assertThat(i).isInstanceOf(String.class);
-    catchAssertionError(() -> assertions.as("description").satisfiesAnyOf(isZero, isNegative));
+    expectAssertionError(() -> assertions.as("description").satisfiesAnyOf(isZero, isNegative));
     return null;
   }
 
@@ -86,7 +86,7 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     // GIVEN
     TolkienCharacter boromir = TolkienCharacter.of("Boromir", 45, MAN);
     // WHEN
-    AssertionError error = catchAssertionError(() -> assertThat(boromir).as("description").satisfiesAnyOf(isHobbit, isElf));
+    AssertionError error = expectAssertionError(() -> assertThat(boromir).as("description").satisfiesAnyOf(isHobbit, isElf));
     // THEN
     assertThat(error).isNotNull();
   }

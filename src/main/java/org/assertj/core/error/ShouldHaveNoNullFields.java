@@ -22,21 +22,22 @@ import java.util.List;
  */
 public class ShouldHaveNoNullFields extends BasicErrorMessageFactory {
 
-  private static final String EXPECTED_MULTIPLE = "%nExpecting%n  <%s>%nto have a property or a field named <%s>";
+  private static final String EXPECTED_MULTIPLE = "%nExpecting%n  <%s>%nto have a property or a field named <%s>.%n";
   private static final String EXPECTED_SINGLE = "%nExpecting%n  <%s>%nnot to have any null property or field, but <%s> was null.%n";
   private static final String COMPARISON = "Check was performed on all fields/properties";
   private static final String EXCLUDING = COMPARISON + " except: <%s>";
+  private static final String DOT = ".";
 
   public ShouldHaveNoNullFields(Object actual, List<String> rejectedFields, List<String> ignoredFields) {
     super(EXPECTED_MULTIPLE + EXCLUDING, actual, rejectedFields, ignoredFields);
   }
 
   public ShouldHaveNoNullFields(Object actual, List<String> rejectedFields) {
-    super(EXPECTED_MULTIPLE + COMPARISON, actual, rejectedFields);
+    super(EXPECTED_MULTIPLE + COMPARISON + DOT, actual, rejectedFields);
   }
 
   public ShouldHaveNoNullFields(Object actual, String rejectedField) {
-    super(EXPECTED_SINGLE + COMPARISON, actual, rejectedField);
+    super(EXPECTED_SINGLE + COMPARISON + DOT, actual, rejectedField);
   }
 
   public ShouldHaveNoNullFields(Object actual, String rejectedField, List<String> ignoredFields) {
