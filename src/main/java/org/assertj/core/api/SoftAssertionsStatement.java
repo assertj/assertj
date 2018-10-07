@@ -12,10 +12,9 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.AbstractSoftAssertions.tryThrowingMultipleFailuresError;
-
 import java.util.List;
 
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
 
@@ -23,6 +22,7 @@ import org.junit.runners.model.Statement;
 class SoftAssertionsStatement {
 
   private AbstractSoftAssertions soft;
+  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   private SoftAssertionsStatement(AbstractSoftAssertions soft) {
     this.soft = soft;
@@ -41,7 +41,7 @@ class SoftAssertionsStatement {
         List<Throwable> errors = soft.errorsCollected();
         if (errors.isEmpty()) return;
         // tests assertions raised some errors
-        tryThrowingMultipleFailuresError(errors);
+        assertionErrorCreator.tryThrowingMultipleFailuresError(errors);
         // failed to throw MultipleFailuresError -> throw MultipleFailureException instead
         MultipleFailureException.assertEmpty(errors);
       }

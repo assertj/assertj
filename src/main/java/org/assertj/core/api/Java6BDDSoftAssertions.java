@@ -16,6 +16,8 @@ import static org.assertj.core.groups.Properties.extractProperty;
 
 import java.util.List;
 
+import org.assertj.core.error.AssertionErrorCreator;
+
 /**
  * BDD-style Android-compatible soft assertions. Duplicated from {@link BDDSoftAssertions}.
  *
@@ -24,6 +26,9 @@ import java.util.List;
  * @since 2.5.0 / 3.5.0
  */
 public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
+
+  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+
   /**
    * Verifies that no proxied assertion methods have failed.
    *
@@ -32,7 +37,7 @@ public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
     if (!errors.isEmpty()) {
-      tryThrowingMultipleFailuresError(errors);
+      assertionErrorCreator.tryThrowingMultipleFailuresError(errors);
       throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
     }
   }

@@ -52,7 +52,7 @@ public final class Throwables {
                   stackTraceDescription);
   };
 
-  public static List<String> describeErrors(List<Throwable> errors) {
+  public static List<String> describeErrors(List<? extends Throwable> errors) {
     return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
   }
 

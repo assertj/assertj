@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import java.util.List;
 
+import org.assertj.core.error.AssertionErrorCreator;
+
 /**
  * <p>
  * Suppose we have a test case and in it we'd like to make numerous BDD assertions. In this case, we're hosting a dinner
@@ -102,6 +104,8 @@ import java.util.List;
  */
 public class BDDSoftAssertions extends AbstractBDDSoftAssertions {
 
+  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+
   /**
    * Verifies that no proxied assertion methods have failed.
    *
@@ -109,7 +113,7 @@ public class BDDSoftAssertions extends AbstractBDDSoftAssertions {
    */
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throwsBestMultipleAssertionsError(errors);
+    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
   }
 
 }

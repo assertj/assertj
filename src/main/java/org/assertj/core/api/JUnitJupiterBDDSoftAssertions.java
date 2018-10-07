@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.util.List;
 
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
@@ -37,9 +38,11 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  */
 public class JUnitJupiterBDDSoftAssertions extends AbstractBDDSoftAssertions implements AfterEachCallback {
 
+  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+
   @Override
   public void afterEach(ExtensionContext extensionContext) throws Exception {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throwsBestMultipleAssertionsError(errors);
+    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
   }
 }

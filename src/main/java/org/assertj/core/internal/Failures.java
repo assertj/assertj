@@ -13,7 +13,6 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
-import static org.assertj.core.error.AssertionErrorCreator.assertionError;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import java.lang.management.ManagementFactory;
@@ -22,6 +21,7 @@ import java.lang.management.ThreadMXBean;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.description.Description;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
@@ -40,6 +40,8 @@ public class Failures {
   private static final String LINE_SEPARATOR = System.lineSeparator();
 
   private static final Failures INSTANCE = new Failures();
+
+  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   /**
    * flag indicating that in case of a failure a threaddump is printed out.
@@ -125,7 +127,7 @@ public class Failures {
 
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory, Object actual, Object expected) {
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
-    AssertionError assertionError = assertionError(assertionErrorMessage, actual, expected);
+    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();
     return assertionError;
