@@ -338,6 +338,17 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).zipSatisfy(asList("A", "B", "C"), (e1, e2) -> assertThat(e1).isEqualToIgnoringCase(e2));
           }
+        } },
+        { new AssumptionRunner<String>("abc") {
+          @Override
+          public void runFailingAssumption() {
+            assumeThat(actual).satisfiesAnyOf(s -> assertThat(s).isEmpty(), s -> assertThat(s).isBlank());
+          }
+
+          @Override
+          public void runPassingAssumption() {
+            assumeThat(actual).satisfiesAnyOf(s -> assertThat(s).isLowerCase(), s -> assertThat(s).isBlank());
+          }
         } }
     };
   }

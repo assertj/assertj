@@ -24,7 +24,9 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.data.TolkienCharacter.Race.MAN;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.Maps.mapOf;
@@ -61,6 +63,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -1884,6 +1887,25 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .contains(name("Can be", "anybody"));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
+  }
+
+  @Test
+  public void soft_assertions_should_work_with_satisfiesAnyOf() {
+    // GIVEN
+    TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
+    Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
+    Consumer<TolkienCharacter> isMan = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(MAN);
+    // WHEN
+    softly.assertThat(legolas)
+          .as("satisfiesAnyOf")
+          .satisfiesAnyOf(isHobbit, isMan);
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(1);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("[satisfiesAnyOf] ")
+                                      .hasMessageContaining("HOBBIT")
+                                      .hasMessageContaining("ELF")
+                                      .hasMessageContaining("MAN");
   }
 
 }

@@ -12,8 +12,11 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Arrays;
@@ -23,6 +26,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
@@ -71,6 +75,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   private static Representation customRepresentation = null;
 
+  @VisibleForTesting
+  AssertionErrorCreator assertionErrorCreator;
+
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
@@ -79,6 +86,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     myself = (SELF) selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo(customRepresentation);
+    assertionErrorCreator = new AssertionErrorCreator();
   }
 
   /**
@@ -660,6 +668,111 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
     requirements.accept(actual);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual object under test satisfies at least one of the given assertions group expressed as {@link Consumer}s.
+   * <p>
+   * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
+   * <p>
+   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from 
+   * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
+   * Describing the assertion is supported (for example with {@link #as(String, Object...)}). 
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", HOBBIT);
+   *
+   * Consumer&lt;TolkienCharacter&gt; isHobbit = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
+   * Consumer&lt;TolkienCharacter&gt; isElf = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
+   *
+   * // assertion succeeds:
+   * assertThat(frodo).satisfiesAnyOf(isElf, isHobbit);
+   *
+   * // assertion fails:
+   * TolkienCharacter boromir = new TolkienCharacter("Boromir", MAN);
+   * assertThat(boromir).satisfiesAnyOf(isHobbit, isElf);</code></pre>
+   *
+   * @param assertions1 the first group of assertions to run against the object under test - must not be null.
+   * @param assertions2 the second group of assertions to run against the object under test - must not be null.
+   * @return this assertion object.
+   *
+   * @throws IllegalArgumentException if any given assertions group is null 
+   */
+  // Does not take a Consumer<ACTUAL>... to avoid to use @SafeVarargs to suppress the generic array type safety warning.
+  // @SafeVarargs requires methods to be final which breaks the proxying mechanism used by soft assertions and assumptions
+  public SELF satisfiesAnyOf(Consumer<ACTUAL> assertions1, Consumer<ACTUAL> assertions2) {
+    return satisfiesAnyOfAssertionsGroups(assertions1, assertions2);
+  }
+
+  /**
+   * Verifies that the actual object under test satisfies at least one of the given assertions group expressed as {@link Consumer}s.
+   * <p>
+   * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
+   * <p>
+   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from 
+   * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
+   * Describing the assertion is supported (for example with {@link #as(String, Object...)}). 
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", HOBBIT);
+   *
+   * Consumer&lt;TolkienCharacter&gt; isHobbit = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
+   * Consumer&lt;TolkienCharacter&gt; isElf = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
+   * Consumer&lt;TolkienCharacter&gt; isOrc = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(ORC);
+   *
+   * // assertion succeeds:
+   * assertThat(frodo).satisfiesAnyOf(isElf, isHobbit, isOrc);
+   *
+   * // assertion fails:
+   * TolkienCharacter boromir = new TolkienCharacter("Boromir", MAN);
+   * assertThat(boromir).satisfiesAnyOf(isHobbit, isElf, isOrc);</code></pre>
+   *
+   * @param assertions1 the first group of assertions to run against the object under test - must not be null.
+   * @param assertions2 the second group of assertions to run against the object under test - must not be null.
+   * @param assertions3 the third group of assertions to run against the object under test - must not be null.
+   * @return this assertion object.
+   *
+   * @throws IllegalArgumentException if any given assertions group is null 
+   */
+  // Does not take a Consumer<ACTUAL>... to avoid to use @SafeVarargs to suppress the generic array type safety warning.
+  // @SafeVarargs requires methods to be final which breaks the proxying mechanism used by soft assertions and assumptions
+  public SELF satisfiesAnyOf(Consumer<ACTUAL> assertions1, Consumer<ACTUAL> assertions2, Consumer<ACTUAL> assertions3) {
+    return satisfiesAnyOfAssertionsGroups(assertions1, assertions2, assertions3);
+  }
+
+  // can be final as it is not proxied
+  @SafeVarargs
+  private final SELF satisfiesAnyOfAssertionsGroups(Consumer<ACTUAL>... assertionsGroups) throws AssertionError {
+    checkArgument(stream(assertionsGroups).allMatch(assertions -> assertions != null), "No assertions group should be null");
+    if (stream(assertionsGroups).anyMatch(this::satisfiesAssertions)) return myself;
+    // none of the assertions group was met! let's report all the errors
+    List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchAssertionError).collect(toList());
+    throw multipleAssertionsError(assertionErrors);
+  }
+
+  private AssertionError multipleAssertionsError(List<AssertionError> assertionErrors) {
+    // we don't allow overriding the error message to avoid loosing all the failed assertions error message.
+    return assertionErrorCreator.multipleAssertionsError(info.description(), assertionErrors);
+  }
+
+  @SuppressWarnings("unchecked")
+  private boolean satisfiesAssertions(@SuppressWarnings("rawtypes") Consumer assertions) {
+    try {
+      assertions.accept(actual);
+    } catch (AssertionError e) {
+      return false;
+    }
+    return true;
+  }
+
+  @SuppressWarnings("unchecked")
+  private AssertionError catchAssertionError(@SuppressWarnings("rawtypes") Consumer assertions) {
+    try {
+      assertions.accept(actual);
+    } catch (AssertionError assertionError) {
+      return assertionError;
+    }
+    throw new IllegalStateException("Shouldn't arrived here, assertions should have raised an AssertionError (please file a bug)");
   }
 
   private SELF matches(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {

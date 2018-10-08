@@ -23,6 +23,9 @@ import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.assertj.core.data.TolkienCharacter.Race.ELF;
+import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.data.TolkienCharacter.Race.MAN;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Arrays.array;
@@ -56,6 +59,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -73,6 +77,7 @@ import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.Lists;
@@ -741,7 +746,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   // bug #447
 
-  public class TolkienCharacter {
+  public class TolkienHeroe {
     String name;
     int age;
   }
@@ -749,8 +754,8 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void check_477_bugfix() {
     // GIVEN
-    TolkienCharacter frodo = new TolkienCharacter();
-    TolkienCharacter samnullGamgee = null;
+    TolkienHeroe frodo = new TolkienHeroe();
+    TolkienHeroe samnullGamgee = null;
     TolkienSoftAssertions softly = new TolkienSoftAssertions();
     // WHEN
     softly.then(frodo).hasAge(10); // Expect failure - age will be 0 due to not being initialized.
@@ -759,18 +764,18 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(2);
   }
 
-  public static class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAssert, TolkienCharacter> {
+  public static class TolkienHeroesAssert extends AbstractAssert<TolkienHeroesAssert, TolkienHeroe> {
 
-    public TolkienCharacterAssert(TolkienCharacter actual) {
-      super(actual, TolkienCharacterAssert.class);
+    public TolkienHeroesAssert(TolkienHeroe actual) {
+      super(actual, TolkienHeroesAssert.class);
     }
 
-    public static TolkienCharacterAssert assertThat(TolkienCharacter actual) {
-      return new TolkienCharacterAssert(actual);
+    public static TolkienHeroesAssert assertThat(TolkienHeroe actual) {
+      return new TolkienHeroesAssert(actual);
     }
 
     // 4 - a specific assertion !
-    public TolkienCharacterAssert hasName(String name) {
+    public TolkienHeroesAssert hasName(String name) {
       // check that actual TolkienCharacter we want to make assertions on is not null.
       isNotNull();
 
@@ -784,7 +789,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     }
 
     // 4 - another specific assertion !
-    public TolkienCharacterAssert hasAge(int age) {
+    public TolkienHeroesAssert hasAge(int age) {
       // check that actual TolkienCharacter we want to make assertions on is not null.
       isNotNull();
 
@@ -800,8 +805,8 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   public static class TolkienSoftAssertions extends SoftAssertions {
 
-    public TolkienCharacterAssert then(TolkienCharacter actual) {
-      return proxy(TolkienCharacterAssert.class, TolkienCharacter.class, actual);
+    public TolkienHeroesAssert then(TolkienHeroe actual) {
+      return proxy(TolkienHeroesAssert.class, TolkienHeroe.class, actual);
     }
   }
 
@@ -1565,6 +1570,25 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected).hasSize(2);
     assertThat(errorsCollected.get(0)).hasMessageContaining("boxing");
     assertThat(errorsCollected.get(1)).hasMessageContaining("basketball");
+  }
+
+  @Test
+  public void soft_assertions_should_work_with_satisfiesAnyOf() {
+    // GIVEN
+    TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
+    Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
+    Consumer<TolkienCharacter> isMan = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(MAN);
+    // WHEN
+    softly.then(legolas)
+          .as("satisfiesAnyOf")
+          .satisfiesAnyOf(isHobbit, isMan);
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(1);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("[satisfiesAnyOf] ")
+                                      .hasMessageContaining("HOBBIT")
+                                      .hasMessageContaining("ELF")
+                                      .hasMessageContaining("MAN");
   }
 
 }

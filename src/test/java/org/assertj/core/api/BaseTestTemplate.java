@@ -15,8 +15,10 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.abstract_.AbstractAssert_isNull_Test;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,6 +52,7 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extend
   protected S assertions;
   protected Objects objects;
   protected Conditions conditions;
+  protected AssertionErrorCreator assertionErrorCreator;
 
   @BeforeEach
   public final void setUp() {
@@ -75,6 +78,8 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extend
     assertions.objects = objects;
     conditions = mock(Conditions.class);
     assertions.conditions = conditions;
+    assertionErrorCreator = spy(assertions.assertionErrorCreator);
+    assertions.assertionErrorCreator = assertionErrorCreator;
   }
 
   @Test
