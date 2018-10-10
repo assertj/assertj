@@ -660,6 +660,8 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   public void withAssertions_setAllowExtractingPrivateFields_Test() {
     setAllowExtractingPrivateFields(false);
+	//reset to default
+    setAllowExtractingPrivateFields(true);
   }
 
   /**

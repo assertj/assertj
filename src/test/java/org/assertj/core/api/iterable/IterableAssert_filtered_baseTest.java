@@ -13,7 +13,6 @@
 package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -39,7 +38,6 @@ public class IterableAssert_filtered_baseTest {
     luke = new Employee(3L, new Name("Luke", "Skywalker"), 26);
     noname = new Employee(4L, null, 10);
     employees = newArrayList(yoda, luke, obiwan, noname);
-    setAllowExtractingPrivateFields(true);
   }
 
   public IterableAssert_filtered_baseTest() {
