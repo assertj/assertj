@@ -12,11 +12,10 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-
-import org.assertj.core.util.ArrayWrapperList;
-import org.junit.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ArrayWrapperList#wrap(Object)}</code>.

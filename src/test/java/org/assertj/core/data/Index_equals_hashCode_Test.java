@@ -14,11 +14,13 @@ package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Index.atIndex;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
+import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
-
-import org.assertj.core.data.Index;
-import org.junit.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Index#equals(Object)} and {@link Index#hashCode()}.
@@ -28,7 +30,7 @@ import org.junit.*;
 public class Index_equals_hashCode_Test {
   private static Index index;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUpOnce() {
     index = atIndex(8);
   }
