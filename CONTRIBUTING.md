@@ -8,13 +8,17 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the 'Eclipse Code Formatter' Plugin)
 * Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
-* Write unit test assertions with AssertJ ! Lets eat our own dog food.
+* Write unit test assertions with AssertJ ! Let's eat our own dog food.
 * Unit tests method naming convention is underscore-based (like python) and not camel-case, we find it is much readable for long test names!
 * Successful assertion unit test method names should start with: `should_pass_...`.
 * Failing assertion unit test method names should start with: `should_fail_...`.
 * If possible, add a (fun) code example in [assertj-examples](https://github.com/joel-costigliola/assertj-examples) and use it in the javadoc.
 
 [assertj-examples](https://github.com/joel-costigliola/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it can be seen as AssertJs living documentation.
+
+## Rebase your PR on master (no merge!)
+
+We prefer integrating PR by squashing all the commits and rebase it to master, if you PR has diverged and needs to integrate with master, please rebase on master but do not merge as it will prevent rebasing later on.
 
 ## Naming conventions with some examples:
 

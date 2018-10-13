@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.assertj.core.error.AssertionErrorCreator;
 import org.opentest4j.MultipleFailuresError;
 
 /**
@@ -121,6 +122,8 @@ import org.opentest4j.MultipleFailuresError;
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
 
+  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+
   /**
    * Verifies that no soft assertions have failed.
    *
@@ -128,7 +131,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
    */
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throwsBestMultipleAssertionsError(errors);
+    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
   }
 
   /**

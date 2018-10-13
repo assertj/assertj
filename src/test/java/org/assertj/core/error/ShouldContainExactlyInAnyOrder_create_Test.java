@@ -12,19 +12,19 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.description.*;
-import org.assertj.core.internal.*;
-import org.assertj.core.presentation.*;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
+
+import java.util.Collections;
+
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.*;
-
-import java.util.*;
-
-import static java.lang.String.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.*;
-import static org.assertj.core.util.Lists.*;
-import static org.assertj.core.util.Sets.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for

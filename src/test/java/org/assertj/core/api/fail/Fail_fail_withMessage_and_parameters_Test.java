@@ -15,7 +15,7 @@ package org.assertj.core.api.fail;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.api.Fail;
-import org.junit.*;
+import org.junit.jupiter.api.Test;
 
 public class Fail_fail_withMessage_and_parameters_Test {
 

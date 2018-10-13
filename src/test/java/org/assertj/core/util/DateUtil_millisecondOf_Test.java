@@ -12,15 +12,15 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.DateUtil.millisecondOf;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.util.DateUtil.millisecondOf;
 
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DateUtil#millisecondOf(Date)}</code>.

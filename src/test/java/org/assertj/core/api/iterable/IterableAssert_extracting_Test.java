@@ -40,7 +40,6 @@ import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.Tuple;
@@ -88,8 +87,6 @@ public class IterableAssert_extracting_Test {
 
   @BeforeEach
   public void setUp() {
-    // Workaround necessary because resetting isn't done somewhere else, TODO: remove
-    Assertions.setAllowExtractingPrivateFields(true);
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     jedis = newArrayList(yoda, luke);

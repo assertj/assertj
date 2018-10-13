@@ -1,7 +1,6 @@
 # AssertJ - Fluent assertions for java
 
-`master:` [![Build Status (master)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=master)](https://travis-ci.org/joel-costigliola/assertj-core) 
-`2.x:` [![Build Status (2.x)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=2.x)](https://travis-ci.org/joel-costigliola/assertj-core/branches) 
+[![Build Status (master)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=master)](https://travis-ci.org/joel-costigliola/assertj-core)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (with JUnit, TestNG or any other test framework).

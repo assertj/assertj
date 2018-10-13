@@ -10,25 +10,15 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api.fail;
+package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
-import org.assertj.core.api.Fail;
-import org.junit.jupiter.api.Test;
+public class AssertionsUtil {
 
-/**
- * Tests for <code>{@link Fail#fail(String)}</code>.
- * 
- * @author Yvonne Wang
- * @author Alex Ruiz
- */
-public class Fail_fail_withMessage_Test {
-
-  @Test
-  public void shouldIncludeMessageWhenFailing() {
-    String message = "Failed :(";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Fail.fail(message))
-                                                   .withMessage(message);
+  public static AssertionError catchAssertionError(ThrowingCallable shouldRaiseAssertionError) {
+    return Assertions.catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
   }
+
 }

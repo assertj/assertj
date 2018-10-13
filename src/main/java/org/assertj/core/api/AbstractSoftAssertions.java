@@ -13,9 +13,6 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
-import static org.assertj.core.error.ConstructorInvoker.CONSTRUCTOR_INVOKER;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Throwables.describeErrors;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -23,8 +20,6 @@ import java.util.List;
 import org.assertj.core.internal.Failures;
 
 public class AbstractSoftAssertions {
-
-  private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
 
   protected final SoftProxies proxies;
 
@@ -191,28 +186,5 @@ public class AbstractSoftAssertions {
 
   private boolean isProxiedAssertionClass(String className) {
     return className.contains("$ByteBuddy$");
-  }
-
-  protected static void throwsBestMultipleAssertionsError(List<Throwable> errors) {
-    tryThrowingMultipleFailuresError(errors);
-    throw new SoftAssertionError(describeErrors(errors));
-  }
-
-  protected static void tryThrowingMultipleFailuresError(List<Throwable> errorsCollected) {
-    if (errorsCollected.isEmpty()) return; // no errors, nothing to throw
-    try {
-      Object[] constructorArguments = array(null, errorsCollected);
-      Object multipleFailuresError = CONSTRUCTOR_INVOKER.newInstance("org.opentest4j.MultipleFailuresError",
-                                                                     MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
-                                                                     constructorArguments);
-      if (multipleFailuresError instanceof AssertionError) {
-        AssertionError assertionError = (AssertionError) multipleFailuresError;
-        Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-        throw assertionError;
-      }
-    } catch (Exception e) {
-      // do nothing, MultipleFailuresError was not in the classpath
-    }
-
   }
 }

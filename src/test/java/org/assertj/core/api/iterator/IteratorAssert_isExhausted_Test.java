@@ -25,7 +25,7 @@ import java.util.Iterator;
 import org.assertj.core.api.AbstractIteratorAssert;
 import org.assertj.core.api.IteratorAssert;
 import org.assertj.core.api.IteratorAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractIteratorAssert#isExhausted()} ()}</code>.

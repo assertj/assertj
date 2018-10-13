@@ -22,15 +22,15 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 public class GroupAssertTestHelper {
 
-  public static TypeComparators comparatorsByTypeOf(AbstractListAssert<?, ?, ?, ?> assertion) {
+  public static TypeComparators comparatorsByTypeOf(AbstractIterableAssert<?, ?, ?, ?> assertion) {
     return (TypeComparators) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsByType", assertion);
   }
 
-  public static TypeComparators comparatorForElementFieldsWithTypeOf(AbstractListAssert<?, ?, ?, ?> assertion) {
+  public static TypeComparators comparatorForElementFieldsWithTypeOf(AbstractIterableAssert<?, ?, ?, ?> assertion) {
     return (TypeComparators) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsForElementPropertyOrFieldTypes", assertion);
   }
 
-  public static Map<?, ?> comparatorForElementFieldsWithNamesOf(AbstractListAssert<?, ?, ?, ?> assertion) {
+  public static Map<?, ?> comparatorForElementFieldsWithNamesOf(AbstractIterableAssert<?, ?, ?, ?> assertion) {
     return (Map<?, ?>) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsForElementPropertyOrFieldNames", assertion);
   }
 

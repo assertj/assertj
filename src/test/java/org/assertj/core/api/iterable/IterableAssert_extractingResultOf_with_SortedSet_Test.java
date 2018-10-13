@@ -29,7 +29,6 @@ import java.util.TreeSet;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.test.FluentJedi;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
@@ -53,8 +52,6 @@ public class IterableAssert_extractingResultOf_with_SortedSet_Test {
 
   @BeforeAll
   public static void setUpOnce() {
-    // Workaround necessary because resetting isn't done somewhere else, TODO: remove
-    Assertions.setAllowExtractingPrivateFields(true);
     yoda = new FluentJedi(new Name("Yoda"), 800, false);
     vader = new FluentJedi(new Name("Darth Vader"), 50, true);
     jedis = newSortedSet(yoda, vader);
