@@ -156,6 +156,20 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Verifies that the message of the actual {@code Throwable} does not contain the given description or is
+   * <code>null</code>.
+   *
+   * @param description the description expected to not be contained in the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} contains the given description.
+   */
+  public SELF hasMessageNotContaining(String description) {
+    throwables.assertHasMessageNotContaining(info, actual, description);
+    return myself;
+  }
+
+  /**
    * Verifies that the stack trace of the actual {@code Throwable} contains the given description.
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
