@@ -220,7 +220,6 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *     assertThatExceptionOfType(Exception.class).isThrownBy(codeThrowing(new Exception("boom")))
    *                                               .withMessageNotContaining("boom");
    * </code></pre>
-   * </p>
    * @param description the description exptected to not be contained in the actual {@code Throwables}'s message.
    * @return this assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
