@@ -144,6 +144,17 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * Verifies that the message of the actual {@code Throwable} contains the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   * Throwable throwableWithoutMessage = new IllegalArgumentException();
+   *
+   * // assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageContaining("123");
+   *
+   * // assertions will fail:
+   * assertThat(throwableWithoutMessage).hasMessageContaining("123");
+   * assertThat(throwableWithMessage).hasMessageContaining("234"); </code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s message.
    * @return this assertion object.
@@ -152,6 +163,30 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageContaining(String description) {
     throwables.assertHasMessageContaining(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} does not contain the given content or is {@code null}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   * Throwable throwableWithoutMessage = new IllegalArgumentException();
+   *
+   * // assertions will pass:
+   * assertThat(throwableWithMessage).hasMessageNotContaining("234");
+   * assertThat(throwableWithoutMessage).hasMessageNotContaining("foo");
+   *
+   * // assertion will fail:
+   * assertThat(throwableWithMessage).hasMessageNotContaining("amount");</code></pre>
+   *
+   * @param content the content expected not to be contained in the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} contains the given content.
+   */
+  public SELF hasMessageNotContaining(String content) {
+    throwables.assertHasMessageNotContaining(info, actual, content);
     return myself;
   }
 

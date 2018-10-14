@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import java.util.Set;
 
 import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} does not contain another
@@ -53,6 +54,10 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                                             " <%s>%n" +
                                             "%s",
                                             actual, sequence, comparisonStrategy);
+  }
+
+  public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence sequence) {
+    return shouldNotContain(actual, sequence, StandardComparisonStrategy.instance());
   }
 
   /**

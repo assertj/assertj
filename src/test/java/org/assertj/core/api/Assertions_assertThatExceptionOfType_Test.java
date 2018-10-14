@@ -18,9 +18,10 @@ import static org.assertj.core.api.Assertions.assertThatIOException;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,24 +34,26 @@ public class Assertions_assertThatExceptionOfType_Test {
   }
 
   public static Iterable<? extends Object> data() {
-    return Arrays.asList(
-      new Object[] {
-        s(() -> assertThatExceptionOfType(UnsupportedOperationException.class)),
-        UnsupportedOperationException.class,
-        s(() -> new UnsupportedOperationException())  
-      },
-      new Object[] {s(() -> assertThatNullPointerException()), NullPointerException.class, s(() -> new NullPointerException("value"))},
-      new Object[] {s(() -> assertThatIllegalArgumentException()), IllegalArgumentException.class, s(() -> new IllegalArgumentException("arg"))},
-      new Object[] {s(() -> assertThatIllegalStateException()), IllegalStateException.class, s(() -> new IllegalStateException("state"))},
-      new Object[] {s(() -> assertThatIOException()), IOException.class, s(() -> new IOException("io"))}      
-    );
+    return list(array(s(() -> assertThatExceptionOfType(UnsupportedOperationException.class)),
+                      UnsupportedOperationException.class,
+                      s(() -> new UnsupportedOperationException())),
+                array(s(() -> assertThatNullPointerException()),
+                      NullPointerException.class,
+                      s(() -> new NullPointerException("value"))),
+                array(s(() -> assertThatIllegalArgumentException()),
+                      IllegalArgumentException.class,
+                      s(() -> new IllegalArgumentException("arg"))),
+                array(s(() -> assertThatIllegalStateException()),
+                      IllegalStateException.class,
+                      s(() -> new IllegalStateException("state"))),
+                array(s(() -> assertThatIOException()),
+                      IOException.class,
+                      s(() -> new IOException("io"))));
   }
 
   @ParameterizedTest
   @MethodSource("data")
-  public void should_create_ExpectThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                                  Class<? extends Exception> exceptionType,
-                                                  Supplier<? extends Exception> exceptionBuilder) {
+  public void should_create_ExpectThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator) {
     ThrowableTypeAssert<? extends Exception> assertions = assertionGenerator.get();
     assertThat(assertions).isNotNull();
   }
@@ -58,8 +61,7 @@ public class Assertions_assertThatExceptionOfType_Test {
   @ParameterizedTest
   @MethodSource("data")
   public void should_pass_ExceptionType(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                        Class<? extends Exception> exceptionType,
-                                        Supplier<? extends Exception> exceptionBuilder) {
+                                        Class<? extends Exception> exceptionType) {
     ThrowableTypeAssert<? extends Exception> assertions = assertionGenerator.get();
     assertThat(assertions.expectedThrowableType).isSameAs(exceptionType);
   }
@@ -67,7 +69,7 @@ public class Assertions_assertThatExceptionOfType_Test {
   @ParameterizedTest
   @MethodSource("data")
   public void should_create_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                                   Class<? extends Exception> exceptionType,
+                                                   @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
                                                    Supplier<? extends Exception> exceptionBuilder) {
     ThrowableAssertAlternative<? extends Exception> assertions = assertionGenerator.get().isThrownBy(() -> {
       throw exceptionBuilder.get();
@@ -78,7 +80,7 @@ public class Assertions_assertThatExceptionOfType_Test {
   @ParameterizedTest
   @MethodSource("data")
   public void should_pass_thrown_exception_to_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                                                     Class<? extends Exception> exceptionType,
+                                                                     @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
                                                                      Supplier<? extends Exception> exceptionBuilder) {
     Exception exception = exceptionBuilder.get();
     ThrowableAssertAlternative<? extends Exception> assertions = assertionGenerator.get().isThrownBy(() -> {
