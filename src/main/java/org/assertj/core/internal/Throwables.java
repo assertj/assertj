@@ -24,6 +24,7 @@ import static org.assertj.core.error.ShouldHaveNoSuppressedExceptions.shouldHave
 import static org.assertj.core.error.ShouldHaveRootCauseExactlyInstance.shouldHaveRootCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
+import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.util.Objects.areEqual;
@@ -129,6 +130,12 @@ public class Throwables {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().contains(description)) return;
     throw failures.failure(info, shouldContain(actual.getMessage(), description));
+  }
+
+  public void assertHasMessageNotContaining(AssertionInfo info, Throwable actual, String description) {
+    assertNotNull(info, actual);
+    if (actual.getMessage() == null || !actual.getMessage().contains(description)) return;
+    throw failures.failure(info, shouldNotContain(actual.getMessage(), description, StandardComparisonStrategy.instance()));
   }
 
   /**
@@ -281,5 +288,4 @@ public class Throwables {
     return areEqual(actual.getMessage(), expected.getMessage())
            && areEqual(actual.getClass(), expected.getClass());
   }
-
 }
