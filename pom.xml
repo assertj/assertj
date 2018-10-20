@@ -49,13 +49,6 @@
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
-    <!-- include junit-platform-runner to run JUnit 5 tests with JUnit 4,
-      can be removed after upgrading to maven-surefire-plugin v2.22.0, see SUREFIRE-1330 -->
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-runner</artifactId>
-      <scope>test</scope>
-    </dependency>
     <!-- required to run JUnit4 tests in eclipse without to explicitly select JUnit 4 runner ... -->
     <dependency>
       <groupId>org.junit.vintage</groupId>
@@ -146,7 +139,7 @@
         <configuration>
           <argLine>${argLine}</argLine>
         </configuration>
-        <version>2.22.0</version>
+        <version>2.22.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
