@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.util.CanIgnoreReturnValue;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -49,6 +50,7 @@ import org.assertj.core.util.CheckReturnValue;
  *
  * @since 2.5.0 / 3.5.0
  */
+@CheckReturnValue
 public class Java6BDDAssertions {
 
   /**
@@ -58,7 +60,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicBooleanAssert then(AtomicBoolean actual) {
     return new AtomicBooleanAssert(actual);
   }
@@ -70,7 +71,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicIntegerAssert then(AtomicInteger actual) {
     return new AtomicIntegerAssert(actual);
   }
@@ -82,7 +82,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicIntegerArrayAssert then(AtomicIntegerArray actual) {
     return new AtomicIntegerArrayAssert(actual);
   }
@@ -95,7 +94,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> then(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return new AtomicIntegerFieldUpdaterAssert<>(actual);
   }
@@ -107,7 +105,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicLongAssert then(AtomicLong actual) {
     return new AtomicLongAssert(actual);
   }
@@ -119,7 +116,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicLongArrayAssert then(AtomicLongArray actual) {
     return new AtomicLongArrayAssert(actual);
   }
@@ -132,7 +128,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> then(AtomicLongFieldUpdater<OBJECT> actual) {
     return new AtomicLongFieldUpdaterAssert<>(actual);
   }
@@ -145,7 +140,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
     return new AtomicReferenceAssert<>(actual);
   }
@@ -158,7 +152,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> then(AtomicReferenceArray<ELEMENT> actual) {
     return new AtomicReferenceArrayAssert<>(actual);
   }
@@ -172,7 +165,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> then(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return new AtomicReferenceFieldUpdaterAssert<>(actual);
   }
@@ -185,7 +177,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> then(AtomicMarkableReference<VALUE> actual) {
     return new AtomicMarkableReferenceAssert<>(actual);
   }
@@ -198,7 +189,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> then(AtomicStampedReference<VALUE> actual) {
     return new AtomicStampedReferenceAssert<>(actual);
   }
@@ -209,7 +199,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractBigDecimalAssert<?> then(BigDecimal actual) {
     return assertThat(actual);
   }
@@ -221,7 +210,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AbstractBigIntegerAssert<?> then(BigInteger actual) {
     return assertThat(actual);
   }
@@ -232,7 +220,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractBooleanAssert<?> then(boolean actual) {
     return assertThat(actual);
   }
@@ -243,7 +230,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractBooleanAssert<?> then(Boolean actual) {
     return assertThat(actual);
   }
@@ -254,7 +240,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractBooleanArrayAssert<?> then(boolean[] actual) {
     return assertThat(actual);
   }
@@ -265,7 +250,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractByteAssert<?> then(byte actual) {
     return assertThat(actual);
   }
@@ -276,7 +260,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractByteAssert<?> then(Byte actual) {
     return assertThat(actual);
   }
@@ -287,7 +270,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractByteArrayAssert<?> then(byte[] actual) {
     return assertThat(actual);
   }
@@ -298,7 +280,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractCharacterAssert<?> then(char actual) {
     return assertThat(actual);
   }
@@ -309,7 +290,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractCharArrayAssert<?> then(char[] actual) {
     return assertThat(actual);
   }
@@ -320,7 +300,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractCharacterAssert<?> then(Character actual) {
     return assertThat(actual);
   }
@@ -331,7 +310,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractClassAssert<?> then(Class<?> actual) {
     return assertThat(actual);
   }
@@ -344,7 +322,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
     return assertThat(actual);
   }
@@ -356,7 +333,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> then(Iterable<? extends T> actual) {
     return assertThat(actual);
   }
@@ -380,7 +356,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractIteratorAssert<?, T> then(Iterator<? extends T> actual) {
     return assertThat(actual);
   }
@@ -422,7 +397,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    */
   //@format:off
-  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
                                                                                AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -457,7 +431,6 @@ public class Java6BDDAssertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
                                                                              Class<ELEMENT_ASSERT> assertClass) {
@@ -500,7 +473,6 @@ public class Java6BDDAssertions {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                            AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -535,7 +507,6 @@ public class Java6BDDAssertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                          Class<ELEMENT_ASSERT> assertClass) {
@@ -550,7 +521,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractDoubleAssert<?> then(double actual) {
     return assertThat(actual);
   }
@@ -561,7 +531,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractDoubleAssert<?> then(Double actual) {
     return assertThat(actual);
   }
@@ -572,7 +541,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractDoubleArrayAssert<?> then(double[] actual) {
     return assertThat(actual);
   }
@@ -583,7 +551,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractFileAssert<?> then(File actual) {
     return assertThat(actual);
   }
@@ -596,7 +563,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> then(Future<RESULT> actual) {
     return assertThat(actual);
   }
@@ -607,7 +573,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractInputStreamAssert<?, ? extends InputStream> then(InputStream actual) {
     return assertThat(actual);
   }
@@ -618,7 +583,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractFloatAssert<?> then(float actual) {
     return assertThat(actual);
   }
@@ -629,7 +593,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractFloatAssert<?> then(Float actual) {
     return assertThat(actual);
   }
@@ -640,7 +603,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractFloatArrayAssert<?> then(float[] actual) {
     return assertThat(actual);
   }
@@ -651,7 +613,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractIntegerAssert<?> then(int actual) {
     return assertThat(actual);
   }
@@ -662,7 +623,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractIntArrayAssert<?> then(int[] actual) {
     return assertThat(actual);
   }
@@ -673,7 +633,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractIntegerAssert<?> then(Integer actual) {
     return assertThat(actual);
   }
@@ -685,7 +644,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> then(List<? extends T> actual) {
     return assertThat(actual);
   }
@@ -696,7 +654,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractLongAssert<?> then(long actual) {
     return assertThat(actual);
   }
@@ -707,7 +664,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractLongAssert<?> then(Long actual) {
     return assertThat(actual);
   }
@@ -718,7 +674,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractLongArrayAssert<?> then(long[] actual) {
     return assertThat(actual);
   }
@@ -730,7 +685,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractObjectAssert<?, T> then(T actual) {
     return assertThat(actual);
   }
@@ -742,7 +696,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractObjectArrayAssert<?, T> then(T[] actual) {
     return assertThat(actual);
   }
@@ -755,7 +708,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <K, V> MapAssert<K, V> then(Map<K, V> actual) {
     return assertThat(actual);
   }
@@ -766,7 +718,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractShortAssert<?> then(short actual) {
     return assertThat(actual);
   }
@@ -777,7 +728,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractShortAssert<?> then(Short actual) {
     return assertThat(actual);
   }
@@ -788,7 +738,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractShortArrayAssert<?> then(short[] actual) {
     return assertThat(actual);
   }
@@ -799,7 +748,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(CharSequence actual) {
     return assertThat(actual);
   }
@@ -811,7 +759,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(StringBuilder actual) {
     return assertThat(actual);
   }
@@ -823,7 +770,6 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(StringBuffer actual) {
     return assertThat(actual);
   }
@@ -834,7 +780,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractStringAssert<?> then(String actual) {
     return assertThat(actual);
   }
@@ -845,7 +790,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractDateAssert<?> then(Date actual) {
     return assertThat(actual);
   }
@@ -856,7 +800,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> then(Throwable actual) {
     return assertThat(actual);
   }
@@ -901,6 +844,7 @@ public class Java6BDDAssertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
+  @CanIgnoreReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return Assertions.assertThatThrownBy(shouldRaiseThrowable);
   }
@@ -937,6 +881,7 @@ public class Java6BDDAssertions {
    *
    * @since 3.9.0
    */
+  @CanIgnoreReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                                    String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
@@ -977,7 +922,6 @@ public class Java6BDDAssertions {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @since 3.7.0
    */
-  @CheckReturnValue
   public AbstractThrowableAssert<?, ? extends Throwable> thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return then(catchThrowable(shouldRaiseOrNotThrowable));
   }
@@ -988,7 +932,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractUriAssert<?> then(URI actual) {
     return assertThat(actual);
   }
@@ -999,7 +942,6 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractUrlAssert<?> then(URL actual) {
     return assertThat(actual);
   }
@@ -1055,7 +997,6 @@ public class Java6BDDAssertions {
    * @param assertion the assertion to return.
    * @return the given assertion.
    */
-  @CheckReturnValue
   public static <T extends AssertDelegateTarget> T then(T assertion) {
     return assertion;
   }
@@ -1072,7 +1013,6 @@ public class Java6BDDAssertions {
    *          the component that creates its own assert
    * @return the associated {@link Assert} of the given component
    */
-  @CheckReturnValue
   public static <T> T then(final AssertProvider<T> component) {
     return component.assertThat();
   }
