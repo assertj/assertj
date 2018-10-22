@@ -85,6 +85,7 @@ import net.bytebuddy.implementation.bind.annotation.This;
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
  * @since 2.9.0 / 3.9.0
  */
+@CheckReturnValue
 public class Assumptions {
 
   /**
@@ -122,7 +123,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <T> ProxyableObjectAssert<T> assumeThat(T actual) {
     return asAssumption(ProxyableObjectAssert.class, Object.class, actual);
@@ -135,7 +135,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractStringAssert<?> assumeThat(String actual) {
     return asAssumption(StringAssert.class, String.class, actual);
   }
@@ -147,7 +146,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractBigDecimalAssert<?> assumeThat(BigDecimal actual) {
     return asAssumption(BigDecimalAssert.class, BigDecimal.class, actual);
   }
@@ -159,7 +157,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractBigIntegerAssert<?> assumeThat(BigInteger actual) {
     return asAssumption(BigIntegerAssert.class, BigInteger.class, actual);
   }
@@ -171,7 +168,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractUriAssert<?> assumeThat(URI actual) {
     return asAssumption(UriAssert.class, URI.class, actual);
   }
@@ -183,7 +179,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractUrlAssert<?> assumeThat(URL actual) {
     return asAssumption(UrlAssert.class, URL.class, actual);
   }
@@ -195,7 +190,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractBooleanAssert<?> assumeThat(boolean actual) {
     return asAssumption(BooleanAssert.class, Boolean.class, actual);
   }
@@ -207,7 +201,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractBooleanAssert<?> assumeThat(Boolean actual) {
     return asAssumption(BooleanAssert.class, Boolean.class, actual);
   }
@@ -219,7 +212,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractBooleanArrayAssert<?> assumeThat(boolean[] actual) {
     return asAssumption(BooleanArrayAssert.class, boolean[].class, actual);
   }
@@ -231,7 +223,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractByteAssert<?> assumeThat(byte actual) {
     return asAssumption(ByteAssert.class, Byte.class, actual);
   }
@@ -243,7 +234,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractByteAssert<?> assumeThat(Byte actual) {
     return asAssumption(ByteAssert.class, Byte.class, actual);
   }
@@ -255,7 +245,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractByteArrayAssert<?> assumeThat(byte[] actual) {
     return asAssumption(ByteArrayAssert.class, byte[].class, actual);
   }
@@ -267,7 +256,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractCharacterAssert<?> assumeThat(char actual) {
     return asAssumption(CharacterAssert.class, Character.class, actual);
   }
@@ -279,7 +267,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractCharacterAssert<?> assumeThat(Character actual) {
     return asAssumption(CharacterAssert.class, Character.class, actual);
   }
@@ -291,7 +278,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractCharArrayAssert<?> assumeThat(char[] actual) {
     return asAssumption(CharArrayAssert.class, char[].class, actual);
   }
@@ -303,7 +289,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(CharSequence actual) {
     return asAssumption(CharSequenceAssert.class, CharSequence.class, actual);
   }
@@ -315,7 +300,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.11.0
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(StringBuilder actual) {
     return asAssumption(CharSequenceAssert.class, CharSequence.class, actual);
   }
@@ -327,7 +311,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.11.0
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(StringBuffer actual) {
     return asAssumption(CharSequenceAssert.class, CharSequence.class, actual);
   }
@@ -340,7 +323,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractShortAssert<?> assumeThat(short actual) {
     return asAssumption(ShortAssert.class, Short.class, actual);
   }
@@ -352,7 +334,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractShortAssert<?> assumeThat(Short actual) {
     return asAssumption(ShortAssert.class, Short.class, actual);
   }
@@ -364,7 +345,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractShortArrayAssert<?> assumeThat(short[] actual) {
     return asAssumption(ShortArrayAssert.class, short[].class, actual);
   }
@@ -376,7 +356,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractIntegerAssert<?> assumeThat(int actual) {
     return asAssumption(IntegerAssert.class, Integer.class, actual);
   }
@@ -388,7 +367,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractIntegerAssert<?> assumeThat(Integer actual) {
     return asAssumption(IntegerAssert.class, Integer.class, actual);
   }
@@ -400,7 +378,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractIntArrayAssert<?> assumeThat(int[] actual) {
     return asAssumption(IntArrayAssert.class, int[].class, actual);
   }
@@ -412,7 +389,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractLongAssert<?> assumeThat(long actual) {
     return asAssumption(LongAssert.class, Long.class, actual);
   }
@@ -424,7 +400,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractLongAssert<?> assumeThat(Long actual) {
     return asAssumption(LongAssert.class, Long.class, actual);
   }
@@ -436,7 +411,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractLongArrayAssert<?> assumeThat(long[] actual) {
     return asAssumption(LongArrayAssert.class, long[].class, actual);
   }
@@ -448,7 +422,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractFloatAssert<?> assumeThat(float actual) {
     return asAssumption(FloatAssert.class, Float.class, actual);
   }
@@ -460,7 +433,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractFloatAssert<?> assumeThat(Float actual) {
     return asAssumption(FloatAssert.class, Float.class, actual);
   }
@@ -472,7 +444,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractFloatArrayAssert<?> assumeThat(float[] actual) {
     return asAssumption(FloatArrayAssert.class, float[].class, actual);
   }
@@ -484,7 +455,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractDoubleAssert<?> assumeThat(double actual) {
     return asAssumption(DoubleAssert.class, Double.class, actual);
   }
@@ -496,7 +466,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractDoubleAssert<?> assumeThat(Double actual) {
     return asAssumption(DoubleAssert.class, Double.class, actual);
   }
@@ -508,7 +477,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractDoubleArrayAssert<?> assumeThat(double[] actual) {
     return asAssumption(DoubleArrayAssert.class, double[].class, actual);
   }
@@ -520,7 +488,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AtomicBooleanAssert assumeThat(AtomicBoolean actual) {
     return asAssumption(AtomicBooleanAssert.class, AtomicBoolean.class, actual);
   }
@@ -532,7 +499,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AtomicIntegerAssert assumeThat(AtomicInteger actual) {
     return asAssumption(AtomicIntegerAssert.class, AtomicInteger.class, actual);
   }
@@ -544,7 +510,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AtomicIntegerArrayAssert assumeThat(AtomicIntegerArray actual) {
     return asAssumption(AtomicIntegerArrayAssert.class, AtomicIntegerArray.class, actual);
   }
@@ -557,7 +522,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assumeThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return asAssumption(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
@@ -570,7 +534,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AtomicLongAssert assumeThat(AtomicLong actual) {
     return asAssumption(AtomicLongAssert.class, AtomicLong.class, actual);
   }
@@ -582,7 +545,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AtomicLongArrayAssert assumeThat(AtomicLongArray actual) {
     return asAssumption(AtomicLongArrayAssert.class, AtomicLongArray.class, actual);
   }
@@ -595,7 +557,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assumeThat(AtomicLongFieldUpdater<OBJECT> actual) {
     return asAssumption(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
@@ -609,7 +570,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <VALUE> AtomicReferenceAssert<VALUE> assumeThat(AtomicReference<VALUE> actual) {
     return asAssumption(AtomicReferenceAssert.class, AtomicReference.class, actual);
@@ -623,7 +583,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assumeThat(AtomicReferenceArray<ELEMENT> actual) {
     return asAssumption(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
@@ -638,7 +597,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assumeThat(
                                                                                             AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
@@ -653,7 +611,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> assumeThat(AtomicMarkableReference<VALUE> actual) {
     return asAssumption(AtomicMarkableReferenceAssert.class, AtomicMarkableReference.class, actual);
@@ -667,7 +624,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> assumeThat(AtomicStampedReference<VALUE> actual) {
     return asAssumption(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);
@@ -680,7 +636,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractClassAssert<?> assumeThat(Class<?> actual) {
     return asAssumption(ProxyableClassAssert.class, Class.class, actual);
   }
@@ -692,7 +647,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractDateAssert<?> assumeThat(Date actual) {
     return asAssumption(DateAssert.class, Date.class, actual);
   }
@@ -704,7 +658,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractFileAssert<?> assumeThat(File actual) {
     return asAssumption(FileAssert.class, File.class, actual);
   }
@@ -716,7 +669,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractPathAssert<?> assumeThat(Path actual) {
     return asAssumption(PathAssert.class, Path.class, actual);
   }
@@ -728,7 +680,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractInputStreamAssert<?, ? extends InputStream> assumeThat(InputStream actual) {
     return asAssumption(InputStreamAssert.class, InputStream.class, actual);
   }
@@ -742,7 +693,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assumeThat(Future<RESULT> future) {
     return asAssumption(FutureAssert.class, Future.class, future);
@@ -756,7 +706,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> ProxyableIterableAssert<ELEMENT> assumeThat(Iterable<? extends ELEMENT> actual) {
     return asAssumption(ProxyableIterableAssert.class, Iterable.class, actual);
@@ -772,7 +721,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> IteratorAssert<ELEMENT> assumeThat(Iterator<? extends ELEMENT> actual) {
     return asAssumption(IteratorAssert.class, Iterator.class, actual);
@@ -786,7 +734,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <ELEMENT> FactoryBasedNavigableListAssert<ProxyableListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> actual) {
     return asAssumption(ProxyableListAssert.class, List.class, actual);
@@ -800,7 +747,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <T> ProxyableObjectArrayAssert<T> assumeThat(T[] actual) {
     return asAssumption(ProxyableObjectArrayAssert.class, Object[].class, actual);
@@ -815,7 +761,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <K, V> AbstractMapAssert<?, ?, K, V> assumeThat(Map<K, V> actual) {
     return asAssumption(ProxyableMapAssert.class, Map.class, actual);
@@ -829,7 +774,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   @SuppressWarnings("unchecked")
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assumeThat(T actual) {
     return asAssumption(GenericComparableAssert.class, Comparable.class, actual);
@@ -842,7 +786,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThat(Throwable actual) {
     return asAssumption(ThrowableAssert.class, Throwable.class, actual);
   }
@@ -861,7 +804,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return asAssumption(ThrowableAssert.class, Throwable.class, catchThrowable(shouldRaiseThrowable));
   }
@@ -889,7 +831,6 @@ public class Assumptions {
    * @return the created {@link ThrowableAssert}.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assumeThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
@@ -905,7 +846,6 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <T> ProxyablePredicateAssert<T> assumeThat(Predicate<T> actual) {
     return asAssumption(ProxyablePredicateAssert.class, Predicate.class, actual);
   }
@@ -917,7 +857,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static IntPredicateAssert assumeThat(IntPredicate actual) {
     return asAssumption(IntPredicateAssert.class, IntPredicate.class, actual);
   }
@@ -929,7 +868,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static LongPredicateAssert assumeThat(LongPredicate actual) {
     return asAssumption(LongPredicateAssert.class, LongPredicate.class, actual);
   }
@@ -941,7 +879,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static DoublePredicateAssert assumeThat(DoublePredicate actual) {
     return asAssumption(DoublePredicateAssert.class, DoublePredicate.class, actual);
   }
@@ -955,7 +892,6 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <RESULT> CompletableFutureAssert<RESULT> assumeThat(CompletableFuture<RESULT> actual) {
     return asAssumption(CompletableFutureAssert.class, CompletableFuture.class, actual);
   }
@@ -972,7 +908,6 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <RESULT> CompletableFutureAssert<RESULT> assumeThat(CompletionStage<RESULT> actual) {
     return asAssumption(CompletableFutureAssert.class, CompletionStage.class, actual);
   }
@@ -986,7 +921,6 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <VALUE> OptionalAssert<VALUE> assumeThat(Optional<VALUE> actual) {
     return asAssumption(OptionalAssert.class, Optional.class, actual);
   }
@@ -998,7 +932,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static OptionalDoubleAssert assumeThat(OptionalDouble actual) {
     return asAssumption(OptionalDoubleAssert.class, OptionalDouble.class, actual);
   }
@@ -1010,7 +943,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static OptionalIntAssert assumeThat(OptionalInt actual) {
     return asAssumption(OptionalIntAssert.class, OptionalInt.class, actual);
   }
@@ -1022,7 +954,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static OptionalLongAssert assumeThat(OptionalLong actual) {
     return asAssumption(OptionalLongAssert.class, OptionalLong.class, actual);
   }
@@ -1034,7 +965,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static AbstractZonedDateTimeAssert<?> assumeThat(ZonedDateTime actual) {
     return asAssumption(ZonedDateTimeAssert.class, ZonedDateTime.class, actual);
   }
@@ -1046,7 +976,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static AbstractLocalDateTimeAssert<?> assumeThat(LocalDateTime actual) {
     return asAssumption(LocalDateTimeAssert.class, LocalDateTime.class, actual);
   }
@@ -1058,7 +987,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static AbstractOffsetDateTimeAssert<?> assumeThat(OffsetDateTime actual) {
     return asAssumption(OffsetDateTimeAssert.class, OffsetDateTime.class, actual);
   }
@@ -1070,7 +998,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static AbstractOffsetTimeAssert<?> assumeThat(OffsetTime actual) {
     return asAssumption(OffsetTimeAssert.class, OffsetTime.class, actual);
   }
@@ -1082,7 +1009,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static AbstractLocalTimeAssert<?> assumeThat(LocalTime actual) {
     return asAssumption(LocalTimeAssert.class, LocalTime.class, actual);
   }
@@ -1094,7 +1020,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static AbstractLocalDateAssert<?> assumeThat(LocalDate actual) {
     return asAssumption(LocalDateAssert.class, LocalDate.class, actual);
   }
@@ -1106,7 +1031,6 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  @CheckReturnValue
   public static AbstractInstantAssert<?> assumeThat(Instant actual) {
     return asAssumption(InstantAssert.class, Instant.class, actual);
   }
@@ -1120,7 +1044,6 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Stream<? extends ELEMENT> actual) {
     return asAssumption(ProxyableListAssert.class, Stream.class, actual);
   }
@@ -1133,7 +1056,6 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assumeThat(DoubleStream actual) {
     return asAssumption(ProxyableListAssert.class, DoubleStream.class, actual);
   }
@@ -1146,7 +1068,6 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assumeThat(LongStream actual) {
     return asAssumption(ProxyableListAssert.class, LongStream.class, actual);
   }
@@ -1159,7 +1080,6 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assumeThat(IntStream actual) {
     return asAssumption(ProxyableListAssert.class, IntStream.class, actual);
   }

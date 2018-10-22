@@ -59,6 +59,7 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.CanIgnoreReturnValue;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
@@ -69,6 +70,7 @@ import org.assertj.core.util.introspection.FieldSupport;
  *
  * @see Assertions
  */
+@CheckReturnValue
 public class Java6Assertions {
 
   /**
@@ -79,7 +81,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicBooleanAssert assertThat(AtomicBoolean actual) {
     return new AtomicBooleanAssert(actual);
   }
@@ -92,7 +93,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicIntegerAssert assertThat(AtomicInteger actual) {
     return new AtomicIntegerAssert(actual);
   }
@@ -105,7 +105,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
     return new AtomicIntegerArrayAssert(actual);
   }
@@ -119,7 +118,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return new AtomicIntegerFieldUpdaterAssert<>(actual);
   }
@@ -132,7 +130,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicLongAssert assertThat(AtomicLong actual) {
     return new AtomicLongAssert(actual);
   }
@@ -145,7 +142,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
     return new AtomicLongArrayAssert(actual);
   }
@@ -159,7 +155,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
     return new AtomicLongFieldUpdaterAssert<>(actual);
   }
@@ -173,7 +168,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
     return new AtomicReferenceAssert<>(actual);
   }
@@ -187,7 +181,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
     return new AtomicReferenceArrayAssert<>(actual);
   }
@@ -202,7 +195,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return new AtomicReferenceFieldUpdaterAssert<>(actual);
   }
@@ -216,7 +208,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
     return new AtomicMarkableReferenceAssert<>(actual);
   }
@@ -230,7 +221,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
     return new AtomicStampedReferenceAssert<>(actual);
   }
@@ -241,7 +231,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return new BigDecimalAssert(actual);
   }
@@ -253,7 +242,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
     return new BigIntegerAssert(actual);
   }
@@ -264,7 +252,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractUriAssert<?> assertThat(URI actual) {
     return new UriAssert(actual);
   }
@@ -275,7 +262,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractUrlAssert<?> assertThat(URL actual) {
     return new UrlAssert(actual);
   }
@@ -286,7 +272,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractBooleanAssert<?> assertThat(boolean actual) {
     return new BooleanAssert(actual);
   }
@@ -297,7 +282,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractBooleanAssert<?> assertThat(Boolean actual) {
     return new BooleanAssert(actual);
   }
@@ -308,7 +292,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractBooleanArrayAssert<?> assertThat(boolean[] actual) {
     return new BooleanArrayAssert(actual);
   }
@@ -319,7 +302,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractByteAssert<?> assertThat(byte actual) {
     return new ByteAssert(actual);
   }
@@ -330,7 +312,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractByteAssert<?> assertThat(Byte actual) {
     return new ByteAssert(actual);
   }
@@ -341,7 +322,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractByteArrayAssert<?> assertThat(byte[] actual) {
     return new ByteArrayAssert(actual);
   }
@@ -352,7 +332,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractCharacterAssert<?> assertThat(char actual) {
     return new CharacterAssert(actual);
   }
@@ -363,7 +342,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractCharArrayAssert<?> assertThat(char[] actual) {
     return new CharArrayAssert(actual);
   }
@@ -374,7 +352,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractCharacterAssert<?> assertThat(Character actual) {
     return new CharacterAssert(actual);
   }
@@ -385,7 +362,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractClassAssert<?> assertThat(Class<?> actual) {
     return new ClassAssert(actual);
   }
@@ -398,7 +374,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return new GenericComparableAssert<>(actual);
   }
@@ -410,7 +385,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(Iterable<? extends T> actual) {
     return new IterableAssert<>(actual);
   }
@@ -434,7 +408,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractIteratorAssert<?, T> assertThat(Iterator<? extends T> actual) {
     return new IteratorAssert<>(actual);
   }
@@ -445,7 +418,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractDoubleAssert<?> assertThat(double actual) {
     return new DoubleAssert(actual);
   }
@@ -456,7 +428,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractDoubleAssert<?> assertThat(Double actual) {
     return new DoubleAssert(actual);
   }
@@ -467,7 +438,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractDoubleArrayAssert<?> assertThat(double[] actual) {
     return new DoubleArrayAssert(actual);
   }
@@ -478,7 +448,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractFileAssert<?> assertThat(File actual) {
     return new FileAssert(actual);
   }
@@ -492,7 +461,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  @CheckReturnValue
   public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assertThat(Future<RESULT> actual) {
     return new FutureAssert<>(actual);
   }
@@ -503,7 +471,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractInputStreamAssert<?, ? extends InputStream> assertThat(InputStream actual) {
     return new InputStreamAssert(actual);
   }
@@ -514,7 +481,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractFloatAssert<?> assertThat(float actual) {
     return new FloatAssert(actual);
   }
@@ -525,7 +491,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractFloatAssert<?> assertThat(Float actual) {
     return new FloatAssert(actual);
   }
@@ -536,7 +501,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractFloatArrayAssert<?> assertThat(float[] actual) {
     return new FloatArrayAssert(actual);
   }
@@ -547,7 +511,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractIntegerAssert<?> assertThat(int actual) {
     return new IntegerAssert(actual);
   }
@@ -558,7 +521,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
     return new IntArrayAssert(actual);
   }
@@ -569,7 +531,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractIntegerAssert<?> assertThat(Integer actual) {
     return new IntegerAssert(actual);
   }
@@ -581,7 +542,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> assertThat(List<? extends T> actual) {
     return new ListAssert<>(actual);
   }
@@ -749,7 +709,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractLongAssert<?> assertThat(long actual) {
     return new LongAssert(actual);
   }
@@ -760,7 +719,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractLongAssert<?> assertThat(Long actual) {
     return new LongAssert(actual);
   }
@@ -771,7 +729,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractLongArrayAssert<?> assertThat(long[] actual) {
     return new LongArrayAssert(actual);
   }
@@ -783,7 +740,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractObjectAssert<?, T> assertThat(T actual) {
     return new ObjectAssert<>(actual);
   }
@@ -839,7 +795,6 @@ public class Java6Assertions {
    * @param assertion the assertion to return.
    * @return the given assertion.
    */
-  @CheckReturnValue
   public static <T extends AssertDelegateTarget> T assertThat(T assertion) {
     return assertion;
   }
@@ -867,7 +822,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
     return new ObjectArrayAssert<>(actual);
   }
@@ -883,7 +837,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
     return new MapAssert<>(actual);
   }
@@ -894,7 +847,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractShortAssert<?> assertThat(short actual) {
     return new ShortAssert(actual);
   }
@@ -905,7 +857,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractShortAssert<?> assertThat(Short actual) {
     return new ShortAssert(actual);
   }
@@ -916,7 +867,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
     return new ShortArrayAssert(actual);
   }
@@ -927,7 +877,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
     return new CharSequenceAssert(actual);
   }
@@ -939,7 +888,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(StringBuilder actual) {
     return new CharSequenceAssert(actual);
   }
@@ -951,7 +899,6 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  @CheckReturnValue
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(StringBuffer actual) {
     return new CharSequenceAssert(actual);
   }
@@ -962,7 +909,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractStringAssert<?> assertThat(String actual) {
     return new StringAssert(actual);
   }
@@ -973,7 +919,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   public static AbstractDateAssert<?> assertThat(Date actual) {
     return new DateAssert(actual);
   }
@@ -984,7 +929,6 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
     return new ThrowableAssert(actual);
   }
@@ -1027,6 +971,7 @@ public class Java6Assertions {
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
+  @CanIgnoreReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return new ThrowableAssert(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
@@ -1063,6 +1008,7 @@ public class Java6Assertions {
    *
    * @since 3.9.0
    */
+  @CanIgnoreReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                                    String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
@@ -1115,7 +1061,6 @@ public class Java6Assertions {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @since 3.7.0
    */
-  @CheckReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
