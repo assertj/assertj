@@ -144,6 +144,21 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * Verifies that the message of the actual {@code Throwable} contains the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   * Throwable throwableWithoutMessage = new IllegalArgumentException();
+   *
+   * //assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageContaining("123");
+   *
+   * //assertion will fail:
+   * assertThat(throwableWithoutMessage).hasMessageContaining("123");
+   *
+   * //assertion will fail:
+   * assertThat(throwableWithMessage).hasMessageContaining("234");
+   * </code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s message.
    * @return this assertion object.
@@ -157,7 +172,22 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * Verifies that the message of the actual {@code Throwable} does not contain the given description or is
-   * <code>null</code>.
+   * {@code null}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   * Throwable throwableWithoutMessage = new IllegalArgumentException();
+   *
+   * //assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageNotContaining("234");
+   *
+   * //assertion will pass:
+   * assertThat(throwableWithoutMessage).hasMessageNotContaining("foo");
+   *
+   * //assertion will fail:
+   * assertThat(throwableWithMessage).hasMessageNotContaining("amount");
+   * </code></pre>
    *
    * @param description the description expected to not be contained in the actual {@code Throwable}'s message.
    * @return this assertion object.

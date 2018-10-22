@@ -16,6 +16,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.internal.ThrowablesBaseTest;
+import org.assertj.core.util.AssertionsUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -25,10 +26,9 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
-
 /**
  * Tests for <code>{@link Throwables#assertHasMessageNotContaining(AssertionInfo, Throwable, String)}</code>.
- * 
+ *
  * @author Sandra Parsick
  * @author Georg Berky
  */
@@ -46,8 +46,9 @@ class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageNotContaining(someInfo(), null, "Throwable"))
-                                                   .withMessage(actualIsNull());
+    AssertionsUtil.assertThatAssertionErrorIsThrownBy(
+      () -> throwables.assertHasMessageNotContaining(someInfo(), null, "Throwable"))
+      .withMessage(actualIsNull());
   }
 
   @Test
@@ -57,7 +58,8 @@ class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
       throwables.assertHasMessageNotContaining(info, actual, "message");
       fail("AssertionError expected");
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldNotContain(actual.getMessage(), "message", StandardComparisonStrategy.instance()));
+      verify(failures)
+        .failure(info, shouldNotContain(actual.getMessage(), "message", StandardComparisonStrategy.instance()));
     }
   }
 }

@@ -213,12 +213,15 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * <p>
    * Examples:
    * <pre><code class='java'>
-   *     //assertion will pass
-   *     assertThatExceptionOfType(Exception.class).isThrownBy(codeThrowing(new Exception("boom")))
-   *                                               .withMessageNotContaining("bam");
-   *     //assertion will fail
-   *     assertThatExceptionOfType(Exception.class).isThrownBy(codeThrowing(new Exception("boom")))
-   *                                               .withMessageNotContaining("boom");
+   * //assertion will pass
+   * assertThatExceptionOfType(Exception.class)
+   *           .isThrownBy(codeThrowing(new Exception("boom")))
+   *           .withMessageNotContaining("bam");
+   *
+   * //assertion will fail
+   * assertThatExceptionOfType(Exception.class)
+   *           .isThrownBy(codeThrowing(new Exception("boom")))
+   *           .withMessageNotContaining("boom");
    * </code></pre>
    * @param description the description exptected to not be contained in the actual {@code Throwables}'s message.
    * @return this assertion object
