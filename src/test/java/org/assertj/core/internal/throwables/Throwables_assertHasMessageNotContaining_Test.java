@@ -23,6 +23,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -46,7 +48,7 @@ class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    AssertionsUtil.assertThatAssertionErrorIsThrownBy(
+    assertThatAssertionErrorIsThrownBy(
       () -> throwables.assertHasMessageNotContaining(someInfo(), null, "Throwable"))
       .withMessage(actualIsNull());
   }
@@ -54,12 +56,8 @@ class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_has_message_containing_description() {
     AssertionInfo info = someInfo();
-    try {
-      throwables.assertHasMessageNotContaining(info, actual, "message");
-      fail("AssertionError expected");
-    } catch (AssertionError err) {
-      verify(failures)
-        .failure(info, shouldNotContain(actual.getMessage(), "message", StandardComparisonStrategy.instance()));
-    }
+
+    expectAssertionError(() -> throwables.assertHasMessageNotContaining(info, actual, "message"));
+    verify(failures).failure(info, shouldNotContain(actual.getMessage(), "message", StandardComparisonStrategy.instance()));
   }
 }
