@@ -26,7 +26,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Failures;
@@ -339,7 +338,7 @@ public class ListAssert<ELEMENT> extends
 
   @Override
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(Extractor<? super ELEMENT, ?>... extractors) {
+  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(Function<? super ELEMENT, ?>... extractors) {
     return super.flatExtracting(extractors);
   }
 

@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.function.Function;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
@@ -47,11 +46,11 @@ public abstract class BaseAssumptionsRunnerTest {
   protected static CartoonCharacter bart;
   protected static ThrowingExtractor<? super TolkienCharacter, String, Exception> throwingNameExtractor;
   protected static ThrowingExtractor<? super TolkienCharacter, Integer, Exception> throwingAgeExtractor;
-  protected static Extractor<? super TolkienCharacter, String> nameExtractor;
-  protected static Extractor<? super TolkienCharacter, Integer> ageExtractor;
+  protected static Function<? super TolkienCharacter, String> nameExtractor;
+  protected static Function<? super TolkienCharacter, Integer> ageExtractor;
   protected static Function<TolkienCharacter, String> nameExtractorFunction;
   protected static Function<TolkienCharacter, Integer> ageExtractorFunction;
-  protected static Extractor<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
+  protected static Function<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
 
   private static void setupData() {
     bart = new CartoonCharacter("Bart Simpson");

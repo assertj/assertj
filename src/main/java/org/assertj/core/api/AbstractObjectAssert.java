@@ -606,7 +606,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
-    Tuple values = byName(propertiesOrFields).extract(actual);
+    Tuple values = byName(propertiesOrFields).apply(actual);
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(values.toList()).as(description);

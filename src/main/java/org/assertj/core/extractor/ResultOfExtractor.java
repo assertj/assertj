@@ -12,7 +12,8 @@
  */
 package org.assertj.core.extractor;
 
-import org.assertj.core.api.iterable.Extractor;
+import java.util.function.Function;
+
 import org.assertj.core.util.introspection.MethodSupport;
 
 /**
@@ -22,7 +23,7 @@ import org.assertj.core.util.introspection.MethodSupport;
  * @author Michał Piotrkowski
  * @author Mateusz Haligowski
  */
-class ResultOfExtractor<F> implements Extractor<F, Object> {
+class ResultOfExtractor<F> implements Function<F, Object> {
 
   private final String methodName;
   
@@ -34,7 +35,7 @@ class ResultOfExtractor<F> implements Extractor<F, Object> {
    * Behavior is described in {@link MethodSupport#methodResultFor(Object, String)}
    */
   @Override
-  public Object extract(F input) {
+  public Object apply(F input) {
     return MethodSupport.methodResultFor(input, methodName);
   }
 

@@ -19,6 +19,7 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Function;
 
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
@@ -34,7 +35,10 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  private final Extractor<CartoonCharacter, List<CartoonCharacter>> children = new Extractor<CartoonCharacter, List<CartoonCharacter>>() {
+  private final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
+
+  @SuppressWarnings("deprecation")
+  private final Extractor<CartoonCharacter, List<CartoonCharacter>> childrenExtractor = new Extractor<CartoonCharacter, List<CartoonCharacter>>() {
     @Override
     public List<CartoonCharacter> extract(CartoonCharacter input) {
       return input.getChildren();
@@ -56,15 +60,32 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
   }
 
   @Test
+  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
+    AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
+    assertThat(cartoonCharacters).flatExtracting(childrenExtractor).containsOnly(bart, lisa, maggie, pebbles);
+  }
+
+  @Test
   public void should_allow_assertions_on_joined_lists_when_extracting_children() {
     AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
     assertThat(cartoonCharacters).flatExtracting(children).containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
+  public void should_allow_assertions_on_empty_result_lists_with_extractor() {
+    AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
+    assertThat(childCharacters).flatExtracting(childrenExtractor).isEmpty();
+  }
+
+  @Test
   public void should_allow_assertions_on_empty_result_lists() {
     AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
     assertThat(childCharacters).flatExtracting(children).isEmpty();
+  }
+
+  @Test
+  public void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
+    assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(childrenExtractor));
   }
 
   @Test

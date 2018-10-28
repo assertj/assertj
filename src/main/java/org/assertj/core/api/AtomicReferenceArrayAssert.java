@@ -38,11 +38,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
@@ -2253,7 +2253,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    *
    * // this extracts the race
-   * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
+   * Function&lt;TolkienCharacter, Race&gt; race = new Function&lt;TolkienCharacter, Race&gt;() {
    *    {@literal @}Override
    *    public Race extract(TolkienCharacter input) {
    *        return input.getRace();
@@ -2273,7 +2273,7 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public <U> ObjectArrayAssert<U> extracting(Extractor<? super T, U> extractor) {
+  public <U> ObjectArrayAssert<U> extracting(Function<? super T, U> extractor) {
     U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
 
     return new ObjectArrayAssert<>(extracted);
@@ -2343,7 +2343,7 @@ public class AtomicReferenceArrayAssert<T>
    * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
    * fred.getChildren().add(pebbles);
    *
-   * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt;() {
+   * Function&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Function&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt;() {
    *    {@literal @}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
@@ -2365,7 +2365,7 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Extractor<? super T, C> extractor) {
+  public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Function<? super T, C> extractor) {
     return doFlatExtracting(extractor);
   }
 
@@ -2411,7 +2411,7 @@ public class AtomicReferenceArrayAssert<T>
     return doFlatExtracting(extractor);
   }
 
-  private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Extractor<? super T, C> extractor) {
+  private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Function<? super T, C> extractor) {
     List<U> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), extractor).stream()
                                                 .flatMap(Collection::stream).collect(toList());
     return new ObjectArrayAssert<>(IterableUtil.toArray(result));

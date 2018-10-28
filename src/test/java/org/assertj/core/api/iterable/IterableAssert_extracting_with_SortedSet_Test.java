@@ -40,6 +40,7 @@ import static org.assertj.core.util.Lists.list;
 import java.sql.Timestamp;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.data.TolkienCharacter;
@@ -58,6 +59,7 @@ public class IterableAssert_extracting_with_SortedSet_Test {
   private SortedSet<Employee> jedis;
   private SortedSet<TolkienCharacter> fellowshipOfTheRing;
 
+  @SuppressWarnings("deprecation")
   private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
     @Override
     public String extract(Employee input) {
@@ -65,12 +67,7 @@ public class IterableAssert_extracting_with_SortedSet_Test {
     }
   };
 
-  private static final Extractor<Employee, Integer> age = new Extractor<Employee, Integer>() {
-    @Override
-    public Integer extract(Employee input) {
-      return input.getAge();
-    }
-  };
+  private static final Function<Employee, Integer> age = Employee::getAge;
 
   private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
     @Override
