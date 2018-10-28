@@ -274,6 +274,23 @@ public class IterableAssert_extracting_Test {
   }
 
   @Test
+  public void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_generic_function() {
+    Function<? super TolkienCharacter, String> name = TolkienCharacter::getName;
+    Function<? super TolkienCharacter, Integer> age = TolkienCharacter::getAge;
+
+    assertThat(fellowshipOfTheRing).extracting(name,
+                                               age)
+                                   .containsOnly(tuple("Frodo", 33),
+                                                 tuple("Sam", 38),
+                                                 tuple("Gandalf", 2020),
+                                                 tuple("Legolas", 1000),
+                                                 tuple("Pippin", 28),
+                                                 tuple("Gimli", 139),
+                                                 tuple("Aragorn", 87),
+                                                 tuple("Boromir", 37));
+  }
+
+  @Test
   public void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_function() {
 
     assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,

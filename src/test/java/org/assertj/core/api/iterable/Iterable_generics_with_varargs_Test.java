@@ -14,8 +14,10 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 import java.util.List;
+import java.util.function.Function;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -45,4 +47,22 @@ public class Iterable_generics_with_varargs_Test {
     // does not compile as Java 8 is stricter with generics ...
     // assertThat(strings).contains("a", "b");
   }
+
+  @Test
+  public void testListAssertWithGenericsAndExtracting() {
+    List<? extends String> strings = asList("a", "b", "c");
+    Function<? super String, String> doubleFunction = new Function<String, String>() {
+      @Override
+      public String apply(String s) {
+        return s + s;
+      }
+    };
+    assertThat(strings)
+      .extracting(doubleFunction, doubleFunction)
+      .contains(
+        tuple("aa", "aa"),
+        tuple("bb", "bb")
+      );
+  }
+
 }
