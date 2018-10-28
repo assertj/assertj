@@ -32,50 +32,50 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_extract_field_values_even_if_property_does_not_exist() {
-	Object extractedValues = idExtractor().extract(yoda);
+	Object extractedValues = idExtractor().apply(yoda);
 
 	assertThat(extractedValues).isEqualTo(1L);
   }
 
   @Test
   public void should_extract_property_values_when_no_public_field_match_given_name() {
-	Object extractedValues = ageExtractor().extract(yoda);
+	Object extractedValues = ageExtractor().apply(yoda);
 
 	assertThat(extractedValues).isEqualTo(800);
   }
 
   @Test
   public void should_extract_pure_property_values() {
-	Object extractedValues = adultExtractor().extract(yoda);
+	Object extractedValues = adultExtractor().apply(yoda);
 
 	assertThat(extractedValues).isEqualTo(true);
   }
 
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> new ByNameSingleExtractor<Employee>("unknown").extract(yoda));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> new ByNameSingleExtractor<Employee>("unknown").apply(yoda));
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_null() {
-	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>(null).extract(yoda)).withMessage("The name of the field/property to read should not be null");
+	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>(null).apply(yoda)).withMessage("The name of the field/property to read should not be null");
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
-	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>("").extract(yoda)).withMessage("The name of the field/property to read should not be empty");
+	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>("").apply(yoda)).withMessage("The name of the field/property to read should not be empty");
   }
 
   @Test
   public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
-	Object extractedValue = nameExtractor().extract(new EmployeeWithBrokenName("Name"));
+	Object extractedValue = nameExtractor().apply(new EmployeeWithBrokenName("Name"));
 
 	assertThat(extractedValue).isEqualTo(new Name("Name"));
   }
 
   @Test
   public void should_prefer_properties_over_fields() {
-    Object extractedValue = nameExtractor().extract(new EmployeeWithOverriddenName("Overridden Name"));
+    Object extractedValue = nameExtractor().apply(new EmployeeWithOverriddenName("Overridden Name"));
 
     assertThat(extractedValue).isEqualTo(new Name("Overridden Name"));
   }
@@ -84,13 +84,13 @@ public class ByNameSingleExtractorTest {
   public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
       Employee employee = new BrokenEmployee();
-      adultExtractor().extract(employee);
+      adultExtractor().apply(employee);
     });
   }
 
   @Test
   public void should_throw_exception_if_no_object_is_given() {
-	assertThatIllegalArgumentException().isThrownBy(() -> idExtractor().extract(null));
+	assertThatIllegalArgumentException().isThrownBy(() -> idExtractor().apply(null));
   }
 
   @Test
@@ -121,7 +121,7 @@ public class ByNameSingleExtractorTest {
     darth.field = luke;
     luke.field = darth;
     luke.surname = new Name("Young", "Padawan");
-    Object extracted = byName("me.field.me.field.me.field.surname.name").extract(darth);
+    Object extracted = byName("me.field.me.field.me.field.surname.name").apply(darth);
     assertThat(extracted).isEqualTo("Young Padawan");
   }
 

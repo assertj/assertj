@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api.iterable;
 
+import java.util.function.Function;
+
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
@@ -26,10 +28,10 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
  * @param <EXCEPTION> type of exception which might be thrown during conversion
  */
 @FunctionalInterface
-public interface ThrowingExtractor<F, T, EXCEPTION extends Exception> extends Extractor<F, T> {
+public interface ThrowingExtractor<F, T, EXCEPTION extends Exception> extends Function<F, T> {
 
   @Override
-  default T extract(final F input) {
+  default T apply(final F input) {
     try {
       return extractThrows(input);
     } catch (final RuntimeException e) {

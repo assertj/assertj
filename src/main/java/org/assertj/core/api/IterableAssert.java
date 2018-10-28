@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Streams;
@@ -140,13 +139,13 @@ public class IterableAssert<ELEMENT> extends
 
   @Override
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(Extractor<? super ELEMENT, ?>... extractors) {
+  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(Function<? super ELEMENT, ?>... extractors) {
     return super.flatExtracting(extractors);
   }
   
   @Override
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<ELEMENT, ?>... extractors) {
+  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<? super ELEMENT, ?>... extractors) {
     return super.extracting(extractors);
   }
 

@@ -37,6 +37,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
@@ -63,6 +64,7 @@ public class IterableAssert_extracting_Test {
   private Iterable<Employee> jedis;
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
+  @SuppressWarnings("deprecation")
   private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
     @Override
     public String extract(Employee input) {
@@ -70,12 +72,7 @@ public class IterableAssert_extracting_Test {
     }
   };
 
-  private static final Extractor<Employee, Integer> age = new Extractor<Employee, Integer>() {
-    @Override
-    public Integer extract(Employee input) {
-      return input.getAge();
-    }
-  };
+  private static final Function<Employee, Integer> age = Employee::getAge;
 
   private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
     @Override
@@ -191,6 +188,7 @@ public class IterableAssert_extracting_Test {
     assertThat(jedis).extracting(age).containsOnly(26, 800);
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Extractor<Employee, String>() {
@@ -244,6 +242,7 @@ public class IterableAssert_extracting_Test {
     }).containsOnly("Yoda", "Luke");
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_allow_extracting_multiple_values_using_extractor() {
     assertThat(jedis).extracting(new Extractor<Employee, Tuple>() {
@@ -274,6 +273,22 @@ public class IterableAssert_extracting_Test {
     assertThatThrownBy(() -> assertThat(fellowshipOfTheRing).extracting(e -> {
       throw thrown;
     }).isEqualTo(thrown));
+  }
+
+  @Test
+  public void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_generic_function() {
+    Function<? super TolkienCharacter, String> name = TolkienCharacter::getName;
+    Function<? super TolkienCharacter, Integer> age = TolkienCharacter::getAge;
+
+    assertThat(fellowshipOfTheRing).extracting(name, age)
+                                   .containsOnly(tuple("Frodo", 33),
+                                                 tuple("Sam", 38),
+                                                 tuple("Gandalf", 2020),
+                                                 tuple("Legolas", 1000),
+                                                 tuple("Pippin", 28),
+                                                 tuple("Gimli", 139),
+                                                 tuple("Aragorn", 87),
+                                                 tuple("Boromir", 37));
   }
 
   @Test
@@ -402,6 +417,7 @@ public class IterableAssert_extracting_Test {
                                                    .withMessageContaining("[check employees first name]");
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")

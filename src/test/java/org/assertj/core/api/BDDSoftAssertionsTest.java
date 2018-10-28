@@ -73,7 +73,6 @@ import java.util.stream.Stream;
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
@@ -100,12 +99,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   private ThrowingExtractor<Name, String, Exception> throwingFirstNameExtractor;
   private ThrowingExtractor<Name, String, Exception> throwingLastNameExtractor;
-  private Extractor<Name, String> firstNameExtractor;
-  private Extractor<Name, String> lastNameExtractor;
   private Function<Name, String> firstNameFunction;
   private Function<Name, String> lastNameFunction;
 
-  private Extractor<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
+  private Function<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
 
   @BeforeEach
   public void setup() {
@@ -139,8 +136,6 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     throwingLastNameExtractor = Name::getLast;
     firstNameFunction = Name::getFirst;
     lastNameFunction = Name::getLast;
-    firstNameExtractor = Name::getFirst;
-    lastNameExtractor = Name::getLast;
 
     childrenExtractor = CartoonCharacter::getChildren;
   }
@@ -1038,7 +1033,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.then(names)
-          .extracting(firstNameExtractor)
+          .extracting(firstNameFunction)
           .contains("John")
           .contains("sam");
     softly.then(names)
@@ -1050,10 +1045,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .hasSize(123);
     softly.then(names)
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameExtractor)
+          .extracting(firstNameFunction)
           .contains("Sauron");
     softly.then(names)
-          .flatExtracting(firstNameExtractor, lastNameExtractor)
+          .flatExtracting(firstNameFunction, lastNameFunction)
           .as("flatExtracting with multiple Extractors")
           .contains("John", "Jane", "Doe")
           .contains("Sauron");
@@ -1192,7 +1187,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.then(names)
-          .extracting(firstNameExtractor)
+          .extracting(firstNameFunction)
           .contains("John")
           .contains("sam");
     softly.then(names)
@@ -1204,10 +1199,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .hasSize(123);
     softly.then(names)
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameExtractor)
+          .extracting(firstNameFunction)
           .contains("Sauron");
     softly.then(names)
-          .flatExtracting(firstNameExtractor, lastNameExtractor)
+          .flatExtracting(firstNameFunction, lastNameFunction)
           .as("flatExtracting with multiple Extractors")
           .contains("John", "Jane", "Doe")
           .contains("Sauron");
@@ -1346,7 +1341,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.then(names)
-          .extracting(firstNameExtractor)
+          .extracting(firstNameFunction)
           .contains("John")
           .contains("sam");
     softly.then(names)
@@ -1358,7 +1353,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .hasSize(123);
     softly.then(names)
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameExtractor)
+          .extracting(firstNameFunction)
           .contains("Sauron");
     softly.then(names)
           .extractingResultOf("getFirst")

@@ -1425,7 +1425,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String... keys) {
-    Tuple values = byName(keys).extract(actual);
+    Tuple values = byName(keys).apply(actual);
     List<Object> valuesFlattened = flatten(values.toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);

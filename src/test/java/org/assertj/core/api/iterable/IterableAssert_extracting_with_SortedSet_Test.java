@@ -40,6 +40,7 @@ import static org.assertj.core.util.Lists.list;
 import java.sql.Timestamp;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.data.TolkienCharacter;
@@ -58,6 +59,7 @@ public class IterableAssert_extracting_with_SortedSet_Test {
   private SortedSet<Employee> jedis;
   private SortedSet<TolkienCharacter> fellowshipOfTheRing;
 
+  @SuppressWarnings("deprecation")
   private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
     @Override
     public String extract(Employee input) {
@@ -65,12 +67,7 @@ public class IterableAssert_extracting_with_SortedSet_Test {
     }
   };
 
-  private static final Extractor<Employee, Integer> age = new Extractor<Employee, Integer>() {
-    @Override
-    public Integer extract(Employee input) {
-      return input.getAge();
-    }
-  };
+  private static final Function<Employee, Integer> age = Employee::getAge;
 
   private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
     @Override
@@ -191,6 +188,7 @@ public class IterableAssert_extracting_with_SortedSet_Test {
     assertThat(jedis).extracting(age).containsOnly(26, 800);
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Extractor<Employee, String>() {
@@ -244,6 +242,7 @@ public class IterableAssert_extracting_with_SortedSet_Test {
     }).containsOnly("Yoda", "Luke");
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_allow_extracting_multiple_values_using_extractor() {
     assertThat(jedis).extracting(new Extractor<Employee, Tuple>() {
@@ -405,6 +404,7 @@ public class IterableAssert_extracting_with_SortedSet_Test {
                                                    .withMessageContaining("[check employees first name]");
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")

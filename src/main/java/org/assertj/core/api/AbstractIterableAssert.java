@@ -50,7 +50,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
@@ -1246,9 +1245,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    *
    * // this extracts the race
-   * Extractor&lt;TolkienCharacter, Race&gt; race = new Extractor&lt;TolkienCharacter, Race&gt;() {
+   * Function&lt;TolkienCharacter, Race&gt; race = new Function&lt;TolkienCharacter, Race&gt;() {
    *    {@literal @}Override
-   *    public Race extract(TolkienCharacter input) {
+   *    public Race apply(TolkienCharacter input) {
    *        return input.getRace();
    *    }
    * }
@@ -1265,7 +1264,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is the list of values extracted
    */
   @CheckReturnValue
-  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Extractor<? super ELEMENT, V> extractor) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Function<? super ELEMENT, V> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
     return newListAssertInstanceForMethodsChangingElementType(values);
   }
@@ -1317,7 +1316,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Should be used after any methods changing the elements type like {@link #extracting(Extractor)} as it will propagate the correct
+   * Should be used after any methods changing the elements type like {@link #extracting(Function)} as it will propagate the correct
    * assertions state, that is everyting but the element comparator (since the element type has changed).
    */
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> newListAssertInstanceForMethodsChangingElementType(List<V> values) {
@@ -1347,7 +1346,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
    * fred.getChildren().add(pebbles);
    *
-   * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonChildren, List&lt;CartoonChildren&gt;&gt;() {
+   * Function&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Function&lt;CartoonChildren, List&lt;CartoonChildren&gt;&gt;() {
    *    {@literal @}Override
    *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
    *        return input.getChildren();
@@ -1368,7 +1367,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws NullPointerException if one of the {@code Iterable}'s element is null.
    */
   @CheckReturnValue
-  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Extractor<? super ELEMENT, ? extends Collection<V>> extractor) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Function<? super ELEMENT, ? extends Collection<V>> extractor) {
     return doFlatExtracting(extractor);
   }
 
@@ -1414,7 +1413,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return doFlatExtracting(extractor);
   }
 
-  private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Extractor<? super ELEMENT, ? extends Collection<V>> extractor) {
+  private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, ? extends Collection<V>> extractor) {
     List<V> result = FieldsOrPropertiesExtractor.extract(actual, extractor).stream()
                                                 .flatMap(Collection::stream)
                                                 .collect(toList());
@@ -1422,7 +1421,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Extract multiple values from each {@code Iterable}'s element according to the given {@code Extractor}s
+   * Extract multiple values from each {@code Iterable}'s element according to the given {@code Function}s
    * and concatenate/flatten the extracted values in a list that is used as the new object under test.
    * <p>
    * If extracted values were not flattened, instead of a simple list like (given 2 extractors) :
@@ -1447,10 +1446,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") Extractor<? super ELEMENT, ?>... extractors) {
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... extractors) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
-                                                                .map(extractor -> extractor.extract(element)))
+                                                                .map(extractor -> extractor.apply(element)))
                                       .collect(Collectors.toList());
     return newListAssertInstanceForMethodsChangingElementType(result);
   }
@@ -1494,7 +1493,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
-                                                                .map(extractor -> extractor.extract(element)))
+                                                                .map(extractor -> extractor.apply(element)))
                                       .collect(Collectors.toList());
     return newListAssertInstanceForMethodsChangingElementType(result);
   }
@@ -1601,7 +1600,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<ELEMENT, ?>... extractors) {
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... extractors) {
     // combine all extractors into one function
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))

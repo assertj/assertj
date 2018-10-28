@@ -30,6 +30,7 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.data.TolkienCharacter;
@@ -41,8 +42,9 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
 
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
+  @SuppressWarnings("deprecation")
   private static final Extractor<TolkienCharacter, String> name = TolkienCharacter::getName;
-  private static final Extractor<TolkienCharacter, Integer> age = TolkienCharacter::getAge;
+  private static final Function<TolkienCharacter, Integer> age = TolkienCharacter::getAge;
   private static final ThrowingExtractor<TolkienCharacter, String, Exception> nameThrowingExtractor = TolkienCharacter::getName;
   private static final ThrowingExtractor<TolkienCharacter, Integer, Exception> ageThrowingExtractor = TolkienCharacter::getAge;
 

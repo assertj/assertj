@@ -51,7 +51,7 @@ public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<Object
 
   @Override
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<ELEMENT, ?>... extractors) {
+  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<? super ELEMENT, ?>... extractors) {
     return super.extracting(extractors);
   }
 

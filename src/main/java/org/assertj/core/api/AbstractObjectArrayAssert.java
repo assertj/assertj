@@ -47,7 +47,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
@@ -2127,7 +2126,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the list of extracted values.
    */
   @CheckReturnValue
-  public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Extractor<? super ELEMENT, U> extractor) {
+  public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
     List<U> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
     return newListAssertInstance(values).withAssertionState(myself);
   }
@@ -2225,7 +2224,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<ELEMENT, ?>... extractors) {
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... extractors) {
 
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
@@ -2265,7 +2264,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the list of values extracted
    */
   @CheckReturnValue
-  public <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Extractor<? super ELEMENT, C> extractor) {
+  public <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Function<? super ELEMENT, C> extractor) {
     return doFlatExtracting(extractor);
   }
 
@@ -2311,7 +2310,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return doFlatExtracting(extractor);
   }
 
-  private <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Extractor<? super ELEMENT, C> extractor) {
+  private <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, C> extractor) {
     List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
                                                 .flatMap(Collection::stream).collect(toList());
     return newListAssertInstance(result).withAssertionState(myself);
@@ -2985,7 +2984,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   /**
    * Create a friendly soft or "hard" assertion.
    * <p>
-   * Implementations need to redefine it so that some methods, such as {@link #extracting(Extractor)}, are able
+   * Implementations need to redefine it so that some methods, such as {@link #extracting(Function)}, are able
    * to build the appropriate list assert (eg: {@link ListAssert} versus {@link ProxyableListAssert}).
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.api.AbstractIterableAssert#flatExtracting(org.assertj.core.api.iterable.Extractor)}</code>
+ * <code>{@link org.assertj.core.api.AbstractIterableAssert#flatExtracting(String)}</code>
  *
  * @author Alexander Bischof
  */

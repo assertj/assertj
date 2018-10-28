@@ -22,8 +22,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.assertj.core.api.iterable.Extractor;
+import java.util.function.Function;
 
 /**
  * Utility methods related to <code>{@link Throwable}</code>s.
@@ -36,7 +35,7 @@ public final class Throwables {
   private static final String JAVA_LANG_REFLECT_CONSTRUCTOR = "java.lang.reflect.Constructor";
   private static final String ORG_ASSERTJ = "org.assert";
 
-  private static final Extractor<Throwable, String> ERROR_DESCRIPTION_EXTRACTOR = throwable -> {
+  private static final Function<Throwable, String> ERROR_DESCRIPTION_EXTRACTOR = throwable -> {
     Throwable cause = throwable.getCause();
     if (cause == null) return throwable.getMessage();
     // error has a cause, display the cause message and the first stack trace elements.
