@@ -59,6 +59,7 @@ class SoftProxies {
                                                                                             .or(named("newObjectArrayAssert"))
                                                                                             .or(named("removeCustomAssertRelatedElementsFromStackTraceIfNeeded"))
                                                                                             .or(named("overridingErrorMessage"))
+                                                                                            .or(named("usingComparator"))
                                                                                             .or(named("usingDefaultComparator"))
                                                                                             .or(named("usingElementComparator"))
                                                                                             .or(named("withComparatorsForElementPropertyOrFieldNames"))
