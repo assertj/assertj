@@ -187,8 +187,8 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
                                                 message,
-                                                expected,
-                                                actual);
+                                                actual,
+                                                expected);
       if (o instanceof AssertionError) {
         AssertionError assertionError = (AssertionError) o;
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
