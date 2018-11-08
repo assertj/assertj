@@ -27,12 +27,12 @@ public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
    * 
    * @param actual the object value in the failed assertion.
    * @param types the expected classes and interfaces.
-   * @param dismatches elements that are not an instance of one of the given types.
+   * @param mismatches elements that are not an instance of one of the given types.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ShouldOnlyHaveElementsOfTypes shouldOnlyHaveElementsOfTypes(Object actual, Class<?>[] types,
-                                                                              Iterable<?> dismatches) {
-    return new ShouldOnlyHaveElementsOfTypes(actual, types, dismatches);
+                                                                              Iterable<?> mismatches) {
+    return new ShouldOnlyHaveElementsOfTypes(actual, types, mismatches);
   }
 
   private ShouldOnlyHaveElementsOfTypes(Object actual, Class<?>[] types, Iterable<?> nonMatchingElements) {

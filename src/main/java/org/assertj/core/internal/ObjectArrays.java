@@ -658,8 +658,10 @@ public class ObjectArrays {
 
   public <E> void assertHasOnlyElementsOfType(AssertionInfo info, E[] actual, Class<?> type) {
     Objects.instance().assertNotNull(info, actual);
-    for (Object o : actual) {
-      if (!type.isInstance(o)) throw failures.failure(info, shouldHaveOnlyElementsOfType(actual, type, o.getClass()));
+    for (Object element : actual) {
+      if (!type.isInstance(element)) {
+        throw failures.failure(info, shouldHaveOnlyElementsOfType(actual, type, element == null ? null : element.getClass()));
+      }
     }
   }
 

@@ -12,13 +12,13 @@
  */
 package org.assertj.core.internal.objectarrays;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
@@ -39,38 +39,48 @@ public class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArrays
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasOnlyElementsOfTypes(someInfo(), null, Integer.class))
-                                                   .withMessage(actualIsNull());
-  }
-
-  @Test
-  public void should_throw_exception_if_no_expected_types_are_given() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      Class<?>[] types = null;
-      arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types);
-    });
-  }
-
-  @Test
   public void should_pass_if_actual_and_given_types_are_empty() {
     Class<?>[] types = new Class<?>[0];
     arrays.assertHasOnlyElementsOfTypes(someInfo(), array(), types);
   }
 
   @Test
+  public void should_fail_if_actual_is_null() {
+    // GIVEN
+    Object[] array = null;
+    // GIVEN
+    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(someInfo(), array, String.class));
+    // THEN
+    assertThat(error).hasMessage(actualIsNull());
+  }
+
+  @Test
   public void should_fail_if_expected_types_are_empty_but_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      Class<?>[] types = new Class<?>[0];
-      arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types);
-    });
+    // GIVEN
+    Class<?>[] types = new Class<?>[0];
+    // WHEN
+    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, types));
+    // THEN
+    assertThat(error).hasMessage(shouldOnlyHaveElementsOfTypes(ARRAY, types, list(ARRAY)).create());
   }
 
   @Test
   public void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_types() {
-    String error = shouldOnlyHaveElementsOfTypes(ARRAY, array(Long.class, String.class), newArrayList(6, 7.0)).create();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, Long.class, String.class))
-                                                   .withMessage(error);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(someInfo(), ARRAY, Long.class,
+                                                                                          String.class));
+    // THEN
+    assertThat(error).hasMessage(shouldOnlyHaveElementsOfTypes(ARRAY, array(Long.class, String.class), list(6, 7.0)).create());
+  }
+
+  @Test
+  public void should_throw_assertion_error_and_not_null_pointer_exception_on_null_elements() {
+    // GIVEN
+    Object[] array = array(null, "notNull");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(someInfo(), array, Long.class));
+    // THEN
+    assertThat(error).hasMessage(shouldOnlyHaveElementsOfTypes(array, array(Long.class), list(null, "notNull")).create());
   }
 
 }

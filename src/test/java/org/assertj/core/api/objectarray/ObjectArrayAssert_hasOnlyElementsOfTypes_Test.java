@@ -35,5 +35,4 @@ public class ObjectArrayAssert_hasOnlyElementsOfTypes_Test extends ObjectArrayAs
   protected void verify_internal_effects() {
     verify(arrays).assertHasOnlyElementsOfTypes(getInfo(assertions), getActual(assertions), types);
   }
-
 }
