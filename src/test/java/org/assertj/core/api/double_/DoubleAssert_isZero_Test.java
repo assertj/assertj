@@ -66,7 +66,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
       assertThat(notZero).isZero();
     } catch (AssertionError e) {
       // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <1.0>%nto be equal to:%n <0.0>%nbut was not."));
+      assertThat(e).hasMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <1.0>%nbut was not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -81,7 +81,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
       assertThat(negativeZero).isZero();
     } catch (AssertionError e) {
       // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <-0.0>%nto be equal to:%n <0.0>%nbut was not."));
+      assertThat(e).hasMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <-0.0>%nbut was not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

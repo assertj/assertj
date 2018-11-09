@@ -61,9 +61,9 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     assertThat(error).isInstanceOf(AssertionFailedError.class)
                      .hasMessage(format("[my test] %n" +
                                         "Expecting:%n" +
-                                        " <42.0f>%n" +
-                                        "to be equal to:%n" +
                                         " <42.0>%n" +
+                                        "to be equal to:%n" +
+                                        " <42.0f>%n" +
                                         "but was not."));
   }
 

@@ -36,7 +36,8 @@ public class Floats_assertIsOne_Test extends FloatsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsOne(someInfo(), 0.0f))
-                                                   .withMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <1.0f>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <1.0f>%nto be equal to:%n <0" +
+                                                     ".0f>%nbut was not."));
   }
 
   @Test
@@ -47,7 +48,8 @@ public class Floats_assertIsOne_Test extends FloatsBaseTest {
   @Test
   public void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0.0f))
-                                                   .withMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <1.0f>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <1.0f>%nto be equal to:%n <0" +
+                                                     ".0f>%nbut was not."));
   }
 
 }

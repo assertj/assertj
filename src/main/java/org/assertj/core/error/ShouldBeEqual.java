@@ -159,9 +159,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       return defaultDetailedErrorMessage(description, representation);
     }
     return comparisonStrategy.isStandard()
-        ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, actual, expected)
+        ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, expected, actual)
         : messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
-                                  actual, expected, comparisonStrategy);
+                                  expected, actual, comparisonStrategy);
   }
 
   /**
@@ -187,8 +187,8 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
                                                 message,
-                                                actual,
-                                                expected);
+                                                expected,
+                                                actual);
       if (o instanceof AssertionError) {
         AssertionError assertionError = (AssertionError) o;
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);

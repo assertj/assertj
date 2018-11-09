@@ -71,7 +71,7 @@ public class FloatAssert_isZero_Test extends FloatAssertBaseTest {
       assertThat(notZero).isZero();
     } catch (AssertionError e) {
       // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <1.0f>%nto be equal to:%n <0.0f>%nbut was not."));
+      assertThat(e).hasMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <1.0f>%nbut was not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -86,7 +86,7 @@ public class FloatAssert_isZero_Test extends FloatAssertBaseTest {
       assertThat(negativeZero).isZero();
     } catch (AssertionError e) {
       // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <-0.0f>%nto be equal to:%n <0.0f>%nbut was not."));
+      assertThat(e).hasMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <-0.0f>%nbut was not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

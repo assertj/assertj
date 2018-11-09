@@ -29,14 +29,16 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), 2.0d))
-                                                   .withMessage(format("%nExpecting:%n <2.0>%nto be equal to:%n <0.0>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <2" +
+                                                     ".0>%nbut was not."));
 
   }
 
   @Test
   public void should_fail_since_actual_is_negative_zero_and_not_primitive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), new Double(-0.0d)))
-                                                   .withMessage(format("%nExpecting:%n <-0.0>%nto be equal to:%n <0.0>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <-0" +
+                                                     ".0>%nbut was not."));
   }
 
   @Test
@@ -48,7 +50,8 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsZero(someInfo(),
                                                                                                                         2.0d))
-                                                   .withMessage(format("%nExpecting:%n <2.0>%nto be equal to:%n <0.0>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <2" +
+                                                     ".0>%nbut was not."));
   }
 
 }

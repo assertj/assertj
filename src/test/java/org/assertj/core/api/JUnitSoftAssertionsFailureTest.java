@@ -42,7 +42,8 @@ public class JUnitSoftAssertionsFailureTest {
     // THEN
     List<Throwable> failures = multipleFailuresError.getFailures();
     assertThat(failures).hasSize(2);
-    assertThat(failures.get(0)).hasMessageStartingWith(format("%nExpecting:%n <1>%nto be equal to:%n <2>%nbut was not."));
+    assertThat(failures.get(0)).hasMessageStartingWith(format("%nExpecting:%n <2>%nto be equal to:%n <1>%nbut was not" +
+      "."));
     assertThat(failures.get(1)).hasMessageStartingWith(format("%n" +
                                                               "Expecting:%n" +
                                                               "  <[1, 2]>%n" +

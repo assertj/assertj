@@ -38,7 +38,8 @@ public class Doubles_assertIsNaN_Test extends DoublesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNaN(someInfo(), 6d))
-                                                   .withMessage(format("%nExpecting:%n <6.0>%nto be equal to:%n <NaN>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <NaN>%nto be equal to:%n " +
+                                                     "<6.0>%nbut was not."));
   }
 
   @Test
@@ -49,6 +50,7 @@ public class Doubles_assertIsNaN_Test extends DoublesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6d))
-                                                   .withMessage(format("%nExpecting:%n <6.0>%nto be equal to:%n <NaN>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <NaN>%nto be equal to:%n " +
+                                                     "<6.0>%nbut was not."));
   }
 }

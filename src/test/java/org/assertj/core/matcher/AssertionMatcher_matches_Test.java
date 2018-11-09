@@ -87,13 +87,13 @@ public class AssertionMatcher_matches_Test {
 
     isZeroMatcher.describeTo(description);
     verify(description).appendText("AssertionError with message: ");
-    verify(description).appendText(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
+    verify(description).appendText(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
     verify(description).appendText(String.format("%n%nStacktrace was: "));
     // @format:off
     verify(description).appendText(argThat(new ArgumentMatcher<String>() {
       @Override
       public boolean matches(String s) {
-        return s.contains(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."))
+        return s.contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."))
             && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:")
             && s.contains("at org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:")
             && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test.matcher_should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:");

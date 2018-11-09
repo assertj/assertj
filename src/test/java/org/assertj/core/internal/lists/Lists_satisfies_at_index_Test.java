@@ -50,7 +50,8 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
   @Test
   public void should_fail_if_element_at_index_does_not_match_the_requirements() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.satisfies(info, jedis, shouldBeLuke, atIndex(2)))
-                                                   .withMessage(format("%nExpecting:%n <\"Yoda\">%nto be equal to:%n <\"Luke\">%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <\"Luke\">%nto be equal to:%n " +
+                                                     "<\"Yoda\">%nbut was not."));
   }
 
   @Test

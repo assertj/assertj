@@ -36,7 +36,8 @@ public class Longs_assertIsOne_Test extends LongsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsOne(someInfo(), 0L))
-                                                   .withMessage(format("%nExpecting:%n <0L>%nto be equal to:%n <1L>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <1L>%nto be equal to:%n " +
+                                                     "<0L>%nbut was not."));
   }
 
   @Test
@@ -47,7 +48,8 @@ public class Longs_assertIsOne_Test extends LongsBaseTest {
   @Test
   public void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0L))
-                                                   .withMessage(format("%nExpecting:%n <0L>%nto be equal to:%n <1L>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <1L>%nto be equal to:%n " +
+                                                     "<0L>%nbut was not."));
   }
 
 }

@@ -58,9 +58,9 @@ public class ShouldBeEqual_newAssertionError_Test {
     // THEN
     assertThat(error).isInstanceOf(AssertionFailedError.class)
                      .hasMessage(format("[Jedi] %nExpecting:%n" +
-                                        " <\"Luke\">%n" +
-                                        "to be equal to:%n" +
                                         " <\"Yoda\">%n" +
+                                        "to be equal to:%n" +
+                                        " <\"Luke\">%n" +
                                         "but was not."));
   }
 

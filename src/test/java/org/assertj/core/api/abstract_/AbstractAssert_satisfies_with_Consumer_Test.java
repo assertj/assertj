@@ -54,7 +54,8 @@ public class AbstractAssert_satisfies_with_Consumer_Test {
   public void should_fail_according_to_requirements() {
     Jedi vader = new Jedi("Vader", "Red");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(vader).satisfies(jediRequirements))
-                                                   .withMessage(format("[check light saber] %nExpecting:%n <\"Red\">%nto be equal to:%n <\"Green\">%nbut was not."));
+                                                   .withMessage(format("[check light saber] %nExpecting:%n " +
+                                                     "<\"Green\">%nto be equal to:%n <\"Red\">%nbut was not."));
   }
 
   @Test

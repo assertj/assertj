@@ -37,7 +37,8 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsZero(someInfo(), 2L))
-                                                   .withMessage(format("%nExpecting:%n <2L>%nto be equal to:%n <0L>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0L>%nto be equal to:%n " +
+                                                     "<2L>%nbut was not."));
   }
 
   @Test

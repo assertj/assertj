@@ -40,7 +40,7 @@ public class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
     Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
     Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isEqualTo(instantAfter.toString()))
-                                                   .withMessage(format("%nExpecting:%n <2007-12-03T10:15:30Z>%nto be equal to:%n <2007-12-03T10:15:35Z>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <2007-12-03T10:15:35Z>%nto be equal to:%n <2007-12-03T10:15:30Z>%nbut was not."));
   }
 
   @Test

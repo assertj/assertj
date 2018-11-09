@@ -42,7 +42,7 @@ public class LocalDateTimeAssert_isEqualTo_Test extends LocalDateTimeAssertBaseT
   @Test
   public void test_isEqualTo_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isEqualTo(LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString()))
-                                                   .withMessage(format("%nExpecting:%n <2000-01-05T03:00:05>%nto be equal to:%n <2012-01-01T03:03:03>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <2012-01-01T03:03:03>%nto be equal to:%n <2000-01-05T03:00:05>%nbut was not."));
   }
 
   @Test

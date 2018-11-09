@@ -71,9 +71,9 @@ public class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
                                                                                        .isEqualTo(array2))
                                                    .withMessage(format("%nExpecting:%n"
-                                                                       + " <[Foo(id=id, bar=Bar(id=1))]>%n"
-                                                                       + "to be equal to:%n"
                                                                        + " <[Foo(id=id, bar=Bar(id=2))]>%n"
+                                                                       + "to be equal to:%n"
+                                                                       + " <[Foo(id=id, bar=Bar(id=1))]>%n"
                                                                        + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
                                                                        + "Comparators used:%n"
                                                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"

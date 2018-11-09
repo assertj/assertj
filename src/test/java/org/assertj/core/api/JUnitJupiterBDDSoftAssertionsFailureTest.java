@@ -42,7 +42,7 @@ public class JUnitJupiterBDDSoftAssertionsFailureTest {
     List<Throwable> failures = error.getFailures();
     assertThat(failures).hasSize(2)
                         .extracting("message")
-                        .contains(format("%nExpecting:%n <1>%nto be equal to:%n <2>%nbut was not."),
+                        .contains(format("%nExpecting:%n <2>%nto be equal to:%n <1>%nbut was not."),
                                   format("%n" +
                                          "Expecting:%n" +
                                          "  <[1, 2]>%n" +

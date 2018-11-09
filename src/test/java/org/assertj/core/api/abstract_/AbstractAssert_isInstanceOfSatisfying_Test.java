@@ -70,7 +70,8 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
   @Test
   public void should_fail_according_to_requirements() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements))
-                                                   .withMessage(format("[check light saber] %nExpecting:%n <\"Red\">%nto be equal to:%n <\"Green\">%nbut was not."));
+                                                   .withMessage(format("[check light saber] %nExpecting:%n " +
+                                                     "<\"Green\">%nto be equal to:%n <\"Red\">%nbut was not."));
   }
 
   @Test

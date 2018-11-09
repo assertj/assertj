@@ -32,7 +32,7 @@ public class AbstractAssert_withRepresentation_Test {
   public void should_be_able_to_use_a_custom_representation_for_error_messages() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       assertThat(new Example()).withRepresentation(new CustomRepresentation()).isNull();
-    }).withMessage(format("%nExpecting:%n <Example>%nto be equal to:%n <null>%nbut was not."));
+    }).withMessage(format("%nExpecting:%n <null>%nto be equal to:%n <Example>%nbut was not."));
   }
 
   @Test

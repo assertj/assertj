@@ -55,6 +55,6 @@ public class OptionalAssert_hasValueSatisfying_Test extends BaseTest {
   public void should_fail_from_consumer() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something"));
-    }).withMessage(format("%nExpecting:%n <\"something else\">%nto be equal to:%n <\"something\">%nbut was not."));
+    }).withMessage(format("%nExpecting:%n <\"something\">%nto be equal to:%n <\"something else\">%nbut was not."));
   }
 }

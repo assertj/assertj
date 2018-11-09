@@ -35,7 +35,7 @@ public class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
   @Test
   public void test_isEqualTo_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalTime.of(3, 0, 5)).isEqualTo("03:03:03"))
-                                                   .withMessage(format("%nExpecting:%n <03:00:05>%nto be equal to:%n <03:03:03>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <03:03:03>%nto be equal to:%n <03:00:05>%nbut was not."));
   }
 
   @Test

@@ -38,13 +38,15 @@ public class Floats_assertIsZero_Test extends FloatsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsZero(someInfo(), 2.0f))
-                                                   .withMessage(format("%nExpecting:%n <2.0f>%nto be equal to:%n <0.0f>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <2" +
+                                                     ".0f>%nbut was not."));
   }
 
   @Test
   public void should_fail_since_actual_is_negative_zero_and_not_primitive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsZero(someInfo(), new Float(-0.0)))
-                                                   .withMessage(format("%nExpecting:%n <-0.0f>%nto be equal to:%n <0.0f>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <-0" +
+                                                     ".0f>%nbut was not."));
   }
 
   @Test
@@ -55,7 +57,8 @@ public class Floats_assertIsZero_Test extends FloatsBaseTest {
   @Test
   public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 2.0f))
-                                                   .withMessage(format("%nExpecting:%n <2.0f>%nto be equal to:%n <0.0f>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <2" +
+                                                     ".0f>%nbut was not."));
   }
 
 }

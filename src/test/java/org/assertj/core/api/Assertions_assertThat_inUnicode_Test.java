@@ -28,19 +28,19 @@ public class Assertions_assertThat_inUnicode_Test {
   @Test
   public void should_assert_String_in_unicode() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c").inUnicode().isEqualTo("abó"))
-                                                   .withMessage(format("%nExpecting:%n <a6c>%nto be equal to:%n <ab\\u00f3>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <ab\\u00f3>%nto be equal to:%n <a6c>%nbut was not."));
   }
 
   @Test
   public void should_assert_Character_in_unicode() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat('o').inUnicode().isEqualTo('ó'))
-                                                   .withMessage(format("%nExpecting:%n <o>%nto be equal to:%n <\\u00f3>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <\\u00f3>%nto be equal to:%n <o>%nbut was not."));
   }
 
   @Test
   public void should_assert_char_array_in_unicode_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c".toCharArray()).inUnicode()
                                                                                                     .isEqualTo("abó".toCharArray()))
-                                                   .withMessage(format("%nExpecting:%n <[a, 6, c]>%nto be equal to:%n <[a, b, \\u00f3]>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <[a, b, \\u00f3]>%nto be equal to:%n <[a, 6, c]>%nbut was not."));
   }
 }

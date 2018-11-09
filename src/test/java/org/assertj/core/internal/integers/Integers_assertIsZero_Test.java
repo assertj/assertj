@@ -38,7 +38,8 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsZero(someInfo(), 2))
-                                                   .withMessage(format("%nExpecting:%n <2>%nto be equal to:%n <0>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n " +
+                                                     "<2>%nbut was not."));
   }
 
   @Test
@@ -49,7 +50,8 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 1))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n " +
+                                                     "<1>%nbut was not."));
   }
 
 }

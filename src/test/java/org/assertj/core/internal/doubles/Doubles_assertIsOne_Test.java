@@ -36,7 +36,8 @@ public class Doubles_assertIsOne_Test extends DoublesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsOne(someInfo(), 0.0d))
-                                                   .withMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <1.0>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <1.0>%nto be equal to:%n <0" +
+                                                     ".0>%nbut was not."));
   }
 
   @Test
@@ -47,7 +48,8 @@ public class Doubles_assertIsOne_Test extends DoublesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0.0d))
-                                                   .withMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <1.0>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <1.0>%nto be equal to:%n <0" +
+                                                     ".0>%nbut was not."));
   }
 
 }

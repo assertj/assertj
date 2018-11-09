@@ -36,9 +36,9 @@ public class ShouldBeEqual_Test {
     assertThat(error.getActual().getValue()).isSameAs(actual);
     assertThat(error.getExpected().getValue()).isSameAs(expected);
     assertThat(error).hasMessage(format("[Jedi] %nExpecting:%n" +
-                                        " <\"Luke\">%n" +
-                                        "to be equal to:%n" +
                                         " <\"Yoda\">%n" +
+                                        "to be equal to:%n" +
+                                        " <\"Luke\">%n" +
                                         "when comparing values using CaseInsensitiveStringComparator%n" +
                                         "but was not."));
   }

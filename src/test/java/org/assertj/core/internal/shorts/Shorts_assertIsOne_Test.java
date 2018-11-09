@@ -36,7 +36,8 @@ public class Shorts_assertIsOne_Test extends ShortsBaseTest {
   @Test
   public void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsOne(someInfo(), (short) 0))
-                                                   .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n " +
+                                                     "<0>%nbut was not."));
   }
 
   @Test
@@ -47,7 +48,8 @@ public class Shorts_assertIsOne_Test extends ShortsBaseTest {
   @Test
   public void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), (short) 0))
-                                                   .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n " +
+                                                     "<0>%nbut was not."));
   }
 
 }

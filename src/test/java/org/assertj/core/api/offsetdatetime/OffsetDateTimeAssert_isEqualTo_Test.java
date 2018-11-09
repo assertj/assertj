@@ -45,7 +45,7 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends OffsetDateTimeAssertBas
   @Test
   public void test_isEqualTo_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isEqualTo(of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
-                                                   .withMessage(format("%nExpecting:%n <2000-01-05T03:00:05Z>%nto be equal to:%n <2012-01-01T03:03:03Z>%nbut was not."));
+                                                   .withMessage(format("%nExpecting:%n <2012-01-01T03:03:03Z>%nto be equal to:%n <2000-01-05T03:00:05Z>%nbut was not."));
   }
 
   @Test
