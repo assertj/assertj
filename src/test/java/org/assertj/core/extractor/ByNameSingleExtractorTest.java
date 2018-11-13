@@ -21,6 +21,7 @@ import static org.assertj.core.extractor.Extractors.byName;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
@@ -125,6 +126,13 @@ public class ByNameSingleExtractorTest {
     assertThat(extracted).isEqualTo("Young Padawan");
   }
 
+  @Test
+  public void should_extract_property_with_barename_method() {
+    BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
+    assertThat(holder).extracting("value")
+      .containsExactly(OptionalInt.of(42));
+  }
+
   public static class EmployeeWithBrokenName extends Employee {
 
     public EmployeeWithBrokenName(String name) {
@@ -176,4 +184,20 @@ public class ByNameSingleExtractorTest {
 	return new ByNameSingleExtractor<>("name");
   }
 
+  /** This style of Optional handling is emitted by Immutables code gen library. */
+  static class BareOptionalIntHolder {
+    private final Integer value;
+
+    BareOptionalIntHolder() {
+      value = null;
+    }
+
+    BareOptionalIntHolder(int value) {
+      this.value = value;
+    }
+
+    public OptionalInt value() {
+      return OptionalInt.of(value);
+    }
+  }
 }
