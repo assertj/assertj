@@ -78,6 +78,11 @@ public final class Introspection {
     if (getter != null) {
       return getter;
     }
+    // try to find bare name property
+    getter = findMethod(propertyName, target);
+    if (getter != null) {
+        return getter;
+    }
     // try to find isProperty for boolean properties
     return findMethod("is" + capitalized, target);
   }
