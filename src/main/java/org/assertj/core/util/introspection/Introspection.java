@@ -30,6 +30,8 @@ import java.lang.reflect.Modifier;
  */
 public final class Introspection {
 
+  private static boolean barenamePropertyMethods = true;
+
   /**
    * Returns the getter {@link Method} for a property matching the given name in the given object.
    * 
@@ -58,6 +60,10 @@ public final class Introspection {
     return getter;
   }
 
+  public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
+    Introspection.barenamePropertyMethods = barenamePropertyMethods;
+  }
+
   private static String propertyNotFoundErrorMessage(String propertyName, Object target) {
     String targetTypeName = target.getClass().getName();
     String property = quote(propertyName);
@@ -78,10 +84,12 @@ public final class Introspection {
     if (getter != null) {
       return getter;
     }
-    // try to find bare name property
-    getter = findMethod(propertyName, target);
-    if (getter != null) {
+    if (barenamePropertyMethods) {
+      // try to find bare name property
+      getter = findMethod(propertyName, target);
+      if (getter != null) {
         return getter;
+      }
     }
     // try to find isProperty for boolean properties
     return findMethod("is" + capitalized, target);

@@ -1898,6 +1898,15 @@ public interface WithAssertions {
   }
 
   /**
+   * Globally sets whether the extractor considers bare-named property methods like {@code String name()}.
+   * Defaults to enabled.
+   * @param barenamePropertyMethods whether bare-named property methods are found
+   */
+  default void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
+    Assertions.setExtractBareNamePropertyMethods(barenamePropertyMethods);
+  }
+
+  /**
    * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
    * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
    * <p>

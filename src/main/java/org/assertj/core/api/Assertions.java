@@ -99,6 +99,7 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.Introspection;
 
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
@@ -1483,6 +1484,15 @@ public class Assertions {
    */
   public static void setAllowComparingPrivateFields(boolean allowComparingPrivateFields) {
     FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);
+  }
+
+  /**
+   * Globally sets whether the extractor considers bare-named property methods like {@code String name()}.
+   * Defaults to enabled.
+   * @param barenamePropertyMethods whether bare-named property methods are found
+   */
+  public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
+    Introspection.setExtractBareNamePropertyMethods(barenamePropertyMethods);
   }
 
   // ------------------------------------------------------------------------------------------------------
