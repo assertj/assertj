@@ -99,6 +99,7 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.Introspection;
 
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
@@ -1485,6 +1486,15 @@ public class Assertions {
     FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);
   }
 
+  /**
+   * Globally sets whether the extractor considers bare-named property methods like {@code String name()}.
+   * Defaults to enabled.
+   * @param barenamePropertyMethods whether bare-named property methods are found
+   */
+  public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
+    Introspection.setExtractBareNamePropertyMethods(barenamePropertyMethods);
+  }
+
   // ------------------------------------------------------------------------------------------------------
   // Data utility methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -2516,6 +2526,7 @@ public class Assertions {
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(StringBuilder actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+
   /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuffer}.
    *

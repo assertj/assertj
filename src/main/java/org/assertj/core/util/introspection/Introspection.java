@@ -30,6 +30,8 @@ import java.lang.reflect.Modifier;
  */
 public final class Introspection {
 
+  private static boolean bareNamePropertyMethods = true;
+
   /**
    * Returns the getter {@link Method} for a property matching the given name in the given object.
    * 
@@ -58,16 +60,16 @@ public final class Introspection {
     return getter;
   }
 
+  public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
+    Introspection.bareNamePropertyMethods = barenamePropertyMethods;
+  }
+
   private static String propertyNotFoundErrorMessage(String propertyName, Object target) {
     String targetTypeName = target.getClass().getName();
     String property = quote(propertyName);
     Method getter = findGetter(propertyName, target);
-    if (getter == null) {
-      return format("No getter for property %s in %s", property, targetTypeName);
-    }
-    if (!isPublic(getter.getModifiers())) {
-      return format("No public getter for property %s in %s", property, targetTypeName);
-    }
+    if (getter == null) return format("No getter for property %s in %s", property, targetTypeName);
+    if (!isPublic(getter.getModifiers())) return format("No public getter for property %s in %s", property, targetTypeName);
     return format("Unable to find property %s in %s", property, targetTypeName);
   }
 
@@ -75,8 +77,11 @@ public final class Introspection {
     String capitalized = propertyName.substring(0, 1).toUpperCase(ENGLISH) + propertyName.substring(1);
     // try to find getProperty
     Method getter = findMethod("get" + capitalized, target);
-    if (getter != null) {
-      return getter;
+    if (getter != null) return getter;
+    if (bareNamePropertyMethods) {
+      // try to find bare name property
+      getter = findMethod(propertyName, target);
+      if (getter != null) return getter;
     }
     // try to find isProperty for boolean properties
     return findMethod("is" + capitalized, target);
@@ -98,6 +103,5 @@ public final class Introspection {
     return null;
   }
 
-  private Introspection() {
-  }
+  private Introspection() {}
 }

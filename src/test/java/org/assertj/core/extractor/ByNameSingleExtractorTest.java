@@ -21,7 +21,9 @@ import static org.assertj.core.extractor.Extractors.byName;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -32,23 +34,23 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_extract_field_values_even_if_property_does_not_exist() {
-	Object extractedValues = idExtractor().apply(yoda);
+    Object extractedValues = idExtractor().apply(yoda);
 
-	assertThat(extractedValues).isEqualTo(1L);
+    assertThat(extractedValues).isEqualTo(1L);
   }
 
   @Test
   public void should_extract_property_values_when_no_public_field_match_given_name() {
-	Object extractedValues = ageExtractor().apply(yoda);
+    Object extractedValues = ageExtractor().apply(yoda);
 
-	assertThat(extractedValues).isEqualTo(800);
+    assertThat(extractedValues).isEqualTo(800);
   }
 
   @Test
   public void should_extract_pure_property_values() {
-	Object extractedValues = adultExtractor().apply(yoda);
+    Object extractedValues = adultExtractor().apply(yoda);
 
-	assertThat(extractedValues).isEqualTo(true);
+    assertThat(extractedValues).isEqualTo(true);
   }
 
   @Test
@@ -58,19 +60,21 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_throw_exception_when_given_name_is_null() {
-	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>(null).apply(yoda)).withMessage("The name of the field/property to read should not be null");
+    assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>(null).apply(yoda))
+                                        .withMessage("The name of the field/property to read should not be null");
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
-	assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>("").apply(yoda)).withMessage("The name of the field/property to read should not be empty");
+    assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>("").apply(yoda))
+                                        .withMessage("The name of the field/property to read should not be empty");
   }
 
   @Test
   public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
-	Object extractedValue = nameExtractor().apply(new EmployeeWithBrokenName("Name"));
+    Object extractedValue = nameExtractor().apply(new EmployeeWithBrokenName("Name"));
 
-	assertThat(extractedValue).isEqualTo(new Name("Name"));
+    assertThat(extractedValue).isEqualTo(new Name("Name"));
   }
 
   @Test
@@ -90,28 +94,28 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_throw_exception_if_no_object_is_given() {
-	assertThatIllegalArgumentException().isThrownBy(() -> idExtractor().apply(null));
+    assertThatIllegalArgumentException().isThrownBy(() -> idExtractor().apply(null));
   }
 
   @Test
   public void should_extract_single_value_from_maps_by_key() {
-	String key1 = "key1";
-	String key2 = "key2";
-	Map<String, Employee> map1 = new HashMap<>();
-	map1.put(key1, yoda);
-	Employee luke = new Employee(2L, new Name("Luke"), 22);
-	map1.put(key2, luke);
+    String key1 = "key1";
+    String key2 = "key2";
+    Map<String, Employee> map1 = new HashMap<>();
+    map1.put(key1, yoda);
+    Employee luke = new Employee(2L, new Name("Luke"), 22);
+    map1.put(key2, luke);
 
-	Map<String, Employee> map2 = new HashMap<>();
-	map2.put(key1, yoda);
-	Employee han = new Employee(3L, new Name("Han"), 31);
-	map2.put(key2, han);
+    Map<String, Employee> map2 = new HashMap<>();
+    map2.put(key1, yoda);
+    Employee han = new Employee(3L, new Name("Han"), 31);
+    map2.put(key2, han);
 
-	List<Map<String, Employee>> maps = asList(map1, map2);
-	assertThat(maps).extracting(key2).containsExactly(luke, han);
-	assertThat(maps).extracting(key2, Employee.class).containsExactly(luke, han);
-	assertThat(maps).extracting(key1).containsExactly(yoda, yoda);
-	assertThat(maps).extracting("bad key").containsExactly(null, null);
+    List<Map<String, Employee>> maps = asList(map1, map2);
+    assertThat(maps).extracting(key2).containsExactly(luke, han);
+    assertThat(maps).extracting(key2, Employee.class).containsExactly(luke, han);
+    assertThat(maps).extracting(key1).containsExactly(yoda, yoda);
+    assertThat(maps).extracting("bad key").containsExactly(null, null);
   }
 
   @Test
@@ -123,6 +127,22 @@ public class ByNameSingleExtractorTest {
     luke.surname = new Name("Young", "Padawan");
     Object extracted = byName("me.field.me.field.me.field.surname.name").apply(darth);
     assertThat(extracted).isEqualTo("Young Padawan");
+  }
+
+  @Test
+  public void should_extract_property_with_barename_method() {
+    BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
+    assertThat(holder).extracting("value")
+                      .containsExactly(OptionalInt.of(42));
+  }
+
+  @Test
+  public void should_ignore_property_with_barename_method() {
+    BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
+    Assertions.setExtractBareNamePropertyMethods(false);
+    assertThat(holder).extracting("value")
+                      .containsExactly(42);
+    Assertions.setExtractBareNamePropertyMethods(true);
   }
 
   public static class EmployeeWithBrokenName extends Employee {
@@ -161,19 +181,40 @@ public class ByNameSingleExtractorTest {
   }
 
   private ByNameSingleExtractor<Employee> idExtractor() {
-	return new ByNameSingleExtractor<>("id");
+    return new ByNameSingleExtractor<>("id");
   }
 
   private ByNameSingleExtractor<Employee> ageExtractor() {
-	return new ByNameSingleExtractor<>("age");
+    return new ByNameSingleExtractor<>("age");
   }
 
   private ByNameSingleExtractor<Employee> adultExtractor() {
-	return new ByNameSingleExtractor<>("adult");
+    return new ByNameSingleExtractor<>("adult");
   }
 
   private ByNameSingleExtractor<Employee> nameExtractor() {
-	return new ByNameSingleExtractor<>("name");
+    return new ByNameSingleExtractor<>("name");
   }
 
+  /** This style of Optional handling is emitted by Immutables code gen library. */
+  static class BareOptionalIntHolder {
+    private final Integer value;
+
+    BareOptionalIntHolder() {
+      value = null;
+    }
+
+    BareOptionalIntHolder(int value) {
+      this.value = value;
+    }
+
+    public OptionalInt value() {
+      return OptionalInt.of(value);
+    }
+
+    // ensure setter-like methods don't distract us
+    public BareOptionalIntHolder value(int value) {
+      throw new AssertionError("unreached");
+    }
+  }
 }
