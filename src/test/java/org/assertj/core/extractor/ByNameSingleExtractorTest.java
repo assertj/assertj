@@ -199,5 +199,10 @@ public class ByNameSingleExtractorTest {
     public OptionalInt value() {
       return OptionalInt.of(value);
     }
+
+    // ensure setter-like methods don't distract us
+    public BareOptionalIntHolder value(int value) {
+      throw new AssertionError("unreached");
+    }
   }
 }
