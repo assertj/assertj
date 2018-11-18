@@ -31,44 +31,46 @@ public final class MapEntry<K, V> {
   /**
    * Creates a new {@link MapEntry}.
    *
+   * @param <K> key type
+   * @param <V> value type
    * @param key the key of the entry to create.
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
-	return new MapEntry<K, V>(key, value);
+    return new MapEntry<>(key, value);
   }
 
   private MapEntry(K key, V value) {
-	this.key = key;
-	this.value = value;
+    this.key = key;
+    this.value = value;
   }
 
   @Override
   public boolean equals(Object obj) {
-	if (this == obj) {
-	  return true;
-	}
-	if (obj == null) {
-	  return false;
-	}
-	if (getClass() != obj.getClass()) {
-	  return false;
-	}
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
     MapEntry<?, ?> other = (MapEntry<?, ?>) obj;
-	return areEqual(key, other.key) && areEqual(value, other.value);
+    return areEqual(key, other.key) && areEqual(value, other.value);
   }
 
   @Override
   public int hashCode() {
-	int result = 1;
-	result = HASH_CODE_PRIME * result + hashCodeFor(key);
-	result = HASH_CODE_PRIME * result + hashCodeFor(value);
-	return result;
+    int result = 1;
+    result = HASH_CODE_PRIME * result + hashCodeFor(key);
+    result = HASH_CODE_PRIME * result + hashCodeFor(value);
+    return result;
   }
 
   @Override
   public String toString() {
-	return String.format("%s[key=%s, value=%s]", getClass().getSimpleName(), quote(key), quote(value));
+    return String.format("%s[key=%s, value=%s]", getClass().getSimpleName(), quote(key), quote(value));
   }
 }
