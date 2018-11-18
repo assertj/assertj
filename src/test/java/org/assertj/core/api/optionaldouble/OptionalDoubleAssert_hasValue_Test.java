@@ -13,21 +13,26 @@
 package org.assertj.core.api.optionaldouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalDouble;
 
 import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 public class OptionalDoubleAssert_hasValue_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optionalDouble_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalDouble) null).hasValue(10.0))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    OptionalDouble nullActual = null;
+    // THEN
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(nullActual).hasValue(10.0)).withMessage(actualIsNull());
   }
 
   @Test
@@ -37,18 +42,25 @@ public class OptionalDoubleAssert_hasValue_Test extends BaseTest {
 
   @Test
   public void should_fail_if_optionalDouble_does_not_have_expected_value() {
+    // GIVEN
     OptionalDouble actual = OptionalDouble.of(5.0);
     double expectedValue = 10.0;
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
-                                                   .withMessage(shouldContain(actual, expectedValue).create());
+    // WHEN
+    AssertionFailedError error = catchThrowableOfType(() -> assertThat(actual).hasValue(expectedValue),
+                                                      AssertionFailedError.class);
+    // THEN
+    assertThat(error).hasMessage(shouldContain(actual, expectedValue).create());
+    assertThat(error.getActual().getStringRepresentation()).isEqualTo(String.valueOf(actual.getAsDouble()));
+    assertThat(error.getExpected().getStringRepresentation()).isEqualTo(String.valueOf(expectedValue));
   }
 
   @Test
   public void should_fail_if_optionalDouble_is_empty() {
+    // GIVEN
     double expectedValue = 10.0;
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalDouble.empty()).hasValue(expectedValue))
-                                                   .withMessage(shouldContain(expectedValue).create());
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(OptionalDouble.empty()).hasValue(expectedValue));
+    // THEN
+    assertThat(error).hasMessage(shouldContain(expectedValue).create());
   }
 }

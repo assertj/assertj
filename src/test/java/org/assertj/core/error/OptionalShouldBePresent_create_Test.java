@@ -28,24 +28,24 @@ public class OptionalShouldBePresent_create_Test {
   @Test
   public void should_create_error_message_with_optional() {
     String errorMessage = shouldBePresent(Optional.empty()).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain a value but was empty."));
+    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain a value but it was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionaldouble() {
     String errorMessage = shouldBePresent(OptionalDouble.empty()).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalDouble to contain a value but was empty."));
+    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalDouble to contain a value but it was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionalint() {
     String errorMessage = shouldBePresent(OptionalInt.empty()).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalInt to contain a value but was empty."));
+    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalInt to contain a value but it was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionallong() {
     String errorMessage = shouldBePresent(OptionalLong.empty()).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalLong to contain a value but was empty."));
+    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalLong to contain a value but it was empty."));
   }
 }

@@ -13,21 +13,26 @@
 package org.assertj.core.api.optionalint;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalInt;
 
 import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 public class OptionalIntAssert_hasValue_Test extends BaseTest {
 
   @Test
   public void should_fail_when_OptionalInt_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalInt) null).hasValue(10))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    OptionalInt nullActual = null;
+    // THEN
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(nullActual).hasValue(10)).withMessage(actualIsNull());
   }
 
   @Test
@@ -37,18 +42,25 @@ public class OptionalIntAssert_hasValue_Test extends BaseTest {
 
   @Test
   public void should_fail_if_OptionalInt_does_not_have_expected_value() {
+    // GIVEN
     OptionalInt actual = OptionalInt.of(5);
     int expectedValue = 10;
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
-                                                   .withMessage(shouldContain(actual, expectedValue).create());
+    // WHEN
+    AssertionFailedError error = catchThrowableOfType(() -> assertThat(actual).hasValue(expectedValue),
+                                                      AssertionFailedError.class);
+    // THEN
+    assertThat(error).hasMessage(shouldContain(actual, expectedValue).create());
+    assertThat(error.getActual().getStringRepresentation()).isEqualTo(String.valueOf(actual.getAsInt()));
+    assertThat(error.getExpected().getStringRepresentation()).isEqualTo(String.valueOf(expectedValue));
   }
 
   @Test
   public void should_fail_if_OptionalInt_is_empty() {
+    // GIVEN
     int expectedValue = 10;
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalInt.empty()).hasValue(expectedValue))
-                                                   .withMessage(shouldContain(expectedValue).create());
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(OptionalInt.empty()).hasValue(expectedValue));
+    // THEN
+    assertThat(error).hasMessage(shouldContain(expectedValue).create());
   }
 }

@@ -18,6 +18,7 @@ import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
 import java.util.OptionalInt;
 
+import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -128,7 +129,8 @@ public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalInt
   public SELF hasValue(int expectedValue) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsInt()) throwAssertionError(shouldContain(actual, expectedValue));
+    if (expectedValue != actual.getAsInt())
+      throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsInt(), expectedValue);
     return myself;
   }
 }

@@ -22,7 +22,7 @@ import static java.lang.String.format;
 public class OptionalShouldBePresent extends BasicErrorMessageFactory {
 
   private OptionalShouldBePresent(Object optional) {
-    super(format("%nExpecting %s to contain a value but was empty.", optional.getClass().getSimpleName()));
+    super(format("%nExpecting %s to contain a value but it was empty.", optional.getClass().getSimpleName()));
   }
 
   /**

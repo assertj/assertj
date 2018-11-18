@@ -22,6 +22,7 @@ import java.util.OptionalDouble;
 
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.Doubles;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -132,7 +133,8 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   public SELF hasValue(double expectedValue) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsDouble()) throwAssertionError(shouldContain(actual, expectedValue));
+    if (expectedValue != actual.getAsDouble())
+      throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsDouble(), expectedValue);
     return myself;
   }
 

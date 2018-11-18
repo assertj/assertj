@@ -27,6 +27,7 @@ import java.util.function.Function;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
@@ -133,7 +134,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     checkNotNull(expectedValue);
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
     if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
-      throwAssertionError(shouldContain(actual, expectedValue));
+      throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.get(), expectedValue);
     return myself;
   }
 
