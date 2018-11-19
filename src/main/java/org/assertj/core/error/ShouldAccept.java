@@ -38,10 +38,10 @@ public class ShouldAccept extends BasicErrorMessageFactory {
   public static <T> ErrorMessageFactory shouldAccept(Predicate<? super T> predicate, T value,
                                                      PredicateDescription description) {
     requireNonNull(description, "The predicate description must not be null");
-    return new ShouldAccept(predicate, value, description);
+    return new ShouldAccept(value, description);
   }
 
-  private ShouldAccept(Predicate<?> predicate, Object value, PredicateDescription description) {
+  private ShouldAccept(Object value, PredicateDescription description) {
     super("%nExpecting:%n  <%s predicate>%nto accept <%s> but it did not.", description, value);
   }
 }

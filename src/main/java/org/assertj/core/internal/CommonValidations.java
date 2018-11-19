@@ -167,7 +167,7 @@ public final class CommonValidations {
     checkNotNull(expectedType, "The given type should not be null");
   }
 
-  public static void checkIterableIsNotNull(AssertionInfo info, Iterable<?> set) {
+  public static void checkIterableIsNotNull(Iterable<?> set) {
     if (set == null) throw iterableToLookForIsNull();
   }
 

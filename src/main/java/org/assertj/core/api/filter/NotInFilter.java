@@ -22,7 +22,8 @@ public class NotInFilter extends FilterOperator<Object[]> {
     return new NotInFilter(valuesNotToMatch);
   }
 
-  public boolean filter(Object propertyValueOfCurrentElement) {
+  // could be removed but since it is part of the API we can't ...
+  public boolean filter(@SuppressWarnings("unused") Object propertyValueOfCurrentElement) {
     return false;
   }
 

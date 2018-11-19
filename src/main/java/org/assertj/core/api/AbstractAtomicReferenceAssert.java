@@ -26,7 +26,7 @@ import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
 public abstract class AbstractAtomicReferenceAssert<SELF extends AbstractAtomicReferenceAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
     extends AbstractObjectAssert<SELF, ATOMIC> {
 
-  public AbstractAtomicReferenceAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
+  public AbstractAtomicReferenceAssert(ATOMIC actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReferenceAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
 
   public AtomicStampedReferenceAssert(AtomicStampedReference<VALUE> actual) {
-    super(actual, AtomicStampedReferenceAssert.class, true);
+    super(actual, AtomicStampedReferenceAssert.class);
   }
 
   /**

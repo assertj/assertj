@@ -47,12 +47,12 @@ public class ShouldMatch extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T> ErrorMessageFactory shouldMatch(T actual, Predicate<? super T> predicate,
-	                                             PredicateDescription predicateDescription) {
-	requireNonNull(predicateDescription, "The predicate description must not be null");
-	return new ShouldMatch(actual, predicate, predicateDescription);
+                                                    PredicateDescription predicateDescription) {
+    requireNonNull(predicateDescription, "The predicate description must not be null");
+    return new ShouldMatch(actual, predicateDescription);
   }
 
-  private ShouldMatch(Object actual, Predicate<?> predicate, PredicateDescription description) {
-	super("%nExpecting:%n  <%s>%nto match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
+  private ShouldMatch(Object actual, PredicateDescription description) {
+    super("%nExpecting:%n  <%s>%nto match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
   }
 }

@@ -30,7 +30,7 @@ public class AtomicMarkableReferenceAssert<VALUE>
     extends AbstractAtomicReferenceAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
 
   public AtomicMarkableReferenceAssert(AtomicMarkableReference<VALUE> actual) {
-    super(actual, AtomicMarkableReferenceAssert.class, true);
+    super(actual, AtomicMarkableReferenceAssert.class);
   }
 
   /**

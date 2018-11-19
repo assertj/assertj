@@ -12,12 +12,12 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
+
 import java.util.function.Predicate;
 
 import org.assertj.core.presentation.PredicateDescription;
-
-import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value not satisfying a
@@ -48,11 +48,11 @@ public class ShouldNotMatch extends BasicErrorMessageFactory {
    */
   public static <T> ErrorMessageFactory shouldNotMatch(T actual, Predicate<? super T> predicate,
                                                        PredicateDescription predicateDescription) {
-	requireNonNull(predicateDescription, "The predicate description must not be null");
-	return new ShouldNotMatch(actual, predicate, predicateDescription);
+    requireNonNull(predicateDescription, "The predicate description must not be null");
+    return new ShouldNotMatch(actual, predicateDescription);
   }
 
-  private ShouldNotMatch(Object actual, Predicate<?> predicate, PredicateDescription description) {
-	super("%nExpecting:%n  <%s>%nnot to match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
+  private ShouldNotMatch(Object actual, PredicateDescription description) {
+    super("%nExpecting:%n  <%s>%nnot to match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
   }
 }

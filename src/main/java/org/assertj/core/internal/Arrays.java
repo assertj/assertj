@@ -12,15 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
-import org.assertj.core.data.Index;
-import org.assertj.core.util.ArrayWrapperList;
-import org.assertj.core.util.VisibleForTesting;
-
-import java.lang.reflect.Array;
-import java.util.*;
-
 import static java.lang.reflect.Array.getLength;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
@@ -36,7 +27,10 @@ import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave
 import static org.assertj.core.error.ShouldBeAnArray.shouldBeAnArray;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.assertj.core.error.ShouldBeSorted.*;
+import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
+import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
+import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
+import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
@@ -60,9 +54,18 @@ import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContai
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.error.ShouldOnlyHaveElementsOfTypes.shouldOnlyHaveElementsOfTypes;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
-import static org.assertj.core.internal.CommonErrors.*;
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableToLookForIsNull;
-import static org.assertj.core.internal.CommonValidations.*;
+import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
+import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
+import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThan;
+import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThanOrEqualTo;
+import static org.assertj.core.internal.CommonValidations.checkSizeLessThan;
+import static org.assertj.core.internal.CommonValidations.checkSizeLessThanOrEqualTo;
+import static org.assertj.core.internal.CommonValidations.checkSizes;
+import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
@@ -71,6 +74,21 @@ import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.data.Index;
+import org.assertj.core.util.ArrayWrapperList;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
@@ -526,7 +544,7 @@ public class Arrays {
 
   public void assertIsSubsetOf(AssertionInfo info, Failures failures, Object actual, Iterable<?> values) {
     assertNotNull(info, actual);
-    checkIterableIsNotNull(info, values);
+    checkIterableIsNotNull(values);
     List<Object> extra = newArrayList();
     int sizeOfActual = sizeOf(actual);
     for (int i = 0; i < sizeOfActual; i++) {

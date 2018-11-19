@@ -39,7 +39,7 @@ public class ShouldBeEqualWithinPercentage extends BasicErrorMessageFactory {
     return new ShouldBeEqualWithinPercentage(actual, expected, percentage, expectedPercentage);
   }
 
-  private <T extends Number> ShouldBeEqualWithinPercentage(Number actual, Number expected, Percentage percentage,
+  private ShouldBeEqualWithinPercentage(Number actual, Number expected, Percentage percentage,
                                                            double expectedPercentage) {
     super("%nExpecting:%n" +
           "  <%s>%n" +
