@@ -52,6 +52,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  * @author dorzey
+ * @author Filip Hrisafov
  */
 public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
     extends AbstractObjectAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
@@ -506,6 +507,43 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     Map.Entry<? extends K, ? extends V>[] entries = other.entrySet().toArray(new Map.Entry[other.size()]);
     maps.assertContains(info, actual, entries);
     return myself;
+  }
+
+  /**
+   * Same as {@link #containsExactly(Map.Entry[])} but handles the conversion of {@link Map#entrySet()} to array.
+   * <p>
+   * Verifies that the actual map contains only the entries of the given map and nothing else, <b>in order</b>.<br>
+   * This assertion should only be used with maps that have a consistent iteration order (i.e. don't use it with
+   * {@link java.util.HashMap}, prefer {@link #containsOnly(java.util.Map.Entry...)} in that case).
+   * <p>
+   * Example :
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
+   *                                                            entry(nenya, galadriel),
+   *                                                            entry(narya, gandalf));
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).containsExactlyEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                         entry(nenya, galadriel),
+   *                                         entry(narya, gandalf)));
+   *
+   * // assertion will fail as actual and expected order differ
+   * assertThat(ringBearers).containsExactlyEntriesOf(newLinkedHashMap(entry(nenya, galadriel),
+   *                                         entry(narya, gandalf),
+   *                                         entry(oneRing, frodo)));</code></pre>
+   *
+   * @param map the given {@link Map} that will give the entires.
+   * @return {@code this} assertions object
+   * @throws NullPointerException if the given map is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws IllegalArgumentException if the given map is empty.
+   * @throws AssertionError if the actual map does not contain the entries of the given map with same order, i.e
+   *    .      the actual map contains some or none of the entries of the given map, or the actual map contains more
+   *           entries than the entries of the given map or entries are the same but the order is not.
+   */
+  public SELF containsExactlyEntriesOf(Map<? extends K, ? extends V> map) {
+    @SuppressWarnings("unchecked")
+    Map.Entry<? extends K, ? extends V>[] entries = map.entrySet().toArray(new Map.Entry[0]);
+    return containsExactly(entries);
   }
 
   /**

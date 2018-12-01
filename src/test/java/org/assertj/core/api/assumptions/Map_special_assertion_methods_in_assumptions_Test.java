@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.ProxyableMapAssert;
@@ -93,7 +94,18 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
         run(map,
             value -> assumeThat(value).size().isPositive().returnToMap().size().isPositive(),
             value -> assumeThat(value).size().isPositive().returnToMap().size().isNegative()),
+      run(map,
+          value -> assumeThat(value).containsExactlyEntriesOf(newLinkedHashMap(entry("a", "1"), entry("b", "2"), entry("c", "3"))),
+          value -> assumeThat(value).containsExactlyEntriesOf(newLinkedHashMap(entry("b", "2"), entry("a", "1"), entry("c", "3")))),
     };
+  }
+
+  private static Map<String, String> newLinkedHashMap(Map.Entry<String, String>... entries) {
+    Map<String, String> map = new LinkedHashMap<>();
+    for (Entry<String, String> entry : entries) {
+      map.put(entry.getKey(), entry.getValue());
+    }
+    return map;
   }
 
 }

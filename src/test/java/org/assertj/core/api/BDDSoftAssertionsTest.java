@@ -1501,10 +1501,14 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(iterableMap)
           .flatExtracting("name", "job", "city", "rank")
           .contains("Unexpected", "Builder", "Dover", "Boston", "Paris", 1, 2, 3);
+    Map<String, String> exactlyEntriesMap = new LinkedHashMap<>();
+    exactlyEntriesMap.put("kl", "KL");
+    exactlyEntriesMap.put("mn", "MN");
+    softly.then(map).containsExactlyEntriesOf(exactlyEntriesMap);
     // softly.then(map).size().isGreaterThan(1000); not yet supported
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(12);
+    assertThat(errors).hasSize(13);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1518,6 +1522,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(9)).hasMessageContaining("b");
     assertThat(errors.get(10)).hasMessageContaining("456");
     assertThat(errors.get(11)).hasMessageContaining("Unexpected");
+    assertThat(errors.get(12)).hasMessageContaining("\"a\"=\"1\"");
   }
 
   @Test
