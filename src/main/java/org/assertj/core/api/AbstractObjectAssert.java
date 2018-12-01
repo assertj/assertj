@@ -52,6 +52,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorByType;
+  // should only be accessed with recursiveComparisonSpecification() which lazy inits it
+  private RecursiveComparisonSpecification recursiveComparisonSpecification;
+  private boolean useRecursiveComparison = false;
 
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -768,6 +771,31 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     requireNonNull(from, "The given getter method/Function must not be null");
     objects.assertEqual(info, from.apply(actual), expected);
     return myself;
+  }
+
+  public SELF usingRecursiveComparison() {
+    return usingRecursiveComparison(recursiveComparisonSpecification());
+  }
+
+  public SELF usingRecursiveComparison(RecursiveComparisonSpecification recursiveComparisonSpecification) {
+    this.recursiveComparisonSpecification = recursiveComparisonSpecification;
+    this.useRecursiveComparison = true;
+    return myself;
+  }
+
+  @Override
+  public SELF isEqualTo(Object expected) {
+    if (!useRecursiveComparison) return super.isEqualTo(expected);
+    // user has explictely required to use a recursive comparison
+    RecursiveComparisonSpecification recursiveComparisonSpec = recursiveComparisonSpecification();
+    objects.assertIsEqualToUsingRecursiveComparison(info, actual, expected, recursiveComparisonSpec);
+    return myself;
+  }
+
+  // lazy init to avoid building for users that don't use recursive comparison
+  protected RecursiveComparisonSpecification recursiveComparisonSpecification() {
+    if (recursiveComparisonSpecification == null) recursiveComparisonSpecification = new RecursiveComparisonSpecification();
+    return recursiveComparisonSpecification;
   }
 
   // override for proxyable friendly AbstractObjectAssert
