@@ -1628,9 +1628,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .overridingErrorMessage("error message")
           .size()
           .isGreaterThan(1000);
+    Map<String, String> exactlyEntriesMap = new LinkedHashMap<>();
+    exactlyEntriesMap.put("kl", "KL");
+    exactlyEntriesMap.put("mn", "MN");
+    softly.assertThat(map).containsExactlyEntriesOf(exactlyEntriesMap);
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(13);
+    assertThat(errors).hasSize(14);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1645,6 +1649,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(10)).hasMessage("[extracting(\"a\", \"b\")] error message");
     assertThat(errors.get(11)).hasMessage("[flatExtracting(\"name\", \"job\", \"city\", \"rank\")] error message");
     assertThat(errors.get(12)).hasMessage("[size()] error message");
+    assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
   }
 
   @Test

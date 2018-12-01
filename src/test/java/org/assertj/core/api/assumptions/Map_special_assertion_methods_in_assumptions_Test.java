@@ -19,10 +19,9 @@ import static org.assertj.core.api.assumptions.BaseAssumptionRunner.run;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.ProxyableMapAssert;
@@ -37,16 +36,16 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
   public static Object[][] provideAssumptionsRunners() {
 
     List<String> names = asList("Dave", "Jeff");
-    LinkedHashSet<String> jobs = newLinkedHashSet("Plumber", "Builder");
+    Set<String> jobs = newLinkedHashSet("Plumber", "Builder");
     Iterable<String> cities = asList("Dover", "Boston", "Paris");
     int[] ranks = { 1, 2, 3 };
-    Map<String, Object> iterableMap = new LinkedHashMap<>();
-    iterableMap.put("name", names);
-    iterableMap.put("job", jobs);
-    iterableMap.put("city", cities);
-    iterableMap.put("rank", ranks);
-
-    Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
+    Map<String, Object> iterableMap = mapOf(entry("name", names),
+                                            entry("job", jobs),
+                                            entry("city", cities),
+                                            entry("rank", ranks));
+    Map<String, String> map = mapOf(entry("a", "1"),
+                                    entry("b", "2"),
+                                    entry("c", "3"));
 
     return new AssumptionRunner[][] {
         run(map,
@@ -93,6 +92,9 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
         run(map,
             value -> assumeThat(value).size().isPositive().returnToMap().size().isPositive(),
             value -> assumeThat(value).size().isPositive().returnToMap().size().isNegative()),
+        run(map,
+            value -> assumeThat(value).containsExactlyEntriesOf(mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"))),
+            value -> assumeThat(value).containsExactlyEntriesOf(mapOf(entry("b", "2"), entry("a", "1"), entry("c", "3")))),
     };
   }
 
