@@ -1,10 +1,11 @@
-package org.assertj.core.api;
+package org.assertj.core.api.recursive.comparison;
 
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.assertj.core.annotations.Beta;
+import org.assertj.core.api.FieldLocation;
 import org.assertj.core.internal.FieldComparators;
 import org.assertj.core.internal.TypeComparators;
 
