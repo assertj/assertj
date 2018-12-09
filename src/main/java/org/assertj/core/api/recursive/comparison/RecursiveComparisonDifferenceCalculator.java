@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
@@ -31,13 +31,12 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.assertj.core.api.RecursiveComparisonSpecification;
+import org.assertj.core.internal.DeepDifference;
 
 /**
  * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonSpecification}, {@link DeepDifference} 
@@ -46,7 +45,7 @@ import org.assertj.core.api.RecursiveComparisonSpecification;
  * @author John DeRegnaucourt (john@cedarsoftware.com)
  * @author Pascal Schumacher
  */
-public class RecursiveComparisonDifference {
+public class RecursiveComparisonDifferenceCalculator {
 
   private static final String MISSING_FIELDS = "%s can't be compared to %s as %s does not declare all %s fields, it lacks these:%s";
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
@@ -95,48 +94,6 @@ public class RecursiveComparisonDifference {
     }
   }
 
-  public static class Difference {
-
-    List<String> path;
-    Object actual;
-    Object other;
-    Optional<String> description;
-
-    public Difference(List<String> path, Object actual, Object other) {
-      this(path, actual, other, null);
-    }
-
-    public Difference(List<String> path, Object actual, Object other, String description) {
-      this.path = path;
-      this.actual = actual;
-      this.other = other;
-      this.description = Optional.ofNullable(description);
-    }
-
-    public List<String> getPath() {
-      return path;
-    }
-
-    public Object getActual() {
-      return actual;
-    }
-
-    public Object getOther() {
-      return other;
-    }
-
-    public Optional<String> getDescription() {
-      return description;
-    }
-
-    @Override
-    public String toString() {
-      return description.isPresent()
-          ? format("Difference [path=%s, actual=%s, other=%s, description=%s]", path, actual, other, description.get())
-          : format("Difference [path=%s, actual=%s, other=%s]", path, actual, other);
-    }
-  }
-
   /**
    * Compare two objects for differences by doing a 'deep' comparison. This will traverse the
    * Object graph and perform either a field-by-field comparison on each
@@ -159,16 +116,16 @@ public class RecursiveComparisonDifference {
    *         either at the field level or via the respectively encountered overridden
    *         .equals() methods during traversal.
    */
-  public static List<Difference> determineDifferences(Object a, Object b,
+  public static List<ComparisonDifference> determineDifferences(Object a, Object b,
                                                       RecursiveComparisonSpecification recursiveComparisonSpecification) {
     return determineDifferences(a, b, null, recursiveComparisonSpecification);
   }
 
-  private static List<Difference> determineDifferences(Object a, Object b, List<String> parentPath,
+  private static List<ComparisonDifference> determineDifferences(Object a, Object b, List<String> parentPath,
                                                        RecursiveComparisonSpecification recursiveComparisonSpecification) {
     final Set<DualKey> visited = new HashSet<>();
     final Deque<DualKey> toCompare = initStack(a, b, parentPath, recursiveComparisonSpecification);
-    final List<Difference> differences = new ArrayList<>();
+    final List<ComparisonDifference> differences = new ArrayList<>();
 
     while (!toCompare.isEmpty()) {
       final DualKey dualKey = toCompare.removeFirst();
@@ -188,47 +145,47 @@ public class RecursiveComparisonDifference {
       }
 
       if (key1 == null || key2 == null) {
-        differences.add(new Difference(currentPath, key1, key2));
+        differences.add(new ComparisonDifference(currentPath, key1, key2));
         continue;
       }
 
       if (key1 instanceof Collection) {
         if (!(key2 instanceof Collection)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
       } else if (key2 instanceof Collection) {
-        differences.add(new Difference(currentPath, key1, key2));
+        differences.add(new ComparisonDifference(currentPath, key1, key2));
         continue;
       }
 
       if (key1 instanceof SortedSet) {
         if (!(key2 instanceof SortedSet)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
       } else if (key2 instanceof SortedSet) {
-        differences.add(new Difference(currentPath, key1, key2));
+        differences.add(new ComparisonDifference(currentPath, key1, key2));
         continue;
       }
 
       if (key1 instanceof SortedMap) {
         if (!(key2 instanceof SortedMap)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
       } else if (key2 instanceof SortedMap) {
-        differences.add(new Difference(currentPath, key1, key2));
+        differences.add(new ComparisonDifference(currentPath, key1, key2));
         continue;
       }
 
       if (key1 instanceof Map) {
         if (!(key2 instanceof Map)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
       } else if (key2 instanceof Map) {
-        differences.add(new Difference(currentPath, key1, key2));
+        differences.add(new ComparisonDifference(currentPath, key1, key2));
         continue;
       }
 
@@ -237,7 +194,7 @@ public class RecursiveComparisonDifference {
       // elements within the array must be deeply equivalent.
       if (key1.getClass().isArray()) {
         if (!compareArrays(key1, key2, currentPath, toCompare, visited)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
         continue;
@@ -247,7 +204,7 @@ public class RecursiveComparisonDifference {
       // because their elements must be in the same order to be equivalent Sets.
       if (key1 instanceof SortedSet) {
         if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare, visited)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
         continue;
@@ -256,7 +213,7 @@ public class RecursiveComparisonDifference {
       // Check List, as element order matters this comparison is faster than using unordered comparison.
       if (key1 instanceof List) {
         if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare, visited)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
         continue;
@@ -266,7 +223,7 @@ public class RecursiveComparisonDifference {
       if (key1 instanceof Collection) {
         if (!compareUnorderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare,
                                         visited, recursiveComparisonSpecification)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
         continue;
@@ -276,7 +233,7 @@ public class RecursiveComparisonDifference {
       // Maps can be compared in O(N) time due to their ordering.
       if (key1 instanceof SortedMap) {
         if (!compareSortedMap((SortedMap<?, ?>) key1, (SortedMap<?, ?>) key2, currentPath, toCompare, visited)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
         continue;
@@ -287,7 +244,7 @@ public class RecursiveComparisonDifference {
       // comparison still runs in O(N) time.
       if (key1 instanceof Map) {
         if (!compareUnorderedMap((Map<?, ?>) key1, (Map<?, ?>) key2, currentPath, toCompare, visited)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
         continue;
@@ -295,7 +252,7 @@ public class RecursiveComparisonDifference {
 
       if (hasCustomEquals(key1.getClass())) {
         if (!key1.equals(key2)) {
-          differences.add(new Difference(currentPath, key1, key2));
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
         continue;
@@ -311,7 +268,7 @@ public class RecursiveComparisonDifference {
         String key1ClassName = key1.getClass().getName();
         String missingFieldsDescription = format(MISSING_FIELDS, key1ClassName, key2ClassName, key2.getClass().getSimpleName(),
                                                  key1.getClass().getSimpleName(), missingFields);
-        differences.add(new Difference(currentPath, key1, key2, missingFieldsDescription));
+        differences.add(new ComparisonDifference(currentPath, key1, key2, missingFieldsDescription));
       } else {
         for (String fieldName : key1FieldsNames) {
           List<String> path = new ArrayList<>(currentPath);

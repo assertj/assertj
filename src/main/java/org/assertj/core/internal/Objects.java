@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator.determineDifferences;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
@@ -62,6 +63,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonSpecification;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
@@ -885,5 +888,25 @@ public class Objects {
     public boolean isFieldsNamesNotEmpty() {
       return !isFieldsNamesEmpty();
     }
+  }
+
+  public void assertIsEqualToUsingRecursiveComparison(AssertionInfo info, Object actual, Object expected,
+                                                      RecursiveComparisonSpecification recursiveComparisonSpecification) {
+    // deals with both actual and expected being null
+    if (actual == expected) return;
+    if (expected == null) {
+      // for the assertion to pass, actual must be null but that is impossible since actual != expected
+      // => we must fail
+      assertNull(info, actual);
+    }
+    // at this point expected is not null, which means actual must not be null for the assertion to pass
+    assertNotNull(info, actual);
+    // at this point both actual and expected are not null, we can compare them recursively!
+    List<ComparisonDifference> differences = determineDifferences(actual, expected, recursiveComparisonSpecification);
+    if (!differences.isEmpty()) {
+      // throw failures.failure(info, shouldBeEqualByComparingFieldByFieldRecursively(actual, expected, differences,
+      // info.representation()));
+    }
+
   }
 }

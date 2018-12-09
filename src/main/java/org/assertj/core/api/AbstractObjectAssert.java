@@ -26,6 +26,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonSpecification;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
