@@ -73,6 +73,10 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
   public final MapAssert<KEY, VALUE> containsOnlyKeys(KEY... keys) {
     return super.containsOnlyKeys(keys);
   }
+  //TODO
+  public final MapAssert<KEY, VALUE> containsOnlyKeys(Iterable<KEY> keys) {
+    return null;
+  }
 
   @SafeVarargs
   @Override
