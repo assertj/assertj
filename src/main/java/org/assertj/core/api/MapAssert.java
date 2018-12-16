@@ -33,7 +33,7 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
   public MapAssert(Map<KEY, VALUE> actual) {
     super(actual, MapAssert.class);
   }
-  
+
   // override methods to annotate them with @SafeVarargs, we unfortunately can't do that in AbstractMapAssert as it is
   // used in soft assertions which need to be able to proxy method - @SafeVarargs requiring method to be final prevents
   // using proxies.
@@ -49,19 +49,19 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
   public final MapAssert<KEY, VALUE> containsAnyOf(Map.Entry<? extends KEY, ? extends VALUE>... entries) {
     return super.containsAnyOf(entries);
   }
-  
+
   @SafeVarargs
   @Override
   public final MapAssert<KEY, VALUE> containsOnly(Map.Entry<? extends KEY, ? extends VALUE>... entries) {
     return super.containsOnly(entries);
   }
-  
+
   @SafeVarargs
   @Override
   public final MapAssert<KEY, VALUE> containsExactly(Map.Entry<? extends KEY, ? extends VALUE>... entries) {
     return super.containsExactly(entries);
   }
-  
+
   @SafeVarargs
   @Override
   public final MapAssert<KEY, VALUE> containsKeys(KEY... keys) {
@@ -71,6 +71,11 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
   @SafeVarargs
   @Override
   public final MapAssert<KEY, VALUE> containsOnlyKeys(KEY... keys) {
+    return super.containsOnlyKeys(keys);
+  }
+
+  @Override
+  public final MapAssert<KEY, VALUE> containsOnlyKeys(Iterable<KEY> keys) {
     return super.containsOnlyKeys(keys);
   }
 
@@ -85,7 +90,7 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
   public final MapAssert<KEY, VALUE> doesNotContainKeys(KEY... keys) {
     return super.doesNotContainKeys(keys);
   }
-  
+
   @SafeVarargs
   @Override
   public final MapAssert<KEY, VALUE> doesNotContain(Map.Entry<? extends KEY, ? extends VALUE>... entries) {
