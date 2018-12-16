@@ -22,6 +22,7 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainOnlyKeys.shouldContainOnlyKeys;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -31,83 +32,89 @@ import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.MapsBaseTest;
-import org.assertj.core.test.Maps;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
  * <code>{@link org.assertj.core.internal.Maps#assertContainsOnlyKeys(org.assertj.core.api.AssertionInfo, java.util.Map, java.lang.Object...)}</code>
  * .
- * 
+ *
  * @author Christopher Arnott
  */
 public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
+  private static final String ARRAY_OF_KEYS = "array of keys";
+
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsOnlyKeys(someInfo(), null, "name"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsOnlyKeys(someInfo(), null,
+                                                                                                 "name"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_given_keys_array_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertContainsOnlyKeys(someInfo(), actual, (String[]) null))
-                                    .withMessage(keysToLookForIsNull());
+                                    .withMessage(keysToLookForIsNull(ARRAY_OF_KEYS));
   }
 
   @Test
   public void should_fail_if_given_keys_array_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsOnlyKeys(someInfo(), actual, emptyKeys()))
-                                        .withMessage(keysToLookForIsEmpty());
+                                        .withMessage(keysToLookForIsEmpty(ARRAY_OF_KEYS));
   }
 
   @Test
-  public void should_pass_if_actual_and_entries_are_empty() {
+  public void should_pass_if_actual_and_given_keys_are_empty() {
     maps.assertContainsOnlyKeys(someInfo(), emptyMap(), (Object[]) emptyKeys());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_expected_entries() {
+  public void should_pass_if_actual_contains_only_expected_keys() {
     maps.assertContainsOnlyKeys(someInfo(), actual, "color", "name");
+    maps.assertContainsOnlyKeys(someInfo(), actual, "name", "color");
   }
 
   @Test
-  public void should_fail_if_actual_contains_unexpected_entry() {
+  public void should_fail_if_actual_contains_an_unexpected_key() {
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name" };
     try {
       maps.assertContainsOnlyKeys(info, actual, expectedKeys);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyKeys(actual, expectedKeys, emptySet(), newHashSet("color")));
+      verify(failures).failure(info, shouldContainOnlyKeys(actual, expectedKeys, emptySet(),
+                                                           newHashSet("color")));
       return;
     }
     shouldHaveThrown(AssertionError.class);
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries() {
+  public void should_fail_if_actual_does_not_contains_all_expected_keys() {
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name", "color" };
-    Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"));
+    Map<String, String> underTest = mapOf(entry("name", "Yoda"));
     try {
       maps.assertContainsOnlyKeys(info, underTest, expectedKeys);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyKeys(underTest, expectedKeys, newHashSet("color"), emptySet()));
+      verify(failures).failure(info, shouldContainOnlyKeys(underTest, expectedKeys, newHashSet("color"),
+                                                           emptySet()));
       return;
     }
     shouldHaveThrown(AssertionError.class);
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one()
-       {
+  public void should_fail_if_actual_does_not_contains_all_expected_keys_and_contains_unexpected_one() {
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name", "color" };
-    Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
+    Map<String, String> underTest = mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
     try {
       maps.assertContainsOnlyKeys(info, underTest, expectedKeys);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyKeys(underTest, expectedKeys, newHashSet("color"), newHashSet("job")));
+      verify(failures).failure(info,
+                               shouldContainOnlyKeys(underTest, expectedKeys, newHashSet("color"),
+                                                     newHashSet("job")));
       return;
     }
     shouldHaveThrown(AssertionError.class);

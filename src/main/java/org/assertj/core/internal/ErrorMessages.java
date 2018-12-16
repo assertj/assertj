@@ -39,12 +39,12 @@ public final class ErrorMessages {
     return "The description to set should not be null";
   }
 
-  public static String keysToLookForIsEmpty() {
-    return "The array of keys to look for should not be empty";
+  public static String keysToLookForIsEmpty(String placeholder) {
+    return String.format("The %s to look for should not be empty", placeholder);
   }
 
-  public static String keysToLookForIsNull() {
-    return "The array of keys to look for should not be null";
+  public static String keysToLookForIsNull(String placeholder) {
+    return String.format("The %s to look for should not be null", placeholder);
   }
 
   public static String entriesToLookForIsEmpty() {

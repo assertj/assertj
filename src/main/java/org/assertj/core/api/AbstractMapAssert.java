@@ -1005,6 +1005,36 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * Verifies that the actual map contains only the given keys and nothing else, in any order.
+   *
+   * <p>
+   * Examples :
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, elrond);
+   * ringBearers.put(oneRing, frodo);
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).containsOnlyKeys(Arrays.asList(oneRing, nenya, narya, vilya));
+   *
+   * // assertions will fail
+   * assertThat(ringBearers).containsOnlyKeys(Arrays.asList(oneRing, nenya));
+   * assertThat(ringBearers).containsOnlyKeys(Arrays.asList(oneRing, nenya, narya, vilya, nibelungRing));</code></pre>
+   *
+   * @param keys the given keys that should be in the actual map.
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null} or empty.
+   * @throws AssertionError if the actual map does not contain the given keys, i.e. the actual map contains some or none
+   *           of the given keys, or the actual map's keys contains keys not in the given ones.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   */
+  public SELF containsOnlyKeys(Iterable<K> keys) {
+    maps.assertContainsOnlyKeys(info, actual, keys);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map contains the given value.
    * <p>
    * Example :

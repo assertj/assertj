@@ -25,32 +25,32 @@ import org.assertj.core.internal.Maps;
 
 /**
  * Base class for {@link MapAssert} tests.
- * 
+ *
  * @author Olivier Michallat
  */
 public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Object, Object>, Map<Object, Object>> {
   protected Maps maps;
-    
+
   @Override
   protected MapAssert<Object, Object> create_assertions() {
     return new MapAssert<>(emptyMap());
   }
- 
+
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
     maps = mock(Maps.class);
     assertions.maps = maps;
   }
-  
+
   protected <K,V> Map.Entry<K, V> javaMapEntry(K key, V value) {
     return new SimpleImmutableEntry<>(key, value);
   }
-  
+
   protected <K, V> Map<K, V> map(K key, V value) {
     return Collections.singletonMap(key, value);
   }
-  
+
   protected <K, V> Map<K, V> map(K k1, V v1, K k2, V v2) {
     Map<K, V> map = new LinkedHashMap<>();
     map.put(k1, v1);

@@ -12,18 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
-import org.assertj.core.error.ShouldContainAnyOf;
-import org.assertj.core.util.VisibleForTesting;
-
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -44,15 +32,36 @@ import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.internal.Arrays.assertIsArray;
-import static org.assertj.core.internal.CommonValidations.*;
+import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
+import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThan;
+import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThanOrEqualTo;
+import static org.assertj.core.internal.CommonValidations.checkSizeLessThan;
+import static org.assertj.core.internal.CommonValidations.checkSizeLessThanOrEqualTo;
+import static org.assertj.core.internal.CommonValidations.checkSizes;
+import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Streams.stream;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.error.ShouldContainAnyOf;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Map}</code>s.
- * 
+ *
  * @author Alex Ruiz
  * @author Nicolas François
  * @author dorzey
@@ -63,7 +72,7 @@ public class Maps {
 
   /**
    * Returns the singleton instance of this class.
-   * 
+   *
    * @return the singleton instance of this class.
    */
   public static Maps instance() {
@@ -89,7 +98,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} is {@code null} or empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given map.
    * @throws AssertionError if the given {@code Map} is not {@code null} *and* contains one or more entries.
@@ -100,7 +109,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} is empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @throws AssertionError if the given {@code Map} is {@code null}.
@@ -113,7 +122,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} is not empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @throws AssertionError if the given {@code Map} is {@code null}.
@@ -126,7 +135,7 @@ public class Maps {
 
   /**
    * Asserts that the number of entries in the given {@code Map} is equal to the expected one.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param expectedSize the expected size of {@code actual}.
@@ -211,7 +220,7 @@ public class Maps {
 
   /**
    * Asserts that the number of entries in the given {@code Map} has the same size as the other {@code Iterable}.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param map the given {@code Map}.
    * @param other the group to compare
@@ -226,7 +235,7 @@ public class Maps {
 
   /**
    * Asserts that the number of entries in the given {@code Map} has the same size as the other array.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param map the given {@code Map}.
    * @param other the group to compare
@@ -257,7 +266,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} contains the given entries, in any order.
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -445,7 +454,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} does not contain the given entries.
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -473,7 +482,7 @@ public class Maps {
 
   /**
    * Verifies that the actual map contain the given key.
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -497,7 +506,7 @@ public class Maps {
 
   /**
    * Verifies that the actual map not contains the given key.
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -536,7 +545,7 @@ public class Maps {
 
   /**
    * Verifies that the actual map contains only the given keys and nothing else, in any order.
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -550,12 +559,39 @@ public class Maps {
    */
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
                                             @SuppressWarnings("unchecked") K... keys) {
+    assertContainsOnlyKeys(info, actual, "array of keys", keys);
+  }
+
+  /**
+   * Verifies that the actual map contains only the given keys and nothing else, in any order.
+   *
+   * @param <K> key type
+   * @param <V> value type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param keys the keys that are expected to be in the given {@code Map}.
+   * @throws NullPointerException if the array of keys is {@code null}.
+   * @throws IllegalArgumentException if the array of keys is empty.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} does not contain the given keys or if the given {@code Map}
+   *           contains keys that are not in the given array.
+   */
+  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
+                                            Iterable<K> keys) {
+    @SuppressWarnings("unchecked")
+    final K[] keysAsArray = keys == null ? null : (K[]) stream(keys).toArray(Object[]::new);
+    assertContainsOnlyKeys(info, actual, "keys iterable", keysAsArray);
+  }
+
+  @VisibleForTesting
+  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
+                                            String placeholderForErrorMessages, K[] keys) {
     assertNotNull(info, actual);
-    failIfNull(keys);
+    failIfNull(keys, keysToLookForIsNull(placeholderForErrorMessages));
     if (actual.isEmpty() && keys.length == 0) {
       return;
     }
-    failIfEmpty(keys);
+    failIfEmpty(keys, keysToLookForIsEmpty(placeholderForErrorMessages));
 
     Set<K> notFound = new LinkedHashSet<>();
     Set<K> notExpected = new LinkedHashSet<>();
@@ -568,7 +604,7 @@ public class Maps {
 
   /**
    * Verifies that the actual map contain the given value.
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -609,7 +645,7 @@ public class Maps {
 
   /**
    * Verifies that the actual map not contains the given value.
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -625,7 +661,7 @@ public class Maps {
 
   /**
    * Verifies that the actual map contains only the given entries and nothing else, in any order.
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -658,7 +694,7 @@ public class Maps {
    * Verifies that the actual map contains only the given entries and nothing else, <b>in order</b>.<br>
    * This assertion should only be used with map that have a consistent iteration order (i.e. don't use it with
    * {@link java.util.HashMap}).
-   * 
+   *
    * @param <K> key type
    * @param <V> value type
    * @param info contains information about the assertion.
@@ -700,7 +736,8 @@ public class Maps {
     throw failures.failure(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
   }
 
-  private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected, Set<K> notFound) {
+  private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected,
+                                                      Set<K> notFound) {
 
     Map<K, V> actualEntries = new LinkedHashMap<>(actual);
     for (K key : keys) {
@@ -751,8 +788,8 @@ public class Maps {
     return expectedEntries;
   }
 
-  private static <K> void failIfEmpty(K[] keys) {
-    checkArgument(keys.length > 0, "The array of keys to look for should not be empty");
+  private static <K> void failIfEmpty(K[] keys, String errorMessage) {
+    checkArgument(keys.length > 0, errorMessage);
   }
 
   private static <K, V> void failIfEmpty(Map.Entry<? extends K, ? extends V>[] entries) {
@@ -764,12 +801,12 @@ public class Maps {
     failIfEmpty(entries);
   }
 
-  private static <K> void failIfNull(K[] keys) {
-    checkNotNull(keys, "The array of keys to look for should not be null");
+  private static <K> void failIfNull(K[] keys, String errorMessage) {
+    checkNotNull(keys, errorMessage);
   }
 
   private static <K, V> void failIfNull(Map.Entry<? extends K, ? extends V>[] entries) {
-    checkNotNull(entries, "The array of entries to look for should not be null");
+    checkNotNull(entries, ErrorMessages.entriesToLookForIsNull());
   }
 
   private <K, V> boolean containsEntry(Map<K, V> actual, Map.Entry<? extends K, ? extends V> entry) {
