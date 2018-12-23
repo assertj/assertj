@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -1376,6 +1379,21 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).as(description);
+  }
+
+
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>>  extractingFromEntries(@SuppressWarnings("unchecked") Function<? super  Map.Entry<K,V>, Object>... extractors) {
+
+    isNotNull();
+    // combine all extractors into one function
+    Function<Map.Entry<K, V>, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+                                                                                                  .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                                  .toArray());
+    List<Tuple> tuples = stream(actual.entrySet().spliterator(), false).map(tupleExtractor)
+                                                                       .collect(toList());
+
+    return newListAssertInstance(tuples).as(info.description());
   }
 
   /**
