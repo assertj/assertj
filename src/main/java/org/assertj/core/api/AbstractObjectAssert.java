@@ -26,7 +26,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonSpecification;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
@@ -53,8 +53,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorByType;
-  // should only be accessed with recursiveComparisonSpecification() which lazy inits it
-  private RecursiveComparisonSpecification recursiveComparisonSpecification;
+  // should only be accessed with recursiveComparisonConfiguration() which lazy inits it
+  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private boolean useRecursiveComparison = false;
 
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
@@ -775,11 +775,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   public SELF usingRecursiveComparison() {
-    return usingRecursiveComparison(recursiveComparisonSpecification());
+    return usingRecursiveComparison(recursiveComparisonConfiguration());
   }
 
-  public SELF usingRecursiveComparison(RecursiveComparisonSpecification recursiveComparisonSpecification) {
-    this.recursiveComparisonSpecification = recursiveComparisonSpecification;
+  public SELF usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
     this.useRecursiveComparison = true;
     return myself;
   }
@@ -788,15 +788,15 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   public SELF isEqualTo(Object expected) {
     if (!useRecursiveComparison) return super.isEqualTo(expected);
     // user has explictely required to use a recursive comparison
-    RecursiveComparisonSpecification recursiveComparisonSpec = recursiveComparisonSpecification();
+    RecursiveComparisonConfiguration recursiveComparisonSpec = recursiveComparisonConfiguration();
     objects.assertIsEqualToUsingRecursiveComparison(info, actual, expected, recursiveComparisonSpec);
     return myself;
   }
 
   // lazy init to avoid building for users that don't use recursive comparison
-  protected RecursiveComparisonSpecification recursiveComparisonSpecification() {
-    if (recursiveComparisonSpecification == null) recursiveComparisonSpecification = new RecursiveComparisonSpecification();
-    return recursiveComparisonSpecification;
+  protected RecursiveComparisonConfiguration recursiveComparisonConfiguration() {
+    if (recursiveComparisonConfiguration == null) recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    return recursiveComparisonConfiguration;
   }
 
   // override for proxyable friendly AbstractObjectAssert

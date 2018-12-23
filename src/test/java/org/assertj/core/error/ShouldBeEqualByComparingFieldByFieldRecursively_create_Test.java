@@ -16,9 +16,12 @@ import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator.determineDifferences;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
+import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -26,7 +29,8 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithCollection;
@@ -154,18 +158,75 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
 
   @Test
   public void should_not_fall_with_npe_if_field_of_one_of_compared_objects_is_null() {
+    // GIVEN
     final Name actualName = new Name("Andy");
     final Name nullName = new Name(null);
+    // THEN
+    expectAssertionError(() -> assertThat(actualName).isEqualToComparingFieldByFieldRecursively(nullName));
+  }
 
-    Throwable error = ThrowableAssert.catchThrowable(new ThrowableAssert.ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        assertThat(actualName).isEqualToComparingFieldByFieldRecursively(nullName);
-      }
-    });
+  @Test
+  public void should_display_difference_with_percent() {
+    // GIVEN
+    Jedi yoda1 = new Jedi("Yoda", "Green");
+    Jedi yoda2 = new Jedi("%%Yoda%", "Green%");
+    // WHEN
+    List<Difference> differences = determineDifferences(yoda1, yoda2, null, null);
+    // @format:off
+    String message = shouldBeEqualByComparingFieldByFieldRecursive(yoda1,
+                                                                   yoda2,
+                                                                   differences,
+                                                                   REPRESENTATION)
+                                                           .create(new TextDescription("Test"), REPRESENTATION);
+    // @format:on
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <Yoda the Jedi>%n" +
+                                         "to be equal to:%n" +
+                                         "  <%%%%Yoda%% the Jedi>%n" +
+                                         "when recursively comparing field by field, but found the following difference(s):%n" +
+                                         "%n" +
+                                         "Path to difference: <name>%n" +
+                                         "- actual  : <\"Yoda\">%n" +
+                                         "- expected: <\"%%%%Yoda%%\">%n" +
+                                         "%n" +
+                                         "Path to difference: <lightSaberColor>%n" +
+                                         "- actual  : <\"Green\">%n" +
+                                         "- expected: <\"Green%%\">"));
+  }
 
-    assertThat(error).isNotExactlyInstanceOf(NullPointerException.class);
-
+  @Test
+  public void should_show_that_all_actual_null_fields_were_ignored_in_the_comparison() {
+    // GIVEN
+    final Name actualName = new Name("Andy");
+    final Name nullName = new Name(null);
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
+    List<ComparisonDifference> differences = determineDifferences(actualName, nullName, recursiveComparisonConfiguration);
+    // WHEN
+    // @format:off
+    String message = shouldBeEqualByComparingFieldByFieldRecursively(actualName,
+                                                                     nullName,
+                                                                     differences,
+                                                                     recursiveComparisonConfiguration,
+                                                                     REPRESENTATION)
+                                                           .create(new TextDescription("Test"), REPRESENTATION);
+    // @format:on
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <Name[first='Andy', last='null']>%n" +
+                                         "to be equal to:%n" +
+                                         "  <Name[first='null', last='null']>%n" +
+                                         "when recursively comparing field by field, but found the following 1 difference(s):%n" +
+                                         "%n" +
+                                         "field/property 'first' differ:%n" +
+                                         "- actual value   : \"Andy\"%n" +
+                                         "- expected value : null%n" +
+                                         "%n" +
+                                         "The recursive comparison was performed with this configuration:%n%s",
+                                         CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
   }
 
 }

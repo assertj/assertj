@@ -15,7 +15,6 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
 import static org.assertj.core.util.Sets.newHashSet;
-import static org.assertj.core.util.Strings.join;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Array;
@@ -39,7 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.assertj.core.internal.DeepDifference;
 
 /**
- * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonSpecification}, {@link DeepDifference} 
+ * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonConfiguration}, {@link DeepDifference}
  * being itself based on the deep equals implementation of https://github.com/jdereg/java-util
  *
  * @author John DeRegnaucourt (john@cedarsoftware.com)
@@ -50,49 +49,6 @@ public class RecursiveComparisonDifferenceCalculator {
   private static final String MISSING_FIELDS = "%s can't be compared to %s as %s does not declare all %s fields, it lacks these:%s";
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
   private static final Map<Class<?>, Boolean> customHash = new ConcurrentHashMap<>();
-
-  private final static class DualKey {
-
-    private final List<String> path;
-    private final Object key1;
-    private final Object key2;
-
-    private DualKey(List<String> path, Object key1, Object key2) {
-      this.path = path;
-      this.key1 = key1;
-      this.key2 = key2;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (!(other instanceof DualKey)) {
-        return false;
-      }
-
-      DualKey that = (DualKey) other;
-      return key1 == that.key1 && key2 == that.key2;
-    }
-
-    @Override
-    public int hashCode() {
-      int h1 = key1 != null ? key1.hashCode() : 0;
-      int h2 = key2 != null ? key2.hashCode() : 0;
-      return h1 + h2;
-    }
-
-    @Override
-    public String toString() {
-      return "DualKey [key1=" + key1 + ", key2=" + key2 + "]";
-    }
-
-    public List<String> getPath() {
-      return path;
-    }
-
-    public String getConcatenatedPath() {
-      return join(path).with(".");
-    }
-  }
 
   /**
    * Compare two objects for differences by doing a 'deep' comparison. This will traverse the
@@ -106,9 +62,9 @@ public class RecursiveComparisonDifferenceCalculator {
    * for all fields on A, B, and C. Then a.deepEquals(a') will return an empty list. It
    * uses cycle detection storing visited objects in a Set to prevent endless
    * loops.
-   * 
-   * @param a Object one to compare
-   * @param b Object two to compare
+   *
+   * @param actual Object one to compare
+   * @param expected Object two to compare
    * @param comparatorByPropertyOrField comparators to compare properties or fields with the given names
    * @param comparatorByType comparators to compare properties or fields with the given types
    * @return the list of differences found or an empty list if objects are equivalent.
@@ -116,15 +72,16 @@ public class RecursiveComparisonDifferenceCalculator {
    *         either at the field level or via the respectively encountered overridden
    *         .equals() methods during traversal.
    */
-  public static List<ComparisonDifference> determineDifferences(Object a, Object b,
-                                                      RecursiveComparisonSpecification recursiveComparisonSpecification) {
-    return determineDifferences(a, b, null, recursiveComparisonSpecification);
+  public static List<ComparisonDifference> determineDifferences(Object actual, Object expected,
+                                                                RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    return determineDifferences(actual, expected, null, recursiveComparisonConfiguration);
   }
 
-  private static List<ComparisonDifference> determineDifferences(Object a, Object b, List<String> parentPath,
-                                                       RecursiveComparisonSpecification recursiveComparisonSpecification) {
+  private static List<ComparisonDifference> determineDifferences(Object actual, Object expected, List<String> parentPath,
+                                                                 RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     final Set<DualKey> visited = new HashSet<>();
-    final Deque<DualKey> toCompare = initStack(a, b, parentPath, recursiveComparisonSpecification);
+    Deque<DualKey> toCompare = initStack(actual, expected, parentPath, recursiveComparisonConfiguration);
+
     final List<ComparisonDifference> differences = new ArrayList<>();
 
     while (!toCompare.isEmpty()) {
@@ -139,12 +96,14 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (hasCustomComparator(dualKey, recursiveComparisonSpecification)) {
-        if (propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(), recursiveComparisonSpecification))
+      // Custom comparators take precedence over all other type of comparison
+      if (hasCustomComparator(dualKey, recursiveComparisonConfiguration)) {
+        if (propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(), recursiveComparisonConfiguration))
           continue;
       }
 
       if (key1 == null || key2 == null) {
+        // one of the key is null while the other is not
         differences.add(new ComparisonDifference(currentPath, key1, key2));
         continue;
       }
@@ -222,7 +181,7 @@ public class RecursiveComparisonDifferenceCalculator {
       // Handle unordered Collection.
       if (key1 instanceof Collection) {
         if (!compareUnorderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare,
-                                        visited, recursiveComparisonSpecification)) {
+                                        visited, recursiveComparisonConfiguration)) {
           differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
         }
@@ -286,36 +245,36 @@ public class RecursiveComparisonDifferenceCalculator {
     return differences;
   }
 
-  private static boolean hasCustomComparator(DualKey dualKey, RecursiveComparisonSpecification recursiveComparisonSpecification) {
+  private static boolean hasCustomComparator(DualKey dualKey, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     String fieldName = dualKey.getConcatenatedPath();
-    if (recursiveComparisonSpecification.hasComparatorForField(fieldName)) return true;
+    if (recursiveComparisonConfiguration.hasComparatorForField(fieldName)) return true;
     // we know that dualKey.key1 != dualKey.key2 at this point, so one the key is not null
     Class<?> keyType = dualKey.key1 != null ? dualKey.key1.getClass() : dualKey.key2.getClass();
-    return recursiveComparisonSpecification.hasComparatorForType(keyType);
+    return recursiveComparisonConfiguration.hasComparatorForType(keyType);
   }
 
-  private static Deque<DualKey> initStack(Object a, Object b, List<String> parentPath,
-                                          RecursiveComparisonSpecification recursiveComparisonSpecification) {
-    Deque<DualKey> stack = new LinkedList<>();
+  private static Deque<DualKey> initStack(Object actual, Object expected, List<String> parentPath,
+                                          RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    Deque<DualKey> stack = new DualKeyDeque(recursiveComparisonConfiguration);
     boolean isRootObject = parentPath == null;
     List<String> currentPath = isRootObject ? new ArrayList<>() : parentPath;
-    DualKey basicDualKey = new DualKey(currentPath, a, b);
-    if (a != null && b != null && !isContainerType(a) && !isContainerType(b)
-        && (isRootObject || !hasCustomComparator(basicDualKey, recursiveComparisonSpecification))) {
+    DualKey basicDualKey = new DualKey(currentPath, actual, expected);
+    if (actual != null && expected != null && !isContainerType(actual) && !isContainerType(expected)
+        && (isRootObject || !hasCustomComparator(basicDualKey, recursiveComparisonConfiguration))) {
       // disregard the equals method and start comparing fields
-      Set<String> aFieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(a.getClass()));
-      if (!aFieldsNames.isEmpty()) {
-        Set<String> bFieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(b.getClass()));
-        if (!bFieldsNames.containsAll(aFieldsNames)) {
+      Set<String> actualFieldsNameSet = getFieldsNames(getDeclaredFieldsIncludingInherited(actual.getClass()));
+      if (!actualFieldsNameSet.isEmpty()) {
+        Set<String> expectedFieldsNameSet = getFieldsNames(getDeclaredFieldsIncludingInherited(expected.getClass()));
+        if (!expectedFieldsNameSet.containsAll(actualFieldsNameSet)) {
           stack.addFirst(basicDualKey);
         } else {
-          for (String fieldName : aFieldsNames) {
+          for (String fieldName : actualFieldsNameSet) {
             List<String> fieldPath = new ArrayList<>(currentPath);
             fieldPath.add(fieldName);
-            DualKey dk = new DualKey(fieldPath,
-                                     COMPARISON.getSimpleValue(fieldName, a),
-                                     COMPARISON.getSimpleValue(fieldName, b));
-            stack.addFirst(dk);
+            DualKey fieldDualKey = new DualKey(fieldPath,
+                                               COMPARISON.getSimpleValue(fieldName, actual),
+                                               COMPARISON.getSimpleValue(fieldName, expected));
+            stack.addFirst(fieldDualKey);
           }
         }
       } else {
@@ -343,7 +302,7 @@ public class RecursiveComparisonDifferenceCalculator {
    * Deeply compare to Arrays []. Both arrays must be of the same type, same
    * length, and all elements within the arrays must be deeply equal in order
    * to return true.
-   * 
+   *
    * @param array1 [] type (Object[], String[], etc.)
    * @param array2 [] type (Object[], String[], etc.)
    * @param path the path to the arrays to compare
@@ -371,7 +330,7 @@ public class RecursiveComparisonDifferenceCalculator {
   /**
    * Deeply compare two Collections that must be same length and in same
    * order.
-   * 
+   *
    * @param col1 First collection of items to compare
    * @param col2 Second collection of items to compare
    * @param path The path to the collections
@@ -399,7 +358,7 @@ public class RecursiveComparisonDifferenceCalculator {
    * can walk the other collection and look for each item in the map, which
    * runs in O(N) time, rather than an O(N^2) lookup that would occur if each
    * item from collection one was scanned for in collection two.
-   * 
+   *
    * @param col1 First collection of items to compare
    * @param col2 Second collection of items to compare
    * @param path the path to the collections to compare
@@ -443,10 +402,10 @@ public class RecursiveComparisonDifferenceCalculator {
   private static <K, V> boolean compareUnorderedCollection(Collection<K> col1, Collection<V> col2,
                                                            List<String> path, Deque<DualKey> toCompare,
                                                            Set<DualKey> visited,
-                                                           RecursiveComparisonSpecification recursiveComparisonSpecification) {
+                                                           RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     if (col1.size() != col2.size()) return false;
 
-    boolean noCustomComparators = recursiveComparisonSpecification.hasNoCustomComparators();
+    boolean noCustomComparators = recursiveComparisonConfiguration.hasNoCustomComparators();
     if (noCustomComparators && col1 instanceof Set) {
       // this comparison is used for performance optimization reasons
       return compareUnorderedCollectionByHashCodes(col1, col2, path, toCompare, visited);
@@ -457,7 +416,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Iterator<V> iterator = col2Copy.iterator();
       while (iterator.hasNext()) {
         Object o2 = iterator.next();
-        if (determineDifferences(o1, o2, path, recursiveComparisonSpecification).isEmpty()) {
+        if (determineDifferences(o1, o2, path, recursiveComparisonConfiguration).isEmpty()) {
           iterator.remove();
           break;
         }
@@ -470,7 +429,7 @@ public class RecursiveComparisonDifferenceCalculator {
   /**
    * Deeply compare two SortedMap instances. This method walks the Maps in
    * order, taking advantage of the fact that the Maps are SortedMaps.
-   * 
+   *
    * @param map1 SortedMap one
    * @param map2 SortedMap two
    * @param path the path to the maps to compare
@@ -509,7 +468,7 @@ public class RecursiveComparisonDifferenceCalculator {
   /**
    * Deeply compare two Map instances. After quick short-circuit tests, this
    * method uses a temporary Map so that this method can run in O(N) time.
-   * 
+   *
    * @param map1 Map one
    * @param map2 Map two
    * @param path the path to the maps to compare
@@ -557,7 +516,7 @@ public class RecursiveComparisonDifferenceCalculator {
    * Determine if the passed in class has a non-Object.equals() method. This
    * method caches its results in static ConcurrentHashMap to benefit
    * execution performance.
-   * 
+   *
    * @param c Class to check.
    * @return true, if the passed in Class has a .equals() method somewhere
    *         between itself and just below Object in it's inheritance.
@@ -594,7 +553,7 @@ public class RecursiveComparisonDifferenceCalculator {
    * an object encountered (root, subobject, etc.) has a hashCode() method on
    * it (that is not Object.hashCode()), that hashCode() method will be called
    * and it will stop traversal on that branch.
-   * 
+   *
    * @param obj Object who hashCode is desired.
    * @return the 'deep' hashCode value for the passed in object.
    */
@@ -656,7 +615,7 @@ public class RecursiveComparisonDifferenceCalculator {
    * Determine if the passed in class has a non-Object.hashCode() method. This
    * method caches its results in static ConcurrentHashMap to benefit
    * execution performance.
-   * 
+   *
    * @param c Class to check.
    * @return true, if the passed in Class has a .hashCode() method somewhere
    *         between itself and just below Object in it's inheritance.
@@ -681,15 +640,15 @@ public class RecursiveComparisonDifferenceCalculator {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
-                                               RecursiveComparisonSpecification recursiveComparisonSpecification) {
+                                               RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     // no need to look into comparators if objects are the same
     if (actualFieldValue == otherFieldValue) return true;
     // check field comparators as they take precedence over type comparators
-    Comparator fieldComparator = recursiveComparisonSpecification.getComparatorForField(fieldName);
+    Comparator fieldComparator = recursiveComparisonConfiguration.getComparatorForField(fieldName);
     if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, otherFieldValue) == 0;
     // check if a type comparators exist for the field type
     Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : otherFieldValue.getClass();
-    Comparator typeComparator = recursiveComparisonSpecification.getComparatorForType(fieldType);
+    Comparator typeComparator = recursiveComparisonConfiguration.getComparatorForType(fieldType);
     if (typeComparator != null) return typeComparator.compare(actualFieldValue, otherFieldValue) == 0;
     // default comparison using equals
     return org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue);

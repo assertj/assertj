@@ -14,9 +14,9 @@ public class ComparisonDifferenceTest {
     ComparisonDifference com = new ComparisonDifference(list("a", "b"), "foo", "bar");
 
     // THEN
-    assertThat(com.multilineDescription()).isEqualTo(format("a.b differ:%n" +
-                                                            "- actual value   : foo%n" +
-                                                            "- expected value : bar"));
+    assertThat(com.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
+                                                            "- actual value   : \"foo\"%n" +
+                                                            "- expected value : \"bar\""));
   }
 
   @Test
@@ -25,10 +25,22 @@ public class ComparisonDifferenceTest {
     ComparisonDifference com = new ComparisonDifference(list("a", "b"), "foo", "bar", "additional information");
 
     // THEN
-    assertThat(com.multilineDescription()).isEqualTo(format("a.b differ:%n" +
-                                                            "- actual value   : foo%n" +
-                                                            "- expected value : bar%n" +
+    assertThat(com.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
+                                                            "- actual value   : \"foo\"%n" +
+                                                            "- expected value : \"bar\"%n" +
                                                             "additional information"));
+  }
+
+  @Test
+  public void should_build_multiline_description_containing_percent() {
+    // GIVEN
+    ComparisonDifference com = new ComparisonDifference(list("a", "b"), "foo%", "%bar%%", "%additional %information%");
+
+    // THEN
+    assertThat(com.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
+                                                            "- actual value   : \"foo%%\"%n" +
+                                                            "- expected value : \"%%bar%%%%\"%n" +
+                                                            "%%additional %%information%%"));
   }
 
 }

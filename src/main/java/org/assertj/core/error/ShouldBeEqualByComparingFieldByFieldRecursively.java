@@ -19,6 +19,8 @@ import static org.assertj.core.util.Strings.join;
 
 import java.util.List;
 
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.Objects;
@@ -29,8 +31,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                                                                   List<Difference> differences,
                                                                                   Representation representation) {
     List<String> descriptionOfDifferences = differences.stream()
-                                                       .map(difference -> describeDifference(difference,
-                                                                                             representation))
+                                                       .map(difference -> describeDifference(difference, representation))
                                                        .collect(toList());
     return new ShouldBeEqualByComparingFieldByFieldRecursively("%n" +
                                                                "Expecting:%n" +
@@ -42,8 +43,32 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                                                actual, other);
   }
 
-  private ShouldBeEqualByComparingFieldByFieldRecursively(String message, Object actual, Object other) {
-    super(message, actual, other);
+  public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursively(Object actual, Object other,
+                                                                                    List<ComparisonDifference> differences,
+                                                                                    RecursiveComparisonConfiguration recursiveComparisonConfiguration,
+                                                                                    Representation representation) {
+    String differencesDescription = join(differences.stream()
+                                                    .map(difference -> difference.multiLineDescription(representation))
+                                                    .collect(toList())).with(format("%n"));
+    String recursiveComparisonConfigurationDescription = recursiveComparisonConfiguration.multiLineDescription(representation);
+    // @format:off
+    return new ShouldBeEqualByComparingFieldByFieldRecursively("%n" +
+                                                               "Expecting:%n" +
+                                                               "  <%s>%n" +
+                                                               "to be equal to:%n" +
+                                                               "  <%s>%n" +
+                                                               "when recursively comparing field by field, but found the following %s difference(s):%n"+
+                                                               "%n" +
+                                                               differencesDescription + "%n" +
+                                                               "%n"+
+                                                               "The recursive comparison was performed with this configuration:%n" +
+                                                               recursiveComparisonConfigurationDescription, // don't use %s to avoid AssertJ formatting String with ""
+                                                               actual, other, differences.size());
+    // @format:on
+  }
+
+  private ShouldBeEqualByComparingFieldByFieldRecursively(String message, Object... arguments) {
+    super(message, arguments);
   }
 
   private static String describeDifference(Difference difference, Representation representation) {
