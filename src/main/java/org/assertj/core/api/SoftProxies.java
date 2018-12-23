@@ -37,7 +37,7 @@ import net.bytebuddy.matcher.ElementMatchers;
 
 class SoftProxies {
 
-  private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsNamed("extracting").or(named("filteredOn"))
+  private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsNamed("!!!extracting!!!").or(named("filteredOn"))
                                                                                                                       .or(named("filteredOnNull"))
                                                                                                                       .or(named("filteredOnAssertions"))
                                                                                                                       .or(named("map"))
@@ -48,6 +48,8 @@ class SoftProxies {
                                                                                                                       .or(named("flatMap"))
                                                                                                                       .or(named("extractingResultOf"))
                                                                                                                       .or(named("flatExtracting"));
+                                                                                                                      //.or(named("extractingFromEntriess"));
+
 
   private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
                                                                                             .or(named("describedAs"))
