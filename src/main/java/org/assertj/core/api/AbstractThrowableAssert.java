@@ -33,6 +33,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Jack Gough
  */
 public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
     extends AbstractObjectAssert<SELF, ACTUAL> {
@@ -94,7 +95,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   /**
    * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with the same type and message
    * (it does not use the {@link Throwable#equals(Object) equals} method for comparison).
-   *
+   * <p>
    * Example:
    * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("invalid arg");
    * Throwable throwable = new Throwable(invalidArgException);
@@ -291,6 +292,32 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Verifies that the actual {@code Throwable} has a root cause similar to the given one, that is with the same type and message
+   * (it does not use the {@link Throwable#equals(Object) equals} method for comparison).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("invalid arg");
+   * Throwable throwable = new Throwable(new RuntimeException(invalidArgException));
+   *
+   * // This assertion succeeds:
+   * assertThat(throwable).hasRootCause(invalidArgException);
+   *
+   * // These assertions fail:
+   * assertThat(throwable).hasRootCause(new IllegalArgumentException("bad arg"));
+   * assertThat(throwable).hasRootCause(new RuntimeException());
+   * assertThat(throwable).hasRootCause(null); // prefer hasNoCause()</code></pre>
+   *
+   * @param cause the expected root cause
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has not the given cause.
+   */
+  public SELF hasRootCause(Throwable cause) {
+    throwables.assertHasRootCause(info, actual, cause);
+    return myself;
+  }
+
+  /**
    * Verifies that the root cause of the actual {@code Throwable} is an instance of the given type.
    * <p>
    * Example:
@@ -366,7 +393,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   /**
    * Verifies that the actual {@code Throwable} has a suppressed exception similar to the given one, that is with the same type and message
    * (it does not use the {@link Throwable#equals(Object) equals} method for comparison).
-   *
+   * <p>
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable();
    * Throwable invalidArgException = new IllegalArgumentException("invalid argument");

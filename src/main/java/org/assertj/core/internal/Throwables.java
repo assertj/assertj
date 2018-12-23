@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.error.ShouldHaveNoSuppressedExceptions.shouldHaveNoSuppressedExceptions;
+import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
 import static org.assertj.core.error.ShouldHaveRootCauseExactlyInstance.shouldHaveRootCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
@@ -39,6 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
  *
  * @author Joel Costigliola
  * @author Libor Ondrusek
+ * @author Jack Gough
  */
 public class Throwables {
 
@@ -85,6 +87,26 @@ public class Throwables {
     if (actualCause == null) throw failures.failure(info, shouldHaveCause(actualCause, expectedCause));
     if (!compareThrowable(actualCause, expectedCause))
       throw failures.failure(info, shouldHaveCause(actualCause, expectedCause));
+  }
+
+  /**
+   * Asserts that the actual {@code Throwable} has a root cause similar to the given one.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param expectedRootCause the expected root cause.
+   */
+  public void assertHasRootCause(AssertionInfo info, Throwable actual, Throwable expectedRootCause) {
+    assertNotNull(info, actual);
+    Throwable actualRootCause = getRootCause(actual);
+    if (actualRootCause == expectedRootCause) return;
+    if (null == expectedRootCause) {
+      assertHasNoCause(info, actual);
+      return;
+    }
+    if (actualRootCause == null) throw failures.failure(info, shouldHaveRootCause(null, expectedRootCause));
+    if (!compareThrowable(actualRootCause, expectedRootCause))
+      throw failures.failure(info, shouldHaveRootCause(actualRootCause, expectedRootCause));
   }
 
   /**
