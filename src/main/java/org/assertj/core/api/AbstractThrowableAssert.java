@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 
 import java.util.IllegalFormatException;
+import java.util.regex.Pattern;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
@@ -223,6 +224,36 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageMatching(String regex) {
     throwables.assertHasMessageMatching(info, actual, regex);
+    return myself;
+  }
+
+  /**
+   * Verifies that a sequence of the message of the actual {@code Throwable} matches with
+   * the given regular expression (see {@link java.util.regex.Matcher#find()}).
+   * The Pattern used under the hood enables the {@link Pattern#DOTALL} mode.
+   *
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * Throwable throwable = new IllegalArgumentException(&quot;Dear John,\n&quot; +
+   *                                                    &quot;it' s a wrong amount&quot;);
+   * // assertion will pass
+   * assertThat(throwable).hasMessageFindMatching(&quot;wrong amount&quot;);
+   * assertThat(throwable).hasMessageFindMatching(&quot;Dear John&quot;);
+   * assertThat(throwable).hasMessageFindMatching(&quot;wrong amount$&quot;);
+   * // assertion will fail
+   * assertThat(throwable).hasMessageFindMatching(&quot;Dear John$&quot;);
+   *
+   * </code></pre>
+   *
+   * @param regex the regular expression expected to be found in the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
+   * @throws NullPointerException if the regex is null
+   */
+  public SELF hasMessageFindMatching(String regex) {
+    throwables.assertHasMessageFindMatching(info, actual, regex);
     return myself;
   }
 
