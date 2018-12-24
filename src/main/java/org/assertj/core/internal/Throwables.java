@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveCauseInstance.shouldHaveCauseInstance;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
+import static org.assertj.core.error.ShouldHaveMessageFindMatchingRegex.shouldHaveMessageFindMatchingRegex;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.error.ShouldHaveNoSuppressedExceptions.shouldHaveNoSuppressedExceptions;
@@ -34,6 +35,8 @@ import static org.assertj.core.util.Throwables.getRootCause;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
+
+import java.util.regex.Pattern;
 
 /**
  * Reusable assertions for <code>{@link Throwable}</code>s.
@@ -191,6 +194,26 @@ public class Throwables {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().matches(regex)) return;
     throw failures.failure(info, shouldHaveMessageMatchingRegex(actual, regex));
+  }
+
+
+  /**
+   * Asserts that a sequence of the message of the actual {@code Throwable} matches with the given regular expression (see {@link java.util.regex.Matcher#find()}).
+   * The Pattern used under the hood enables the {@link Pattern#DOTALL} mode.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param regex the regular expression expected to be found in the actual {@code Throwable}'s message.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
+   * @throws NullPointerException if the regex is null
+   */
+  public void assertHasMessageFindMatching(AssertionInfo info, Throwable actual, String regex) {
+    checkNotNull(regex, "regex must not be null");
+    assertNotNull(info, actual);
+    if (actual.getMessage() != null && Pattern.compile(regex, Pattern.DOTALL).asPredicate()
+                                              .test(actual.getMessage())) return;
+    throw failures.failure(info, shouldHaveMessageFindMatchingRegex(actual, regex));
   }
 
   /**
