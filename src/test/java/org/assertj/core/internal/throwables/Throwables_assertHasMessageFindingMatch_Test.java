@@ -15,13 +15,11 @@ package org.assertj.core.internal.throwables;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.ShouldNotBeNull;
 import org.assertj.core.internal.ThrowablesBaseTest;
-import org.junit.Ignore;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.error.ShouldHaveMessageFindMatchingRegex.shouldHaveMessageFindMatchingRegex;
+import static org.assertj.core.error.ShouldHaveMessageFindingMatchRegex.shouldHaveMessageFindingMatchRegex;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
@@ -58,7 +56,7 @@ public class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBase
     AssertionInfo info = someInfo();
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> throwables.assertHasMessageFindingMatch(someInfo(), actual, REGEX));
-    verify(failures).failure(info, shouldHaveMessageFindMatchingRegex(actual, REGEX));
+    verify(failures).failure(info, shouldHaveMessageFindingMatchRegex(actual, REGEX));
   }
 
   @Test

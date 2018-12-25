@@ -17,9 +17,11 @@ import org.junit.jupiter.api.Test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveMessageFindMatchingRegex.shouldHaveMessageFindMatchingRegex;
-import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
+import static org.assertj.core.error.ShouldHaveMessageFindingMatchRegex.shouldHaveMessageFindingMatchRegex;
 
+/**
+ * @author David Haccoun
+ */
 public class ShouldHaveMessageFindMatchingRegex_create_Test {
 
   @Test
@@ -28,7 +30,7 @@ public class ShouldHaveMessageFindMatchingRegex_create_Test {
     String regex = "regex";
     RuntimeException actual = new RuntimeException("error message");
     // WHEN
-    String errorMessage = shouldHaveMessageFindMatchingRegex(actual, regex).create(new TestDescription("TEST"));
+    String errorMessage = shouldHaveMessageFindingMatchRegex(actual, regex).create(new TestDescription("TEST"));
     // THEN
     assertThat(errorMessage).isEqualTo(format("[TEST] %n" +
                                               "Expecting message:%n" +
