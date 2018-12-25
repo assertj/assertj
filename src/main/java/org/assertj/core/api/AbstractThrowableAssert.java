@@ -238,11 +238,11 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * Throwable throwable = new IllegalArgumentException(&quot;Dear John,\n&quot; +
    *                                                    &quot;it' s a wrong amount&quot;);
    * // assertion will pass
-   * assertThat(throwable).hasMessageFindMatching(&quot;wrong amount&quot;);
-   * assertThat(throwable).hasMessageFindMatching(&quot;Dear John&quot;);
-   * assertThat(throwable).hasMessageFindMatching(&quot;wrong amount$&quot;);
+   * assertThat(throwable).hasMessageFindingMatch(&quot;wrong amount&quot;);
+   * assertThat(throwable).hasMessageFindingMatch(&quot;Dear John&quot;);
+   * assertThat(throwable).hasMessageFindingMatch(&quot;wrong amount$&quot;);
    * // assertion will fail
-   * assertThat(throwable).hasMessageFindMatching(&quot;Dear John$&quot;);
+   * assertThat(throwable).hasMessageFindingMatch(&quot;Dear John$&quot;);
    *
    * </code></pre>
    *
@@ -252,8 +252,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
    * @throws NullPointerException if the regex is null
    */
-  public SELF hasMessageFindMatching(String regex) {
-    throwables.assertHasMessageFindMatching(info, actual, regex);
+  public SELF hasMessageFindingMatch(String regex) {
+    throwables.assertHasMessageFindingMatch(info, actual, regex);
     return myself;
   }
 

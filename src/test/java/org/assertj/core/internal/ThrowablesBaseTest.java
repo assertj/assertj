@@ -17,6 +17,7 @@ import static org.mockito.Mockito.spy;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -45,6 +46,12 @@ public class ThrowablesBaseTest {
     failures = spy(new Failures());
     throwables = new Throwables();
     throwables.failures = failures;
+    Objects.instance().failures = failures;
+  }
+
+  @AfterEach
+  public void tearDown() {
+    Objects.instance().failures = Failures.instance();
   }
 
 }

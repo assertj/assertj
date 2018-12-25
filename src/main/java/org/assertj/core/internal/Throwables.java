@@ -186,10 +186,11 @@ public class Throwables {
    * @throws AssertionError if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
    * @throws NullPointerException if the regex is null
    */
-  public void assertHasMessageFindMatching(AssertionInfo info, Throwable actual, String regex) {
+  public void assertHasMessageFindingMatch(AssertionInfo info, Throwable actual, String regex) {
     checkNotNull(regex, "regex must not be null");
-    assertNotNull(info, actual);
-    if (actual.getMessage() != null && Pattern.compile(regex, Pattern.DOTALL).asPredicate()
+    Objects.instance().assertNotNull(info, actual);
+    Objects.instance().assertNotNull(info, actual.getMessage(), "exception message of actual");
+    if (Pattern.compile(regex, Pattern.DOTALL).asPredicate()
                                               .test(actual.getMessage())) return;
     throw failures.failure(info, shouldHaveMessageFindMatchingRegex(actual, regex));
   }
@@ -306,6 +307,7 @@ public class Throwables {
   private static void assertNotNull(AssertionInfo info, Throwable actual) {
     Objects.instance().assertNotNull(info, actual);
   }
+
 
   private static boolean compareThrowable(Throwable actual, Throwable expected) {
     return areEqual(actual.getMessage(), expected.getMessage())
