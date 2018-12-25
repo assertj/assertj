@@ -210,7 +210,7 @@ public class Throwables {
    */
   public void assertHasMessageFindingMatch(AssertionInfo info, Throwable actual, String regex) {
     checkNotNull(regex, "regex must not be null");
-    Objects.instance().assertNotNull(info, actual);
+    assertNotNull(info, actual);
     Objects.instance().assertNotNull(info, actual.getMessage(), "exception message of actual");
     if (Pattern.compile(regex, Pattern.DOTALL).asPredicate()
                                               .test(actual.getMessage())) return;
