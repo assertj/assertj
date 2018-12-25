@@ -15,16 +15,18 @@ package org.assertj.core.error;
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} matches given regular
  * expression.
- * 
+ *
+ * @author David Haccoun
  */
-public class ShouldHaveMessageFindMatchingRegex extends BasicErrorMessageFactory {
 
-  public static ErrorMessageFactory shouldHaveMessageFindMatchingRegex(Throwable actual, CharSequence regex) {
-    return new ShouldHaveMessageFindMatchingRegex("%nExpecting message:%n  <%s>%nto be found for regex:%n  <%s>%nbut did not.",
+public class ShouldHaveMessageFindingMatchRegex extends BasicErrorMessageFactory {
+
+  public static ErrorMessageFactory shouldHaveMessageFindingMatchRegex(Throwable actual, CharSequence regex) {
+    return new ShouldHaveMessageFindingMatchRegex("%nExpecting message:%n  <%s>%nto be found for regex:%n  <%s>%nbut did not.",
                                                   actual.getMessage(), regex);
   }
 
-  private ShouldHaveMessageFindMatchingRegex(String format, CharSequence actual, CharSequence regex) {
+  private ShouldHaveMessageFindingMatchRegex(String format, CharSequence actual, CharSequence regex) {
     super(format, actual, regex);
   }
 }

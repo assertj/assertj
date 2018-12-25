@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveCauseInstance.shouldHaveCauseInstance;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
-import static org.assertj.core.error.ShouldHaveMessageFindMatchingRegex.shouldHaveMessageFindMatchingRegex;
+import static org.assertj.core.error.ShouldHaveMessageFindingMatchRegex.shouldHaveMessageFindingMatchRegex;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.error.ShouldHaveNoSuppressedExceptions.shouldHaveNoSuppressedExceptions;
@@ -214,7 +214,7 @@ public class Throwables {
     Objects.instance().assertNotNull(info, actual.getMessage(), "exception message of actual");
     if (Pattern.compile(regex, Pattern.DOTALL).asPredicate()
                                               .test(actual.getMessage())) return;
-    throw failures.failure(info, shouldHaveMessageFindMatchingRegex(actual, regex));
+    throw failures.failure(info, shouldHaveMessageFindingMatchRegex(actual, regex));
   }
 
   /**
