@@ -62,6 +62,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldNotBeNull;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
@@ -380,6 +381,21 @@ public class Objects {
       return;
     }
     throw failures.failure(info, shouldNotBeNull());
+  }
+
+  /**
+   * Asserts that the given object is not {@code null}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param label the label to represent actual in the error message
+   * @throws AssertionError if the given object is {@code null}.
+   */
+  public void assertNotNull(AssertionInfo info, Object actual, String label) {
+    if (actual != null) {
+      return;
+    }
+    throw failures.failure(info, ShouldNotBeNull.of(label));
   }
 
   /**

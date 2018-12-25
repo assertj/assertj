@@ -16,7 +16,6 @@ package org.assertj.core.error;
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} matches given regular
  * expression.
  * 
- * @author David Haccoun
  */
 public class ShouldHaveMessageFindMatchingRegex extends BasicErrorMessageFactory {
 
