@@ -505,6 +505,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void should_pass_when_using_extractingFromEntries_with_map() {
     // GIVEN
     Map<Person, List<Animal>> map = new HashMap<>();
@@ -518,6 +519,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(map)
           .extractingFromEntries(e -> e.getKey())
           .containsExactlyInAnyOrder(aceVentura, david);
+
     softly.assertThat(map)
           .extractingFromEntries(e -> e.getKey(), e -> e.getValue().size())
           .containsExactlyInAnyOrder(tuple(aceVentura, 1),
@@ -528,6 +530,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void should_collect_errors_when_using_extractingFromEntries_with_map() {
     // GIVEN
     Map<Person, List<Animal>> map = new HashMap<>();
