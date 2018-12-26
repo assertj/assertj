@@ -506,7 +506,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void should_pass_when_using_extractingFromEntries_with_map() {
+  void should_pass_when_using_extractingFromEntries_with_map() {
     // GIVEN
     Map<Person, List<Animal>> map = new HashMap<>();
     Person aceVentura = new Person("ace ventura");
@@ -517,11 +517,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
     // WHEN
     softly.assertThat(map)
-          .extractingFromEntries(e -> e.getKey())
+          .extractingFromEntries(Map.Entry::getKey)
           .containsExactlyInAnyOrder(aceVentura, david);
 
     softly.assertThat(map)
-          .extractingFromEntries(e -> e.getKey(), e -> e.getValue().size())
+          .extractingFromEntries(Map.Entry::getKey, e -> e.getValue().size())
           .containsExactlyInAnyOrder(tuple(aceVentura, 1),
                                      tuple(david, 2));
 
@@ -531,7 +531,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void should_collect_errors_when_using_extractingFromEntries_with_map() {
+   void should_collect_errors_when_using_extractingFromEntries_with_map() {
     // GIVEN
     Map<Person, List<Animal>> map = new HashMap<>();
     Person aceVentura = new Person("ace ventura");
@@ -542,7 +542,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
     // WHEN
     softly.assertThat(map)
-          .extractingFromEntries(e -> e.getKey())
+          .extractingFromEntries(Map.Entry::getKey)
           .containsExactlyInAnyOrder(tuple(aceVentura),
                                      tuple(new Person("stranger")));
 
@@ -553,7 +553,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
 
     softly.assertThat(map)
-          .extractingFromEntries(e -> e.getKey(), e -> e.getValue().size())
+          .extractingFromEntries(Map.Entry::getKey, e -> e.getValue().size())
           .containsExactlyInAnyOrder(tuple(aceVentura, 10),
                                      tuple(david, 2));
 
