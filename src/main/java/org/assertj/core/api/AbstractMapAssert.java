@@ -1412,7 +1412,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new assertion object whose object under test is the list of values extracted
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extractingFromEntries
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries
   (Function<? super Map.Entry<K, V>, Object> extractor) {
 
     isNotNull();

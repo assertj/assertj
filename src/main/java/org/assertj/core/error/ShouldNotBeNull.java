@@ -30,8 +30,8 @@ public class ShouldNotBeNull extends BasicErrorMessageFactory {
   }
 
   /**
-   * Create a instance specifying the label of what should not be null
-   * @param label
+   * Create a instance specifying a label
+   * @param label of what should not be null
    * @return the new instance
    */
   public static ShouldNotBeNull of(String label) {

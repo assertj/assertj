@@ -12,31 +12,31 @@
  */
 package org.assertj.core.api.map;
 
-import com.google.common.base.Function;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class MapAssert_extractingFromEntries_Test {
+class MapAssert_extractingFromEntries_Test {
 
   private Map<Object, Object> map;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     map = new HashMap<>();
     map.put("name", "bepson");
     map.put("age", 10);
   }
 
   @Test
-  public void should_pass_assertions_on_values_extracted_from_given_extractors() {
+  void should_pass_assertions_on_values_extracted_from_given_extractors() {
 
     assertThat(map).extractingFromEntries()
                    .contains(tuple(),
@@ -51,7 +51,7 @@ public class MapAssert_extractingFromEntries_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_values_list() {
+  void should_keep_existing_description_if_set_when_extracting_values_list() {
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name")
                                                                                     .extractingFromEntries(
@@ -68,19 +68,19 @@ public class MapAssert_extractingFromEntries_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     map = null;
 
     // WHEN
     Throwable error = catchThrowable(
-      () -> assertThat(map).extractingFromEntries(e -> e.getKey()));
+      () -> assertThat(map).extractingFromEntries(Map.Entry::getKey));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
 
     // WHEN
     error = catchThrowable(
-      () -> assertThat(map).extractingFromEntries(e -> e.getKey(), e -> e.getValue()));
+      () -> assertThat(map).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
 
