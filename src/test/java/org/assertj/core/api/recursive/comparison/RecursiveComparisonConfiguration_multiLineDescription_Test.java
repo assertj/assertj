@@ -18,12 +18,32 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_build_a_readable_multiline_description() {
+  public void should_show_that_null_fields_are_ignored_in_the_multiline_description() {
     // WHEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).isEqualTo("- all actual null fields were ignored in the comparison");
+    assertThat(multiLineDescription).isEqualTo(format("- all actual null fields were ignored in the comparison%n"));
+  }
+
+  @Test
+  public void should_show_that_some_given_fields_are_ignored_in_the_multiline_description() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).isEqualTo(format("- the following fields were ignored in the comparison: foo, bar, foo.bar%n"));
+  }
+
+  @Test
+  public void should_show_a_complete_multiline_description() {
+    // WHEN
+    recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
+    recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).isEqualTo(format("- all actual null fields were ignored in the comparison%n" +
+                                                      "- the following fields were ignored in the comparison: foo, bar, foo.bar%n"));
   }
 
   @Test

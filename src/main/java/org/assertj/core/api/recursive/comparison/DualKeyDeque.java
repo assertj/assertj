@@ -45,7 +45,7 @@ class DualKeyDeque extends LinkedList<DualKey> {
   }
 
   private boolean shouldNotAddDualKey(DualKey dualKey) {
-    return recursiveComparisonConfiguration.shouldIgnoreAllActualNullFields() && dualKey.key1 == null;
+    return recursiveComparisonConfiguration.shouldIgnore(dualKey);
   }
 
   private boolean shouldAddDualKey(DualKey dualKey) {

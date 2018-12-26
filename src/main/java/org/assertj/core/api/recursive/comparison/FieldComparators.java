@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static org.assertj.core.util.Strings.join;
@@ -23,10 +23,9 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import org.assertj.core.api.FieldLocation;
 import org.assertj.core.util.VisibleForTesting;
 
-/**
+/** 
  * An internal holder of the comparators for fields described with {@link FieldLocation}. 
  */
 public class FieldComparators {

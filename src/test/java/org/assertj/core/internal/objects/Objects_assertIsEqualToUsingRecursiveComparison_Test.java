@@ -215,8 +215,105 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
                      Arguments.of(person7, person8, "same data, actual has null fields deep in its graph"));
   }
 
-  private void compareRecusively(Object actual, Object expected, RecursiveComparisonConfiguration recursiveComparisonSpec) {
-    objects.assertIsEqualToUsingRecursiveComparison(INFO, actual, expected, recursiveComparisonSpec);
+  @SuppressWarnings("unused")
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields={3}")
+  @MethodSource("recursivelyEqualObjectsIgnoringGivenFields")
+  public void should_pass_for_objects_with_the_same_data_when_given_fields_are_ignored(Object actual,
+                                                                                       Object expected,
+                                                                                       String testDescription,
+                                                                                       List<String> ignoredFields) {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFields(ignoredFields.toArray(new String[0]));
+    // THEN
+    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+  }
+
+  @SuppressWarnings("unused")
+  private static Stream<Arguments> recursivelyEqualObjectsIgnoringGivenFields() {
+    Person person1 = new Person("John");
+    person1.home.address.number = 1;
+
+    Person person2 = new Person("Jack");
+    person2.home.address.number = 1;
+
+    Person person3 = new Person("John");
+    person3.home.address.number = 123;
+
+    Human person4 = new Human();
+    person4.name = "Jack";
+    person4.home.address.number = 456;
+
+    Person person5 = new Person();
+    person5.home.address.number = 1;
+
+    Person person6 = new Person();
+    person6.home.address.number = 2;
+
+    Person person7 = new Person("John");
+    person7.neighbour = new Person("Jack");
+    person7.neighbour.home.address.number = 123;
+    person7.neighbour.neighbour = new Person("James");
+    person7.neighbour.neighbour.home.address.number = 124;
+
+    Person person8 = new Person("John");
+    person8.neighbour = new Person("Jim");
+    person8.neighbour.home.address.number = 123;
+    person8.neighbour.neighbour = new Person("James");
+    person8.neighbour.neighbour.home.address.number = 457;
+
+    return Stream.of(Arguments.of(person1, person2, "same data and type, except for one ignored field",
+                                  list("name")),
+                     Arguments.of(person3, person4, "same data, different type, except for several ignored fields",
+                                  list("name", "home.address.number")),
+                     Arguments.of(person5, person6, "same data except for one subfield of an ignored field",
+                                  list("home")),
+                     Arguments.of(person7, person8, "same data except for one subfield of an ignored field",
+                                  list("neighbour.neighbour.home.address.number", "neighbour.name")));
+
+  }
+
+  @Test
+  public void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored() {
+    // GIVEN
+    Person actual = new Person("John");
+    actual.home.address.number = 1;
+    actual.dateOfBirth = new Date(123);
+    actual.neighbour = new Person("Jack");
+    actual.neighbour.home.address.number = 123;
+    actual.neighbour.neighbour = new Person("James");
+    actual.neighbour.neighbour.home.address.number = 124;
+
+    Person expected = new Person("Jack");
+    expected.home.address.number = 2;
+    expected.dateOfBirth = new Date(456);
+    expected.neighbour = new Person("Jim");
+    expected.neighbour.home.address.number = 123;
+    expected.neighbour.neighbour = new Person("James");
+    expected.neighbour.neighbour.home.address.number = 457;
+
+    recursiveComparisonConfiguration.ignoreFields("name", "home.address.number");
+
+    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+    // WHEN
+    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+
+    // THEN
+    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
+    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
+    ComparisonDifference numberDifference = diff("neighbour.neighbour.home.address.number",
+                                                 actual.neighbour.neighbour.home.address.number,
+                                                 expected.neighbour.neighbour.home.address.number);
+    List<ComparisonDifference> differences = list(dateOfBirthDifference, neighbourNameDifference, numberDifference);
+    verify(failures).failure(INFO, shouldBeEqualByComparingFieldByFieldRecursively(actual,
+                                                                                   expected,
+                                                                                   differences,
+                                                                                   recursiveComparisonConfiguration,
+                                                                                   INFO.representation()));
+  }
+
+  private void compareRecusively(Object actual, Object expected,
+                                 RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    objects.assertIsEqualToUsingRecursiveComparison(INFO, actual, expected, recursiveComparisonConfiguration);
   }
 
   // old tests
@@ -697,5 +794,9 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
 
   public static class FriendlyPerson extends Person {
     public List<FriendlyPerson> friends = new ArrayList<>();
+  }
+
+  private static ComparisonDifference diff(String path, Object actual, Object other) {
+    return new ComparisonDifference(list(path), actual, other);
   }
 }

@@ -4,14 +4,16 @@ import static org.assertj.core.util.Strings.join;
 
 import java.util.List;
 
-final class DualKey {
+final class DualKey { // TODO rename DualValue
 
-  private final List<String> path;
-  final Object key1;
-  final Object key2;
+  final List<String> path;
+  final String concatenatedPath;
+  final Object key1; // TODO rename to actual
+  final Object key2; // TODO rename to expected
 
   DualKey(List<String> path, Object key1, Object key2) {
     this.path = path;
+    this.concatenatedPath = join(path).with(".");
     this.key1 = key1;
     this.key2 = key2;
   }
@@ -33,9 +35,10 @@ final class DualKey {
     return h1 + h2;
   }
 
+
   @Override
   public String toString() {
-    return "DualKey [key1=" + key1 + ", key2=" + key2 + "]";
+    return String.format("DualKey [path=%s, key1=%s, key2=%s]", concatenatedPath, key1, key2);
   }
 
   public List<String> getPath() {
@@ -43,6 +46,6 @@ final class DualKey {
   }
 
   public String getConcatenatedPath() {
-    return join(path).with(".");
+    return concatenatedPath;
   }
 }
