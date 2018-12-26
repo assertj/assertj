@@ -1524,8 +1524,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     Function<Map.Entry<K, V>, Tuple> tupleExtractor =
       objectToExtractValueFrom -> new Tuple(extractor.apply(objectToExtractValueFrom));
 
-    List<Object> objects = stream(actual.entrySet().spliterator(), false).map(e -> extractor.apply(e))
-                                                                         .collect(toList());
+    List<Object> objects = actual.entrySet().stream().map(extractor::apply)
+                                 .collect(toList());
     return newListAssertInstance(objects).as(info.description());
   }
 
@@ -1579,8 +1579,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
       objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                   .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                   .toArray());
-    List<Tuple> tuples = stream(actual.entrySet().spliterator(), false).map(tupleExtractor)
-                                                                       .collect(toList());
+    List<Tuple> tuples = actual.entrySet().stream().map(tupleExtractor)
+                               .collect(toList());
     return newListAssertInstance(tuples).as(info.description());
   }
 
