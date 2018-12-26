@@ -18,8 +18,40 @@ import static org.assertj.core.api.Assertions.fail;
  * @author Yvonne Wang
  * @author Francis Galiegue
  */
+
 public final class TestFailures {
 
+  /**
+   * <b>Note for developers</b> :
+   *
+   * Avoid using this method to make a test fail
+   * <p></p>
+   *  The idiom to check an expected behavior when an exception is thrown should be avoided :
+   *  <pre><code class='java'>
+   *    try{
+   *       doSomething();
+   *    }
+   *    catch(MyException e){
+   *      assertTheExceptionState();
+   *      assertOnOtherThingsThanTheException();
+   *      return;
+   *    }
+   *    Test.failBecauseExpectedAssertionErrorWasNotThrown();
+   *  </pre>
+   *  </code>
+   *
+   * And replaced by the straighter way :
+   *
+   * <pre><code class='java'>
+   *   Assertions.assertThatExceptionOfType(MyException.class)
+   *             .isThrownBy(()-> doSomething())
+   *             .withXXX(...);
+   *   assertOnOtherThingsThanTheException();
+   *  </pre>
+   *  </code>
+   *
+   */
+  //FIXME A developer method probably to deprecate but as currently very used in the testing code, I add only the information in the javadoc
   public static void failBecauseExpectedAssertionErrorWasNotThrown() {
     fail("Assertion error expected");
   }
@@ -28,5 +60,6 @@ public final class TestFailures {
     throw new AssertionErrorExpectedException();
   }
 
-  private TestFailures() {}
+  private TestFailures() {
+  }
 }
