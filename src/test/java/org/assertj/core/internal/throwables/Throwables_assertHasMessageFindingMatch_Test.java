@@ -29,12 +29,12 @@ import static org.mockito.Mockito.verify;
  * @author David Haccoun
  */
 
-public class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBaseTest {
 
-  static final String REGEX = "waiting for Foo";
+  private static final String REGEX = "waiting for Foo";
 
   @Test
-  public void should_pass_if_throwable_message_matches_given_regex() {
+  void should_pass_if_throwable_message_matches_given_regex() {
     Throwable actual = new RuntimeException("Blablabla...\n" +
                                             "waiting for Foo" +
                                             "...blablabla...\n");
@@ -42,13 +42,12 @@ public class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_pass_if_throwable_message_is_empty_and_regex_is_too() {
+  void should_pass_if_throwable_message_is_empty_and_regex_is_too() {
     Throwable actual = new RuntimeException("");
     throwables.assertHasMessageFindingMatch(someInfo(), actual, "");
   }
 
-  @Test
-  public void should_fail_if_throwable_message_does_not_match_given_regex() {
+  @Test void should_fail_if_throwable_message_does_not_match_given_regex() {
 
     Throwable actual = new RuntimeException("Blablabla...\n" +
                                             "waiting for Bar" +
@@ -60,14 +59,14 @@ public class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_fail_if_given_regex_is_null() {
+  void should_fail_if_given_regex_is_null() {
     assertThatNullPointerException()
       .isThrownBy(() -> throwables.assertHasMessageFindingMatch(someInfo(), actual, null))
       .withMessage("regex must not be null");
   }
 
   @Test
-  public void should_fail_if_throwable_is_null() {
+  void should_fail_if_throwable_is_null() {
     AssertionInfo info = someInfo();
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> throwables.assertHasMessageFindingMatch(someInfo(), null, REGEX));
@@ -75,7 +74,7 @@ public class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_fail_if_throwable_does_not_have_a_message() {
+  void should_fail_if_throwable_does_not_have_a_message() {
     actual = new RuntimeException();
     AssertionInfo info = someInfo();
     assertThatExceptionOfType(AssertionError.class)
