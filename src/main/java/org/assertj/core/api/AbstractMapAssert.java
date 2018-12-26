@@ -1416,9 +1416,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   (Function<? super Map.Entry<K, V>, Object> extractor) {
 
     isNotNull();
-    Function<Map.Entry<K, V>, Tuple> tupleExtractor =
-      objectToExtractValueFrom -> new Tuple(extractor.apply(objectToExtractValueFrom));
-
     List<Object> objects = actual.entrySet().stream().map(extractor::apply)
                                  .collect(toList());
     return newListAssertInstance(objects).as(info.description());
