@@ -21,6 +21,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -242,6 +243,7 @@ public class RecursiveComparisonDifferenceCalculator {
       }
     }
 
+    Collections.sort(differences);
     return differences;
   }
 

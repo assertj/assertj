@@ -6,7 +6,7 @@ import static org.assertj.core.util.Lists.list;
 
 import org.junit.jupiter.api.Test;
 
-public class ComparisonDifferenceTest {
+public class ComparisonDifference_multiLineDescription_Test {
 
   @Test
   public void should_build_comparison_difference_multiline_description() {
