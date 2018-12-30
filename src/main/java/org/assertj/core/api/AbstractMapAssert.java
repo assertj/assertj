@@ -1493,8 +1493,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Use the given {@link Function} to extract a value from the {@link Map}'s {@link Map.Entry}s.
    * The extracted values are stored in a new list becoming the object under test.
    * <p>
-   * <p>
-   *
    * Let's take a look at an example to make things clearer :
    *
    *  <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson familly
@@ -1508,11 +1506,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *                       .containsOnly(&quot;Omer&quot;,
    *                                     &quot;Marge&quot;,
    *                                     &quot;Lisa&quot;,
-   *                                     &quot;Bart&quot;);
+   *                                     &quot;Bart&quot;);</code></pre>
    *
-   * </code></pre>
-   *
-   **
    * @param extractor the extractor function to extract a value from an entry of the Map under test.
    * @return a new assertion object whose object under test is the list of values extracted
    */
@@ -1537,7 +1532,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *  This method works as {@link AbstractMapAssert#extractingFromEntries(java.util.function.Function)} except
    *  that it is designed to extract multiple values from the {@link Map} entries.
    *  That's why here the new object under test is a List of Object but a List of Tuples.
-   *  <p><p>
+   *  <p>
    * The Tuple data corresponds to the extracted values from the Map's entries, for instance if you pass functions
    * extracting the "id", "name" and "email" values then each Tuple data will be composed of an id, a name and an email
    * extracted from the entry of the Map (the Tuple's data order is the same as the given functions order).
@@ -1555,14 +1550,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *                       .containsOnly(tuple(&quot;dad&quot;, &quot;Omer&quot;),
    *                                     tuple(&quot;mom&quot;, &quot;Marge&quot;),
    *                                     tuple(&quot;girl&quot;, &quot;Lisa&quot;),
-   *                                     tuple(&quot;boy&quot;, &quot;Bart&quot;));
-   *
-   * </code></pre>
+   *                                     tuple(&quot;boy&quot;, &quot;Bart&quot;));</code></pre>
    *
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
-   * <p></p>
    *
    * @param extractors the extractor functions to extract values from an entry of the Map under test.
    * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.

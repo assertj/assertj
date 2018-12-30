@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+
 /**
  * Creates an error message that indicates an assertion that verifies that an object is not {@code null} failed.
  *
@@ -34,8 +36,8 @@ public class ShouldNotBeNull extends BasicErrorMessageFactory {
    * @param label of what should not be null
    * @return the new instance
    */
-  public static ShouldNotBeNull of(String label) {
-    return new ShouldNotBeNull(String.format("%nExpecting %s not to be null", label));
+  public static ShouldNotBeNull shouldNotBeNull(String label) {
+    return new ShouldNotBeNull(format("%nExpecting %s not to be null", label));
   }
 
   private ShouldNotBeNull(String label) {

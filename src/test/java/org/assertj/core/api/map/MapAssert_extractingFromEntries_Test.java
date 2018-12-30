@@ -12,16 +12,19 @@
  */
 package org.assertj.core.api.map;
 
+import org.assertj.core.util.AssertionsUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 class MapAssert_extractingFromEntries_Test {
@@ -30,20 +33,18 @@ class MapAssert_extractingFromEntries_Test {
 
   @BeforeEach
   void setup() {
-    map = new HashMap<>();
-    map.put("name", "bepson");
-    map.put("age", 10);
+    map = mapOf(entry("name", "bepson"), entry("age", 10));
+  }
+
+  @Test
+  void should_pass_when_given_no_extractors() {
+    assertThat(map).extractingFromEntries()
+                   .contains(tuple(),
+                             tuple());
   }
 
   @Test
   void should_pass_assertions_on_values_extracted_from_given_extractors() {
-
-    assertThat(map).extractingFromEntries()
-                   .contains(tuple(),
-                             tuple());
-
-    assertThat(map).extractingFromEntries(Map.Entry::getKey)
-                   .contains("name", "age");
 
     assertThat(map).extractingFromEntries(e -> e.getKey().toString().toUpperCase(), Map.Entry::getValue)
                    .contains(tuple("NAME", "bepson"),
@@ -51,38 +52,50 @@ class MapAssert_extractingFromEntries_Test {
   }
 
   @Test
-  void should_keep_existing_description_if_set_when_extracting_values_list() {
+  void should_pass_assertions_on_values_extracted_from_one_given_extractor() {
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name")
-                                                                                    .extractingFromEntries(
-                                                                                      Map.Entry::getKey)
-                                                                                    .isEmpty())
-                                                   .withMessageContaining("[check name]");
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name and age")
-                                                                                    .extractingFromEntries(
-                                                                                      Map.Entry::getKey,
-                                                                                      Map.Entry::getValue)
-                                                                                    .isEmpty())
-                                                   .withMessageContaining("[check name and age]");
+    assertThat(map).extractingFromEntries(Map.Entry::getKey)
+                   .contains("name", "age");
   }
 
   @Test
-  void should_fail_if_actual_is_null() {
+  void should_keep_existing_description_when_extracting_multiple_values() {
+
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(map).as("check name and age")
+                                                            .extractingFromEntries(Map.Entry::getKey,
+                                                                                   Map.Entry::getValue)
+                                                            .isEmpty())
+      .withMessageContaining("[check name and age]");
+  }
+
+  @Test
+  void should_keep_existing_description_when_extracting_one_value() {
+
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(map).as("check name")
+                                                            .extractingFromEntries(Map.Entry::getKey)
+                                                            .isEmpty())
+      .withMessageContaining("[check name]");
+  }
+
+  @Test
+  void should_fail_if_actual_is_null_when_extracting_multiple_values() {
     // GIVEN
     map = null;
+    // WHEN
+    Throwable error = catchThrowable(
+      () -> assertThat(map).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue));
+    // THEN
+    assertThat(error).hasMessage(actualIsNull());
+  }
 
+  @Test
+  void should_fail_if_actual_is_null_when_extracting_one_value() {
+    // GIVEN
+    map = null;
     // WHEN
     Throwable error = catchThrowable(
       () -> assertThat(map).extractingFromEntries(Map.Entry::getKey));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
-
-    // WHEN
-    error = catchThrowable(
-      () -> assertThat(map).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue));
-    // THEN
-    assertThat(error).hasMessage(actualIsNull());
-
   }
 }

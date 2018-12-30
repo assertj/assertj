@@ -128,12 +128,11 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
       run(map,
           value -> assumeThat(value).extracting("a", "b").contains("1", "2"),
           value -> assumeThat(value).extracting("a", "b").contains("456")),
-// FIXME To uncomment if these make sense.
-//      run(map,
-//          value -> assumeThat(value).extractingFromEntries(e -> e.getKey(), e -> e.getValue())
-//                                    .containsExactlyInAnyOrder(tuple("a","1"), tuple("b","2"), tuple("c","3")),
-//          value -> assumeThat(value).extractingFromEntries(e -> e.getKey(), e -> e.getValue())
-//                                  .containsExactlyInAnyOrder(tuple("a","1"), tuple("b","2"), tuple("c","2"))),
+      run(map,
+          value -> assumeThat(value).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
+                                    .containsExactlyInAnyOrder(tuple("a","1"), tuple("b","2"), tuple("c","3")),
+          value -> assumeThat(value).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
+                                  .containsExactlyInAnyOrder(tuple("a","1"), tuple("b","2"), tuple("c","2"))),
       run(iterableMap,
           value -> assumeThat(value).flatExtracting("name", "job", "city", "rank")
                                     .contains("Jeff", "Builder", "Dover", "Boston", "Paris", 1, 2, 3),
