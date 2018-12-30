@@ -269,7 +269,6 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
                                   list("home")),
                      Arguments.of(person7, person8, "same data except for one subfield of an ignored field",
                                   list("neighbour.neighbour.home.address.number", "neighbour.name")));
-
   }
 
   @Test
@@ -293,7 +292,6 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
 
     recursiveComparisonConfiguration.ignoreFields("name", "home.address.number");
 
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
     // WHEN
     expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
 
@@ -304,6 +302,103 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
                                                  actual.neighbour.neighbour.home.address.number,
                                                  expected.neighbour.neighbour.home.address.number);
     List<ComparisonDifference> differences = list(dateOfBirthDifference, neighbourNameDifference, numberDifference);
+    verify(failures).failure(INFO, shouldBeEqualByComparingFieldByFieldRecursively(actual,
+                                                                                   expected,
+                                                                                   differences,
+                                                                                   recursiveComparisonConfiguration,
+                                                                                   INFO.representation()));
+  }
+
+  @SuppressWarnings("unused")
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields regexes={3}")
+  @MethodSource("recursivelyEqualObjectsIgnoringGivenFieldsByRegexes")
+  public void should_pass_for_objects_with_the_same_data_when_fields_are_ignored_by_regex(Object actual,
+                                                                                          Object expected,
+                                                                                          String testDescription,
+                                                                                          List<String> regexes) {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFieldsByRegexes(regexes.toArray(new String[0]));
+    // THEN
+    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+  }
+
+  @SuppressWarnings("unused")
+  private static Stream<Arguments> recursivelyEqualObjectsIgnoringGivenFieldsByRegexes() {
+    Person person1 = new Person("John");
+    person1.home.address.number = 1;
+
+    Person person2 = new Person("Jack");
+    person2.home.address.number = 1;
+
+    Person person3 = new Person("John");
+    person3.home.address.number = 123;
+
+    Human person4 = new Human();
+    person4.name = "Jack";
+    person4.home.address.number = 456;
+
+    Person person5 = new Person();
+    person5.home.address.number = 1;
+
+    Person person6 = new Person();
+    person6.home.address.number = 2;
+
+    Person person7 = new Person("John");
+    person7.neighbour = new Person("Jack");
+    person7.neighbour.home.address.number = 123;
+    person7.neighbour.neighbour = new Person("James");
+    person7.neighbour.neighbour.home.address.number = 124;
+
+    Person person8 = new Person("John");
+    person8.neighbour = new Person("Jim");
+    person8.neighbour.home.address.number = 234;
+    person8.neighbour.neighbour = new Person("Jon");
+    person8.neighbour.neighbour.home.address.number = 345;
+
+    return Stream.of(Arguments.of(person1, person2, "same data and type, except for one ignored field",
+                                  list("name")),
+                     Arguments.of(person1, person2, "same data and type, except for one ignored field",
+                                  list(".*name")),
+                     Arguments.of(person3, person4, "same data, different type, except for several ignored fields",
+                                  list("name", ".*number")),
+                     Arguments.of(person5, person6, "same data except for one subfield of an ignored field",
+                                  list("home.*numb..")),
+                     Arguments.of(person7, person8, "same data except for any neighbour name or number fields",
+                                  list("neighbour\\..*\\.number", "neighbour\\..*name")));
+  }
+
+  @Test
+  public void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored_by_regexes() {
+    // GIVEN
+    Person actual = new Person("John");
+    actual.home.address.number = 1;
+    actual.dateOfBirth = new Date(123);
+    actual.neighbour = new Person("Jack");
+    actual.neighbour.dateOfBirth = new Date(123);
+    actual.neighbour.home.address.number = 123;
+    actual.neighbour.neighbour = new Person("James");
+    actual.neighbour.neighbour.home.address.number = 124;
+
+    Person expected = new Person("Jack");
+    expected.home.address.number = 2;
+    expected.dateOfBirth = new Date(456);
+    expected.neighbour = new Person("Jim");
+    expected.neighbour.dateOfBirth = new Date(456);
+    expected.neighbour.home.address.number = 234;
+    expected.neighbour.neighbour = new Person("James");
+    expected.neighbour.neighbour.home.address.number = 457;
+
+    recursiveComparisonConfiguration.ignoreFieldsByRegexes(".*name", ".*home.*number");
+
+    // WHEN
+    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+
+    // THEN
+    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
+    ComparisonDifference neighbourNameDifference = diff("neighbour.dateOfBirth",
+                                                        actual.neighbour.dateOfBirth,
+                                                        expected.neighbour.dateOfBirth);
+    List<ComparisonDifference> differences = list(dateOfBirthDifference, neighbourNameDifference);
     verify(failures).failure(INFO, shouldBeEqualByComparingFieldByFieldRecursively(actual,
                                                                                    expected,
                                                                                    differences,

@@ -17,13 +17,13 @@ class DualKeyDeque extends LinkedList<DualKey> {
 
   @Override
   public boolean add(DualKey dualKey) {
-    if (shouldNotAddDualKey(dualKey)) return false;
+    if (shouldIgnore(dualKey)) return false;
     return super.add(dualKey);
   }
 
   @Override
   public void add(int index, DualKey dualKey) {
-    if (shouldNotAddDualKey(dualKey)) return;
+    if (shouldIgnore(dualKey)) return;
     super.add(index, dualKey);
   }
 
@@ -34,22 +34,22 @@ class DualKeyDeque extends LinkedList<DualKey> {
 
   @Override
   public void addFirst(DualKey dualKey) {
-    if (shouldNotAddDualKey(dualKey)) return;
+    if (shouldIgnore(dualKey)) return;
     super.addFirst(dualKey);
   }
 
   @Override
   public void addLast(DualKey dualKey) {
-    if (shouldNotAddDualKey(dualKey)) return;
+    if (shouldIgnore(dualKey)) return;
     super.addLast(dualKey);
   }
 
-  private boolean shouldNotAddDualKey(DualKey dualKey) {
+  private boolean shouldIgnore(DualKey dualKey) {
     return recursiveComparisonConfiguration.shouldIgnore(dualKey);
   }
 
   private boolean shouldAddDualKey(DualKey dualKey) {
-    return !shouldNotAddDualKey(dualKey);
+    return !shouldIgnore(dualKey);
   }
 
 }

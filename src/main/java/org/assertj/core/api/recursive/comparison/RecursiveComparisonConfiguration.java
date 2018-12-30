@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.annotations.Beta;
@@ -33,6 +34,8 @@ public class RecursiveComparisonConfiguration {
 
   private TypeComparators comparatorForTypes = new TypeComparators();
   private FieldComparators comparatorForFields = new FieldComparators();
+
+  private List<Pattern> ignoredFieldsRegexes;
 
   public Comparator getComparatorForField(String fieldName) {
     return null;
@@ -106,11 +109,27 @@ public class RecursiveComparisonConfiguration {
   }
 
   boolean shouldIgnore(DualKey dualKey) {
-    return ignoreAllActualNullFields && dualKey.key1 == null || matchesAnIgnoredField(dualKey);
+    return matchesAnIgnoredNullField(dualKey)
+           || matchesAnIgnoredField(dualKey)
+           || matchesAnIgnoredRegex(dualKey);
+  }
+
+  private boolean matchesAnIgnoredNullField(DualKey dualKey) {
+    return ignoreAllActualNullFields && dualKey.key1 == null;
+  }
+
+  private boolean matchesAnIgnoredRegex(DualKey dualKey) {
+    return this.ignoredFieldsRegexes.stream().anyMatch(regex -> regex.matcher(dualKey.concatenatedPath).matches());
   }
 
   private boolean matchesAnIgnoredField(DualKey dualKey) {
     return ignoredFields.stream()
                         .anyMatch(fieldLocation -> fieldLocation.matches(dualKey.concatenatedPath));
+  }
+
+  public void ignoreFieldsByRegexes(String... regexes) {
+    this.ignoredFieldsRegexes = Stream.of(regexes)
+                                      .map(Pattern::compile)
+                                      .collect(toList());
   }
 }

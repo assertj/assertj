@@ -78,6 +78,29 @@ public class RecursiveComparisonConfiguration_ignoresFields_Test {
 
   }
 
+  @ParameterizedTest(name = "{0} should be ignored with these regexes {1}")
+  @MethodSource("ignoringRegexSpecifiedFieldsSource")
+  public void should_ignore_fields_specified_with_regex(DualKey dualKey, List<String> regexes) {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFieldsByRegexes(regexes.toArray(new String[0]));
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
+    // THEN
+    assertThat(ignored).as("%s should be ignored with these regexes %s", dualKey, regexes).isTrue();
+  }
+
+  @SuppressWarnings("unused")
+  private static Stream<Arguments> ignoringRegexSpecifiedFieldsSource() {
+    return Stream.of(Arguments.of(randomDualKeyWithPath("name"), list(".*name")),
+                     Arguments.of(randomDualKeyWithPath("name"), list("foo", "n.m.", "foo")),
+                     Arguments.of(randomDualKeyWithPath("name", "first"), list("name\\.first")),
+                     Arguments.of(randomDualKeyWithPath("name", "first"), list(".*first")),
+                     Arguments.of(randomDualKeyWithPath("name", "first"), list("name.*")),
+                     Arguments.of(randomDualKeyWithPath("father", "name", "first"),
+                                  list("father", "name.first", "father\\.name\\.first")));
+
+  }
+
   private static DualKey randomDualKeyWithPath(String... pathElements) {
     return new DualKey(list(pathElements), new Object(), new Object());
   }
