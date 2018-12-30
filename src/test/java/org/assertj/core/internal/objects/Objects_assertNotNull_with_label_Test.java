@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -43,8 +43,7 @@ class Objects_assertNotNull_with_label_Test extends ObjectsBaseTest {
     AssertionInfo info = someInfo();
     String specificLabel = "specific label";
     //WHEN-THEN
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> objects.assertNotNull(info, null, specificLabel));
-    verify(failures).failure(info, ShouldNotBeNull.of(specificLabel));
+    assertThatAssertionErrorIsThrownBy(() -> objects.assertNotNull(info, null, specificLabel));
+    verify(failures).failure(info, shouldNotBeNull(specificLabel));
   }
 }

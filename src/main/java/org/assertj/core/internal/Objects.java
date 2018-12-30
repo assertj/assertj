@@ -323,10 +323,9 @@ public class Objects {
    *           equal.
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
-    if (areEqual(actual, expected)) {
-      return;
+    if (!areEqual(actual, expected)) {
+      throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
     }
-    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -338,10 +337,9 @@ public class Objects {
    * @throws AssertionError if {@code actual} is equal to {@code other}.
    */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
-    if (!areEqual(actual, other)) {
-      return;
+    if (areEqual(actual, other)) {
+      throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
     }
-    throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
   }
 
   /**
@@ -363,10 +361,9 @@ public class Objects {
    * @throws AssertionError if the given object is not {@code null}.
    */
   public void assertNull(AssertionInfo info, Object actual) {
-    if (actual == null) {
-      return;
+    if (actual != null) {
+      throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
     }
-    throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -377,10 +374,9 @@ public class Objects {
    * @throws AssertionError if the given object is {@code null}.
    */
   public void assertNotNull(AssertionInfo info, Object actual) {
-    if (actual != null) {
-      return;
+    if (actual == null) {
+      throw failures.failure(info, shouldNotBeNull());
     }
-    throw failures.failure(info, shouldNotBeNull());
   }
 
   /**
@@ -392,10 +388,9 @@ public class Objects {
    * @throws AssertionError if the given object is {@code null}.
    */
   public void assertNotNull(AssertionInfo info, Object actual, String label) {
-    if (actual != null) {
-      return;
+    if (actual == null) {
+      throw failures.failure(info, shouldNotBeNull(label));
     }
-    throw failures.failure(info, ShouldNotBeNull.of(label));
   }
 
   /**
@@ -407,10 +402,9 @@ public class Objects {
    * @throws AssertionError if the given objects do not refer to the same object.
    */
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
-    if (actual == expected) {
-      return;
+    if (actual != expected) {
+      throw failures.failure(info, shouldBeSame(actual, expected));
     }
-    throw failures.failure(info, shouldBeSame(actual, expected));
   }
 
   /**
@@ -422,10 +416,9 @@ public class Objects {
    * @throws AssertionError if the given objects refer to the same object.
    */
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
-    if (actual != other) {
-      return;
+    if (actual == other) {
+      throw failures.failure(info, shouldNotBeSame(actual));
     }
-    throw failures.failure(info, shouldNotBeSame(actual));
   }
 
   public void assertHasToString(AssertionInfo info, Object actual, String expectedToString) {
