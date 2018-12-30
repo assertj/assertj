@@ -197,10 +197,10 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_show_that_all_actual_null_fields_were_ignored_in_the_comparison() {
+  public void should_show_multiple_differences() {
     // GIVEN
-    final Name actualName = new Name("Andy");
-    final Name nullName = new Name(null);
+    final Name actualName = new Name("Magic", "Johnson");
+    final Name nullName = new Name(null, "Ginobili");
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     List<ComparisonDifference> differences = determineDifferences(actualName, nullName, recursiveComparisonConfiguration);
@@ -216,13 +216,50 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
-                                         "  <Name[first='Andy', last='null']>%n" +
+                                         "  <Name[first='Magic', last='Johnson']>%n" +
                                          "to be equal to:%n" +
-                                         "  <Name[first='null', last='null']>%n" +
-                                         "when recursively comparing field by field, but found the following 1 difference(s):%n" +
+                                         "  <Name[first='null', last='Ginobili']>%n" +
+                                         "when recursively comparing field by field, but found the following 2 differences:%n" +
                                          "%n" +
                                          "field/property 'first' differ:%n" +
-                                         "- actual value   : \"Andy\"%n" +
+                                         "- actual value   : \"Magic\"%n" +
+                                         "- expected value : null%n" +
+                                         "%n" +
+                                         "field/property 'last' differ:%n" +
+                                         "- actual value   : \"Johnson\"%n" +
+                                         "- expected value : \"Ginobili\"%n" +
+                                         "%n" +
+                                         "The recursive comparison was performed with this configuration:%n%s",
+                                         CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
+  }
+
+  @Test
+  public void should_show_one_difference() {
+    // GIVEN
+    final Name actualName = new Name("Magic", "Johnson");
+    final Name nullName = new Name(null, "Johnson");
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
+    List<ComparisonDifference> differences = determineDifferences(actualName, nullName, recursiveComparisonConfiguration);
+    // WHEN
+    // @format:off
+    String message = shouldBeEqualByComparingFieldByFieldRecursively(actualName,
+                                                                     nullName,
+                                                                     differences,
+                                                                     recursiveComparisonConfiguration,
+                                                                     REPRESENTATION)
+        .create(new TextDescription("Test"), REPRESENTATION);
+    // @format:on
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <Name[first='Magic', last='Johnson']>%n" +
+                                         "to be equal to:%n" +
+                                         "  <Name[first='null', last='Johnson']>%n" +
+                                         "when recursively comparing field by field, but found the following difference:%n" +
+                                         "%n" +
+                                         "field/property 'first' differ:%n" +
+                                         "- actual value   : \"Magic\"%n" +
                                          "- expected value : null%n" +
                                          "%n" +
                                          "The recursive comparison was performed with this configuration:%n%s",

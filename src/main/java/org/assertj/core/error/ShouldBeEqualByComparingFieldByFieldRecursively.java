@@ -49,15 +49,16 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                                                                     Representation representation) {
     String differencesDescription = join(differences.stream()
                                                     .map(difference -> difference.multiLineDescription(representation))
-                                                    .collect(toList())).with(format("%n"));
+                                                    .collect(toList())).with(format("%n%n"));
     String recursiveComparisonConfigurationDescription = recursiveComparisonConfiguration.multiLineDescription(representation);
+    String differencesCount = differences.size() == 1 ? "difference:%n" : "%s differences:%n";
     // @format:off
     return new ShouldBeEqualByComparingFieldByFieldRecursively("%n" +
                                                                "Expecting:%n" +
                                                                "  <%s>%n" +
                                                                "to be equal to:%n" +
                                                                "  <%s>%n" +
-                                                               "when recursively comparing field by field, but found the following %s difference(s):%n"+
+                                                               "when recursively comparing field by field, but found the following " + differencesCount +
                                                                "%n" +
                                                                differencesDescription + "%n" +
                                                                "%n"+
