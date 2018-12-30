@@ -100,6 +100,39 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * Verifies that at least one map entry satisfies the given {@code entryRequirements} .
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;TolkienCharacter, Ring&gt; elvesRingBearers = new HashMap&lt;&gt;();
+   * elvesRingBearers.put(galadriel, nenya);
+   * elvesRingBearers.put(gandalf, narya);
+   * elvesRingBearers.put(elrond, vilya);
+   *
+   * // this assertion succeeds:
+   * assertThat(elvesRingBearers).anySatisfy((character, ring) -&gt; {
+   *   assertThat(ring).isIn(vilya);
+   * });
+   *
+   * // this assertion fails as Gandalf the maia does not bear the ring vilya and the ring bearer of vilya is not a maia:
+   * assertThat(elvesRingBearers).anySatisfy((character, ring) -&gt; {
+   *   assertThat(character.getRace()).isIn(MAIA);
+   *   assertThat(ring).isIn(vilya);
+   * });</code></pre>
+   * <p>
+   *
+   * @param entryRequirements the given requirements that each entry must satisfy.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if all entries don't satisfy the given requirements.
+   * @since ?
+   */
+  public SELF anySatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
+    maps.assertAnySatisfy(info, actual, entryRequirements);
+    return myself;
+  }
+
+  /**
    * Verifies that the {@link Map} is {@code null} or empty.
    * <p>
    * Example:

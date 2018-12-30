@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
+import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
@@ -46,6 +47,7 @@ import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Streams.stream;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -96,6 +98,24 @@ public class Maps {
           .forEach(entry -> entryRequirements.accept(entry.getKey(), entry.getValue()));
   }
 
+  public <K, V> void assertAnySatisfy(AssertionInfo info, Map<K, V> actual,
+                                      BiConsumer<? super K, ? super V> entryRequirements) {
+    checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
+    assertNotNull(info, actual);
+    boolean anyMatch = actual.entrySet().stream().anyMatch(e -> {
+      try {
+        entryRequirements.accept(e.getKey(), e.getValue());
+      } catch (AssertionError ex) {
+        return false;
+      }
+      return true;
+    });
+
+    if (!anyMatch) {
+      throw failures.failure(info, elementsShouldSatisfyAny(actual));
+    }
+  }
+  
   /**
    * Asserts that the given {@code Map} is {@code null} or empty.
    *
