@@ -101,11 +101,6 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
     return super.extracting(extractors);
   }
 
-  @Override
-  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(Function<? super Map.Entry<KEY, VALUE>, Object> extractor) {
-    return super.extractingFromEntries(extractor);
-  }
-
   @SafeVarargs
   @Override
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(Function<? super Map.Entry<KEY, VALUE>, Object>... extractors) {
