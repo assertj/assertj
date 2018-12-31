@@ -125,7 +125,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if all entries don't satisfy the given requirements.
-   * @since ?
+   * @since 3.12
    */
   public SELF anySatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
     maps.assertAnySatisfy(info, actual, entryRequirements);
