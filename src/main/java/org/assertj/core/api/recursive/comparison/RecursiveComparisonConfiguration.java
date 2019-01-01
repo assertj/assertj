@@ -7,7 +7,6 @@ import static org.assertj.core.util.Strings.join;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,26 +14,23 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.annotations.Beta;
-import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 
 @Beta
 public class RecursiveComparisonConfiguration {
 
-  private static final String NEWLINE = format("%n");
-
-  private boolean strictTypeCheck = true;
+  // private boolean strictTypeCheck = true;
 
   private boolean ignoreAllActualNullFields = false;
   private Set<FieldLocation> ignoredFields = new LinkedHashSet<>();
 
-  private boolean ignoreCustomEquals = false;
+  private List<Pattern> ignoredCustomEqualsRegexes = new ArrayList<>();
 
-  private Set<Class> forceRecursiveComparisonForTypes = new HashSet<>();
-  private Set<FieldLocation> forceRecursiveComparisonForFields = new HashSet<>();
+  // private Set<Class> forceRecursiveComparisonForTypes = new HashSet<>();
+  // private Set<FieldLocation> forceRecursiveComparisonForFields = new HashSet<>();
 
-  private TypeComparators comparatorForTypes = new TypeComparators();
-  private FieldComparators comparatorForFields = new FieldComparators();
+  // private TypeComparators comparatorForTypes = new TypeComparators();
+  // private FieldComparators comparatorForFields = new FieldComparators();
 
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
 
@@ -73,36 +69,6 @@ public class RecursiveComparisonConfiguration {
     this.ignoreAllActualNullFields = ignoreAllActualNullFields;
   }
 
-  @Override
-  public String toString() {
-    return multiLineDescription(CONFIGURATION_PROVIDER.representation());
-  }
-
-  public String multiLineDescription(Representation representation) {
-    StringBuilder description = new StringBuilder();
-    if (ignoreAllActualNullFields) description.append("- all actual null fields were ignored in the comparison").append(NEWLINE);
-    if (!ignoredFields.isEmpty())
-      description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
-    if (!ignoredFieldsRegexes.isEmpty())
-      description.append(format("- the following regexes were used to ignore fields in the comparison: %s%n",
-                                describeIgnoredFieldsRegexes()));
-    return description.toString();
-  }
-
-  private String describeIgnoredFields() {
-    List<String> fieldsDescription = ignoredFields.stream()
-                                                  .map(FieldLocation::getFieldPath)
-                                                  .collect(toList());
-    return join(fieldsDescription).with(", ");
-  }
-
-  private String describeIgnoredFieldsRegexes() {
-    List<String> fieldsDescription = ignoredFieldsRegexes.stream()
-                                                         .map(Pattern::pattern)
-                                                  .collect(toList());
-    return join(fieldsDescription).with(", ");
-  }
-
   /**
    * Register the given field paths as to be ignored in the comparison.
    * <p>
@@ -125,6 +91,50 @@ public class RecursiveComparisonConfiguration {
            || matchesAnIgnoredRegex(dualKey);
   }
 
+  public void ignoreFieldsByRegexes(String... regexes) {
+    this.ignoredFieldsRegexes = Stream.of(regexes)
+                                      .map(Pattern::compile)
+                                      .collect(toList());
+  }
+
+  public void ignoreCustomEqualsByRegexes(String... regexes) {
+    this.ignoredCustomEqualsRegexes = Stream.of(regexes)
+                                            .map(Pattern::compile)
+                                            .collect(toList());
+  }
+
+  public boolean shouldIgnoreOverriddenEquals(Class<? extends Object> clazz) {
+    return matchesAnIgnoreOverriddenEqualsRegex(clazz);
+  }
+
+  @Override
+  public String toString() {
+    return multiLineDescription(CONFIGURATION_PROVIDER.representation());
+  }
+
+  public String multiLineDescription(Representation representation) { // TODO use representation ?
+    StringBuilder description = new StringBuilder();
+    if (ignoreAllActualNullFields) description.append(format("- all actual null fields were ignored in the comparison%n"));
+    if (!ignoredFields.isEmpty())
+      description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
+    if (!ignoredFieldsRegexes.isEmpty())
+      description.append(format("- the following regexes were used to ignore fields in the comparison: %s%n",
+                                describeRegexes(ignoredFieldsRegexes)));
+    if (!ignoredCustomEqualsRegexes.isEmpty())
+      description.append(format("- the following regexes were used to ignore overridden equals methods in the comparison: %s%n",
+                                describeRegexes(ignoredCustomEqualsRegexes)));
+    return description.toString();
+  }
+
+  // private stuff
+
+  private boolean matchesAnIgnoreOverriddenEqualsRegex(Class<? extends Object> clazz) {
+    if (this.ignoredCustomEqualsRegexes.isEmpty()) return false; // shortcut
+    String canonicalName = clazz.getCanonicalName();
+    return this.ignoredCustomEqualsRegexes.stream()
+                                          .anyMatch(regex -> regex.matcher(canonicalName).matches());
+  }
+
   private boolean matchesAnIgnoredNullField(DualKey dualKey) {
     return ignoreAllActualNullFields && dualKey.key1 == null;
   }
@@ -139,9 +149,18 @@ public class RecursiveComparisonConfiguration {
                         .anyMatch(fieldLocation -> fieldLocation.matches(dualKey.concatenatedPath));
   }
 
-  public void ignoreFieldsByRegexes(String... regexes) {
-    this.ignoredFieldsRegexes = Stream.of(regexes)
-                                      .map(Pattern::compile)
-                                      .collect(toList());
+  private String describeIgnoredFields() {
+    List<String> fieldsDescription = ignoredFields.stream()
+                                                  .map(FieldLocation::getFieldPath)
+                                                  .collect(toList());
+    return join(fieldsDescription).with(", ");
   }
+
+  private String describeRegexes(List<Pattern> regexes) {
+    List<String> fieldsDescription = regexes.stream()
+                                            .map(Pattern::pattern)
+                                            .collect(toList());
+    return join(fieldsDescription).with(", ");
+  }
+
 }

@@ -20,21 +20,18 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
-import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
-import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -50,27 +47,22 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
-import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.internal.TypeComparators;
+import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
+import org.assertj.core.internal.objects.data.FriendlyPerson;
+import org.assertj.core.internal.objects.data.Giant;
+import org.assertj.core.internal.objects.data.Human;
+import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.test.Patient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends ObjectsBaseTest {
-
-  private static final AssertionInfo INFO = someInfo();
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
-
-  @BeforeEach
-  public void setup() {
-    recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
-  }
+public class Objects_assertIsEqualToUsingRecursiveComparison_Test
+    extends Objects_assertIsEqualToUsingRecursiveComparison_BaseTest {
 
   @Test
   public void should_pass_when_actual_and_expected_are_null() {
@@ -157,11 +149,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
     expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
     // THEN
     ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
-    verify(failures).failure(INFO, shouldBeEqualByComparingFieldByFieldRecursively(actual,
-                                                                                   expected,
-                                                                                   list(comparisonDifference),
-                                                                                   recursiveComparisonConfiguration,
-                                                                                   INFO.representation()));
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
   @SuppressWarnings("unused")
@@ -301,70 +289,8 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
     ComparisonDifference numberDifference = diff("neighbour.neighbour.home.address.number",
                                                  actual.neighbour.neighbour.home.address.number,
                                                  expected.neighbour.neighbour.home.address.number);
-    List<ComparisonDifference> differences = list(dateOfBirthDifference, neighbourNameDifference, numberDifference);
-    verify(failures).failure(INFO, shouldBeEqualByComparingFieldByFieldRecursively(actual,
-                                                                                   expected,
-                                                                                   differences,
-                                                                                   recursiveComparisonConfiguration,
-                                                                                   INFO.representation()));
-  }
-
-  @SuppressWarnings("unused")
-  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields regexes={3}")
-  @MethodSource("recursivelyEqualObjectsIgnoringGivenFieldsByRegexes")
-  public void should_pass_for_objects_with_the_same_data_when_fields_are_ignored_by_regex(Object actual,
-                                                                                          Object expected,
-                                                                                          String testDescription,
-                                                                                          List<String> regexes) {
-    // GIVEN
-    recursiveComparisonConfiguration.ignoreFieldsByRegexes(regexes.toArray(new String[0]));
-    // THEN
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
-  }
-
-  @SuppressWarnings("unused")
-  private static Stream<Arguments> recursivelyEqualObjectsIgnoringGivenFieldsByRegexes() {
-    Person person1 = new Person("John");
-    person1.home.address.number = 1;
-
-    Person person2 = new Person("Jack");
-    person2.home.address.number = 1;
-
-    Person person3 = new Person("John");
-    person3.home.address.number = 123;
-
-    Human person4 = new Human();
-    person4.name = "Jack";
-    person4.home.address.number = 456;
-
-    Person person5 = new Person();
-    person5.home.address.number = 1;
-
-    Person person6 = new Person();
-    person6.home.address.number = 2;
-
-    Person person7 = new Person("John");
-    person7.neighbour = new Person("Jack");
-    person7.neighbour.home.address.number = 123;
-    person7.neighbour.neighbour = new Person("James");
-    person7.neighbour.neighbour.home.address.number = 124;
-
-    Person person8 = new Person("John");
-    person8.neighbour = new Person("Jim");
-    person8.neighbour.home.address.number = 234;
-    person8.neighbour.neighbour = new Person("Jon");
-    person8.neighbour.neighbour.home.address.number = 345;
-
-    return Stream.of(Arguments.of(person1, person2, "same data and type, except for one ignored field",
-                                  list("name")),
-                     Arguments.of(person1, person2, "same data and type, except for one ignored field",
-                                  list(".*name")),
-                     Arguments.of(person3, person4, "same data, different type, except for several ignored fields",
-                                  list("name", ".*number")),
-                     Arguments.of(person5, person6, "same data except for one subfield of an ignored field",
-                                  list("home.*numb..")),
-                     Arguments.of(person7, person8, "same data except for any neighbour name or number fields",
-                                  list("neighbour\\..*\\.number", "neighbour\\..*name")));
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
+                                                              dateOfBirthDifference, neighbourNameDifference, numberDifference);
   }
 
   @Test
@@ -395,20 +321,11 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
-    ComparisonDifference neighbourNameDifference = diff("neighbour.dateOfBirth",
-                                                        actual.neighbour.dateOfBirth,
-                                                        expected.neighbour.dateOfBirth);
-    List<ComparisonDifference> differences = list(dateOfBirthDifference, neighbourNameDifference);
-    verify(failures).failure(INFO, shouldBeEqualByComparingFieldByFieldRecursively(actual,
-                                                                                   expected,
-                                                                                   differences,
-                                                                                   recursiveComparisonConfiguration,
-                                                                                   INFO.representation()));
-  }
-
-  private void compareRecusively(Object actual, Object expected,
-                                 RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    objects.assertIsEqualToUsingRecursiveComparison(INFO, actual, expected, recursiveComparisonConfiguration);
+    ComparisonDifference neighbourdateOfBirthDifference = diff("neighbour.dateOfBirth",
+                                                               actual.neighbour.dateOfBirth,
+                                                               expected.neighbour.dateOfBirth);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
+                                                              dateOfBirthDifference, neighbourdateOfBirthDifference);
   }
 
   // old tests
@@ -586,11 +503,11 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
   public void should_not_use_equal_implementation_of_objects_to_compare() {
     AssertionInfo info = INFO;
 
-    EqualPerson actual = new EqualPerson();
+    AlwaysEqualPerson actual = new AlwaysEqualPerson();
     actual.name = "John";
     actual.home.address.number = 1;
 
-    EqualPerson other = new EqualPerson();
+    AlwaysEqualPerson other = new AlwaysEqualPerson();
     other.name = "John";
     other.home.address.number = 2;
 
@@ -831,67 +748,4 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test extends Object
 
   }
 
-  public static class Person {
-    public Date dateOfBirth;
-    public String name;
-    public Home home = new Home();
-    public Person neighbour;
-
-    public Person() {}
-
-    public Person(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String toString() {
-      return "Person [name=" + name + ", home=" + home + "]";
-    }
-  }
-
-  public static class Home {
-    public Address address = new Address();
-
-    @Override
-    public String toString() {
-      return "Home [address=" + address + "]";
-    }
-  }
-
-  public static class Address {
-    public int number = 1;
-
-    @Override
-    public String toString() {
-      return "Address [number=" + number + "]";
-    }
-  }
-
-  public static class Human extends Person {
-  }
-
-  public static class Giant extends Person {
-    public double height = 3.0;
-
-    @Override
-    public String toString() {
-      return "Giant [name=" + name + ", home=" + home + ", " + "height " + height + "]";
-    }
-  }
-
-  public static class EqualPerson extends Person {
-
-    @Override
-    public boolean equals(Object o) {
-      return true;
-    }
-  }
-
-  public static class FriendlyPerson extends Person {
-    public List<FriendlyPerson> friends = new ArrayList<>();
-  }
-
-  private static ComparisonDifference diff(String path, Object actual, Object other) {
-    return new ComparisonDifference(list(path), actual, other);
-  }
 }
