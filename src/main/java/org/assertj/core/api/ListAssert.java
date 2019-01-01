@@ -52,22 +52,22 @@ public class ListAssert<ELEMENT> extends
     super(actual, ListAssert.class, new ObjectAssertFactory<ELEMENT>());
   }
 
-  protected ListAssert(Stream<? extends ELEMENT> actual) {
+  public ListAssert(Stream<? extends ELEMENT> actual) {
     this(actual == null ? null : new ListFromStream<>(actual));
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  protected ListAssert(IntStream actual) {
+  public ListAssert(IntStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  protected ListAssert(LongStream actual) {
+  public ListAssert(LongStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  protected ListAssert(DoubleStream actual) {
+  public ListAssert(DoubleStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
   }
 
