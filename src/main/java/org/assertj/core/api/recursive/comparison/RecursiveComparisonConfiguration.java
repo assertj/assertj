@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.Strings.join;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -35,7 +36,7 @@ public class RecursiveComparisonConfiguration {
   private TypeComparators comparatorForTypes = new TypeComparators();
   private FieldComparators comparatorForFields = new FieldComparators();
 
-  private List<Pattern> ignoredFieldsRegexes;
+  private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
 
   public Comparator getComparatorForField(String fieldName) {
     return null;
@@ -82,12 +83,22 @@ public class RecursiveComparisonConfiguration {
     if (ignoreAllActualNullFields) description.append("- all actual null fields were ignored in the comparison").append(NEWLINE);
     if (!ignoredFields.isEmpty())
       description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
-    return format(description.toString());
+    if (!ignoredFieldsRegexes.isEmpty())
+      description.append(format("- the following regexes were used to ignore fields in the comparison: %s%n",
+                                describeIgnoredFieldsRegexes()));
+    return description.toString();
   }
 
   private String describeIgnoredFields() {
     List<String> fieldsDescription = ignoredFields.stream()
                                                   .map(FieldLocation::getFieldPath)
+                                                  .collect(toList());
+    return join(fieldsDescription).with(", ");
+  }
+
+  private String describeIgnoredFieldsRegexes() {
+    List<String> fieldsDescription = ignoredFieldsRegexes.stream()
+                                                         .map(Pattern::pattern)
                                                   .collect(toList());
     return join(fieldsDescription).with(", ");
   }
@@ -119,7 +130,8 @@ public class RecursiveComparisonConfiguration {
   }
 
   private boolean matchesAnIgnoredRegex(DualKey dualKey) {
-    return this.ignoredFieldsRegexes.stream().anyMatch(regex -> regex.matcher(dualKey.concatenatedPath).matches());
+    return this.ignoredFieldsRegexes.stream()
+                                    .anyMatch(regex -> regex.matcher(dualKey.concatenatedPath).matches());
   }
 
   private boolean matchesAnIgnoredField(DualKey dualKey) {
