@@ -25,8 +25,8 @@ import java.util.TreeMap;
 
 import org.assertj.core.util.VisibleForTesting;
 
-/** 
- * An internal holder of the comparators for fields described with {@link FieldLocation}. 
+/**
+ * An internal holder of the comparators for fields described with {@link FieldLocation}.
  */
 public class FieldComparators {
 
@@ -40,7 +40,7 @@ public class FieldComparators {
   /**
    * Puts the {@code comparator} for the given {@code clazz}.
    *
-   * @param clazz the class for the comparator
+   * @param fieldLocation the FieldLocation where to apply the comparator
    * @param comparator the comparator it self
    * @param <T> the type of the objects for the comparator
    */

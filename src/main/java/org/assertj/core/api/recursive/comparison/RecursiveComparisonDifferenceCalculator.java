@@ -66,8 +66,7 @@ public class RecursiveComparisonDifferenceCalculator {
    *
    * @param actual Object one to compare
    * @param expected Object two to compare
-   * @param comparatorByPropertyOrField comparators to compare properties or fields with the given names
-   * @param comparatorByType comparators to compare properties or fields with the given types
+   * @param recursiveComparisonConfiguration the recursive comparison configuration
    * @return the list of differences found or an empty list if objects are equivalent.
    *         Equivalent means that all field values of both subgraphs are the same,
    *         either at the field level or via the respectively encountered overridden
