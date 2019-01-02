@@ -19,6 +19,7 @@ import org.assertj.core.presentation.Representation;
 @Beta
 public class RecursiveComparisonConfiguration {
 
+  public static final String INDENT_LEVEL_2 = "---";
   // private boolean strictTypeCheck = true;
 
   private boolean ignoreAllActualNullFields = false;
@@ -114,19 +115,45 @@ public class RecursiveComparisonConfiguration {
 
   public String multiLineDescription(Representation representation) { // TODO use representation ?
     StringBuilder description = new StringBuilder();
-    if (ignoreAllActualNullFields) description.append(format("- all actual null fields were ignored in the comparison%n"));
-    if (!ignoredFields.isEmpty())
-      description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
-    if (!ignoredFieldsRegexes.isEmpty())
-      description.append(format("- the following regexes were used to ignore fields in the comparison: %s%n",
-                                describeRegexes(ignoredFieldsRegexes)));
-    if (!ignoredCustomEqualsRegexes.isEmpty())
-      description.append(format("- the following regexes were used to ignore overridden equals methods in the comparison: %s%n",
-                                describeRegexes(ignoredCustomEqualsRegexes)));
+    describeIgnoreAllActualNullFields(description);
+    describeIgnoredFields(description);
+    describeIgnoredFieldsRegexes(description);
+    describeOverriddenEqualsMethodsBehavior(description);
     return description.toString();
   }
 
   // private stuff
+
+  private void describeIgnoredFieldsRegexes(StringBuilder description) {
+    if (!ignoredFieldsRegexes.isEmpty())
+      description.append(format("- the fields matching the following regexes were ignored in the comparison: %s%n",
+                                describeRegexes(ignoredFieldsRegexes)));
+  }
+
+  private void describeIgnoredFields(StringBuilder description) {
+    if (!ignoredFields.isEmpty())
+      description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
+  }
+
+  private void describeIgnoreAllActualNullFields(StringBuilder description) {
+    if (ignoreAllActualNullFields) description.append(format("- all actual null fields were ignored in the comparison%n"));
+  }
+
+  private void describeOverriddenEqualsMethodsBehavior(StringBuilder description) {
+    description.append(format("- overridden equals methods were used in the comparison"));
+    if (isConfiguredToIgnoreSomeOverriddenEqualsMethods()) {
+      description.append(format(", except for:%n"));
+      describeIgnoredOverriddenEqualsMethods(description);
+    } else {
+      description.append(format("%n"));
+    }
+  }
+
+  private void describeIgnoredOverriddenEqualsMethods(StringBuilder description) {
+    if (!ignoredCustomEqualsRegexes.isEmpty())
+      description.append(format("%s the types matching the following regexes: %s%n", INDENT_LEVEL_2,
+                                describeRegexes(ignoredCustomEqualsRegexes)));
+  }
 
   private boolean matchesAnIgnoreOverriddenEqualsRegex(Class<? extends Object> clazz) {
     if (this.ignoredCustomEqualsRegexes.isEmpty()) return false; // shortcut
@@ -161,6 +188,10 @@ public class RecursiveComparisonConfiguration {
                                             .map(Pattern::pattern)
                                             .collect(toList());
     return join(fieldsDescription).with(", ");
+  }
+
+  public boolean isConfiguredToIgnoreSomeOverriddenEqualsMethods() {
+    return !ignoredCustomEqualsRegexes.isEmpty();
   }
 
 }

@@ -41,18 +41,21 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreFieldsByRegexes("foo", "bar", "foo.bar");
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- the following regexes were used to ignore fields in the comparison: foo, bar, foo.bar%n"));
+    assertThat(multiLineDescription).contains(format("- the fields matching the following regexes were ignored in the comparison: foo, bar, foo.bar%n"));
   }
 
   @Test
-  public void should_show_the_when_overridden_equals_were_used() {
+  public void should_show_the_ignored_overridden_equals_methods_regexes() {
     // WHEN
+    recursiveComparisonConfiguration.ignoreCustomEqualsByRegexes("foo", "bar", "foo.bar");
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- overridden equals methods were used in the recursive comparison%n"));
-  }
+    // @format:off
+    assertThat(multiLineDescription).contains(format("- overridden equals methods were used in the comparison, except for:%n" +
+                                                     "--- the types matching the following regexes: foo, bar, foo.bar%n"));
+    // @format:on
 
-  // TODO should_show_the_ignored_overridden_equals_methods_regexes
+  }
 
   @Test
   public void should_show_a_complete_multiline_description() {
@@ -60,13 +63,15 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsByRegexes("f.*", ".ba.", "..b%sr..");
+    recursiveComparisonConfiguration.ignoreCustomEqualsByRegexes(".*oo", ".ar", "oo.ba");
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    assertThat(multiLineDescription).isEqualTo(format("- overridden equals methods were used in the recursive comparison%n" +
-                                                      "- all actual null fields were ignored in the comparison%n" +
+    assertThat(multiLineDescription).isEqualTo(format("- all actual null fields were ignored in the comparison%n" +
                                                       "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
-                                                      "- the following regexes were used to ignore fields in the comparison: f.*, .ba., ..b%%sr..%n"));
+                                                      "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
+                                                      "- overridden equals methods were used in the comparison, except for:%n" +
+                                                      "--- the types matching the following regexes: .*oo, .ar, oo.ba%n"));
     // @format:on
   }
 
