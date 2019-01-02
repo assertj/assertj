@@ -314,14 +314,11 @@ public class DeepDifference {
       Set<String> key1FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(key1.getClass()));
       Set<String> key2FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(key2.getClass()));
       if (!key2FieldsNames.containsAll(key1FieldsNames)) {
-        Set<String> key1FieldsNamesNotInKey2 = newHashSet(key1FieldsNames);
-        key1FieldsNamesNotInKey2.removeAll(key2FieldsNames);
-        String missingFields = key1FieldsNamesNotInKey2.toString();
-        String key2ClassName = key2.getClass().getName();
-        String key1ClassName = key1.getClass().getName();
-        String missingFieldsDescription = format(MISSING_FIELDS, key1ClassName, key2ClassName, key2.getClass().getSimpleName(),
-                                                 key1.getClass().getSimpleName(), missingFields);
-        differences.add(new Difference(currentPath, key1, key2, missingFieldsDescription));
+        Difference difference = getDifference(currentPath, key1, key2, key1FieldsNames, key2FieldsNames);
+        differences.add(difference);
+      } else if (!key1FieldsNames.containsAll(key2FieldsNames)) {
+        Difference difference = getDifference(currentPath, key2, key1, key2FieldsNames, key1FieldsNames);
+        differences.add(difference);
       } else {
         for (String fieldName : key1FieldsNames) {
           List<String> path = new ArrayList<>(currentPath);
@@ -337,6 +334,20 @@ public class DeepDifference {
     }
 
     return differences;
+  }
+
+  private static Difference getDifference(List<String> currentPath,
+                                          Object key1,
+                                          Object key2,
+                                          Set<String> key1FieldsNames, Set<String> key2FieldsNames) {
+    Set<String> key1FieldsNamesNotInKey2 = newHashSet(key1FieldsNames);
+    key1FieldsNamesNotInKey2.removeAll(key2FieldsNames);
+    String missingFields = key1FieldsNamesNotInKey2.toString();
+    String key2ClassName = key2.getClass().getName();
+    String key1ClassName = key1.getClass().getName();
+    String missingFieldsDescription = format(MISSING_FIELDS, key1ClassName, key2ClassName, key2.getClass().getSimpleName(),
+                                             key1.getClass().getSimpleName(), missingFields);
+    return new Difference(currentPath, key1, key2, missingFieldsDescription);
   }
 
   private static boolean hasCustomComparator(DualKey dualKey, Map<String, Comparator<?>> comparatorByPropertyOrField,
@@ -629,7 +640,8 @@ public class DeepDifference {
         c.getDeclaredMethod("equals", Object.class);
         customEquals.put(origClass, true);
         return true;
-      } catch (Exception ignored) {}
+      } catch (Exception ignored) {
+      }
       c = c.getSuperclass();
     }
     customEquals.put(origClass, false);
@@ -728,7 +740,8 @@ public class DeepDifference {
         c.getDeclaredMethod("hashCode");
         customHash.put(origClass, true);
         return true;
-      } catch (Exception ignored) {}
+      } catch (Exception ignored) {
+      }
       c = c.getSuperclass();
     }
     customHash.put(origClass, false);
