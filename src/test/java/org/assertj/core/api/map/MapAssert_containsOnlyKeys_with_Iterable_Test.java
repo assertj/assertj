@@ -12,13 +12,20 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+import java.util.Map;
+
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 public class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
 
@@ -32,5 +39,14 @@ public class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBase
   protected void verify_internal_effects() {
     verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), list(1, 2));
     verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), "keys iterable", array(1, 2));
+  }
+
+  @Test
+  void should_work_with_iterable_of_subclass_of_key_type() {
+    // GIVEN
+    Map<Number, String> map = mapOf(entry(1, "int"), entry(2, "int"));
+    // THEN
+    List<Integer> ints = list(1, 2); // not a List<Number>
+    assertThat(map).containsOnlyKeys(ints);
   }
 }

@@ -1029,7 +1029,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *           of the given keys, or the actual map's keys contains keys not in the given ones.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-  public SELF containsOnlyKeys(Iterable<K> keys) {
+  public SELF containsOnlyKeys(Iterable<? extends K> keys) {
     maps.assertContainsOnlyKeys(info, actual, keys);
     return myself;
   }

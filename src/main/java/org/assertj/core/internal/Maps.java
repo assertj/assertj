@@ -42,10 +42,10 @@ import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.util.Arrays.asList;
+import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
-import static org.assertj.core.util.Streams.stream;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -577,9 +577,8 @@ public class Maps {
    *           contains keys that are not in the given array.
    */
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
-                                            Iterable<K> keys) {
-    @SuppressWarnings("unchecked")
-    final K[] keysAsArray = keys == null ? null : (K[]) stream(keys).toArray(Object[]::new);
+                                            Iterable<? extends K> keys) {
+    final K[] keysAsArray = toArray(keys);
     assertContainsOnlyKeys(info, actual, "keys iterable", keysAsArray);
   }
 
