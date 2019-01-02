@@ -12,115 +12,109 @@
  */
 package org.assertj.core.internal.throwables;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
 
-  private static final String EXCEPTION_MESSAGE = "invalid arg";
-
-  private Throwable throwableWithCause = new Throwable(new IllegalArgumentException(EXCEPTION_MESSAGE));
+  private static final AssertionInfo INFO = someInfo();
 
   @Test
   public void should_pass_if_cause_has_expected_type_and_message() {
-    throwables.assertHasCause(someInfo(), throwableWithCause, new IllegalArgumentException(EXCEPTION_MESSAGE));
+    // GIVEN
+    Throwable cause = new IllegalArgumentException("wibble");
+    Throwable expected = new IllegalArgumentException("wibble");
+    Throwable throwable = withCause(cause);
+
+    // WHEN
+    throwables.assertHasCause(INFO, throwable, expected);
+
+    // THEN
+    // no exception thrown
   }
 
   @Test
   public void should_pass_if_actual_has_no_cause_and_expected_cause_is_null() {
-    throwables.assertHasCause(someInfo(), new Throwable(), null);
+    // GIVEN
+    Throwable cause = null;
+    Throwable expected = null;
+    Throwable throwable = withCause(cause);
+
+    // WHEN
+    throwables.assertHasCause(INFO, throwable, expected);
+
+    // THEN
+    // no exception thrown
+  }
+
+  @SuppressWarnings("unused")
+  @ParameterizedTest(name = "{2}: cause = {0} / expected = {1}")
+  @MethodSource("failingData")
+  public void should_fail_if_cause_is_unexpected(final Throwable cause,
+                                                 final Throwable expected,
+                                                 String testDescription) {
+    // GIVEN
+    final Throwable throwable = withCause(cause);
+
+    // WHEN
+    expectAssertionError(() -> throwables.assertHasCause(INFO, throwable, expected));
+
+    // THEN
+    verify(failures).failure(INFO, shouldHaveCause(cause, expected));
+  }
+
+  // @format:off
+  @SuppressWarnings("unused")
+  private static Stream<Arguments> failingData() {
+    return Stream.of(Arguments.of(null, new Throwable(), "no actual cause"),
+                     Arguments.of(new NullPointerException(), new IllegalArgumentException(), "different cause type"),
+                     Arguments.of(new NullPointerException("right"), new NullPointerException("wrong"), "different cause message"),
+                     Arguments.of(new NullPointerException(), new NullPointerException("wrong"), "no cause message"),
+                     Arguments.of(new IllegalArgumentException("right"), new NullPointerException("wrong"), "different cause type and message"));
+  }
+  // @format:on
+
+  @Test
+  public void should_fail_if_expected_cause_is_null() {
+    // GIVEN
+    final Throwable throwable = withCause(new Throwable());
+    final Throwable expected = null;
+
+    // WHEN
+    expectAssertionError(() -> throwables.assertHasCause(INFO, throwable, expected));
+
+    // THEN
+    verify(failures).failure(INFO, shouldHaveNoCause(throwable));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasCause(someInfo(), null, new Throwable()))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    final Throwable throwable = null;
+    final Throwable expected = new Throwable();
+
+    // WHEN
+    AssertionError actual = expectAssertionError(() -> throwables.assertHasCause(INFO, throwable, expected));
+
+    // THEN
+    assertThat(actual).hasMessage(actualIsNull());
   }
 
-  @Test
-  public void should_fail_if_actual_has_no_cause_and_expected_cause_is_not_null() {
-    AssertionInfo info = someInfo();
-    Throwable expectedCause = new Throwable();
-    try {
-      throwables.assertHasCause(info, actual, expectedCause);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCause(actual.getCause(), expectedCause));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_actual_has_cause_and_expected_cause_is_null() {
-    AssertionInfo info = someInfo();
-    try {
-      throwables.assertHasCause(info, throwableWithCause, null);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveNoCause(throwableWithCause));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_cause_is_not_instance_of_expected_type() {
-    AssertionInfo info = someInfo();
-    Throwable expectedCause = new NullPointerException(EXCEPTION_MESSAGE);
-    try {
-      throwables.assertHasCause(info, throwableWithCause, expectedCause);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCause(throwableWithCause.getCause(), expectedCause));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_cause_has_not_the_expected_message() {
-    AssertionInfo info = someInfo();
-    Throwable expectedCause = new IllegalArgumentException(EXCEPTION_MESSAGE + "foo");
-    try {
-      throwables.assertHasCause(info, throwableWithCause, expectedCause);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCause(throwableWithCause.getCause(), expectedCause));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_cause_has_no_message_and_the_expected_cause_has_one() {
-    AssertionInfo info = someInfo();
-    Throwable expectedCause = new IllegalArgumentException("error cause");
-    throwableWithCause = new Throwable(new IllegalArgumentException());
-    try {
-      throwables.assertHasCause(info, throwableWithCause, expectedCause);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCause(throwableWithCause.getCause(), expectedCause));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_cause_has_different_type_and_message_to_expected_cause() {
-    AssertionInfo info = someInfo();
-    Throwable expectedCause = new NullPointerException("error cause");
-    try {
-      throwables.assertHasCause(info, throwableWithCause, expectedCause);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCause(throwableWithCause.getCause(), expectedCause));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+  private static Throwable withCause(Throwable cause) {
+    return new Throwable("bang!", cause);
   }
 }
