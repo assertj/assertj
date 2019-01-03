@@ -13,15 +13,13 @@
 package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
@@ -52,33 +50,24 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_the_map_under_test_is_empty_whatever_the_assertions_requirements_are() {
     actual.clear();
-    try {
-      maps.assertAnySatisfy(someInfo(), actual, ($1,$2) -> assertThat(true).isTrue());
-    } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldSatisfyAny(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual,
+                                                                            ($1, $2) -> assertThat(true).isTrue()));
+    assertThat(error).hasMessage(elementsShouldSatisfyAny(actual).create());
   }
 
   @Test
   public void should_fail_if_no_entry_satisfies_the_given_requirements() {
-    try {
-      maps.assertAnySatisfy(someInfo(), actual, ($1, $2) -> {
-        assertThat(true).isFalse();
-      });
-    } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldSatisfyAny(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual, ($1, $2) -> {
+      assertThat(true).isFalse();
+    }));
+    assertThat(error).hasMessage(elementsShouldSatisfyAny(actual).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertAnySatisfy(someInfo(), null, (team, player) -> {
-    }))
-                                                   .withMessage(actualIsNull());
+    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), null, (team, player) -> {
+    }));
+    assertThat(error).hasMessage(actualIsNull());
   }
 
   @Test

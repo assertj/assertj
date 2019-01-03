@@ -108,23 +108,22 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * elvesRingBearers.put(gandalf, narya);
    * elvesRingBearers.put(elrond, vilya);
    *
-   * // this assertion succeeds:
+   * // this assertion succeeds (one of the elven ring bearers bears vilya):
    * assertThat(elvesRingBearers).anySatisfy((character, ring) -&gt; {
-   *   assertThat(ring).isIn(vilya);
+   *   assertThat(ring).isEqualTo(vilya);
    * });
    *
-   * // this assertion fails as Gandalf the maia does not bear the ring vilya and the ring bearer of vilya is not a maia:
+   * // this assertion fails (one of the elven ring bearers is a maia, but none bears the One Ring):
    * assertThat(elvesRingBearers).anySatisfy((character, ring) -&gt; {
    *   assertThat(character.getRace()).isIn(MAIA);
-   *   assertThat(ring).isIn(vilya);
+   *   assertThat(ring).isEqualTo(oneRing);
    * });</code></pre>
-   * <p>
    *
-   * @param entryRequirements the given requirements that each entry must satisfy.
+   * @param entryRequirements the given requirements that at least one entry must satisfy.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws AssertionError if all entries don't satisfy the given requirements.
+   * @throws AssertionError if no entries satisfy the given requirements.
    * @since 3.12
    */
   public SELF anySatisfy(BiConsumer<? super K, ? super V> entryRequirements) {

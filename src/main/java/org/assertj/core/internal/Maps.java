@@ -88,7 +88,8 @@ public class Maps {
   Conditions conditions = Conditions.instance();
 
   @VisibleForTesting
-  Maps() {}
+  Maps() {
+  }
 
   public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,
                                       BiConsumer<? super K, ? super V> entryRequirements) {
@@ -111,11 +112,9 @@ public class Maps {
       return true;
     });
 
-    if (!anyMatch) {
-      throw failures.failure(info, elementsShouldSatisfyAny(actual));
-    }
+    if (!anyMatch) throw failures.failure(info, elementsShouldSatisfyAny(actual));
   }
-  
+
   /**
    * Asserts that the given {@code Map} is {@code null} or empty.
    *
