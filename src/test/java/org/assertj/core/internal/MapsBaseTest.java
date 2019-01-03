@@ -14,10 +14,12 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import java.util.Map;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.WithPlayerData;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,12 +39,15 @@ public class MapsBaseTest extends WithPlayerData {
   protected Failures failures;
   protected Maps maps;
 
+  protected AssertionInfo info;
+
   @BeforeEach
   public void setUp() {
     actual = mapOf(entry("name", "Yoda"), entry("color", "green"));
     failures = spy(new Failures());
     maps = new Maps();
     maps.failures = failures;
+    info = someInfo();
   }
 
   @SuppressWarnings("rawtypes")
