@@ -209,7 +209,7 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (!recursiveComparisonConfiguration.shouldIgnoreOverriddenEquals(key1.getClass())
+      if (!recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(key1.getClass())
           && hasCustomEquals(key1.getClass())) {
         if (!key1.equals(key2)) {
           differences.add(new ComparisonDifference(currentPath, key1, key2));

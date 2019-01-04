@@ -8,6 +8,8 @@ import static org.assertj.core.util.Lists.list;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.google.common.collect.Multimap;
+
 public class RecursiveComparisonConfiguration_multiLineDescription_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
@@ -47,14 +49,27 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   @Test
   public void should_show_the_ignored_overridden_equals_methods_regexes() {
     // WHEN
-    recursiveComparisonConfiguration.ignoreCustomEqualsByRegexes("foo", "bar", "foo.bar");
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes("foo", "bar", "foo.bar");
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    assertThat(multiLineDescription).contains(format("- overridden equals methods were used in the comparison, except for:%n" +
-                                                     "--- the types matching the following regexes: foo, bar, foo.bar%n"));
+    assertThat(multiLineDescription).contains(format(
+               "- overridden equals methods were used in the comparison, except for:%n" +
+               "--- the types matching the following regexes: foo, bar, foo.bar%n"));
     // @format:on
+  }
 
+  @Test
+  public void should_show_the_ignored_overridden_equals_methods_types() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    // @format:off
+    assertThat(multiLineDescription).contains(format(
+               "- overridden equals methods were used in the comparison, except for:%n" +
+               "--- the following types: java.lang.String, com.google.common.collect.Multimap%n"));
+    // @format:on
   }
 
   @Test
@@ -63,7 +78,8 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsByRegexes("f.*", ".ba.", "..b%sr..");
-    recursiveComparisonConfiguration.ignoreCustomEqualsByRegexes(".*oo", ".ar", "oo.ba");
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(".*oo", ".ar", "oo.ba");
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
@@ -71,6 +87,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
                                                       "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                                                       "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                                                       "- overridden equals methods were used in the comparison, except for:%n" +
+                                                      "--- the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                                                       "--- the types matching the following regexes: .*oo, .ar, oo.ba%n"));
     // @format:on
   }

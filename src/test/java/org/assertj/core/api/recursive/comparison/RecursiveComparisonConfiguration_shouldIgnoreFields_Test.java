@@ -16,7 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonConfiguration_ignoresFields_Test {
+public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
