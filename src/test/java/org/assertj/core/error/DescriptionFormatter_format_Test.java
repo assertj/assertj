@@ -14,6 +14,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.stream.Stream;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeAll;
@@ -47,11 +49,7 @@ public class DescriptionFormatter_format_Test {
     assertThat(formatter.format(testDescription)).isEmpty();
   }
 
-  public static Object[][] descriptionGeneratorDataProvider() {
-    return new Object[][] {
-        { null },
-        { new TestDescription(null) },
-        { new TestDescription("") }
-    };
+  public static Stream<TestDescription> descriptionGeneratorDataProvider() {
+    return Stream.of(null, new TestDescription(null), new TestDescription(""));
   }
 }
