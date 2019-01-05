@@ -268,7 +268,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThat((IntPredicate) s -> s == 1).accepts(2);
     softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
     softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
-    // assert everything, but catch the erro since it is a perf test
+    // assert everything, but catch the error since it is a perf test
     catchThrowable(() -> softly.assertAll());
   }
 
