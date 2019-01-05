@@ -70,10 +70,10 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringSpecifiedFieldsSource() {
-    return Stream.of(Arguments.of(randomDualKeyWithPath("name"), list("name")),
-                     Arguments.of(randomDualKeyWithPath("name"), list("foo", "name", "foo")),
-                     Arguments.of(randomDualKeyWithPath("name", "first"), list("name.first")),
-                     Arguments.of(randomDualKeyWithPath("father", "name", "first"),
+    return Stream.of(Arguments.of(dualKeyWithPath("name"), list("name")),
+                     Arguments.of(dualKeyWithPath("name"), list("foo", "name", "foo")),
+                     Arguments.of(dualKeyWithPath("name", "first"), list("name.first")),
+                     Arguments.of(dualKeyWithPath("father", "name", "first"),
                                   list("father", "name.first", "father.name.first")));
 
   }
@@ -91,17 +91,17 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringRegexSpecifiedFieldsSource() {
-    return Stream.of(Arguments.of(randomDualKeyWithPath("name"), list(".*name")),
-                     Arguments.of(randomDualKeyWithPath("name"), list("foo", "n.m.", "foo")),
-                     Arguments.of(randomDualKeyWithPath("name", "first"), list("name\\.first")),
-                     Arguments.of(randomDualKeyWithPath("name", "first"), list(".*first")),
-                     Arguments.of(randomDualKeyWithPath("name", "first"), list("name.*")),
-                     Arguments.of(randomDualKeyWithPath("father", "name", "first"),
+    return Stream.of(Arguments.of(dualKeyWithPath("name"), list(".*name")),
+                     Arguments.of(dualKeyWithPath("name"), list("foo", "n.m.", "foo")),
+                     Arguments.of(dualKeyWithPath("name", "first"), list("name\\.first")),
+                     Arguments.of(dualKeyWithPath("name", "first"), list(".*first")),
+                     Arguments.of(dualKeyWithPath("name", "first"), list("name.*")),
+                     Arguments.of(dualKeyWithPath("father", "name", "first"),
                                   list("father", "name.first", "father\\.name\\.first")));
 
   }
 
-  private static DualKey randomDualKeyWithPath(String... pathElements) {
+  private static DualKey dualKeyWithPath(String... pathElements) {
     return new DualKey(list(pathElements), new Object(), new Object());
   }
 

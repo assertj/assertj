@@ -24,41 +24,68 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
-  @ParameterizedTest(name = "{0} should be ignored with these regexes {1}")
-  @MethodSource("ignoringCustomEqualsByRegexesSource")
-  public void should_ignore_custom_equals_by_regexes(Class<?> clazz, List<String> ignoredCustomEqualsByRegexes) {
+  @ParameterizedTest(name = "{0} overridden equals should be ignored with these regexes {1}")
+  @MethodSource("ignoringOverriddenEqualsByRegexesSource")
+  public void should_ignore_overridden_equals_by_regexes(Class<?> clazz, List<String> ignoredOverriddenEqualsByRegexes) {
     // GIVEN
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(ignoredCustomEqualsByRegexes.toArray(new String[0]));
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(ignoredOverriddenEqualsByRegexes.toArray(new String[0]));
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(clazz);
     // THEN
-    assertThat(ignored).as("%s should be ignored with these regexes %s", clazz, ignoredCustomEqualsByRegexes)
+    assertThat(ignored).as("%s overridden equals should be ignored with these regexes %s",
+                           clazz, ignoredOverriddenEqualsByRegexes)
                        .isTrue();
   }
 
   @SuppressWarnings("unused")
-  private static Stream<Arguments> ignoringCustomEqualsByRegexesSource() {
+  private static Stream<Arguments> ignoringOverriddenEqualsByRegexesSource() {
     return Stream.of(Arguments.of(Person.class, list("foo", ".*Person")),
                      Arguments.of(Human.class, list("org.assertj.core.internal.*.data\\.Human", "foo")),
                      Arguments.of(Multimap.class, list("com.google.common.collect.*")));
   }
 
-  @ParameterizedTest(name = "{0} should be ignored with these types {1}")
-  @MethodSource("ignoringCustomEqualsForTypesSource")
-  public void should_ignore_custom_equals_by_types(Class<?> clazz, List<Class<?>> ignoredCustomEqualsByTypes) {
+  @ParameterizedTest(name = "{0} overridden equals should be ignored for these types {1}")
+  @MethodSource("ignoringOverriddenEqualsForTypesSource")
+  public void should_ignore_overridden_equals_by_types(Class<?> clazz, List<Class<?>> ignoredOverriddenEqualsByTypes) {
     // GIVEN
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(ignoredCustomEqualsByTypes.toArray(new Class[0]));
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(ignoredOverriddenEqualsByTypes.toArray(new Class[0]));
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(clazz);
     // THEN
-    assertThat(ignored).as("%s should be ignored with these types %s", clazz, ignoredCustomEqualsByTypes)
+    assertThat(ignored).as("%s overridden equals should be ignored for these types %s", clazz, ignoredOverriddenEqualsByTypes)
                        .isTrue();
   }
 
   @SuppressWarnings("unused")
-  private static Stream<Arguments> ignoringCustomEqualsForTypesSource() {
+  private static Stream<Arguments> ignoringOverriddenEqualsForTypesSource() {
     return Stream.of(Arguments.of(Person.class, list(Human.class, Person.class, String.class)),
                      Arguments.of(Human.class, list(Human.class)));
+  }
+
+  @ParameterizedTest(name = "{0} overridden equals should be ignored for these fields {1}")
+  @MethodSource("ignoringOverriddenEqualsForFieldsSource")
+  public void should_ignore_overridden_equals_by_fields(DualKey dualKey, List<String> ignoredOverriddenEqualsByFields) {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(ignoredOverriddenEqualsByFields.toArray(new String[0]));
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualKey);
+    // THEN
+    assertThat(ignored).as("%s overridden equals should be ignored for these fields %s", dualKey, ignoredOverriddenEqualsByFields)
+                       .isTrue();
+  }
+
+  @SuppressWarnings("unused")
+  private static Stream<Arguments> ignoringOverriddenEqualsForFieldsSource() {
+    return Stream.of(Arguments.of(dualKeyWithPath("name"), list("name")),
+                     Arguments.of(dualKeyWithPath("name"), list("foo", "name", "foo")),
+                     Arguments.of(dualKeyWithPath("name", "first"), list("name.first")),
+                     Arguments.of(dualKeyWithPath("father", "name", "first"),
+                                  list("father", "name.first", "father.name.first")));
+
+  }
+
+  private static DualKey dualKeyWithPath(String... pathElements) {
+    return new DualKey(list(pathElements), new Object(), new Object());
   }
 
 }

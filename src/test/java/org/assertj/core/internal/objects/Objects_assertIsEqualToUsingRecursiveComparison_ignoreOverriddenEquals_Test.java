@@ -32,8 +32,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEquals_Test
     extends Objects_assertIsEqualToUsingRecursiveComparison_BaseTest {
 
+  // ignoreOverriddenEqualsByRegexes tests
+
   @SuppressWarnings("unused")
-  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored custom equals regexes={3}")
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored overridden equals regexes={3}")
   @MethodSource("comparison_ignores_overridden_equals_methods_by_regexes_data")
   public void should_pass_when_comparison_ignores_overridden_equals_methods_by_regexes(Object actual,
                                                                                        Object expected,
@@ -96,8 +98,10 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, numberDifference, neighbourNameDifference);
   }
 
+  // ignoreOverriddenEqualsForTypes tests
+
   @SuppressWarnings("unused")
-  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored custom equals regexes={3}")
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored overridden equals types={3}")
   @MethodSource("comparison_ignores_overridden_equals_methods_by_types_data")
   public void should_pass_when_comparison_ignores_overridden_equals_methods_by_types(Object actual,
                                                                                      Object expected,
@@ -158,6 +162,70 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, numberDifference, neighbourNameDifference);
   }
 
+  // ignoreOverriddenEqualsForFields tests
+
+  @SuppressWarnings("unused")
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored overridden equals fields={3}")
+  @MethodSource("comparison_ignores_overridden_equals_methods_by_fields_data")
+  public void should_pass_when_comparison_ignores_overridden_equals_methods_by_fields(Object actual,
+                                                                                      Object expected,
+                                                                                      String testDescription,
+                                                                                      List<String> fields) {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields.toArray(new String[0]));
+    // THEN
+    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+  }
+
+  @SuppressWarnings("unused")
+  private static Stream<Arguments> comparison_ignores_overridden_equals_methods_by_fields_data() {
+    Person person1 = new Person();
+    person1.neighbour = new AlwaysDifferentPerson();
+    Person person2 = new Person();
+    person2.neighbour = new AlwaysDifferentPerson();
+
+    Person person3 = new Person();
+    person3.home.address = new AlwaysDifferentAddress();
+    person3.neighbour = new AlwaysDifferentPerson();
+    Person person4 = new Person();
+    person4.home.address = new AlwaysDifferentAddress();
+    person4.neighbour = new AlwaysDifferentPerson();
+
+    return Stream.of(Arguments.of(person1, person2, "AlwaysDifferentPerson neighbour identical field by field",
+                                  list("neighbour")),
+                     Arguments.of(person3, person4,
+                                  "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field",
+                                  list("neighbour", "home.address")));
+  }
+
+  @Test
+  public void should_fail_when_actual_differs_from_expected_as_some_overridden_equals_methods_are_ignored_by_fields() {
+    // GIVEN
+    Person actual = new Person();
+    actual.neighbour = new AlwaysEqualPerson();
+    actual.neighbour.name = "Jack";
+    actual.neighbour.home.address = new AlwaysEqualAddress();
+    actual.neighbour.home.address.number = 123;
+
+    Person expected = new Person();
+    expected.neighbour = new AlwaysEqualPerson();
+    expected.neighbour.name = "Jim";
+    expected.neighbour.home.address = new AlwaysEqualAddress();
+    expected.neighbour.home.address.number = 234;
+
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("neighbour", "neighbour.home.address");
+
+    // WHEN
+    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+
+    // THEN
+    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
+    ComparisonDifference numberDifference = diff("neighbour.home.address.number",
+                                                 actual.neighbour.home.address.number,
+                                                 expected.neighbour.home.address.number);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, numberDifference, neighbourNameDifference);
+  }
+
   @Test
   public void ignoring_overridden_equals_methods_only_applies_on_fields_but_not_on_the_object_under_test_itself() {
     // GIVEN
@@ -166,7 +234,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     AlwaysEqualPerson expected = new AlwaysEqualPerson();
     expected.name = "Jack";
     // THEN
-    // would have succeeded if we had used AlwaysEqualPerson custom equals method
+    // would have succeeded if we had used AlwaysEqualPerson equals method
     expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
   }
 

@@ -1,7 +1,11 @@
 package org.assertj.core.api.recursive.comparison;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 // TODO should understand Map keys as field
 public class FieldLocation implements Comparable<FieldLocation> {
@@ -46,6 +50,10 @@ public class FieldLocation implements Comparable<FieldLocation> {
 
   public boolean matches(String concatenatedPath) {
     return fieldPath.equals(concatenatedPath);
+  }
+
+  static List<FieldLocation> from(String... fieldPaths) {
+    return Stream.of(fieldPaths).map(FieldLocation::new).collect(toList());
   }
 
 }

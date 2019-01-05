@@ -73,6 +73,19 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  public void should_show_the_ignored_overridden_equals_methods_fields() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    // @format:off
+    assertThat(multiLineDescription).contains(format(
+               "- overridden equals methods were used in the comparison, except for:%n" +
+               "--- the following fields: foo, baz, foo.baz%n"));
+    // @format:on
+  }
+
+  @Test
   public void should_show_a_complete_multiline_description() {
     // WHEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
@@ -80,6 +93,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreFieldsByRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
@@ -87,6 +101,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
                                                       "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                                                       "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                                                       "- overridden equals methods were used in the comparison, except for:%n" +
+                                                      "--- the following fields: foo, baz, foo.baz%n" +
                                                       "--- the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                                                       "--- the types matching the following regexes: .*oo, .ar, oo.ba%n"));
     // @format:on

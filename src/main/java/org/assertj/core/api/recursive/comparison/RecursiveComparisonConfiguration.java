@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.util.VisibleForTesting;
 
 @Beta
 public class RecursiveComparisonConfiguration {
@@ -23,19 +24,17 @@ public class RecursiveComparisonConfiguration {
   public static final String INDENT_LEVEL_2 = "---";
   // private boolean strictTypeCheck = true;
 
+  // fields to ignore section
   private boolean ignoreAllActualNullFields = false;
   private Set<FieldLocation> ignoredFields = new LinkedHashSet<>();
-
+  private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
+  // overridden equals method to ignore section
+  private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
+  private List<FieldLocation> ignoredOverriddenEqualsForFields = new ArrayList<>();
   private List<Pattern> ignoredOverriddenEqualsRegexes = new ArrayList<>();
-  private List<Class> ignoredOverriddenEqualsForTypes = new ArrayList<>();
-
-  // private Set<Class> forceRecursiveComparisonForTypes = new HashSet<>();
-  // private Set<FieldLocation> forceRecursiveComparisonForFields = new HashSet<>();
 
   // private TypeComparators comparatorForTypes = new TypeComparators();
   // private FieldComparators comparatorForFields = new FieldComparators();
-
-  private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
 
   public Comparator getComparatorForField(String fieldName) {
     return null;
@@ -57,10 +56,6 @@ public class RecursiveComparisonConfiguration {
     return false;
   }
 
-  public boolean shouldIgnoreAllActualNullFields() {
-    return ignoreAllActualNullFields;
-  }
-
   /**
    * Sets whether actual null fields are ignored in the recursive comparison.
    * <p>
@@ -80,7 +75,7 @@ public class RecursiveComparisonConfiguration {
    * @param fieldPaths the field paths to be ignored in the comparison
    */
   public void ignoreFields(String... fieldPaths) {
-    List<FieldLocation> fieldLocations = Stream.of(fieldPaths).map(FieldLocation::new).collect(toList());
+    List<FieldLocation> fieldLocations = FieldLocation.from(fieldPaths);
     ignoredFields.addAll(fieldLocations);
   }
 
@@ -102,17 +97,21 @@ public class RecursiveComparisonConfiguration {
 
   public void ignoreOverriddenEqualsByRegexes(String... regexes) {
     this.ignoredOverriddenEqualsRegexes = Stream.of(regexes)
-                                            .map(Pattern::compile)
-                                            .collect(toList());
+                                                .map(Pattern::compile)
+                                                .collect(toList());
   }
 
   public void ignoreOverriddenEqualsForTypes(Class... types) {
     this.ignoredOverriddenEqualsForTypes = list(types);
   }
 
-  public boolean shouldIgnoreOverriddenEqualsOf(Class<? extends Object> clazz) {
-    return matchesAnIgnoredOverriddenEqualsRegex(clazz)
-           || matchesAnIgnoredOverriddenEqualsType(clazz);
+  public void ignoreOverriddenEqualsForFields(String... fieldPaths) {
+    List<FieldLocation> fieldLocations = FieldLocation.from(fieldPaths);
+    this.ignoredOverriddenEqualsForFields.addAll(fieldLocations); // TODO or reset ?
+  }
+
+  public boolean shouldIgnoreOverriddenEqualsOf(DualKey dualKey) {
+    return matchesAnIgnoredOverriddenEqualsField(dualKey) || shouldIgnoreOverriddenEqualsOf(dualKey.key1.getClass());
   }
 
   @Override
@@ -120,16 +119,21 @@ public class RecursiveComparisonConfiguration {
     return multiLineDescription(CONFIGURATION_PROVIDER.representation());
   }
 
-  public String multiLineDescription(Representation representation) { // TODO use representation ?
+  public String multiLineDescription(Representation representation) {
     StringBuilder description = new StringBuilder();
     describeIgnoreAllActualNullFields(description);
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
-    describeOverriddenEqualsMethods(description, representation);
+    describeOverriddenEqualsMethodsUsage(description, representation);
     return description.toString();
   }
 
-  // private stuff
+  // non public stuff
+
+  @VisibleForTesting
+  boolean shouldIgnoreOverriddenEqualsOf(Class<? extends Object> clazz) {
+    return matchesAnIgnoredOverriddenEqualsRegex(clazz) || matchesAnIgnoredOverriddenEqualsType(clazz);
+  }
 
   private void describeIgnoredFieldsRegexes(StringBuilder description) {
     if (!ignoredFieldsRegexes.isEmpty())
@@ -146,7 +150,7 @@ public class RecursiveComparisonConfiguration {
     if (ignoreAllActualNullFields) description.append(format("- all actual null fields were ignored in the comparison%n"));
   }
 
-  private void describeOverriddenEqualsMethods(StringBuilder description, Representation representation) {
+  private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
     description.append(format("- overridden equals methods were used in the comparison"));
     if (isConfiguredToIgnoreSomeOverriddenEqualsMethods()) {
       description.append(format(", except for:%n"));
@@ -157,6 +161,9 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeIgnoredOverriddenEqualsMethods(StringBuilder description, Representation representation) {
+    if (!ignoredOverriddenEqualsForFields.isEmpty())
+      description.append(format("%s the following fields: %s%n", INDENT_LEVEL_2,
+                                describeIgnoredOverriddenEqualsForFields()));
     if (!ignoredOverriddenEqualsForTypes.isEmpty())
       description.append(format("%s the following types: %s%n", INDENT_LEVEL_2,
                                 describeIgnoredOverriddenEqualsForTypes(representation)));
@@ -170,18 +177,29 @@ public class RecursiveComparisonConfiguration {
                                                                     .map(representation::toStringOf)
                                                                     .collect(toList());
     return join(fieldsDescription).with(", ");
+  }
 
+  private String describeIgnoredOverriddenEqualsForFields() {
+    List<String> fieldsDescription = ignoredOverriddenEqualsForFields.stream()
+                                                                     .map(FieldLocation::getFieldPath)
+                                                                     .collect(toList());
+    return join(fieldsDescription).with(", ");
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsRegex(Class<?> clazz) {
     if (this.ignoredOverriddenEqualsRegexes.isEmpty()) return false; // shortcut
     String canonicalName = clazz.getCanonicalName();
     return this.ignoredOverriddenEqualsRegexes.stream()
-                                          .anyMatch(regex -> regex.matcher(canonicalName).matches());
+                                              .anyMatch(regex -> regex.matcher(canonicalName).matches());
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsType(Class<?> clazz) {
     return this.ignoredOverriddenEqualsForTypes.contains(clazz);
+  }
+
+  private boolean matchesAnIgnoredOverriddenEqualsField(DualKey dualKey) {
+    return ignoredOverriddenEqualsForFields.stream()
+                                           .anyMatch(fieldLocation -> fieldLocation.matches(dualKey.concatenatedPath));
   }
 
   private boolean matchesAnIgnoredNullField(DualKey dualKey) {
@@ -213,7 +231,9 @@ public class RecursiveComparisonConfiguration {
   }
 
   private boolean isConfiguredToIgnoreSomeOverriddenEqualsMethods() {
-    return !ignoredOverriddenEqualsRegexes.isEmpty() || !ignoredOverriddenEqualsForTypes.isEmpty();
+    return !ignoredOverriddenEqualsRegexes.isEmpty()
+           || !ignoredOverriddenEqualsForTypes.isEmpty()
+           || !ignoredOverriddenEqualsForFields.isEmpty();
   }
 
 }
