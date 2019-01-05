@@ -2337,7 +2337,7 @@ public interface WithAssertions {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowableOfType(ThrowingCallable, Class)
+   * @see #catchThrowableOfType(ThrowableAssert.ThrowingCallable, Class)
    */
   default Throwable catchThrowable(final ThrowingCallable shouldRaiseThrowable) {
     return Assertions.catchThrowable(shouldRaiseThrowable);
@@ -2377,7 +2377,7 @@ public interface WithAssertions {
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowingCallable)
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
    * @since 3.9.0
    */
   default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(final ThrowingCallable shouldRaiseThrowable,
