@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
+import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
@@ -50,13 +52,16 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
 import org.assertj.core.error.ShouldContainAnyOf;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -94,8 +99,23 @@ public class Maps {
                                       BiConsumer<? super K, ? super V> entryRequirements) {
     checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
-    actual.entrySet().stream()
-          .forEach(entry -> entryRequirements.accept(entry.getKey(), entry.getValue()));
+
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = actual.entrySet().stream()
+                                                                 .map(entry -> failsRequirements(entryRequirements, entry))
+                                                                 .filter(Optional::isPresent)
+                                                                 .map(Optional::get)
+                                                                 .collect(toList());
+    if (!unsatisfiedRequirements.isEmpty()) throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements));
+  }
+
+  private static <K, V> Optional<UnsatisfiedRequirement> failsRequirements(BiConsumer<? super K, ? super V> entryRequirements,
+                                                                           Map.Entry<K, V> entry) {
+    try {
+      entryRequirements.accept(entry.getKey(), entry.getValue());
+    } catch (AssertionError ex) {
+      return Optional.of(new UnsatisfiedRequirement(entry, ex.getMessage()));
+    }
+    return Optional.empty();
   }
 
   public <K, V> void assertAnySatisfy(AssertionInfo info, Map<K, V> actual,

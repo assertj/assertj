@@ -87,7 +87,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * <p>
    * If the actual map is empty, this assertion succeeds as there is nothing to check.
    *
-   * @param entryRequirements the given requirements that each entry must sastify.
+   * @param entryRequirements the given requirements that each entry must satisfy.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
