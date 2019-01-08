@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.util.Collections.unmodifiableSet;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.assertj.core.util.DoubleComparator;
@@ -108,6 +110,10 @@ public class TypeComparators {
    */
   public boolean isEmpty() {
     return typeComparators.isEmpty();
+  }
+
+  public Set<Entry<Class<?>, Comparator<?>>> registeredComparatorByTypes() {
+    return unmodifiableSet(typeComparators.entrySet());
   }
 
   @Override

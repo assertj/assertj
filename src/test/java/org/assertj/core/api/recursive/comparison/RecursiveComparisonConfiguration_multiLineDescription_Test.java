@@ -17,6 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
 
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -98,14 +101,32 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_a_complete_multiline_description() {
+  public void should_show_the_registered_comparator_by_types() {
     // WHEN
+    recursiveComparisonConfiguration.registerComparatorForType(Integer.class, new AbsValueComparator<>());
+    recursiveComparisonConfiguration.registerComparatorForType(Tuple.class, AlwaysEqualComparator.ALWAY_EQUALS_TUPLE);
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    // @format:off
+    assertThat(multiLineDescription).contains(format(
+               "- the following comparators were used in the comparison for these types:%n" +
+               "--- java.lang.Integer -> AbsValueComparator%n" +
+               "--- org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n"));
+    // @format:on
+  }
+
+  @Test
+  public void should_show_a_complete_multiline_description() {
+    // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsByRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
+    recursiveComparisonConfiguration.registerComparatorForType(Integer.class, new AbsValueComparator<>());
+    recursiveComparisonConfiguration.registerComparatorForType(Tuple.class, AlwaysEqualComparator.ALWAY_EQUALS_TUPLE);
+    // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
@@ -115,7 +136,10 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
                                                       "- overridden equals methods were used in the comparison, except for:%n" +
                                                       "--- the following fields: foo, baz, foo.baz%n" +
                                                       "--- the following types: java.lang.String, com.google.common.collect.Multimap%n" +
-                                                      "--- the types matching the following regexes: .*oo, .ar, oo.ba%n"));
+                                                      "--- the types matching the following regexes: .*oo, .ar, oo.ba%n" +
+                                                      "- the following comparators were used in the comparison for these types:%n" +
+                                                      "--- java.lang.Integer -> AbsValueComparator%n" +
+                                                      "--- org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n"));
     // @format:on
   }
 

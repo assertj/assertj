@@ -22,11 +22,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.annotations.Beta;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -45,7 +47,7 @@ public class RecursiveComparisonConfiguration {
   private List<FieldLocation> ignoredOverriddenEqualsForFields = new ArrayList<>();
   private List<Pattern> ignoredOverriddenEqualsRegexes = new ArrayList<>();
 
-  // private TypeComparators comparatorForTypes = new TypeComparators();
+  private TypeComparators comparatorForTypes = new TypeComparators();
   // private FieldComparators comparatorForFields = new FieldComparators();
 
   public Comparator getComparatorForField(String fieldName) {
@@ -122,8 +124,8 @@ public class RecursiveComparisonConfiguration {
     this.ignoredOverriddenEqualsForFields.addAll(fieldLocations); // TODO or reset ?
   }
 
-  public boolean shouldIgnoreOverriddenEqualsOf(DualKey dualKey) {
-    return matchesAnIgnoredOverriddenEqualsField(dualKey) || shouldIgnoreOverriddenEqualsOf(dualKey.key1.getClass());
+  public <T> void registerComparatorForType(Class<T> type, Comparator<? super T> comparator) {
+    this.comparatorForTypes.put(type, comparator);
   }
 
   @Override
@@ -137,10 +139,15 @@ public class RecursiveComparisonConfiguration {
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
+    describeRegisteredComparatorByTypes(description);
     return description.toString();
   }
 
   // non public stuff
+
+  boolean shouldIgnoreOverriddenEqualsOf(DualKey dualKey) {
+    return matchesAnIgnoredOverriddenEqualsField(dualKey) || shouldIgnoreOverriddenEqualsOf(dualKey.key1.getClass());
+  }
 
   @VisibleForTesting
   boolean shouldIgnoreOverriddenEqualsOf(Class<? extends Object> clazz) {
@@ -246,6 +253,22 @@ public class RecursiveComparisonConfiguration {
     return !ignoredOverriddenEqualsRegexes.isEmpty()
            || !ignoredOverriddenEqualsForTypes.isEmpty()
            || !ignoredOverriddenEqualsForFields.isEmpty();
+  }
+
+  private void describeRegisteredComparatorByTypes(StringBuilder description) {
+    if (!comparatorForTypes.isEmpty()) {
+      description.append(format("- the following comparators were used in the comparison for these types:%n"));
+      describeComparatorForTypes(description);
+    }
+  }
+
+  private void describeComparatorForTypes(StringBuilder description) {
+    this.comparatorForTypes.registeredComparatorByTypes().stream()
+                           .forEach(comparatorByType -> description.append(formatRegisteredComparatorByType(comparatorByType)));
+  }
+
+  private String formatRegisteredComparatorByType(Entry<Class<?>, Comparator<?>> next) {
+    return format("%s %s -> %s%n", INDENT_LEVEL_2, next.getKey().getName(), next.getValue());
   }
 
 }

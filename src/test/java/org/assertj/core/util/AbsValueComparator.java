@@ -24,4 +24,9 @@ public class AbsValueComparator<NUMBER extends Number> implements Comparator<NUM
     if (diff == 0.0) return 0;
     return diff < 0.0 ? -1 : 1;
   }
+
+  @Override
+  public String toString() {
+    return "AbsValueComparator";
+  }
 }
