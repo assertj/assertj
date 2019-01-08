@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.util.stream.Collectors.joining;
+import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 
@@ -45,9 +46,9 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
   }
 
   private static String describeErrors(List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements) {
-    return elementsNotSatisfyingRequirements.stream()
-                                            .map(UnsatisfiedRequirement::toString)
-                                            .collect(joining("%n%n"));
+    return escapePercent(elementsNotSatisfyingRequirements.stream()
+                                                          .map(UnsatisfiedRequirement::toString)
+                                                          .collect(joining(String.format("%n%n"))));
   }
 
   public static class UnsatisfiedRequirement {

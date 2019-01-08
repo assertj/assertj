@@ -45,6 +45,23 @@ public class ElementsShouldSatisfy_create_Test {
   }
 
   @Test
+  public void should_create_error_message_all_and_escape_percent_correctly() {
+    // GIVEN
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(new UnsatisfiedRequirement("Leia%s", "Leia mistake."),
+                                                                new UnsatisfiedRequirement("Luke", "Luke mistake."));
+    ErrorMessageFactory factory = elementsShouldSatisfy(list("Leia%s", "Luke", "Yoda"), unsatisfiedRequirements);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting all elements of:%n" +
+                                         "  <[\"Leia%%s\", \"Luke\", \"Yoda\"]>%n" +
+                                         "to satisfy given requirements, but these elements did not:%n%n" +
+                                         "  <Leia%%s> Leia mistake.%n%n" +
+                                         "  <Luke> Luke mistake."));
+  }
+
+  @Test
   public void should_create_error_message_any() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Luke", "Yoda"));
@@ -54,6 +71,19 @@ public class ElementsShouldSatisfy_create_Test {
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting any element of:%n" +
                                          "  <[\"Luke\", \"Yoda\"]>%n" +
+                                         "to satisfy the given assertions requirements but none did."));
+  }
+
+  @Test
+  public void should_create_error_message_any_and_escape_percent_correctly() {
+    // GIVEN
+    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Lu%dke", "Yoda"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting any element of:%n" +
+                                         "  <[\"Lu%%dke\", \"Yoda\"]>%n" +
                                          "to satisfy the given assertions requirements but none did."));
   }
 }
