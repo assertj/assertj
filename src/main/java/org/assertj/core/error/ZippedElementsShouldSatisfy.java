@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
   }
 
   private ZippedElementsShouldSatisfy(Object actual, Object other, List<ZipSatisfyError> zipSatisfyErrors) {
-    // no use of %s for describe(zipSatisfyErrors) to avoid extra ""
+    // no use of %s for describe(zipSatisfyErrors) to avoid extra "" but need to make sure there is no extra/unwanted format flag
     super("%n" +
           "Expecting zipped elements of:%n" +
           "  <%s>%n" +
@@ -40,7 +41,7 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
     List<String> errorsToStrings = zipSatisfyErrors.stream()
                                                    .map(ZipSatisfyError::toString)
                                                    .collect(toList());
-    return DELIMITER + String.join(DELIMITER, errorsToStrings);
+    return escapePercent(DELIMITER + String.join(DELIMITER, errorsToStrings));
   }
 
   public static class ZipSatisfyError {
