@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
     List<String> errorsToStrings = zipSatisfyErrors.stream()
                                                    .map(ZipSatisfyError::toString)
                                                    .collect(toList());
-    return DELIMITER + String.join(DELIMITER, errorsToStrings);
+    return escapePercent(DELIMITER + String.join(DELIMITER, errorsToStrings));
   }
 
   public static class ZipSatisfyError {
