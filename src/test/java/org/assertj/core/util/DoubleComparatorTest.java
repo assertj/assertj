@@ -14,6 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -64,4 +65,26 @@ public class DoubleComparatorTest {
                                           .isFalse();
   }
 
+  @ParameterizedTest
+  @CsvSource({
+      "Infinity, Infinity",
+      "-Infinity, -Infinity"
+  })
+  public void should_be_equal_if_both_values_are_infinity_of_same_sign(Double actual, Double other) {
+    assertThat(nearlyEqual(actual, other)).as("comparing %f to %f", actual, other).isTrue();
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+      "Infinity, -Infinity",
+      "-Infinity, Infinity"
+  })
+  public void should_not_be_equal_if_both_values_are_infinity_of_opposite_signs(Double actual, Double other) {
+    assertThat(nearlyEqual(actual, other)).as("comparing %f to %f", actual, other).isFalse();
+  }
+
+  @Test
+  public void should_not_be_equal_if_not_a_number() {
+    assertThat(nearlyEqual(Double.NaN, Double.NaN)).isFalse();
+  }
 }

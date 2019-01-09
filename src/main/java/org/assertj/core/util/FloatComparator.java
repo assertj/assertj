@@ -33,7 +33,7 @@ public class FloatComparator extends NullSafeComparator<Float> {
   }
 
   private boolean closeEnough(Float x, Float y, float epsilon) {
-    return Math.abs(x - y) <= epsilon;
+    return x.floatValue() == y.floatValue() || Math.abs(x - y) <= epsilon;
   }
 
   @Override

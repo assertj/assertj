@@ -33,7 +33,7 @@ public class DoubleComparator extends NullSafeComparator<Double> {
   }
 
   private static boolean closeEnough(Double x, Double y, double epsilon) {
-    return Math.abs(x - y) <= epsilon;
+    return x.doubleValue() == y.doubleValue() || Math.abs(x - y) <= epsilon;
   }
 
   @Override
