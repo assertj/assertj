@@ -34,7 +34,7 @@ public class RecursiveComparisonConfiguration_comparatorByType_Test {
   @Test
   public void should_have_default_comparator_by_types() {
     // WHEN
-    TypeComparators typeComparators = recursiveComparisonConfiguration.getComparatorForTypes();
+    TypeComparators typeComparators = recursiveComparisonConfiguration.getTypeComparators();
     // THEN
     assertThat(typeComparators).isEqualTo(defaultTypeComparators());
   }

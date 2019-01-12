@@ -44,20 +44,22 @@ public class RecursiveComparisonConfiguration {
   private boolean ignoreAllActualNullFields = false;
   private Set<FieldLocation> ignoredFields = new LinkedHashSet<>();
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
+
   // overridden equals method to ignore section
   private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
   private List<FieldLocation> ignoredOverriddenEqualsForFields = new ArrayList<>();
   private List<Pattern> ignoredOverriddenEqualsRegexes = new ArrayList<>();
 
-  private TypeComparators comparatorForTypes = defaultTypeComparators();
-  // private FieldComparators comparatorForFields = new FieldComparators();
+  // registered comparators section
+  private TypeComparators typeComparators = defaultTypeComparators();
+  // private FieldComparators fieldComparators = new FieldComparators();
 
   public Comparator getComparatorForField(String fieldName) {
     return null;
   }
 
   public Comparator getComparatorForType(Class fieldType) {
-    return comparatorForTypes.get(fieldType);
+    return typeComparators.get(fieldType);
   }
 
   public boolean hasComparatorForField(String fieldName) {
@@ -65,7 +67,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   public boolean hasComparatorForType(Class<?> keyType) {
-    return comparatorForTypes.get(keyType) != null;
+    return typeComparators.hasComparatorForType(keyType);
   }
 
   public boolean hasNoCustomComparators() {
@@ -73,8 +75,8 @@ public class RecursiveComparisonConfiguration {
   }
 
   @VisibleForTesting
-  TypeComparators getComparatorForTypes() {
-    return comparatorForTypes;
+  TypeComparators getTypeComparators() {
+    return typeComparators;
   }
 
   /**

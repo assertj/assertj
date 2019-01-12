@@ -94,6 +94,10 @@ public class TypeComparators {
     return comparator;
   }
 
+  public boolean hasComparatorForType(Class<?> type) {
+    return get(type) != null;
+  }
+
   /**
    * Puts the {@code comparator} for the given {@code clazz}.
    *
