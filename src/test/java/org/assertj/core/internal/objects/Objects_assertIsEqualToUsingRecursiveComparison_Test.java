@@ -70,7 +70,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     Person actual = null;
     Person expected = null;
     // THEN
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
   }
 
   @Test
@@ -79,7 +79,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     Person actual = null;
     Person expected = new Person();
     // WHEN
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
     // THEN
     verify(failures).failure(INFO, shouldNotBeNull());
   }
@@ -90,7 +90,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     Person actual = new Person();
     Person expected = null;
     // WHEN
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
     // THEN
     verify(failures).failure(INFO, shouldBeEqual(actual, null, objects.getComparisonStrategy(), INFO.representation()));
   }
@@ -101,7 +101,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
   public void should_pass_for_objects_with_the_same_data_when_using_the_default_recursive_comparison(Object actual,
                                                                                                      Object expected,
                                                                                                      String testDescription) {
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
   }
 
   @SuppressWarnings("unused")
@@ -132,7 +132,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // THEN
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
   }
 
   @Test
@@ -146,7 +146,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     expected.home.address.number = 2;
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // WHEN
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
     // THEN
     ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
@@ -213,7 +213,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     // GIVEN
     recursiveComparisonConfiguration.ignoreFields(ignoredFields.toArray(new String[0]));
     // THEN
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
   }
 
   @SuppressWarnings("unused")
@@ -281,7 +281,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     recursiveComparisonConfiguration.ignoreFields("name", "home.address.number");
 
     // WHEN
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
@@ -317,7 +317,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     recursiveComparisonConfiguration.ignoreFieldsByRegexes(".*name", ".*home.*number");
 
     // WHEN
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);

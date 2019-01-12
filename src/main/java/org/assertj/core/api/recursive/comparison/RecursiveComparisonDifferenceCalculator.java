@@ -98,8 +98,12 @@ public class RecursiveComparisonDifferenceCalculator {
 
       // Custom comparators take precedence over all other type of comparison
       if (hasCustomComparator(dualKey, recursiveComparisonConfiguration)) {
-        if (propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(), recursiveComparisonConfiguration))
-          continue;
+        if (!propertyOrFieldValuesAreEqual(key1, key2, dualKey.getConcatenatedPath(), recursiveComparisonConfiguration)) {
+          // fields were not the same according to the custom comparator
+          differences.add(new ComparisonDifference(currentPath, key1, key2));
+        }
+        // since there was a custom comparator we don't need to inspect the fields
+        continue;
       }
 
       if (key1 == null || key2 == null) {
@@ -641,8 +645,8 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
-                                               RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  private static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
+                                                       RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     // no need to look into comparators if objects are the same
     if (actualFieldValue == otherFieldValue) return true;
     // check field comparators as they take precedence over type comparators

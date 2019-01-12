@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Strings.join;
 
@@ -32,6 +33,7 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 
+// TODO registered comparators vs ignored overridden equals test
 @Beta
 public class RecursiveComparisonConfiguration {
 
@@ -47,7 +49,7 @@ public class RecursiveComparisonConfiguration {
   private List<FieldLocation> ignoredOverriddenEqualsForFields = new ArrayList<>();
   private List<Pattern> ignoredOverriddenEqualsRegexes = new ArrayList<>();
 
-  private TypeComparators comparatorForTypes = new TypeComparators();
+  private TypeComparators comparatorForTypes = defaultTypeComparators();
   // private FieldComparators comparatorForFields = new FieldComparators();
 
   public Comparator getComparatorForField(String fieldName) {
@@ -55,7 +57,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   public Comparator getComparatorForType(Class fieldType) {
-    return null;
+    return comparatorForTypes.get(fieldType);
   }
 
   public boolean hasComparatorForField(String fieldName) {
@@ -63,11 +65,16 @@ public class RecursiveComparisonConfiguration {
   }
 
   public boolean hasComparatorForType(Class<?> keyType) {
-    return false;
+    return comparatorForTypes.get(keyType) != null;
   }
 
   public boolean hasNoCustomComparators() {
     return false;
+  }
+
+  @VisibleForTesting
+  TypeComparators getComparatorForTypes() {
+    return comparatorForTypes;
   }
 
   /**

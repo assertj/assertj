@@ -44,7 +44,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     // GIVEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(regexes.toArray(new String[0]));
     // THEN
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
   }
 
   @SuppressWarnings("unused")
@@ -88,7 +88,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(".*AlwaysEqualPerson", ".*AlwaysEqualAddress");
 
     // WHEN
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
 
     // THEN
     ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
@@ -110,7 +110,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     // GIVEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(types.toArray(new Class[0]));
     // THEN
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
   }
 
   @SuppressWarnings("unused")
@@ -152,7 +152,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(AlwaysEqualPerson.class, AlwaysEqualAddress.class);
 
     // WHEN
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
 
     // THEN
     ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
@@ -174,7 +174,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     // GIVEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields.toArray(new String[0]));
     // THEN
-    compareRecusively(actual, expected, recursiveComparisonConfiguration);
+    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
   }
 
   @SuppressWarnings("unused")
@@ -216,7 +216,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("neighbour", "neighbour.home.address");
 
     // WHEN
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
 
     // THEN
     ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
@@ -235,7 +235,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_ignoreOverriddenEqu
     expected.name = "Jack";
     // THEN
     // would have succeeded if we had used AlwaysEqualPerson equals method
-    expectAssertionError(() -> compareRecusively(actual, expected, recursiveComparisonConfiguration));
+    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
   }
 
 }

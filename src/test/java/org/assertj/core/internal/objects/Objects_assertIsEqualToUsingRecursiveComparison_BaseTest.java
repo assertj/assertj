@@ -42,7 +42,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_BaseTest extends Ob
                                                                                    INFO.representation()));
   }
 
-  void compareRecusively(Object actual, Object expected,
+  void areEqualsByRecursiveComparison(Object actual, Object expected,
                          RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     objects.assertIsEqualToUsingRecursiveComparison(INFO, actual, expected, recursiveComparisonConfiguration);
   }

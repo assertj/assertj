@@ -101,7 +101,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_registered_comparator_by_types() {
+  public void should_show_the_registered_comparator_by_types_and_the_default_ones() {
     // WHEN
     recursiveComparisonConfiguration.registerComparatorForType(Integer.class, new AbsValueComparator<>());
     recursiveComparisonConfiguration.registerComparatorForType(Tuple.class, AlwaysEqualComparator.ALWAY_EQUALS_TUPLE);
@@ -110,6 +110,8 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // @format:off
     assertThat(multiLineDescription).contains(format(
                "- the following comparators were used in the comparison for these types:%n" +
+               "--- java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
+               "--- java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
                "--- java.lang.Integer -> AbsValueComparator%n" +
                "--- org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n"));
     // @format:on
@@ -138,6 +140,8 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
                                                       "--- the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                                                       "--- the types matching the following regexes: .*oo, .ar, oo.ba%n" +
                                                       "- the following comparators were used in the comparison for these types:%n" +
+                                                      "--- java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
+                                                      "--- java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
                                                       "--- java.lang.Integer -> AbsValueComparator%n" +
                                                       "--- org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n"));
     // @format:on
