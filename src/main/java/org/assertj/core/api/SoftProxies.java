@@ -47,7 +47,9 @@ class SoftProxies {
                                                                                                                       .or(named("toAssert"))
                                                                                                                       .or(named("flatMap"))
                                                                                                                       .or(named("extractingResultOf"))
-                                                                                                                      .or(named("flatExtracting"));
+                                                                                                                      .or(named("flatExtracting"))
+                                                                                                                      .or(named("extractingFromEntries"));
+
 
   private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
                                                                                             .or(named("describedAs"))

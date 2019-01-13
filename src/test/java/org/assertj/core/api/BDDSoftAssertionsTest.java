@@ -30,6 +30,7 @@ import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.ByteArrayInputStream;
@@ -77,11 +78,14 @@ import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.test.Animal;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Name;
+import org.assertj.core.test.Person;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
@@ -1587,6 +1591,58 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                       .hasMessageContaining("HOBBIT")
                                       .hasMessageContaining("ELF")
                                       .hasMessageContaining("MAN");
+  }
+
+  @Nested
+  class ExtractingFromEntries {
+
+    // GIVEN
+    Person aceVentura = new Person("ace ventura");
+    Person david = new Person("david");
+
+    Map<Person, List<Animal>> map = mapOf(MapEntry.entry(aceVentura, list(new Animal("spike"))),
+                                          MapEntry.entry(david, list(new Animal("scoubi"), new Animal("peter"))));
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void should_pass_when_using_extractingFromEntries_with_map() {
+      // WHEN
+      softly.then(map)
+            .extractingFromEntries(Map.Entry::getKey)
+            .containsExactlyInAnyOrder(aceVentura, david);
+
+      softly.then(map)
+            .extractingFromEntries(Map.Entry::getKey, entry -> entry.getValue().size())
+            .containsExactlyInAnyOrder(tuple(aceVentura, 1), tuple(david, 2));
+
+      // THEN
+      softly.assertAll();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void should_collect_errors_when_using_extractingFromEntries_with_map() {
+      // WHEN
+      softly.then(map)
+            .extractingFromEntries(Map.Entry::getKey)
+            .containsExactlyInAnyOrder(tuple(aceVentura), tuple(new Person("stranger")));
+
+      softly.then(map)
+            .overridingErrorMessage("overridingErrorMessage with extractingFromEntries")
+            .extractingFromEntries(entry -> entry.getKey().getName())
+            .containsExactlyInAnyOrder(tuple("ace ventura", tuple("johnny")));
+
+      softly.then(map)
+            .extractingFromEntries(Map.Entry::getKey, entry -> entry.getValue().size())
+            .containsExactlyInAnyOrder(tuple(aceVentura, 10), tuple(david, 2));
+
+      // THEN
+      List<Throwable> errorsCollected = softly.errorsCollected();
+      assertThat(errorsCollected).hasSize(3);
+      assertThat(errorsCollected.get(0)).hasMessageFindingMatch("not found:.*stranger.*not expected:.*david");
+      assertThat(errorsCollected.get(1)).hasMessage("overridingErrorMessage with extractingFromEntries");
+      assertThat(errorsCollected.get(2)).hasMessageFindingMatch("not found:.*10.*not expected:.*1");
+    }
   }
 
 }

@@ -14,6 +14,7 @@ package org.assertj.core.api.assumptions;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.assumptions.BaseAssumptionRunner.run;
 import static org.assertj.core.test.Maps.mapOf;
@@ -27,7 +28,7 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.ProxyableMapAssert;
 
 /**
- * verify that assertions final methods or methods changing the object under test in {@link MapAssert} work with assumptions 
+ * verify that assertions final methods or methods changing the object under test in {@link MapAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableMapAssert}).
  */
 public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
@@ -95,6 +96,11 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
         run(map,
             value -> assumeThat(value).containsExactlyEntriesOf(mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"))),
             value -> assumeThat(value).containsExactlyEntriesOf(mapOf(entry("b", "2"), entry("a", "1"), entry("c", "3")))),
+        run(map,
+            value -> assumeThat(value).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
+                                      .containsExactlyInAnyOrder(tuple("a", "1"), tuple("b", "2"), tuple("c", "3")),
+            value -> assumeThat(value).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
+                                      .containsExactlyInAnyOrder(tuple("a", "1"), tuple("b", "2"), tuple("c", "2")))
     };
   }
 

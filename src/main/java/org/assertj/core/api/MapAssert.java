@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.util.CheckReturnValue;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -94,7 +97,14 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
 
   @SafeVarargs
   @Override
-  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(Function<? super Map<KEY, VALUE>, Object>... extractors) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super Map<KEY, VALUE>, Object>... extractors) {
     return super.extracting(extractors);
   }
+
+  @SafeVarargs
+  @Override
+  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(Function<? super Map.Entry<KEY, VALUE>, Object>... extractors) {
+    return super.extractingFromEntries(extractors);
+  }
+
 }

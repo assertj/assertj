@@ -322,10 +322,8 @@ public class Objects {
    *           equal.
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
-    if (areEqual(actual, expected)) {
-      return;
-    }
-    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
+    if (!areEqual(actual, expected))
+      throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -337,10 +335,7 @@ public class Objects {
    * @throws AssertionError if {@code actual} is equal to {@code other}.
    */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
-    if (!areEqual(actual, other)) {
-      return;
-    }
-    throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
+    if (areEqual(actual, other)) throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
   }
 
   /**
@@ -362,10 +357,7 @@ public class Objects {
    * @throws AssertionError if the given object is not {@code null}.
    */
   public void assertNull(AssertionInfo info, Object actual) {
-    if (actual == null) {
-      return;
-    }
-    throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
+    if (actual != null) throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -376,10 +368,19 @@ public class Objects {
    * @throws AssertionError if the given object is {@code null}.
    */
   public void assertNotNull(AssertionInfo info, Object actual) {
-    if (actual != null) {
-      return;
-    }
-    throw failures.failure(info, shouldNotBeNull());
+    if (actual == null) throw failures.failure(info, shouldNotBeNull());
+  }
+
+  /**
+   * Asserts that the given object is not {@code null}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param label the label to represent actual in the error message
+   * @throws AssertionError if the given object is {@code null}.
+   */
+  public void assertNotNull(AssertionInfo info, Object actual, String label) {
+    if (actual == null) throw failures.failure(info, shouldNotBeNull(label));
   }
 
   /**
@@ -391,10 +392,7 @@ public class Objects {
    * @throws AssertionError if the given objects do not refer to the same object.
    */
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
-    if (actual == expected) {
-      return;
-    }
-    throw failures.failure(info, shouldBeSame(actual, expected));
+    if (actual != expected) throw failures.failure(info, shouldBeSame(actual, expected));
   }
 
   /**
@@ -406,10 +404,7 @@ public class Objects {
    * @throws AssertionError if the given objects refer to the same object.
    */
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
-    if (actual != other) {
-      return;
-    }
-    throw failures.failure(info, shouldNotBeSame(actual));
+    if (actual == other) throw failures.failure(info, shouldNotBeSame(actual));
   }
 
   public void assertHasToString(AssertionInfo info, Object actual, String expectedToString) {

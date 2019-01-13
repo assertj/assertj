@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
@@ -23,10 +24,12 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -1481,6 +1484,80 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).as(description);
+  }
+
+  /**
+   * Use the given {@link Function} to extract a value from the {@link Map}'s entries.
+   * The extracted values are stored in a new list becoming the object under test.
+   * <p>
+   * Let's take a look at an example to make things clearer :
+   *  <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson familly
+   * Map&lt;String, CartoonCharacter&gt; characters = new HashMap&lt;&gt;();
+   * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Omer&quot;));
+   * characters.put(&quot;mom&quot;, new CartoonCharacter(&quot;Marge&quot;));
+   * characters.put(&quot;girl&quot;, new CartoonCharacter(&quot;Lisa&quot;));
+   * characters.put(&quot;boy&quot;, new CartoonCharacter(&quot;Bart&quot;));
+   *
+   * assertThat(characters).extractingFromEntries(e -&gt; e.getValue().getName())
+   *                       .containsOnly(&quot;Omer&quot;, &quot;Marge&quot;, &quot;Lisa&quot;, &quot;Bart&quot;);</code></pre>
+   *
+   * @param extractor the extractor function to extract a value from an entry of the Map under test.
+   * @return a new assertion object whose object under test is the list of values extracted
+   */
+  @CheckReturnValue
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object> extractor) {
+    isNotNull();
+    List<Object> extractedObjects = actual.entrySet().stream()
+                                          .map(extractor::apply)
+                                          .collect(toList());
+    return newListAssertInstance(extractedObjects).as(info.description());
+  }
+
+  /**
+   * Use the given {@link Function}s to extract values from the {@link Map}'s entries.
+   * The extracted values are stored in a new list composed of {@link Tuple}s (a simple data structure containing the extracted values),
+   * this new list becoming the object under test.
+   * <p>
+   * This method works as {@link AbstractMapAssert#extractingFromEntries(java.util.function.Function)} except
+   * that it is designed to extract multiple values from the {@link Map} entries.
+   * That's why here the new object under test is a List of {@link Tuple}s.
+   * <p>
+   * The Tuple data corresponds to the extracted values from the Map's entries, for instance if you pass functions
+   * extracting the "id", "name" and "email" values then each Tuple data will be composed of an id, a name and an email
+   * extracted from the entry of the Map (the Tuple's data order is the same as the given functions order).
+   * <p>
+   * Let's take a look at an example to make things clearer :
+   * <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson familly
+   * Map&lt;String, CartoonCharacter&gt; characters = new HashMap&lt;&gt;();
+   * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Omer&quot;));
+   * characters.put(&quot;mom&quot;, new CartoonCharacter(&quot;Marge&quot;));
+   * characters.put(&quot;girl&quot;, new CartoonCharacter(&quot;Lisa&quot;));
+   * characters.put(&quot;boy&quot;, new CartoonCharacter(&quot;Bart&quot;));
+   *
+   * assertThat(characters).extractingFromEntries(e -&gt; e.getKey(), e -&gt; e.getValue().getName())
+   *                       .containsOnly(tuple(&quot;dad&quot;, &quot;Omer&quot;),
+   *                                     tuple(&quot;mom&quot;, &quot;Marge&quot;),
+   *                                     tuple(&quot;girl&quot;, &quot;Lisa&quot;),
+   *                                     tuple(&quot;boy&quot;, &quot;Bart&quot;));</code></pre>
+   *
+   * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
+   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
+   * order.
+   *
+   * @param extractors the extractor functions to extract values from an entry of the Map under test.
+   * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
+   */
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(@SuppressWarnings("unchecked") Function<? super Map.Entry<K, V>, Object>... extractors) {
+    isNotNull();
+    // combine all extractors into one function
+    Function<Map.Entry<K, V>, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+                                                                                                  .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                                  .toArray());
+    List<Tuple> extractedTuples = actual.entrySet().stream()
+                                        .map(tupleExtractor)
+                                        .collect(toList());
+    return newListAssertInstance(extractedTuples).as(info.description());
   }
 
   /**
