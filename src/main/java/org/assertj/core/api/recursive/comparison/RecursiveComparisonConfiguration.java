@@ -37,7 +37,7 @@ import org.assertj.core.util.VisibleForTesting;
 @Beta
 public class RecursiveComparisonConfiguration {
 
-  public static final String INDENT_LEVEL_2 = "---";
+  public static final String INDENT_LEVEL_2 = "  -";
   // private boolean strictTypeCheck = true;
 
   // fields to ignore section
@@ -52,18 +52,15 @@ public class RecursiveComparisonConfiguration {
 
   // registered comparators section
   private TypeComparators typeComparators = defaultTypeComparators();
-  // private FieldComparators fieldComparators = new FieldComparators();
+  private FieldComparators fieldComparators = new FieldComparators();
 
-  public Comparator getComparatorForField(String fieldName) {
-    return null;
-  }
-
-  public Comparator getComparatorForType(Class fieldType) {
-    return typeComparators.get(fieldType);
-  }
-
+  // TODO use FieldLocation instead of String ?
   public boolean hasComparatorForField(String fieldName) {
-    return false;
+    return fieldComparators.hasComparatorForField(new FieldLocation(fieldName));
+  }
+
+  public Comparator<?> getComparatorForField(String fieldName) {
+    return fieldComparators.getComparatorForField(new FieldLocation(fieldName));
   }
 
   public boolean hasComparatorForType(Class<?> keyType) {
@@ -71,7 +68,11 @@ public class RecursiveComparisonConfiguration {
   }
 
   public boolean hasNoCustomComparators() {
-    return false;
+    return false; // TODO fail one test
+  }
+
+  public Comparator<?> getComparatorForType(Class<?> fieldType) {
+    return typeComparators.get(fieldType);
   }
 
   @VisibleForTesting
@@ -124,7 +125,8 @@ public class RecursiveComparisonConfiguration {
                                                 .collect(toList());
   }
 
-  public void ignoreOverriddenEqualsForTypes(Class... types) {
+  @VisibleForTesting
+  public void ignoreOverriddenEqualsForTypes(Class<?>... types) {
     this.ignoredOverriddenEqualsForTypes = list(types);
   }
 
@@ -134,7 +136,11 @@ public class RecursiveComparisonConfiguration {
   }
 
   public <T> void registerComparatorForType(Class<T> type, Comparator<? super T> comparator) {
-    this.comparatorForTypes.put(type, comparator);
+    this.typeComparators.put(type, comparator);
+  }
+
+  public void registerComparatorForField(FieldLocation fieldLocation, Comparator<?> comparator) {
+    this.fieldComparators.registerComparator(fieldLocation, comparator);
   }
 
   @Override
@@ -149,6 +155,7 @@ public class RecursiveComparisonConfiguration {
     describeIgnoredFieldsRegexes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
     describeRegisteredComparatorByTypes(description);
+    describeRegisteredComparatorForFields(description);
     return description.toString();
   }
 
@@ -265,19 +272,40 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeRegisteredComparatorByTypes(StringBuilder description) {
-    if (!comparatorForTypes.isEmpty()) {
-      description.append(format("- the following comparators were used in the comparison for these types:%n"));
+    if (!typeComparators.isEmpty()) {
+      description.append(format("- these types were compared with the following comparators:%n"));
       describeComparatorForTypes(description);
     }
   }
 
   private void describeComparatorForTypes(StringBuilder description) {
-    this.comparatorForTypes.registeredComparatorByTypes().stream()
-                           .forEach(comparatorByType -> description.append(formatRegisteredComparatorByType(comparatorByType)));
+    typeComparators.registeredComparatorByTypes()
+                   .map(this::formatRegisteredComparatorByType)
+                   .forEach(description::append);
   }
 
   private String formatRegisteredComparatorByType(Entry<Class<?>, Comparator<?>> next) {
     return format("%s %s -> %s%n", INDENT_LEVEL_2, next.getKey().getName(), next.getValue());
+  }
+
+  private void describeRegisteredComparatorForFields(StringBuilder description) {
+    if (!fieldComparators.isEmpty()) {
+      description.append(format("- these fields were compared with the following comparators:%n"));
+      describeComparatorForFields(description);
+      if (!typeComparators.isEmpty()) {
+        description.append(format("- field comparators take precedence over type comparators.%n"));
+      }
+    }
+  }
+
+  private void describeComparatorForFields(StringBuilder description) {
+    fieldComparators.getFieldComparators()
+                    .map(this::formatRegisteredComparatorForField)
+                    .forEach(description::append);
+  }
+
+  private String formatRegisteredComparatorForField(Entry<FieldLocation, Comparator<?>> comparatorForField) {
+    return format("%s %s -> %s%n", INDENT_LEVEL_2, comparatorForField.getKey().getFieldPath(), comparatorForField.getValue());
   }
 
 }

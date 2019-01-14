@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 import org.assertj.core.util.VisibleForTesting;
 
@@ -44,7 +45,7 @@ public class FieldComparators {
    * @param comparator the comparator it self
    * @param <T> the type of the objects for the comparator
    */
-  public <T> void register(FieldLocation fieldLocation, Comparator<? super T> comparator) {
+  public <T> void registerComparator(FieldLocation fieldLocation, Comparator<? super T> comparator) {
     fieldComparators.put(fieldLocation, comparator);
   }
 
@@ -78,4 +79,15 @@ public class FieldComparators {
     return format("%s -> %s", fieldComparator, fieldComparator.getValue());
   }
 
+  public boolean hasComparatorForField(FieldLocation fieldLocation) {
+    return fieldComparators.containsKey(fieldLocation);
+  }
+
+  public Comparator<?> getComparatorForField(FieldLocation fieldLocation) {
+    return fieldComparators.get(fieldLocation);
+  }
+
+  public Stream<Entry<FieldLocation, Comparator<?>>> getFieldComparators() {
+    return fieldComparators.entrySet().stream();
+  }
 }

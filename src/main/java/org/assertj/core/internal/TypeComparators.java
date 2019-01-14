@@ -13,7 +13,6 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
-import static java.util.Collections.unmodifiableSet;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.ArrayList;
@@ -21,8 +20,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.core.util.FloatComparator;
@@ -116,8 +115,8 @@ public class TypeComparators {
     return typeComparators.isEmpty();
   }
 
-  public Set<Entry<Class<?>, Comparator<?>>> registeredComparatorByTypes() {
-    return unmodifiableSet(typeComparators.entrySet());
+  public Stream<Entry<Class<?>, Comparator<?>>> registeredComparatorByTypes() {
+    return typeComparators.entrySet().stream();
   }
 
   @Override

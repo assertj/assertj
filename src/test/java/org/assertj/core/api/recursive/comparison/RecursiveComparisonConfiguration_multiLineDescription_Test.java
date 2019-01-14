@@ -14,8 +14,13 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
 import static org.assertj.core.util.Lists.list;
+
+import java.util.Comparator;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.AlwaysEqualComparator;
@@ -70,7 +75,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // @format:off
     assertThat(multiLineDescription).contains(format(
                "- overridden equals methods were used in the comparison, except for:%n" +
-               "--- the types matching the following regexes: foo, bar, foo.bar%n"));
+               "  - the types matching the following regexes: foo, bar, foo.bar%n"));
     // @format:on
   }
 
@@ -83,7 +88,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // @format:off
     assertThat(multiLineDescription).contains(format(
                "- overridden equals methods were used in the comparison, except for:%n" +
-               "--- the following types: java.lang.String, com.google.common.collect.Multimap%n"));
+               "  - the following types: java.lang.String, com.google.common.collect.Multimap%n"));
     // @format:on
   }
 
@@ -96,7 +101,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // @format:off
     assertThat(multiLineDescription).contains(format(
                "- overridden equals methods were used in the comparison, except for:%n" +
-               "--- the following fields: foo, baz, foo.baz%n"));
+               "  - the following fields: foo, baz, foo.baz%n"));
     // @format:on
   }
 
@@ -109,11 +114,27 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // THEN
     // @format:off
     assertThat(multiLineDescription).contains(format(
-               "- the following comparators were used in the comparison for these types:%n" +
-               "--- java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
-               "--- java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
-               "--- java.lang.Integer -> AbsValueComparator%n" +
-               "--- org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n"));
+               "- these types were compared with the following comparators:%n" +
+               "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
+               "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
+               "  - java.lang.Integer -> AbsValueComparator%n" +
+               "  - org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n"));
+    // @format:on
+  }
+
+  @Test
+  public void should_show_the_registered_comparator_for_specific_fields_alphabetically() {
+    // WHEN
+    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("foo"), ALWAY_EQUALS_TUPLE);
+    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("bar"), alwaysDifferent());
+    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("height"), new PercentageComparator());
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    // @format:off
+    assertThat(multiLineDescription).contains(format("- these fields were compared with the following comparators:%n" +
+                                                     "  - bar -> AlwaysDifferentComparator%n" +
+                                                     "  - foo -> AlwaysEqualComparator%n" +
+                                                     "  - height -> %%s %% %%%% %%d%n"));
     // @format:on
   }
 
@@ -128,22 +149,29 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
     recursiveComparisonConfiguration.registerComparatorForType(Integer.class, new AbsValueComparator<>());
     recursiveComparisonConfiguration.registerComparatorForType(Tuple.class, AlwaysEqualComparator.ALWAY_EQUALS_TUPLE);
+    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("foo"), ALWAY_EQUALS_TUPLE);
+    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("bar.baz"), alwaysDifferent());
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    assertThat(multiLineDescription).isEqualTo(format("- all actual null fields were ignored in the comparison%n" +
-                                                      "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
-                                                      "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
-                                                      "- overridden equals methods were used in the comparison, except for:%n" +
-                                                      "--- the following fields: foo, baz, foo.baz%n" +
-                                                      "--- the following types: java.lang.String, com.google.common.collect.Multimap%n" +
-                                                      "--- the types matching the following regexes: .*oo, .ar, oo.ba%n" +
-                                                      "- the following comparators were used in the comparison for these types:%n" +
-                                                      "--- java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
-                                                      "--- java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
-                                                      "--- java.lang.Integer -> AbsValueComparator%n" +
-                                                      "--- org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n"));
+    assertThat(multiLineDescription).isEqualTo(format(
+               "- all actual null fields were ignored in the comparison%n" +
+               "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
+               "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
+               "- overridden equals methods were used in the comparison, except for:%n" +
+               "  - the following fields: foo, baz, foo.baz%n" +
+               "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
+               "  - the types matching the following regexes: .*oo, .ar, oo.ba%n" +
+               "- these types were compared with the following comparators:%n" +
+               "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
+               "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
+               "  - java.lang.Integer -> AbsValueComparator%n" +
+               "  - org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n" +
+               "- these fields were compared with the following comparators:%n" +
+               "  - bar.baz -> AlwaysDifferentComparator%n" +
+               "  - foo -> AlwaysEqualComparator%n" +
+               "- field comparators take precedence over type comparators.%n"));
     // @format:on
   }
 
@@ -159,4 +187,18 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
                                                             "%%additional %%information%%"));
   }
 
+  // just to test the description does not fail when given a comparator with various String.format reserved flags
+  private class PercentageComparator implements Comparator<Double> {
+
+    @Override
+    public int compare(Double o1, Double o2) {
+      return 0;
+    }
+
+    @Override
+    public String toString() {
+      return "%s % %% %d";
+    }
+
+  }
 }

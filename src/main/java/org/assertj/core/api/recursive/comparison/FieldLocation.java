@@ -68,4 +68,8 @@ public class FieldLocation implements Comparable<FieldLocation> {
     return Stream.of(fieldPaths).map(FieldLocation::new).collect(toList());
   }
 
+  public static FieldLocation fielLocation(String fieldPath) {
+    return new FieldLocation(fieldPath);
+  }
+
 }

@@ -41,7 +41,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Objects_assertIsEqualToUsingRecursiveComparison_withRegisteredComparatorsByType_Test
+public class Objects_assertIsEqualToUsingRecursiveComparison_withTypeComparators_Test
     extends Objects_assertIsEqualToUsingRecursiveComparison_BaseTest {
 
   @SuppressWarnings("unused")
