@@ -12,10 +12,8 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenThrownBy;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -24,10 +22,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.Test;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenObject;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.
@@ -276,6 +278,11 @@ public class BDDAssertions_then_Test {
       }
     }).isInstanceOf(Throwable.class)
             .hasMessage("something was %s", "wrong");
+  }
+
+  @Test
+  public void then_explicit_Object() {
+    thenObject(new LinkedList<>()).matches(l -> l.peek() == null);
   }
 
   @Test

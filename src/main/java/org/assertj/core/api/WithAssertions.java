@@ -12,6 +12,31 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.filter.FilterOperator;
+import org.assertj.core.api.filter.Filters;
+import org.assertj.core.api.filter.InFilter;
+import org.assertj.core.api.filter.NotFilter;
+import org.assertj.core.api.filter.NotInFilter;
+import org.assertj.core.condition.AllOf;
+import org.assertj.core.condition.AnyOf;
+import org.assertj.core.condition.DoesNotHave;
+import org.assertj.core.condition.Not;
+import org.assertj.core.data.Index;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.data.TemporalUnitOffset;
+import org.assertj.core.groups.Properties;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.BinaryRepresentation;
+import org.assertj.core.presentation.HexadecimalRepresentation;
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.presentation.UnicodeRepresentation;
+import org.assertj.core.util.CanIgnoreReturnValue;
+import org.assertj.core.util.CheckReturnValue;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,31 +89,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.filter.FilterOperator;
-import org.assertj.core.api.filter.Filters;
-import org.assertj.core.api.filter.InFilter;
-import org.assertj.core.api.filter.NotFilter;
-import org.assertj.core.api.filter.NotInFilter;
-import org.assertj.core.condition.AllOf;
-import org.assertj.core.condition.AnyOf;
-import org.assertj.core.condition.DoesNotHave;
-import org.assertj.core.condition.Not;
-import org.assertj.core.data.Index;
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.data.Offset;
-import org.assertj.core.data.Percentage;
-import org.assertj.core.data.TemporalUnitOffset;
-import org.assertj.core.groups.Properties;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.presentation.BinaryRepresentation;
-import org.assertj.core.presentation.HexadecimalRepresentation;
-import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.presentation.UnicodeRepresentation;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * A unified entry point to all non-deprecated assertions from both the new Java 8 core API and the pre-Java 8 core API.
@@ -2312,6 +2312,30 @@ public interface WithAssertions {
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of assertThat(...) takes precedence over the generic {@link #assertThat(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #assertThat(List)} "forgets" actual type:
+   * <pre>{@code assertThat(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code assertThatObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default <T> ObjectAssert<T> assertThatObject(T actual) {
+    return assertThat(actual);
   }
 
   /**

@@ -12,8 +12,36 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
-import static org.assertj.core.data.Percentage.withPercentage;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.filter.FilterOperator;
+import org.assertj.core.api.filter.Filters;
+import org.assertj.core.api.filter.InFilter;
+import org.assertj.core.api.filter.NotFilter;
+import org.assertj.core.api.filter.NotInFilter;
+import org.assertj.core.condition.AllOf;
+import org.assertj.core.condition.AnyOf;
+import org.assertj.core.condition.DoesNotHave;
+import org.assertj.core.condition.Not;
+import org.assertj.core.data.Index;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.data.TemporalUnitLessThanOffset;
+import org.assertj.core.data.TemporalUnitOffset;
+import org.assertj.core.data.TemporalUnitWithinOffset;
+import org.assertj.core.groups.Properties;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.BinaryRepresentation;
+import org.assertj.core.presentation.HexadecimalRepresentation;
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.presentation.UnicodeRepresentation;
+import org.assertj.core.util.CanIgnoreReturnValue;
+import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Files;
+import org.assertj.core.util.URLs;
+import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.Introspection;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,36 +98,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.filter.FilterOperator;
-import org.assertj.core.api.filter.Filters;
-import org.assertj.core.api.filter.InFilter;
-import org.assertj.core.api.filter.NotFilter;
-import org.assertj.core.api.filter.NotInFilter;
-import org.assertj.core.condition.AllOf;
-import org.assertj.core.condition.AnyOf;
-import org.assertj.core.condition.DoesNotHave;
-import org.assertj.core.condition.Not;
-import org.assertj.core.data.Index;
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.data.Offset;
-import org.assertj.core.data.Percentage;
-import org.assertj.core.data.TemporalUnitLessThanOffset;
-import org.assertj.core.data.TemporalUnitOffset;
-import org.assertj.core.data.TemporalUnitWithinOffset;
-import org.assertj.core.groups.Properties;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.presentation.BinaryRepresentation;
-import org.assertj.core.presentation.HexadecimalRepresentation;
-import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.presentation.UnicodeRepresentation;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.Files;
-import org.assertj.core.util.URLs;
-import org.assertj.core.util.introspection.FieldSupport;
-import org.assertj.core.util.introspection.Introspection;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.data.Percentage.withPercentage;
 
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
@@ -137,6 +137,12 @@ import org.assertj.core.util.introspection.Introspection;
  */
 @CheckReturnValue
 public class Assertions {
+
+  /**
+   * Creates a new <code>{@link Assertions}</code>.
+   */
+  protected Assertions() {
+  }
 
   /**
    * Create assertion for {@link Predicate}.
@@ -644,6 +650,8 @@ public class Assertions {
     return AssertionsForInterfaceTypes.assertThat(actual, assertFactory);
   }
 
+  //@format:on
+
   /**
    * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> tallowing to navigate to any {@code List} element
    * in order to perform assertions on it.
@@ -678,8 +686,6 @@ public class Assertions {
                                                                                       Class<ELEMENT_ASSERT> assertClass) {
     return AssertionsForInterfaceTypes.assertThat(actual, assertClass);
   }
-
-//@format:on
 
   /**
    * Creates a new instance of <code>{@link LongAssert}</code>.
@@ -1105,6 +1111,30 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of assertThat(...) takes precedence over the generic {@link #assertThat(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #assertThat(List)} "forgets" actual type:
+   * <pre>{@code assertThat(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code assertThatObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> ObjectAssert<T> assertThatObject(T actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Allows catching a {@link Throwable} more easily when used with Java 8 lambdas.
    *
    * <p>
@@ -1228,6 +1258,10 @@ public class Assertions {
     return assertThatExceptionOfType(IOException.class);
   }
 
+  // -------------------------------------------------------------------------------------------------
+  // fail methods : not assertions but here to have a single entry point to all AssertJ features.
+  // -------------------------------------------------------------------------------------------------
+
   /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
    *
@@ -1238,10 +1272,6 @@ public class Assertions {
   public static ThrowableTypeAssert<IllegalStateException> assertThatIllegalStateException() {
     return assertThatExceptionOfType(IllegalStateException.class);
   }
-
-  // -------------------------------------------------------------------------------------------------
-  // fail methods : not assertions but here to have a single entry point to all AssertJ features.
-  // -------------------------------------------------------------------------------------------------
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
@@ -1351,6 +1381,10 @@ public class Assertions {
     StandardRepresentation.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
   }
 
+  // ------------------------------------------------------------------------------------------------------
+  // properties methods : not assertions but here to have a single entry point to all AssertJ features.
+  // ------------------------------------------------------------------------------------------------------
+
   /**
    * In error messages, sets the threshold for how many elements from one iterable/array/map will be included in the
    * in the description.
@@ -1377,10 +1411,6 @@ public class Assertions {
   public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
   }
-
-  // ------------------------------------------------------------------------------------------------------
-  // properties methods : not assertions but here to have a single entry point to all AssertJ features.
-  // ------------------------------------------------------------------------------------------------------
 
   /**
    * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point
@@ -1486,6 +1516,10 @@ public class Assertions {
     FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);
   }
 
+  // ------------------------------------------------------------------------------------------------------
+  // Data utility methods : not assertions but here to have a single entry point to all AssertJ features.
+  // ------------------------------------------------------------------------------------------------------
+
   /**
    * Globally sets whether the extractor considers bare-named property methods like {@code String name()}.
    * Defaults to enabled.
@@ -1494,10 +1528,6 @@ public class Assertions {
   public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
     Introspection.setExtractBareNamePropertyMethods(barenamePropertyMethods);
   }
-
-  // ------------------------------------------------------------------------------------------------------
-  // Data utility methods : not assertions but here to have a single entry point to all AssertJ features.
-  // ------------------------------------------------------------------------------------------------------
 
   /**
    * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
@@ -1924,6 +1954,10 @@ public class Assertions {
     return new TemporalUnitLessThanOffset(value, unit);
   }
 
+  // ------------------------------------------------------------------------------------------------------
+  // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
+  // ------------------------------------------------------------------------------------------------------
+
   /**
    * A syntax sugar to write fluent assertion using {@link ObjectAssert#returns(Object, Function)}.
    * <p>
@@ -1941,10 +1975,6 @@ public class Assertions {
   public static <F, T> Function<F, T> from(Function<F, T> extractor) {
     return extractor;
   }
-
-  // ------------------------------------------------------------------------------------------------------
-  // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
-  // ------------------------------------------------------------------------------------------------------
 
   /**
    * Creates a new <code>{@link AllOf}</code>
@@ -2014,6 +2044,10 @@ public class Assertions {
     return DoesNotHave.doesNotHave(condition);
   }
 
+  // --------------------------------------------------------------------------------------------------
+  // Filter methods : not assertions but here to have a single entry point to all AssertJ features.
+  // --------------------------------------------------------------------------------------------------
+
   /**
    * Creates a new <code>{@link Not}</code>.
    *
@@ -2024,10 +2058,6 @@ public class Assertions {
   public static <T> Not<T> not(Condition<? super T> condition) {
     return Not.not(condition);
   }
-
-  // --------------------------------------------------------------------------------------------------
-  // Filter methods : not assertions but here to have a single entry point to all AssertJ features.
-  // --------------------------------------------------------------------------------------------------
 
   /**
    * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all
@@ -2122,6 +2152,10 @@ public class Assertions {
     return NotInFilter.notIn(valuesNotToMatch);
   }
 
+  // --------------------------------------------------------------------------------------------------
+  // File methods : not assertions but here to have a single entry point to all AssertJ features.
+  // --------------------------------------------------------------------------------------------------
+
   /**
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
    * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
@@ -2144,10 +2178,6 @@ public class Assertions {
   public static NotFilter not(Object valueNotToMatch) {
     return NotFilter.not(valueNotToMatch);
   }
-
-  // --------------------------------------------------------------------------------------------------
-  // File methods : not assertions but here to have a single entry point to all AssertJ features.
-  // --------------------------------------------------------------------------------------------------
 
   /**
    * Loads the text content of a file, so that it can be passed to {@link #assertThat(String)}.
@@ -2227,6 +2257,10 @@ public class Assertions {
     return Files.linesOf(file, charset);
   }
 
+  // --------------------------------------------------------------------------------------------------
+  // URL/Resource methods : not assertions but here to have a single entry point to all AssertJ features.
+  // --------------------------------------------------------------------------------------------------
+
   /**
    * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
@@ -2240,10 +2274,6 @@ public class Assertions {
   public static List<String> linesOf(File file, String charsetName) {
     return Files.linesOf(file, charsetName);
   }
-
-  // --------------------------------------------------------------------------------------------------
-  // URL/Resource methods : not assertions but here to have a single entry point to all AssertJ features.
-  // --------------------------------------------------------------------------------------------------
 
   /**
    * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}.
@@ -2320,6 +2350,10 @@ public class Assertions {
     return URLs.linesOf(url, charset);
   }
 
+  // --------------------------------------------------------------------------------------------------
+  // Date formatting methods : not assertions but here to have a single entry point to all AssertJ features.
+  // --------------------------------------------------------------------------------------------------
+
   /**
    * Loads the text content of a URL into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
@@ -2333,10 +2367,6 @@ public class Assertions {
   public static List<String> linesOf(URL url, String charsetName) {
     return URLs.linesOf(url, charsetName);
   }
-
-  // --------------------------------------------------------------------------------------------------
-  // Date formatting methods : not assertions but here to have a single entry point to all AssertJ features.
-  // --------------------------------------------------------------------------------------------------
 
   /**
    * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
@@ -2910,10 +2940,5 @@ public class Assertions {
   public static void useDefaultRepresentation() {
     AbstractAssert.setCustomRepresentation(CONFIGURATION_PROVIDER.representation());
   }
-
-  /**
-   * Creates a new <code>{@link Assertions}</code>.
-   */
-  protected Assertions() {}
 
 }

@@ -1021,4 +1021,28 @@ public class Java6BDDAssertions {
    * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
   protected Java6BDDAssertions() {}
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of then(...) takes precedence over the generic {@link #then(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #then(List)} "forgets" actual type:
+   * <pre>{@code then(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code thenObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> AbstractObjectAssert<?, T> thenObject(T actual) {
+    return then(actual);
+  }
 }

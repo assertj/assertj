@@ -12,6 +12,10 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.util.CanIgnoreReturnValue;
+import org.assertj.core.util.CheckReturnValue;
+
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -58,10 +62,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
-
 /**
  * Behavior-driven development style entry point for assertion methods for different types. Each method in this class is a static factory
  * for a type-specific assertion object.
@@ -96,6 +96,12 @@ import org.assertj.core.util.CheckReturnValue;
  */
 @CheckReturnValue
 public class BDDAssertions extends Assertions {
+
+  /**
+   * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
+   */
+  protected BDDAssertions() {
+  }
 
   /**
    * Create assertion for {@link Predicate}.
@@ -345,7 +351,7 @@ public class BDDAssertions extends Assertions {
    * <p>
    * Examples:
    * <pre><code class='java'> Iterator&lt;String&gt; bestBasketBallPlayers = getBestBasketBallPlayers();
-   * 
+   *
    * then(bestBasketBallPlayers).hasNext() // Iterator assertion
    *                            .toIterable() // switch to Iterable assertions
    *                            .contains("Jordan", "Magic", "Lebron"); // Iterable assertion </code></pre>
@@ -478,6 +484,8 @@ public class BDDAssertions extends Assertions {
     return assertThat(actual, assertFactory);
   }
 
+  //@format:on
+
   /**
    * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> tallowing to navigate to any {@code List} element
    * in order to perform assertions on it.
@@ -511,8 +519,6 @@ public class BDDAssertions extends Assertions {
                                                                                       Class<ELEMENT_ASSERT> assertClass) {
     return assertThat(actual, assertClass);
   }
-
-//@format:on
 
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.DoubleAssert}</code>.
@@ -1069,6 +1075,30 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of then(...) takes precedence over the generic {@link #then(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #then(List)} "forgets" actual type:
+   * <pre>{@code then(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code thenObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> ObjectAssert<T> thenObject(T actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.LocalDateAssert}</code>.
    *
    * @param actual the actual value.
@@ -1375,9 +1405,4 @@ public class BDDAssertions extends Assertions {
   public static ListAssert<Integer> then(IntStream actual) {
     return assertThat(actual);
   }
-
-  /**
-   * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
-   */
-  protected BDDAssertions() {}
 }

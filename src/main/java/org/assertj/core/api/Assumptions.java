@@ -12,10 +12,19 @@
  */
 package org.assertj.core.api;
 
-import static net.bytebuddy.matcher.ElementMatchers.any;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
-import static org.assertj.core.util.Arrays.array;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.TypeCache;
+import net.bytebuddy.TypeCache.SimpleKey;
+import net.bytebuddy.TypeCache.Sort;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
+import net.bytebuddy.implementation.Implementation;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import net.bytebuddy.implementation.bind.annotation.This;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.util.CheckReturnValue;
 
 import java.io.File;
 import java.io.InputStream;
@@ -66,20 +75,10 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.util.CheckReturnValue;
-
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.TypeCache;
-import net.bytebuddy.TypeCache.SimpleKey;
-import net.bytebuddy.TypeCache.Sort;
-import net.bytebuddy.dynamic.scaffold.TypeValidation;
-import net.bytebuddy.implementation.Implementation;
-import net.bytebuddy.implementation.MethodDelegation;
-import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-import net.bytebuddy.implementation.bind.annotation.SuperCall;
-import net.bytebuddy.implementation.bind.annotation.This;
+import static net.bytebuddy.matcher.ElementMatchers.any;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
+import static org.assertj.core.util.Arrays.array;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
@@ -88,32 +87,14 @@ import net.bytebuddy.implementation.bind.annotation.This;
 @CheckReturnValue
 public class Assumptions {
 
+  private static final Implementation ASSUMPTION = MethodDelegation.to(AssumptionMethodInterceptor.class);
+  private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
   /**
    * This NamingStrategy takes the original class's name and adds a suffix to distinguish it.
    * The default is ByteBuddy but for debugging purposes, it makes sense to add AssertJ as a name.
    */
   private static ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED)
                                                        .with(new AuxiliaryType.NamingStrategy.SuffixingRandom("Assertj$Assumptions"));
-
-  private static final Implementation ASSUMPTION = MethodDelegation.to(AssumptionMethodInterceptor.class);
-
-  private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
-
-  private static final class AssumptionMethodInterceptor {
-
-    @RuntimeType
-    public static Object intercept(@This AbstractAssert<?, ?> assertion, @SuperCall Callable<Object> proxy) throws Exception {
-      try {
-        Object result = proxy.call();
-        if (result != assertion && result instanceof AbstractAssert) {
-          return asAssumption((AbstractAssert<?, ?>) result).withAssertionState(assertion);
-        }
-        return result;
-      } catch (AssertionError e) {
-        throw assumptionNotMet(e);
-      }
-    }
-  }
 
   /**
    * Creates a new instance of <code>{@link ObjectAssert}</code> assumption.
@@ -314,7 +295,6 @@ public class Assumptions {
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(StringBuffer actual) {
     return asAssumption(CharSequenceAssert.class, CharSequence.class, actual);
   }
-
 
   /**
    * Creates a new instance of <code>{@link ShortAssert}</code> assumption.
@@ -835,7 +815,30 @@ public class Assumptions {
     return assumeThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
-  // Java 8 assumptions methods
+  /**
+   * Creates a new instance of <code>{@link ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of assertThat(...) takes precedence over the generic {@link
+   * #assumeThat(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #assumeThat(List)} "forgets" actual type:
+   * <pre>{@code assumeThat(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code assumeThatObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> ProxyableObjectAssert<T> assumeThatObject(T actual) {
+    return assumeThat(actual);
+  }
 
   /**
    * Creates a new instance of {@link PredicateAssert} assumption.
@@ -849,6 +852,8 @@ public class Assumptions {
   public static <T> ProxyablePredicateAssert<T> assumeThat(Predicate<T> actual) {
     return asAssumption(ProxyablePredicateAssert.class, Predicate.class, actual);
   }
+
+  // Java 8 assumptions methods
 
   /**
    * Creates a new instance of {@link IntPredicateAssert} assumption.
@@ -1084,13 +1089,13 @@ public class Assumptions {
     return asAssumption(ProxyableListAssert.class, IntStream.class, actual);
   }
 
-  // private methods
-
   private static <ASSERTION, ACTUAL> ASSERTION asAssumption(Class<ASSERTION> assertionType,
                                                             Class<ACTUAL> actualType,
                                                             Object actual) {
     return asAssumption(assertionType, array(actualType), array(actual));
   }
+
+  // private methods
 
   private static <ASSERTION> ASSERTION asAssumption(Class<ASSERTION> assertionType,
                                                     Class<?>[] constructorTypes,
@@ -1177,5 +1182,21 @@ public class Assumptions {
     IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) assertion;
     Class<?>[] constructorTypes = array(AbstractIterableAssert.class, Integer.class);
     return asAssumption(IterableSizeAssert.class, constructorTypes, iterableSizeAssert.returnToIterable(), assertion.actual);
+  }
+
+  private static final class AssumptionMethodInterceptor {
+
+    @RuntimeType
+    public static Object intercept(@This AbstractAssert<?, ?> assertion, @SuperCall Callable<Object> proxy) throws Exception {
+      try {
+        Object result = proxy.call();
+        if (result != assertion && result instanceof AbstractAssert) {
+          return asAssumption((AbstractAssert<?, ?>) result).withAssertionState(assertion);
+        }
+        return result;
+      } catch (AssertionError e) {
+        throw assumptionNotMet(e);
+      }
+    }
   }
 }

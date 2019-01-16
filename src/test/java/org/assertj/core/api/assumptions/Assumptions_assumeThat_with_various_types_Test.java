@@ -17,7 +17,9 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatObject;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.Assumptions.assumeThatObject;
 import static org.assertj.core.api.Assumptions.assumeThatThrownBy;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Maps.newHashMap;
@@ -32,11 +34,13 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.Condition;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
 import org.junit.AssumptionViolatedException;
@@ -347,6 +351,18 @@ public class Assumptions_assumeThat_with_various_types_Test {
           @Override
           public void runPassingAssumption() {
             assumeThat(actual).satisfiesAnyOf(s -> assertThat(s).isLowerCase(), s -> assertThat(s).isBlank());
+          }
+        },
+        new AssumptionRunner<LinkedList<String>>(new LinkedList<>(asList("abc"))) {
+          @Override
+          public void runFailingAssumption() {
+            assumeThatObject(actual).satisfies(l -> assertThat(l).isEmpty());
+          }
+
+          @Override
+          public void runPassingAssumption() {
+            assumeThatObject(actual).satisfies(l -> assertThatObject(l).has(
+              new Condition<>(list -> list.getFirst().equals("abc"), "First element is 'abc'")));
           }
         });
     };

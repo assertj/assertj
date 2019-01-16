@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.util.CanIgnoreReturnValue;
+import org.assertj.core.util.CheckReturnValue;
 
 import java.io.File;
 import java.io.InputStream;
@@ -38,9 +40,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 /**
  * AbstractBDDSoftAssertions compatible with Android. Duplicated from {@link AbstractBDDSoftAssertions}.
@@ -766,6 +766,30 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    */
   public AbstractThrowableAssert<?, ? extends Throwable> thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return then(catchThrowable(shouldRaiseOrNotThrowable));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of then(...) takes precedence over the generic {@link #then(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #then(List)} "forgets" actual type:
+   * <pre>{@code then(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code thenObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public <T> ProxyableObjectAssert<T> thenObject(T actual) {
+    return then(actual);
   }
 
   /**
