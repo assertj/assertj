@@ -46,11 +46,12 @@ import org.assertj.core.util.CheckReturnValue;
  * AbstractStandardSoftAssertions compatible with Android. Duplicated from {@link AbstractStandardSoftAssertions}.
  *
  * @see AbstractStandardSoftAssertions
- * 
+ *
  * @since 2.5.0 / 3.5.0
  */
 @CheckReturnValue
 public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions {
+
   /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *
@@ -337,7 +338,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * Creates a new instance of <code>{@link ListAssert}</code>.
    * <p>
    * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
-   * 
+   *
    * @param <T> the actual element's type.
    * @param actual the actual value.
    * @return the created assertion object.
@@ -673,7 +674,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method 
+   * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
    * Example:
@@ -687,7 +688,7 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * }</code></pre>
    *
    * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
-   * <p> 
+   * <p>
    * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error message
    * softly.assertThatThrownBy(() -&gt; {}).as("display me")
@@ -700,9 +701,9 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
-   * 
+   *
    * @return the created {@link ThrowableAssert}.
-   * 
+   *
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
@@ -721,22 +722,22 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    * <pre><code class='java'> ThrowingCallable callable = () -&gt; {
    *   throw new Exception("boom!");
    * };
-   * 
+   *
    * // assertion succeeds
    * assertThatCode(callable).isInstanceOf(Exception.class)
    *                         .hasMessageContaining("boom");
-   *                                                      
+   *
    * // assertion fails
    * assertThatCode(callable).doesNotThrowAnyException();</code></pre>
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #assertThatCode(ThrowableAssert.ThrowingCallable)} as shown below.
-   * 
+   *
    * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
-   *   // do nothing 
-   * }; 
-   * 
+   *   // do nothing
+   * };
+   *
    * // assertion fails and "display me" appears in the assertion error
    * assertThatCode(doNothing).as("display me")
    *                          .isInstanceOf(Exception.class);
@@ -754,6 +755,31 @@ public class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions 
    */
   public AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of assertThat(...) takes precedence over the generic {@link #assertThat(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #assertThat(List)} "forgets" actual type:
+   * <pre>{@code assertThat(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code assertThatObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.12.0
+   */
+  public <T> ProxyableObjectAssert<T> assertThatObject(T actual) {
+    return assertThat(actual);
   }
 
   /**

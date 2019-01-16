@@ -715,7 +715,7 @@ public interface WithAssertions {
    * <p>
    * Examples:
    * <pre><code class='java'> Iterator&lt;String&gt; bestBasketBallPlayers = getBestBasketBallPlayers();
-   * 
+   *
    * assertThat(bestBasketBallPlayers).hasNext() // Iterator assertion
    *                                  .toIterable() // switch to Iterable assertions
    *                                  .contains("Jordan", "Magic", "Lebron"); // Iterable assertion </code></pre>
@@ -2312,6 +2312,31 @@ public interface WithAssertions {
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of assertThat(...) takes precedence over the generic {@link #assertThat(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #assertThat(List)} "forgets" actual type:
+   * <pre>{@code assertThat(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code assertThatObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.12.0
+   */
+  default <T> ObjectAssert<T> assertThatObject(T actual) {
+    return assertThat(actual);
   }
 
   /**

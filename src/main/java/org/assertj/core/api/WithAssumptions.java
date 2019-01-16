@@ -380,6 +380,7 @@ public interface WithAssumptions {
   default AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(final StringBuffer actual) {
     return Assumptions.assumeThat(actual);
   }
+
   /**
    * Creates a new instance of <code>{@link ShortArrayAssert}</code> assumption.
    *
@@ -474,7 +475,7 @@ public interface WithAssumptions {
    * Creates a new instance of <code>{@link IteratorAssert}</code> assumption.
    * <p>
    * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link ProxyableIterableAssert} but an {@link IteratorAssert}.
-   * 
+   *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
@@ -915,8 +916,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractThrowableAssert<?, ? extends Throwable> assumeThatThrownBy(
-      final ThrowingCallable shouldRaiseThrowable) {
+  default AbstractThrowableAssert<?, ? extends Throwable> assumeThatThrownBy(final ThrowingCallable shouldRaiseThrowable) {
     return Assumptions.assumeThatThrownBy(shouldRaiseThrowable);
   }
 
@@ -943,6 +943,28 @@ public interface WithAssumptions {
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assumeThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assumeThat(catchThrowable(shouldRaiseOrNotThrowable));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ObjectAssert}</code> for any object.
+   * <p>
+   * This overload is useful, when an overloaded method of assertThat(...) takes precedence over the generic {@link
+   * #assumeThat(Object)}.
+   * <p>
+   * Example:
+   * <p>
+   * Cast necessary because {@link #assumeThat(List)} "forgets" actual type:
+   * <pre>{@code assumeThat(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code assumeThatObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.12.0
+   */
+  default <T> ProxyableObjectAssert<T> assumeThatObject(T actual) {
+    return assumeThat(actual);
   }
 
   /**

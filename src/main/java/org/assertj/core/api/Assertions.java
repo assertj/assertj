@@ -139,6 +139,11 @@ import org.assertj.core.util.introspection.Introspection;
 public class Assertions {
 
   /**
+   * Creates a new <code>{@link Assertions}</code>.
+   */
+  protected Assertions() {}
+
+  /**
    * Create assertion for {@link Predicate}.
    *
    * @param actual the actual value.
@@ -679,7 +684,7 @@ public class Assertions {
     return AssertionsForInterfaceTypes.assertThat(actual, assertClass);
   }
 
-//@format:on
+  //@format:on
 
   /**
    * Creates a new instance of <code>{@link LongAssert}</code>.
@@ -1102,6 +1107,31 @@ public class Assertions {
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return AssertionsForClassTypes.assertThatCode(shouldRaiseOrNotThrowable);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ObjectAssert}</code> for any object.
+   *
+   * <p>
+   * This overload is useful, when an overloaded method of assertThat(...) takes precedence over the generic {@link #assertThat(Object)}.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * Cast necessary because {@link #assertThat(List)} "forgets" actual type:
+   * <pre>{@code assertThat(new LinkedList<>(asList("abc"))).matches(list -> ((Deque<String>) list).getFirst().equals("abc")); }</pre>
+   * No cast needed, but also no additional list assertions:
+   * <pre>{@code assertThatObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.12.0
+   */
+  public static <T> ObjectAssert<T> assertThatObject(T actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -2910,10 +2940,5 @@ public class Assertions {
   public static void useDefaultRepresentation() {
     AbstractAssert.setCustomRepresentation(CONFIGURATION_PROVIDER.representation());
   }
-
-  /**
-   * Creates a new <code>{@link Assertions}</code>.
-   */
-  protected Assertions() {}
 
 }

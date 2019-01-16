@@ -46,8 +46,10 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -1908,6 +1910,28 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(1);
     assertThat(errorsCollected.get(0)).hasMessageContaining("[satisfiesAnyOf] ")
+                                      .hasMessageContaining("HOBBIT")
+                                      .hasMessageContaining("ELF")
+                                      .hasMessageContaining("MAN");
+  }
+
+  @Test
+  public void soft_assertions_should_work_with_assertThatObject() {
+    // GIVEN
+    TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
+    Deque<TolkienCharacter> characters = new LinkedList<>(asList(legolas));
+    Consumer<Deque<TolkienCharacter>> isFirstHobbit = tolkienCharacters -> assertThat(tolkienCharacters.getFirst()
+                                                                                                       .getRace()).isEqualTo(HOBBIT);
+    Consumer<Deque<TolkienCharacter>> isFirstMan = tolkienCharacters -> assertThat(tolkienCharacters.getFirst()
+                                                                                                    .getRace()).isEqualTo(MAN);
+    // WHEN
+    softly.assertThatObject(characters)
+          .as("assertThatObject#satisfiesAnyOf")
+          .satisfiesAnyOf(isFirstHobbit, isFirstMan);
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(1);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("[assertThatObject#satisfiesAnyOf] ")
                                       .hasMessageContaining("HOBBIT")
                                       .hasMessageContaining("ELF")
                                       .hasMessageContaining("MAN");
