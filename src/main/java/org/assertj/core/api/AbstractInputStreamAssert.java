@@ -221,7 +221,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws AssertionError        if the actual {@code InputStream} is not readable.
    * @throws InputStreamsException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
-   * @since 3.110.0
+   * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, String expected) {
     inputStreams.assertHasDigest(info, actual, algorithm, expected);
