@@ -13,7 +13,9 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
@@ -74,6 +76,9 @@ public class RecursiveComparisonDifferenceCalculator {
    */
   public static List<ComparisonDifference> determineDifferences(Object actual, Object expected,
                                                                 RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    if (recursiveComparisonConfiguration.enforceStrictTypeChecking() && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
+      return list(expectedAndActualTypeDifference(actual, expected));
+    }
     return determineDifferences(actual, expected, null, recursiveComparisonConfiguration);
   }
 
@@ -102,7 +107,7 @@ public class RecursiveComparisonDifferenceCalculator {
           // fields were not the same according to the custom comparator
           differences.add(new ComparisonDifference(currentPath, key1, key2));
         }
-        // since there was a custom comparator we don't need to inspect the fields
+        // since there was a custom comparator we don't need to inspect the nested fields further
         continue;
       }
 
@@ -155,7 +160,8 @@ public class RecursiveComparisonDifferenceCalculator {
       // Handle all [] types. In order to be equal, the arrays must be the
       // same length, be of the same type, be in the same order, and all
       // elements within the array must be deeply equivalent.
-      if (key1.getClass().isArray()) {
+      Class<?> actualFieldClass = key1.getClass();
+      if (actualFieldClass.isArray()) {
         if (!compareArrays(key1, key2, currentPath, toCompare, visited)) {
           differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
@@ -214,7 +220,7 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       if (!recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualKey)
-          && hasCustomEquals(key1.getClass())) {
+          && hasCustomEquals(actualFieldClass)) {
         if (!key1.equals(key2)) {
           differences.add(new ComparisonDifference(currentPath, key1, key2));
           continue;
@@ -222,16 +228,24 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      Set<String> key1FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(key1.getClass()));
-      Set<String> key2FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(key2.getClass()));
+      Class<?> expectedFieldClass = key2.getClass();
+      if (recursiveComparisonConfiguration.enforceStrictTypeChecking() && expectedTypeIsNotSubtypeOfActualType(dualKey)) {
+        differences.add(new ComparisonDifference(currentPath, key1, key2,
+                                                 format("the fields are considered different since the comparison enforces strict type check and %s is not a subtype of %s",
+                                                        expectedFieldClass.getName(), actualFieldClass.getName())));
+        continue;
+      }
+
+      Set<String> key1FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(actualFieldClass));
+      Set<String> key2FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(expectedFieldClass));
       if (!key2FieldsNames.containsAll(key1FieldsNames)) {
         Set<String> key1FieldsNamesNotInKey2 = newHashSet(key1FieldsNames);
         key1FieldsNamesNotInKey2.removeAll(key2FieldsNames);
         String missingFields = key1FieldsNamesNotInKey2.toString();
-        String key2ClassName = key2.getClass().getName();
-        String key1ClassName = key1.getClass().getName();
-        String missingFieldsDescription = format(MISSING_FIELDS, key1ClassName, key2ClassName, key2.getClass().getSimpleName(),
-                                                 key1.getClass().getSimpleName(), missingFields);
+        String key2ClassName = expectedFieldClass.getName();
+        String key1ClassName = actualFieldClass.getName();
+        String missingFieldsDescription = format(MISSING_FIELDS, key1ClassName, key2ClassName, expectedFieldClass.getSimpleName(),
+                                                 actualFieldClass.getSimpleName(), missingFields);
         differences.add(new ComparisonDifference(currentPath, key1, key2, missingFieldsDescription));
       } else {
         for (String fieldName : key1FieldsNames) {
@@ -658,6 +672,20 @@ public class RecursiveComparisonDifferenceCalculator {
     if (typeComparator != null) return typeComparator.compare(actualFieldValue, otherFieldValue) == 0;
     // default comparison using equals
     return org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue);
+  }
+
+  private static ComparisonDifference expectedAndActualTypeDifference(Object actual, Object expected) {
+    String additionalInformation = format("actual and expected are considered different since the comparison enforces strict type check and expected type %s is not a subtype of actual type %s",
+                                          expected.getClass().getName(), actual.getClass().getName());
+    return rootComparisonDifference(actual, expected, additionalInformation);
+  }
+
+  private static boolean expectedTypeIsNotSubtypeOfActualType(DualKey dualField) {
+    return expectedTypeIsNotSubtypeOfActualType(dualField.key1, dualField.key2);
+  }
+
+  private static boolean expectedTypeIsNotSubtypeOfActualType(Object actual, Object expected) {
+    return !actual.getClass().isAssignableFrom(expected.getClass());
   }
 
 }

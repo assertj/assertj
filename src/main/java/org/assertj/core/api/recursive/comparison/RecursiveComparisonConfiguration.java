@@ -38,7 +38,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class RecursiveComparisonConfiguration {
 
   public static final String INDENT_LEVEL_2 = "  -";
-  // private boolean strictTypeCheck = true;
+  private boolean strictTypeChecking = false;
 
   // fields to ignore section
   private boolean ignoreAllActualNullFields = false;
@@ -143,6 +143,14 @@ public class RecursiveComparisonConfiguration {
     this.fieldComparators.registerComparator(fieldLocation, comparator);
   }
 
+  public boolean enforceStrictTypeChecking() {
+    return strictTypeChecking;
+  }
+
+  public void strictTypeChecking(boolean strictTypeChecking) {
+    this.strictTypeChecking = strictTypeChecking;
+  }
+
   @Override
   public String toString() {
     return multiLineDescription(CONFIGURATION_PROVIDER.representation());
@@ -156,6 +164,7 @@ public class RecursiveComparisonConfiguration {
     describeOverriddenEqualsMethodsUsage(description, representation);
     describeRegisteredComparatorByTypes(description);
     describeRegisteredComparatorForFields(description);
+    describeTypeCheckingStrictness(description);
     return description.toString();
   }
 
@@ -306,6 +315,13 @@ public class RecursiveComparisonConfiguration {
 
   private String formatRegisteredComparatorForField(Entry<FieldLocation, Comparator<?>> comparatorForField) {
     return format("%s %s -> %s%n", INDENT_LEVEL_2, comparatorForField.getKey().getFieldPath(), comparatorForField.getValue());
+  }
+
+  private void describeTypeCheckingStrictness(StringBuilder description) {
+    String str = strictTypeChecking
+        ? "- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
+        : "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
+    description.append(format(str));
   }
 
 }

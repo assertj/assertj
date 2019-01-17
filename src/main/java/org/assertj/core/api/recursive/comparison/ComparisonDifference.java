@@ -14,6 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.lang.String.join;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Objects.areEqual;
 
 import java.util.Collections;
@@ -48,6 +49,10 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     this.actual = actual;
     this.expected = other;
     this.additionalInformation = Optional.ofNullable(additionalInformation);
+  }
+
+  public static ComparisonDifference rootComparisonDifference(Object actual, Object other, String additionalInformation) {
+    return new ComparisonDifference(list(""), actual, other, additionalInformation);
   }
 
   public String getPath() {

@@ -50,4 +50,8 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_BaseTest extends Ob
   static ComparisonDifference diff(String path, Object actual, Object other) {
     return new ComparisonDifference(list(path), actual, other);
   }
+
+  static ComparisonDifference diff(String path, Object actual, Object other, String additionalInformation) {
+    return new ComparisonDifference(list(path), actual, other, additionalInformation);
+  }
 }

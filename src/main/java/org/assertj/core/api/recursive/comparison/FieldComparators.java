@@ -43,9 +43,8 @@ public class FieldComparators {
    *
    * @param fieldLocation the FieldLocation where to apply the comparator
    * @param comparator the comparator it self
-   * @param <T> the type of the objects for the comparator
    */
-  public <T> void registerComparator(FieldLocation fieldLocation, Comparator<? super T> comparator) {
+  public void registerComparator(FieldLocation fieldLocation, Comparator<?> comparator) {
     fieldComparators.put(fieldLocation, comparator);
   }
 

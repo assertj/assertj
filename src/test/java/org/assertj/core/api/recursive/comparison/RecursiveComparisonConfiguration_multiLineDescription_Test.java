@@ -139,6 +139,24 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  public void should_show_when_strict_type_checking_is_used() {
+    // WHEN
+    recursiveComparisonConfiguration.strictTypeChecking(true);
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).contains(format("- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"));
+  }
+
+  @Test
+  public void should_show_when_lenient_type_checking_is_used() {
+    // WHEN
+    recursiveComparisonConfiguration.strictTypeChecking(false);
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).contains(format("- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n"));
+  }
+
+  @Test
   public void should_show_a_complete_multiline_description() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
@@ -171,7 +189,8 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- these fields were compared with the following comparators:%n" +
                "  - bar.baz -> AlwaysDifferentComparator%n" +
                "  - foo -> AlwaysEqualComparator%n" +
-               "- field comparators take precedence over type comparators.%n"));
+               "- field comparators take precedence over type comparators.%n"+
+               "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n"));
     // @format:on
   }
 
