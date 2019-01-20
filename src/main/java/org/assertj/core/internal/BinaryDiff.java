@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2018 the original author or authors.
+ * Copyright 2012-2019 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -24,7 +24,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Compares the binary content of two inputStreams/paths.
- * 
+ *
  * @author Olivier Michallat
  */
 @VisibleForTesting
@@ -37,10 +37,16 @@ public class BinaryDiff {
 
   @VisibleForTesting
   public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
-    try (InputStream expectedStream = new ByteArrayInputStream(expected);
-        InputStream actualStream = Files.newInputStream(actual)) {
-      return diff(actualStream, expectedStream);
+    try (InputStream actualStream = Files.newInputStream(actual)) {
+      return diff(actualStream, expected);
     }
+  }
+
+  @VisibleForTesting
+  public BinaryDiffResult diff(InputStream actualStream, byte[] expected) throws IOException {
+    try (InputStream expectedStream = new ByteArrayInputStream(expected)) {
+		  return diff(actualStream, expectedStream);
+	  }
   }
 
   @VisibleForTesting
