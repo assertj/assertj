@@ -1201,7 +1201,7 @@ public class Iterables {
       // no problem, element is supposed not to meet the given restrictions
       return;
     }
-    // proble: element meets the given restrictions!
+    // problem: element meets the given restrictions!
     throw failures.failure(info, noElementsShouldSatisfy(actual, element));
   }
 

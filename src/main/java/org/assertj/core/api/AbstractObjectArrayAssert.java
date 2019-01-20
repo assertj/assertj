@@ -2860,7 +2860,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param <OTHER_ELEMENT> the type of the other array elements.
    * @param other the array to zip actual with.
-   * @param zipRequirements the given requirements that each pair must sastify.
+   * @param zipRequirements the given requirements that each pair must satisfy.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given zipRequirements {@link BiConsumer} is {@code null}.
    * @throws NullPointerException if the other array to zip actual with is {@code null}.
