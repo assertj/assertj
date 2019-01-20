@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.BinaryDiffResult;
@@ -45,6 +46,16 @@ public class ShouldHaveBinaryContent extends BasicErrorMessageFactory {
     return new ShouldHaveBinaryContent(actual, diff);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldHaveBinaryContent}</code>.
+   * @param actual the actual input stream in the failed assertion.
+   * @param diff the differences between {@code actual} and the given binary content.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveBinaryContent(InputStream actual, BinaryDiffResult diff) {
+    return new ShouldHaveBinaryContent(actual, diff);
+  }
+
   private ShouldHaveBinaryContent(File actual, BinaryDiffResult diff) {
     super("%nFile:%n <%s>%ndoes not have expected binary content at offset <%s>, expecting:%n <%s>%nbut was:%n <%s>", actual,
         diff.offset, diff.expected, diff.actual);
@@ -52,6 +63,11 @@ public class ShouldHaveBinaryContent extends BasicErrorMessageFactory {
   
   private ShouldHaveBinaryContent(Path actual, BinaryDiffResult diff) {
     super("%nPath:%n <%s>%ndoes not have expected binary content at offset <%s>, expecting:%n <%s>%nbut was:%n <%s>", actual,
+        diff.offset, diff.expected, diff.actual);
+  }
+
+  private ShouldHaveBinaryContent(InputStream actual, BinaryDiffResult diff) {
+    super("%nInputStream does not have expected binary content at offset <%s>, expecting:%n <%s>%nbut was:%n <%s>", actual,
         diff.offset, diff.expected, diff.actual);
   }
 }

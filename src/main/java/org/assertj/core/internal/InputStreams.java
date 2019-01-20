@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.internal.Digests.digestDiff;
@@ -47,6 +48,8 @@ public class InputStreams {
 
   @VisibleForTesting
   Diff diff = new Diff();
+  @VisibleForTesting
+  BinaryDiff binaryDiff = new BinaryDiff();
   @VisibleForTesting
   Failures failures = Failures.instance();
 
@@ -98,6 +101,30 @@ public class InputStreams {
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
       String msg = format("Unable to compare contents of InputStream:%n  <%s>%nand String:%n  <%s>", actual, expected);
+      throw new InputStreamsException(msg, e);
+    }
+  }
+
+  /**
+   * Asserts that the given InputStream has the given binary content.
+   * @param info contains information about the assertion.
+   * @param actual the actual InputStream.
+   * @param expected the expected binary content.
+   * @throws NullPointerException if {@code expected} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the given InputStream does not have the same content as the given String.
+   * @throws InputStreamsException if an I/O error occurs.
+   */
+  public void assertHasBinaryContent(AssertionInfo info, InputStream actual, byte[] expected) {
+    requireNonNull(expected, "The binary content to compare to should not be null");
+    assertNotNull(info, actual);
+
+    try {
+      BinaryDiffResult result = binaryDiff.diff(actual, expected);
+      if (result.hasNoDiff()) return;
+      throw failures.failure(info, shouldHaveBinaryContent(actual, result));
+    } catch (IOException e) {
+      String msg = String.format("Unable to verify binary contents of InputStream:%n  <%s>", actual);
       throw new InputStreamsException(msg, e);
     }
   }
