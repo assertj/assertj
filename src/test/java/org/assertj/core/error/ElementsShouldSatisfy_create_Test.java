@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
+import static org.assertj.core.error.ElementsShouldSatisfy.unsatisfiedRequirement;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
 
@@ -30,8 +31,8 @@ public class ElementsShouldSatisfy_create_Test {
   @Test
   public void should_create_error_message_all() {
     // GIVEN
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(new UnsatisfiedRequirement("Leia", "Leia mistake."),
-                                                                new UnsatisfiedRequirement("Luke", "Luke mistake."));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
+                                                                unsatisfiedRequirement("Luke", "Luke mistake."));
     ErrorMessageFactory factory = elementsShouldSatisfy(list("Leia", "Luke", "Yoda"), unsatisfiedRequirements);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
@@ -47,8 +48,8 @@ public class ElementsShouldSatisfy_create_Test {
   @Test
   public void should_create_error_message_all_and_escape_percent_correctly() {
     // GIVEN
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(new UnsatisfiedRequirement("Leia%s", "Leia mistake."),
-                                                                new UnsatisfiedRequirement("Luke", "Luke mistake."));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia%s", "Leia mistake."),
+                                                                unsatisfiedRequirement("Luke", "Luke mistake."));
     ErrorMessageFactory factory = elementsShouldSatisfy(list("Leia%s", "Luke", "Yoda"), unsatisfiedRequirements);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
@@ -64,26 +65,34 @@ public class ElementsShouldSatisfy_create_Test {
   @Test
   public void should_create_error_message_any() {
     // GIVEN
-    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Luke", "Yoda"));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
+                                                                unsatisfiedRequirement("Luke", "Luke mistake."));
+    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Luke", "Yoda"), unsatisfiedRequirements);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting any element of:%n" +
                                          "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to satisfy the given assertions requirements but none did."));
+                                         "to satisfy the given assertions requirements but none did:%n%n" +
+                                         "  <Leia> Leia mistake.%n%n" +
+                                         "  <Luke> Luke mistake."));
   }
 
   @Test
   public void should_create_error_message_any_and_escape_percent_correctly() {
     // GIVEN
-    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Lu%dke", "Yoda"));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
+                                                                unsatisfiedRequirement("Luke", "Luke mistake."));
+    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Lu%dke", "Yoda"), unsatisfiedRequirements);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting any element of:%n" +
                                          "  <[\"Lu%%dke\", \"Yoda\"]>%n" +
-                                         "to satisfy the given assertions requirements but none did."));
+                                         "to satisfy the given assertions requirements but none did:%n%n" +
+                                         "  <Leia> Leia mistake.%n%n" +
+                                         "  <Luke> Luke mistake."));
   }
 }

@@ -92,8 +92,7 @@ public class Maps {
   Conditions conditions = Conditions.instance();
 
   @VisibleForTesting
-  Maps() {
-  }
+  Maps() {}
 
   public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,
                                       BiConsumer<? super K, ? super V> entryRequirements) {
@@ -122,16 +121,16 @@ public class Maps {
                                       BiConsumer<? super K, ? super V> entryRequirements) {
     checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
-    boolean anyMatch = actual.entrySet().stream().anyMatch(e -> {
-      try {
-        entryRequirements.accept(e.getKey(), e.getValue());
-      } catch (AssertionError ex) {
-        return false;
-      }
-      return true;
-    });
 
-    if (!anyMatch) throw failures.failure(info, elementsShouldSatisfyAny(actual));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = actual.entrySet().stream()
+                                                                 .map(entry -> failsRequirements(entryRequirements, entry))
+                                                                 .filter(Optional::isPresent)
+                                                                 .map(Optional::get)
+                                                                 .collect(toList());
+    if (unsatisfiedRequirements.size() == actual.size()) {
+      // all elements have failed the requirements!
+      throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements));
+    }
   }
 
   /**

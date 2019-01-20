@@ -12,32 +12,31 @@
  */
 package org.assertj.core.api.iterable;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
-import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.presentation.PredicateDescription;
 import org.junit.jupiter.api.BeforeEach;
 
-public class IterableAssert_anyMatch_Test extends IterableAssertBaseTest {
+public class IterableAssert_anySatisfy_Test extends IterableAssertBaseTest {
 
-  private Consumer<Object> restrictions;
+  private Predicate<Object> predicate;
 
   @BeforeEach
-  public void beforeEach() {
-    restrictions = o -> assertThat(o).isNotNull();
+  public void beforeOnce() {
+    predicate = o -> o != null;
   }
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-    return assertions.anySatisfy(restrictions);
+    return assertions.anyMatch(predicate);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAnySatisfy(getInfo(assertions), getActual(assertions), restrictions);
-
+    verify(iterables).assertAnyMatch(getInfo(assertions), getActual(assertions), predicate, PredicateDescription.GIVEN);
   }
 }
