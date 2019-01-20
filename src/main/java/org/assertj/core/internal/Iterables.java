@@ -1160,18 +1160,13 @@ public class Iterables {
   public <E> void assertAnySatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    boolean anyMatch = stream(actual).anyMatch(e -> {
-      try {
-        requirements.accept(e);
-      } catch (AssertionError ex) {
-        return false;
-      }
-      return true;
-    });
 
-    if (!anyMatch) {
-      throw failures.failure(info, elementsShouldSatisfyAny(actual));
-    }
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = stream(actual).map(element -> failsRequirements(requirements, element))
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .collect(toList());
+
+    if (unsatisfiedRequirements.size() == stream(actual).count()) throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements));
   }
 
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,

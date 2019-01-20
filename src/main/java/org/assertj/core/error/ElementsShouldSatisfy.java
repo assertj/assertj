@@ -19,28 +19,25 @@ import java.util.List;
 
 public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
 
-  public static ErrorMessageFactory elementsShouldSatisfyAny(Object actual) {
-    return new ElementsShouldSatisfy(actual);
+  public static ErrorMessageFactory elementsShouldSatisfyAny(Object actual, List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements) {
+    return new ElementsShouldSatisfy("%n" +
+      "Expecting any element of:%n" +
+      "  <%s>%n" +
+      "to satisfy the given assertions requirements but none did:%n%n",
+      actual, elementsNotSatisfyingRequirements);
   }
 
   public static ErrorMessageFactory elementsShouldSatisfy(Object actual,
                                                           List<UnsatisfiedRequirement> elementsNotSatisfyingRestrictions) {
-    return new ElementsShouldSatisfy(actual, elementsNotSatisfyingRestrictions);
+    return new ElementsShouldSatisfy("%n" +
+      "Expecting all elements of:%n" +
+      "  <%s>%n" +
+      "to satisfy given requirements, but these elements did not:%n%n",
+      actual, elementsNotSatisfyingRestrictions);
   }
 
-  private ElementsShouldSatisfy(Object actual) {
-    super("%n" +
-          "Expecting any element of:%n" +
-          "  <%s>%n" +
-          "to satisfy the given assertions requirements but none did.",
-          actual);
-  }
-
-  private ElementsShouldSatisfy(Object actual, List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements) {
-    super("%n" +
-          "Expecting all elements of:%n" +
-          "  <%s>%n" +
-          "to satisfy given requirements, but these elements did not:%n%n" +
+  private ElementsShouldSatisfy(String message, Object actual, List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements) {
+    super(message +
           describeErrors(elementsNotSatisfyingRequirements),
           actual);
   }

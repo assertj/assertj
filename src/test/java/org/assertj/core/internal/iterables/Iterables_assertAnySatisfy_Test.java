@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -19,11 +20,14 @@ import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.emptyList;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
+import org.assertj.core.error.ElementsShouldSatisfy;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -60,7 +64,31 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
         assertThat(s).contains("W");
       });
     } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldSatisfyAny(actual));
+      List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = list(
+        new ElementsShouldSatisfy.UnsatisfiedRequirement("Luke", format("%n" +
+          "Expecting:%n" +
+          " <\"Luke\">%n" +
+          "to contain:%n" +
+          " <\"W\"> ")
+        ),
+        new ElementsShouldSatisfy.UnsatisfiedRequirement("Leia", format("%n" +
+          "Expecting:%n" +
+          " <\"Leia\">%n" +
+          "to contain:%n" +
+          " <\"W\"> ")
+        ),
+        new ElementsShouldSatisfy.UnsatisfiedRequirement("Yoda", format("%n" +
+          "Expecting:%n" +
+          " <\"Yoda\">%n" +
+          "to contain:%n" +
+          " <\"W\"> ")
+        ),
+        new ElementsShouldSatisfy.UnsatisfiedRequirement("Obiwan", format("%n" +
+          "Expected size:<4> but was:<6> in:%n" +
+          "<\"Obiwan\">")
+        )
+      );
+      verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -72,7 +100,8 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
     try {
       iterables.<String> assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue());
     } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldSatisfyAny(actual));
+      List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = emptyList();
+      verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
