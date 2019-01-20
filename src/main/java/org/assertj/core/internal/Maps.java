@@ -49,6 +49,7 @@ import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Streams.stream;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -122,16 +123,16 @@ public class Maps {
                                       BiConsumer<? super K, ? super V> entryRequirements) {
     checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
-    boolean anyMatch = actual.entrySet().stream().anyMatch(e -> {
-      try {
-        entryRequirements.accept(e.getKey(), e.getValue());
-      } catch (AssertionError ex) {
-        return false;
-      }
-      return true;
-    });
 
-    if (!anyMatch) throw failures.failure(info, elementsShouldSatisfyAny(actual));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = actual.entrySet().stream()
+      .map(entry -> failsRequirements(entryRequirements, entry))
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .collect(toList());
+
+    if (unsatisfiedRequirements.size() == actual.size()) {
+      throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements));
+    }
   }
 
   /**

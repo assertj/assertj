@@ -74,20 +74,24 @@ public class ElementsShouldSatisfy_create_Test {
                                          "Expecting any element of:%n" +
                                          "  <[\"Luke\", \"Yoda\"]>%n" +
                                          "to satisfy the given assertions requirements but none did:%n%n" +
-      "  <Leia> Leia mistake.%n%n" +
-      "  <Luke> Luke mistake."));
+                                         "  <Leia> Leia mistake.%n%n" +
+                                         "  <Luke> Luke mistake."));
   }
 
   @Test
   public void should_create_error_message_any_and_escape_percent_correctly() {
     // GIVEN
-    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Lu%dke", "Yoda"));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(new UnsatisfiedRequirement("Leia", "Leia mistake."),
+      new UnsatisfiedRequirement("Luke", "Luke mistake."));
+    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Lu%dke", "Yoda"), unsatisfiedRequirements);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting any element of:%n" +
                                          "  <[\"Lu%%dke\", \"Yoda\"]>%n" +
-                                         "to satisfy the given assertions requirements but none did."));
+                                         "to satisfy the given assertions requirements but none did:%n%n" +
+                                         "  <Leia> Leia mistake.%n%n" +
+                                         "  <Luke> Luke mistake."));
   }
 }
