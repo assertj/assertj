@@ -128,7 +128,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if no entries satisfy the given requirements.
-   * @since 3.12
+   * @since 3.12.0
    */
   public SELF anySatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
     maps.assertAnySatisfy(info, actual, entryRequirements);
@@ -580,6 +580,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the entries of the given map with same order, i.e
    *           the actual map contains some or none of the entries of the given map, or the actual map contains more
    *           entries than the entries of the given map or entries are the same but the order is not.
+   * @since 3.12.0
    */
   public SELF containsExactlyEntriesOf(Map<? extends K, ? extends V> map) {
     Map.Entry<? extends K, ? extends V>[] entries = map.entrySet().toArray(new Map.Entry[map.size()]);
@@ -1503,6 +1504,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param extractor the extractor function to extract a value from an entry of the Map under test.
    * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.12.0
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object> extractor) {
@@ -1546,6 +1548,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param extractors the extractor functions to extract values from an entry of the Map under test.
    * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
+   * @since 3.12.0
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(@SuppressWarnings("unchecked") Function<? super Map.Entry<K, V>, Object>... extractors) {
