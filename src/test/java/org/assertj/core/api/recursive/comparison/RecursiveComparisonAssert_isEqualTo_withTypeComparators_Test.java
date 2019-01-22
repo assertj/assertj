@@ -10,14 +10,14 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.internal.objects;
+package org.assertj.core.api.recursive.comparison;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -25,12 +25,10 @@ import java.util.Date;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.CaseInsensitiveStringComparator;
 import org.assertj.core.internal.objects.data.Address;
-import org.assertj.core.internal.objects.data.FriendlyPerson;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.test.AlwaysDifferentComparator;
@@ -41,24 +39,20 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Objects_assertIsEqualToUsingRecursiveComparison_withTypeComparators_Test
-    extends Objects_assertIsEqualToUsingRecursiveComparison_BaseTest {
+public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
+    extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
   @MethodSource("recursivelyEqualObjectsWhenUsingTypeComparators")
-  public void should_pass_for_objects_with_the_same_data_when_using_registered_comparators_by_type(Object actual,
+  public void should_pass_for_objects_with_the_same_data_when_using_registered_comparator_by_types(Object actual,
                                                                                                    Object expected,
-                                                                                                   Map<Class<?>, Comparator<Object>> comparatorsByType,
+                                                                                                   Map<Class<?>, Comparator<Object>> comparatorByTypes,
                                                                                                    String testDescription) {
-    // WHEN
-    comparatorsByType.entrySet().forEach(entry -> {
-      Class<?> clazz = entry.getKey();
-      Comparator<Object> comparator = entry.getValue();
-      recursiveComparisonConfiguration.registerComparatorForType(clazz, comparator);
-    });
-    // THEN
-    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForTypes(comparatorByTypes.entrySet().toArray(new Map.Entry[0]))
+                      .isEqualTo(expected);
+
   }
 
   @SuppressWarnings("unused")
@@ -115,7 +109,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withTypeComparators
     recursiveComparisonConfiguration.registerComparatorForType(Address.class, new AlwaysDifferentComparator<>());
 
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
@@ -136,50 +130,21 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withTypeComparators
     goliathTwin.name = "Goliath";
     goliathTwin.height = 3.1;
 
-    // WHEN
-    recursiveComparisonConfiguration.registerComparatorForType(Double.class, new AtPrecisionComparator<>(0.2));
-
     // THEN
-    areEqualsByRecursiveComparison(goliath, goliathTwin, recursiveComparisonConfiguration);
-  }
-
-  @Test
-  public void should_be_able_to_compare_objects_with_cycles_recursively() {
-    // GIVEN
-    FriendlyPerson actual = new FriendlyPerson();
-    actual.name = "John";
-    actual.home.address.number = 1;
-
-    FriendlyPerson other = new FriendlyPerson();
-    other.name = "John";
-    other.home.address.number = 1;
-
-    // neighbour
-    other.neighbour = actual;
-    actual.neighbour = other;
-
-    // friends
-    FriendlyPerson sherlock = new FriendlyPerson();
-    sherlock.name = "Sherlock";
-    sherlock.home.address.number = 221;
-    actual.friends.add(sherlock);
-    actual.friends.add(other);
-    other.friends.add(sherlock);
-    other.friends.add(actual);
-
-    // THEN
-    areEqualsByRecursiveComparison(actual, other, recursiveComparisonConfiguration);
+    assertThat(goliath).usingRecursiveComparison()
+                       .withComparatorForType(Double.class, new AtPrecisionComparator<>(0.2))
+                       .isEqualTo(goliathTwin);
   }
 
   @Test
   public void should_handle_null_field_with_type_comparator() {
     // GIVEN
     Patient actual = new Patient(null);
-    Patient other = new Patient(new Timestamp(3L));
-    // WHEN
-    recursiveComparisonConfiguration.registerComparatorForType(Timestamp.class, ALWAY_EQUALS_TIMESTAMP);
+    Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    areEqualsByRecursiveComparison(actual, other, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForType(Timestamp.class, ALWAY_EQUALS_TIMESTAMP)
+                      .isEqualTo(expected);
   }
 
   @Test
@@ -187,11 +152,11 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withTypeComparators
     // GIVEN
     Timestamp dateOfBirth = new Timestamp(3L);
     Patient actual = new Patient(dateOfBirth);
-    Patient other = new Patient(dateOfBirth);
-    // WHEN
-    recursiveComparisonConfiguration.registerComparatorForType(Timestamp.class, NEVER_EQUALS);
+    Patient expected = new Patient(dateOfBirth);
     // THEN
-    areEqualsByRecursiveComparison(actual, other, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForType(Timestamp.class, NEVER_EQUALS)
+                      .isEqualTo(expected);
   }
 
   @Test
@@ -199,16 +164,15 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withTypeComparators
     // GIVEN
     Person actual = new Person("Fred");
     actual.dateOfBirth = new Timestamp(1000L);
-
-    Person other = new Person(actual.name);
-    other.dateOfBirth = new Date(1000L);
-
-    // WHEN
-    recursiveComparisonConfiguration.registerComparatorForType(Timestamp.class, SYMMETRIC_DATE_COMPARATOR);
-
+    Person expected = new Person(actual.name);
+    expected.dateOfBirth = new Date(1000L);
     // THEN
-    areEqualsByRecursiveComparison(actual, other, recursiveComparisonConfiguration);
-    areEqualsByRecursiveComparison(other, actual, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForType(Timestamp.class, SYMMETRIC_DATE_COMPARATOR)
+                      .isEqualTo(expected);
+    assertThat(expected).usingRecursiveComparison()
+                        .withComparatorForType(Timestamp.class, SYMMETRIC_DATE_COMPARATOR)
+                        .isEqualTo(actual);
   }
 
 }

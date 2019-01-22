@@ -16,7 +16,6 @@ import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator.determineDifferences;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
@@ -31,6 +30,7 @@ import java.util.TreeSet;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.objects.Objects_assertIsEqualToComparingFieldByFieldRecursive_Test.WithCollection;
@@ -203,7 +203,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     final Name nullName = new Name(null, "Ginobili");
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
-    List<ComparisonDifference> differences = determineDifferences(actualName, nullName, recursiveComparisonConfiguration);
+    List<ComparisonDifference> differences = computeDifferences(actualName, nullName, recursiveComparisonConfiguration);
     // WHEN
     // @format:off
     String message = shouldBeEqualByComparingFieldByFieldRecursively(actualName,
@@ -240,7 +240,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     final Name nullName = new Name(null, "Johnson");
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
-    List<ComparisonDifference> differences = determineDifferences(actualName, nullName, recursiveComparisonConfiguration);
+    List<ComparisonDifference> differences = computeDifferences(actualName, nullName, recursiveComparisonConfiguration);
     // WHEN
     // @format:off
     String message = shouldBeEqualByComparingFieldByFieldRecursively(actualName,
@@ -264,6 +264,11 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          "%n" +
                                          "The recursive comparison was performed with this configuration:%n%s",
                                          CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
+  }
+
+  private List<ComparisonDifference> computeDifferences(Object actual, Object expected,
+                                                          RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    return new RecursiveComparisonDifferenceCalculator().determineDifferences(actual, expected, recursiveComparisonConfiguration);
   }
 
 }

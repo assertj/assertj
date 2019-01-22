@@ -10,31 +10,30 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.internal.objects;
+package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
-public class Objects_assertIsEqualToUsingRecursiveComparison_BaseTest extends ObjectsBaseTest {
+public class RecursiveComparisonAssert_isEqualTo_BaseTest extends ObjectsBaseTest {
 
-  static final AssertionInfo INFO = someInfo();
-  RecursiveComparisonConfiguration recursiveComparisonConfiguration;
+  public static final WritableAssertionInfo INFO = someInfo();
+  public RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
   public void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
-  void verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(Object actual, Object expected,
-                                                                 ComparisonDifference... differences) {
+  public void verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(Object actual, Object expected,
+                                                                        ComparisonDifference... differences) {
     verify(failures).failure(INFO, shouldBeEqualByComparingFieldByFieldRecursively(actual,
                                                                                    expected,
                                                                                    list(differences),
@@ -42,16 +41,19 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_BaseTest extends Ob
                                                                                    INFO.representation()));
   }
 
-  void areEqualsByRecursiveComparison(Object actual, Object expected,
-                         RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    objects.assertIsEqualToUsingRecursiveComparison(INFO, actual, expected, recursiveComparisonConfiguration);
+  public void compareRecursivelyFailsAsExpected(Object actual, Object expected) {
+    RecursiveComparisonAssert recursiveComparisonAssert = new RecursiveComparisonAssert(actual, recursiveComparisonConfiguration);
+    recursiveComparisonAssert.failures = failures;
+    recursiveComparisonAssert.objects = objects;
+    recursiveComparisonAssert.assertionInfo = INFO;
+    expectAssertionError(() -> recursiveComparisonAssert.isEqualTo(expected));
   }
 
-  static ComparisonDifference diff(String path, Object actual, Object other) {
+  public static ComparisonDifference diff(String path, Object actual, Object other) {
     return new ComparisonDifference(list(path), actual, other);
   }
 
-  static ComparisonDifference diff(String path, Object actual, Object other, String additionalInformation) {
+  public static ComparisonDifference diff(String path, Object actual, Object other, String additionalInformation) {
     return new ComparisonDifference(list(path), actual, other, additionalInformation);
   }
 }

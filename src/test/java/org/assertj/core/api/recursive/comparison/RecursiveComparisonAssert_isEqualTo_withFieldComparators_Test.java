@@ -10,8 +10,9 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.internal.objects;
+package org.assertj.core.api.recursive.comparison;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
@@ -20,7 +21,6 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -28,8 +28,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.CaseInsensitiveStringComparator;
@@ -41,28 +39,23 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Objects_assertIsEqualToUsingRecursiveComparison_withFieldComparators_Test
-    extends Objects_assertIsEqualToUsingRecursiveComparison_BaseTest {
+public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
+    extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
-  @MethodSource("recursivelyEqualObjectsWhenUsingTypeComparators")
-  public void should_pass_for_objects_with_the_same_data_when_using_registered_comparators_by_type(Object actual,
-                                                                                                   Object expected,
-                                                                                                   Map<FieldLocation, Comparator<Object>> comparatorsByType,
-                                                                                                   String testDescription) {
-    // WHEN
-    comparatorsByType.entrySet().forEach(entry -> {
-      FieldLocation fieldLocation = entry.getKey();
-      Comparator<Object> comparator = entry.getValue();
-      recursiveComparisonConfiguration.registerComparatorForField(fieldLocation, comparator);
-    });
-    // THEN
-    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
+  @MethodSource("recursivelyEqualObjectsWhenUsingFieldComparators")
+  public void should_pass_for_objects_with_the_same_data_when_using_registered_comparators_by_fields(Object actual,
+                                                                                                     Object expected,
+                                                                                                     Map<String, Comparator<Object>> comparatorByFields,
+                                                                                                     String testDescription) {
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForFields(comparatorByFields.entrySet().toArray(new Map.Entry[0]))
+                      .isEqualTo(expected);
   }
 
   @SuppressWarnings("unused")
-  private static Stream<Arguments> recursivelyEqualObjectsWhenUsingTypeComparators() {
+  private static Stream<Arguments> recursivelyEqualObjectsWhenUsingFieldComparators() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;
     Person person2 = new Person("JoHN");
@@ -84,9 +77,9 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withFieldComparator
     person6.neighbour = new Person("Jim");
     person6.neighbour.home.address.number = 456;
 
-    MapEntry<FieldLocation, Comparator<?>> nameComparator = entry(fielLocation("name"), CaseInsensitiveStringComparator.instance);
-    MapEntry<FieldLocation, Comparator<?>> addressNumberComparator = entry(fielLocation("home.address.number"), alwaysEqual());
-    MapEntry<FieldLocation, Comparator<?>> neighbourComparator = entry(fielLocation("neighbour"), alwaysEqual());
+    MapEntry<String, Comparator<?>> nameComparator = entry("name", CaseInsensitiveStringComparator.instance);
+    MapEntry<String, Comparator<?>> addressNumberComparator = entry("home.address.number", alwaysEqual());
+    MapEntry<String, Comparator<?>> neighbourComparator = entry("neighbour", alwaysEqual());
 
     return Stream.of(Arguments.of(person1, person2, mapOf(nameComparator, addressNumberComparator),
                                   "same data except int fields and case for strings"),
@@ -115,7 +108,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withFieldComparator
     recursiveComparisonConfiguration.registerComparatorForField(fielLocation("neighbour.home.address"), alwaysDifferent());
 
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
@@ -127,7 +120,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withFieldComparator
   }
 
   @Test
-  public void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_types() {
+  public void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_fields() {
     // GIVEN
     Giant goliath = new Giant();
     goliath.name = "Goliath";
@@ -137,22 +130,21 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withFieldComparator
     goliathTwin.name = "Goliath";
     goliathTwin.height = 3.1;
 
-    // WHEN
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("height"), new AtPrecisionComparator<>(0.2));
-
     // THEN
-    areEqualsByRecursiveComparison(goliath, goliathTwin, recursiveComparisonConfiguration);
+    assertThat(goliath).usingRecursiveComparison()
+                       .withComparatorForField("height", new AtPrecisionComparator<>(0.2))
+                       .isEqualTo(goliathTwin);
   }
 
   @Test
-  public void should_handle_null_field_with_type_comparator() {
+  public void should_handle_null_field_with_field_comparator() {
     // GIVEN
     Patient actual = new Patient(null);
-    Patient other = new Patient(new Timestamp(3L));
-    // WHEN
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("dateOfBirth"), ALWAY_EQUALS_TIMESTAMP);
+    Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    areEqualsByRecursiveComparison(actual, other, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForField("dateOfBirth", ALWAY_EQUALS_TIMESTAMP)
+                      .isEqualTo(expected);
   }
 
   @Test
@@ -160,40 +152,43 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_withFieldComparator
     // GIVEN
     Timestamp dateOfBirth = new Timestamp(3L);
     Patient actual = new Patient(dateOfBirth);
-    Patient other = new Patient(dateOfBirth);
+    Patient expected = new Patient(dateOfBirth);
     // WHEN
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("dateOfBirth"), NEVER_EQUALS);
-    // THEN
-    areEqualsByRecursiveComparison(actual, other, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForField("dateOfBirth", NEVER_EQUALS)
+                      .isEqualTo(expected);
   }
 
   @Test
-  public void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator() {
+  public void should_treat_timestamp_as_equal_to_date_when_registering_a_date_symmetric_comparator() {
     // GIVEN
     Person actual = new Person("Fred");
     actual.dateOfBirth = new Timestamp(1000L);
-
     Person other = new Person(actual.name);
     other.dateOfBirth = new Date(1000L);
-
-    // WHEN
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("dateOfBirth"), SYMMETRIC_DATE_COMPARATOR);
-
     // THEN
-    areEqualsByRecursiveComparison(actual, other, recursiveComparisonConfiguration);
-    areEqualsByRecursiveComparison(other, actual, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForField("dateOfBirth", SYMMETRIC_DATE_COMPARATOR)
+                      .isEqualTo(other);
+    assertThat(other).usingRecursiveComparison()
+                     .withComparatorForField("dateOfBirth", SYMMETRIC_DATE_COMPARATOR)
+                     .isEqualTo(actual);
   }
 
   @Test
-  public void field_comparator_should_take_precedence_over_type_comparator() {
+  public void field_comparator_should_take_precedence_over_type_comparator_whatever_their_order_of_registration() {
     // GIVEN
     Patient actual = new Patient(new Timestamp(1L));
-    Patient other = new Patient(new Timestamp(3L));
-    // WHEN
-    recursiveComparisonConfiguration.registerComparatorForType(Timestamp.class, NEVER_EQUALS);
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("dateOfBirth"), ALWAY_EQUALS_TIMESTAMP);
+    Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    areEqualsByRecursiveComparison(actual, other, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForType(Timestamp.class, NEVER_EQUALS)
+                      .withComparatorForField("dateOfBirth", ALWAY_EQUALS_TIMESTAMP)
+                      .isEqualTo(expected);
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForField("dateOfBirth", ALWAY_EQUALS_TIMESTAMP)
+                      .withComparatorForType(Timestamp.class, NEVER_EQUALS)
+                      .isEqualTo(expected);
   }
 
 }

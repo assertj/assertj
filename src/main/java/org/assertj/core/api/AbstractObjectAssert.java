@@ -26,6 +26,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
@@ -53,9 +54,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   private Map<String, Comparator<?>> comparatorByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorByType;
-  // should only be accessed with recursiveComparisonConfiguration() which lazy inits it
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
-  private boolean useRecursiveComparison = false;
 
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -774,29 +772,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return myself;
   }
 
-  public SELF usingRecursiveComparison() {
-    return usingRecursiveComparison(recursiveComparisonConfiguration());
+  public RecursiveComparisonAssert usingRecursiveComparison() {
+    return usingRecursiveComparison(new RecursiveComparisonConfiguration());
   }
 
-  public SELF usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
-    this.useRecursiveComparison = true;
-    return myself;
-  }
-
-  @Override
-  public SELF isEqualTo(Object expected) {
-    if (!useRecursiveComparison) return super.isEqualTo(expected);
-    // user has explictely required to use a recursive comparison
-    RecursiveComparisonConfiguration recursiveComparisonSpec = recursiveComparisonConfiguration();
-    objects.assertIsEqualToUsingRecursiveComparison(info, actual, expected, recursiveComparisonSpec);
-    return myself;
-  }
-
-  // lazy init to avoid building for users that don't use recursive comparison
-  protected RecursiveComparisonConfiguration recursiveComparisonConfiguration() {
-    if (recursiveComparisonConfiguration == null) recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
-    return recursiveComparisonConfiguration;
+  // TODO soft assertion tests: add to method changing the object under tests
+  public RecursiveComparisonAssert usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    return new RecursiveComparisonAssert(actual, recursiveComparisonConfiguration);
   }
 
   // override for proxyable friendly AbstractObjectAssert

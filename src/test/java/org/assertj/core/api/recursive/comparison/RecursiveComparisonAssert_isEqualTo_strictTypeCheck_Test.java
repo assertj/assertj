@@ -10,21 +10,20 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.internal.objects;
+package org.assertj.core.api.recursive.comparison;
 
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.internal.objects.data.PersonDto;
 import org.assertj.core.internal.objects.data.PersonDtoWithPersonNeighbour;
 import org.junit.jupiter.api.Test;
 
-public class Objects_assertIsEqualToUsingRecursiveComparison_strictTypeCheck_Test
-    extends Objects_assertIsEqualToUsingRecursiveComparison_BaseTest {
+public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
+    extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
   public void should_pass_by_default_when_objects_data_are_equals_whatever_their_types_are() {
@@ -46,7 +45,8 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_strictTypeCheck_Tes
     expected.neighbour.neighbour.home.address.number = 124;
 
     // THEN
-    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
   }
 
   @Test
@@ -82,8 +82,10 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_strictTypeCheck_Tes
     recursiveComparisonConfiguration.strictTypeChecking(true);
 
     // THEN
-    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
-    areEqualsByRecursiveComparison(actual, expected2, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .withStrictTypeChecking()
+                      .isEqualTo(expected)
+                      .isEqualTo(expected2);
   }
 
   @Test
@@ -104,7 +106,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_strictTypeCheck_Tes
     recursiveComparisonConfiguration.strictTypeChecking(true);
 
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
     // as neighbour comparison fails, the comparison skip any neighbour fields
@@ -122,12 +124,12 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_strictTypeCheck_Tes
     recursiveComparisonConfiguration.strictTypeChecking(true);
 
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(withA, withB, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(withA, withB);
 
     // THEN
     // inner comparison fails as the fields have different types
     ComparisonDifference valueDifference = diff("inner", withA.inner, withB.inner,
-                                                "the fields are considered different since the comparison enforces strict type check and org.assertj.core.internal.objects.Objects_assertIsEqualToUsingRecursiveComparison_strictTypeCheck_Test$B is not a subtype of org.assertj.core.internal.objects.Objects_assertIsEqualToUsingRecursiveComparison_strictTypeCheck_Test$A");
+                                                "the fields are considered different since the comparison enforces strict type check and org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test$B is not a subtype of org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test$A");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(withA, withB, valueDifference);
   }
 

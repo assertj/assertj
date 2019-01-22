@@ -74,8 +74,8 @@ public class RecursiveComparisonDifferenceCalculator {
    *         either at the field level or via the respectively encountered overridden
    *         .equals() methods during traversal.
    */
-  public static List<ComparisonDifference> determineDifferences(Object actual, Object expected,
-                                                                RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  public List<ComparisonDifference> determineDifferences(Object actual, Object expected,
+                                                         RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     if (recursiveComparisonConfiguration.enforceStrictTypeChecking() && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
       return list(expectedAndActualTypeDifference(actual, expected));
     }
@@ -518,6 +518,7 @@ public class RecursiveComparisonDifferenceCalculator {
         return false;
       }
 
+      // Must split the Key and Value so that Map.Entry's equals() method is not used.
       DualKey dk = new DualKey(path, entry.getKey(), other.getKey());
       if (!visited.contains(dk)) {
         toCompare.addFirst(dk);

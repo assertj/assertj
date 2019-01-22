@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.internal.objects;
+package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -27,7 +27,6 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
@@ -46,7 +45,6 @@ import java.util.TreeSet;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.TypeComparators;
@@ -61,8 +59,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Objects_assertIsEqualToUsingRecursiveComparison_Test
-    extends Objects_assertIsEqualToUsingRecursiveComparison_BaseTest {
+public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
   public void should_pass_when_actual_and_expected_are_null() {
@@ -70,7 +67,8 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     Person actual = null;
     Person expected = null;
     // THEN
-    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
   }
 
   @Test
@@ -79,7 +77,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     Person actual = null;
     Person expected = new Person();
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
     verify(failures).failure(INFO, shouldNotBeNull());
   }
@@ -90,7 +88,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     Person actual = new Person();
     Person expected = null;
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
     verify(failures).failure(INFO, shouldBeEqual(actual, null, objects.getComparisonStrategy(), INFO.representation()));
   }
@@ -101,7 +99,9 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
   public void should_pass_for_objects_with_the_same_data_when_using_the_default_recursive_comparison(Object actual,
                                                                                                      Object expected,
                                                                                                      String testDescription) {
-    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
+
   }
 
   @SuppressWarnings("unused")
@@ -129,10 +129,9 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
   public void should_pass_for_objects_with_the_same_data_when_all_null_fields_are_ignored(Object actual,
                                                                                           Object expected,
                                                                                           String testDescription) {
-    // GIVEN
-    recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
-    // THEN
-    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringNullFields()
+                      .isEqualTo(expected);
   }
 
   @Test
@@ -146,7 +145,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     expected.home.address.number = 2;
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
     ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
@@ -210,10 +209,9 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
                                                                                        Object expected,
                                                                                        String testDescription,
                                                                                        List<String> ignoredFields) {
-    // GIVEN
-    recursiveComparisonConfiguration.ignoreFields(ignoredFields.toArray(new String[0]));
-    // THEN
-    areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration);
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringFields(ignoredFields.toArray(new String[0]))
+                      .isEqualTo(expected);
   }
 
   @SuppressWarnings("unused")
@@ -281,7 +279,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     recursiveComparisonConfiguration.ignoreFields("name", "home.address.number");
 
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
@@ -317,7 +315,7 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     recursiveComparisonConfiguration.ignoreFieldsByRegexes(".*name", ".*home.*number");
 
     // WHEN
-    expectAssertionError(() -> areEqualsByRecursiveComparison(actual, expected, recursiveComparisonConfiguration));
+    compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
@@ -373,33 +371,6 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     assertThat(goliath).usingComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
                        .usingComparatorForFields(new AtPrecisionComparator<>(10), "home.address.number")
                        .isEqualToComparingFieldByFieldRecursively(goliathTwin);
-  }
-
-  @Test
-  public void should_be_able_to_compare_objects_with_cycles_recursively() {
-    FriendlyPerson actual = new FriendlyPerson();
-    actual.name = "John";
-    actual.home.address.number = 1;
-
-    FriendlyPerson other = new FriendlyPerson();
-    other.name = "John";
-    other.home.address.number = 1;
-
-    // neighbour
-    other.neighbour = actual;
-    actual.neighbour = other;
-
-    // friends
-    FriendlyPerson sherlock = new FriendlyPerson();
-    sherlock.name = "Sherlock";
-    sherlock.home.address.number = 221;
-    actual.friends.add(sherlock);
-    actual.friends.add(other);
-    other.friends.add(sherlock);
-    other.friends.add(actual);
-
-    objects.assertIsEqualToComparingFieldByFieldRecursively(INFO, actual, other, noFieldComparators(),
-                                                            defaultTypeComparators());
   }
 
   @Test
@@ -718,6 +689,35 @@ public class Objects_assertIsEqualToUsingRecursiveComparison_Test
     // THEN
     assertThat(error).hasMessageContaining("Human does not declare all Giant fields")
                      .hasMessageContaining("[height]");
+  }
+
+  @Test
+  public void should_be_able_to_compare_objects_with_cycles_recursively() {
+    // GIVEN
+    FriendlyPerson actual = new FriendlyPerson();
+    actual.name = "John";
+    actual.home.address.number = 1;
+
+    FriendlyPerson expected = new FriendlyPerson();
+    expected.name = "John";
+    expected.home.address.number = 1;
+
+    // neighbour
+    expected.neighbour = actual;
+    actual.neighbour = expected;
+
+    // friends
+    FriendlyPerson sherlock = new FriendlyPerson();
+    sherlock.name = "Sherlock";
+    sherlock.home.address.number = 221;
+    actual.friends.add(sherlock);
+    actual.friends.add(expected);
+    expected.friends.add(sherlock);
+    expected.friends.add(actual);
+
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
   }
 
   public static class WithMap<K, V> {

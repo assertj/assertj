@@ -17,10 +17,8 @@ import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator.determineDifferences;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
-import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
@@ -64,8 +62,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
@@ -891,24 +887,4 @@ public class Objects {
     }
   }
 
-  public void assertIsEqualToUsingRecursiveComparison(AssertionInfo info, Object actual, Object expected,
-                                                      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    // deals with both actual and expected being null
-    if (actual == expected) return;
-    if (expected == null) {
-      // for the assertion to pass, actual must be null but this is not the case since actual != expected
-      // => we fail expecting actual to be null
-      assertNull(info, actual);
-    }
-    // at this point expected is not null, which means actual must not be null for the assertion to pass
-    assertNotNull(info, actual);
-    // at this point both actual and expected are not null, we can compare them recursively!
-    List<ComparisonDifference> differences = determineDifferences(actual, expected, recursiveComparisonConfiguration);
-    if (!differences.isEmpty()) throw failures.failure(info, shouldBeEqualByComparingFieldByFieldRecursively(actual,
-                                                                                                             expected,
-                                                                                                             differences,
-                                                                                                             recursiveComparisonConfiguration,
-                                                                                                             info.representation()));
-
-  }
 }
