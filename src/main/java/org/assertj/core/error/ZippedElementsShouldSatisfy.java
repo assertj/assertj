@@ -17,29 +17,33 @@ import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 
+import org.assertj.core.api.AssertionInfo;
+
 public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
 
   private static final String DELIMITER = String.format("%n%n- ");
 
-  public static ErrorMessageFactory zippedElementsShouldSatisfy(Object actual, Object other,
+  public static ErrorMessageFactory zippedElementsShouldSatisfy(AssertionInfo info,
+                                                                Iterable<?> actual, Iterable<?> other,
                                                                 List<ZipSatisfyError> zipSatisfyErrors) {
-    return new ZippedElementsShouldSatisfy(actual, other, zipSatisfyErrors);
+    return new ZippedElementsShouldSatisfy(info, actual, other, zipSatisfyErrors);
   }
 
-  private ZippedElementsShouldSatisfy(Object actual, Object other, List<ZipSatisfyError> zipSatisfyErrors) {
+  private ZippedElementsShouldSatisfy(AssertionInfo info, Iterable<?> actual, Iterable<?> other,
+                                      List<ZipSatisfyError> zipSatisfyErrors) {
     // no use of %s for describe(zipSatisfyErrors) to avoid extra "" but need to make sure there is no extra/unwanted format flag
     super("%n" +
           "Expecting zipped elements of:%n" +
           "  <%s>%n" +
           "and:%n" +
           "  <%s>%n" +
-          "to satisfy given requirements but these zipped elements did not:" + describe(zipSatisfyErrors),
+          "to satisfy given requirements but these zipped elements did not:" + describe(info, zipSatisfyErrors),
           actual, other);
   }
 
-  private static String describe(List<ZipSatisfyError> zipSatisfyErrors) {
+  private static String describe(AssertionInfo info, List<ZipSatisfyError> zipSatisfyErrors) {
     List<String> errorsToStrings = zipSatisfyErrors.stream()
-                                                   .map(ZipSatisfyError::toString)
+                                                   .map(error -> ZipSatisfyError.describe(info, error))
                                                    .collect(toList());
     return escapePercent(DELIMITER + String.join(DELIMITER, errorsToStrings));
   }
@@ -53,6 +57,13 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
       this.actualElement = actualElement;
       this.otherElement = otherElement;
       this.error = error;
+    }
+
+    public static String describe(AssertionInfo info, ZipSatisfyError satisfyError) {
+      return String.format("(%s, %s) error: %s",
+                           info.representation().toStringOf(satisfyError.actualElement),
+                           info.representation().toStringOf(satisfyError.otherElement),
+                           satisfyError.error);
     }
 
     @Override

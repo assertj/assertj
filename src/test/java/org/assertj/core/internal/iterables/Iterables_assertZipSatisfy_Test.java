@@ -69,7 +69,7 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
     List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", shouldStartWith("Luke", "LUKE").create()),
                                         new ZipSatisfyError("Yoda", "YODA", shouldStartWith("Yoda", "YODA").create()),
                                         new ZipSatisfyError("Leia", "LEIA", shouldStartWith("Leia", "LEIA").create()));
-    verify(failures).failure(info, zippedElementsShouldSatisfy(actual, other, errors));
+    verify(failures).failure(info, zippedElementsShouldSatisfy(info, actual, other, errors));
   }
 
   @Test

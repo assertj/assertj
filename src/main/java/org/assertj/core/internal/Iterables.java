@@ -1143,7 +1143,7 @@ public class Iterables {
                                                  .filter(Optional::isPresent)
                                                  .map(Optional::get)
                                                  .collect(toList());
-    if (!errors.isEmpty()) throw failures.failure(info, zippedElementsShouldSatisfy(actual, other, errors));
+    if (!errors.isEmpty()) throw failures.failure(info, zippedElementsShouldSatisfy(info, actual, other, errors));
   }
 
   private <ACTUAL_ELEMENT, OTHER_ELEMENT> Optional<ZipSatisfyError> failsZipRequirements(ACTUAL_ELEMENT actualElement,
