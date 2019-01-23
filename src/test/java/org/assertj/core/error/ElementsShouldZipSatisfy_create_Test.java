@@ -16,26 +16,34 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ElementsShouldZipSatisfy_create_Test {
-
+  protected AssertionInfo info;
+  
+  @BeforeEach
+  public void setUp() {
+    info = someInfo();
+  }
   @Test
   public void should_create_error_message() {
     // GIVEN
     List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", "error luke"),
                                         new ZipSatisfyError("Yo-da", "YODA", "error yoda"));
-    ErrorMessageFactory factory = zippedElementsShouldSatisfy(list("Luke", "Yo-da"),
+    ErrorMessageFactory factory = zippedElementsShouldSatisfy(info, list("Luke", "Yo-da"),
                                                               list("LUKE", "YODA"),
                                                               errors);
     // WHEN
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), info.representation());
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting zipped elements of:%n" +
@@ -43,8 +51,8 @@ public class ElementsShouldZipSatisfy_create_Test {
                                          "and:%n" +
                                          "  <[\"LUKE\", \"YODA\"]>%n" +
                                          "to satisfy given requirements but these zipped elements did not:" +
-                                         "%n%n- (Luke, LUKE) error: error luke" +
-                                         "%n%n- (Yo-da, YODA) error: error yoda"));
+                                         "%n%n- (\"Luke\", \"LUKE\") error: error luke" +
+                                         "%n%n- (\"Yo-da\", \"YODA\") error: error yoda"));
   }
 
   @Test
@@ -52,11 +60,11 @@ public class ElementsShouldZipSatisfy_create_Test {
     // GIVEN
     List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LU%dKE", "error luke"),
                                         new ZipSatisfyError("Yo-da", "YODA", "error yoda"));
-    ErrorMessageFactory factory = zippedElementsShouldSatisfy(list("Luke", "Yo-da"),
+    ErrorMessageFactory factory = zippedElementsShouldSatisfy(info, list("Luke", "Yo-da"),
                                                               list("LU%dKE", "YODA"),
                                                               errors);
     // WHEN
-    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), info.representation());
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting zipped elements of:%n" +
@@ -64,7 +72,7 @@ public class ElementsShouldZipSatisfy_create_Test {
                                          "and:%n" +
                                          "  <[\"LU%%dKE\", \"YODA\"]>%n" +
                                          "to satisfy given requirements but these zipped elements did not:" +
-                                         "%n%n- (Luke, LU%%dKE) error: error luke" +
-                                         "%n%n- (Yo-da, YODA) error: error yoda"));
+                                         "%n%n- (\"Luke\", \"LU%%dKE\") error: error luke" +
+                                         "%n%n- (\"Yo-da\", \"YODA\") error: error yoda"));
   }
 }
