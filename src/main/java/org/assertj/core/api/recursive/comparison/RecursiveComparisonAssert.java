@@ -128,4 +128,9 @@ public class RecursiveComparisonAssert {
           .forEach(comparatorByType -> withComparatorForType(comparatorByType.getKey(), comparatorByType.getValue()));
     return this;
   }
+
+  @VisibleForTesting
+  RecursiveComparisonConfiguration getRecursiveComparisonConfiguration() {
+    return recursiveComparisonConfiguration;
+  }
 }

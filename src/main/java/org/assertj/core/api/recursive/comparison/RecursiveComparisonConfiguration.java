@@ -54,7 +54,6 @@ public class RecursiveComparisonConfiguration {
   private TypeComparators typeComparators = defaultTypeComparators();
   private FieldComparators fieldComparators = new FieldComparators();
 
-  // TODO use FieldLocation instead of String ?
   public boolean hasComparatorForField(String fieldName) {
     return fieldComparators.hasComparatorForField(new FieldLocation(fieldName));
   }
@@ -78,6 +77,11 @@ public class RecursiveComparisonConfiguration {
   @VisibleForTesting
   TypeComparators getTypeComparators() {
     return typeComparators;
+  }
+
+  @VisibleForTesting
+  boolean getIgnoreAllActualNullFields() {
+    return ignoreAllActualNullFields;
   }
 
   /**
@@ -143,12 +147,32 @@ public class RecursiveComparisonConfiguration {
     this.fieldComparators.registerComparator(fieldLocation, comparator);
   }
 
-  public boolean enforceStrictTypeChecking() {
+  public boolean isInStrictTypeCheckingMode() {
     return strictTypeChecking;
   }
 
   public void strictTypeChecking(boolean strictTypeChecking) {
     this.strictTypeChecking = strictTypeChecking;
+  }
+
+  public List<Pattern> getIgnoredFieldsRegexes() {
+    return ignoredFieldsRegexes;
+  }
+
+  public List<Class<?>> getIgnoredOverriddenEqualsForTypes() {
+    return ignoredOverriddenEqualsForTypes;
+  }
+
+  public List<FieldLocation> getIgnoredOverriddenEqualsForFields() {
+    return ignoredOverriddenEqualsForFields;
+  }
+
+  public List<Pattern> getIgnoredOverriddenEqualsRegexes() {
+    return ignoredOverriddenEqualsRegexes;
+  }
+
+  public FieldComparators getFieldComparators() {
+    return fieldComparators;
   }
 
   @Override

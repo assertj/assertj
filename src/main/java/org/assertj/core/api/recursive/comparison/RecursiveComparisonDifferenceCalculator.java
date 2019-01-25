@@ -76,7 +76,7 @@ public class RecursiveComparisonDifferenceCalculator {
    */
   public List<ComparisonDifference> determineDifferences(Object actual, Object expected,
                                                          RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    if (recursiveComparisonConfiguration.enforceStrictTypeChecking() && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
+    if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
       return list(expectedAndActualTypeDifference(actual, expected));
     }
     return determineDifferences(actual, expected, null, recursiveComparisonConfiguration);
@@ -229,7 +229,7 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       Class<?> expectedFieldClass = key2.getClass();
-      if (recursiveComparisonConfiguration.enforceStrictTypeChecking() && expectedTypeIsNotSubtypeOfActualType(dualKey)) {
+      if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(dualKey)) {
         differences.add(new ComparisonDifference(currentPath, key1, key2,
                                                  format("the fields are considered different since the comparison enforces strict type check and %s is not a subtype of %s",
                                                         expectedFieldClass.getName(), actualFieldClass.getName())));
