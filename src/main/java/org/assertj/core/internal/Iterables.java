@@ -1116,7 +1116,8 @@ public class Iterables {
                                                                          .filter(Optional::isPresent)
                                                                          .map(Optional::get)
                                                                          .collect(toList());
-    if (!unsatisfiedRequirements.isEmpty()) throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements));
+    if (!unsatisfiedRequirements.isEmpty())
+      throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
   private static <E> Optional<UnsatisfiedRequirement> failsRequirements(Consumer<? super E> requirements, E element) {
@@ -1167,7 +1168,7 @@ public class Iterables {
                                                                          .collect(toList());
     if (unsatisfiedRequirements.size() == sizeOf(actual)) {
       // all elements have failed the requirements!
-      throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements));
+      throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
     }
   }
 

@@ -104,7 +104,8 @@ public class Maps {
                                                                  .filter(Optional::isPresent)
                                                                  .map(Optional::get)
                                                                  .collect(toList());
-    if (!unsatisfiedRequirements.isEmpty()) throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements));
+    if (!unsatisfiedRequirements.isEmpty())
+      throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
   private static <K, V> Optional<UnsatisfiedRequirement> failsRequirements(BiConsumer<? super K, ? super V> entryRequirements,
@@ -129,7 +130,7 @@ public class Maps {
                                                                  .collect(toList());
     if (unsatisfiedRequirements.size() == actual.size()) {
       // all elements have failed the requirements!
-      throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements));
+      throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
     }
   }
 

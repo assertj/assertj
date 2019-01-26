@@ -12,39 +12,45 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 
+import org.assertj.core.api.AssertionInfo;
+
 public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory elementsShouldSatisfyAny(Object actual,
-                                                             List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements) {
+                                                             List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements,
+                                                             AssertionInfo info) {
     return new ElementsShouldSatisfy("%n" +
                                      "Expecting any element of:%n" +
                                      "  <%s>%n" +
                                      "to satisfy the given assertions requirements but none did:%n%n",
-                                     actual, elementsNotSatisfyingRequirements);
+                                     actual, elementsNotSatisfyingRequirements, info);
   }
 
   public static ErrorMessageFactory elementsShouldSatisfy(Object actual,
-                                                          List<UnsatisfiedRequirement> elementsNotSatisfyingRestrictions) {
+                                                          List<UnsatisfiedRequirement> elementsNotSatisfyingRestrictions,
+                                                          AssertionInfo info) {
     return new ElementsShouldSatisfy("%n" +
                                      "Expecting all elements of:%n" +
                                      "  <%s>%n" +
                                      "to satisfy given requirements, but these elements did not:%n%n",
-                                     actual, elementsNotSatisfyingRestrictions);
+                                     actual, elementsNotSatisfyingRestrictions, info);
   }
 
-  private ElementsShouldSatisfy(String message, Object actual, List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements) {
-    super(message + describeErrors(elementsNotSatisfyingRequirements), actual);
+  private ElementsShouldSatisfy(String message, Object actual, List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements,
+                                AssertionInfo info) {
+    super(message + describeErrors(elementsNotSatisfyingRequirements, info), actual);
   }
 
-  private static String describeErrors(List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements) {
+  private static String describeErrors(List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements, AssertionInfo info) {
     return escapePercent(elementsNotSatisfyingRequirements.stream()
-                                                          .map(UnsatisfiedRequirement::toString)
-                                                          .collect(joining(String.format("%n%n"))));
+                                                          .map(unsatisfiedRequirement -> unsatisfiedRequirement.describe(info))
+                                                          .collect(joining(format("%n%n"))));
   }
 
   public static UnsatisfiedRequirement unsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {
@@ -61,9 +67,13 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
       this.errorMessage = errorMessage;
     }
 
+    public String describe(AssertionInfo info) {
+      return format("  <%s> error: %s", info.representation().toStringOf(elementNotSatisfyingRequirements), errorMessage);
+    }
+
     @Override
     public String toString() {
-      return String.format("  <%s> %s", elementNotSatisfyingRequirements, errorMessage);
+      return format("  <%s> %s", elementNotSatisfyingRequirements, errorMessage);
     }
   }
 

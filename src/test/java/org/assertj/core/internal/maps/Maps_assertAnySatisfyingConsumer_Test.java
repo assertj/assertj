@@ -25,8 +25,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.assertj.core.error.ElementsShouldSatisfy;
 import org.assertj.core.internal.MapsBaseTest;
@@ -61,7 +63,7 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual,
                                                                             ($1, $2) -> assertThat(true).isTrue()));
     // THEN
-    assertThat(error).hasMessage(elementsShouldSatisfyAny(actual, emptyList()).create());
+    assertThat(error).hasMessage(elementsShouldSatisfyAny(actual, emptyList(), someInfo()).create());
   }
 
   @Test
@@ -70,21 +72,22 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual,
                                                                             ($1, $2) -> assertThat(true).isFalse()));
     // THEN
-    List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = list(unsatisfiedRequirement("name=Yoda",
+    Iterator<Entry<String, String>> actualEntries = actual.entrySet().iterator();
+    List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = list(unsatisfiedRequirement(actualEntries.next(),
                                                                                             format("%n" +
                                                                                                    "Expecting:%n" +
                                                                                                    " <true>%n" +
                                                                                                    "to be equal to:%n" +
                                                                                                    " <false>%n" +
                                                                                                    "but was not.")),
-                                                                     unsatisfiedRequirement("color=green",
+                                                                     unsatisfiedRequirement(actualEntries.next(),
                                                                                             format("%n" +
                                                                                                    "Expecting:%n" +
                                                                                                    " <true>%n" +
                                                                                                    "to be equal to:%n" +
                                                                                                    " <false>%n" +
                                                                                                    "but was not.")));
-    assertThat(error).hasMessage(elementsShouldSatisfyAny(actual, errors).create());
+    assertThat(error).hasMessage(elementsShouldSatisfyAny(actual, errors, someInfo()).create());
   }
 
   @Test

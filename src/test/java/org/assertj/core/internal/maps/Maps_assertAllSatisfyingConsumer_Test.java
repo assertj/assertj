@@ -25,6 +25,7 @@ import static org.assertj.core.util.Lists.list;
 
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
@@ -69,7 +70,8 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
                                            .isLessThan(30);
     }));
     // THEN
-    assertThat(error).hasMessage(elementsShouldSatisfy(greatPlayers, list(failOnPpgLessThan("Bulls", jordan, 30))).create());
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(failOnPpgLessThan("Bulls", jordan, 30));
+    assertThat(error).hasMessage(elementsShouldSatisfy(greatPlayers, unsatisfiedRequirements, someInfo()).create());
   }
 
   @Test
@@ -81,9 +83,9 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
                                            .isGreaterThanOrEqualTo(30);
     }));
     // THEN
-    assertThat(error).hasMessage(elementsShouldSatisfy(greatPlayers,
-                                                       list(failOnPpgGreaterThanEqual("Spurs", duncan, 30),
-                                                            failOnPpgGreaterThanEqual("Lakers", magic, 30))).create());
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(failOnPpgGreaterThanEqual("Spurs", duncan, 30),
+                                                                failOnPpgGreaterThanEqual("Lakers", magic, 30));
+    assertThat(error).hasMessage(elementsShouldSatisfy(greatPlayers, unsatisfiedRequirements, someInfo()).create());
   }
 
   @Test

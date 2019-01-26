@@ -67,7 +67,7 @@ public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
                                                                                          " <\"Yoda\">%n" +
                                                                                          "to start with:%n" +
                                                                                          " <\"L\">%n")));
-    verify(failures).failure(info, elementsShouldSatisfy(actual, errors));
+    verify(failures).failure(info, elementsShouldSatisfy(actual, errors, someInfo()));
 
   }
 

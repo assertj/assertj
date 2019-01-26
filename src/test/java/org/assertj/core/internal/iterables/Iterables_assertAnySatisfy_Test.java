@@ -84,7 +84,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
                                                                                                                "Expected size:<4> but was:<6> in:%n"
                                                                                                                +
                                                                                                                "<\"Obiwan\">")));
-      verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors));
+      verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -97,7 +97,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
       iterables.<String> assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue());
     } catch (AssertionError e) {
       List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = emptyList();
-      verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors));
+      verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
