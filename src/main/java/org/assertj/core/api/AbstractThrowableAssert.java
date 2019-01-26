@@ -186,6 +186,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} contains the given content.
+   * @since 3.12.0
    */
   public SELF hasMessageNotContaining(String content) {
     throwables.assertHasMessageNotContaining(info, actual, content);
@@ -249,6 +250,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
    * @throws NullPointerException if the regex is null
+   * @since 3.12.0
    */
   public SELF hasMessageFindingMatch(String regex) {
     throwables.assertHasMessageFindingMatch(info, actual, regex);
@@ -339,6 +341,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.
+   * @since 3.12.0
    */
   public SELF hasRootCause(Throwable cause) {
     throwables.assertHasRootCause(info, actual, cause);
