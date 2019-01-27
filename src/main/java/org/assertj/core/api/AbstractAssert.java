@@ -696,7 +696,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param assertions2 the second group of assertions to run against the object under test - must not be null.
    * @return this assertion object.
    *
-   * @throws IllegalArgumentException if any given assertions group is null 
+   * @throws IllegalArgumentException if any given assertions group is null
+   * @since 3.12.0
    */
   // Does not take a Consumer<ACTUAL>... to avoid to use @SafeVarargs to suppress the generic array type safety warning.
   // @SafeVarargs requires methods to be final which breaks the proxying mechanism used by soft assertions and assumptions
@@ -732,7 +733,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param assertions3 the third group of assertions to run against the object under test - must not be null.
    * @return this assertion object.
    *
-   * @throws IllegalArgumentException if any given assertions group is null 
+   * @throws IllegalArgumentException if any given assertions group is null
+   * @since 3.12.0
    */
   // Does not take a Consumer<ACTUAL>... to avoid to use @SafeVarargs to suppress the generic array type safety warning.
   // @SafeVarargs requires methods to be final which breaks the proxying mechanism used by soft assertions and assumptions
