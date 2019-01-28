@@ -115,7 +115,7 @@ public class TypeComparators {
     return typeComparators.isEmpty();
   }
 
-  public Stream<Entry<Class<?>, Comparator<?>>> registeredComparatorByTypes() {
+  public Stream<Entry<Class<?>, Comparator<?>>> comparatorByTypes() {
     return typeComparators.entrySet().stream();
   }
 

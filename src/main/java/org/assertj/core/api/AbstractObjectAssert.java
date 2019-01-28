@@ -674,7 +674,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Asserts that the object under test (actual) is equal to the given object based on recursive a property/field by property/field comparison (including
+   * Asserts that the object under test (actual) is equal to the given object based on a recursive property/field by property/field comparison (including
    * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
    * the overridden {@code equals} method will be used instead of a field by field comparison.

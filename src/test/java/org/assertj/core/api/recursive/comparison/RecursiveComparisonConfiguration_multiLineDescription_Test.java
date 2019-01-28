@@ -69,7 +69,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   @Test
   public void should_show_the_ignored_overridden_equals_methods_regexes() {
     // WHEN
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes("foo", "bar", "foo.bar");
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("foo", "bar", "foo.bar");
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
@@ -162,7 +162,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsByRegexes("f.*", ".ba.", "..b%sr..");
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(".*oo", ".ar", "oo.ba");
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
     recursiveComparisonConfiguration.registerComparatorForType(Integer.class, new AbsValueComparator<>());

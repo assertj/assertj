@@ -86,7 +86,7 @@ public class FieldComparators {
     return fieldComparators.get(fieldLocation);
   }
 
-  public Stream<Entry<FieldLocation, Comparator<?>>> getFieldComparators() {
+  public Stream<Entry<FieldLocation, Comparator<?>>> comparatorByFields() {
     return fieldComparators.entrySet().stream();
   }
 }

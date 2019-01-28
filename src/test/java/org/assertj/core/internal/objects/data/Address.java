@@ -12,11 +12,20 @@
  */
 package org.assertj.core.internal.objects.data;
 
+import java.util.Objects;
+
 public class Address {
   public int number = 1;
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(number);
+  }
+
 
   @Override
   public String toString() {
     return "Address [number=" + number + "]";
   }
+
 }

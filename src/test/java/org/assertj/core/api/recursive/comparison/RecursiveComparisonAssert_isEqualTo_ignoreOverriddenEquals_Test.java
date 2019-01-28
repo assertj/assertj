@@ -13,9 +13,12 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.util.Lists.list;
 
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.objects.data.AlwaysDifferentAddress;
@@ -31,7 +34,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class RecursiveComparisonAssert_isEqualTo_ignoreOverriddenEquals_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
-  // ignoreOverriddenEqualsByRegexes tests
+  // ignoringOverriddenEqualsForFieldsMatchingRegexes tests
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored overridden equals regexes={3}")
@@ -41,7 +44,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoreOverriddenEquals_Test
                                                                                        String testDescription,
                                                                                        List<String> regexes) {
     assertThat(actual).usingRecursiveComparison()
-                      .ignoringOverriddenEqualsByRegexes(regexes.toArray(new String[0]))
+                      .ignoringOverriddenEqualsForFieldsMatchingRegexes(regexes.toArray(new String[0]))
                       .isEqualTo(expected);
   }
 
@@ -83,7 +86,8 @@ public class RecursiveComparisonAssert_isEqualTo_ignoreOverriddenEquals_Test
     expected.neighbour.home.address = new AlwaysEqualAddress();
     expected.neighbour.home.address.number = 234;
 
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(".*AlwaysEqualPerson", ".*AlwaysEqualAddress");
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*AlwaysEqualPerson",
+                                                                                    ".*AlwaysEqualAddress");
 
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
@@ -94,6 +98,17 @@ public class RecursiveComparisonAssert_isEqualTo_ignoreOverriddenEquals_Test
                                                  actual.neighbour.home.address.number,
                                                  expected.neighbour.home.address.number);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, numberDifference, neighbourNameDifference);
+  }
+
+  @Test
+  public void ignoring_overriden_equals_with_regexes_does_not_replace_previous_regexes() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("foo");
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("bar", "baz");
+    // THEN
+    List<Pattern> ignoredOverriddenEqualsRegexes = recursiveComparisonConfiguration.getIgnoredOverriddenEqualsRegexes();
+    assertThat(ignoredOverriddenEqualsRegexes).extracting(Pattern::pattern)
+                                              .containsExactlyInAnyOrder("foo", "bar", "baz");
   }
 
   // ignoreOverriddenEqualsForTypes tests
@@ -158,6 +173,15 @@ public class RecursiveComparisonAssert_isEqualTo_ignoreOverriddenEquals_Test
                                                  actual.neighbour.home.address.number,
                                                  expected.neighbour.home.address.number);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, numberDifference, neighbourNameDifference);
+  }
+
+  @Test
+  public void ignoring_overriden_equals_by_types_does_not_replace_previous_types() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class);
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(Date.class);
+    // THEN
+    assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForTypes()).containsExactly(String.class, Date.class);
   }
 
   // ignoreOverriddenEqualsForFields tests
@@ -233,6 +257,16 @@ public class RecursiveComparisonAssert_isEqualTo_ignoreOverriddenEquals_Test
     // THEN
     // would have succeeded if we had used AlwaysEqualPerson equals method
     compareRecursivelyFailsAsExpected(actual, expected);
+  }
+
+  @Test
+  public void ignoring_overriden_equals_for_fields_does_not_replace_previous_fields() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo");
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("bar", "baz");
+    // THEN
+    List<FieldLocation> ignoredOverriddenEqualsFields = recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields();
+    assertThat(ignoredOverriddenEqualsFields).containsExactly(fielLocation("foo"), fielLocation("bar"), fielLocation("baz"));
   }
 
 }

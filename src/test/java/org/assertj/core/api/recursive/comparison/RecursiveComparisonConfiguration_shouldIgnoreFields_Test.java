@@ -18,6 +18,7 @@ import static org.assertj.core.util.Lists.list;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -88,6 +89,16 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
                      Arguments.of(dualKeyWithPath("father", "name", "first"),
                                   list("father", "name.first", "father.name.first")));
 
+  }
+
+  @Test
+  public void ignoring_fields_with_regex_does_not_replace_previous_regexes() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreFieldsByRegexes("foo");
+    recursiveComparisonConfiguration.ignoreFieldsByRegexes("bar", "baz");
+    // THEN
+    assertThat(recursiveComparisonConfiguration.getIgnoredFieldsRegexes()).extracting(Pattern::pattern)
+                                                                          .containsExactlyInAnyOrder("foo", "bar", "baz");
   }
 
   @ParameterizedTest(name = "{0} should be ignored with these regexes {1}")

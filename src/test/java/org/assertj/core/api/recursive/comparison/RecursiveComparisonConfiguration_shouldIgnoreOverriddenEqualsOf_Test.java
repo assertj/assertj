@@ -40,7 +40,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
   @MethodSource("ignoringOverriddenEqualsByRegexesSource")
   public void should_ignore_overridden_equals_by_regexes(Class<?> clazz, List<String> ignoredOverriddenEqualsByRegexes) {
     // GIVEN
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsByRegexes(ignoredOverriddenEqualsByRegexes.toArray(new String[0]));
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(ignoredOverriddenEqualsByRegexes.toArray(new String[0]));
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(clazz);
     // THEN

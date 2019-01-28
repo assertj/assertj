@@ -12,8 +12,13 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map.Entry;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
@@ -36,7 +41,8 @@ public class RecursiveComparisonConfiguration_comparatorByType_Test {
     // WHEN
     TypeComparators typeComparators = recursiveComparisonConfiguration.getTypeComparators();
     // THEN
-    assertThat(typeComparators).isEqualTo(defaultTypeComparators());
+    List<Entry<Class<?>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes().collect(toList());
+    assertThat(typeComparators.comparatorByTypes()).containsExactlyElementsOf(defaultComparators);
   }
 
   @Test

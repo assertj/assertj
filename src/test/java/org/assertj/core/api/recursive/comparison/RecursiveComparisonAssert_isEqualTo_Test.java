@@ -130,7 +130,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
                                                                                           Object expected,
                                                                                           String testDescription) {
     assertThat(actual).usingRecursiveComparison()
-                      .ignoringNullFields()
+                      .ignoringActualNullFields()
                       .isEqualTo(expected);
   }
 
