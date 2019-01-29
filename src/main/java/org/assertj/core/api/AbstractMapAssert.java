@@ -1065,6 +1065,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given keys, i.e. the actual map contains some or none
    *           of the given keys, or the actual map's keys contains keys not in the given ones.
    * @throws IllegalArgumentException if the given argument is an empty array.
+   * @since 3.12.0
    */
   public SELF containsOnlyKeys(Iterable<? extends K> keys) {
     maps.assertContainsOnlyKeys(info, actual, keys);
