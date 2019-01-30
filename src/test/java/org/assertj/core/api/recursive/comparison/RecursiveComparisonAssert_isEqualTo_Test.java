@@ -219,6 +219,11 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     Person person1 = new Person("John");
     person1.home.address.number = 1;
 
+    Person giant1 = new Giant();
+    giant1.name = "Giant John";
+    ((Giant) giant1).height = 3.1;
+    giant1.home.address.number = 1;
+
     Person person2 = new Person("Jack");
     person2.home.address.number = 1;
 
@@ -249,6 +254,9 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
     return Stream.of(Arguments.of(person1, person2, "same data and type, except for one ignored field",
                                   list("name")),
+                     Arguments.of(giant1, person1,
+                                  "different type, same data except name and height which is not even a field from person1",
+                                  list("name", "height")),
                      Arguments.of(person3, person4, "same data, different type, except for several ignored fields",
                                   list("name", "home.address.number")),
                      Arguments.of(person5, person6, "same data except for one subfield of an ignored field",

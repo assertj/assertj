@@ -13,10 +13,12 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.core.util.Strings.join;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Array;
@@ -79,7 +81,8 @@ public class RecursiveComparisonDifferenceCalculator {
     if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
       return list(expectedAndActualTypeDifference(actual, expected));
     }
-    return determineDifferences(actual, expected, null, recursiveComparisonConfiguration);
+    List<String> rootPath = list();
+    return determineDifferences(actual, expected, rootPath, recursiveComparisonConfiguration);
   }
 
   private static List<ComparisonDifference> determineDifferences(Object actual, Object expected, List<String> parentPath,
@@ -236,8 +239,8 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      Set<String> key1FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(actualFieldClass));
-      Set<String> key2FieldsNames = getFieldsNames(getDeclaredFieldsIncludingInherited(expectedFieldClass));
+      Set<String> key1FieldsNames = getNonIgnoredFieldNames(actualFieldClass, currentPath, recursiveComparisonConfiguration);
+      Set<String> key2FieldsNames = getFieldsNames(expectedFieldClass);
       if (!key2FieldsNames.containsAll(key1FieldsNames)) {
         Set<String> key1FieldsNamesNotInKey2 = newHashSet(key1FieldsNames);
         key1FieldsNamesNotInKey2.removeAll(key2FieldsNames);
@@ -276,15 +279,15 @@ public class RecursiveComparisonDifferenceCalculator {
   private static Deque<DualKey> initStack(Object actual, Object expected, List<String> parentPath,
                                           RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     Deque<DualKey> stack = new DualKeyDeque(recursiveComparisonConfiguration);
-    boolean isRootObject = parentPath == null;
-    List<String> currentPath = isRootObject ? new ArrayList<>() : parentPath;
+    boolean isRootObject = parentPath.isEmpty();
+    List<String> currentPath = new ArrayList<>(parentPath);
     DualKey basicDualKey = new DualKey(currentPath, actual, expected);
     if (actual != null && expected != null && !isContainerType(actual) && !isContainerType(expected)
         && (isRootObject || !hasCustomComparator(basicDualKey, recursiveComparisonConfiguration))) {
       // disregard the equals method and start comparing fields
-      Set<String> actualFieldsNameSet = getFieldsNames(getDeclaredFieldsIncludingInherited(actual.getClass()));
+      Set<String> actualFieldsNameSet = getNonIgnoredFieldNames(actual.getClass(), parentPath, recursiveComparisonConfiguration);
       if (!actualFieldsNameSet.isEmpty()) {
-        Set<String> expectedFieldsNameSet = getFieldsNames(getDeclaredFieldsIncludingInherited(expected.getClass()));
+        Set<String> expectedFieldsNameSet = getFieldsNames(expected.getClass());
         if (!expectedFieldsNameSet.containsAll(actualFieldsNameSet)) {
           stack.addFirst(basicDualKey);
         } else {
@@ -306,7 +309,17 @@ public class RecursiveComparisonDifferenceCalculator {
     return stack;
   }
 
-  private static Set<String> getFieldsNames(Collection<Field> fields) {
+  private static Set<String> getNonIgnoredFieldNames(Class<?> actualClass, List<String> parentPath,
+                                                     RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    String parentConcatenatedPath = join(parentPath).with(".");
+    // need to ignore fields according to the configuration
+    return getFieldsNames(actualClass).stream()
+                                      .filter(recursiveComparisonConfiguration.shouldKeepField(parentConcatenatedPath))
+                                      .collect(toSet());
+  }
+
+  private static Set<String> getFieldsNames(Class<?> clazz) {
+    Collection<Field> fields = getDeclaredFieldsIncludingInherited(clazz);
     Set<String> fieldNames = new LinkedHashSet<>();
     for (Field field : fields) {
       fieldNames.add(field.getName());

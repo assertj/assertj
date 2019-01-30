@@ -25,6 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -235,7 +236,21 @@ public class RecursiveComparisonConfiguration {
   boolean shouldIgnore(DualKey dualKey) {
     return matchesAnIgnoredNullField(dualKey)
            || matchesAnIgnoredField(dualKey)
-           || matchesAnIgnoredRegex(dualKey);
+           || matchesAnIgnoredFieldRegex(dualKey);
+  }
+
+  Predicate<String> shouldKeepField(String parentConcatenatedPath) {
+    return fieldName -> shouldKeepField(parentConcatenatedPath, fieldName);
+  }
+
+  private boolean shouldKeepField(String parentPath, String fieldName) {
+    String fieldConcatenatedPath = concatenatedPath(parentPath, fieldName);
+    return !matchesAnIgnoredField(fieldConcatenatedPath) && !matchesAnIgnoredFieldRegex(fieldConcatenatedPath);
+  }
+
+  // TODO move somewhere else ?
+  private static String concatenatedPath(String parentPath, String name) {
+    return parentPath.isEmpty() ? name : format("%s.%s", parentPath, name);
   }
 
   boolean shouldIgnoreOverriddenEqualsOf(DualKey dualKey) {
@@ -318,14 +333,22 @@ public class RecursiveComparisonConfiguration {
     return ignoreAllActualNullFields && dualKey.key1 == null;
   }
 
-  private boolean matchesAnIgnoredRegex(DualKey dualKey) {
+  private boolean matchesAnIgnoredFieldRegex(String fieldConcatenatedPath) {
     return ignoredFieldsRegexes.stream()
-                               .anyMatch(regex -> regex.matcher(dualKey.concatenatedPath).matches());
+                               .anyMatch(regex -> regex.matcher(fieldConcatenatedPath).matches());
+  }
+
+  private boolean matchesAnIgnoredFieldRegex(DualKey dualKey) {
+    return matchesAnIgnoredFieldRegex(dualKey.concatenatedPath);
   }
 
   private boolean matchesAnIgnoredField(DualKey dualKey) {
+    return matchesAnIgnoredField(dualKey.concatenatedPath);
+  }
+
+  private boolean matchesAnIgnoredField(String fieldConcatenatedPath) {
     return ignoredFields.stream()
-                        .anyMatch(fieldLocation -> fieldLocation.matches(dualKey.concatenatedPath));
+                        .anyMatch(fieldLocation -> fieldLocation.matches(fieldConcatenatedPath));
   }
 
   private String describeIgnoredFields() {
