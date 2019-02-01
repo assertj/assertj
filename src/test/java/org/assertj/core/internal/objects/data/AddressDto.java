@@ -12,20 +12,20 @@
  */
 package org.assertj.core.internal.objects.data;
 
-import java.util.Date;
+import java.util.Objects;
 
-public class PersonDto {
-  public Date dateOfBirth;
-  public String name;
-  public HomeDto home = new HomeDto();
-  public PersonDto neighbour;
+public class AddressDto {
+  public int number = 1;
 
-  public PersonDto(String name) {
-    this.name = name;
+  @Override
+  public int hashCode() {
+    return Objects.hash(number);
   }
+
 
   @Override
   public String toString() {
-    return "PersonDto [name=" + name + ", home=" + home + "]";
+    return "AddressDto [number=" + number + "]";
   }
+
 }

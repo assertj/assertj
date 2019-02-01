@@ -16,6 +16,7 @@ import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocati
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -313,6 +314,66 @@ public class RecursiveComparisonAssert {
   @CheckReturnValue
   public RecursiveComparisonAssert ignoringFieldsByRegexes(String... regexes) {
     recursiveComparisonConfiguration.ignoreFieldsByRegexes(regexes);
+    return this;
+  }
+
+  /**
+   * By default the recursive comparison uses overridden {@code equals} methods to compare fields,
+   * this method allows to force a recursive comparison for all fields at the exception of basic types (i.e. java.lang types)
+   * - at some point we need to compare something!
+   * <p>
+   * For the recursive comparison to use the overridden {@code equals} of a given type anyway (like {@link Date}) you can register
+   * a type comparator using {@link #withComparatorForType(Class, Comparator)}.
+   * <p>
+   * TODO introduce {@code ignoringAllOverriddenEqualsExceptFor(Class<?>... classes)} ?
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   *
+   *   // only compares number, ouch!
+   *   {@literal @}Override
+   *   public boolean equals(final Object other) {
+   *     if (!(other instanceof Address)) return false;
+   *     Address castOther = (Address) other;
+   *     return Objects.equals(number, castOther.number);
+   *   }
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person sherlock2 = new Person("Sherlock", 1.80);
+   * sherlock2.home.address.street = "Butcher Street";
+   * sherlock2.home.address.number = 221;
+   *
+   * // assertion succeeds but that's not what we expected since the home.address.street fields differ
+   * // but the equals implemenation in Address does not compare them.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isEqualTo(sherlock2);
+   *
+   * // to avoid the previous issue, we force a recursive comparison on the home.address field
+   * // now this assertion fails as we expect since the home.address.street fields differ
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .ignoringAllOverriddenEquals()
+   *                     .isEqualTo(sherlock2);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  public RecursiveComparisonAssert ignoringAllOverriddenEquals() {
+    recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     return this;
   }
 

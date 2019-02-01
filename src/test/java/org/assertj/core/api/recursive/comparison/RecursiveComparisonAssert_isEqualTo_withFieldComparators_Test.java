@@ -21,6 +21,7 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -81,11 +82,11 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     MapEntry<String, Comparator<?>> addressNumberComparator = entry("home.address.number", alwaysEqual());
     MapEntry<String, Comparator<?>> neighbourComparator = entry("neighbour", alwaysEqual());
 
-    return Stream.of(Arguments.of(person1, person2, mapOf(nameComparator, addressNumberComparator),
+    return Stream.of(arguments(person1, person2, mapOf(nameComparator, addressNumberComparator),
                                   "same data except int fields and case for strings"),
-                     Arguments.of(person3, person4, mapOf(addressNumberComparator), "same data except for int fields"),
+                     arguments(person3, person4, mapOf(addressNumberComparator), "same data except for int fields"),
                      // any neighbour differences should be ignored as we compare persons with AlwaysEqualComparator
-                     Arguments.of(person5, person6, mapOf(neighbourComparator),
+                     arguments(person5, person6, mapOf(neighbourComparator),
                                   "same data except for persons, person's fields should not be compared recursively except at the root level"));
   }
 

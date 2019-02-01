@@ -45,7 +45,7 @@ public final class Lists {
   }
 
   @SafeVarargs
-  public static <T> ArrayList<T> list(T... elements) {
+  public static <T> List<T> list(T... elements) {
     return newArrayList(elements);
   }
 

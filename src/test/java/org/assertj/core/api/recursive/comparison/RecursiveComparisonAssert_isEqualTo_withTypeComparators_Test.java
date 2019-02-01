@@ -18,6 +18,7 @@ import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRI
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -81,11 +82,11 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     MapEntry<Class<?>, Comparator<?>> stringComparator = entry(String.class, CaseInsensitiveStringComparator.instance);
     MapEntry<Class<?>, Comparator<?>> intComparator = entry(Integer.class, new AlwaysEqualComparator<Integer>());
     MapEntry<Class<?>, Comparator<?>> personComparator = entry(Person.class, new AlwaysEqualComparator<Person>());
-    return Stream.of(Arguments.of(person1, person2, mapOf(stringComparator, intComparator),
+    return Stream.of(arguments(person1, person2, mapOf(stringComparator, intComparator),
                                   "same data except int fields and case for strings"),
-                     Arguments.of(person3, person4, mapOf(intComparator), "same data except for int fields"),
+                     arguments(person3, person4, mapOf(intComparator), "same data except for int fields"),
                      // any neighbour differences should be ignored as we compare persons with AlwaysEqualComparator
-                     Arguments.of(person5, person6, mapOf(personComparator),
+                     arguments(person5, person6, mapOf(personComparator),
                                   "same data except for persons, person's fields should not be compared recursively except at the root level"));
   }
 

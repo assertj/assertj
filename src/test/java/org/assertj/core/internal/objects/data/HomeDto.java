@@ -12,20 +12,11 @@
  */
 package org.assertj.core.internal.objects.data;
 
-import java.util.Date;
-
-public class PersonDto {
-  public Date dateOfBirth;
-  public String name;
-  public HomeDto home = new HomeDto();
-  public PersonDto neighbour;
-
-  public PersonDto(String name) {
-    this.name = name;
-  }
+public class HomeDto {
+  public AddressDto address = new AddressDto();
 
   @Override
   public String toString() {
-    return "PersonDto [name=" + name + ", home=" + home + "]";
+    return "HomeDto [address=" + address + "]";
   }
 }

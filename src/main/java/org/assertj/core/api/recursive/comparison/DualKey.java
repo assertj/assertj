@@ -60,4 +60,8 @@ final class DualKey { // TODO rename DualValue
   public String getConcatenatedPath() {
     return concatenatedPath;
   }
+
+  public boolean isBasicType() {
+    return key1.getClass().getName().startsWith("java.lang");
+  }
 }

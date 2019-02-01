@@ -14,6 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Date;
 import java.util.List;
@@ -63,10 +64,10 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringNullFieldsSource() {
-    return Stream.of(Arguments.of(dualKey(null, "John")),
-                     Arguments.of(dualKey(null, 123)),
-                     Arguments.of(dualKey(null, (Object) null)),
-                     Arguments.of(dualKey(null, new Date())));
+    return Stream.of(arguments(dualKey(null, "John")),
+                     arguments(dualKey(null, 123)),
+                     arguments(dualKey(null, (Object) null)),
+                     arguments(dualKey(null, new Date())));
 
   }
 
@@ -83,11 +84,10 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringSpecifiedFieldsSource() {
-    return Stream.of(Arguments.of(dualKeyWithPath("name"), list("name")),
-                     Arguments.of(dualKeyWithPath("name"), list("foo", "name", "foo")),
-                     Arguments.of(dualKeyWithPath("name", "first"), list("name.first")),
-                     Arguments.of(dualKeyWithPath("father", "name", "first"),
-                                  list("father", "name.first", "father.name.first")));
+    return Stream.of(arguments(dualKeyWithPath("name"), list("name")),
+                     arguments(dualKeyWithPath("name"), list("foo", "name", "foo")),
+                     arguments(dualKeyWithPath("name", "first"), list("name.first")),
+                     arguments(dualKeyWithPath("father", "name", "first"), list("father", "name.first", "father.name.first")));
 
   }
 
@@ -114,13 +114,13 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringRegexSpecifiedFieldsSource() {
-    return Stream.of(Arguments.of(dualKeyWithPath("name"), list(".*name")),
-                     Arguments.of(dualKeyWithPath("name"), list("foo", "n.m.", "foo")),
-                     Arguments.of(dualKeyWithPath("name", "first"), list("name\\.first")),
-                     Arguments.of(dualKeyWithPath("name", "first"), list(".*first")),
-                     Arguments.of(dualKeyWithPath("name", "first"), list("name.*")),
-                     Arguments.of(dualKeyWithPath("father", "name", "first"),
-                                  list("father", "name.first", "father\\.name\\.first")));
+    return Stream.of(arguments(dualKeyWithPath("name"), list(".*name")),
+                     arguments(dualKeyWithPath("name"), list("foo", "n.m.", "foo")),
+                     arguments(dualKeyWithPath("name", "first"), list("name\\.first")),
+                     arguments(dualKeyWithPath("name", "first"), list(".*first")),
+                     arguments(dualKeyWithPath("name", "first"), list("name.*")),
+                     arguments(dualKeyWithPath("father", "name", "first"),
+                               list("father", "name.first", "father\\.name\\.first")));
 
   }
 

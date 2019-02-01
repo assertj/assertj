@@ -28,6 +28,7 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.list;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
 import java.sql.Timestamp;
@@ -117,10 +118,10 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     person4.name = "John";
     person4.home.address.number = 1;
 
-    return Stream.of(Arguments.of(person1, person2, "same data, same type"),
-                     Arguments.of(person2, person1, "same data, same type reversed"),
-                     Arguments.of(person3, person4, "same data, different type"),
-                     Arguments.of(person4, person3, "same data, different type"));
+    return Stream.of(arguments(person1, person2, "same data, same type"),
+                     arguments(person2, person1, "same data, same type reversed"),
+                     arguments(person3, person4, "same data, different type"),
+                     arguments(person4, person3, "same data, different type"));
   }
 
   @SuppressWarnings("unused")
@@ -190,16 +191,16 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     person8.neighbour.neighbour = new Person("James");
     person8.neighbour.neighbour.home.address.number = 456;
 
-    return Stream.of(Arguments.of(person1, person2, "same data, same type, except for actual null fields"),
-                     Arguments.of(person3, person1, "all actual fields are null, should be equal to anything"),
-                     Arguments.of(person3, person2, "all actual fields are null, should be equal to anything"),
-                     Arguments.of(person3, person3, "all actual fields are null, should be equal to anything"),
-                     Arguments.of(person3, person4, "same data, different type, actual has null fields"),
-                     Arguments.of(person5, person2, "same data, different type, actual has null fields"),
-                     Arguments.of(person6, person2, "same data, different type, actual has only non null name"),
-                     Arguments.of(person6, person7, "same data, actual has only non null name"),
-                     Arguments.of(person6, person8, "same data, actual has only non null name"),
-                     Arguments.of(person7, person8, "same data, actual has null fields deep in its graph"));
+    return Stream.of(arguments(person1, person2, "same data, same type, except for actual null fields"),
+                     arguments(person3, person1, "all actual fields are null, should be equal to anything"),
+                     arguments(person3, person2, "all actual fields are null, should be equal to anything"),
+                     arguments(person3, person3, "all actual fields are null, should be equal to anything"),
+                     arguments(person3, person4, "same data, different type, actual has null fields"),
+                     arguments(person5, person2, "same data, different type, actual has null fields"),
+                     arguments(person6, person2, "same data, different type, actual has only non null name"),
+                     arguments(person6, person7, "same data, actual has only non null name"),
+                     arguments(person6, person8, "same data, actual has only non null name"),
+                     arguments(person7, person8, "same data, actual has null fields deep in its graph"));
   }
 
   @SuppressWarnings("unused")
@@ -252,16 +253,16 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     person8.neighbour.neighbour = new Person("James");
     person8.neighbour.neighbour.home.address.number = 457;
 
-    return Stream.of(Arguments.of(person1, person2, "same data and type, except for one ignored field",
+    return Stream.of(arguments(person1, person2, "same data and type, except for one ignored field",
                                   list("name")),
-                     Arguments.of(giant1, person1,
+                     arguments(giant1, person1,
                                   "different type, same data except name and height which is not even a field from person1",
                                   list("name", "height")),
-                     Arguments.of(person3, person4, "same data, different type, except for several ignored fields",
+                     arguments(person3, person4, "same data, different type, except for several ignored fields",
                                   list("name", "home.address.number")),
-                     Arguments.of(person5, person6, "same data except for one subfield of an ignored field",
+                     arguments(person5, person6, "same data except for one subfield of an ignored field",
                                   list("home")),
-                     Arguments.of(person7, person8, "same data except for one subfield of an ignored field",
+                     arguments(person7, person8, "same data except for one subfield of an ignored field",
                                   list("neighbour.neighbour.home.address.number", "neighbour.name")));
   }
 
