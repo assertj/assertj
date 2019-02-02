@@ -108,8 +108,8 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   @Test
   public void should_show_the_registered_comparator_by_types_and_the_default_ones() {
     // WHEN
-    recursiveComparisonConfiguration.registerComparatorForType(Integer.class, new AbsValueComparator<>());
-    recursiveComparisonConfiguration.registerComparatorForType(Tuple.class, AlwaysEqualComparator.ALWAY_EQUALS_TUPLE);
+    recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
+    recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAY_EQUALS_TUPLE, Tuple.class);
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
@@ -125,9 +125,9 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   @Test
   public void should_show_the_registered_comparator_for_specific_fields_alphabetically() {
     // WHEN
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("foo"), ALWAY_EQUALS_TUPLE);
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("bar"), alwaysDifferent());
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("height"), new PercentageComparator());
+    recursiveComparisonConfiguration.registerComparatorForField(ALWAY_EQUALS_TUPLE, fielLocation("foo"));
+    recursiveComparisonConfiguration.registerComparatorForField(alwaysDifferent(), fielLocation("bar"));
+    recursiveComparisonConfiguration.registerComparatorForField(new PercentageComparator(), fielLocation("height"));
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
@@ -165,10 +165,10 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
-    recursiveComparisonConfiguration.registerComparatorForType(Integer.class, new AbsValueComparator<>());
-    recursiveComparisonConfiguration.registerComparatorForType(Tuple.class, AlwaysEqualComparator.ALWAY_EQUALS_TUPLE);
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("foo"), ALWAY_EQUALS_TUPLE);
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("bar.baz"), alwaysDifferent());
+    recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
+    recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAY_EQUALS_TUPLE, Tuple.class);
+    recursiveComparisonConfiguration.registerComparatorForField(ALWAY_EQUALS_TUPLE, fielLocation("foo"));
+    recursiveComparisonConfiguration.registerComparatorForField(alwaysDifferent(), fielLocation("bar.baz"));
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN

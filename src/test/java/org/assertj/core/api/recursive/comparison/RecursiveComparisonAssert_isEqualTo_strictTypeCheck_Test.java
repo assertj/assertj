@@ -109,7 +109,6 @@ public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    // as neighbour comparison fails, the comparison skip any neighbour fields
     ComparisonDifference difference = diff("", actual, expected,
                                            "actual and expected are considered different since the comparison enforces strict type check and expected type org.assertj.core.internal.objects.data.PersonDtoWithPersonNeighbour is not a subtype of actual type org.assertj.core.internal.objects.data.Person");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);

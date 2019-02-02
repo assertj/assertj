@@ -33,8 +33,8 @@ public class RecursiveComparisonConfiguration_fieldComparators_Test {
   public void should_register_given_field_comparators() {
     // GIVEN
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("height"), integerComparator);
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("weight"), ALWAY_EQUALS_TUPLE);
+    recursiveComparisonConfiguration.registerComparatorForField(integerComparator, fielLocation("height"));
+    recursiveComparisonConfiguration.registerComparatorForField(ALWAY_EQUALS_TUPLE, fielLocation("weight"));
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForField("height")).isSameAs(integerComparator);
     assertThat(recursiveComparisonConfiguration.getComparatorForField("weight")).isSameAs(ALWAY_EQUALS_TUPLE);
@@ -43,8 +43,8 @@ public class RecursiveComparisonConfiguration_fieldComparators_Test {
   @Test
   public void should_replace_a_registered_field_comparator() {
     // GIVEN
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("height"), new AbsValueComparator<>());
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("height"), ALWAY_EQUALS_TUPLE);
+    recursiveComparisonConfiguration.registerComparatorForField(new AbsValueComparator<>(), fielLocation("height"));
+    recursiveComparisonConfiguration.registerComparatorForField(ALWAY_EQUALS_TUPLE, fielLocation("height"));
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForField("height")).isSameAs(ALWAY_EQUALS_TUPLE);
   }

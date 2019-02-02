@@ -169,9 +169,8 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     // WHEN
     // @format:off
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .withComparatorForField(field1, alwaysEqualComparator)
-                                                                       .withComparatorForFields(entry(field2, alwaysDifferentComparator),
-                                                                                                entry(field3, alwaysEqualComparator))
+                                                                       .withComparatorForFields(alwaysEqualComparator, field1, field3)
+                                                                       .withComparatorForFields(alwaysDifferentComparator, field2)
                                                                        .getRecursiveComparisonConfiguration();
     // @format:on
     // THEN
@@ -185,13 +184,13 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     // GIVEN
     Class<String> type1 = String.class;
     Class<Timestamp> type2 = Timestamp.class;
-    Class<?> type3 = Tuple.class;
+    Class<Tuple> type3 = Tuple.class;
     // WHEN
     // @format:off
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .withComparatorForType(type1, ALWAY_EQUALS_STRING)
-                                                                       .withComparatorForTypes(entry(type2, ALWAY_EQUALS_TIMESTAMP),
-                                                                                               entry(type3, ALWAY_EQUALS_TUPLE))
+                                                                       .withComparatorForType(ALWAY_EQUALS_STRING, type1)
+                                                                       .withComparatorForType(ALWAY_EQUALS_TIMESTAMP, type2)
+                                                                       .withComparatorForType(ALWAY_EQUALS_TUPLE, type3)
                                                                        .getRecursiveComparisonConfiguration();
     // @format:on
     // THEN
@@ -208,8 +207,8 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     AlwaysDifferentComparator<?> alwaysDifferentComparator = alwaysDifferent();
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .withComparatorForField(field, alwaysEqualComparator)
-                                                                       .withComparatorForField(field, alwaysDifferentComparator)
+                                                                       .withComparatorForFields(alwaysEqualComparator, field)
+                                                                       .withComparatorForFields(alwaysDifferentComparator, field)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(configuration.getComparatorForField(field)).isSameAs(alwaysDifferentComparator);
@@ -223,8 +222,8 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     AlwaysDifferentComparator<Object> alwaysDifferentComparator = alwaysDifferent();
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .withComparatorForType(type, alwaysEqualComparator)
-                                                                       .withComparatorForType(type, alwaysDifferentComparator)
+                                                                       .withComparatorForType(alwaysEqualComparator, type)
+                                                                       .withComparatorForType(alwaysDifferentComparator, type)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(configuration.getComparatorForType(type)).isSameAs(alwaysDifferentComparator);

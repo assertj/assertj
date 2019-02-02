@@ -12,13 +12,11 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.WritableAssertionInfo;
@@ -62,15 +60,24 @@ public class RecursiveComparisonAssert {
 
   /**
    * Asserts that the object under test (actual) is equal to the given object when compared field by field recursively (including
-   * inherited fields are included in the comparison).If the comparison fails it will report all the differences found and which
+   * inherited fields are included in the comparison). If the comparison fails it will report all the differences found and which
    * effective {@link RecursiveComparisonConfiguration} was used to help users understand the failure.
    * TODO add link to assertj website documentation
    * <p>
    * This is typically useful when actual's {@code equals} was not overridden.
    * <p>
-   * The comparison is <b>not symmetrical</b> since it is limited to actual's fields, the algorithm firts gather all actual's fields
+   * The comparison is <b>not symmetrical</b> since it is <b>limited to actual's fields</b>, the algorithm gather all actual's fields
    * and then compare them to the corresponding expected's fields.
    * It is then possible for the expected object to have more fields than actual which is handy when comparing a base type to a subtype.
+   * <p>
+   * <strong>Strict/lenient recursive comparison</strong>
+   * <p>
+   * By default the objects to compare can be of different types but must have the same properties/fields. For example if object under test has a {@code work} field of type {@code Address},
+   * the expected object to compare the object under test to must also have one but it can of a different type like {@code AddressDto}.
+   * <p>
+   * It is possible to enforce strict type checking by calling {@link #withStrictTypeChecking()} and make the comparison fail whenever the compared objects or their fields are not compatible.<br>
+   * Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an {@code Animal} and expected a {@code Dog}, they will be compared fiels by field in strict type checking mode.
+   * <p>
    * <p>
    * <strong>Ignoring null fields in the recursive comparison</strong>
    * <p>
@@ -81,8 +88,8 @@ public class RecursiveComparisonAssert {
    * <p>
    * <strong>Recursive comparison use of overridden {@code equals} methods</strong>
    * <p>
-   * By default the recursive comparison is <b>not</b> applied on fields whose classes have an overridden {@code equals} implementation,
-   * concretely it means {@code equals} is used to compare these fields instead of keeing on applying the recursive comparison.
+   * By default the recursive comparison is <b>not</b> applied on fields whose classes have overridden the {@code equals} method,
+   * concretely it means {@code equals} is used to compare these fields instead of keeping on applying the recursive comparison.
    * The rationale is that if a class has redefined {@code equals} then it should be used to compare instances unless having a good reason.
    * <p>
    * It is possible though to change this behavior and force recursive comparison by calling any of these methods (but before calling {@code isEqualTo} otherwise this has no effect!):
@@ -90,64 +97,57 @@ public class RecursiveComparisonAssert {
    * <li> {@link #ignoringOverriddenEqualsForTypes(Class...)} Any fields of these classes are compared recursively</li>
    * <li> {@link #ignoringOverriddenEqualsForFields(String...)} Any given fields are compared recursively</li>
    * <li> {@link #ignoringOverriddenEqualsForFieldsMatchingRegexes(String...)} Any fields matching one of these regexes are compared recursively</li>
+   * <li> {@link #ignoringAllOverriddenEquals()} except for basic types (TODO define basic types), all fields are compared field by field recursively.</li>
+   * </ol>
+   * <strong>Recursive comparison and cycles</strong>
+   * <p>
+   * The recursive comparison handles cycles.
+   * <p>
+   * <strong>Comparator used in the recursive comparison</strong>
+   * <p>
+   * By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
+   * <p>
+   * You can specify a custom comparator per (nested) fields or type with the methods below (but before calling {@code isEqualTo} otherwise this has no effect!):
+   * <ol>
+   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
+   * <li> {@link #withComparatorForType(Comparator, Class)} for a given type</li>
    * </ol>
    * <p>
-   * The recursive comparison handles cycles. By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
+   * Note that field comparators always take precedence over type comparators.
    * <p>
-   * You can specify a custom comparator per (nested) fields or type with respectively {@code #usingComparatorForFields(Comparator, String...) usingComparatorForFields(Comparator, String...)}
-   * and {@code #usingComparatorForType(Comparator, Class)}.
+   * <strong>Example</strong>
    * <p>
-   * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a name String field, it is expected the other object to also have one.
-   * If an object has a field and a property with the same name, the property value will be used over the field.
-   * <p>
-   * Example:
+   * Here is a basic example with a default {@link RecursiveComparisonConfiguration}, you can find other examples for each of the method changing the recursive comparison behavior
+   * like {@link #ignoringFields(String...)}.
    * <pre><code class='java'> public class Person {
-   *   public String name;
-   *   public double height;
-   *   public Home home = new Home();
-   *   public Person bestFriend;
-   *   // constructor with name and height omitted for brevity
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
    * }
    *
    * public class Home {
-   *   public Address address = new Address();
+   *   Address address = new Address();
+   *   Date ownedSince;
    * }
    *
    * public static class Address {
-   *   public int number = 1;
+   *   int number;
+   *   String street;
    * }
    *
-   * Person jack = new Person("Jack", 1.80);
-   * jack.home.address.number = 123;
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.ownedSince = new Date(123);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
    *
-   * Person jackClone = new Person("Jack", 1.80);
-   * jackClone.home.address.number = 123;
+   * Person sherlock2 = new Person("Sherlock", 1.80);
+   * sherlock2.home.ownedSince = new Date(123);
+   * sherlock2.home.address.street = "Baker Street";
+   * sherlock2.home.address.number = 221;
    *
-   * // cycle are handled in comparison
-   * jack.bestFriend = jackClone;
-   * jackClone.bestFriend = jack;
-   *
-   * // will fail as equals compares object references
-   * assertThat(jack).isEqualTo(jackClone);
-   *
-   * // jack and jackClone are equals when doing a recursive field by field comparison
-   * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
-   *
-   * // any type/field can be compared with a a specific comparator.
-   * // let's change  jack's height a little bit
-   * jack.height = 1.81;
-   *
-   * // assertion fails because of the height difference
-   * // (the default precision comparison for double is 1.0E-15)
-   * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
-   *
-   * // this succeeds because we allow a 0.5 tolerance on double
-   * assertThat(jack).usingComparatorForType(new DoubleComparator(0.5), Double.class)
-   *                 .isEqualToComparingFieldByFieldRecursively(jackClone);
-   *
-   * // you can set a comparator on specific fields (nested fields are supported)
-   * assertThat(jack).usingComparatorForFields(new DoubleComparator(0.5), "height")
-   *                 .isEqualToComparingFieldByFieldRecursively(jackClone);</code></pre>
+   * // assertion succeeds as the data of both objects are the same.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isEqualTo(sherlock2);</code></pre>
    *
    * @param expected the object to compare {@code actual} to.
    * @return {@code this} assertion object.
@@ -183,8 +183,6 @@ public class RecursiveComparisonAssert {
    *   String name;
    *   double height;
    *   Home home = new Home();
-   *   Person bestFriend;
-   *   // constructor omitted for brevity
    * }
    *
    * public class Home {
@@ -323,7 +321,7 @@ public class RecursiveComparisonAssert {
    * - at some point we need to compare something!
    * <p>
    * For the recursive comparison to use the overridden {@code equals} of a given type anyway (like {@link Date}) you can register
-   * a type comparator using {@link #withComparatorForType(Class, Comparator)}.
+   * a type comparator using {@link #withComparatorForType(Comparator, Class)}.
    * <p>
    * TODO introduce {@code ignoringAllOverriddenEqualsExceptFor(Class<?>... classes)} ?
    * <p>
@@ -612,32 +610,86 @@ public class RecursiveComparisonAssert {
     return this;
   }
 
+  /**
+   * Allows to register a specific comparator to compare fields with the given locations.
+   * A typical usage is for comparing double/float fields with a given precision.
+   * <p>
+   * Comparators specified by this method have precedence over comparators added with {@link #withComparatorForType(Comparator, Class)}.
+   * <p>
+   * The field locations must be specified from the root object,
+   * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
+   * <pre><code class='java'> withComparatorForField("bar.id", idComparator)</code></pre>
+   * <p>
+   * Complete example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   *
+   * Comparator&lt;Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5 ? 0 : 1;
+   *
+   * // assertions succeed
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withComparatorForFields(closeEnough, &quot;height&quot;)
+   *                  .isEqualTo(tallerFrodo);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withComparatorForFields(closeEnough, &quot;height&quot;)
+   *                  .isEqualTo(reallyTallFrodo);</code></pre>
+   *
+   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given fields
+   * @param fieldLocations the location from the root object of the fields the comparator should be used for
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
   @CheckReturnValue
-  public RecursiveComparisonAssert withComparatorForField(String fieldLocation, Comparator<?> comparator) {
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation(fieldLocation), comparator);
+  public RecursiveComparisonAssert withComparatorForFields(Comparator<?> comparator, String... fieldLocations) {
+    Stream.of(fieldLocations)
+          .map(FieldLocation::new)
+          .forEach(fieldLocation -> recursiveComparisonConfiguration.registerComparatorForField(comparator, fieldLocation));
     return this;
   }
 
-  @SafeVarargs
+  /**
+   * Allows to register a specific comparator to compare the fields with the given type.
+   * A typical usage is for comparing double/float fields with a given precision.
+   * <p>
+   * Comparators specified by this method have less precedence than comparators added with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   *
+   * Comparator&lt;Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5 ? 0 : 1;
+   *
+   * // assertions succeed
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withComparatorForType(closeEnough, Double.class)
+   *                  .isEqualTo(tallerFrodo);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withComparatorForType(closeEnough, Double.class)
+   *                  .isEqualTo(reallyTallFrodo);</code></pre>
+   *
+   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given fields
+   * @param type the type to be compared with the given comparator.
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
   @CheckReturnValue
-  public final RecursiveComparisonAssert withComparatorForFields(Map.Entry<String, Comparator<?>>... comparatorByFields) {
-    Stream.of(comparatorByFields).forEach(this::withComparatorForField);
-    return this;
-  }
-
-  @CheckReturnValue
-  public <T> RecursiveComparisonAssert withComparatorForType(Class<T> type, Comparator<? super T> comparator) {
-    recursiveComparisonConfiguration.registerComparatorForType(type, comparator);
-    return this;
-  }
-
-  // can't type Comparator/Class with <T> since each entry is about different types (no reason to be all related to T)
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  @SafeVarargs
-  @CheckReturnValue
-  public final RecursiveComparisonAssert withComparatorForTypes(Map.Entry<Class, Comparator>... comparatorByTypes) {
-    Stream.of(comparatorByTypes)
-          .forEach(comparatorByType -> withComparatorForType(comparatorByType.getKey(), comparatorByType.getValue()));
+  public <T> RecursiveComparisonAssert withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
+    recursiveComparisonConfiguration.registerComparatorForType(comparator, type);
     return this;
   }
 
@@ -648,11 +700,6 @@ public class RecursiveComparisonAssert {
 
   private List<ComparisonDifference> determineDifferencesWith(Object expected) {
     return recursiveComparisonDifferenceCalculator.determineDifferences(actual, expected, recursiveComparisonConfiguration);
-  }
-
-  // syntactic sugar
-  private RecursiveComparisonAssert withComparatorForField(Map.Entry<String, Comparator<?>> comparatorByField) {
-    return withComparatorForField(comparatorByField.getKey(), comparatorByField.getValue());
   }
 
 }

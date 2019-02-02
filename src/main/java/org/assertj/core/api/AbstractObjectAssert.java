@@ -26,6 +26,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
@@ -772,11 +773,70 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return myself;
   }
 
+  /**
+   * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   *   Date ownedSince;
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.ownedSince = new Date(123);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person sherlock2 = new Person("Sherlock", 1.80);
+   * sherlock2.home.ownedSince = new Date(123);
+   * sherlock2.home.address.street = "Baker Street";
+   * sherlock2.home.address.number = 221;
+   *
+   * // assertion succeeds as the data of both objects are the same.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isEqualTo(sherlock2);
+   *
+   * // assertion fails because sherlock.equals(sherlock2) is false.
+   * assertThat(sherlock).isEqualTo(sherlock2);</code></pre>
+   * <p>
+   * The recursive comparison is performed according to the default {@link RecursiveComparisonConfiguration} that is:
+   * <ul>
+   * <li>actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking()} to change that behavior). </li>
+   * <li>overridden equals methods were used in the comparison </li>
+   * <li>these types were compared with the following comparators: </li>
+   *   <ul>
+   *   <li>java.lang.Double -> DoubleComparator[precision=1.0E-15] </li>
+   *   <li>java.lang.Float -> FloatComparator[precision=1.0E-6] </li>
+   *   </ul>
+   * </ul>
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance
+   */
+  @Beta
   public RecursiveComparisonAssert usingRecursiveComparison() {
     return usingRecursiveComparison(new RecursiveComparisonConfiguration());
   }
 
   // TODO soft assertion tests: add to method changing the object under tests
+
+  /**
+   * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   */
+  @Beta
   public RecursiveComparisonAssert usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonAssert(actual, recursiveComparisonConfiguration);
   }

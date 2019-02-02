@@ -15,6 +15,8 @@ package org.assertj.core.api.recursive.comparison;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
 
 import java.util.Comparator;
 import java.util.List;
@@ -22,7 +24,6 @@ import java.util.Map.Entry;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
-import org.assertj.core.test.AlwaysEqualComparator;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,11 +50,13 @@ public class RecursiveComparisonConfiguration_comparatorByType_Test {
   public void should_register_given_comparator_per_types() {
     // GIVEN
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
-    recursiveComparisonConfiguration.registerComparatorForType(Integer.class, integerComparator);
-    recursiveComparisonConfiguration.registerComparatorForType(Tuple.class, AlwaysEqualComparator.ALWAY_EQUALS_TUPLE);
+    recursiveComparisonConfiguration.registerComparatorForType(integerComparator, Integer.class);
+    recursiveComparisonConfiguration.registerComparatorForType(ALWAY_EQUALS_TUPLE, Tuple.class);
+    recursiveComparisonConfiguration.registerComparatorForType(ALWAY_EQUALS, Double.class);
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForType(Integer.class)).isSameAs(integerComparator);
-    assertThat(recursiveComparisonConfiguration.getComparatorForType(Tuple.class)).isSameAs(AlwaysEqualComparator.ALWAY_EQUALS_TUPLE);
+    assertThat(recursiveComparisonConfiguration.getComparatorForType(Tuple.class)).isSameAs(ALWAY_EQUALS_TUPLE);
+    assertThat(recursiveComparisonConfiguration.getComparatorForType(Double.class)).isSameAs(ALWAY_EQUALS);
   }
 
 }

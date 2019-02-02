@@ -13,23 +13,20 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
-import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
+import static org.assertj.core.util.Arrays.array;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Map;
 import java.util.stream.Stream;
 
-import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.CaseInsensitiveStringComparator;
 import org.assertj.core.internal.objects.data.Giant;
@@ -44,14 +41,15 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @SuppressWarnings("unused")
-  @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
+  @ParameterizedTest(name = "{4}: actual={0} / expected={1} - comparators {2} - fields {3}")
   @MethodSource("recursivelyEqualObjectsWhenUsingFieldComparators")
   public void should_pass_for_objects_with_the_same_data_when_using_registered_comparators_by_fields(Object actual,
                                                                                                      Object expected,
-                                                                                                     Map<String, Comparator<Object>> comparatorByFields,
+                                                                                                     Comparator<Object> comparator,
+                                                                                                     String[] fields,
                                                                                                      String testDescription) {
     assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForFields(comparatorByFields.entrySet().toArray(new Map.Entry[0]))
+                      .withComparatorForFields(comparator, fields)
                       .isEqualTo(expected);
   }
 
@@ -60,11 +58,11 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     Person person1 = new Person("John");
     person1.home.address.number = 1;
     Person person2 = new Person("JoHN");
-    person2.home.address.number = 2;
+    person2.home.address.number = 1;
 
     Person person3 = new Person("John");
     person3.home.address.number = 1;
-    Person person4 = new Person("John");
+    Person person4 = new Person("Jack");
     person4.home.address.number = 2;
 
     Person person5 = new Person("John");
@@ -78,16 +76,13 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     person6.neighbour = new Person("Jim");
     person6.neighbour.home.address.number = 456;
 
-    MapEntry<String, Comparator<?>> nameComparator = entry("name", CaseInsensitiveStringComparator.instance);
-    MapEntry<String, Comparator<?>> addressNumberComparator = entry("home.address.number", alwaysEqual());
-    MapEntry<String, Comparator<?>> neighbourComparator = entry("neighbour", alwaysEqual());
-
-    return Stream.of(arguments(person1, person2, mapOf(nameComparator, addressNumberComparator),
-                                  "same data except int fields and case for strings"),
-                     arguments(person3, person4, mapOf(addressNumberComparator), "same data except for int fields"),
+    return Stream.of(arguments(person1, person2, CaseInsensitiveStringComparator.instance, array("name"),
+                               "same data except int fields and case for strings"),
+                     arguments(person3, person4, alwaysEqual(), array("name", "home.address.number"),
+                               "same data except for int fields"),
                      // any neighbour differences should be ignored as we compare persons with AlwaysEqualComparator
-                     arguments(person5, person6, mapOf(neighbourComparator),
-                                  "same data except for persons, person's fields should not be compared recursively except at the root level"));
+                     arguments(person5, person6, alwaysEqual(), array("neighbour"),
+                               "same data except for persons, person's fields should not be compared recursively except at the root level"));
   }
 
   @Test
@@ -105,8 +100,8 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     expected.neighbour = new Person("Jack");
     expected.neighbour.home.address.number = 123;
     // register comparators for some fields that will fail the comparison
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("dateOfBirth"), alwaysDifferent());
-    recursiveComparisonConfiguration.registerComparatorForField(fielLocation("neighbour.home.address"), alwaysDifferent());
+    recursiveComparisonConfiguration.registerComparatorForField(alwaysDifferent(), fielLocation("dateOfBirth"));
+    recursiveComparisonConfiguration.registerComparatorForField(alwaysDifferent(), fielLocation("neighbour.home.address"));
 
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
@@ -133,7 +128,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
 
     // THEN
     assertThat(goliath).usingRecursiveComparison()
-                       .withComparatorForField("height", new AtPrecisionComparator<>(0.2))
+                       .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
                        .isEqualTo(goliathTwin);
   }
 
@@ -144,7 +139,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
     assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForField("dateOfBirth", ALWAY_EQUALS_TIMESTAMP)
+                      .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
                       .isEqualTo(expected);
   }
 
@@ -156,7 +151,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     Patient expected = new Patient(dateOfBirth);
     // WHEN
     assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForField("dateOfBirth", NEVER_EQUALS)
+                      .withComparatorForFields(NEVER_EQUALS, "dateOfBirth")
                       .isEqualTo(expected);
   }
 
@@ -169,10 +164,10 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     other.dateOfBirth = new Date(1000L);
     // THEN
     assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForField("dateOfBirth", SYMMETRIC_DATE_COMPARATOR)
+                      .withComparatorForFields(SYMMETRIC_DATE_COMPARATOR, "dateOfBirth")
                       .isEqualTo(other);
     assertThat(other).usingRecursiveComparison()
-                     .withComparatorForField("dateOfBirth", SYMMETRIC_DATE_COMPARATOR)
+                     .withComparatorForFields(SYMMETRIC_DATE_COMPARATOR, "dateOfBirth")
                      .isEqualTo(actual);
   }
 
@@ -183,12 +178,12 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
     assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForType(Timestamp.class, NEVER_EQUALS)
-                      .withComparatorForField("dateOfBirth", ALWAY_EQUALS_TIMESTAMP)
+                      .withComparatorForType(NEVER_EQUALS, Timestamp.class)
+                      .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
                       .isEqualTo(expected);
     assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForField("dateOfBirth", ALWAY_EQUALS_TIMESTAMP)
-                      .withComparatorForType(Timestamp.class, NEVER_EQUALS)
+                      .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
+                      .withComparatorForType(NEVER_EQUALS, Timestamp.class)
                       .isEqualTo(expected);
   }
 

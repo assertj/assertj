@@ -171,11 +171,35 @@ public class RecursiveComparisonConfiguration {
     ignoredOverriddenEqualsForTypes.addAll(list(types));
   }
 
-  public <T> void registerComparatorForType(Class<T> type, Comparator<? super T> comparator) {
+  /**
+   * Registers the given {@link Comparator} to compare the fields with the given type.
+   * <p>
+   * Comparators specified by this method have less precedence than comparators added with {@link #registerComparatorForField(Comparator, FieldLocation)}.
+   * <p>
+   * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
+   *
+   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
+   * @param type the type to be compared with the given comparator.
+   */
+  public <T> void registerComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     typeComparators.put(type, comparator);
   }
 
-  public void registerComparatorForField(FieldLocation fieldLocation, Comparator<?> comparator) {
+  /**
+   * Registers the given {@link Comparator} to compare the fields with the given locations.
+   * <p>
+   * The field locations must be specified from the root object,
+   * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
+   * <pre><code class='java'> registerComparatorForField(new FieldLocation("bar.id"), idComparator)</code></pre>
+   * <p>
+   * Comparators specified by this method have precedence over comparators added with {@link #registerComparatorForType(Comparator, Class)}.
+   * <p>
+   * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)} for examples.
+   * 
+   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
+   * @param fieldLocation the location from the root object of the field the comparator should be used for
+   */
+  public void registerComparatorForField(Comparator<?> comparator, FieldLocation fieldLocation) {
     fieldComparators.registerComparator(fieldLocation, comparator);
   }
 
