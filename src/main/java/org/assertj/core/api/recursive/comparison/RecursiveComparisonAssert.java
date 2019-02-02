@@ -300,20 +300,20 @@ public class RecursiveComparisonAssert {
    *
    * // assertion succeeds as name and all home fields are ignored in the comparison
    * assertThat(sherlock).usingRecursiveComparison()
-   *                     .ignoringFieldsByRegexes("n.me", "home.*")
+   *                     .ignoringFieldsMatchingRegexes("n.me", "home.*")
    *                     .isEqualTo(noName);
    *
    * // although home fields are ignored, assertion fails as name fields differ.
    * assertThat(sherlock).usingRecursiveComparison()
-   *                     .ignoringFields("home.*")
+   *                     .ignoringFieldsMatchingRegexes("home.*")
    *                     .isEqualTo(noName);</code></pre>
    *
    * @param regexes regexes used to ignore fields in the comparison.
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert ignoringFieldsByRegexes(String... regexes) {
-    recursiveComparisonConfiguration.ignoreFieldsByRegexes(regexes);
+  public RecursiveComparisonAssert ignoringFieldsMatchingRegexes(String... regexes) {
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regexes);
     return this;
   }
 

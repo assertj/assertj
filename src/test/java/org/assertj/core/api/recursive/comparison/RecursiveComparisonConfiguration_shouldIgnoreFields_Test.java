@@ -94,8 +94,8 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   public void ignoring_fields_with_regex_does_not_replace_previous_regexes() {
     // WHEN
-    recursiveComparisonConfiguration.ignoreFieldsByRegexes("foo");
-    recursiveComparisonConfiguration.ignoreFieldsByRegexes("bar", "baz");
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("foo");
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("bar", "baz");
     // THEN
     assertThat(recursiveComparisonConfiguration.getIgnoredFieldsRegexes()).extracting(Pattern::pattern)
                                                                           .containsExactlyInAnyOrder("foo", "bar", "baz");
@@ -103,9 +103,9 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored with these regexes {1}")
   @MethodSource("ignoringRegexSpecifiedFieldsSource")
-  public void should_ignore_fields_specified_with_regex(DualKey dualKey, List<String> regexes) {
+  public void should_ignore_fields_matching_given_regexes(DualKey dualKey, List<String> regexes) {
     // GIVEN
-    recursiveComparisonConfiguration.ignoreFieldsByRegexes(regexes.toArray(new String[0]));
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regexes.toArray(new String[0]));
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
     // THEN

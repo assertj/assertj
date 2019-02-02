@@ -60,7 +60,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   @Test
   public void should_show_the_regexes_used_to_ignore_fields() {
     // WHEN
-    recursiveComparisonConfiguration.ignoreFieldsByRegexes("foo", "bar", "foo.bar");
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("foo", "bar", "foo.bar");
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     assertThat(multiLineDescription).contains(format("- the fields matching the following regexes were ignored in the comparison: foo, bar, foo.bar%n"));
@@ -161,7 +161,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
-    recursiveComparisonConfiguration.ignoreFieldsByRegexes("f.*", ".ba.", "..b%sr..");
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");

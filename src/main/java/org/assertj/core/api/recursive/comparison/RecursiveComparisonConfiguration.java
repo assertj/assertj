@@ -116,11 +116,11 @@ public class RecursiveComparisonConfiguration {
   /**
    * Allows to ignore in the recursive comparison the object under test fields matching the given regexes. The given regexes are added to the already registered ones.
    * <p>
-   * See {@link RecursiveComparisonAssert#ignoringFieldsByRegexes(String...) RecursiveComparisonAssert#ignoringFieldsByRegexes(String...)} for examples.
+   * See {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...)} for examples.
    *
    * @param regexes regexes used to ignore fields in the comparison.
    */
-  public void ignoreFieldsByRegexes(String... regexes) {
+  public void ignoreFieldsMatchingRegexes(String... regexes) {
     ignoredFieldsRegexes.addAll(Stream.of(regexes)
                                       .map(Pattern::compile)
                                       .collect(toList()));

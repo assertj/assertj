@@ -105,13 +105,13 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_fields_by_regexes() {
+  public void should_allow_to_ignore_fields_matching_regexes() {
     // GIVEN
     String regex1 = "foo";
     String regex2 = ".*foo.*";
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .ignoringFieldsByRegexes(regex1, regex2)
+                                                                       .ignoringFieldsMatchingRegexes(regex1, regex2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(configuration.getIgnoredFieldsRegexes()).extracting(Pattern::pattern)

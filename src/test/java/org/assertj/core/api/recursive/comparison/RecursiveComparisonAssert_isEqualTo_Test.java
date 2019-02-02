@@ -321,7 +321,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     expected.neighbour.neighbour = new Person("James");
     expected.neighbour.neighbour.home.address.number = 457;
 
-    recursiveComparisonConfiguration.ignoreFieldsByRegexes(".*name", ".*home.*number");
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*name", ".*home.*number");
 
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
