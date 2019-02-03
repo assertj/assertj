@@ -78,7 +78,6 @@ public class RecursiveComparisonAssert {
    * It is possible to enforce strict type checking by calling {@link #withStrictTypeChecking()} and make the comparison fail whenever the compared objects or their fields are not compatible.<br>
    * Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an {@code Animal} and expected a {@code Dog}, they will be compared fiels by field in strict type checking mode.
    * <p>
-   * <p>
    * <strong>Ignoring null fields in the recursive comparison</strong>
    * <p>
    * When an object is partially populated, it can still be interesting to see if its populated values are correct against a fully populated object.
@@ -679,6 +678,7 @@ public class RecursiveComparisonAssert {
    *                  .withComparatorForType(closeEnough, Double.class)
    *                  .isEqualTo(reallyTallFrodo);</code></pre>
    *
+   * @param T the class type to register a comparator for
    * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given fields
    * @param type the type to be compared with the given comparator.
    *
