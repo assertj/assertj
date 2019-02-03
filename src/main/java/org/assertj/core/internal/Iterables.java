@@ -1188,19 +1188,25 @@ public class Iterables {
   public <E> void assertNoneSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> restrictions) {
     assertNotNull(info, actual);
     requireNonNull(restrictions, "The Consumer<T> expressing the restrictions must not be null");
-    actual.forEach(element -> failIfElementSatisfyRestrictions(element, restrictions, actual, info));
+    List<E> unsatisfiedElements = stream(actual).map(element -> failsRestrictions(element, restrictions))
+                                                .filter(Optional::isPresent)
+                                                .map(Optional::get)
+                                                .collect(toList());
+
+    if (unsatisfiedElements.size() > 0) {
+      throw failures.failure(info, noElementsShouldSatisfy(actual, unsatisfiedElements));
+    }
   }
 
-  private <E> void failIfElementSatisfyRestrictions(E element, Consumer<? super E> restrictions, Iterable<? extends E> actual,
-                                                    AssertionInfo info) {
+  private <E> Optional<E> failsRestrictions(E element, Consumer<? super E> restrictions) {
     try {
       restrictions.accept(element);
     } catch (AssertionError e) {
-      // no problem, element is supposed not to meet the given restrictions
-      return;
+      // element is supposed not to meet the given restrictions
+      return Optional.empty();
     }
-    // problem: element meets the given restrictions!
-    throw failures.failure(info, noElementsShouldSatisfy(actual, element));
+    // element meets the given restrictions!
+    return Optional.of(element);
   }
 
   public <E> void assertAnyMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
