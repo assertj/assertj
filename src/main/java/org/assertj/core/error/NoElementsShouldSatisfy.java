@@ -22,7 +22,7 @@ public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
     super("%n" +
           "Expecting no elements of:%n" +
           "  <%s>%n" +
-          "to satisfy the given assertions requirements but this one did:%n" +
+          "to satisfy the given assertions requirements but these elements did:%n" +
           "  <%s>",
           actual, faultyElement);
   }

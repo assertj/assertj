@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
@@ -24,16 +24,30 @@ import org.junit.jupiter.api.Test;
 public class NoElementsShouldSatisfy_create_Test {
 
   @Test
-  public void should_create_error_message_any() {
+  public void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = noElementsShouldSatisfy(newArrayList("Luke", "Yoda"), "Vader");
+    ErrorMessageFactory factory = noElementsShouldSatisfy(list("Luke", "Leia", "Yoda"), list("Luke", "Leia"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting no elements of:%n" +
-                                         "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to satisfy the given assertions requirements but this one did:%n" +
-                                         "  <\"Vader\">"));
+                                         "  <[\"Luke\", \"Leia\", \"Yoda\"]>%n" +
+                                         "to satisfy the given assertions requirements but these elements did:%n" +
+                                         "  <[\"Luke\", \"Leia\"]>"));
+  }
+
+  @Test
+  public void should_create_error_message_percent() {
+    // GIVEN
+    ErrorMessageFactory factory = noElementsShouldSatisfy(list("Luke", "Leia%s", "Yoda"), list("Luke", "Leia%s"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting no elements of:%n" +
+                                         "  <[\"Luke\", \"Leia%%s\", \"Yoda\"]>%n" +
+                                         "to satisfy the given assertions requirements but these elements did:%n" +
+                                         "  <[\"Luke\", \"Leia%%s\"]>"));
   }
 }

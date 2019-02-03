@@ -15,11 +15,11 @@ package org.assertj.core.internal.iterables;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
 
-  private List<String> actual = newArrayList("Luke", "Leia", "Yoda");
+  private List<String> actual = list("Luke", "Leia", "Yoda");
 
   @Test
   public void should_pass_when_no_elements_satisfy_the_given_single_restriction() {
@@ -65,10 +65,20 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> restrictions = name -> assertThat(name).startsWith("Y");
     // WHEN
-    Throwable assertionError = catchThrowable(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
+    Throwable assertionError = expectAssertionError(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
     // THEN
-    verify(failures).failure(info, noElementsShouldSatisfy(actual, "Yoda"));
+    verify(failures).failure(info, noElementsShouldSatisfy(actual, list("Yoda")));
     assertThat(assertionError).isNotNull();
+  }
+
+  @Test
+  public void should_fail_when_two_elements_satisfy_the_given_restrictions() {
+    // GIVEN
+    Consumer<String> restrictions = name -> assertThat(name).startsWith("L");
+    // WHEN
+    expectAssertionError(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
+    // THEN
+    verify(failures).failure(info, noElementsShouldSatisfy(actual, list("Luke", "Leia")));
   }
 
   @Test
@@ -79,7 +89,7 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       List<String> nullActual = null;
       iterables.assertNoneSatisfy(someInfo(), nullActual, name -> assertThat(name).startsWith("Y"));
     }).withMessage(actualIsNull());
