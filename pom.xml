@@ -223,6 +223,14 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <!-- some jdk don't support nested li tags :( -->
+          <doclint>none</doclint>
+        </configuration>
+      </plugin>
       <!-- generate jacoco report -->
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -335,7 +343,8 @@
       </activation>
       <properties>
         <sonar.skip>true</sonar.skip>
-        <!-- currently fails with "javadoc: error - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/ are in the unnamed module." -->
+        <!-- currently fails with "javadoc: error - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/
+          are in the unnamed module." -->
         <maven.javadoc.skip>true</maven.javadoc.skip>
       </properties>
     </profile>
