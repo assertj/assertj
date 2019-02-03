@@ -36,4 +36,18 @@ public class NoElementsShouldSatisfy_create_Test {
                                          "to satisfy the given assertions requirements but these elements did:%n" +
                                          "  <[\"Luke\", \"Leia\"]>"));
   }
+
+  @Test
+  public void should_create_error_message_percent() {
+    // GIVEN
+    ErrorMessageFactory factory = noElementsShouldSatisfy(list("Luke", "Leia%s", "Yoda"), list("Luke", "Leia%s"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting no elements of:%n" +
+                                         "  <[\"Luke\", \"Leia%%s\", \"Yoda\"]>%n" +
+                                         "to satisfy the given assertions requirements but these elements did:%n" +
+                                         "  <[\"Luke\", \"Leia%%s\"]>"));
+  }
 }
