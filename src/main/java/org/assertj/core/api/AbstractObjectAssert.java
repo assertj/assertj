@@ -816,8 +816,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <li>overridden equals methods were used in the comparison </li>
    * <li>these types were compared with the following comparators: </li>
    *   <ul>
-   *   <li>java.lang.Double -> DoubleComparator[precision=1.0E-15] </li>
-   *   <li>java.lang.Float -> FloatComparator[precision=1.0E-6] </li>
+   *   <li>java.lang.Double -&gt; DoubleComparator[precision=1.0E-15] </li>
+   *   <li>java.lang.Float -&gt; FloatComparator[precision=1.0E-6] </li>
    *   </ul>
    * </ul>
    *

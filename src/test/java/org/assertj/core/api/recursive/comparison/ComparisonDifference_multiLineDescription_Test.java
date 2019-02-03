@@ -54,5 +54,4 @@ public class ComparisonDifference_multiLineDescription_Test {
                                                             "- expected value : \"%%bar%%%%\"%n" +
                                                             "%%additional %%information%%"));
   }
-
 }

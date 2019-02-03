@@ -136,6 +136,15 @@ public class RecursiveComparisonConfiguration {
   }
 
   /**
+   * Force a recursive comparison on all fields (except java types).
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringAllOverriddenEquals()} for examples.
+   */
+  public void ignoreAllOverriddenEquals() {
+    ignoreAllOverriddenEquals = true;
+  }
+
+  /**
    * Adds the given fields to the list of fields to force a recursive comparison on.
    * <p>
    * See {@link RecursiveComparisonAssert#ignoringOverriddenEqualsForFields(String...) RecursiveComparisonAssert#ignoringOverriddenEqualsForFields(String...)} for examples.
@@ -195,7 +204,7 @@ public class RecursiveComparisonConfiguration {
    * Comparators specified by this method have precedence over comparators added with {@link #registerComparatorForType(Comparator, Class)}.
    * <p>
    * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)} for examples.
-   * 
+   *
    * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
    * @param fieldLocation the location from the root object of the field the comparator should be used for
    */
@@ -279,7 +288,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   boolean shouldIgnoreOverriddenEqualsOf(DualKey dualKey) {
-    if (dualKey.isBasicType()) return false; // we must compare basic types otherwise the recursive comparison loops infinitely!
+    if (dualKey.isJavaType()) return false; // we must compare basic types otherwise the recursive comparison loops infinitely!
     return ignoreAllOverriddenEquals
            || matchesAnIgnoredOverriddenEqualsField(dualKey)
            || shouldIgnoreOverriddenEqualsOf(dualKey.key1.getClass());
@@ -306,9 +315,13 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
-    description.append(format("- overridden equals methods were used in the comparison"));
-    if (isConfiguredToIgnoreSomeOverriddenEqualsMethods()) {
-      description.append(format(", except for:%n"));
+    boolean isConfiguredToIgnoreSomeOverriddenEqualsMethods = isConfiguredToIgnoreSomeOverriddenEqualsMethods();
+    String header = ignoreAllOverriddenEquals
+        ? "- no overridden equals methods were used in the comparison except for java types"
+        : "- overridden equals methods were used in the comparison";
+    description.append(header);
+    if (isConfiguredToIgnoreSomeOverriddenEqualsMethods) {
+      description.append(format(ignoreAllOverriddenEquals ? " and:%n" : ", except for:%n"));
       describeIgnoredOverriddenEqualsMethods(description, representation);
     } else {
       description.append(format("%n"));
@@ -441,10 +454,6 @@ public class RecursiveComparisonConfiguration {
         ? "- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
         : "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
     description.append(format(str));
-  }
-
-  public void ignoreAllOverriddenEquals() {
-    ignoreAllOverriddenEquals = true;
   }
 
 }

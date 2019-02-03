@@ -317,13 +317,10 @@ public class RecursiveComparisonAssert {
 
   /**
    * By default the recursive comparison uses overridden {@code equals} methods to compare fields,
-   * this method allows to force a recursive comparison for all fields at the exception of basic types (i.e. java.lang types)
-   * - at some point we need to compare something!
+   * this method allows to  compare recursively all fields <b>except fields with java types</b> (at some point we need to compare something!).
    * <p>
    * For the recursive comparison to use the overridden {@code equals} of a given type anyway (like {@link Date}) you can register
    * a type comparator using {@link #withComparatorForType(Comparator, Class)}.
-   * <p>
-   * TODO introduce {@code ignoringAllOverriddenEqualsExceptFor(Class<?>... classes)} ?
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {

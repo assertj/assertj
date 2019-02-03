@@ -61,7 +61,7 @@ final class DualKey { // TODO rename DualValue
     return concatenatedPath;
   }
 
-  public boolean isBasicType() {
-    return key1.getClass().getName().startsWith("java.lang");
+  public boolean isJavaType() {
+    return key1.getClass().getName().startsWith("java.");
   }
 }
