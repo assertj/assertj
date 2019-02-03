@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class NoElementsShouldSatisfy_create_Test {
 
   @Test
-  public void should_create_error_message_any() {
+  public void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = noElementsShouldSatisfy(list("Luke", "Leia", "Yoda"), list("Luke", "Leia"));
     // WHEN
