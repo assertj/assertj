@@ -15,9 +15,9 @@ package org.assertj.core.internal.iterables;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
@@ -65,7 +65,7 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> restrictions = name -> assertThat(name).startsWith("Y");
     // WHEN
-    Throwable assertionError = catchThrowable(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
+    Throwable assertionError = expectAssertionError(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
     // THEN
     verify(failures).failure(info, noElementsShouldSatisfy(actual, list("Yoda")));
     assertThat(assertionError).isNotNull();
@@ -76,7 +76,7 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> restrictions = name -> assertThat(name).startsWith("L");
     // WHEN
-    Throwable assertionError = catchThrowable(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
+    Throwable assertionError = expectAssertionError(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
     // THEN
     verify(failures).failure(info, noElementsShouldSatisfy(actual, list("Luke", "Leia")));
     assertThat(assertionError).isNotNull();
