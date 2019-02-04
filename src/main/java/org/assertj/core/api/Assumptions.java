@@ -67,6 +67,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.util.CheckReturnValue;
 
 import net.bytebuddy.ByteBuddy;
@@ -1181,9 +1182,17 @@ public class Assumptions {
     if (assertion instanceof MapSizeAssert) return asMapSizeAssumption(assertion);
     if (assertion instanceof ProxyableObjectAssert) return asAssumption(ObjectAssert.class, Object.class, actual);
     if (assertion instanceof ObjectAssert) return asAssumption(ObjectAssert.class, Object.class, actual);
+    if (assertion instanceof RecursiveComparisonAssert) return asRecursiveComparisonAssumption(assertion);
     // @format:on
     // should not arrive here
     throw new IllegalArgumentException("Unsupported assumption creation for " + assertion.getClass());
+  }
+
+  private static AbstractAssert<?, ?> asRecursiveComparisonAssumption(AbstractAssert<?, ?> assertion) {
+    RecursiveComparisonAssert<?> recursiveComparisonAssert = (RecursiveComparisonAssert<?>) assertion;
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = recursiveComparisonAssert.getRecursiveComparisonConfiguration();
+    Class<?>[] constructorTypes = array(Object.class, RecursiveComparisonConfiguration.class);
+    return asAssumption(RecursiveComparisonAssert.class, constructorTypes, assertion.actual, recursiveComparisonConfiguration);
   }
 
   private static AbstractAssert<?, ?> asMapSizeAssumption(AbstractAssert<?, ?> assertion) {
