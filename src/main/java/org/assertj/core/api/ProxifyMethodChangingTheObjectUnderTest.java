@@ -50,7 +50,14 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   private AbstractAssert createAssertProxy(Object currentActual) {
     if (currentActual instanceof IterableSizeAssert) return createIterableSizeAssertProxy(currentActual);
     if (currentActual instanceof MapSizeAssert) return createMapSizeAssertProxy(currentActual);
-    return (AbstractAssert) proxies.createSoftAssertionProxy(currentActual.getClass(), actualClass(currentActual), actual(currentActual));
+    if (currentActual instanceof RecursiveComparisonAssert)
+      return createRecursiveComparisonAssertProxy((RecursiveComparisonAssert) currentActual);
+    return (AbstractAssert) proxies.createSoftAssertionProxy(currentActual.getClass(), actualClass(currentActual),
+                                                             actual(currentActual));
+  }
+
+  private RecursiveComparisonAssert<?> createRecursiveComparisonAssertProxy(RecursiveComparisonAssert<?> currentAssert) {
+    return proxies.createRecursiveComparisonAssertProxy(currentAssert);
   }
 
   private MapSizeAssert<?, ?> createMapSizeAssertProxy(Object currentActual) {
@@ -72,6 +79,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (result instanceof ObjectAssert || result instanceof ProxyableObjectAssert) return Object.class;
     if (result instanceof MapAssert) return Map.class;
     if (result instanceof StringAssert) return String.class;
+    if (result instanceof RecursiveComparisonAssert) return Object.class;
     // Trying to create a proxy will only match exact constructor argument types.
     // To initialize one for ListAssert for example we can't use an ArrayList, we have to use a List.
     // So we can't just return actual.getClass() as we could read a concrete class whereas

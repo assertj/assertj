@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api.recursive.comparison;
+package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 import static org.assertj.core.test.TestData.someInfo;
@@ -18,7 +18,8 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -42,7 +43,8 @@ public class RecursiveComparisonAssert_isEqualTo_BaseTest extends ObjectsBaseTes
   }
 
   public void compareRecursivelyFailsAsExpected(Object actual, Object expected) {
-    RecursiveComparisonAssert recursiveComparisonAssert = new RecursiveComparisonAssert(actual, recursiveComparisonConfiguration);
+    RecursiveComparisonAssert<?> recursiveComparisonAssert = new RecursiveComparisonAssert<>(actual,
+                                                                                          recursiveComparisonConfiguration);
     recursiveComparisonAssert.failures = failures;
     recursiveComparisonAssert.objects = objects;
     recursiveComparisonAssert.assertionInfo = INFO;

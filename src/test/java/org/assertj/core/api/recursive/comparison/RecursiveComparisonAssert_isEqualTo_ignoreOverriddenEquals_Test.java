@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.AlwaysDifferentAddress;
 import org.assertj.core.internal.objects.data.AlwaysDifferentPerson;
 import org.assertj.core.internal.objects.data.AlwaysEqualAddress;

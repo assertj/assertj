@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2018 the original author or authors.
  */
-package org.assertj.core.api.recursive.comparison;
+package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 
@@ -19,7 +19,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
@@ -28,9 +31,8 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
-public class RecursiveComparisonAssert {
+public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
 
-  private Object actual;
   private Representation customRepresentation = ConfigurationProvider.CONFIGURATION_PROVIDER.representation();
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
@@ -43,20 +45,19 @@ public class RecursiveComparisonAssert {
 
   // TODO propagate assertion info from ...
   public RecursiveComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    this.actual = actual;
+    super(actual, RecursiveComparisonAssert.class);
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
     this.assertionInfo = new WritableAssertionInfo(customRepresentation);
     recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
     failures = Failures.instance();
-    objects = Objects.instance();;
+    objects = Objects.instance();
   }
 
-  /** {@inheritDoc} */
-  @CheckReturnValue
-  public RecursiveComparisonAssert as(String description, Object... args) {
-    assertionInfo.description(description, args);
-    return this;
+  void setRecursiveComparisonConfiguration(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
   }
+
+  // TODO test as()
 
   /**
    * Asserts that the object under test (actual) is equal to the given object when compared field by field recursively (including
@@ -154,9 +155,10 @@ public class RecursiveComparisonAssert {
    * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
    * @throws IntrospectionError if one property/field to compare can not be found.
    */
-  public RecursiveComparisonAssert isEqualTo(Object expected) {
+  @Override
+  public SELF isEqualTo(Object expected) {
     // deals with both actual and expected being null
-    if (actual == expected) return this;
+    if (actual == expected) return myself;
     if (expected == null) {
       // for the assertion to pass, actual must be null but this is not the case since actual != expected
       // => we fail expecting actual to be null
@@ -171,7 +173,7 @@ public class RecursiveComparisonAssert {
                                                                                                                       differences,
                                                                                                                       recursiveComparisonConfiguration,
                                                                                                                       assertionInfo.representation()));
-    return this;
+    return myself;
   }
 
   /**
@@ -214,9 +216,9 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert ignoringActualNullFields() {
+  public SELF ignoringActualNullFields() {
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
-    return this;
+    return myself;
   }
 
   /**
@@ -260,9 +262,9 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert ignoringFields(String... fieldsToIgnore) {
+  public SELF ignoringFields(String... fieldsToIgnore) {
     recursiveComparisonConfiguration.ignoreFields(fieldsToIgnore);
-    return this;
+    return myself;
   }
 
   /**
@@ -309,9 +311,9 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert ignoringFieldsMatchingRegexes(String... regexes) {
+  public SELF ignoringFieldsMatchingRegexes(String... regexes) {
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regexes);
-    return this;
+    return myself;
   }
 
   /**
@@ -366,9 +368,9 @@ public class RecursiveComparisonAssert {
    *
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
-  public RecursiveComparisonAssert ignoringAllOverriddenEquals() {
+  public SELF ignoringAllOverriddenEquals() {
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
-    return this;
+    return myself;
   }
 
   /**
@@ -424,9 +426,9 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert ignoringOverriddenEqualsForFields(String... fields) {
+  public SELF ignoringOverriddenEqualsForFields(String... fields) {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields);
-    return this;
+    return myself;
   }
 
   /**
@@ -480,9 +482,9 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert ignoringOverriddenEqualsForTypes(Class<?>... types) {
+  public SELF ignoringOverriddenEqualsForTypes(Class<?>... types) {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(types);
-    return this;
+    return myself;
   }
 
   /**
@@ -539,9 +541,9 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert ignoringOverriddenEqualsForFieldsMatchingRegexes(String... regexes) {
+  public SELF ignoringOverriddenEqualsForFieldsMatchingRegexes(String... regexes) {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(regexes);
-    return this;
+    return myself;
   }
 
   /**
@@ -601,9 +603,9 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert withStrictTypeChecking() {
+  public SELF withStrictTypeChecking() {
     recursiveComparisonConfiguration.strictTypeChecking(true);
-    return this;
+    return myself;
   }
 
   /**
@@ -643,11 +645,11 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public RecursiveComparisonAssert withComparatorForFields(Comparator<?> comparator, String... fieldLocations) {
+  public SELF withComparatorForFields(Comparator<?> comparator, String... fieldLocations) {
     Stream.of(fieldLocations)
           .map(FieldLocation::new)
           .forEach(fieldLocation -> recursiveComparisonConfiguration.registerComparatorForField(comparator, fieldLocation));
-    return this;
+    return myself;
   }
 
   /**
@@ -685,13 +687,17 @@ public class RecursiveComparisonAssert {
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public <T> RecursiveComparisonAssert withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
+  public <T> SELF withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     recursiveComparisonConfiguration.registerComparatorForType(comparator, type);
-    return this;
+    return myself;
   }
 
-  @VisibleForTesting
-  RecursiveComparisonConfiguration getRecursiveComparisonConfiguration() {
+  /**
+   * Returns the {@link RecursiveComparisonConfiguration} currently used.
+   *
+   * @return the {@link RecursiveComparisonConfiguration} currently used
+   */
+  public RecursiveComparisonConfiguration getRecursiveComparisonConfiguration() {
     return recursiveComparisonConfiguration;
   }
 

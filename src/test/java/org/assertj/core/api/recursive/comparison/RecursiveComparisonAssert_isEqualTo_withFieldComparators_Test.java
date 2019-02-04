@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.CaseInsensitiveStringComparator;
 import org.assertj.core.internal.objects.data.Giant;

@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
 
+import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.internal.objects.data.PersonDto;

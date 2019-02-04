@@ -46,6 +46,7 @@ import java.util.TreeSet;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.TypeComparators;

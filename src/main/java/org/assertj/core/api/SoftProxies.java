@@ -21,6 +21,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
@@ -48,8 +50,8 @@ class SoftProxies {
                                                                                                                       .or(named("flatMap"))
                                                                                                                       .or(named("extractingResultOf"))
                                                                                                                       .or(named("flatExtracting"))
+                                                                                                                      .or(named("usingRecursiveComparison"))
                                                                                                                       .or(named("extractingFromEntries"));
-
 
   private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
                                                                                             .or(named("describedAs"))
@@ -135,6 +137,19 @@ class SoftProxies {
       Constructor<?> constructor = proxyClass.getConstructor(AbstractMapAssert.class, Integer.class);
       MapSizeAssert<?, ?> proxiedAssert = (MapSizeAssert<?, ?>) constructor.newInstance(mapSizeAssert.returnToMap(),
                                                                                         mapSizeAssert.actual);
+      ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return proxiedAssert;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  RecursiveComparisonAssert<?> createRecursiveComparisonAssertProxy(RecursiveComparisonAssert<?> recursiveComparisonAssert) {
+    Class<?> proxyClass = createSoftAssertionProxyClass(RecursiveComparisonAssert.class);
+    try {
+      Constructor<?> constructor = proxyClass.getConstructor(Object.class, RecursiveComparisonConfiguration.class);
+      RecursiveComparisonAssert<?> proxiedAssert = (RecursiveComparisonAssert<?>) constructor.newInstance(recursiveComparisonAssert.actual,
+                                                                                                          recursiveComparisonAssert.getRecursiveComparisonConfiguration());
       ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
       return proxiedAssert;
     } catch (Exception e) {
