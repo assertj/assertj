@@ -17,6 +17,7 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
+import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
@@ -132,6 +133,30 @@ public class Maps {
       // all elements have failed the requirements!
       throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
     }
+  }
+
+  public <K, V> void assertNoneSatisfy(AssertionInfo info, Map<K, V> actual, BiConsumer<? super K,? super V> entryRequirements) {
+    checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
+    assertNotNull(info, actual);
+
+    List<Map.Entry<K, V>> erroneousElements = actual.entrySet().stream()
+                                                   .map(entry -> failsRestrictions(entry, entryRequirements))
+                                                   .filter(Optional::isPresent)
+                                                   .map(Optional::get)
+                                                   .collect(toList());
+
+    if (erroneousElements.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
+  }
+
+  private <V, K> Optional<Map.Entry<K, V>> failsRestrictions(Map.Entry<K,V> entry, BiConsumer<? super K,? super V> entryRequirements) {
+    try {
+      entryRequirements.accept(entry.getKey(), entry.getValue());
+    } catch (AssertionError e) {
+      // element is supposed not to meet the given restrictions
+      return Optional.empty();
+    }
+    // element meets the given restrictions!
+    return Optional.of(entry);
   }
 
   /**
