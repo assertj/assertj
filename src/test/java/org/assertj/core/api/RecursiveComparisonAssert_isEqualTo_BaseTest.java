@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
-import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
@@ -25,7 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public class RecursiveComparisonAssert_isEqualTo_BaseTest extends ObjectsBaseTest {
 
-  public static final WritableAssertionInfo INFO = someInfo();
+  public static WritableAssertionInfo info;
   public RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
@@ -35,19 +34,18 @@ public class RecursiveComparisonAssert_isEqualTo_BaseTest extends ObjectsBaseTes
 
   public void verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(Object actual, Object expected,
                                                                         ComparisonDifference... differences) {
-    verify(failures).failure(INFO, shouldBeEqualByComparingFieldByFieldRecursively(actual,
+    verify(failures).failure(info, shouldBeEqualByComparingFieldByFieldRecursively(actual,
                                                                                    expected,
                                                                                    list(differences),
                                                                                    recursiveComparisonConfiguration,
-                                                                                   INFO.representation()));
+                                                                                   info.representation()));
   }
 
   public void compareRecursivelyFailsAsExpected(Object actual, Object expected) {
     RecursiveComparisonAssert<?> recursiveComparisonAssert = new RecursiveComparisonAssert<>(actual,
-                                                                                          recursiveComparisonConfiguration);
-    recursiveComparisonAssert.failures = failures;
+                                                                                             recursiveComparisonConfiguration);
+    info = recursiveComparisonAssert.info;
     recursiveComparisonAssert.objects = objects;
-    recursiveComparisonAssert.assertionInfo = INFO;
     expectAssertionError(() -> recursiveComparisonAssert.isEqualTo(expected));
   }
 

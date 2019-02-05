@@ -23,34 +23,21 @@ import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
-import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
-import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
 
-  private Representation customRepresentation = ConfigurationProvider.CONFIGURATION_PROVIDER.representation();
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
-  @VisibleForTesting
-  WritableAssertionInfo assertionInfo;
-  @VisibleForTesting
-  Failures failures;
-  @VisibleForTesting
-  Objects objects;
 
   // TODO propagate assertion info from ...
   public RecursiveComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     super(actual, RecursiveComparisonAssert.class);
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
-    this.assertionInfo = new WritableAssertionInfo(customRepresentation);
     recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
-    failures = Failures.instance();
-    objects = Objects.instance();
+    Failures.instance();
   }
 
   void setRecursiveComparisonConfiguration(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
@@ -162,17 +149,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
     if (expected == null) {
       // for the assertion to pass, actual must be null but this is not the case since actual != expected
       // => we fail expecting actual to be null
-      objects.assertNull(assertionInfo, actual);
+      objects.assertNull(info, actual);
     }
     // at this point expected is not null, which means actual must not be null for the assertion to pass
-    objects.assertNotNull(assertionInfo, actual);
+    objects.assertNotNull(info, actual);
     // at this point both actual and expected are not null, we can compare them recursively!
     List<ComparisonDifference> differences = determineDifferencesWith(expected);
-    if (!differences.isEmpty()) throw failures.failure(assertionInfo, shouldBeEqualByComparingFieldByFieldRecursively(actual,
-                                                                                                                      expected,
-                                                                                                                      differences,
-                                                                                                                      recursiveComparisonConfiguration,
-                                                                                                                      assertionInfo.representation()));
+    if (!differences.isEmpty()) throw objects.getFailures().failure(info, shouldBeEqualByComparingFieldByFieldRecursively(actual,
+                                                                                                                          expected,
+                                                                                                                          differences,
+                                                                                                                          recursiveComparisonConfiguration,
+                                                                                                                          info.representation()));
     return myself;
   }
 

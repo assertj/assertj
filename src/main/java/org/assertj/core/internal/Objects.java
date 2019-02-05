@@ -117,6 +117,11 @@ public class Objects {
     return comparisonStrategy;
   }
 
+  @VisibleForTesting
+  public Failures getFailures() {
+    return failures;
+  }
+
   /**
    * Verifies that the given object is an instance of the given type.
    *

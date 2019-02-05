@@ -837,7 +837,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration);
+    return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself);
   }
 
   // override for proxyable friendly AbstractObjectAssert

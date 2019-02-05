@@ -27,6 +27,7 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
@@ -45,7 +46,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
@@ -81,7 +81,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    verify(failures).failure(INFO, shouldNotBeNull());
+    verify(failures).failure(info, shouldNotBeNull());
   }
 
   @Test
@@ -92,7 +92,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(actual, null, objects.getComparisonStrategy(), INFO.representation()));
+    verify(failures).failure(info, shouldBeEqual(actual, null, objects.getComparisonStrategy(), info.representation()));
   }
 
   @SuppressWarnings("unused")
@@ -255,16 +255,16 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     person8.neighbour.neighbour.home.address.number = 457;
 
     return Stream.of(arguments(person1, person2, "same data and type, except for one ignored field",
-                                  list("name")),
+                               list("name")),
                      arguments(giant1, person1,
-                                  "different type, same data except name and height which is not even a field from person1",
-                                  list("name", "height")),
+                               "different type, same data except name and height which is not even a field from person1",
+                               list("name", "height")),
                      arguments(person3, person4, "same data, different type, except for several ignored fields",
-                                  list("name", "home.address.number")),
+                               list("name", "home.address.number")),
                      arguments(person5, person6, "same data except for one subfield of an ignored field",
-                                  list("home")),
+                               list("home")),
                      arguments(person7, person8, "same data except for one subfield of an ignored field",
-                                  list("neighbour.neighbour.home.address.number", "neighbour.name")));
+                               list("neighbour.neighbour.home.address.number", "neighbour.name")));
   }
 
   @Test
@@ -385,8 +385,6 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
   @Test
   public void should_fail_when_fields_differ() {
-    AssertionInfo info = INFO;
-
     Person actual = new Person();
     actual.name = "John";
 
@@ -409,8 +407,6 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
   @Test
   public void should_fail_when_fields_of_child_objects_differ() {
-    AssertionInfo info = INFO;
-
     Person actual = new Person();
     actual.name = "John";
     actual.home.address.number = 1;
@@ -482,8 +478,6 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
   @Test
   public void should_not_use_equal_implementation_of_objects_to_compare() {
-    AssertionInfo info = INFO;
-
     AlwaysEqualPerson actual = new AlwaysEqualPerson();
     actual.name = "John";
     actual.home.address.number = 1;
@@ -627,7 +621,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     other.name = "Fred";
     other.dateOfBirth = new Timestamp(1000L);
 
-    objects.assertIsEqualToComparingFieldByFieldRecursively(INFO, actual, other, noFieldComparators(),
+    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
                                                             defaultTypeComparators());
   }
 
@@ -644,9 +638,9 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     TypeComparators typeComparators = new TypeComparators();
     typeComparators.put(Timestamp.class, SYMMETRIC_DATE_COMPARATOR);
 
-    objects.assertIsEqualToComparingFieldByFieldRecursively(INFO, actual, other, noFieldComparators(),
+    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
                                                             typeComparators);
-    objects.assertIsEqualToComparingFieldByFieldRecursively(INFO, other, actual, noFieldComparators(),
+    objects.assertIsEqualToComparingFieldByFieldRecursively(info, other, actual, noFieldComparators(),
                                                             typeComparators);
   }
 
@@ -662,7 +656,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
     Map<String, Comparator<?>> fieldComparators = new HashMap<>();
     fieldComparators.put("dateOfBirth", SYMMETRIC_DATE_COMPARATOR);
-    objects.assertIsEqualToComparingFieldByFieldRecursively(INFO, actual, other, fieldComparators,
+    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, fieldComparators,
                                                             defaultTypeComparators());
   }
 
@@ -675,7 +669,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     other.name = "%foo";
 
     try {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(INFO, actual, other, noFieldComparators(),
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
                                                               defaultTypeComparators());
     } catch (AssertionError err) {
       assertThat(err).hasMessageContaining("Path to difference: <name>")
@@ -728,6 +722,21 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     // THEN
     assertThat(actual).usingRecursiveComparison()
                       .isEqualTo(expected);
+  }
+
+  @Test
+  public void should_honor_test_description() {
+    // GIVEN
+    Person actual = new Person("John");
+    actual.home.address.number = 1;
+    Person expected = new Person("John");
+    expected.home.address.number = 2;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).as("test description")
+                                                                        .usingRecursiveComparison()
+                                                                        .isEqualTo(expected));
+    // THEN
+    assertThat(error).hasMessageContaining("[test description]");
   }
 
   public static class WithMap<K, V> {
