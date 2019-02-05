@@ -60,7 +60,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                                                "  <%s>%n" +
                                                                "when recursively comparing field by field, but found the following " + differencesCount +
                                                                "%n" +
-                                                               differencesDescription + "%n" +
+                                                               escapePercent(differencesDescription) + "%n" +
                                                                "%n"+
                                                                "The recursive comparison was performed with this configuration:%n" +
                                                                recursiveComparisonConfigurationDescription, // don't use %s to avoid AssertJ formatting String with ""

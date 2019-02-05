@@ -247,8 +247,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                      nullName,
                                                                      differences,
                                                                      recursiveComparisonConfiguration,
-                                                                     REPRESENTATION)
-        .create(new TextDescription("Test"), REPRESENTATION);
+                                                                     REPRESENTATION).create(new TextDescription("Test"), REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -260,6 +259,38 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                          "%n" +
                                          "field/property 'first' differ:%n" +
                                          "- actual value   : \"Magic\"%n" +
+                                         "- expected value : null%n" +
+                                         "%n" +
+                                         "The recursive comparison was performed with this configuration:%n%s",
+                                         CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
+  }
+
+  @Test
+  public void should_show_difference_with_percentage() {
+    // GIVEN
+    final Name actualName = new Name("%%Ma%gi%", "%Johnson");
+    final Name nullName = new Name(null, "%Johnson");
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
+    List<ComparisonDifference> differences = computeDifferences(actualName, nullName, recursiveComparisonConfiguration);
+    // WHEN
+    // @format:off
+    String message = shouldBeEqualByComparingFieldByFieldRecursively(actualName,
+                                                                     nullName,
+                                                                     differences,
+                                                                     recursiveComparisonConfiguration,
+                                                                     REPRESENTATION).create(new TextDescription("Test"), REPRESENTATION);
+    // @format:on
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <Name[first='%%%%Ma%%gi%%', last='%%Johnson']>%n" +
+                                         "to be equal to:%n" +
+                                         "  <Name[first='null', last='%%Johnson']>%n" +
+                                         "when recursively comparing field by field, but found the following difference:%n" +
+                                         "%n" +
+                                         "field/property 'first' differ:%n" +
+                                         "- actual value   : \"%%%%Ma%%gi%%\"%n" +
                                          "- expected value : null%n" +
                                          "%n" +
                                          "The recursive comparison was performed with this configuration:%n%s",
