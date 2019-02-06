@@ -134,6 +134,26 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
+  public void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_nested_field() {
+    // GIVEN
+    Giant goliath = new Giant();
+    goliath.name = "Goliath";
+    goliath.height = 3.0;
+    goliath.home.address.number = 1;
+
+    Giant goliathTwin = new Giant();
+    goliathTwin.name = "Goliath";
+    goliathTwin.height = 3.1;
+    goliathTwin.home.address.number = 5;
+
+    // THEN
+    assertThat(goliath).usingRecursiveComparison()
+                       .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
+                       .withComparatorForFields(new AtPrecisionComparator<>(10), "home.address.number")
+                       .isEqualTo(goliathTwin);
+  }
+
+  @Test
   public void should_handle_null_field_with_field_comparator() {
     // GIVEN
     Patient actual = new Patient(null);
