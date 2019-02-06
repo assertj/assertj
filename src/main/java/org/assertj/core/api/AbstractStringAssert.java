@@ -274,4 +274,39 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
     return super.usingDefaultComparator();
   }
 
+  /**
+   * <p>Verifies that the actual value is equal to expected that is created as {@link String#format(String stringTemplate, Object... args)} .</p>
+   *
+   * Examples:
+   * <pre><code class='java'>
+   * // assertions succeed
+   * assertThat(&quot;1,A,2&quot;).isEqualTo(&quot;%d,%s,%d&quot;,1,&quot;A&quot;,2);
+   *
+   * // assertion fails with {@link java.lang.NullPointerException}
+   * assertThat(&quot;1,A,2&quot;).isEqualTo(null,1,&quot;A&quot;,2);
+   * // assertion fails with {@link java.util.IllegalFormatException}
+   * assertThat(&quot;1,A,2&quot;).isEqualTo(&quot;%w&quot;,1);
+   * </code></pre>
+   * @param stringTemplate the format template which will be used in {@link String#format(String stringTemplate, Object...)}
+   *                       as a first argument.
+   * @param args the arguments referenced by the format specifiers in the format string.
+   * @throws NullPointerException if stringTemplate parameter is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws java.util.IllegalFormatException
+   *          If a format string contains an illegal syntax, a format
+   *          specifier that is incompatible with the given arguments,
+   *          insufficient arguments given the format string, or other
+   *          illegal conditions.  For specification of all possible
+   *          formatting errors, see the <a
+   *          href="../../../../java/util/Formatter.html#detail">Details</a> section of the
+   *          formatter class specification.
+   * @return this assertion object.
+   */
+  @CheckReturnValue
+  public SELF isEqualTo(String stringTemplate, Object ... args){
+    String expected = String.format(stringTemplate, args);
+    this.comparables.assertEqual(info, actual, expected);
+    return super.isEqualTo(expected);
+  }
+
 }
