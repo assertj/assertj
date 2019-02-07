@@ -180,14 +180,14 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    * If difference is equal to the percentage value, assertion is considered valid.
    *
    * <pre><code class='java'>// assertion will pass
-   * assertThat(OptionalDouble.of(11.0)).hasValueCloseTo(10.0, withinPercentage(20d));
+   * assertThat(OptionalDouble.of(11)).hasValueCloseTo(10.0, withinPercentage(20));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
-   * assertThat(OptionalDouble.of(11.0)).hasValueCloseTo(10.0, withinPercentage(10d));
+   * assertThat(OptionalDouble.of(11)).hasValueCloseTo(10.0, withinPercentage(10));
    *
    * // assertions will fail
-   * assertThat(OptionalDouble.of(11.0)).hasValueCloseTo(10.0, withinPercentage(5d));
-   * assertThat(OptionalDouble.empty()).hasValueCloseTo(10.0, withinPercentage(5d));</code></pre>
+   * assertThat(OptionalDouble.of(11)).hasValueCloseTo(10.0, withinPercentage(5));
+   * assertThat(OptionalDouble.empty()).hasValueCloseTo(10.0, withinPercentage(5));</code></pre>
    *
    * @param expectedValue the expected value inside the {@link java.util.OptionalDouble}
    * @param percentage    the given positive percentage
