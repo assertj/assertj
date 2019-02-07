@@ -26,7 +26,7 @@ public class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), "A and 8");
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), "A and 8");
   }
 
 }

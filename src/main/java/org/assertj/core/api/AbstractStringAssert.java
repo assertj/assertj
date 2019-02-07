@@ -278,8 +278,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>Verifies that the actual value is equal to expected that is created as {@link String#format(String stringTemplate, Object... args)} .</p>
    *
    * Examples:
-   * <pre><code class='java'>
-   * // assertions succeed
+   * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;1,A,2&quot;).isEqualTo(&quot;%d,%s,%d&quot;,1,&quot;A&quot;,2);
    *
    * // assertion fails with {@link java.lang.NullPointerException}
@@ -298,14 +297,15 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *          insufficient arguments given the format string, or other
    *          illegal conditions.  For specification of all possible
    *          formatting errors, see the <a
-   *          href="../../../../java/util/Formatter.html#detail">Details</a> section of the
+   *          href="http://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html#detail">Details</a> section of the
    *          formatter class specification.
    * @return this assertion object.
+   *
+   * @since 3.12.0
    */
   @CheckReturnValue
   public SELF isEqualTo(String stringTemplate, Object ... args){
     String expected = String.format(stringTemplate, args);
-    this.comparables.assertEqual(info, actual, expected);
     return super.isEqualTo(expected);
   }
 
