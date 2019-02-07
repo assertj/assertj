@@ -51,7 +51,7 @@ public class OptionalDoubleAssert_hasValueCloseToOffset_Test extends BaseTest {
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValueCloseTo(expectedValue,
                                                                                                         offset))
-                                                   .withMessage(OptionalDoubleShouldHaveValueCloseToOffset.shouldHaveValueCloseToOffset(actual, expectedValue, offset,
+                                                   .withMessage(shouldHaveValueCloseToOffset(actual, expectedValue, offset,
                                                                                        abs(expectedValue
                                                                                            - actual.getAsDouble())).create());
   }
