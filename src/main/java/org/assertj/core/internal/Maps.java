@@ -139,13 +139,13 @@ public class Maps {
     checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
 
-    List<Map.Entry<K, V>> erroneousElements = actual.entrySet().stream()
+    List<Map.Entry<K, V>> erroneousEntries = actual.entrySet().stream()
                                                    .map(entry -> failsRestrictions(entry, entryRequirements))
                                                    .filter(Optional::isPresent)
                                                    .map(Optional::get)
                                                    .collect(toList());
 
-    if (erroneousElements.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
+    if (erroneousEntries.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousEntries));
   }
 
   private <V, K> Optional<Map.Entry<K, V>> failsRestrictions(Map.Entry<K,V> entry, BiConsumer<? super K,? super V> entryRequirements) {
