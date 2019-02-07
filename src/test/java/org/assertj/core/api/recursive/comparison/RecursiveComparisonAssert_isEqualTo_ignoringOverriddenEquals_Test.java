@@ -33,7 +33,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_ignoreOverriddenEquals_Test
+public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @SuppressWarnings("unused")
