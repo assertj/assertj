@@ -16,9 +16,9 @@ import org.assertj.core.api.AbstractClassAssert;
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 class Classes_assertIsAbstract_Test extends ClassesBaseTest {
@@ -26,7 +26,7 @@ class Classes_assertIsAbstract_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     actual = null;
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAbstract(someInfo(), actual))
+    assertThatAssertionErrorIsThrownBy(() -> classes.assertIsAbstract(someInfo(), actual))
       .withMessage(actualIsNull());
   }
 
@@ -39,7 +39,7 @@ class Classes_assertIsAbstract_Test extends ClassesBaseTest {
   @Test()
   void should_fail_if_actual_is_not_abstract() {
     actual = Classes_assertIsAbstract_Test.class;
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAbstract(someInfo(), actual))
+    assertThatAssertionErrorIsThrownBy(() -> classes.assertIsAbstract(someInfo(), actual))
       .withMessage(shouldBeAbstract(actual).create());
   }
 }
