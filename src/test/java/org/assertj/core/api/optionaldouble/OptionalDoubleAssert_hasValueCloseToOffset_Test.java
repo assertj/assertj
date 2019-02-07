@@ -17,16 +17,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.within;
-import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
+import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseToOffset.shouldHaveValueCloseToOffset;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalDouble;
 
 import org.assertj.core.api.BaseTest;
 import org.assertj.core.data.Offset;
+import org.assertj.core.error.OptionalDoubleShouldHaveValueCloseToOffset;
 import org.junit.jupiter.api.Test;
 
-public class OptionalDoubleAssert_hasValueCloseTo_Test extends BaseTest {
+public class OptionalDoubleAssert_hasValueCloseToOffset_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optionaldouble_is_null() {
@@ -39,7 +40,7 @@ public class OptionalDoubleAssert_hasValueCloseTo_Test extends BaseTest {
     double expectedValue = 10.0;
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalDouble.empty()).hasValueCloseTo(expectedValue, within(2.0)))
-                                                   .withMessage(shouldHaveValueCloseTo(expectedValue).create());
+                                                   .withMessage(shouldHaveValueCloseToOffset(expectedValue).create());
   }
 
   @Test
@@ -50,14 +51,15 @@ public class OptionalDoubleAssert_hasValueCloseTo_Test extends BaseTest {
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValueCloseTo(expectedValue,
                                                                                                         offset))
-                                                   .withMessage(shouldHaveValueCloseTo(actual, expectedValue, offset,
+                                                   .withMessage(OptionalDoubleShouldHaveValueCloseToOffset.shouldHaveValueCloseToOffset(actual, expectedValue, offset,
                                                                                        abs(expectedValue
                                                                                            - actual.getAsDouble())).create());
   }
 
   @Test
   public void should_fail_if_offset_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(OptionalDouble.of(10.0)).hasValueCloseTo(10.0, null));
+    Offset<Double> offset = null;
+    assertThatNullPointerException().isThrownBy(() -> assertThat(OptionalDouble.of(10.0)).hasValueCloseTo(10.0, offset));
   }
 
   @Test

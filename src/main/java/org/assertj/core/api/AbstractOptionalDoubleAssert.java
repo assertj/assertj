@@ -13,7 +13,8 @@
 package org.assertj.core.api;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
+import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseToOffset.shouldHaveValueCloseToOffset;
+import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseToPercentage.shouldHaveValueCloseToPercentage;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
@@ -21,6 +22,7 @@ import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import java.util.OptionalDouble;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
@@ -163,12 +165,44 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    */
   public SELF hasValueCloseTo(Double expectedValue, Offset<Double> offset) {
     isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseTo(expectedValue));
+    if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseToOffset(expectedValue));
     // Reuses doubles functionality, catches potential assertion error and throw correct one
     try {
       doubles.assertIsCloseTo(info, actual.getAsDouble(), expectedValue, offset);
     } catch (AssertionError assertionError) {
-      throwAssertionError(shouldHaveValueCloseTo(actual, expectedValue, offset, abs(expectedValue - actual.getAsDouble())));
+      throwAssertionError(shouldHaveValueCloseToOffset(actual, expectedValue, offset, abs(expectedValue - actual.getAsDouble())));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.OptionalDouble} has a value close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   *
+   * <pre><code class='java'>// assertion will pass
+   * assertThat(OptionalDouble.of(11.0)).hasValueCloseTo(10.0, withinPercentage(20d));
+   *
+   * // if difference is exactly equals to the computed offset (1.0), it's ok
+   * assertThat(OptionalDouble.of(11.0)).hasValueCloseTo(10.0, withinPercentage(10d));
+   *
+   * // assertions will fail
+   * assertThat(OptionalDouble.of(11.0)).hasValueCloseTo(10.0, withinPercentage(5d));
+   * assertThat(OptionalDouble.empty()).hasValueCloseTo(10.0, withinPercentage(5d));</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.OptionalDouble}
+   * @param percentage    the given positive percentage
+   * @return the assertion object
+   * @throws java.lang.AssertionError if actual value is empty
+   * @throws java.lang.AssertionError if actual is null
+   * @throws java.lang.AssertionError if the actual value is not close to the given one
+   */
+  public SELF hasValueCloseTo(Double expectedValue, Percentage percentage) {
+    isNotNull();
+    if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseToPercentage(expectedValue));
+    try {
+      doubles.assertIsCloseToPercentage(info, actual.getAsDouble(), expectedValue, percentage);
+    } catch (AssertionError assertionError) {
+      throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage, abs(expectedValue - actual.getAsDouble())));
     }
     return myself;
   }
