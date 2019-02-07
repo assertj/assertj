@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+
 import java.util.Comparator;
 
 import org.assertj.core.internal.Comparables;
@@ -272,6 +274,40 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   public SELF usingDefaultComparator() {
     this.comparables = new Comparables();
     return super.usingDefaultComparator();
+  }
+
+  /**
+   * Verifies that the actual value is equal to expected build using {@link String#format(String stringTemplate, Object... args)}.
+   * <p>
+   * Note that for this assertion to be called, <b>you must use a format template with parameters</b> otherwise {@link #isEqualTo(Object)} is callled which
+   * does not perform any formatting. For example, it you only use {@code %n} in the template they won't be replaced.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;R2D2&quot;).isEqualTo(&quot;%d%s%d%s&quot;, &quot;R&quot;, 2, &quot;D&quot;, 2);
+   *
+   * // assertion fails
+   * assertThat(&quot;C6PO&quot;).isEqualTo(&quot;%d%s%d%s&quot;, &quot;R&quot;, 2, &quot;D&quot;, 2);
+   *
+   * // assertion fails with {@link java.lang.NullPointerException}
+   * assertThat(&quot;1,A,2&quot;).isEqualTo(null, 1, &quot;A&quot;, 2);
+   *
+   * // assertion fails with {@link java.util.IllegalFormatException}
+   * assertThat(&quot;1&quot;).isEqualTo(&quot;%s%s&quot;, 1); </code></pre>
+   *
+   * @param expectedStringTemplate the format template used to build the expected String.
+   * @param args the arguments referenced by the format specifiers in the format string.
+   * @throws NullPointerException if stringTemplate parameter is {@code null}.
+   * @throws AssertionError if the actual value is {@code null} as the template you provide must not be {@code null}.
+   * @throws java.util.IllegalFormatException as in {@link String#format(String, Object...)}, see
+   *         <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html#detail">Details</a> section of the
+   *         formatter class specification.
+   * @return this assertion object.
+   *
+   * @since 3.12.0
+   */
+  public SELF isEqualTo(String expectedStringTemplate, Object... args) {
+    return super.isEqualTo(format(expectedStringTemplate, args));
   }
 
 }
