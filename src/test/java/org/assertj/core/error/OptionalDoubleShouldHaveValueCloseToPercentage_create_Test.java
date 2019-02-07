@@ -32,7 +32,7 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage_create_Test {
   }
 
   @Test
-  public void should_create_error_message_percentage() {
+  public void should_create_error_message_when_optionaldouble_value_is_not_close_enough_to_expected_value() {
     String errorMessage = shouldHaveValueCloseToPercentage(OptionalDouble.of(20), 10, withinPercentage(2), 3).create();
     assertThat(errorMessage).isEqualTo(format("%nExpecting:%n  <OptionalDouble[20.0]>%n" +
       "to be close to:%n" +
