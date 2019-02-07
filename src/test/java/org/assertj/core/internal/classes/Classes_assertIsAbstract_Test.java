@@ -21,7 +21,7 @@ import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-class Classes_assertIsAbstract extends ClassesBaseTest {
+class Classes_assertIsAbstract_Test extends ClassesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -38,7 +38,7 @@ class Classes_assertIsAbstract extends ClassesBaseTest {
 
   @Test()
   void should_fail_if_actual_is_not_abstract() {
-    actual = Classes_assertIsAbstract.class;
+    actual = Classes_assertIsAbstract_Test.class;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAbstract(someInfo(), actual))
       .withMessage(shouldBeAbstract(actual).create());
   }
