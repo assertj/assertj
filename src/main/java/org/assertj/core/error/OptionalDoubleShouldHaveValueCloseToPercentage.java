@@ -17,8 +17,8 @@ import org.assertj.core.data.Percentage;
 import java.util.OptionalDouble;
 
 /**
- * Build error message when an {@link java.util.OptionalDouble} should have a specific value close to an expected value
- * within a positive percentage.
+ * Build error message when an {@link java.util.OptionalDouble} should be close to an expected value within a positive
+ * percentage.
  *
  * @author Joshua Kitchen
  */
@@ -43,7 +43,7 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
   }
 
   /**
-   * Indicates that an {@link java.util.OptionalDouble} is empty so it doesn't have the expected value.
+   * Indicates that the provided {@link java.util.OptionalDouble} is empty so it doesn't have the expected value.
    *
    * @param expectedValue the value we expect to be in an {@link java.util.OptionalDouble}.
    * @return a error message factory.
@@ -53,8 +53,8 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
   }
 
   /**
-   * Indicates that the provided {@link java.util.OptionalDouble} does not have the expected value within the given
-   * positive percentage.
+   * Indicates that the provided {@link java.util.OptionalDouble} has a value, but it is not within the given positive
+   * percentage.
    *
    * @param optional the {@link java.util.OptionalDouble} which has a value
    * @param expectedValue the value we expect to be in the provided {@link java.util.OptionalDouble}
