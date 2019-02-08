@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import java.util.NoSuchElementException;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableTypeAssert;
@@ -33,13 +34,13 @@ public class ThrowableTypeAssert_description_Test {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 
-  public static Object[][] parameters() {
-    return new Function[][] {
-        { t -> ((ThrowableTypeAssert<?>) t).as("test description") },
-        { t -> ((ThrowableTypeAssert<?>) t).describedAs("test description") },
-        { t -> ((ThrowableTypeAssert<?>) t).as(new TextDescription("%s description", "test")) },
-        { t -> ((ThrowableTypeAssert<?>) t).describedAs(new TextDescription("%s description", "test")) }
-    };
+  static Stream<Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>>> parameters() {
+    return Stream.of(
+      t -> t.as("test description"),
+      t -> t.describedAs("test description"),
+      t -> t.as(new TextDescription("%s description", "test")),
+      t -> t.describedAs(new TextDescription("%s description", "test"))
+    );
   }
 
   @ParameterizedTest

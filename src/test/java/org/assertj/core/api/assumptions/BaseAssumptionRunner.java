@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api.assumptions;
 
-import static org.assertj.core.util.Arrays.array;
-
 import java.util.function.Consumer;
 
 class BaseAssumptionRunner<T> extends AssumptionRunner<T> {
@@ -26,13 +24,8 @@ class BaseAssumptionRunner<T> extends AssumptionRunner<T> {
     this.actual = null;
   }
 
-  static <T> BaseAssumptionRunner<T> assumptionRunner(T actual, Consumer<T> passingAssumption,
-                                                      Consumer<T> failingAssumption) {
+  static <T> AssumptionRunner<T> assumptionRunner(T actual, Consumer<T> passingAssumption, Consumer<T> failingAssumption) {
     return new BaseAssumptionRunner<>(actual, passingAssumption, failingAssumption);
-  }
-
-  static <T> AssumptionRunner<T>[] run(T actual, Consumer<T> passingAssumption, Consumer<T> failingAssumption) {
-    return array(new BaseAssumptionRunner<>(actual, passingAssumption, failingAssumption));
   }
 
   BaseAssumptionRunner(T actual, Consumer<T> passingAssumption, Consumer<T> failingAssumption) {

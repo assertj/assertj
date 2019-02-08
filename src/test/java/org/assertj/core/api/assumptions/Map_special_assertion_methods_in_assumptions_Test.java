@@ -16,13 +16,14 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.assertj.core.api.assumptions.BaseAssumptionRunner.run;
+import static org.assertj.core.api.assumptions.BaseAssumptionRunner.assumptionRunner;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.ProxyableMapAssert;
@@ -33,8 +34,7 @@ import org.assertj.core.api.ProxyableMapAssert;
  */
 public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
-  @SuppressWarnings("unchecked")
-  public static Object[][] provideAssumptionsRunners() {
+  public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
 
     List<String> names = asList("Dave", "Jeff");
     Set<String> jobs = newLinkedHashSet("Plumber", "Builder");
@@ -48,60 +48,60 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
                                     entry("b", "2"),
                                     entry("c", "3"));
 
-    return new AssumptionRunner[][] {
-        run(map,
+    return Stream.of(
+        assumptionRunner(map,
             value -> assumeThat(value).contains(entry("a", "1"), entry("c", "3")),
             value -> assumeThat(value).contains(entry("a", "2"), entry("c", "3"))),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).containsAnyOf(entry("a", "1"), entry("a", "2")),
             value -> assumeThat(value).containsAnyOf(entry("a", "2"), entry("a", "3"))),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).containsExactly(entry("a", "1"), entry("b", "2"), entry("c", "3")),
             value -> assumeThat(value).containsExactly(entry("b", "2"), entry("a", "1"), entry("c", "3"))),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).containsKeys("a", "b", "c"),
             value -> assumeThat(value).containsKeys("a", "b", "d")),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).containsOnly(entry("b", "2"), entry("a", "1"), entry("c", "3")),
             value -> assumeThat(value).containsOnly(entry("b", "2"), entry("a", "1"))),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).containsOnlyKeys("a", "b", "c"),
             value -> assumeThat(value).containsOnlyKeys("a", "b", "d")),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).containsValues("1", "2"),
             value -> assumeThat(value).containsValues("1", "5")),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).doesNotContain(entry("a", "2"), entry("a", "3")),
             value -> assumeThat(value).doesNotContain(entry("a", "1"), entry("c", "3"))),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).doesNotContainKeys("d", "e", "f"),
             value -> assumeThat(value).doesNotContainKeys("a", "e", "f")),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).extracting("a", "b").contains("1", "2"),
             value -> assumeThat(value).extracting("a", "b").contains("456")),
-        run(iterableMap,
+        assumptionRunner(iterableMap,
             value -> assumeThat(value).flatExtracting("name", "job", "city", "rank")
                                       .contains("Jeff", "Builder", "Dover", "Boston", "Paris", 1, 2, 3),
             value -> assumeThat(value).flatExtracting("name", "job", "city", "rank")
                                       .contains("Unexpected", "Builder", "Dover", "Boston", "Paris", 1, 2, 3)),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).size().isGreaterThan(2),
             value -> assumeThat(value).size().isGreaterThan(10)),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).size().isGreaterThan(2).returnToMap().containsKeys("a", "b", "c"),
             value -> assumeThat(value).size().isGreaterThan(2).returnToMap().containsKeys("unknown")),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).size().isPositive().returnToMap().size().isPositive(),
             value -> assumeThat(value).size().isPositive().returnToMap().size().isNegative()),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).containsExactlyEntriesOf(mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"))),
             value -> assumeThat(value).containsExactlyEntriesOf(mapOf(entry("b", "2"), entry("a", "1"), entry("c", "3")))),
-        run(map,
+        assumptionRunner(map,
             value -> assumeThat(value).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
                                       .containsExactlyInAnyOrder(tuple("a", "1"), tuple("b", "2"), tuple("c", "3")),
             value -> assumeThat(value).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
                                       .containsExactlyInAnyOrder(tuple("a", "1"), tuple("b", "2"), tuple("c", "2")))
-    };
+    );
   }
 
 }
