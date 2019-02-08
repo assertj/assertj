@@ -82,13 +82,14 @@ public class RecursiveComparisonDifferenceCalculator {
       return list(expectedAndActualTypeDifference(actual, expected));
     }
     List<String> rootPath = list();
-    return determineDifferences(actual, expected, rootPath, recursiveComparisonConfiguration);
+    final Set<DualKey> visited = new HashSet<>();
+    return determineDifferences(actual, expected, rootPath, visited, recursiveComparisonConfiguration);
   }
 
   private static List<ComparisonDifference> determineDifferences(Object actual, Object expected, List<String> parentPath,
+                                                                 Set<DualKey> visited,
                                                                  RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    final Set<DualKey> visited = new HashSet<>();
-    Deque<DualKey> toCompare = initStack(actual, expected, parentPath, recursiveComparisonConfiguration);
+    Deque<DualKey> toCompare = initStack(actual, expected, parentPath, visited, recursiveComparisonConfiguration);
 
     final List<ComparisonDifference> differences = new ArrayList<>();
 
@@ -277,6 +278,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static Deque<DualKey> initStack(Object actual, Object expected, List<String> parentPath,
+                                          Set<DualKey> visited,
                                           RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     Deque<DualKey> stack = new DualKeyDeque(recursiveComparisonConfiguration);
     boolean isRootObject = parentPath.isEmpty();
@@ -306,6 +308,10 @@ public class RecursiveComparisonDifferenceCalculator {
     } else {
       stack.addFirst(basicDualKey);
     }
+    // need to remove already visited fields pair to avoid infinite recursion in case
+    // parent -> set{child} with child having a reference back to parent
+    // it occurs to unordered collection where we compare all possible combination of the collection elements recursively
+    stack.removeAll(visited);
     return stack;
   }
 
@@ -449,7 +455,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Iterator<V> iterator = col2Copy.iterator();
       while (iterator.hasNext()) {
         Object o2 = iterator.next();
-        if (determineDifferences(o1, o2, path, recursiveComparisonConfiguration).isEmpty()) {
+        if (determineDifferences(o1, o2, path, visited, recursiveComparisonConfiguration).isEmpty()) {
           iterator.remove();
           break;
         }

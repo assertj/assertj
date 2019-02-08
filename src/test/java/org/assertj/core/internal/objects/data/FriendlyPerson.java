@@ -13,8 +13,11 @@
 package org.assertj.core.internal.objects.data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class FriendlyPerson extends Person {
   public List<FriendlyPerson> friends = new ArrayList<>();
+  public Set<FriendlyPerson> otherFriends = new HashSet<>();
 }

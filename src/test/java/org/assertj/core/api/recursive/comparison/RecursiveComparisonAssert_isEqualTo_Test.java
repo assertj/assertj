@@ -191,7 +191,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_be_able_to_compare_objects_with_cycles_recursively() {
+  public void should_be_able_to_compare_objects_with_cycles_in_ordered_collection() {
     // GIVEN
     FriendlyPerson actual = new FriendlyPerson();
     actual.name = "John";
@@ -213,6 +213,46 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     actual.friends.add(expected);
     expected.friends.add(sherlock);
     expected.friends.add(actual);
+
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
+  }
+
+  @Test
+  public void should_be_able_to_compare_objects_with_cycles_in_ordered_and_unordered_collection() {
+    // GIVEN
+    FriendlyPerson actual = new FriendlyPerson();
+    actual.name = "John";
+    actual.home.address.number = 1;
+
+    FriendlyPerson expected = new FriendlyPerson();
+    expected.name = "John";
+    expected.home.address.number = 1;
+
+    // neighbour - direct cycle
+    expected.neighbour = actual;
+    actual.neighbour = expected;
+
+    // friends cycle with intermediate collection
+    FriendlyPerson sherlock = new FriendlyPerson();
+    sherlock.name = "Sherlock";
+    sherlock.home.address.number = 221;
+
+    // ordered collections
+    actual.friends.add(sherlock);
+    actual.friends.add(expected);
+    expected.friends.add(sherlock);
+    expected.friends.add(actual);
+
+    // unordered collections
+    // this could cause an infinite recursion if we don't track correctly the visited objects
+    actual.otherFriends.add(actual);
+    actual.otherFriends.add(expected);
+    actual.otherFriends.add(sherlock);
+    expected.otherFriends.add(sherlock);
+    expected.otherFriends.add(expected);
+    expected.otherFriends.add(actual);
 
     // THEN
     assertThat(actual).usingRecursiveComparison()
