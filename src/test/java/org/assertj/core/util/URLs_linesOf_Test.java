@@ -39,7 +39,7 @@ public class URLs_linesOf_Test {
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
 
   @Test
-  public void should_throw_exception_if_url_not_found() throws MalformedURLException {
+  public void should_throw_exception_if_url_not_found() {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 

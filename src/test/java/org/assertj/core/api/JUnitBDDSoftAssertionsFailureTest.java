@@ -31,7 +31,7 @@ public class JUnitBDDSoftAssertionsFailureTest {
   public final JUnitBDDSoftAssertions softly = new JUnitBDDSoftAssertions();
 
   @Test
-  public void should_report_all_errors() throws Throwable {
+  public void should_report_all_errors() {
     // GIVEN
     softly.then(1).isEqualTo(1);
     softly.then(1).isEqualTo(2);

@@ -95,7 +95,7 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_actual_uri_has_no_fragment() throws URISyntaxException {
+  public void should_throw_error_if_actual_uri_has_no_fragment() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasFragment(info,
                                                                                                   new URI("http://www.helloworld.org/index.html"),
                                                                                                   "print"));

@@ -129,7 +129,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() throws IOException {
+  public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(someInfo(),
                                                                                                              createFileWithNonUTF8Character(),
                                                                                                              StandardCharsets.UTF_8,
@@ -139,7 +139,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_files_are_not_binary_identical() throws IOException {
+  public void should_fail_if_files_are_not_binary_identical() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(someInfo(),
                                                                                                        createFileWithNonUTF8Character(),
                                                                                                        StandardCharsets.UTF_8,

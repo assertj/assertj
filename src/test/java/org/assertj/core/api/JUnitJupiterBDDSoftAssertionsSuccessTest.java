@@ -23,7 +23,7 @@ public class JUnitJupiterBDDSoftAssertionsSuccessTest {
   JUnitJupiterBDDSoftAssertions softly = new JUnitJupiterBDDSoftAssertions();
 
   @Test
-  public void all_assertions_should_pass() throws Throwable {
+  public void all_assertions_should_pass() {
     softly.then(1).isEqualTo(1);
     softly.then(list(1, 2)).containsOnly(1, 2);
   }

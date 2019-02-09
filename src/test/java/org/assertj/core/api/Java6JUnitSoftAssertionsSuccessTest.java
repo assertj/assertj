@@ -22,7 +22,7 @@ public class Java6JUnitSoftAssertionsSuccessTest {
   public final Java6JUnitSoftAssertions softly = new Java6JUnitSoftAssertions();
 
   @Test
-  public void all_assertions_should_pass() throws Throwable {
+  public void all_assertions_should_pass() {
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(newArrayList(1, 2)).containsOnly(1, 2);
   }
