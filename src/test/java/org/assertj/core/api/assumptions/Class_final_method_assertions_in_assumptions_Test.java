@@ -13,7 +13,7 @@
 package org.assertj.core.api.assumptions;
 
 import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.assertj.core.api.assumptions.BaseAssumptionRunner.run;
+import static org.assertj.core.api.assumptions.BaseAssumptionRunner.assumptionRunner;
 
 import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
@@ -22,17 +22,18 @@ import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
 import org.assertj.core.api.ProxyableClassAssert;
 import org.assertj.core.util.VisibleForTesting;
 
+import java.util.stream.Stream;
+
 /**
  * verify that assertions final methods in {@link ClassAssert} work with assumptions (i.e. that they are proxied correctly in {@link ProxyableClassAssert}).
  */
 public class Class_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
-  @SuppressWarnings("unchecked")
-  public static Object[][] provideAssumptionsRunners() {
-    return new AssumptionRunner[][] {
-        run(AnnotatedClass.class,
+  public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
+    return Stream.of(
+        assumptionRunner(AnnotatedClass.class,
             value -> assumeThat(value).hasAnnotations(MyAnnotation.class, AnotherAnnotation.class),
             value -> assumeThat(value).hasAnnotations(SafeVarargs.class, VisibleForTesting.class))
-    };
+    );
   }
 }

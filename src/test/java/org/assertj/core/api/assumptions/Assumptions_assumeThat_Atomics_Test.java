@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.stream.Stream;
 
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -38,9 +39,9 @@ public class Assumptions_assumeThat_Atomics_Test {
 
   private static final VolatileFieldsHolder VOLATILE_FIELDS_HOLDER = new VolatileFieldsHolder();
 
-  public static Object[][] provideAssumptionsRunners() {
-    return new AssumptionRunner[][] {
-        { new AssumptionRunner<AtomicBoolean>(new AtomicBoolean(true)) {
+  static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
+    return Stream.of(
+        new AssumptionRunner<AtomicBoolean>(new AtomicBoolean(true)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isFalse();
@@ -50,8 +51,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isTrue();
           }
-        } },
-        { new AssumptionRunner<AtomicInteger>(new AtomicInteger(42)) {
+        },
+        new AssumptionRunner<AtomicInteger>(new AtomicInteger(42)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasNegativeValue();
@@ -61,8 +62,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasPositiveValue();
           }
-        } },
-        { new AssumptionRunner<AtomicIntegerArray>(new AtomicIntegerArray(new int[] { 2, 5, 7 })) {
+        },
+        new AssumptionRunner<AtomicIntegerArray>(new AtomicIntegerArray(new int[] { 2, 5, 7 })) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).contains(20);
@@ -72,8 +73,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).contains(7);
           }
-        } },
-        { new AssumptionRunner<AtomicIntegerFieldUpdater<VolatileFieldsHolder>>(AtomicIntegerFieldUpdater.newUpdater(VolatileFieldsHolder.class,
+        },
+        new AssumptionRunner<AtomicIntegerFieldUpdater<VolatileFieldsHolder>>(AtomicIntegerFieldUpdater.newUpdater(VolatileFieldsHolder.class,
                                                                                                                      "intValue")) {
           @Override
           public void runFailingAssumption() {
@@ -84,8 +85,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasValue(0, VOLATILE_FIELDS_HOLDER);
           }
-        } },
-        { new AssumptionRunner<AtomicLong>(new AtomicLong(42)) {
+        },
+        new AssumptionRunner<AtomicLong>(new AtomicLong(42)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasNegativeValue();
@@ -95,8 +96,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasPositiveValue();
           }
-        } },
-        { new AssumptionRunner<AtomicLongArray>(new AtomicLongArray(new long[] { 2, 5, 7 })) {
+        },
+        new AssumptionRunner<AtomicLongArray>(new AtomicLongArray(new long[] { 2, 5, 7 })) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).contains(20);
@@ -106,8 +107,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).contains(7);
           }
-        } },
-        { new AssumptionRunner<AtomicLongFieldUpdater<VolatileFieldsHolder>>(AtomicLongFieldUpdater.newUpdater(VolatileFieldsHolder.class,
+        },
+        new AssumptionRunner<AtomicLongFieldUpdater<VolatileFieldsHolder>>(AtomicLongFieldUpdater.newUpdater(VolatileFieldsHolder.class,
                                                                                                                "longValue")) {
           @Override
           public void runFailingAssumption() {
@@ -118,8 +119,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasValue(0L, VOLATILE_FIELDS_HOLDER);
           }
-        } },
-        { new AssumptionRunner<AtomicReference<String>>(new AtomicReference<>("test")) {
+        },
+        new AssumptionRunner<AtomicReference<String>>(new AtomicReference<>("test")) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasValue("other");
@@ -129,8 +130,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasValue("test");
           }
-        } },
-        { new AssumptionRunner<AtomicReferenceArray<String>>(new AtomicReferenceArray<>(array("2", "5", "7"))) {
+        },
+        new AssumptionRunner<AtomicReferenceArray<String>>(new AtomicReferenceArray<>(array("2", "5", "7"))) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).contains("20");
@@ -140,8 +141,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).contains("7");
           }
-        } },
-        { new AssumptionRunner<AtomicReferenceFieldUpdater<VolatileFieldsHolder, String>>(AtomicReferenceFieldUpdater.newUpdater(VolatileFieldsHolder.class,
+        },
+        new AssumptionRunner<AtomicReferenceFieldUpdater<VolatileFieldsHolder, String>>(AtomicReferenceFieldUpdater.newUpdater(VolatileFieldsHolder.class,
                                                                                                                                  String.class,
                                                                                                                                  "stringValue")) {
           @Override
@@ -153,8 +154,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasValue("test", VOLATILE_FIELDS_HOLDER);
           }
-        } },
-        { new AssumptionRunner<AtomicMarkableReference<String>>(new AtomicMarkableReference<>("test", true)) {
+        },
+        new AssumptionRunner<AtomicMarkableReference<String>>(new AtomicMarkableReference<>("test", true)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasReference("other");
@@ -164,8 +165,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasReference("test");
           }
-        } },
-        { new AssumptionRunner<AtomicStampedReference<String>>(new AtomicStampedReference<>("test", 1)) {
+        },
+        new AssumptionRunner<AtomicStampedReference<String>>(new AtomicStampedReference<>("test", 1)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasStamp(0);
@@ -175,9 +176,8 @@ public class Assumptions_assumeThat_Atomics_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasStamp(1);
           }
-        } }
-    };
-  }
+        });
+  };
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")

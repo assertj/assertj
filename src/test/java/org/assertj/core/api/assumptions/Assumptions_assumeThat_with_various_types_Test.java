@@ -35,20 +35,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runners.Parameterized.Parameters;
 
 public class Assumptions_assumeThat_with_various_types_Test {
 
-  @Parameters
-  public static Object[][] provideAssumptionsRunners() {
-    return new AssumptionRunner[][] {
-        { new AssumptionRunner<String>("test") {
+  static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
+    return Stream.of(
+        new AssumptionRunner<String>("test") {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isNotBlank().isEqualTo("other");
@@ -58,8 +57,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isNotBlank().isEqualTo("test");
           }
-        } },
-        { new AssumptionRunner<CharSequence>("test") {
+        },
+        new AssumptionRunner<CharSequence>("test") {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isEqualTo("other");
@@ -69,8 +68,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isEqualTo("test");
           }
-        } },
-        { new AssumptionRunner<Boolean>() {
+        },
+        new AssumptionRunner<Boolean>() {
           @Override
           public void runFailingAssumption() {
             assumeThat(true).isFalse();
@@ -80,8 +79,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(true).isTrue();
           }
-        } },
-        { new AssumptionRunner<Boolean>(TRUE) {
+        },
+        new AssumptionRunner<Boolean>(TRUE) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isFalse();
@@ -91,8 +90,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isTrue();
           }
-        } },
-        { new AssumptionRunner<boolean[]>(new boolean[] { true, false, true }) {
+        },
+        new AssumptionRunner<boolean[]>(new boolean[] { true, false, true }) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).containsOnlyOnce(true);
@@ -102,8 +101,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).containsOnlyOnce(false);
           }
-        } },
-        { new AssumptionRunner<Character>() {
+        },
+        new AssumptionRunner<Character>() {
           @Override
           public void runFailingAssumption() {
             assumeThat('a').isEqualTo('b');
@@ -113,8 +112,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat('a').isEqualTo('a');
           }
-        } },
-        { new AssumptionRunner<Character>('a') {
+        },
+        new AssumptionRunner<Character>('a') {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isEqualTo('b');
@@ -124,8 +123,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isEqualTo('a');
           }
-        } },
-        { new AssumptionRunner<char[]>(new char[] { '2', '4', '2' }) {
+        },
+        new AssumptionRunner<char[]>(new char[] { '2', '4', '2' }) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).containsOnlyOnce('2');
@@ -135,8 +134,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).containsOnlyOnce('4');
           }
-        } },
-        { new AssumptionRunner<Class<?>>(Comparable.class) {
+        },
+        new AssumptionRunner<Class<?>>(Comparable.class) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isNotInterface();
@@ -146,8 +145,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isInterface();
           }
-        } },
-        { new AssumptionRunner<Date>(new Date()) {
+        },
+        new AssumptionRunner<Date>(new Date()) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).as("isBefore(\"2011-01-01\")").isBefore("2011-01-01");
@@ -157,8 +156,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isAfter("2011-01-01");
           }
-        } },
-        { new AssumptionRunner<File>(new File("test")) {
+        },
+        new AssumptionRunner<File>(new File("test")) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasName("other");
@@ -168,8 +167,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasName("test");
           }
-        } },
-        { new AssumptionRunner<Path>(new File("test").toPath()) {
+        },
+        new AssumptionRunner<Path>(new File("test").toPath()) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isNull();
@@ -179,8 +178,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isNotNull();
           }
-        } },
-        { new AssumptionRunner<InputStream>(new ByteArrayInputStream("test".getBytes())) {
+        },
+        new AssumptionRunner<InputStream>(new ByteArrayInputStream("test".getBytes())) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isInstanceOf(String.class);
@@ -190,8 +189,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isInstanceOf(ByteArrayInputStream.class);
           }
-        } },
-        { new AssumptionRunner<Integer[]>(array(2, 4, 2)) {
+        },
+        new AssumptionRunner<Integer[]>(array(2, 4, 2)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).containsOnlyOnce(2);
@@ -201,8 +200,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).containsOnlyOnce(4);
           }
-        } },
-        { new AssumptionRunner<Throwable>(new IllegalArgumentException()) {
+        },
+        new AssumptionRunner<Throwable>(new IllegalArgumentException()) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isInstanceOf(NullPointerException.class);
@@ -212,8 +211,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isInstanceOf(IllegalArgumentException.class);
           }
-        } },
-        { new AssumptionRunner<ThrowingCallable>(new ThrowingCallable() {
+        },
+        new AssumptionRunner<ThrowingCallable>(new ThrowingCallable() {
           @Override
           public void call() throws Throwable {
             throw new IllegalArgumentException();
@@ -228,8 +227,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThatThrownBy(actual).isInstanceOf(IllegalArgumentException.class);
           }
-        } },
-        { new AssumptionRunner<URL>(createUrl()) {
+        },
+        new AssumptionRunner<URL>(createUrl()) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasParameter("test");
@@ -239,8 +238,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasNoParameters();
           }
-        } },
-        { new AssumptionRunner<URI>(URI.create("example.com/pages/")) {
+        },
+        new AssumptionRunner<URI>(URI.create("example.com/pages/")) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasPort(9090);
@@ -250,8 +249,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasNoPort();
           }
-        } },
-        { new AssumptionRunner<Future<?>>(mock(Future.class)) {
+        },
+        new AssumptionRunner<Future<?>>(mock(Future.class)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isDone();
@@ -261,8 +260,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isNotDone();
           }
-        } },
-        { new AssumptionRunner<Iterable<Integer>>(asList(2, 4, 2)) {
+        },
+        new AssumptionRunner<Iterable<Integer>>(asList(2, 4, 2)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).containsOnlyOnce(2);
@@ -272,8 +271,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).containsOnlyOnce(4);
           }
-        } },
-        { new AssumptionRunner<Iterator<Integer>>(asList(2, 4, 2).iterator()) {
+        },
+        new AssumptionRunner<Iterator<Integer>>(asList(2, 4, 2).iterator()) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isExhausted();
@@ -283,8 +282,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).hasNext();
           }
-        } },
-        { new AssumptionRunner<List<Integer>>(asList(2, 4, 2)) {
+        },
+        new AssumptionRunner<List<Integer>>(asList(2, 4, 2)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).containsOnlyOnce(2);
@@ -294,8 +293,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).containsOnlyOnce(4);
           }
-        } },
-        { new AssumptionRunner<List<Integer>>(asList(2, 4, 2)) {
+        },
+        new AssumptionRunner<List<Integer>>(asList(2, 4, 2)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).containsOnlyOnce(4).toAssert(2, "test 2 isNull").isNull();
@@ -305,8 +304,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).containsOnlyOnce(4).toAssert(2, "").isEqualTo(2);
           }
-        } },
-        { new AssumptionRunner<Map<Integer, Integer>>(newHashMap(2, 4)) {
+        },
+        new AssumptionRunner<Map<Integer, Integer>>(newHashMap(2, 4)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).containsKeys(4);
@@ -316,8 +315,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).containsKeys(2);
           }
-        } },
-        { new AssumptionRunner<ComparableExample>(new ComparableExample(4)) {
+        },
+        new AssumptionRunner<ComparableExample>(new ComparableExample(4)) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isLessThan(new ComparableExample(2));
@@ -327,8 +326,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).isGreaterThan(new ComparableExample(2));
           }
-        } },
-        { new AssumptionRunner<List<String>>(asList("a", "b", "c")) {
+        },
+        new AssumptionRunner<List<String>>(asList("a", "b", "c")) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).zipSatisfy(asList("A", "B", "C"), (e1, e2) -> assertThat(e1).isEqualTo(e2));
@@ -338,8 +337,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).zipSatisfy(asList("A", "B", "C"), (e1, e2) -> assertThat(e1).isEqualToIgnoringCase(e2));
           }
-        } },
-        { new AssumptionRunner<String>("abc") {
+        },
+        new AssumptionRunner<String>("abc") {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).satisfiesAnyOf(s -> assertThat(s).isEmpty(), s -> assertThat(s).isBlank());
@@ -349,9 +348,8 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThat(actual).satisfiesAnyOf(s -> assertThat(s).isLowerCase(), s -> assertThat(s).isBlank());
           }
-        } }
+        });
     };
-  }
 
   private static URL createUrl() {
     try {
