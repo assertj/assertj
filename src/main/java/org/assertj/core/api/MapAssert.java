@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.util.CheckReturnValue;
 
 import java.util.List;
 import java.util.Map;
