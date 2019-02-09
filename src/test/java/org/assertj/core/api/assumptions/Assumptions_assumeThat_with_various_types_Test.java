@@ -349,7 +349,7 @@ public class Assumptions_assumeThat_with_various_types_Test {
             assumeThat(actual).satisfiesAnyOf(s -> assertThat(s).isLowerCase(), s -> assertThat(s).isBlank());
           }
         });
-    };
+    }
 
   private static URL createUrl() {
     try {

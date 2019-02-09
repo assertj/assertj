@@ -52,5 +52,5 @@ public class Assertions_fail_Test {
 
   private void doSomethingWithInt(@SuppressWarnings("unused") int parameter) {
     // just to illustrate the previous test
-  };
+  }
 }

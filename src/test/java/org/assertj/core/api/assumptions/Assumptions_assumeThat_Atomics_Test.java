@@ -177,7 +177,7 @@ public class Assumptions_assumeThat_Atomics_Test {
             assumeThat(actual).hasStamp(1);
           }
         });
-  };
+  }
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
