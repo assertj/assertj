@@ -97,7 +97,7 @@ public class TypeComparators_Test {
 
   @Test
   public void should_be_empty() {
-    typeComparators.typeComparators.clear();
+    typeComparators.clear();
     assertThat(typeComparators.isEmpty()).isTrue();
   }
 

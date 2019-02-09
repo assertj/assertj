@@ -35,7 +35,6 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 
-// TODO registered comparators vs ignored overridden equals test
 @Beta
 public class RecursiveComparisonConfiguration {
 
@@ -65,20 +64,23 @@ public class RecursiveComparisonConfiguration {
     return fieldComparators.getComparatorForField(new FieldLocation(fieldName));
   }
 
+  public FieldComparators getFieldComparators() {
+    return fieldComparators;
+  }
+
   public boolean hasComparatorForType(Class<?> keyType) {
     return typeComparators.hasComparatorForType(keyType);
   }
 
-  public boolean hasNoCustomComparators() {
-    return false; // TODO fail one test
+  public boolean hasCustomComparators() {
+    return !typeComparators.isEmpty() || !fieldComparators.isEmpty();
   }
 
   public Comparator<?> getComparatorForType(Class<?> fieldType) {
     return typeComparators.get(fieldType);
   }
 
-  @VisibleForTesting
-  TypeComparators getTypeComparators() {
+  public TypeComparators getTypeComparators() {
     return typeComparators;
   }
 
@@ -283,7 +285,6 @@ public class RecursiveComparisonConfiguration {
     return !matchesAnIgnoredField(fieldConcatenatedPath) && !matchesAnIgnoredFieldRegex(fieldConcatenatedPath);
   }
 
-  // TODO move somewhere else ?
   private static String concatenatedPath(String parentPath, String name) {
     return parentPath.isEmpty() ? name : format("%s.%s", parentPath, name);
   }

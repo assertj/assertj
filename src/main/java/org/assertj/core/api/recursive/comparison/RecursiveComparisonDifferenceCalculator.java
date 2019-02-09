@@ -444,9 +444,9 @@ public class RecursiveComparisonDifferenceCalculator {
                                                            RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     if (col1.size() != col2.size()) return false;
 
-    boolean noCustomComparators = recursiveComparisonConfiguration.hasNoCustomComparators();
-    if (noCustomComparators && col1 instanceof Set) {
+    if (col1 instanceof Set && !recursiveComparisonConfiguration.hasCustomComparators()) {
       // this comparison is used for performance optimization reasons
+      // we don't get here by default as there are custom comparators for double and float
       return compareUnorderedCollectionByHashCodes(col1, col2, path, toCompare, visited);
     }
 

@@ -115,6 +115,13 @@ public class TypeComparators {
     return typeComparators.isEmpty();
   }
 
+  /**
+   * Removes all registered comparators.
+   */
+  public void clear() {
+    typeComparators.clear();
+  }
+
   public Stream<Entry<Class<?>, Comparator<?>>> comparatorByTypes() {
     return typeComparators.entrySet().stream();
   }

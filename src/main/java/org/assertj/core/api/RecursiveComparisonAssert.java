@@ -17,6 +17,8 @@ import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursi
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
@@ -24,6 +26,7 @@ import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -32,7 +35,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
 
-  // TODO propagate assertion info from ...
   public RecursiveComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     super(actual, RecursiveComparisonAssert.class);
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
@@ -43,8 +45,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   void setRecursiveComparisonConfiguration(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
   }
-
-  // TODO test as()
 
   /**
    * Asserts that the object under test (actual) is equal to the given object when compared field by field recursively (including
@@ -84,7 +84,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <li> {@link #ignoringOverriddenEqualsForTypes(Class...)} Any fields of these classes are compared recursively</li>
    * <li> {@link #ignoringOverriddenEqualsForFields(String...)} Any given fields are compared recursively</li>
    * <li> {@link #ignoringOverriddenEqualsForFieldsMatchingRegexes(String...)} Any fields matching one of these regexes are compared recursively</li>
-   * <li> {@link #ignoringAllOverriddenEquals()} except for basic types (TODO define basic types), all fields are compared field by field recursively.</li>
+   * <li> {@link #ignoringAllOverriddenEquals()} except for java types, all fields are compared field by field recursively.</li>
    * </ol>
    * <strong>Recursive comparison and cycles</strong>
    * <p>
@@ -677,6 +677,18 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   public <T> SELF withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     recursiveComparisonConfiguration.registerComparatorForType(comparator, type);
     return myself;
+  }
+
+  SELF withTypeComparators(TypeComparators typeComparators) {
+    Optional.ofNullable(typeComparators)
+            .map(TypeComparators::comparatorByTypes)
+            .ifPresent(comparatorByTypes -> comparatorByTypes.forEach(this::registerComparatorForType));
+    return myself;
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  private void registerComparatorForType(Entry<Class<?>, Comparator<?>> entry) {
+    withComparatorForType((Comparator) entry.getValue(), entry.getKey());
   }
 
   /**

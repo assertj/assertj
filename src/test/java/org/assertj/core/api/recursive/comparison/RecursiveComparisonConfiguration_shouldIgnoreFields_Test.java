@@ -124,6 +124,27 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   }
 
+  @ParameterizedTest(name = "{0} should be ignored")
+  @MethodSource("ignoringFieldsSource")
+  public void should_ignore_fields(DualKey dualKey) {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*name");
+    recursiveComparisonConfiguration.ignoreFields("number");
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
+    // THEN
+    assertThat(ignored).as("%s should be ignored", dualKey).isTrue();
+  }
+
+  @SuppressWarnings("unused")
+  private static Stream<Arguments> ignoringFieldsSource() {
+    return Stream.of(arguments(dualKeyWithPath("name")),
+                     arguments(dualKeyWithPath("number")),
+                     arguments(dualKeyWithPath("surname")),
+                     arguments(dualKeyWithPath("first", "name")));
+
+  }
+
   private static DualKey dualKeyWithPath(String... pathElements) {
     return new DualKey(list(pathElements), new Object(), new Object());
   }

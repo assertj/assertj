@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
@@ -30,6 +31,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.CaseInsensitiveStringComparator;
+import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.test.Patient;
@@ -205,6 +207,22 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     assertThat(actual).usingRecursiveComparison()
                       .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
                       .withComparatorForType(NEVER_EQUALS, Timestamp.class)
+                      .isEqualTo(expected);
+  }
+
+  @Test
+  public void ignoringOverriddenEquals_should_not_interfere_with_field_comparators() {
+    // GIVEN
+    Person actual = new Person("Fred");
+    actual.neighbour = new AlwaysEqualPerson();
+    actual.neighbour.name = "Omar";
+    Person expected = new Person("Fred");
+    expected.neighbour = new AlwaysEqualPerson();
+    expected.neighbour.name = "Omar2";
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForFields(ALWAY_EQUALS, "neighbour") // fails if commented
+                      .ignoringOverriddenEqualsForFields("neighbour")
                       .isEqualTo(expected);
   }
 

@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
@@ -31,6 +32,7 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.CaseInsensitiveStringComparator;
 import org.assertj.core.internal.objects.data.Address;
+import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.test.AlwaysDifferentComparator;
@@ -178,6 +180,22 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     assertThat(expected).usingRecursiveComparison()
                         .withComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
                         .isEqualTo(actual);
+  }
+
+  @Test
+  public void ignoringOverriddenEquals_should_not_interfere_with_comparators_by_type() {
+    // GIVEN
+    Person actual = new Person("Fred");
+    actual.neighbour = new AlwaysEqualPerson();
+    actual.neighbour.name = "Omar";
+    Person expected = new Person("Fred");
+    expected.neighbour = new AlwaysEqualPerson();
+    expected.neighbour.name = "Omar2";
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withComparatorForType(ALWAY_EQUALS, AlwaysEqualPerson.class) // fails if commented
+                      .ignoringOverriddenEqualsForFields("neighbour")
+                      .isEqualTo(expected);
   }
 
 }

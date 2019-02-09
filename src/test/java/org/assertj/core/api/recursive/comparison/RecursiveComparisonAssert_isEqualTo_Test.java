@@ -14,9 +14,11 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -107,6 +109,32 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
+  public void should_propagate_overridden_error_message() {
+    // GIVEN
+    Person actual = new Person("John");
+    Person expected = new Person("John");
+    String errorMessage = "boom";
+    // WHEN
+    RecursiveComparisonAssert<?> assertion = assertThat(actual).overridingErrorMessage(errorMessage)
+                                                               .usingRecursiveComparison()
+                                                               .isEqualTo(expected);
+    // THEN
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo(errorMessage);
+  }
+
+  @Test
+  public void should_propagate_comparators_by_type() {
+    // GIVEN
+    Person actual = new Person("John");
+    // WHEN
+    RecursiveComparisonConfiguration assertion = assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                                                   .usingRecursiveComparison()
+                                                                   .getRecursiveComparisonConfiguration();
+    // THEN
+    assertThat(assertion.comparatorByTypes()).contains(entry(String.class, ALWAY_EQUALS_STRING));
+  }
+
+  @Test
   public void should_not_use_equal_implementation_of_root_objects_to_compare() {
     // GIVEN
     AlwaysEqualPerson actual = new AlwaysEqualPerson();
@@ -188,6 +216,24 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
                      arguments(person2, person1, "same data, same type reversed"),
                      arguments(person3, person4, "same data, different type"),
                      arguments(person4, person3, "same data, different type"));
+  }
+
+  @Test
+  public void should_be_able_to_compare_objects_with_direct_cycles() {
+    // GIVEN
+    Person actual = new Person("John");
+    actual.home.address.number = 1;
+
+    Person expected = new Person("John");
+    expected.home.address.number = 1;
+
+    // neighbour
+    expected.neighbour = actual;
+    actual.neighbour = expected;
+
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
   }
 
   @Test

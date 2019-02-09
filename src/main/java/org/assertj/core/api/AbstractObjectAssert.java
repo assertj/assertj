@@ -812,11 +812,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The recursive comparison is performed according to the default {@link RecursiveComparisonConfiguration} that is:
    * <ul>
    * <li>actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking()} to change that behavior). </li>
-   * <li>overridden equals methods were used in the comparison </li>
+   * <li>overridden equals methods were used in the comparison (unless stated otherwise)</li>
    * <li>these types were compared with the following comparators: </li>
    *   <ul>
    *   <li>java.lang.Double -&gt; DoubleComparator[precision=1.0E-15] </li>
    *   <li>java.lang.Float -&gt; FloatComparator[precision=1.0E-6] </li>
+   *   <li>any comparators previously registered with {@link AbstractObjectAssert#usingComparatorForType(Comparator, Class)} </li>
    *   </ul>
    * </ul>
    *
@@ -837,7 +838,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself);
+    return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself)
+                                                                                    .withTypeComparators(comparatorByType);
   }
 
   // override for proxyable friendly AbstractObjectAssert
