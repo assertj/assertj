@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
-import static org.assertj.core.api.Fail.fail;
-import static org.assertj.core.api.Fail.shouldHaveThrown;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.IOException;
 
@@ -76,27 +76,26 @@ public class Assertions_assertThat_with_Throwable_Test {
   }
 
   @Test
-  public void catchThrowableOfType_should_fail_with_good_message_if_wrong_type() {
-    try {
-      catchThrowableOfType(raisingException("boom!!"), RuntimeException.class);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessageContaining(RuntimeException.class.getName())
-                   .hasMessageContaining(Exception.class.getName());
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+  public void catchThrowableOfType_should_fail_with_a_message_containing_the_original_stack_trace_when_the_wrong_Throwable_type_was_thrown() {
+    // GIVEN
+    final Exception exception = new Exception("boom!!");
+    ThrowingCallable codeThrowingException = codeThrowing(exception);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> catchThrowableOfType(codeThrowingException, IOException.class));
+    // THEN
+    assertThat(assertionError).hasMessageContaining(IOException.class.getName())
+                              .hasMessageContaining(Exception.class.getName())
+                              .hasMessageContaining(getStackTrace(exception));
   }
 
   @Test
   public void catchThrowableOfType_should_succeed_and_return_actual_instance_with_correct_class() {
+    // GIVEN
     final Exception expected = new RuntimeException("boom!!");
-    Exception actual = null;
-    try {
-      actual = catchThrowableOfType(codeThrowing(expected), Exception.class);
-    } catch (AssertionError a) {
-      fail("catchThrowableOfType should not have asserted", a);
-    }
-    assertThat(actual).isSameAs(expected);
+    // WHEN
+    Exception exception = catchThrowableOfType(codeThrowing(expected), Exception.class);
+    // THEN
+    assertThat(exception).isSameAs(expected);
   }
 
   @Test

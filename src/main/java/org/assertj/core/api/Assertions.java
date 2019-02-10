@@ -2577,7 +2577,7 @@ public class Assertions {
    * <p>
    * Examples:
    * <pre><code class='java'> Iterator&lt;String&gt; bestBasketBallPlayers = getBestBasketBallPlayers();
-   * 
+   *
    * assertThat(bestBasketBallPlayers).hasNext() // Iterator assertion
    *                                  .toIterable() // switch to Iterable assertions
    *                                  .contains("Jordan", "Magic", "Lebron"); // Iterable assertion </code></pre>
