@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.Fail.fail;
 import static org.assertj.core.api.Fail.shouldHaveThrown;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.IOException;
 
@@ -77,11 +78,13 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void catchThrowableOfType_should_fail_with_good_message_if_wrong_type() {
+    final Exception exception = new Exception("boom!!");
     try {
-      catchThrowableOfType(raisingException("boom!!"), RuntimeException.class);
+      catchThrowableOfType(codeThrowing(exception), RuntimeException.class);
     } catch (AssertionError e) {
       assertThat(e).hasMessageContaining(RuntimeException.class.getName())
-                   .hasMessageContaining(Exception.class.getName());
+                   .hasMessageContaining(Exception.class.getName())
+                   .hasMessageContaining(getStackTrace(exception));
       return;
     }
     shouldHaveThrown(AssertionError.class);
