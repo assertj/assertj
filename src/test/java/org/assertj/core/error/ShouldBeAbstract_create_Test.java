@@ -14,36 +14,24 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
-import static org.assertj.core.util.DateUtil.parse;
+import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShouldBeAfter#create(Description, org.assertj.core.presentation.Representation)}</code>.
- *
- * @author Joel Costigliola
- */
-public class ShouldBeAfter_create_Test {
-
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldBeAfter(parse("2011-01-01"), parse("2012-01-01"));
-  }
+public class ShouldBeAbstract_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // GIVEN
+    ErrorMessageFactory errorMessageFactory = shouldBeAbstract(String.class);
+    // WHEN
+    String message = errorMessageFactory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
-                                         "  <2011-01-01T00:00:00.000>%n" +
-                                         "to be strictly after:%n" +
-                                         "  <2012-01-01T00:00:00.000>"));
+                                         "  <java.lang.String>%n" +
+                                         "to be abstract"));
   }
 }

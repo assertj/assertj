@@ -105,6 +105,29 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that the actual {@code Class} is abstract (has {@code abstract} modifier).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public abstract class MyClass { }
+   *
+   * // this assertion succeeds:
+   * assertThat(MyClass.class).isAbstract();
+   *
+   * // this assertion fails:
+   * assertThat(String.class).isAbstract();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not abstract.
+   *
+   * @since 3.12.0
+   */
+  public SELF isAbstract() {
+    classes.assertIsAbstract(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code Class} is an annotation.
    * <p>
    * Example:
