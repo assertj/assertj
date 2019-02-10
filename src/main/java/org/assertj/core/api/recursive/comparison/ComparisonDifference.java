@@ -37,7 +37,6 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   final Object expected;
   final Optional<String> additionalInformation;
 
-
   public ComparisonDifference(List<String> path, Object actual, Object other) {
     this(path, actual, other, null);
   }
@@ -74,9 +73,10 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   @Override
   public String toString() {
     return additionalInformation.isPresent()
-        ? format("ComparisonDifference [path=%s, actual=%s, other=%s, additionalInformation=%s]", concatenatedPath, actual, expected,
-                 additionalInformation.get())
-        : format("ComparisonDifference [path=%s, actual=%s, other=%s]", concatenatedPath, actual, expected);
+        ? format("ComparisonDifference [path=%s, actual=%s, expected=%s, additionalInformation=%s]",
+                 concatenatedPath, actual, expected, additionalInformation.get())
+        : format("ComparisonDifference [path=%s, actual=%s, expected=%s]",
+                 concatenatedPath, actual, expected);
   }
 
   public String multiLineDescription() {
