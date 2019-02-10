@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.Callable;
 
+import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
+
 /**
  * Assertion methods for {@link Throwable}s.
  * <p>
@@ -26,8 +28,6 @@ import java.util.concurrent.Callable;
  * @author Mikhail Mazursky
  */
 public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Throwable> {
-
-  private static final String WRONG_EXCEPTION_TYPE = "Expecting code to throw <%s> but threw <%s> instead";
 
   public interface ThrowingCallable {
     void call() throws Throwable;
@@ -72,7 +72,7 @@ public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Th
     Throwable throwable = catchThrowable(shouldRaiseThrowable);
     if (throwable == null) return null;
     // check exception type
-    new ThrowableAssert(throwable).overridingErrorMessage(WRONG_EXCEPTION_TYPE, type, throwable.getClass())
+    new ThrowableAssert(throwable).overridingErrorMessage(shouldBeInstance(throwable, type).create())
                                   .isInstanceOf(type);
     return (THROWABLE) throwable;
   }
