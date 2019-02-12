@@ -134,7 +134,6 @@
         <configuration>
           <argLine>${argLine}</argLine>
         </configuration>
-        <version>2.22.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
