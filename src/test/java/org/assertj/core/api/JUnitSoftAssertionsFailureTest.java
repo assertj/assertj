@@ -31,7 +31,7 @@ public class JUnitSoftAssertionsFailureTest {
   public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
   @Test
-  public void should_report_all_errors() throws Throwable {
+  public void should_report_all_errors() {
     // GIVEN
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(1).isEqualTo(2);

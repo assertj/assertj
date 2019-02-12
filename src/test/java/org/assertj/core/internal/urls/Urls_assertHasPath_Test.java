@@ -42,7 +42,7 @@ public class Urls_assertHasPath_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_throw_an_exception_fail_if_given_path_is_null() throws MalformedURLException {
+  public void should_throw_an_exception_fail_if_given_path_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> urls.assertHasPath(info, new URL("http://example.com"), null))
                                         .withMessage("Expecting given path not to be null");
   }

@@ -41,7 +41,7 @@ public class JUnitJupiterBDDSoftAssertions extends AbstractBDDSoftAssertions imp
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Override
-  public void afterEach(ExtensionContext extensionContext) throws Exception {
+  public void afterEach(ExtensionContext extensionContext) {
     List<Throwable> errors = errorsCollected();
     if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
   }

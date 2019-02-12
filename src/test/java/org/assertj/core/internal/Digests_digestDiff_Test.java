@@ -44,19 +44,19 @@ public class Digests_digestDiff_Test extends DigestsBaseTest {
   }
 
   @Test
-  public void should_fail_if_stream_is_null() throws IOException {
+  public void should_fail_if_stream_is_null() {
     assertThatNullPointerException().isThrownBy(() -> digestDiff(null, null, null))
                                     .withMessage("The stream should not be null");
   }
 
   @Test
-  public void should_fail_if_digest_is_null() throws IOException {
+  public void should_fail_if_digest_is_null() {
     assertThatNullPointerException().isThrownBy(() -> digestDiff(stream, null, null))
                                     .withMessage("The digest should not be null");
   }
 
   @Test
-  public void should_fail_if_expected_is_null() throws IOException {
+  public void should_fail_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> digestDiff(stream, digest, null))
                                     .withMessage("The expected should not be null");
   }

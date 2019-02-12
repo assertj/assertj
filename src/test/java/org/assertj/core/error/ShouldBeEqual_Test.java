@@ -24,7 +24,7 @@ import org.opentest4j.AssertionFailedError;
 public class ShouldBeEqual_Test {
 
   @Test
-  public void should_display_comparison_strategy_in_error_message() throws Throwable {
+  public void should_display_comparison_strategy_in_error_message() {
     // GIVEN
     String actual = "Luke";
     String expected = "Yoda";
