@@ -270,7 +270,7 @@ public class RecursiveComparisonConfiguration {
 
   // non public stuff
 
-  boolean shouldIgnore(DualKey dualKey) {
+  boolean shouldIgnore(DualValue dualKey) {
     return matchesAnIgnoredNullField(dualKey)
            || matchesAnIgnoredField(dualKey)
            || matchesAnIgnoredFieldRegex(dualKey);
@@ -289,11 +289,11 @@ public class RecursiveComparisonConfiguration {
     return parentPath.isEmpty() ? name : format("%s.%s", parentPath, name);
   }
 
-  boolean shouldIgnoreOverriddenEqualsOf(DualKey dualKey) {
+  boolean shouldIgnoreOverriddenEqualsOf(DualValue dualKey) {
     if (dualKey.isJavaType()) return false; // we must compare basic types otherwise the recursive comparison loops infinitely!
     return ignoreAllOverriddenEquals
            || matchesAnIgnoredOverriddenEqualsField(dualKey)
-           || shouldIgnoreOverriddenEqualsOf(dualKey.key1.getClass());
+           || shouldIgnoreOverriddenEqualsOf(dualKey.actual.getClass());
   }
 
   @VisibleForTesting
@@ -367,13 +367,13 @@ public class RecursiveComparisonConfiguration {
     return ignoredOverriddenEqualsForTypes.contains(clazz);
   }
 
-  private boolean matchesAnIgnoredOverriddenEqualsField(DualKey dualKey) {
+  private boolean matchesAnIgnoredOverriddenEqualsField(DualValue dualKey) {
     return ignoredOverriddenEqualsForFields.stream()
                                            .anyMatch(fieldLocation -> fieldLocation.matches(dualKey.concatenatedPath));
   }
 
-  private boolean matchesAnIgnoredNullField(DualKey dualKey) {
-    return ignoreAllActualNullFields && dualKey.key1 == null;
+  private boolean matchesAnIgnoredNullField(DualValue dualKey) {
+    return ignoreAllActualNullFields && dualKey.actual == null;
   }
 
   private boolean matchesAnIgnoredFieldRegex(String fieldConcatenatedPath) {
@@ -381,11 +381,11 @@ public class RecursiveComparisonConfiguration {
                                .anyMatch(regex -> regex.matcher(fieldConcatenatedPath).matches());
   }
 
-  private boolean matchesAnIgnoredFieldRegex(DualKey dualKey) {
+  private boolean matchesAnIgnoredFieldRegex(DualValue dualKey) {
     return matchesAnIgnoredFieldRegex(dualKey.concatenatedPath);
   }
 
-  private boolean matchesAnIgnoredField(DualKey dualKey) {
+  private boolean matchesAnIgnoredField(DualValue dualKey) {
     return matchesAnIgnoredField(dualKey.concatenatedPath);
   }
 

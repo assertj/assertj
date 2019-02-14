@@ -35,12 +35,12 @@ public class DualDequeTest {
   public void should_ignore_dual_keys_with_a_null_first_key() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
-    DualKeyDeque dualKayDeque = new DualKeyDeque(recursiveComparisonConfiguration);
-    DualKey dualKeyA = dualKey(null, "A");
-    DualKey dualKeyB = dualKey("B", "B");
-    DualKey dualKeyC = dualKey(null, "C");
-    DualKey dualKeyD = dualKey("D", "D");
-    DualKey dualKeyE = dualKey("E", "E");
+    DualValueDeque dualKayDeque = new DualValueDeque(recursiveComparisonConfiguration);
+    DualValue dualKeyA = dualKey(null, "A");
+    DualValue dualKeyB = dualKey("B", "B");
+    DualValue dualKeyC = dualKey(null, "C");
+    DualValue dualKeyD = dualKey("D", "D");
+    DualValue dualKeyE = dualKey("E", "E");
     // WHEN
     dualKayDeque.add(dualKeyA);
     dualKayDeque.add(dualKeyB);
@@ -57,12 +57,12 @@ public class DualDequeTest {
   @Test
   public void should_not_ignore_any_dual_keys() {
     // GIVEN
-    DualKeyDeque dualKayDeque = new DualKeyDeque(recursiveComparisonConfiguration);
-    DualKey dualKeyA = dualKey(null, "A");
-    DualKey dualKeyB = dualKey("B", "B");
-    DualKey dualKeyC = dualKey(null, "C");
-    DualKey dualKeyD = dualKey("D", "D");
-    DualKey dualKeyE = dualKey("E", "E");
+    DualValueDeque dualKayDeque = new DualValueDeque(recursiveComparisonConfiguration);
+    DualValue dualKeyA = dualKey(null, "A");
+    DualValue dualKeyB = dualKey("B", "B");
+    DualValue dualKeyC = dualKey(null, "C");
+    DualValue dualKeyD = dualKey("D", "D");
+    DualValue dualKeyE = dualKey("E", "E");
     // WHEN
     dualKayDeque.add(dualKeyA);
     dualKayDeque.add(dualKeyB);
@@ -77,8 +77,8 @@ public class DualDequeTest {
                                              dualKeyE, dualKeyA, dualKeyB, dualKeyC);
   }
 
-  private static DualKey dualKey(String key1, String key2) {
-    return new DualKey(randomPath(), key1, key2);
+  private static DualValue dualKey(String key1, String key2) {
+    return new DualValue(randomPath(), key1, key2);
   }
 
   private static List<String> randomPath() {

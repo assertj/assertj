@@ -53,7 +53,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored")
   @MethodSource("ignoringNullFieldsSource")
-  public void should_ignore_actual_null_fields(DualKey dualKey) {
+  public void should_ignore_actual_null_fields(DualValue dualKey) {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // WHEN
@@ -73,7 +73,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored with these ignored fields {1}")
   @MethodSource("ignoringSpecifiedFieldsSource")
-  public void should_ignore_specified_fields(DualKey dualKey, List<String> ignoredFields) {
+  public void should_ignore_specified_fields(DualValue dualKey, List<String> ignoredFields) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFields(ignoredFields.toArray(new String[0]));
     // WHEN
@@ -103,7 +103,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored with these regexes {1}")
   @MethodSource("ignoringRegexSpecifiedFieldsSource")
-  public void should_ignore_fields_matching_given_regexes(DualKey dualKey, List<String> regexes) {
+  public void should_ignore_fields_matching_given_regexes(DualValue dualKey, List<String> regexes) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regexes.toArray(new String[0]));
     // WHEN
@@ -126,7 +126,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored")
   @MethodSource("ignoringFieldsSource")
-  public void should_ignore_fields(DualKey dualKey) {
+  public void should_ignore_fields(DualValue dualKey) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*name");
     recursiveComparisonConfiguration.ignoreFields("number");
@@ -145,12 +145,12 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   }
 
-  private static DualKey dualKeyWithPath(String... pathElements) {
-    return new DualKey(list(pathElements), new Object(), new Object());
+  private static DualValue dualKeyWithPath(String... pathElements) {
+    return new DualValue(list(pathElements), new Object(), new Object());
   }
 
-  private static DualKey dualKey(Object key1, Object key2) {
-    return new DualKey(randomPath(), key1, key2);
+  private static DualValue dualKey(Object key1, Object key2) {
+    return new DualValue(randomPath(), key1, key2);
   }
 
   private static List<String> randomPath() {

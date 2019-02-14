@@ -42,7 +42,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
   @Test
   public void should_ignore_all_overridden_equals_for_non_java_types() {
     // GIVEN
-    DualKey dualKey = new DualKey(list("foo"), new Person(), new Person());
+    DualValue dualKey = new DualValue(list("foo"), new Person(), new Person());
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualKey);
@@ -55,7 +55,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
   @MethodSource("ignoringAllOverriddenEqualsExceptBasicTypes")
   public void should_ignore_all_overridden_equals_except_java_types(Object value) {
     // GIVEN
-    DualKey dualKey = new DualKey(list("foo"), value, value);
+    DualValue dualKey = new DualValue(list("foo"), value, value);
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualKey);
@@ -108,7 +108,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored for these fields {1}")
   @MethodSource("ignoringOverriddenEqualsForFieldsSource")
-  public void should_ignore_overridden_equals_by_fields(DualKey dualKey, List<String> fields) {
+  public void should_ignore_overridden_equals_by_fields(DualValue dualKey, List<String> fields) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields.toArray(new String[0]));
     // WHEN
@@ -127,8 +127,8 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   }
 
-  private static DualKey dualKeyWithPath(String... pathElements) {
-    return new DualKey(list(pathElements), new Person(), new Person());
+  private static DualValue dualKeyWithPath(String... pathElements) {
+    return new DualValue(list(pathElements), new Person(), new Person());
   }
 
 }

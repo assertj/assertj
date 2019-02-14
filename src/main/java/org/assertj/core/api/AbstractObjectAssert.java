@@ -828,8 +828,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return usingRecursiveComparison(new RecursiveComparisonConfiguration());
   }
 
-  // TODO soft assertion tests: add to method changing the object under tests
-
   /**
    * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
    * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.

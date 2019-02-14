@@ -50,7 +50,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Asserts that the object under test (actual) is equal to the given object when compared field by field recursively (including
    * inherited fields are included in the comparison). If the comparison fails it will report all the differences found and which
    * effective {@link RecursiveComparisonConfiguration} was used to help users understand the failure.
-   * TODO add link to assertj website documentation
    * <p>
    * This is typically useful when actual's {@code equals} was not overridden.
    * <p>

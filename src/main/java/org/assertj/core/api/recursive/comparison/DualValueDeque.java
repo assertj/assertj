@@ -18,49 +18,48 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 // special deque that can ignore DualKey according to RecursiveComparisonConfiguration.
-// TODO: keep track of ignored fields ?
 @SuppressWarnings("serial")
-class DualKeyDeque extends LinkedList<DualKey> {
+class DualValueDeque extends LinkedList<DualValue> {
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
-  public DualKeyDeque(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  public DualValueDeque(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
   }
 
   @Override
-  public boolean add(DualKey dualKey) {
+  public boolean add(DualValue dualKey) {
     if (shouldIgnore(dualKey)) return false;
     return super.add(dualKey);
   }
 
   @Override
-  public void add(int index, DualKey dualKey) {
+  public void add(int index, DualValue dualKey) {
     if (shouldIgnore(dualKey)) return;
     super.add(index, dualKey);
   }
 
   @Override
-  public boolean addAll(int index, Collection<? extends DualKey> collection) {
+  public boolean addAll(int index, Collection<? extends DualValue> collection) {
     return super.addAll(index, collection.stream().filter(this::shouldAddDualKey).collect(toList()));
   }
 
   @Override
-  public void addFirst(DualKey dualKey) {
+  public void addFirst(DualValue dualKey) {
     if (shouldIgnore(dualKey)) return;
     super.addFirst(dualKey);
   }
 
   @Override
-  public void addLast(DualKey dualKey) {
+  public void addLast(DualValue dualKey) {
     if (shouldIgnore(dualKey)) return;
     super.addLast(dualKey);
   }
 
-  private boolean shouldIgnore(DualKey dualKey) {
+  private boolean shouldIgnore(DualValue dualKey) {
     return recursiveComparisonConfiguration.shouldIgnore(dualKey);
   }
 
-  private boolean shouldAddDualKey(DualKey dualKey) {
+  private boolean shouldAddDualKey(DualValue dualKey) {
     return !shouldIgnore(dualKey);
   }
 

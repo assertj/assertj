@@ -12,49 +12,50 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static java.lang.String.format;
+import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.List;
 
-final class DualKey { // TODO rename DualValue
+// logically immutable
+final class DualValue {
 
   final List<String> path;
   final String concatenatedPath;
-  final Object key1; // TODO rename to actual
-  final Object key2; // TODO rename to expected
+  final Object actual;
+  final Object expected;
+  private final int hashCode;
 
-  DualKey(List<String> path, Object key1, Object key2) {
+  DualValue(List<String> path, Object actual, Object expected) {
     this.path = path;
     this.concatenatedPath = join(path).with(".");
-    this.key1 = key1;
-    this.key2 = key2;
+    this.actual = actual;
+    this.expected = expected;
+    int h1 = actual != null ? actual.hashCode() : 0;
+    int h2 = expected != null ? expected.hashCode() : 0;
+    hashCode = h1 + h2;
   }
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof DualKey)) {
-      return false;
-    }
-
-    DualKey that = (DualKey) other;
-    return key1 == that.key1 && key2 == that.key2;
+    if (!(other instanceof DualValue)) return false;
+    DualValue that = (DualValue) other;
+    return actual == that.actual && expected == that.expected;
   }
 
   @Override
   public int hashCode() {
-    int h1 = key1 != null ? key1.hashCode() : 0;
-    int h2 = key2 != null ? key2.hashCode() : 0;
-    return h1 + h2;
+    return hashCode;
   }
-
 
   @Override
   public String toString() {
-    return String.format("DualKey [path=%s, key1=%s, key2=%s]", concatenatedPath, key1, key2);
+    return format("DualValue [path=%s, actual=%s, expected=%s]", concatenatedPath, actual, expected);
   }
 
   public List<String> getPath() {
-    return path;
+    return unmodifiableList(path);
   }
 
   public String getConcatenatedPath() {
@@ -62,6 +63,7 @@ final class DualKey { // TODO rename DualValue
   }
 
   public boolean isJavaType() {
-    return key1.getClass().getName().startsWith("java.");
+    if (actual == null) return false;
+    return actual.getClass().getName().startsWith("java.");
   }
 }
