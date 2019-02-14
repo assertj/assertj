@@ -10,23 +10,24 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.internal.objects.data;
 
-import static java.lang.Math.abs;
+import java.util.Date;
 
-import java.util.Comparator;
+public class PersonDtoWithPersonNeighbour {
+  public Date dateOfBirth;
+  public String name;
+  public Home home = new Home();
+  public Person neighbour;
 
-public class AbsValueComparator<NUMBER extends Number> implements Comparator<NUMBER> {
+  public PersonDtoWithPersonNeighbour() {}
 
-  @Override
-  public int compare(NUMBER i1, NUMBER i2) {
-    double diff = abs(i1.doubleValue()) - abs(i2.doubleValue());
-    if (diff == 0.0) return 0;
-    return diff < 0.0 ? -1 : 1;
+  public PersonDtoWithPersonNeighbour(String name) {
+    this.name = name;
   }
 
   @Override
   public String toString() {
-    return "AbsValueComparator";
+    return "PersonDto [name=" + name + ", home=" + home + "]";
   }
 }

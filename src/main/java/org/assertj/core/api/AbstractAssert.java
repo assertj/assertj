@@ -66,13 +66,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   Conditions conditions = Conditions.instance();
 
   @VisibleForTesting
-  public final WritableAssertionInfo info;
+  public WritableAssertionInfo info;
 
   // visibility is protected to allow us write custom assertions that need access to actual
   @VisibleForTesting
   protected final ACTUAL actual;
   protected final SELF myself;
 
+  // = ConfigurationProvider.CONFIGURATION_PROVIDER.representation(); ?
   private static Representation customRepresentation = null;
 
   @VisibleForTesting
@@ -675,9 +676,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
    * <p>
-   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from 
+   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from
    * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
-   * Describing the assertion is supported (for example with {@link #as(String, Object...)}). 
+   * Describing the assertion is supported (for example with {@link #as(String, Object...)}).
    * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", HOBBIT);
@@ -710,9 +711,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
    * <p>
-   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from 
+   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from
    * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
-   * Describing the assertion is supported (for example with {@link #as(String, Object...)}). 
+   * Describing the assertion is supported (for example with {@link #as(String, Object...)}).
    * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", HOBBIT);

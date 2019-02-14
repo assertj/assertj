@@ -27,7 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
  * with {@link ComparatorBasedComparisonStrategy}.
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Objects#failures} appropriately.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ObjectsBaseTest {

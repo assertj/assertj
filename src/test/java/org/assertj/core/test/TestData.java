@@ -29,15 +29,15 @@ import org.assertj.core.description.TextDescription;
  */
 public final class TestData {
 
-  private static final AssertionInfo ASSERTION_INFO = new WritableAssertionInfo();
-  private static final AssertionInfo ASSERTION_INFO_AS_HEX = new WritableAssertionInfo();
+  private static final WritableAssertionInfo ASSERTION_INFO = new WritableAssertionInfo();
+  private static final WritableAssertionInfo ASSERTION_INFO_AS_HEX = new WritableAssertionInfo();
   private static final TextDescription DESCRIPTION = new TextDescription(
       "who's the more foolish: the fool, or the fool who follows him?");
   private static final Index INDEX = atIndex(0);
   private static final Pattern MATCH_ANYTHING = Pattern.compile(".*");
 
   static {
-    ((WritableAssertionInfo) ASSERTION_INFO_AS_HEX).useHexadecimalRepresentation();
+    ASSERTION_INFO_AS_HEX.useHexadecimalRepresentation();
   }
 
   public static Pattern matchAnything() {
@@ -48,7 +48,7 @@ public final class TestData {
     return INDEX;
   }
 
-  public static AssertionInfo someInfo() {
+  public static WritableAssertionInfo someInfo() {
     return ASSERTION_INFO;
   }
 

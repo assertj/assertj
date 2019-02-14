@@ -10,23 +10,14 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.internal.objects.data;
 
-import static java.lang.Math.abs;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import java.util.Comparator;
-
-public class AbsValueComparator<NUMBER extends Number> implements Comparator<NUMBER> {
-
-  @Override
-  public int compare(NUMBER i1, NUMBER i2) {
-    double diff = abs(i1.doubleValue()) - abs(i2.doubleValue());
-    if (diff == 0.0) return 0;
-    return diff < 0.0 ? -1 : 1;
-  }
-
-  @Override
-  public String toString() {
-    return "AbsValueComparator";
-  }
+public class FriendlyPerson extends Person {
+  public List<FriendlyPerson> friends = new ArrayList<>();
+  public Set<FriendlyPerson> otherFriends = new HashSet<>();
 }

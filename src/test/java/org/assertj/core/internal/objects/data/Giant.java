@@ -10,23 +10,13 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.internal.objects.data;
 
-import static java.lang.Math.abs;
-
-import java.util.Comparator;
-
-public class AbsValueComparator<NUMBER extends Number> implements Comparator<NUMBER> {
-
-  @Override
-  public int compare(NUMBER i1, NUMBER i2) {
-    double diff = abs(i1.doubleValue()) - abs(i2.doubleValue());
-    if (diff == 0.0) return 0;
-    return diff < 0.0 ? -1 : 1;
-  }
+public class Giant extends Person {
+  public double height = 3.0;
 
   @Override
   public String toString() {
-    return "AbsValueComparator";
+    return "Giant [name=" + name + ", home=" + home + ", " + "height " + height + "]";
   }
 }
