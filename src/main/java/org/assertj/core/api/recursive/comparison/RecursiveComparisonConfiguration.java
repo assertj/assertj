@@ -190,6 +190,7 @@ public class RecursiveComparisonConfiguration {
    * <p>
    * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
    *
+   * @param <T> the class type to register a comparator for
    * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
    * @param type the type to be compared with the given comparator.
    */

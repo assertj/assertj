@@ -283,8 +283,6 @@
               hljs.initHighlightingOnLoad();
             </script>
           ]]></footer>
-          <!-- some jdk don't support nested li tags :( -->
-          <doclint>none</doclint>
         </configuration>
       </plugin>
     </plugins>
