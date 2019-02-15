@@ -10,14 +10,9 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
+@NonNullApi
+@NonNullFields
 package org.assertj.core.api.exception;
 
-import org.assertj.core.annotations.Nullable;
-
-public final class PathsException extends RuntimeException {
-  private static final long serialVersionUID = 1L;
-
-  public PathsException(final String message, @Nullable final Throwable cause) {
-    super(message, cause);
-  }
-}
+import org.assertj.core.annotations.NonNullApi;
+import org.assertj.core.annotations.NonNullFields;
