@@ -223,13 +223,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <!-- some jdk don't support nested li tags :( -->
-          <doclint>none</doclint>
-        </configuration>
-      </plugin>
       <!-- generate jacoco report -->
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -290,6 +283,8 @@
               hljs.initHighlightingOnLoad();
             </script>
           ]]></footer>
+          <!-- some jdk don't support nested li tags :( -->
+          <doclint>none</doclint>
         </configuration>
       </plugin>
     </plugins>
