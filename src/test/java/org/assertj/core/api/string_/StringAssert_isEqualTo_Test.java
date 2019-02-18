@@ -36,6 +36,11 @@ public class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
   }
 
   @Test
+  public void should_use_raw_string_when_given_no_arguments() {
+    assertThat("foo % bar").isEqualTo("foo % bar", new Object[0]);
+  }
+
+  @Test
   public void should_throw_IllegalFormatException_when_given_an_invalid_format() {
     // GIVEN
     String template = "%s %s";

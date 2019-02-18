@@ -307,7 +307,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.12.0
    */
   public SELF isEqualTo(String expectedStringTemplate, Object... args) {
-    return super.isEqualTo(format(expectedStringTemplate, args));
+    String expected = args.length == 0 ? expectedStringTemplate : format(expectedStringTemplate, args);
+    return super.isEqualTo(expected);
   }
-
 }
