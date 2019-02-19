@@ -35,6 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author Jack Gough
+ * @author Mike Gilchrist
  */
 public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
     extends AbstractObjectAssert<SELF, ACTUAL> {
@@ -116,6 +117,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasCause(Throwable cause) {
     throwables.assertHasCause(info, actual, cause);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Throwable} has a cause that refers to the given one, i.e. using == comparison
+   * <p>
+   * Example:
+   * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("invalid arg");
+   * Throwable throwable = new Throwable(invalidArgException);
+   *
+   * // This assertion succeeds:
+   * assertThat(throwable).hasCauseReference(invalidArgException);
+   *
+   * // These assertions fail:
+   * assertThat(throwable).hasCauseReference(new IllegalArgumentException("invalid arg"));
+   * assertThat(throwable).hasCauseReference(new NullPointerException());
+   * assertThat(throwable).hasCauseReference(null); // prefer hasNoCause()</code></pre>
+   *
+   * @param expected the expected cause
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has a cause that does not refer to the given (i.e. actual.getCause() != cause)
+   */
+  public SELF hasCauseReference(Throwable expected) {
+    throwables.assertHasCauseReference(info, actual, expected);
     return myself;
   }
 
