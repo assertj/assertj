@@ -10,9 +10,6 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-/**
- * 
- */
 package org.assertj.core.extractor;
 
 import java.util.function.Function;
