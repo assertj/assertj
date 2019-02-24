@@ -22,7 +22,7 @@ import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#haveAtLeast(Condition, int)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#haveAtLeast(int, Condition)}</code>.
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
