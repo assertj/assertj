@@ -13,13 +13,11 @@
 package org.assertj.core.internal.inputstreams;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.inputstreams.Diff_diff_InputStream_Test.stream;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.internal.Diff;
@@ -129,7 +127,7 @@ public class Diff_diff_InputStream_String_Test {
   }
 
   static String joinLines(String... lines) {
-    return Arrays.stream(lines).collect(joining(System.lineSeparator()));
+    return String.join(System.lineSeparator(), lines);
   }
 
 }

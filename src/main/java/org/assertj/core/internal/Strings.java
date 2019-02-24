@@ -16,7 +16,6 @@ import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -912,7 +911,7 @@ public class Strings {
 
     // convert all values to one char sequence to compare with the actual char sequence
     String strActual = actual.toString();
-    String strSequence = stream(sequence).collect(joining());
+    String strSequence = String.join("", sequence);
     if (!stringContains(strActual, strSequence)) {
       throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
     }
