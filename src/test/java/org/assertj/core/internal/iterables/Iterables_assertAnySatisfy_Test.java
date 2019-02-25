@@ -24,17 +24,33 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.assertj.core.error.ElementsShouldSatisfy;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
   private List<String> actual = newArrayList("Luke", "Leia", "Yoda", "Obiwan");
+
+  @Test
+  public void must_not_check_all_elements() {
+    Consumer<String> consumer = Mockito.mock(Consumer.class);
+
+    // first element does not match -> assertion error, 2nd element does match -> doNothing()
+    doThrow(new AssertionError("some error message")).doNothing().when(consumer).accept(anyString());
+    iterables.assertAnySatisfy(someInfo(), actual, consumer);
+    // make sure that we only evaluated 2 out of 4 elements
+    verify(consumer, times(2)).accept(anyString());
+  }
 
   @Test
   public void should_pass_when_one_element_satisfies_the_single_assertion_requirement() {

@@ -81,6 +81,7 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -1162,14 +1163,16 @@ public class Iterables {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = stream(actual).map(element -> failsRequirements(requirements, element))
-                                                                         .filter(Optional::isPresent)
-                                                                         .map(Optional::get)
-                                                                         .collect(toList());
-    if (unsatisfiedRequirements.size() == sizeOf(actual)) {
-      // all elements have failed the requirements!
-      throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements =  new ArrayList<>();
+    for (E element : actual) {
+      Optional<UnsatisfiedRequirement> result = failsRequirements(requirements, element);
+      if (!result.isPresent()) {
+        return;
+      }
+      unsatisfiedRequirements.add(result.get());
     }
+
+    throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
   }
 
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
