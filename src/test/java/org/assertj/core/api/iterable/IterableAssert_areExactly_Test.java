@@ -23,7 +23,7 @@ import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.BeforeAll;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#areExactly(Condition, int)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#areExactly(int, Condition)}</code>.
  * 
  * @author Nicolas François
  */

@@ -23,7 +23,7 @@ import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.BeforeAll;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#areAtLeast(Condition, int)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#areAtLeast(int, Condition)}</code>.
  * 
  * @author Nicolas François
  */
