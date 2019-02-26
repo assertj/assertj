@@ -152,7 +152,7 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
   }
 
-  // with comparison stratgey
+  // with comparison strategy
 
   @Test
   public void should_pass_if_difference_is_less_than_given_offset_whatever_custom_comparison_strategy_is() {
