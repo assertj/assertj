@@ -152,7 +152,7 @@ public class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
   }
 
-  // with comparison stratgey
+  // with comparison strategy
 
   @Test
   public void should_pass_if_difference_is_less_than_given_offset_whatever_custom_comparison_strategy_is() {
