@@ -14,10 +14,12 @@ package org.assertj.core.internal;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.util.function.Predicate;
 
 import org.assertj.core.util.VisibleForTesting;
 
@@ -73,5 +75,9 @@ public class NioFilesWrapper {
 
   public InputStream newInputStream(Path path, OpenOption... options) throws IOException {
     return Files.newInputStream(path, options);
+  }
+
+  public DirectoryStream<Path> newDirectoryStream(Path path, Predicate<Path> matcher) throws IOException {
+    return Files.newDirectoryStream(path, matcher::test);
   }
 }

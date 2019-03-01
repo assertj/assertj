@@ -291,8 +291,8 @@ public class StandardRepresentation implements Representation {
     return String.format("%sL", l);
   }
 
-  protected String toStringOf(File f) {
-    return f.getAbsolutePath();
+  protected String toStringOf(File file) {
+    return file.getAbsolutePath();
   }
 
   protected String toStringOf(SimpleDateFormat dateFormat) {

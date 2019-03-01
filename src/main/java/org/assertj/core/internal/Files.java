@@ -14,12 +14,15 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
+import static org.assertj.core.error.ShouldContain.directoryShouldContain;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
@@ -29,8 +32,11 @@ import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.internal.Digests.digestDiff;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -41,9 +47,11 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
+import java.nio.file.PathMatcher;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -56,11 +64,13 @@ import org.assertj.core.util.diff.Delta;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Olivier Demeijer
+ * @author Valeriy Vyrva
  */
 public class Files {
 
   private static final String UNABLE_TO_COMPARE_FILE_CONTENTS = "Unable to compare contents of files:<%s> and:<%s>";
   private static final Files INSTANCE = new Files();
+  private static final Predicate<File> ANY = any -> true;
 
   /**
    * Returns the singleton instance of this class.
@@ -173,11 +183,6 @@ public class Files {
     }
   }
 
-  private void verifyIsFile(File expected) {
-    checkNotNull(expected, "The file to compare to should not be null");
-    checkArgument(expected.isFile(), "Expected file:<'%s'> should be an existing file", expected);
-  }
-
   /**
    * Asserts that the given file is an existing file.
    * @param info contains information about the assertion.
@@ -226,11 +231,6 @@ public class Files {
   public void assertIsRelative(AssertionInfo info, File actual) {
     if (!isAbsolutePath(info, actual)) return;
     throw failures.failure(info, shouldBeRelativePath(actual));
-  }
-
-  private boolean isAbsolutePath(AssertionInfo info, File actual) {
-    assertNotNull(info, actual);
-    return actual.isAbsolute();
   }
 
   /**
@@ -329,12 +329,6 @@ public class Files {
     throw failures.failure(info, shouldHaveExtension(actual, actualExtension, expected));
   }
 
-  private String getFileExtension(File file) {
-    String name = file.getName();
-    int dotAt = name.lastIndexOf('.');
-    return (dotAt == -1) ? null : name.substring(dotAt + 1);
-  }
-
   /**
    * Asserts that the given {@code File} has the given name.
    *
@@ -350,10 +344,6 @@ public class Files {
     checkNotNull(expected, "The expected name should not be null.");
     if (expected.equals(actual.getName())) return;
     throw failures.failure(info, shouldHaveName(actual, expected));
-  }
-
-  private static void assertNotNull(AssertionInfo info, File actual) {
-    Objects.instance().assertNotNull(info, actual);
   }
 
   /**
@@ -402,4 +392,101 @@ public class Files {
     checkNotNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
+
+  public void assertIsEmptyDirectory(AssertionInfo info, File actual) {
+    List<File> files = directoryContent(info, actual);
+    if (!files.isEmpty()) throw failures.failure(info, shouldBeEmptyDirectory(actual, files));
+  }
+
+  public void assertIsNotEmptyDirectory(AssertionInfo info, File actual) {
+    boolean isEmptyDirectory = directoryContent(info, actual).isEmpty();
+    if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty());
+  }
+
+  public void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    checkNotNull(filter, "The files filter should not be null");
+    assertIsDirectoryContaining(info, actual, filter, "the given filter");
+  }
+
+  public void assertIsDirectoryContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
+    checkNotNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    Predicate<File> pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
+    assertIsDirectoryContaining(info, actual, pathMatcher, format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    checkNotNull(filter, "The files filter should not be null");
+    assertIsDirectoryNotContaining(info, actual, filter, "the given filter");
+  }
+
+  public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
+    checkNotNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    Predicate<File> pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
+    assertIsDirectoryNotContaining(info, actual, pathMatcher, format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public static List<String> toFileNames(List<File> files) {
+    return files.stream()
+                .map(File::getName)
+                .collect(toList());
+  }
+
+  // non public section
+
+  private List<File> filterDirectory(AssertionInfo info, File actual, Predicate<File> filter) {
+    assertIsDirectory(info, actual);
+    File[] items = actual.listFiles(filter::test);
+    checkNotNull(items, "Directory listing should not be null");
+    return list(items);
+  }
+
+  private List<File> directoryContent(AssertionInfo info, File actual) {
+    return filterDirectory(info, actual, ANY);
+  }
+
+  private void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter, String filterPresentation) {
+    List<File> matchingFiles = filterDirectory(info, actual, filter);
+    if (matchingFiles.isEmpty()) {
+      throw failures.failure(info, directoryShouldContain(actual, directoryContentDescription(info, actual), filterPresentation));
+    }
+  }
+
+  private void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter,
+                                              String filterPresentation) {
+    List<File> matchingFiles = filterDirectory(info, actual, filter);
+    if (matchingFiles.size() > 0) {
+      throw failures.failure(info, directoryShouldNotContain(actual, toFileNames(matchingFiles), filterPresentation));
+    }
+  }
+
+  private List<String> directoryContentDescription(AssertionInfo info, File actual) {
+    return toFileNames(directoryContent(info, actual));
+  }
+
+  private Predicate<File> pathMatcher(AssertionInfo info, File actual, String syntaxAndPattern) {
+    assertNotNull(info, actual);
+    PathMatcher pathMatcher = actual.toPath().getFileSystem().getPathMatcher(syntaxAndPattern);
+    return file -> pathMatcher.matches(file.toPath());
+  }
+
+  private static void assertNotNull(AssertionInfo info, File actual) {
+    Objects.instance().assertNotNull(info, actual);
+  }
+
+  private String getFileExtension(File file) {
+    String name = file.getName();
+    int dotAt = name.lastIndexOf('.');
+    return dotAt == -1 ? null : name.substring(dotAt + 1);
+  }
+
+  private void verifyIsFile(File expected) {
+    checkNotNull(expected, "The file to compare to should not be null");
+    checkArgument(expected.isFile(), "Expected file:<'%s'> should be an existing file", expected);
+  }
+
+  private boolean isAbsolutePath(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    return actual.isAbsolute();
+  }
+
 }

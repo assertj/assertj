@@ -36,26 +36,26 @@ public class Paths_assertHasFileName_Test extends PathsBaseTest {
   private static Path symlinkToNonExistingPath;
   private static Path existingDirectory;
   private static Path symlinkToExistingDirectory;
-  
+
   @BeforeAll
   public static void initPaths() throws IOException {
     resource = new FileSystemResource();
-	final FileSystem fs = resource.getFileSystem();
+    final FileSystem fs = resource.getFileSystem();
 
-	existingDirectory = fs.getPath("/dir1/dir2");
-	symlinkToExistingDirectory = fs.getPath("/symlinkToExistingDirectory");
-	Files.createDirectory(fs.getPath("/dir1"));
-	Files.createDirectory(existingDirectory);
-	Files.createSymbolicLink(symlinkToExistingDirectory, existingDirectory);
+    existingDirectory = fs.getPath("/dir1/dir2");
+    symlinkToExistingDirectory = fs.getPath("/symlinkToExistingDirectory");
+    Files.createDirectory(fs.getPath("/dir1"));
+    Files.createDirectory(existingDirectory);
+    Files.createSymbolicLink(symlinkToExistingDirectory, existingDirectory);
 
-	existingFile = fs.getPath("/dir1/dir2/gc.log");
-	symlinkToExistingFile = fs.getPath("/dir1/good-symlink");
-	Files.createFile(existingFile);
-	Files.createSymbolicLink(symlinkToExistingFile, existingFile);
+    existingFile = fs.getPath("/dir1/dir2/gc.log");
+    symlinkToExistingFile = fs.getPath("/dir1/good-symlink");
+    Files.createFile(existingFile);
+    Files.createSymbolicLink(symlinkToExistingFile, existingFile);
 
-	nonExistingPath = fs.getPath("/dir1/fake.log");
-	symlinkToNonExistingPath = fs.getPath("/dir1/bad-symlink");
-	Files.createSymbolicLink(symlinkToNonExistingPath, nonExistingPath);
+    nonExistingPath = fs.getPath("/dir1/fake.log");
+    symlinkToNonExistingPath = fs.getPath("/dir1/bad-symlink");
+    Files.createSymbolicLink(symlinkToNonExistingPath, nonExistingPath);
   }
 
   @AfterAll
@@ -65,7 +65,7 @@ public class Paths_assertHasFileName_Test extends PathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasFileName(info, null, "file.txt"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasFileName(info, null, "file.txt"))
                                                    .withMessage(actualIsNull());
   }
 
@@ -77,22 +77,22 @@ public class Paths_assertHasFileName_Test extends PathsBaseTest {
 
   @Test
   public void should_pass_if_actual_file_has_the_given_file_name() {
-	paths.assertHasFileName(info, existingFile, "gc.log");
+    paths.assertHasFileName(info, existingFile, "gc.log");
   }
-  
+
   @Test
   public void should_pass_if_actual_non_existent_path_has_the_given_file_name() {
-	paths.assertHasFileName(info, nonExistingPath, "fake.log");
+    paths.assertHasFileName(info, nonExistingPath, "fake.log");
   }
-  
+
   @Test
   public void should_pass_if_actual_symbolic_link_has_the_given_file_name() {
-	paths.assertHasFileName(info, symlinkToNonExistingPath, "bad-symlink");
-	paths.assertHasFileName(info, symlinkToExistingFile, "good-symlink");
+    paths.assertHasFileName(info, symlinkToNonExistingPath, "bad-symlink");
+    paths.assertHasFileName(info, symlinkToExistingFile, "good-symlink");
   }
-  
+
   @Test
   public void should_pass_if_actual_directory_has_the_given_file_name() {
-	paths.assertHasFileName(info, existingDirectory, "dir2");
+    paths.assertHasFileName(info, existingDirectory, "dir2");
   }
 }

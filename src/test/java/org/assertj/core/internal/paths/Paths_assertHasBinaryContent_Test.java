@@ -107,7 +107,7 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   }
   
   @Test
-  public void should_throw_error_wrapping_catched_IOException() throws IOException {
+  public void should_throw_error_wrapping_caught_IOException() throws IOException {
 	IOException cause = new IOException();
 	when(binaryDiff.diff(path, expected)).thenThrow(cause);
 	when(nioFilesWrapper.exists(path)).thenReturn(true);

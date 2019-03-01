@@ -14,9 +14,16 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldContain.directoryShouldContain;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+
+import java.io.File;
+import java.nio.file.Path;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -110,6 +117,40 @@ public class ShouldContain_create_Test {
                                          "but could not find:%n" +
                                          " <[5.0f, 7.0f]>%n" +
                                          ""));
+  }
+
+  @Test
+  public void should_create_error_message_for_file_directory() {
+    // GIVEN
+    File directory = mock(File.class);
+    given(directory.getAbsolutePath()).willReturn("root");
+    factory = directoryShouldContain(directory, list("foo.txt", "bar.txt"), "glob:**.java");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"));
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting directory:%n" +
+                                         "  <root>%n" +
+                                         "to contain at least one file matching glob:**.java but there was none.%n" +
+                                         "The directory content was:%n" +
+                                         "  [foo.txt, bar.txt]"));
+  }
+
+  @Test
+  public void should_create_error_message_for_path_directory() {
+    // GIVEN
+    Path directory = mock(Path.class);
+    given(directory.toString()).willReturn("root");
+    factory = directoryShouldContain(directory, list("foo.txt", "bar.txt"), "glob:**.java");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"));
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting directory:%n" +
+                                         "  <root>%n" +
+                                         "to contain at least one file matching glob:**.java but there was none.%n" +
+                                         "The directory content was:%n" +
+                                         "  [foo.txt, bar.txt]"));
   }
 
 }

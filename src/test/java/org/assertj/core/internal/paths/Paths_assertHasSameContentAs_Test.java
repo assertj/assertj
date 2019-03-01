@@ -110,7 +110,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_throw_error_wrapping_catched_IOException() throws IOException {
+  public void should_throw_error_wrapping_caught_IOException() throws IOException {
 	IOException cause = new IOException();
 	when(diff.diff(actual, defaultCharset(), other, defaultCharset())).thenThrow(cause);
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);

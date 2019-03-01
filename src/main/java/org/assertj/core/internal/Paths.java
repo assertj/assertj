@@ -13,9 +13,12 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -23,6 +26,7 @@ import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
 import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
+import static org.assertj.core.error.ShouldContain.directoryShouldContain;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
@@ -33,6 +37,8 @@ import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -42,11 +48,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.file.DirectoryStream;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.exception.PathsException;
@@ -55,6 +64,8 @@ import org.assertj.core.util.diff.Delta;
 
 /**
  * Core assertion class for {@link Path} assertions
+ *
+ * @author Valeriy Vyrva
  */
 public class Paths {
 
@@ -64,6 +75,7 @@ public class Paths {
   public static final String IOERROR_FORMAT = "I/O error attempting to process assertion for path: <%s>";
 
   private static final Paths INSTANCE = new Paths();
+  private static final Predicate<Path> ANY = any -> true;
 
   @VisibleForTesting
   Diff diff = new Diff();
@@ -260,22 +272,6 @@ public class Paths {
     if (!actual.getFileName().endsWith(fileName)) throw failures.failure(info, shouldHaveName(actual, fileName));
   }
 
-  private static void assertNotNull(final AssertionInfo info, final Path actual) {
-    Objects.instance().assertNotNull(info, actual);
-  }
-
-  private static void checkExpectedParentPathIsNotNull(final Path expected) {
-    checkNotNull(expected, "expected parent path should not be null");
-  }
-
-  private static void assertExpectedStartPathIsNotNull(final Path start) {
-    checkNotNull(start, "the expected start path should not be null");
-  }
-
-  private static void assertExpectedEndPathIsNotNull(final Path end) {
-    checkNotNull(end, "the expected end path should not be null");
-  }
-
   public void assertHasContent(final AssertionInfo info, Path actual, String expected, Charset charset) {
     checkNotNull(expected, "The text to compare to should not be null");
     assertIsReadable(info, actual);
@@ -346,4 +342,98 @@ public class Paths {
     checkNotNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
+
+  public void assertIsDirectoryContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
+    checkNotNull(filter, "The paths filter should not be null");
+    assertIsDirectoryContaining(info, actual, filter, "the given filter");
+  }
+
+  public void assertIsDirectoryContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
+    checkNotNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
+    assertIsDirectoryContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
+    checkNotNull(filter, "The paths filter should not be null");
+    assertIsDirectoryNotContaining(info, actual, filter, "the given filter");
+  }
+
+  public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
+    checkNotNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
+    assertIsDirectoryNotContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public void assertIsEmptyDirectory(AssertionInfo info, Path actual) {
+    List<Path> items = directoryContent(info, actual);
+    if (!items.isEmpty()) throw failures.failure(info, shouldBeEmptyDirectory(actual, items));
+  }
+
+  public void assertIsNotEmptyDirectory(AssertionInfo info, Path actual) {
+    boolean isEmptyDirectory = directoryContent(info, actual).isEmpty();
+    if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty());
+  }
+
+  public static List<String> toFileNames(List<Path> files) {
+    return files.stream()
+                .map(Path::toString)
+                .collect(toList());
+  }
+
+  // non public section
+
+  private List<Path> filterDirectory(AssertionInfo info, Path actual, Predicate<Path> filter) {
+    assertIsDirectory(info, actual);
+    try (DirectoryStream<Path> stream = nioFilesWrapper.newDirectoryStream(actual, filter)) {
+      return stream(stream.spliterator(), false).collect(toList());
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Unable to list directory content: <%s>", actual), e);
+    }
+  }
+
+  private List<Path> directoryContent(AssertionInfo info, Path actual) {
+    return filterDirectory(info, actual, ANY);
+  }
+
+  private void assertIsDirectoryContaining(AssertionInfo info, Path actual, Predicate<Path> filter, String filterPresentation) {
+    List<Path> matchingFiles = filterDirectory(info, actual, filter);
+    if (matchingFiles.isEmpty()) {
+      throw failures.failure(info, directoryShouldContain(actual, directoryContentDescription(info, actual), filterPresentation));
+    }
+  }
+
+  private void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Predicate<Path> filter,
+                                              String filterPresentation) {
+    List<Path> matchingFiles = filterDirectory(info, actual, filter);
+    if (matchingFiles.size() > 0) {
+      throw failures.failure(info, directoryShouldNotContain(actual, toFileNames(matchingFiles), filterPresentation));
+    }
+  }
+
+  private List<String> directoryContentDescription(AssertionInfo info, Path actual) {
+    return toFileNames(directoryContent(info, actual));
+  }
+
+  private PathMatcher pathMatcher(AssertionInfo info, Path actual, String syntaxAndPattern) {
+    assertNotNull(info, actual);
+    return actual.getFileSystem().getPathMatcher(syntaxAndPattern);
+  }
+
+  private static void assertNotNull(final AssertionInfo info, final Path actual) {
+    Objects.instance().assertNotNull(info, actual);
+  }
+
+  private static void checkExpectedParentPathIsNotNull(final Path expected) {
+    checkNotNull(expected, "expected parent path should not be null");
+  }
+
+  private static void assertExpectedStartPathIsNotNull(final Path start) {
+    checkNotNull(start, "the expected start path should not be null");
+  }
+
+  private static void assertExpectedEndPathIsNotNull(final Path end) {
+    checkNotNull(end, "the expected end path should not be null");
+  }
+
 }

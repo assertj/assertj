@@ -63,7 +63,7 @@ public class InputStreams_assertHasDigest_DigestString_Test extends InputStreams
   }
 
   @Test
-  public void should_throw_error_wrapping_catched_IOException() throws IOException {
+  public void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     actual = mock(InputStream.class);

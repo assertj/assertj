@@ -84,7 +84,7 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_error_wrapping_catched_IOException() throws IOException {
+  public void should_throw_error_wrapping_caught_IOException() throws IOException {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
 

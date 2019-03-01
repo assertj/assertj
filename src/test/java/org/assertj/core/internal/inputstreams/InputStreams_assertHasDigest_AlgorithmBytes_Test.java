@@ -66,7 +66,7 @@ public class InputStreams_assertHasDigest_AlgorithmBytes_Test extends InputStrea
   }
 
   @Test
-  public void should_throw_error_wrapping_catched_IOException() throws IOException {
+  public void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     actual = mock(InputStream.class);

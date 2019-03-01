@@ -12,12 +12,17 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.util.List;
+
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain a given set of values
  * failed. A group of elements can be a collection, an array or a {@code String}.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -32,7 +37,7 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContain(Object actual, Object expected, Object found,
-      ComparisonStrategy comparisonStrategy) {
+                                                     ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContain(actual, expected, found, comparisonStrategy);
   }
 
@@ -51,4 +56,22 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
     super("%nExpecting%n <%s>%nnot to contain%n <%s>%nbut found%n <%s>%n%s", actual, expected, found, comparisonStrategy);
   }
 
+  public static ErrorMessageFactory directoryShouldNotContain(File actual, List<String> matchingContent,
+                                                              String filterDescription) {
+    return new ShouldNotContain(actual, matchingContent, filterDescription);
+  }
+
+  public static ErrorMessageFactory directoryShouldNotContain(Path actual, List<String> matchingContent,
+                                                              String filterDescription) {
+    return new ShouldNotContain(actual, matchingContent, filterDescription);
+  }
+
+  private ShouldNotContain(Object actual, List<String> matchingContent, String filterDescription) {
+    // not passing matchingContent and filterDescription as parameter to avoid AssertJ default String formatting
+    super("%nExpecting directory:%n" +
+          "  <%s>%n" +
+          "not to contain any files matching " + filterDescription + " but found some:%n" +
+          "  " + matchingContent,
+          actual);
+  }
 }

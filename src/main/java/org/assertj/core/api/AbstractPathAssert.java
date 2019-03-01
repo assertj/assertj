@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
 import java.security.MessageDigest;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.internal.Paths;
@@ -78,6 +79,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @see FileSystem#getPath(String, String...)
  * @see java.nio.file.FileSystems#getDefault()
  * @see Files
+ *
+ * @author Valeriy Vyrva
  */
 public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
 
@@ -1312,6 +1315,247 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    */
   public SELF hasDigest(String algorithm, String expected) {
     paths.assertHasDigest(info, actual, algorithm, expected);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code Path} is a directory containing at least one file matching the given {@code Predicate<Path>}.
+   * <p>
+   * Note that the actual {@link Path} must exist and be a directory.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Let's assume we have the following directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * Path root = Paths.get("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(root).isDirectoryContaining(path -&gt; path.getFileName().toString().startsWith("sub-dir"))
+   *                 .isDirectoryContaining(path -&gt; path.getFileName().toString().startsWith("sub-file"))
+   *                 .isDirectoryContaining(path -&gt; path.getFileName().toString().endsWith(".ext"))
+   *                 .isDirectoryContaining(Files::isDirectory);
+   *
+   * // The following assertions fail:
+   * assertThat(root).isDirectoryContaining(file -&gt; file.getFileName().toString().startsWith("dir"));
+   * assertThat(root).isDirectoryContaining(file -&gt; file.getFileName().toString().endsWith(".bin")); </code></pre>
+   *
+   * @param filter the filter for files located inside {@code actual}'s directory.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if actual does not exist.
+   * @throws AssertionError       if actual is not a directory.
+   * @throws AssertionError       if actual does not contain any files matching the given predicate.
+   * @since 3.13.0
+   */
+  public SELF isDirectoryContaining(Predicate<Path> filter) {
+    paths.assertIsDirectoryContaining(info, actual, filter);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code Path} is a directory containing at least one file matching the given {@code String}
+   * interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
+   * <p>
+   * Note that the actual {@link Path} must exist and be a directory.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Let's assume we have the following directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * Path root = Paths.get("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(root).isDirectoryContaining("glob:**sub-dir*")
+   *                 .isDirectoryContaining("glob:**sub-file*")
+   *                 .isDirectoryContaining("glob:**.ext")
+   *                 .isDirectoryContaining("regex:.*ext")
+   *                 .isDirectoryContaining("glob:**.{ext,bin");
+   *
+   * // The following assertions fail:
+   * assertThat(root).isDirectoryContaining("glob:**dir");
+   * assertThat(root).isDirectoryContaining("glob:**.bin");
+   * assertThat(root).isDirectoryContaining("glob:**.{java,class}"); </code></pre>
+   *
+   * @param syntaxAndPattern the syntax and pattern for {@link java.nio.file.PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given syntaxAndPattern is {@code null}.
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if actual does not exist.
+   * @throws AssertionError       if actual is not a directory.
+   * @throws AssertionError       if actual does not contain any files matching the given path matcher.
+   * @see FileSystem#getPathMatcher(String)
+   * @since 3.13.0
+   */
+  public SELF isDirectoryContaining(String syntaxAndPattern) {
+    paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code Path} is a directory that does not contain any files matching the given {@code Predicate<Path>}.
+   * <p>
+   * Note that the actual {@link Path} must exist and be a directory.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Let's assume we have the following directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * Path root = Paths.get("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(root).isDirectoryNotContaining(file -&gt; file.getFileName().toString().startsWith("dir"))
+   *                 .isDirectoryNotContaining(file -&gt; file.getFileName().toString().endsWith(".bin"));
+   *
+   * // The following assertions fail:
+   * assertThat(root).isDirectoryNotContaining(path -&gt; path.getFileName().toString().startsWith("sub-dir"));
+   * assertThat(root).isDirectoryNotContaining(path -&gt; path.getFileName().toString().startsWith("sub-file"));
+   * assertThat(root).isDirectoryNotContaining(path -&gt; path.getFileName().toString().endsWith(".ext"));
+   * assertThat(root).isDirectoryNotContaining(Files::isDirectory); </code></pre>
+   *
+   * @param filter the filter for files located inside {@code actual}'s directory.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if actual does not exist.
+   * @throws AssertionError       if actual is not a directory.
+   * @throws AssertionError       if actual contains a file matching the given predicate.
+   * @since 3.13.0
+   */
+  public SELF isDirectoryNotContaining(Predicate<Path> filter) {
+    paths.assertIsDirectoryNotContaining(info, actual, filter);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code Path} is a directory that does not contain any files matching the given {@code String}
+   * interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
+   * <p>
+   * Note that the actual {@link Path} must exist and be a directory.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Let's assume we have the following directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * Path root = Paths.get("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(root).isDirectoryNotContaining("glob:**dir")
+   *                 .isDirectoryNotContaining("glob:**.bin")
+   *                 .isDirectoryNotContaining("regex:.*bin")
+   *                 .isDirectoryNotContaining("glob:**.{java,class}");
+   *
+   * // The following assertions fail:
+   * assertThat(root).isDirectoryNotContaining("glob:**sub-dir*");
+   * assertThat(root).isDirectoryNotContaining("glob:**sub-file*");
+   * assertThat(root).isDirectoryNotContaining("glob:**.ext");
+   * assertThat(root).isDirectoryNotContaining("regex:.*ext");
+   * assertThat(root).isDirectoryNotContaining("glob:**.{ext,bin"); </code></pre>
+   *
+   * @param syntaxAndPattern the syntax and pattern for {@link java.nio.file.PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given syntaxAndPattern is {@code null}.
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if actual does not exist.
+   * @throws AssertionError       if actual is not a directory.
+   * @throws AssertionError       if actual contains a file matching the given path matcher.
+   * @see FileSystem#getPathMatcher(String)
+   * @since 3.13.0
+   */
+  public SELF isDirectoryNotContaining(String syntaxAndPattern) {
+    paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code Path} is an empty directory.
+   * <p>
+   * Note that the actual {@link Path} must exist and be a directory.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Let's assume we have the following directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-dir-2]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * Path root = Paths.get("root");
+   *
+   * // The following assertion succeeds:
+   * assertThat(root.resolve("sub-dir-2")).isEmptyDirectory();
+   *
+   * // The following assertions fail:
+   * assertThat(root).isEmptyDirectory();
+   * assertThat(root.resolve("sub-dir-1")).isEmptyDirectory(); </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if actual does not exist.
+   * @throws AssertionError if actual is not a directory.
+   * @throws AssertionError if actual is not empty.
+   * @since 3.13.0
+   */
+  public SELF isEmptyDirectory() {
+    paths.assertIsEmptyDirectory(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code Path} is a non empty directory.
+   * <p>
+   * Note that the actual {@link Path} must exist and be a directory.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Let's assume we have the following directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-dir-2]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * Path root = Paths.get("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(root).isNotEmptyDirectory();
+   * assertThat(root.resolve("sub-dir-1")).isNotEmptyDirectory();
+   *
+   * // The following assertion fails:
+   * assertThat(root.resolve("sub-dir-2")).isNotEmptyDirectory(); </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if actual does not exist.
+   * @throws AssertionError if actual is not a directory.
+   * @throws AssertionError if actual is empty.
+   * @since 3.13.0
+   */
+  public SELF isNotEmptyDirectory() {
+    paths.assertIsNotEmptyDirectory(info, actual);
     return myself;
   }
 }
