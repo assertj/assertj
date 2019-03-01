@@ -16,10 +16,12 @@ import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
+import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
@@ -29,6 +31,8 @@ import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.internal.Digests.digestDiff;
 import static org.assertj.core.util.Objects.areEqual;
@@ -41,9 +45,14 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
+import java.nio.file.PathMatcher;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -56,6 +65,7 @@ import org.assertj.core.util.diff.Delta;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Olivier Demeijer
+ * @author Valeriy Vyrva
  */
 public class Files {
 
@@ -401,5 +411,83 @@ public class Files {
   public void assertHasDigest(AssertionInfo info, File actual, String algorithm, String expected) {
     checkNotNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
+  }
+
+  private <U> U directoryProcess(AssertionInfo info, File actual, Predicate<File> filter, Function<Stream<File>, U> process) {
+    assertIsDirectory(info, actual);
+    //todo Will be less effective than DirectoryStream from org.assertj.core.internal.Paths.directoryProcess
+    File[] items = actual.listFiles(filter::test);
+    checkNotNull(items, "Directory listing should not be null");
+    return process.apply(Stream.of(items));
+  }
+
+  private boolean directoryContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    return directoryProcess(info, actual, filter, stream -> stream.findAny().isPresent());
+  }
+
+  private List<File> directoryList(AssertionInfo info, File actual, Predicate<File> filter) {
+    return directoryProcess(info, actual, filter, stream -> stream.collect(Collectors.toList()));
+  }
+
+  private List<File> directoryListAll(AssertionInfo info, File actual) {
+    return directoryList(info, actual, any);
+  }
+
+  private Predicate<File> pathMatcher(AssertionInfo info, File actual, String syntaxAndPattern) {
+    assertNotNull(info, actual);
+    PathMatcher pathMatcher = actual.toPath().getFileSystem().getPathMatcher(syntaxAndPattern);
+    return file -> pathMatcher.matches(file.toPath());
+  }
+
+  static final Predicate<File> any = any -> true;
+
+  private void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter, Object filterPresentation) {
+    if (!directoryContaining(info, actual, filter)) {
+      throw failures.failure(info, shouldContainAnyOf(
+        directoryListAll(info, actual).stream().map(File::getName).collect(Collectors.toList()),
+        filterPresentation
+      ));
+    }
+  }
+
+  public void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    checkNotNull(filter, "The files filter should not be null");
+    assertIsDirectoryContaining(info, actual, filter, filter);
+  }
+
+  public void assertIsDirectoryContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
+    checkNotNull(syntaxAndPattern, "The syntax and pattern for build PathMatcher should not be null");
+    assertIsDirectoryContaining(info, actual, pathMatcher(info, actual, syntaxAndPattern), syntaxAndPattern);
+  }
+
+  private void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter, Object filterPresentation) {
+    if (directoryContaining(info, actual, filter)) {
+      throw failures.failure(info, shouldNotContain(
+        directoryListAll(info, actual).stream().map(File::getName).collect(Collectors.toList()),
+        filterPresentation,
+        directoryList(info, actual, filter).stream().map(File::getName).collect(Collectors.toList())
+      ));
+    }
+  }
+
+  public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    checkNotNull(filter, "The files filter should not be null");
+    assertIsDirectoryNotContaining(info, actual, filter, filter);
+  }
+
+  public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
+    checkNotNull(syntaxAndPattern, "The syntax and pattern for build PathMatcher should not be null");
+    assertIsDirectoryNotContaining(info, actual, pathMatcher(info, actual, syntaxAndPattern), syntaxAndPattern);
+  }
+
+  public void assertIsDirectoryEmpty(AssertionInfo info, File actual) {
+    List<File> items = directoryListAll(info, actual);
+    if (!items.isEmpty()) throw failures.failure(info, shouldBeEmpty(
+      items.stream().map(File::getName).collect(Collectors.toList())
+    ));
+  }
+
+  public void assertIsDirectoryNotEmpty(AssertionInfo info, File actual) {
+    if (!directoryContaining(info, actual, any)) throw failures.failure(info, shouldNotBeEmpty());
   }
 }

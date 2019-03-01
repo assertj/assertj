@@ -18,7 +18,9 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.io.File;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystem;
 import java.security.MessageDigest;
+import java.util.function.Predicate;
 
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.CheckReturnValue;
@@ -38,6 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Olivier Demeijer
  * @author Mikhail Mazursky
  * @author Jean-Christophe Gay
+ * @author Valeriy Vyrva
  */
 public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssert<SELF, File> {
 
@@ -720,6 +723,244 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   public SELF hasDigest(String algorithm, String expected) {
     files.assertHasDigest(info, actual, algorithm, expected);
+    return myself;
+  }
+
+  /**
+   * Verify that tested {@link File} is directory and contains at least one file that matched with the given {@code filter}.
+   *
+   * Note that the {@link File} must exists and denote to directory.
+   *
+   * Examples:
+   * <pre><code class="java"> // assume that we have such directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * File tested = new File("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).isDirectoryContaining(file -&gt; file.getName().startsWith("sub-dir"));
+   * assertThat(tested).isDirectoryContaining(file -&gt; file.getName().startsWith("sub-file"));
+   * assertThat(tested).isDirectoryContaining(file -&gt; file.getName().endsWith(".ext"));
+   * assertThat(tested).isDirectoryContaining(File::isDirectory);
+   *
+   * // The following assertions fail:
+   * assertThat(tested).isDirectoryContaining(file -&gt; file.getName().startsWith("dir"));
+   * assertThat(tested).isDirectoryContaining(file -&gt; file.getName().endsWith(".bin"));
+   * </code></pre>
+   *
+   * @param filter the filter for files located inside {@code actual}'s directory.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an directory.
+   * @since 3.13.0
+   */
+  public SELF isDirectoryContaining(Predicate<File> filter) {
+    files.assertIsDirectoryContaining(info, actual, filter);
+    return myself;
+  }
+
+  /**
+   * Verify that tested {@link File} is directory and contains at least one file that matched with the given {@code filter}.
+   *
+   * Note that the {@link File} must exists and denote to directory.
+   *
+   * Examples:
+   * <pre><code class="java"> // assume that we have such directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * File tested = new File("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).isDirectoryContaining("glob:sub-dir*");
+   * assertThat(tested).isDirectoryContaining("glob:sub-file*");
+   * assertThat(tested).isDirectoryContaining("glob:*.ext");
+   * assertThat(tested).isDirectoryContaining("glob:*.{ext,bin");
+   *
+   * // The following assertions fail:
+   * assertThat(tested).isDirectoryContaining("glob:dir");
+   * assertThat(tested).isDirectoryContaining("glob:.bin");
+   * assertThat(tested).isDirectoryContaining("glob:*.{java,class}");
+   * </code></pre>
+   *
+   * @param syntaxAndPattern the syntax and pattern for {@link java.nio.file.PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an directory.
+   * @see FileSystem#getPathMatcher(String)
+   * @since 3.13.0
+   */
+  public SELF isDirectoryContaining(String syntaxAndPattern) {
+    files.assertIsDirectoryContaining(info, actual, syntaxAndPattern);
+    return myself;
+  }
+
+  /**
+   * Verify that tested {@link File} is directory and does not contains any file that matched with the given {@code filter}.
+   *
+   * Note that the {@link File} must exists and denote to directory.
+   *
+   * Examples:
+   * <pre><code class="java"> // assume that we have such directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * File tested = new File("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).isDirectoryNotContaining(file -&gt; file.getName().startsWith("dir"));
+   * assertThat(tested).isDirectoryNotContaining(file -&gt; file.getName().endsWith(".bin"));
+   *
+   * // The following assertions fail:
+   * assertThat(tested).isDirectoryNotContaining(file -&gt; file.getName().startsWith("sub-dir"));
+   * assertThat(tested).isDirectoryNotContaining(file -&gt; file.getName().startsWith("sub-file"));
+   * assertThat(tested).isDirectoryNotContaining(file -&gt; file.getName().endsWith(".ext"));
+   * assertThat(tested).isDirectoryNotContaining(File::isDirectory);
+   * </code></pre>
+   *
+   * @param filter the filter for files located inside {@code actual}'s directory.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an directory.
+   * @since 3.13.0
+   */
+  public SELF isDirectoryNotContaining(Predicate<File> filter) {
+    files.assertIsDirectoryNotContaining(info, actual, filter);
+    return myself;
+  }
+
+  /**
+   * Verify that tested {@link File} is directory and does not contains any file that matched with the given {@code filter}.
+   *
+   * Note that the {@link File} must exists and denote to directory.
+   *
+   * Examples:
+   * <pre><code class="java"> // assume that we have such directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * File tested = new File("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).isDirectoryNotContaining("glob:dir");
+   * assertThat(tested).isDirectoryNotContaining("glob:.bin");
+   * assertThat(tested).isDirectoryNotContaining("glob:*.{java,class}");
+   *
+   * // The following assertions fail:
+   * assertThat(tested).isDirectoryNotContaining("glob:sub-dir*");
+   * assertThat(tested).isDirectoryNotContaining("glob:sub-file*");
+   * assertThat(tested).isDirectoryNotContaining("glob:*.ext");
+   * assertThat(tested).isDirectoryNotContaining("glob:*.{ext,bin");
+   * </code></pre>
+   *
+   * @param syntaxAndPattern the syntax and pattern for {@link java.nio.file.PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an directory.
+   * @see FileSystem#getPathMatcher(String)
+   * @since 3.13.0
+   */
+  public SELF isDirectoryNotContaining(String syntaxAndPattern) {
+    files.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
+    return myself;
+  }
+
+  /**
+   * Verify that tested {@link File} is directory and does not contains any files.
+   *
+   * Note that the {@link File} must exists and denote to directory.
+   *
+   * Examples:
+   * <pre><code class="java"> // assume that we have such directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-dir-2]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * File tested = new File("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(new File(tested, "sub-dir-2")).isDirectoryEmpty();
+   *
+   * // The following assertions fail:
+   * assertThat(tested).isDirectoryEmpty();
+   * assertThat(new File(tested, "sub-dir-1")).isDirectoryEmpty();
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an directory.
+   * @since 3.13.0
+   */
+  public SELF isDirectoryEmpty() {
+    files.assertIsDirectoryEmpty(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verify that tested {@link File} is directory and does not contains any files.
+   *
+   * Note that the {@link File} must exists and denote to directory.
+   *
+   * Examples:
+   * <pre><code class="java"> // assume that we have such directory structure:
+   * // [root]
+   * // [root/sub-dir-1]
+   * // [root/sub-dir-1/file-1.ext]
+   * // [root/sub-dir-1/file-2.ext]
+   * // [root/sub-dir-2]
+   * // [root/sub-file-1.ext]
+   * // [root/sub-file-2.ext]
+   *
+   * File tested = new File("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(tested).isDirectoryNotEmpty();
+   * assertThat(new File(tested, "sub-dir-1")).isDirectoryNotEmpty();
+   *
+   * // The following assertions fail:
+   * assertThat(new File(tested, "sub-dir-2")).isDirectoryNotEmpty();
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not exist.
+   * @throws AssertionError       if the actual {@code File} is not an directory.
+   * @since 3.13.0
+   */
+  public SELF isDirectoryNotEmpty() {
+    files.assertIsDirectoryNotEmpty(info, actual);
     return myself;
   }
 }

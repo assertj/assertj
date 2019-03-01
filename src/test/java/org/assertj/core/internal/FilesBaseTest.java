@@ -14,13 +14,26 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.diff.Delta;
@@ -71,4 +84,74 @@ public class FilesBaseTest {
     }
   }
 
+  protected File mockPath(String... names) {
+    String name = names[names.length - 1];
+    File file = mock(File.class);
+    given(file.getName()).willReturn(name);
+
+    Path path = mock(Path.class);
+    given(path.getFileName()).willReturn(path);
+    given(path.toString()).willReturn(name);
+
+    given(file.toPath()).willReturn(path);
+    given(path.toFile()).willReturn(file);
+
+    FileSystem fileSystem = mock(FileSystem.class);
+    given(path.getFileSystem()).willReturn(fileSystem);
+    return file;
+  }
+
+  protected File mockRegularFile(String... names) {
+    File path = mockPath(names);
+    given(path.exists()).willReturn(true);
+    given(path.isFile()).willReturn(true);
+    given(path.list()).willReturn(null);
+    try {
+      given(nioFilesWrapper.newInputStream(path.toPath())).willReturn(new ByteArrayInputStream(new byte[0]));
+    } catch (IOException e) {
+      assertThat(e).describedAs("Should not happen").isNull();
+    }
+    return path;
+  }
+
+  protected File mockDirectory(List<File> directoryItems, String... names) {
+    File path = mockPath(names);
+    given(path.exists()).willReturn(true);
+    given(path.isDirectory()).willReturn(true);
+    String[] listNames = directoryItems.stream().map(File::getName).toArray(String[]::new);
+    Map<String, File> list = Stream
+      .of(listNames)
+      .distinct()
+      .collect(Collectors.toMap(
+        Function.identity(),
+        name -> {
+          File inner = mockRegularFile(name);
+          given(inner.getParentFile()).willReturn(path);
+          return inner;
+        }
+      ));
+    given(path.list()).willReturn(listNames);
+    given(path.listFiles(any(FileFilter.class))).will(inv -> {
+      FileFilter filter = inv.getArgument(0);
+      List<File> result = new ArrayList<>(listNames.length);
+      for (String name : listNames) {
+        File file = list.get(name);
+        if (filter.accept(file)) {
+          result.add(file);
+        }
+      }
+      return result.toArray(new File[0]);
+    });
+    given(path.listFiles(any(FilenameFilter.class))).will(inv -> {
+      FilenameFilter filter = inv.getArgument(0);
+      List<File> result = new ArrayList<>(listNames.length);
+      for (String name : listNames) {
+        if (filter.accept(path, name)) {
+          result.add(list.get(name));
+        }
+      }
+      return result.toArray(new File[0]);
+    });
+    return path;
+  }
 }
