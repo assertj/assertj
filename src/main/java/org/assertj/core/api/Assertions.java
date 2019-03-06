@@ -142,7 +142,7 @@ public class Assertions {
    * Creates a new <code>{@link Assertions}</code>.
    */
   protected Assertions() {}
-  
+
   /**
    * Create assertion for {@link Predicate}.
    *
