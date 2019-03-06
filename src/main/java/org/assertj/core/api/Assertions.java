@@ -142,6 +142,11 @@ public class Assertions {
    * Creates a new <code>{@link Assertions}</code>.
    */
   protected Assertions() {}
+  
+  @SuppressWarnings("unchecked")
+  public <T, V extends Assert> V assertThat(T actual, Class<V> assertClass) {
+      return proxy(assertClass, (Class<T>) actual.getClass(), actual);
+  }
 
   /**
    * Create assertion for {@link Predicate}.
