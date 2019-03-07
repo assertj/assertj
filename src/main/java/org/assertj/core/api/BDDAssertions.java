@@ -101,6 +101,10 @@ public class BDDAssertions extends Assertions {
    * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
   protected BDDAssertions() {}
+  
+  public <T, V extends Assert> V then(T actual, Class<V> assertClass) {
+    return assertThat(actual, assertClass);
+  }
 
   /**
    * Create assertion for {@link Predicate}.
