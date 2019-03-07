@@ -31,11 +31,6 @@ public class AbstractSoftAssertions {
     return proxies.createSoftAssertionProxy(assertClass, actualClass, actual);
   }
   
-  @SuppressWarnings("unchecked")
-  public <T, V extends Assert> V assertThat(T actual, Class<V> assertClass) {
-      return proxy(assertClass, (Class<T>) actual.getClass(), actual);
-  }
-
   /**
    * Fails with the given message.
    *
