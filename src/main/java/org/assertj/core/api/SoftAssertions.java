@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
