@@ -142,6 +142,15 @@ public class Assertions {
    * Creates a new <code>{@link Assertions}</code>.
    */
   protected Assertions() {}
+  
+  public <T, V extends Assert> V assertThat(T actual, Class<V> assertClass) {
+    try {
+      Constructor<? extends V> constructor = assertClass.getConstructor(actual.getClass());
+      return constructor.newInstance(actual);
+    } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   /**
    * Create assertion for {@link Predicate}.
