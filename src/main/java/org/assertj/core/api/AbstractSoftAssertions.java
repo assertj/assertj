@@ -32,7 +32,7 @@ public class AbstractSoftAssertions {
   }
   
   @SuppressWarnings("unchecked")
-  public <T, V extends Assert> V assertThat(T actual, Class<V> assertClass) {
+  public <T, V extends Assert> V assertThat(Class<V> assertClass, T actual) {
       return proxy(assertClass, (Class<T>) actual.getClass(), actual);
   }
 
