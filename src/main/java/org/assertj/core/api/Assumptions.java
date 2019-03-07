@@ -115,6 +115,10 @@ public class Assumptions {
       }
     }
   }
+  
+  public <T, V extends Assert> V assertThat(T actual, Class<V> assertClass) {
+    return asAssumption(assertClass.class, actual.getClass(), actual);
+  }
 
   /**
    * Creates a new instance of <code>{@link ObjectAssert}</code> assumption.
