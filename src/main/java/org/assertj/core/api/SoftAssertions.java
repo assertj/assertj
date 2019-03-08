@@ -157,7 +157,7 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
   * @since 3.6.0
   */
-  public static void assertSoftly(Consumer<SoftAssertions> softly) {
+public static void assertSoftly(Consumer<SoftAssertions> softly) {
       SoftAssertions assertions = new SoftAssertions();
       softly.accept(assertions);
       assertions.assertAll();
