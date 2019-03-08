@@ -163,23 +163,17 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
       assertions.assertAll();
   }
  
-  private static void assertSoftly(Runnable... softAssertions) {
-      List<AssertionError> errors = new LinkedList<>();
-      for (Runnable scope : softAssertions) {
-          try {
-              scope.run();
-          } catch (AssertionError error) {
-              errors.add(error);
-          }
+  private static void assertSoftly(Runnable... scopes) {
+    List<AssertionError> errors = new LinkedList<>();
+    for (Runnable scope : scopes) {
+      try {
+        scope.run();
+      } catch (AssertionError error) {
+        errors.add(error);
       }
-      if (!errors.isEmpty()) {
-          throw new AssertionErrorCreator().multipleSoftAssertionsError(errors);
-      }
+    }
+    if (!errors.isEmpty()) {
+      throw new AssertionErrorCreator().multipleSoftAssertionsError(errors);
+    }
   }
-  
-  @FunctionalInterface
-  public interface SoftAssertionScope {
-      void execute() throws Exception;
-  }
-
 }
