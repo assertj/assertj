@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -160,5 +161,20 @@ public static void assertSoftly(Consumer<SoftAssertions> softly) {
       SoftAssertions assertions = new SoftAssertions();
       softly.accept(assertions);
       assertions.assertAll();
+  }
+  
+  private static void assertSoftly(Runnable... scopes) {
+    List<AssertionError> errors = new ArrayList<>();;
+    for (Runnable scope : scopes) {
+      try {
+        scope.run();
+      } catch (AssertionError error) {
+        // TODO call AbstractSoftAssertions.addLineNumberToErrorMessage(error), but it is not static nor public
+        errors.add(error);
+      }
+    }
+    if (!errors.isEmpty()) {
+      throw new AssertionErrorCreator().multipleSoftAssertionsError(errors);
+    }
   }
 }
