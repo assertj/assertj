@@ -151,6 +151,27 @@ public class PropertyOrFieldSupport_getValueOf_Test {
     assertThat(maps).extracting("bad key").containsExactly(null, null);
   }
 
+  @Test
+  public void should_extract_field_value_if_only_static_getter_matches_name() {
+    Object value = propertyOrFieldSupport.getValueOf("city", new StaticPropertyEmployee());
+
+    assertThat(value).isEqualTo("New York");
+  }
+
+  @Test
+  public void should_extract_field_value_if_only_static_is_method_matches_name() {
+    Object value = propertyOrFieldSupport.getValueOf("tall", new StaticBooleanPropertyEmployee());
+
+    assertThat(value).isEqualTo(false);
+  }
+
+  @Test
+  public void should_extract_field_value_if_only_static_bare_method_matches_name() {
+    Object value = propertyOrFieldSupport.getValueOf("city", new StaticBarePropertyEmployee());
+
+    assertThat(value).isEqualTo("New York");
+  }
+
   private Employee employeeWithBrokenName(String name) {
     return new Employee(1L, new Name(name), 0) {
       @Override
@@ -176,6 +197,25 @@ public class PropertyOrFieldSupport_getValueOf_Test {
         throw new IllegalStateException();
       }
     };
+  }
+
+  static class StaticPropertyEmployee extends Employee {
+    public static String getCity() {
+      return "London";
+    }
+  }
+
+  static class StaticBarePropertyEmployee extends Employee {
+    public static String city() {
+      return "London";
+    }
+  }
+
+  static class StaticBooleanPropertyEmployee extends Employee {
+    boolean tall = false;
+    public static boolean isTall() {
+      return true;
+    }
   }
 
 }
