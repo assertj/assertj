@@ -312,4 +312,16 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
     return super.isEqualTo(format(expectedStringTemplate, args));
   }
 
+  /**
+   * Verifies that the actual value is equal to expected.
+   *
+   * This method needs to be overridden because otherwise another method is called from tests in Kotlin:
+   * org.assertj.core.api.AbstractStringAssert#isEqualTo(java.lang.String, java.lang.Object...)
+   *
+   * @see Assert#isEqualTo(java.lang.Object)
+   * @since 3.12.2
+   */
+  public SELF isEqualTo(String s) {
+    return super.isEqualTo(s);
+  }
 }
