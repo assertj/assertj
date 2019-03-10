@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 
 /**
@@ -30,7 +31,7 @@ public class Fail_fail_withMessageAndCause_Test {
   public void shouldThrowErrorWithGivenMessageAndCause() {
     String message = "Some Throwable";
     Throwable cause = new Throwable();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Fail.fail(message, cause))
-                                                   .withMessage(message).withCause(cause);
+    assertThatExceptionOfType(AssertionFailedError.class).isThrownBy(() -> Fail.fail(message, cause))
+                                                         .withMessage(message).withCause(cause);
   }
 }

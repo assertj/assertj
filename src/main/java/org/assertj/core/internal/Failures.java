@@ -30,6 +30,7 @@ import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.Throwables;
 import org.assertj.core.util.VisibleForTesting;
+import org.opentest4j.AssertionFailedError;
 
 /**
  * Failure actions.
@@ -122,7 +123,7 @@ public class Failures {
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory) {
     AssertionError error = failureIfErrorMessageIsOverridden(info);
     if (error != null) return error;
-    AssertionError assertionError = new AssertionError(messageFactory.create(info.description(), info.representation()));
+    AssertionError assertionError = new AssertionFailedError(messageFactory.create(info.description(), info.representation()));
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();
     return assertionError;
@@ -154,17 +155,35 @@ public class Failures {
   /**
    * Creates a <code>{@link AssertionError}</code> using the given {@code String} as message.
    * <p>
-   * It filters the AssertionError stack trace be default, to have full stack trace use
+   * It filters the AssertionError stack trace by default, to have full stack trace use
    * {@link #setRemoveAssertJRelatedElementsFromStackTrace(boolean)}.
    *
    * @param message the message of the {@code AssertionError} to create.
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(String message) {
-    AssertionError assertionError = new AssertionError(message);
-    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    return prettyPrintedWithoutAssertJRelatedElementsFromStackTraceIfNeeded(new AssertionError(message));
+  }
+
+  /**
+   * Creates a <code>{@link AssertionFailedError}</code> using the given {@code String} as message
+   * and {@code Throwable} as a cause.
+   * <p>
+   * It filters the AssertionError stack trace by default, to have full stack trace use
+   * {@link #setRemoveAssertJRelatedElementsFromStackTrace(boolean)}.
+   *
+   * @param message the message of the {@code AssertionError} to create.
+   * @param cause the cause of the {@code AssertionError} to create.
+   * @return the created <code>{@link AssertionError}</code>.
+   */
+  public AssertionError failure(String message, Throwable cause) {
+    return prettyPrintedWithoutAssertJRelatedElementsFromStackTraceIfNeeded(new AssertionFailedError(message, cause));
+  }
+
+  private AssertionError prettyPrintedWithoutAssertJRelatedElementsFromStackTraceIfNeeded(AssertionError error) {
+    removeAssertJRelatedElementsFromStackTraceIfNeeded(error);
     printThreadDumpIfNeeded();
-    return assertionError;
+    return error;
   }
 
   /**

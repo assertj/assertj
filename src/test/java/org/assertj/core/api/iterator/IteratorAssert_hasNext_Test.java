@@ -26,6 +26,7 @@ import org.assertj.core.api.AbstractIteratorAssert;
 import org.assertj.core.api.IteratorAssert;
 import org.assertj.core.api.IteratorAssertBaseTest;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for <code>{@link AbstractIteratorAssert#hasNext()} ()}</code>.
@@ -55,7 +56,7 @@ public class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = emptyList().iterator();
     // WHEN
-    AssertionError error = catchThrowableOfType(assertThat(iterator)::hasNext, AssertionError.class);
+    AssertionFailedError error = catchThrowableOfType(assertThat(iterator)::hasNext, AssertionFailedError.class);
     // THEN
     assertThat(error).hasMessage(shouldHaveNext().create());
   }
@@ -65,7 +66,7 @@ public class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = null;
     // WHEN
-    AssertionError error = catchThrowableOfType(assertThat(iterator)::hasNext, AssertionError.class);
+    AssertionFailedError error = catchThrowableOfType(assertThat(iterator)::hasNext, AssertionFailedError.class);
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

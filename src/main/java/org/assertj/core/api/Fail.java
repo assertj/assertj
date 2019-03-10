@@ -68,9 +68,7 @@ public final class Fail {
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   public static <T> T fail(String failureMessage, Throwable realCause) {
-    AssertionError error = Failures.instance().failure(failureMessage);
-    error.initCause(realCause);
-    throw error;
+    throw Failures.instance().failure(failureMessage, realCause);
   }
 
   /**
