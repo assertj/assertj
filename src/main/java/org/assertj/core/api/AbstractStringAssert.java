@@ -312,4 +312,17 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
     return super.isEqualTo(format(expectedStringTemplate, args));
   }
 
+  /**
+   * Verifies that the actual value is equal to expected.
+   * <p>
+   * This method needs to be overridden because otherwise {@link #isEqualTo(String, Object...)} is called from tests in Kotlin without args which breaks whenever the is {@code %} in the string.
+   *
+   * @param expected the given {@link String} to compare the actual to.
+   * @return this assertion object.
+   * @see Assert#isEqualTo(java.lang.Object)
+   * @since 3.13.0
+   */
+  public SELF isEqualTo(String expected) {
+    return super.isEqualTo(expected);
+  }
 }
