@@ -44,6 +44,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   @Test
   public void must_not_check_all_elements() {
     // GIVEN
+    assertThat(actual).hasSizeGreaterThan(2); // This test requires an iterable with size > 2
     Consumer<String> consumer = mock(Consumer.class);
     // first element does not match -> assertion error, 2nd element does match -> doNothing()
     doThrow(new AssertionError("some error message")).doNothing().when(consumer).accept(anyString());
