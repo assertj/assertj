@@ -41,6 +41,14 @@ public class AbstractSoftAssertions {
     AssertionError error = Failures.instance().failure(failureMessage);
     proxies.collectError(error);
   }
+  
+  public void assertThat(Runnable scope) {
+      try {
+        scope.run();
+      } catch (AssertionError error) {
+        proxies.collectError(error);
+      }
+  }
 
   /**
    * Fails with the given message built like {@link String#format(String, Object...)}.
