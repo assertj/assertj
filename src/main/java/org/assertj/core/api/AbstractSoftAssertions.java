@@ -42,9 +42,9 @@ public class AbstractSoftAssertions {
     proxies.collectError(error);
   }
   
-  public void assertThat(Runnable scope) {
+  public void $(Runnable assertion) {
       try {
-        scope.run();
+        assertion.run();
       } catch (AssertionError error) {
         proxies.collectError(error);
       }
