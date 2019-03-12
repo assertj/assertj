@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -30,8 +29,8 @@ public class Assertions_assertThat_with_URI_Test {
   private static URI uri;
 
   @BeforeAll
-  public static void beforeClass() throws URISyntaxException {
-    uri = new URI("http://www.helloworld.org:8080/pages");
+  public static void beforeClass() {
+    uri = URI.create("http://www.helloworld.org:8080/pages");
   }
 
   @Test

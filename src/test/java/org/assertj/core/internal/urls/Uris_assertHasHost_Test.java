@@ -20,7 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
@@ -35,19 +34,19 @@ public class Uris_assertHasHost_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_URI_has_the_given_host() throws URISyntaxException {
-    uris.assertHasHost(info, new URI("http://www.helloworld.org"), "www.helloworld.org");
+  public void should_pass_if_actual_URI_has_the_given_host() {
+    uris.assertHasHost(info, URI.create("http://www.helloworld.org"), "www.helloworld.org");
   }
 
   @Test
-  public void should_pass_if_actual_URI_with_path_has_the_given_host() throws URISyntaxException {
-    uris.assertHasHost(info, new URI("http://www.helloworld.org/pages"), "www.helloworld.org");
+  public void should_pass_if_actual_URI_with_path_has_the_given_host() {
+    uris.assertHasHost(info, URI.create("http://www.helloworld.org/pages"), "www.helloworld.org");
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_not_the_expected_host() throws URISyntaxException {
+  public void should_fail_if_actual_URI_has_not_the_expected_host() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com/pages/");
+    URI uri = URI.create("http://example.com/pages/");
     String expectedHost = "example.org";
     try {
       uris.assertHasHost(info, uri, expectedHost);

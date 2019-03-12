@@ -20,7 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
@@ -36,13 +35,13 @@ import org.junit.jupiter.api.Test;
 public class Uris_assertHasQuery_Test extends UrisBaseTest {
 
   @Test
-  public void should_pass_if_actual_uri_has_the_expected_query() throws URISyntaxException {
-    uris.assertHasQuery(info, new URI("http://www.helloworld.org/index.html?type=test"), "type=test");
+  public void should_pass_if_actual_uri_has_the_expected_query() {
+    uris.assertHasQuery(info, URI.create("http://www.helloworld.org/index.html?type=test"), "type=test");
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_no_query_and_given_is_null() throws URISyntaxException {
-    uris.assertHasQuery(info, new URI("http://www.helloworld.org/index.html"), null);
+  public void should_pass_if_actual_uri_has_no_query_and_given_is_null() {
+    uris.assertHasQuery(info, URI.create("http://www.helloworld.org/index.html"), null);
   }
 
   @Test
@@ -52,9 +51,9 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_query_is_not_the_given_query() throws URISyntaxException {
+  public void should_fail_if_actual_URI_query_is_not_the_given_query() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://assertj.org/news?type=beta");
+    URI uri = URI.create("http://assertj.org/news?type=beta");
     String expectedQuery = "type=final";
     try {
       uris.assertHasQuery(info, uri, expectedQuery);
@@ -66,9 +65,9 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_no_query_and_expected_query_is_not_null() throws URISyntaxException {
+  public void should_fail_if_actual_URI_has_no_query_and_expected_query_is_not_null() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://assertj.org/news");
+    URI uri = URI.create("http://assertj.org/news");
     String expectedQuery = "type=final";
     try {
       uris.assertHasQuery(info, uri, expectedQuery);
@@ -80,9 +79,9 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_a_query_and_expected_query_is_null() throws URISyntaxException {
+  public void should_fail_if_actual_URI_has_a_query_and_expected_query_is_null() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://assertj.org/news?type=beta");
+    URI uri = URI.create("http://assertj.org/news?type=beta");
     String expectedQuery = null;
     try {
       uris.assertHasQuery(info, uri, expectedQuery);

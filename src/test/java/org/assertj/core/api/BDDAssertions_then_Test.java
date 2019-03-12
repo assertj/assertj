@@ -20,7 +20,6 @@ import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -286,8 +285,8 @@ public class BDDAssertions_then_Test {
   }
 
   @Test
-  public void then_URI() throws URISyntaxException {
-    then(new URI("http://assertj.org")).hasNoPort();
+  public void then_URI() {
+    then(URI.create("http://assertj.org")).hasNoPort();
   }
 
 }

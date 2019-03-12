@@ -24,8 +24,8 @@ import org.junit.jupiter.api.Test;
 public class ShouldHaveFragment_create_Test {
 
   @Test
-  public void should_create_error_message_for_has_fragment() throws Exception {
-    URI uri = new URI("http://assertj.org/news#print");
+  public void should_create_error_message_for_has_fragment() {
+    URI uri = URI.create("http://assertj.org/news#print");
     String error = shouldHaveFragment(uri, "foo").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -38,8 +38,8 @@ public class ShouldHaveFragment_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_has_no_fragment() throws Exception {
-    URI uri = new URI("http://assertj.org/news#print");
+  public void should_create_error_message_for_has_no_fragment() {
+    URI uri = URI.create("http://assertj.org/news#print");
     String error = shouldHaveFragment(uri, null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +

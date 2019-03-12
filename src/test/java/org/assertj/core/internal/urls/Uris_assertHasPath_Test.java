@@ -20,7 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
@@ -35,20 +34,20 @@ public class Uris_assertHasPath_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_the_given_path() throws URISyntaxException {
-    uris.assertHasPath(info, new URI("http://example.com/pages/"), "/pages/");
-    uris.assertHasPath(info, new URI("http://example.com"), "");
+  public void should_pass_if_actual_uri_has_the_given_path() {
+    uris.assertHasPath(info, URI.create("http://example.com/pages/"), "/pages/");
+    uris.assertHasPath(info, URI.create("http://example.com"), "");
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_no_path_and_the_given_path_is_null() throws URISyntaxException {
-    uris.assertHasPath(info, new URI("mailto:java-net@java.sun.com"), null);
+  public void should_pass_if_actual_uri_has_no_path_and_the_given_path_is_null() {
+    uris.assertHasPath(info, URI.create("mailto:java-net@java.sun.com"), null);
   }
 
   @Test
-  public void should_fail_if_actual_URI_path_is_not_the_given_path() throws URISyntaxException {
+  public void should_fail_if_actual_URI_path_is_not_the_given_path() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com/pages/");
+    URI uri = URI.create("http://example.com/pages/");
     String expectedPath = "/news/";
     try {
       uris.assertHasPath(info, uri, expectedPath);
@@ -60,9 +59,9 @@ public class Uris_assertHasPath_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_path_and_the_given_path_null() throws URISyntaxException {
+  public void should_fail_if_actual_URI_has_path_and_the_given_path_null() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com/pages/");
+    URI uri = URI.create("http://example.com/pages/");
     String expectedPath = null;
     try {
       uris.assertHasPath(info, uri, expectedPath);
@@ -74,9 +73,9 @@ public class Uris_assertHasPath_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_no_path_and_the_given_path_is_not_null() throws URISyntaxException {
+  public void should_fail_if_actual_URI_has_no_path_and_the_given_path_is_not_null() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("mailto:java-net@java.sun.com");
+    URI uri = URI.create("mailto:java-net@java.sun.com");
     String expectedPath = "";
     try {
       uris.assertHasPath(info, uri, expectedPath);

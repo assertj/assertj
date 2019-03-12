@@ -25,8 +25,8 @@ import org.junit.jupiter.api.Test;
 public class ShouldHaveAuthority_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri() throws Exception {
-    URI uri = new URI("http://assertj.org:8080/news");
+  public void should_create_error_message_for_uri() {
+    URI uri = URI.create("http://assertj.org:8080/news");
     String error = shouldHaveAuthority(uri, "foo.org").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +

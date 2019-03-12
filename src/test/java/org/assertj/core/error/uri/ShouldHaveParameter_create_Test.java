@@ -27,8 +27,8 @@ import org.junit.jupiter.api.Test;
 public class ShouldHaveParameter_create_Test {
 
   @Test
-  public void should_create_error_message_for_missing_uri_parameter() throws Exception {
-    URI uri = new URI("http://assertj.org/news");
+  public void should_create_error_message_for_missing_uri_parameter() {
+    URI uri = URI.create("http://assertj.org/news");
     String error = shouldHaveParameter(uri, "article").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -40,8 +40,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_without_value_that_is_missing() throws Exception {
-    URI uri = new URI("http://assertj.org/news");
+  public void should_create_error_message_for_uri_parameter_without_value_that_is_missing() {
+    URI uri = URI.create("http://assertj.org/news");
     String error = shouldHaveParameter(uri, "article", null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -53,8 +53,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_missing_uri_parameter_with_an_expected_value() throws Exception {
-    URI uri = new URI("http://assertj.org/news");
+  public void should_create_error_message_for_missing_uri_parameter_with_an_expected_value() {
+    URI uri = URI.create("http://assertj.org/news");
     String error = shouldHaveParameter(uri, "article", "10").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -68,8 +68,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_without_value_that_has_one() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article=10");
+  public void should_create_error_message_for_uri_parameter_without_value_that_has_one() {
+    URI uri = URI.create("http://assertj.org/news?article=10");
     String error = shouldHaveParameter(uri, "article", null, newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -82,8 +82,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_without_value_that_has_multiple_values() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article=10");
+  public void should_create_error_message_for_uri_parameter_without_value_that_has_multiple_values() {
+    URI uri = URI.create("http://assertj.org/news?article=10");
     String error = shouldHaveParameter(uri, "article", null,
                                        newArrayList("10", "11")).create(new TestDescription("TEST"));
 
@@ -97,8 +97,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_with_value_that_has_no_value() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article");
+  public void should_create_error_message_for_uri_parameter_with_value_that_has_no_value() {
+    URI uri = URI.create("http://assertj.org/news?article");
     String error = shouldHaveParameter(uri, "article", "10",
                                        newArrayList((String) null)).create(new TestDescription("TEST"));
 
@@ -113,8 +113,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_wrong_parameter_value() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article=11");
+  public void should_create_error_message_for_uri_with_wrong_parameter_value() {
+    URI uri = URI.create("http://assertj.org/news?article=11");
     String error = shouldHaveParameter(uri, "article", "10", newArrayList("11")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -129,8 +129,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_wrong_parameter_values() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article=11");
+  public void should_create_error_message_for_uri_with_wrong_parameter_values() {
+    URI uri = URI.create("http://assertj.org/news?article=11");
     String error = shouldHaveParameter(uri, "article", "10",
                                        newArrayList("11", "12")).create(new TestDescription("TEST"));
 
@@ -146,8 +146,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_even_without_value() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article");
+  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_even_without_value() {
+    URI uri = URI.create("http://assertj.org/news?article");
     String error = shouldHaveNoParameter(uri, "article", null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -159,8 +159,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_value() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article=10");
+  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_value() {
+    URI uri = URI.create("http://assertj.org/news?article=10");
     String error = shouldHaveNoParameter(uri, "article", newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -173,8 +173,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_multiple_values() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article=10");
+  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_multiple_values() {
+    URI uri = URI.create("http://assertj.org/news?article=10");
     String error = shouldHaveNoParameter(uri, "article", newArrayList("10", "11")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -187,8 +187,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_without_value() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article");
+  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_without_value() {
+    URI uri = URI.create("http://assertj.org/news?article");
     String error = shouldHaveNoParameter(uri, "article", null, null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -200,8 +200,8 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_no_parameter_value_but_found() throws Exception {
-    URI uri = new URI("http://assertj.org/news?article=10");
+  public void should_create_error_message_for_uri_no_parameter_value_but_found() {
+    URI uri = URI.create("http://assertj.org/news?article=10");
     String error = shouldHaveNoParameter(uri, "article", "10", newArrayList("10")).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +

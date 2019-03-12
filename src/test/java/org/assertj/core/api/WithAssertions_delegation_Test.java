@@ -22,7 +22,6 @@ import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -800,7 +799,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   }
 
   @Test
-  public void withAssertions_assertThat_uri_Test() throws URISyntaxException {
-    assertThat(new URI("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
+  public void withAssertions_assertThat_uri_Test() {
+    assertThat(URI.create("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
   }
 }

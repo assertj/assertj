@@ -24,8 +24,8 @@ import org.junit.jupiter.api.Test;
 public class ShouldHaveScheme_create_Test {
 
   @Test
-  public void should_create_error_message() throws Exception {
-    String error = shouldHaveScheme(new URI("http://assertj.org/"), "ftp").create(new TestDescription("TEST"));
+  public void should_create_error_message() {
+    String error = shouldHaveScheme(URI.create("http://assertj.org/"), "ftp").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting scheme of%n" +

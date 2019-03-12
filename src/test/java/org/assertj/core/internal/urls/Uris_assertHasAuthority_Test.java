@@ -20,7 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
@@ -35,19 +34,19 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_the_expected_authority() throws URISyntaxException {
-    uris.assertHasAuthority(info, new URI("http://www.helloworld.org:8080"), "www.helloworld.org:8080");
+  public void should_pass_if_actual_uri_has_the_expected_authority() {
+    uris.assertHasAuthority(info, URI.create("http://www.helloworld.org:8080"), "www.helloworld.org:8080");
   }
 
   @Test
-  public void should_pass_if_actual_uri_with_path_has_the_expected_authority() throws URISyntaxException {
-    uris.assertHasAuthority(info, new URI("http://www.helloworld.org:8080/pages"), "www.helloworld.org:8080");
+  public void should_pass_if_actual_uri_with_path_has_the_expected_authority() {
+    uris.assertHasAuthority(info, URI.create("http://www.helloworld.org:8080/pages"), "www.helloworld.org:8080");
   }
 
   @Test
-  public void should_fail_if_actual_authority_is_not_the_expected_one_because_ports_differ() throws URISyntaxException {
+  public void should_fail_if_actual_authority_is_not_the_expected_one_because_ports_differ() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com:8080/pages/");
+    URI uri = URI.create("http://example.com:8080/pages/");
     String expectedAuthority = "example.com:8888";
     try {
       uris.assertHasAuthority(info, uri, expectedAuthority);
@@ -59,9 +58,9 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_authority_is_not_the_expected_one_because_hosts_differ() throws URISyntaxException {
+  public void should_fail_if_actual_authority_is_not_the_expected_one_because_hosts_differ() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com:8080/pages/");
+    URI uri = URI.create("http://example.com:8080/pages/");
     String expectedAuthority = "example.org:8080";
     try {
       uris.assertHasAuthority(info, uri, expectedAuthority);

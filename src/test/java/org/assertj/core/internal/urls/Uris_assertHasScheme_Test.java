@@ -20,7 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
@@ -29,9 +28,9 @@ import org.junit.jupiter.api.Test;
 public class Uris_assertHasScheme_Test extends UrisBaseTest {
 
   @Test
-  public void should_pass_if_actual_uri_has_the_given_scheme() throws URISyntaxException {
-    uris.assertHasScheme(info, new URI("http://example.com/pages/"), "http");
-    uris.assertHasScheme(info, new URI("example.com/pages/"), null);
+  public void should_pass_if_actual_uri_has_the_given_scheme() {
+    uris.assertHasScheme(info, URI.create("http://example.com/pages/"), "http");
+    uris.assertHasScheme(info, URI.create("example.com/pages/"), null);
   }
 
   @Test
@@ -41,9 +40,9 @@ public class Uris_assertHasScheme_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_scheme_is_not_the_expected_scheme() throws URISyntaxException {
+  public void should_fail_if_actual_scheme_is_not_the_expected_scheme() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com/pages/");
+    URI uri = URI.create("http://example.com/pages/");
     String expectedScheme = "ftp";
     try {
       uris.assertHasScheme(info, uri, expectedScheme);

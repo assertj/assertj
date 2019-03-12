@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static org.mockito.Mockito.mock;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.assertj.core.internal.Uris;
 
@@ -28,11 +27,7 @@ public abstract class UriAssertBaseTest extends BaseTestTemplate<UriAssert, URI>
 
   @Override
   protected UriAssert create_assertions() {
-    try {
-      return new UriAssert(new URI("example.com/pages/"));
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
+    return new UriAssert(URI.create("example.com/pages/"));
   }
 
   @Override

@@ -20,7 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
@@ -36,14 +35,14 @@ import org.junit.jupiter.api.Test;
 public class Uris_assertHasFragment_Test extends UrisBaseTest {
 
   @Test
-  public void should_pass_if_actual_uri_has_the_given_fragment() throws URISyntaxException {
-    uris.assertHasFragment(info, new URI("http://www.helloworld.org/pages/index.html#print"), "print");
-    uris.assertHasFragment(info, new URI("http://www.helloworld.org/index.html#print"), "print");
+  public void should_pass_if_actual_uri_has_the_given_fragment() {
+    uris.assertHasFragment(info, URI.create("http://www.helloworld.org/pages/index.html#print"), "print");
+    uris.assertHasFragment(info, URI.create("http://www.helloworld.org/index.html#print"), "print");
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_no_fragment_and_given_is_null() throws URISyntaxException {
-    uris.assertHasFragment(info, new URI("http://www.helloworld.org/index.html"), null);
+  public void should_pass_if_actual_uri_has_no_fragment_and_given_is_null() {
+    uris.assertHasFragment(info, URI.create("http://www.helloworld.org/index.html"), null);
   }
 
   @Test
@@ -53,9 +52,9 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_not_the_expected_fragment() throws URISyntaxException {
+  public void should_fail_if_actual_URI_has_not_the_expected_fragment() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com/index.html#print");
+    URI uri = URI.create("http://example.com/index.html#print");
     String expectedFragment = "foo";
     try {
       uris.assertHasFragment(info, uri, expectedFragment);
@@ -67,9 +66,9 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_no_fragment_and_expected_fragment_is_not_null() throws URISyntaxException {
+  public void should_fail_if_actual_URI_has_no_fragment_and_expected_fragment_is_not_null() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com/index.html");
+    URI uri = URI.create("http://example.com/index.html");
     String expectedFragment = "print";
     try {
       uris.assertHasFragment(info, uri, expectedFragment);
@@ -81,9 +80,9 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_fragment_and_expected_fragment_is_null() throws URISyntaxException {
+  public void should_fail_if_actual_URI_has_fragment_and_expected_fragment_is_null() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com/index.html#print");
+    URI uri = URI.create("http://example.com/index.html#print");
     String expectedFragment = null;
     try {
       uris.assertHasFragment(info, uri, expectedFragment);
@@ -97,7 +96,7 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   @Test
   public void should_throw_error_if_actual_uri_has_no_fragment() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasFragment(info,
-                                                                                                  new URI("http://www.helloworld.org/index.html"),
+                                                                                                  URI.create("http://www.helloworld.org/index.html"),
                                                                                                   "print"));
   }
 }

@@ -24,7 +24,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -186,7 +185,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws URISyntaxException {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
     // perform a bunch of soft assertions
     softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
     softly.assertThat(Boolean.FALSE).isTrue();
@@ -262,7 +261,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThat(OptionalInt.of(0)).isEqualTo(1);
     softly.assertThat(OptionalDouble.of(0.0)).isEqualTo(1.0);
     softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
-    softly.assertThat(new URI("http://assertj.org")).hasPort(8888);
+    softly.assertThat(URI.create("http://assertj.org")).hasPort(8888);
     softly.assertThat(CompletableFuture.completedFuture("done")).hasFailed();
     softly.assertThat((Predicate<String>) s -> s.equals("something")).accepts("something else");
     softly.assertThat((IntPredicate) s -> s == 1).accepts(2);

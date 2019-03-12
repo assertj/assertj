@@ -18,7 +18,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import org.assertj.core.internal.UrisBaseTest;
@@ -27,8 +26,8 @@ import org.junit.jupiter.api.Test;
 public class Uris_assertHasParameter_Test extends UrisBaseTest {
 
   @Test
-  public void should_fail_if_parameter_is_missing() throws URISyntaxException {
-    URI uri = new URI("http://assertj.org/news");
+  public void should_fail_if_parameter_is_missing() {
+    URI uri = URI.create("http://assertj.org/news");
     String name = "article";
 
     try {
@@ -42,18 +41,18 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_has_no_value() throws URISyntaxException {
-    uris.assertHasParameter(info, new URI("http://assertj.org/news?article"), "article");
+  public void should_pass_if_parameter_has_no_value() {
+    uris.assertHasParameter(info, URI.create("http://assertj.org/news?article"), "article");
   }
 
   @Test
-  public void should_pass_if_parameter_has_value() throws URISyntaxException {
-    uris.assertHasParameter(info, new URI("http://assertj.org/news?article=10"), "article");
+  public void should_pass_if_parameter_has_value() {
+    uris.assertHasParameter(info, URI.create("http://assertj.org/news?article=10"), "article");
   }
 
   @Test
-  public void should_fail_if_parameter_without_value_is_missing() throws URISyntaxException {
-    URI uri = new URI("http://assertj.org/news");
+  public void should_fail_if_parameter_without_value_is_missing() {
+    URI uri = URI.create("http://assertj.org/news");
     String name = "article";
     String expectedValue = null;
 
@@ -68,13 +67,13 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_without_value_is_found() throws URISyntaxException {
-    uris.assertHasParameter(info, new URI("http://assertj.org/news?article"), "article", null);
+  public void should_pass_if_parameter_without_value_is_found() {
+    uris.assertHasParameter(info, URI.create("http://assertj.org/news?article"), "article", null);
   }
 
   @Test
-  public void should_fail_if_parameter_without_value_has_value() throws URISyntaxException {
-    URI uri = new URI("http://assertj.org/news?article=11");
+  public void should_fail_if_parameter_without_value_has_value() {
+    URI uri = URI.create("http://assertj.org/news?article=11");
     String name = "article";
     String expectedValue = null;
     List<String> actualValue = newArrayList("11");
@@ -90,8 +89,8 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_without_value_has_multiple_values() throws URISyntaxException {
-    URI uri = new URI("http://assertj.org/news?article=11&article=12");
+  public void should_fail_if_parameter_without_value_has_multiple_values() {
+    URI uri = URI.create("http://assertj.org/news?article=11&article=12");
     String name = "article";
     String expectedValue = null;
     List<String> actualValues = newArrayList("11", "12");
@@ -107,8 +106,8 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_is_missing() throws URISyntaxException {
-    URI uri = new URI("http://assertj.org/news");
+  public void should_fail_if_parameter_with_value_is_missing() {
+    URI uri = URI.create("http://assertj.org/news");
     String name = "article";
     String expectedValue = "10";
 
@@ -123,8 +122,8 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_has_no_value() throws URISyntaxException {
-    URI uri = new URI("http://assertj.org/news?article");
+  public void should_fail_if_parameter_with_value_has_no_value() {
+    URI uri = URI.create("http://assertj.org/news?article");
     String name = "article";
     String expectedValue = "10";
     List<String> actualValues = newArrayList((String)null);
@@ -140,8 +139,8 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_has_multiple_no_values() throws URISyntaxException {
-    URI uri = new URI("http://assertj.org/news?article&article");
+  public void should_fail_if_parameter_with_value_has_multiple_no_values() {
+    URI uri = URI.create("http://assertj.org/news?article&article");
     String name = "article";
     String expectedValue = "10";
     List<String> actualValues = newArrayList(null, null);
@@ -158,8 +157,8 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_is_wrong() throws URISyntaxException {
-    URI uri = new URI("http://assertj.org/news?article=11");
+  public void should_fail_if_parameter_with_value_is_wrong() {
+    URI uri = URI.create("http://assertj.org/news?article=11");
     String name = "article";
     String expectedValue = "10";
     List<String> actualValues = newArrayList("11");
@@ -175,7 +174,7 @@ public class Uris_assertHasParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_with_value_is_found() throws URISyntaxException {
-    uris.assertHasParameter(info, new URI("http://assertj.org/news?article=10"), "article", "10");
+  public void should_pass_if_parameter_with_value_is_found() {
+    uris.assertHasParameter(info, URI.create("http://assertj.org/news?article=10"), "article", "10");
   }
 }

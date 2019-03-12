@@ -25,8 +25,8 @@ import org.junit.jupiter.api.Test;
 public class ShouldHaveHost_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri() throws Exception {
-    String error = shouldHaveHost(new URI("http://assertj.org/news"), "foo.org").create(new TestDescription("TEST"));
+  public void should_create_error_message_for_uri() {
+    String error = shouldHaveHost(URI.create("http://assertj.org/news"), "foo.org").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting host of%n" +

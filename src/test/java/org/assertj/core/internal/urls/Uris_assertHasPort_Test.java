@@ -20,7 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
@@ -35,14 +34,14 @@ public class Uris_assertHasPort_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_the_given_port() throws URISyntaxException {
-    uris.assertHasPort(info, new URI("http://example.com:8080/pages/"), 8080);
+  public void should_pass_if_actual_uri_has_the_given_port() {
+    uris.assertHasPort(info, URI.create("http://example.com:8080/pages/"), 8080);
   }
 
   @Test
-  public void should_fail_if_actual_URI_port_is_not_the_given_port() throws URISyntaxException {
+  public void should_fail_if_actual_URI_port_is_not_the_given_port() {
     AssertionInfo info = someInfo();
-    URI uri = new URI("http://example.com:8080/pages/");
+    URI uri = URI.create("http://example.com:8080/pages/");
     int expectedPort = 8888;
     try {
       uris.assertHasPort(info, uri, expectedPort);

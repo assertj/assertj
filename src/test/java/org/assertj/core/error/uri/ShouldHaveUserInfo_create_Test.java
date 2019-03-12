@@ -25,8 +25,8 @@ import org.junit.jupiter.api.Test;
 public class ShouldHaveUserInfo_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri_has_user_info() throws Exception {
-    URI uri = new URI("http://test:pass@assertj.org/news");
+  public void should_create_error_message_for_uri_has_user_info() {
+    URI uri = URI.create("http://test:pass@assertj.org/news");
     String error = shouldHaveUserInfo(uri, "test:success").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -39,8 +39,8 @@ public class ShouldHaveUserInfo_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_has_no_user_info() throws Exception {
-    URI uri = new URI("http://test:pass@assertj.org/news");
+  public void should_create_error_message_for_uri_has_no_user_info() {
+    URI uri = URI.create("http://test:pass@assertj.org/news");
     String error = shouldHaveUserInfo(uri, null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +

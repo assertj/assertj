@@ -25,8 +25,8 @@ import org.junit.jupiter.api.Test;
 public class ShouldHaveQuery_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri_has_query() throws Exception {
-    URI uri = new URI("http://assertj.org/news?type=beta");
+  public void should_create_error_message_for_uri_has_query() {
+    URI uri = URI.create("http://assertj.org/news?type=beta");
     String error = shouldHaveQuery(uri, "type=final").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -39,8 +39,8 @@ public class ShouldHaveQuery_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_has_query() throws Exception {
-    URI uri = new URI("http://assertj.org/news?type=beta");
+  public void should_create_error_message_for_url_has_query() {
+    URI uri = URI.create("http://assertj.org/news?type=beta");
     String error = shouldHaveQuery(uri, "type=final").create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -53,8 +53,8 @@ public class ShouldHaveQuery_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_has_no_query() throws Exception {
-    URI uri = new URI("http://assertj.org/news?type=beta");
+  public void should_create_error_message_for_uri_has_no_query() {
+    URI uri = URI.create("http://assertj.org/news?type=beta");
     String error = shouldHaveQuery(uri, null).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
