@@ -112,17 +112,20 @@ public class PropertyOrFieldSupport_getValueOf_Test {
 
   @Test
   public void should_throw_exception_when_given_property_or_field_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf(null, yoda)).withMessage("The name of the property/field to read should not be null");
+    assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf(null, yoda))
+                                        .withMessage("The name of the property/field to read should not be null");
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf("", yoda)).withMessage("The name of the property/field to read should not be empty");
+    assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf("", yoda))
+                                        .withMessage("The name of the property/field to read should not be empty");
   }
 
   @Test
   public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> propertyOrFieldSupport.getValueOf("adult", brokenEmployee()));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> propertyOrFieldSupport.getValueOf("adult",
+                                                                                                           brokenEmployee()));
   }
 
   @Test
@@ -151,6 +154,27 @@ public class PropertyOrFieldSupport_getValueOf_Test {
     assertThat(maps).extracting("bad key").containsExactly(null, null);
   }
 
+  @Test
+  public void should_extract_field_value_if_only_static_getter_matches_name() {
+    Object value = propertyOrFieldSupport.getValueOf("city", new StaticPropertyEmployee());
+
+    assertThat(value).isEqualTo("New York");
+  }
+
+  @Test
+  public void should_extract_field_value_if_only_static_is_method_matches_name() {
+    Object value = propertyOrFieldSupport.getValueOf("tall", new StaticBooleanPropertyEmployee());
+
+    assertThat(value).isEqualTo(false);
+  }
+
+  @Test
+  public void should_extract_field_value_if_only_static_bare_method_matches_name() {
+    Object value = propertyOrFieldSupport.getValueOf("city", new StaticBarePropertyEmployee());
+
+    assertThat(value).isEqualTo("New York");
+  }
+
   private Employee employeeWithBrokenName(String name) {
     return new Employee(1L, new Name(name), 0) {
       @Override
@@ -176,6 +200,26 @@ public class PropertyOrFieldSupport_getValueOf_Test {
         throw new IllegalStateException();
       }
     };
+  }
+
+  static class StaticPropertyEmployee extends Employee {
+    public static String getCity() {
+      return "London";
+    }
+  }
+
+  static class StaticBarePropertyEmployee extends Employee {
+    public static String city() {
+      return "London";
+    }
+  }
+
+  static class StaticBooleanPropertyEmployee extends Employee {
+    boolean tall = false;
+
+    public static boolean isTall() {
+      return true;
+    }
   }
 
 }
