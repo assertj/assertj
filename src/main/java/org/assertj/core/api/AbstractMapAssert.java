@@ -575,7 +575,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries.
    */
   public SELF containsAllEntriesOf(Map<? extends K, ? extends V> other) {
-    Map.Entry<? extends K, ? extends V>[] entries = other.entrySet().toArray(new Map.Entry[other.size()]);
+    @SuppressWarnings("unchecked")
+    Map.Entry<? extends K, ? extends V>[] entries = other.entrySet().toArray(new Map.Entry[0]);
     maps.assertContains(info, actual, entries);
     return myself;
   }
@@ -618,7 +619,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.12.0
    */
   public SELF containsExactlyEntriesOf(Map<? extends K, ? extends V> map) {
-    Map.Entry<? extends K, ? extends V>[] entries = map.entrySet().toArray(new Map.Entry[map.size()]);
+    @SuppressWarnings("unchecked")
+    Map.Entry<? extends K, ? extends V>[] entries = map.entrySet().toArray(new Map.Entry[0]);
     return containsExactly(entries);
   }
 
@@ -989,7 +991,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given key.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-
   public SELF containsKeys(@SuppressWarnings("unchecked") K... keys) {
     maps.assertContainsKeys(info, actual, keys);
     return myself;
@@ -1155,7 +1156,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given values.
    */
-
   public SELF containsValues(@SuppressWarnings("unchecked") V... values) {
     maps.assertContainsValues(info, actual, values);
     return myself;
@@ -1499,12 +1499,14 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * If a given key is not present in the map under test, a null value is extracted.
    * <p>
    * Example:
-   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * <pre><code class='java'>
+   * Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
    * map.put("name", "kawhi");
    * map.put("age", 25);
    *
    * assertThat(map).extracting("name", "age")
-   *                .contains("kawhi", 25);</code></pre>
+   *                .contains("kawhi", 25);
+   * </code></pre>
    * <p>
    * Note that the order of extracted keys value is consistent with the iteration order of the array under test.
    * <p>
@@ -1515,12 +1517,43 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new assertion object whose object under test is the array containing the extracted map values
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(Object... keys) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Object... keys) {
     isNotNull();
     List<Object> extractedValues = Stream.of(keys).map(actual::get).collect(Collectors.toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).as(description);
+  }
+
+  /**
+   * Extract the value of given key from the map under test, the extracted value becoming the new object under test.
+   * <p>
+   * For example, if you specify "id" key, then the object under test will be the map value for this key.
+   * <p>
+   * If a given key is not present in the map under test, a null value is extracted.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * map.put("name", "kawhi");
+   *
+   * assertThat(map).extracting("name")
+   *                .isEqualTo("kawhi");
+   * </code></pre>
+   * <p>
+   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
+   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
+   *
+   * @param key the key used to get value from the map under test
+   * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
+   */
+  @CheckReturnValue
+  public AbstractObjectAssert<?, ?> extracting(Object key) {
+    isNotNull();
+    Object extractedValue = actual.get(key);
+    String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
+    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+    return newObjectAssert(extractedValue).as(description);
   }
 
   /**
@@ -1530,13 +1563,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Let's take a look at an example to make things clearer :
    *  <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson familly
    * Map&lt;String, CartoonCharacter&gt; characters = new HashMap&lt;&gt;();
-   * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Omer&quot;));
+   * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Homer&quot;));
    * characters.put(&quot;mom&quot;, new CartoonCharacter(&quot;Marge&quot;));
    * characters.put(&quot;girl&quot;, new CartoonCharacter(&quot;Lisa&quot;));
    * characters.put(&quot;boy&quot;, new CartoonCharacter(&quot;Bart&quot;));
    *
    * assertThat(characters).extractingFromEntries(e -&gt; e.getValue().getName())
-   *                       .containsOnly(&quot;Omer&quot;, &quot;Marge&quot;, &quot;Lisa&quot;, &quot;Bart&quot;);</code></pre>
+   *                       .containsOnly(&quot;Homer&quot;, &quot;Marge&quot;, &quot;Lisa&quot;, &quot;Bart&quot;);</code></pre>
    *
    * @param extractor the extractor function to extract a value from an entry of the Map under test.
    * @return a new assertion object whose object under test is the list of values extracted
@@ -1546,7 +1579,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object> extractor) {
     isNotNull();
     List<Object> extractedObjects = actual.entrySet().stream()
-                                          .map(extractor::apply)
+                                          .map(extractor)
                                           .collect(toList());
     return newListAssertInstance(extractedObjects).as(info.description());
   }
@@ -1567,13 +1600,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Let's take a look at an example to make things clearer :
    * <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson familly
    * Map&lt;String, CartoonCharacter&gt; characters = new HashMap&lt;&gt;();
-   * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Omer&quot;));
+   * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Homer&quot;));
    * characters.put(&quot;mom&quot;, new CartoonCharacter(&quot;Marge&quot;));
    * characters.put(&quot;girl&quot;, new CartoonCharacter(&quot;Lisa&quot;));
    * characters.put(&quot;boy&quot;, new CartoonCharacter(&quot;Bart&quot;));
    *
    * assertThat(characters).extractingFromEntries(e -&gt; e.getKey(), e -&gt; e.getValue().getName())
-   *                       .containsOnly(tuple(&quot;dad&quot;, &quot;Omer&quot;),
+   *                       .containsOnly(tuple(&quot;dad&quot;, &quot;Homer&quot;),
    *                                     tuple(&quot;mom&quot;, &quot;Marge&quot;),
    *                                     tuple(&quot;girl&quot;, &quot;Lisa&quot;),
    *                                     tuple(&quot;boy&quot;, &quot;Bart&quot;));</code></pre>
@@ -1645,7 +1678,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new assertion object whose object under test is the array containing the extracted flattened map values
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String... keys) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String... keys) {
     Tuple values = byName(keys).apply(actual);
     List<Object> valuesFlattened = flatten(values.toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);

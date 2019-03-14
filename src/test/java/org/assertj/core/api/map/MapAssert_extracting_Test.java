@@ -42,21 +42,45 @@ public class MapAssert_extracting_Test {
   }
 
   @Test
+  public void should_allow_object_assertions_on_value_extracted_from_given_map_key() {
+    assertThat(map).extracting(NAME)
+                   .isEqualTo("kawhi");
+  }
+
+  @Test
   public void should_allow_assertions_on_values_extracted_from_given_extractors() {
     assertThat(map).extracting(m -> m.get(NAME), m -> m.get("age"))
                    .contains("kawhi", 25);
   }
 
   @Test
-  public void should_extract_null_from_unknown_key() {
-    assertThat(map).extracting(NAME, "id")
+  public void should_allow_object_assertions_on_value_extracted_from_given_extractor() {
+    assertThat(map).extracting(m -> m.get(NAME))
+                   .isEqualTo("kawhi");
+  }
+
+  @Test
+  public void should_extract_null_element_from_unknown_key() {
+    assertThat(map).extracting(NAME, "unknown")
                    .contains("kawhi", (Object) null);
+  }
+
+  @Test
+  public void should_extract_null_object_from_unknown_key() {
+    assertThat(map).extracting("unknown")
+                   .isNull();
   }
 
   @Test
   public void should_use_key_names_as_description() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).extracting(NAME, "age").isEmpty())
                                                    .withMessageContaining("[Extracted: name, age]");
+  }
+
+  @Test
+  public void should_use_key_name_as_description() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).extracting(NAME).isNull())
+                                                   .withMessageContaining("[Extracted: name]");
   }
 
   @Test
@@ -67,11 +91,28 @@ public class MapAssert_extracting_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  public void should_keep_existing_description_if_set_when_extracting_value_object() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name")
+                                                                                    .extracting(NAME).isNull())
+                                                   .withMessageContaining("[check name]");
+  }
+
+  @Test
+  public void should_fail_with_key_list_if_actual_is_null() {
     // GIVEN
     map = null;
     // WHEN
     Throwable error = catchThrowable(() -> assertThat(map).extracting(NAME, "age"));
+    // THEN
+    assertThat(error).hasMessage(actualIsNull());
+  }
+
+  @Test
+  public void should_fail_with_single_key_if_actual_is_null() {
+    // GIVEN
+    map = null;
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(map).extracting(NAME));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
