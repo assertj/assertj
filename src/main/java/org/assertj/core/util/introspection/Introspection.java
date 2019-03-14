@@ -34,7 +34,7 @@ public final class Introspection {
 
   /**
    * Returns the getter {@link Method} for a property matching the given name in the given object.
-   * 
+   *
    * @param propertyName the given property name.
    * @param target the given object.
    * @return the getter {@code Method} for a property matching the given name in the given object.
@@ -77,15 +77,19 @@ public final class Introspection {
     String capitalized = propertyName.substring(0, 1).toUpperCase(ENGLISH) + propertyName.substring(1);
     // try to find getProperty
     Method getter = findMethod("get" + capitalized, target);
-    if (getter != null && !Modifier.isStatic(getter.getModifiers())) return getter;
+    if (isValidGetter(getter)) return getter;
     if (bareNamePropertyMethods) {
       // try to find bare name property
       getter = findMethod(propertyName, target);
-      if (getter != null && !Modifier.isStatic(getter.getModifiers())) return getter;
+      if (isValidGetter(getter)) return getter;
     }
     // try to find isProperty for boolean properties
     Method isAccessor = findMethod("is" + capitalized, target);
-    return (isAccessor != null && !Modifier.isStatic(isAccessor.getModifiers())) ? isAccessor: null;
+    return (isValidGetter(isAccessor)) ? isAccessor: null;
+  }
+
+  private static boolean isValidGetter(Method method) {
+    return method != null && !Modifier.isStatic(method.getModifiers());
   }
 
   private static Method findMethod(String name, Object target) {
