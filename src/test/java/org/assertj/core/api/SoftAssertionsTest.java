@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -289,18 +290,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
       final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("IllegalArgumentException message");
       softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
-      softly.assertThatThrownBy(new ThrowingCallable() {
-
-        @Override
-        public void call() throws Exception {
-          throw new Exception("something was wrong");
-        }
-
+      softly.assertThatThrownBy(() -> {
+        throw new Exception("something was wrong");
       }).hasMessage("something was good");
 
       softly.assertThat(mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
 
-      softly.assertThat(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13, 00));
+      softly.assertThat(LocalTime.of(12, 0)).isEqualTo(LocalTime.of(13, 0));
       softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC))
             .isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
 
@@ -780,7 +776,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
-    softly.assertThat(asList()).first();
+    softly.assertThat(emptyList()).first();
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.assertThat(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
@@ -911,7 +907,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
             .containsExactly("1", "2");
       softly.assertThat(numbers)
             .extracting("one")
-            .containsExactly("1");
+            .isEqualTo("1");
     }
   }
 

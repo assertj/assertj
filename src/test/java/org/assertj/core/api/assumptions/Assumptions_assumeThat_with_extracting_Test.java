@@ -63,7 +63,7 @@ public class Assumptions_assumeThat_with_extracting_Test {
 
   @Test
   public void should_run_test_when_assumption_using_extracting_on_object_passes() {
-    assertThatCode(() -> assumeThat(yoda).extracting("name").containsExactly("Yoda")).doesNotThrowAnyException();
+    assertThatCode(() -> assumeThat(yoda).extracting("name").isEqualTo("Yoda")).doesNotThrowAnyException();
   }
 
   @Test

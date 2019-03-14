@@ -70,10 +70,10 @@ public class ObjectAssert_extracting_Test {
   public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
     Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(luke).as("check luke first name")
-                                                                                     .extracting("name.first")
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(luke).as("check luke first and last name")
+                                                                                     .extracting("name.first", "name.last")
                                                                                      .isEmpty())
-                                                   .withMessageContaining("[check luke first name]");
+                                                   .withMessageContaining("[check luke first and last name]");
   }
 
   @Test

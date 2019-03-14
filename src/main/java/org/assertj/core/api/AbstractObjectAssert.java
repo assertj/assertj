@@ -607,11 +607,48 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one of the given name does not match a field or property
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
     Tuple values = byName(propertiesOrFields).apply(actual);
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(values.toList()).as(description);
+  }
+
+  /**
+   * Extracts the value of given field/property from the object under test, the extracted value becoming the new object under test.
+   * <p>
+   * Nested field/property is supported, specifying "adress.street.number" is equivalent to get the value
+   * corresponding to actual.getAdress().getStreet().getNumber()
+   * <p>
+   * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p>
+   * Note that since the value is extracted as an Object, only Object assertions can be chained after extracting.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   *
+   * // let's extract and verify Frodo's name:
+   * assertThat(frodo).extracting(&quot;name&quot;)
+   *                  .isEqualTo(&quot;Frodo&quot;);
+   *
+   * // The extracted value being a String, we would like to use String assertions but we can't due to Java generics limitations.
+   * // The following assertion does NOT compile:
+   * assertThat(frodo).extracting(&quot;name&quot;)
+   *                  .startsWith(&quot;Fro&quot;);</code></pre>
+   *
+   * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
+   * for, if the field is not accessible (i.e. does not exist) an {@link IntrospectionError} is thrown.
+   *
+   * @param propertyOrField the property/field to extract from the initial object under test
+   * @return a new {@link ObjectAssert} instance whose object under test is the extracted property/field values
+   * @throws IntrospectionError if one of the given name does not match a field or property
+   */
+  public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
+    Object value = byName(propertyOrField).apply(actual);
+    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
+    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+    return newObjectAssert(value).as(description);
   }
 
   /**
@@ -637,7 +674,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return a new assertion object whose object under test is the list containing the extracted values
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(@SuppressWarnings("unchecked") Function<? super ACTUAL, Object>... extractors) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, Object>... extractors) {
     List<Object> values = Stream.of(extractors)
                                 .map(extractor -> extractor.apply(actual))
                                 .collect(toList());
@@ -667,7 +704,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @since 3.11.0
    */
-  public AbstractObjectAssert<?, ?> extracting(Function<? super ACTUAL, ? extends Object> extractor) {
+  public AbstractObjectAssert<?, ?> extracting(Function<? super ACTUAL, ?> extractor) {
     requireNonNull(extractor, "The given java.util.function.Function extractor must not be null");
     Object extractedValue = extractor.apply(actual);
     return newObjectAssert(extractedValue).withAssertionState(myself);

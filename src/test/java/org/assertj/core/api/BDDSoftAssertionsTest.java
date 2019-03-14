@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -270,7 +271,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
       throw new Exception("something was wrong");
     }).hasMessage("something was good");
     softly.then(mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
-    softly.then(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13, 00));
+    softly.then(LocalTime.of(12, 0)).isEqualTo(LocalTime.of(13, 0));
     softly.then(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC))
           .isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
     softly.then(Optional.of("not empty")).isEqualTo("empty");
@@ -733,7 +734,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
-    softly.then(asList()).first();
+    softly.then(emptyList()).first();
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.then(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
@@ -910,7 +911,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
             .containsExactly("1", "2");
       softly.then(numbers)
             .extracting("one")
-            .containsExactly("1");
+            .isEqualTo("1");
     }
   }
 
