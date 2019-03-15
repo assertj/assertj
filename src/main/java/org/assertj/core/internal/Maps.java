@@ -51,6 +51,7 @@ import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -124,15 +125,14 @@ public class Maps {
     checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
 
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = actual.entrySet().stream()
-                                                                 .map(entry -> failsRequirements(entryRequirements, entry))
-                                                                 .filter(Optional::isPresent)
-                                                                 .map(Optional::get)
-                                                                 .collect(toList());
-    if (unsatisfiedRequirements.size() == actual.size()) {
-      // all elements have failed the requirements!
-      throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
+    List<UnsatisfiedRequirement> unsatisfiedRequirements =  new ArrayList<>();
+    for (Map.Entry<K,V> entry : actual.entrySet()) {
+      Optional<UnsatisfiedRequirement> result = failsRequirements(entryRequirements, entry);
+      if (!result.isPresent()) return; // entry satisfied the requirements
+      unsatisfiedRequirements.add(result.get());
     }
+
+    throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
   }
 
   public <K, V> void assertNoneSatisfy(AssertionInfo info, Map<K, V> actual, BiConsumer<? super K,? super V> entryRequirements) {

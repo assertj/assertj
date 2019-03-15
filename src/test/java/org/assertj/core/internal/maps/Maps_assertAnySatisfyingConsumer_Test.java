@@ -24,11 +24,14 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.BiConsumer;
 
 import org.assertj.core.error.ElementsShouldSatisfy;
 import org.assertj.core.internal.MapsBaseTest;
@@ -45,6 +48,20 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   public void setUp() {
     super.setUp();
     greatPlayers = mapOf(entry("Bulls", jordan), entry("Spurs", duncan), entry("Lakers", magic));
+  }
+
+  @Test
+  public void must_not_check_all_entries() {
+    // GIVEN
+    assertThat(greatPlayers).hasSizeGreaterThan(2); // This test requires a map with size > 2
+    BiConsumer<String,Player> consumer = mock(BiConsumer.class);
+    // first entry does not match -> assertion error, 2nd entry does match -> doNothing()
+    doThrow(new AssertionError("some error message")).doNothing().when(consumer).accept(anyString(), any(Player.class));
+    // WHEN
+    maps.assertAnySatisfy(someInfo(), greatPlayers, consumer);
+    // THEN
+    // make sure that we only evaluated 2 out of 3 entries
+    verify(consumer, times(2)).accept(anyString(), any(Player.class));
   }
 
   @Test
