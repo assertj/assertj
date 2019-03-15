@@ -26,6 +26,8 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 
+import org.assertj.core.util.VisibleForTesting;
+
 /**
  * Utility methods for fields access.
  *
@@ -75,6 +77,7 @@ public enum FieldSupport {
     this.allowUsingPrivateFields = allowUsingPrivateFields;
   }
 
+  @VisibleForTesting
   public boolean isAllowedToUsePrivateFields() {
     return allowUsingPrivateFields;
   }
@@ -176,7 +179,7 @@ public enum FieldSupport {
    * <p>
    * Return null if field is nested and one of the nested value is null, ex :
    * <pre><code class='java'> fieldValue(race.name, String.class, frodo); // will return null if frodo.race is null</code></pre>
-   * 
+   *
    * @param <T> the type of the extracted value.
    * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
    *          {@code null} or empty.

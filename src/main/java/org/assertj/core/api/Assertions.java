@@ -1275,6 +1275,8 @@ public class Assertions {
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
+   * <p>
+   * Default is {@value org.assertj.core.configuration.Configuration#REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE}.
    *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
@@ -1492,7 +1494,7 @@ public class Assertions {
    * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
    * should be allowed to extract private fields, if not and they try it fails with exception.
    *
-   * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
+   * @param allowExtractingPrivateFields allow private fields extraction. Default is {@value org.assertj.core.configuration.Configuration#ALLOW_EXTRACTING_PRIVATE_FIELDS}.
    */
   public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
     FieldSupport.extraction().setAllowUsingPrivateFields(allowExtractingPrivateFields);
@@ -1510,7 +1512,7 @@ public class Assertions {
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
    *
-   * @param allowComparingPrivateFields allow private fields comparison. Default {@code true}.
+   * @param allowComparingPrivateFields allow private fields comparison. Default is {@value org.assertj.core.configuration.Configuration#ALLOW_COMPARING_PRIVATE_FIELDS}.
    */
   public static void setAllowComparingPrivateFields(boolean allowComparingPrivateFields) {
     FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);

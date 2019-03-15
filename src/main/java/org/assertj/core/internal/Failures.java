@@ -20,6 +20,7 @@ import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.AssertionErrorFactory;
@@ -60,7 +61,7 @@ public class Failures {
   /**
    * flag indicating whether or not we remove elements related to AssertJ from assertion error stack trace.
    */
-  private boolean removeAssertJRelatedElementsFromStackTrace = true;
+  private boolean removeAssertJRelatedElementsFromStackTrace = Configuration.REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE;
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.

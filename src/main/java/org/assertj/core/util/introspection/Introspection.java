@@ -22,6 +22,8 @@ import static org.assertj.core.util.Strings.quote;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import org.assertj.core.util.VisibleForTesting;
+
 /**
  * Utility methods related to <a
  * href="http://java.sun.com/docs/books/tutorial/javabeans/introspection/index.html">JavaBeans Introspection</a>.
@@ -61,7 +63,12 @@ public final class Introspection {
   }
 
   public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
-    Introspection.bareNamePropertyMethods = barenamePropertyMethods;
+    bareNamePropertyMethods = barenamePropertyMethods;
+  }
+
+  @VisibleForTesting
+  public static boolean canIntrospectExtractBareNamePropertyMethods() {
+    return bareNamePropertyMethods;
   }
 
   private static String propertyNotFoundErrorMessage(String propertyName, Object target) {

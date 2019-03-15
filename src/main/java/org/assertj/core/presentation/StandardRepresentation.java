@@ -52,18 +52,20 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.function.Function;
 
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.DateUtil;
+import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
 import org.assertj.core.util.diff.InsertDelta;
 
 /**
  * Standard java object representation.
- * 
+ *
  * @author Mariusz Smykula
  */
 public class StandardRepresentation implements Representation {
@@ -89,24 +91,24 @@ public class StandardRepresentation implements Representation {
   public static final String ELEMENT_SEPARATOR = ",";
   public static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + System.lineSeparator();
 
-  private static int maxLengthForSingleLineDescription = 80;
+  private static int maxLengthForSingleLineDescription = Configuration.MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
+  private static int maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
 
-  private static int maxElementsForPrinting = 1000;
 
   /**
    * It resets the static defaults for the standard representation.
    * <p>
    * The following defaults will be reapplied:
    * <ul>
-   *   <li>{@code maxLengthForSingleLineDescription = 80}</li>
-   *   <li>{@code maxElementsForPrinting = 1000}</li>
+   *   <li>{@code maxLengthForSingleLineDescription} = {@value org.assertj.core.configuration.Configuration#MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION} </li>
+   *   <li>{@code maxElementsForPrinting} = {@value org.assertj.core.configuration.Configuration#MAX_ELEMENTS_FOR_PRINTING} </li>
    * </ul>
    */
   public static void resetDefaults() {
-    maxLengthForSingleLineDescription = 80;
-    maxElementsForPrinting = 1000;
+    maxLengthForSingleLineDescription = Configuration.MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
+    maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
   }
 
   public static void setMaxLengthForSingleLineDescription(int value) {
@@ -114,6 +116,7 @@ public class StandardRepresentation implements Representation {
     maxLengthForSingleLineDescription = value;
   }
 
+  @VisibleForTesting
   public static int getMaxLengthForSingleLineDescription() {
     return maxLengthForSingleLineDescription;
   }
@@ -123,12 +126,17 @@ public class StandardRepresentation implements Representation {
     maxElementsForPrinting = value;
   }
 
+  @VisibleForTesting
+  public static int getMaxElementsForPrinting() {
+    return maxElementsForPrinting;
+  }
+
   /**
    * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.
-   * 
-   * @param <T> the type to register a formatter for  
-   * @param type the class of the type to register a formatter for  
-   * @param formatter the formatter  
+   *
+   * @param <T> the type to register a formatter for
+   * @param type the class of the type to register a formatter for
+   * @param formatter the formatter
    */
   public static <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {
     customFormatterByType.put(type, formatter);
@@ -144,7 +152,7 @@ public class StandardRepresentation implements Representation {
   /**
    * Returns standard the {@code toString} representation of the given object. It may or not the object's own
    * implementation of {@code toString}.
-   * 
+   *
    * @param object the given object.
    * @return the {@code toString} representation of the given object.
    */

@@ -17,7 +17,11 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.util.DateUtil.*;
+import static org.assertj.core.util.DateUtil.newIsoDateFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeWithUtcTimeZoneFormat;
+import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -105,7 +109,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isEqualTo("2002-12-19");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -144,7 +148,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // KO : fail as day fields differ
    * assertThat("2003-04-26T14:01:35").isEqualToIgnoringHours("2003-04-27T13:02:35");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -214,7 +218,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // KO : fail as hour fields differ
    * assertThat("2003-04-26T14:01:35").isEqualToIgnoringMinutes("2003-04-26T13:02:35");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -283,7 +287,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // KO : fail as minute fields differ
    * assertThat(date1).isEqualToIgnoringMinutes("2003-04-26T13:02:00");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -351,7 +355,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // KO : fail as seconds fields differ
    * assertThat("2003-04-26T13:01:35.998").isEqualToIgnoringMinutes("2003-04-26T13:01:36.998");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -410,13 +414,13 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass 
+   * <pre><code class='java'> // assertion will pass
    * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo("2002-12-19");
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo("2002-12-18");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -455,7 +459,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isIn("2002-12-17", "2002-12-19", "2002-12-20");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -540,7 +544,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotIn("2002-12-17", "2002-12-18");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -583,7 +587,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17", "2002-12-18"));</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -647,7 +651,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-17");
    * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-18");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -681,11 +685,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Example:
    * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-   * 
+   *
    * // assertions will pass
    * assertThat(dateFormat.parse(&quot;1990-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
    * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
-   * 
+   *
    * // assertion will fail
    * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;1990-12-01&quot;));</code></pre>
    *
@@ -714,7 +718,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-17");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -779,7 +783,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-18");
    * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-19");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -813,11 +817,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Example:
    * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-   * 
+   *
    * // assertions will pass
    * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;1990-12-01&quot;));
    * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
-   * 
+   *
    * // assertion will fail
    * assertThat(dateFormat.parse(&quot;1990-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));</code></pre>
    *
@@ -846,7 +850,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-19");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -911,7 +915,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-15", "2002-12-17");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -954,7 +958,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;), true, true);
    * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;), true, true);
    * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2100-01-01&quot;), false, false);
-   * 
+   *
    * // assertions will fail
    * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;), false, true);
    * assertThat(format.parse(&quot;2000-01-01&quot;)).isBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;), true, false);</code></pre>
@@ -989,7 +993,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-17", "2002-12-18", false, false);</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1032,7 +1036,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertions will pass
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("2000-01-01"), format.parse("2100-12-01"), false, true);
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2000-01-01"), true, false);
-   * 
+   *
    * // assertions will fail
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("2000-01-01"), format.parse("2100-12-01"), true, true);
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2000-01-01"), true, true);
@@ -1068,7 +1072,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-17", "2002-12-18", false, true);
    * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-18", "2002-12-19", true, false);</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1109,7 +1113,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(format.parse(&quot;1900-01-01&quot;)).isNotBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;));
    * assertThat(format.parse(&quot;2200-01-01&quot;)).isNotBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-12-01&quot;));
    * assertThat(format.parse(&quot;2000-01-01&quot;)).isNotBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;));
-   * 
+   *
    * // assertions will fail
    * assertThat(format.parse(&quot;2001-12-24&quot;)).isNotBetween(format.parse(&quot;2000-01-01&quot;), format.parse(&quot;2100-01-01&quot;));
    * assertThat(format.parse(&quot;1900-01-01&quot;)).isNotBetween(format.parse(&quot;1900-01-01&quot;), format.parse(&quot;2000-01-01&quot;));</code></pre>
@@ -1139,7 +1143,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theFellowshipOfTheRing.getReleaseDate()).isNotBetween("2002-12-01", "2002-12-19");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1512,7 +1516,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(parseDatetimeWithMs("2003-04-26T13:20:35.017")).hasMillisecond(25);</code></pre>
-   * 
+   *
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
    * @param millisecond the millisecond to compare actual millisecond to
@@ -1544,7 +1548,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Date date2 = parse("2003-05-27");
    *
    * assertThat(date1).isInSameYearAs(date2);</code></pre>
-   * 
+   *
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -1567,7 +1571,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Example:
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
    * assertThat(date1).isInSameYearAs("2003-05-27");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1603,7 +1607,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Date date2 = parse("2003-04-27");
    *
    * assertThat(date1).isInSameMonthAs(date2);</code></pre>
-   * 
+   *
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -1626,7 +1630,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Example:
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
    * assertThat(date1).isInSameMonthAs("2003-04-27");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1661,7 +1665,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Date date2 = parseDatetime("2003-04-26T12:30:00");
    *
    * assertThat(date1).isInSameDayAs(date2);</code></pre>
-   * 
+   *
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -1684,7 +1688,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T23:17:00");
    * assertThat(date1).isInSameDayAs("2003-04-26");</code></pre>
-   * 
+   *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -1719,21 +1723,21 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:00:00");
    * Date date2 = parseDatetime("2003-04-26T14:00:00");
    * assertThat(date1).isInSameHourWindowAs(date2);</code></pre>
-   * 
+   *
    * Two dates can have different hour fields and yet be in the same chronological hour, example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:00:00");
    * Date date2 = parseDatetime("2003-04-26T12:59:59");
    * // succeeds as time difference == 1s
    * assertThat(date1).isInSameHourWindowAs(date2);</code></pre>
-   * 
+   *
    * This assertion fails as time difference is more than one hour:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:00:00");
    * Date date2 = parseDatetime("2003-04-26T14:00:01");
    * assertThat(date1).isInSameHourWindowAs(date2);</code></pre>
-   * 
+   *
    * To compare date's hour fields only (without day, month and year), you can write :
    * <pre><code class='java'> assertThat(myDate).isWithinHour(hourOfDayOf(otherDate));</code></pre>
-   * 
+   *
    * see {@link org.assertj.core.util.DateUtil#hourOfDayOf(java.util.Date) hourOfDayOf} to get the hour of a given Date.
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
@@ -1791,14 +1795,14 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // succeeds
    * assertThat(date1).isInSameHourAs(date2);</code></pre>
-   * 
+   *
    * <b>This assertion does not make a true chronological comparison</b> since two dates can have different hour fields
    * and yet be in the same chronological hour, e.g:
-   * 
+   *
    * <pre><code class='java'> // dates in the same hour time window but with different hour fields
    * Date date1 = parseDatetime("2003-01-01T12:00:00");
    * Date date2 = parseDatetime("2003-01-01T11:59:00");</code></pre>
-   * 
+   *
    * If you want to assert that two dates are chronologically in the same hour time window use
    * {@link #isInSameHourWindowAs(java.util.Date) isInSameHourWindowAs} assertion (note that if
    * <code>isInSameHourAs</code> succeeds then <code>isInSameHourWindowAs</code> will succeed too).
@@ -1862,21 +1866,21 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // succeeds because date time difference &lt; 1 min
    * assertThat(date1).isInSameMinuteWindowAs(date2);</code></pre>
-   * 
+   *
    * Two dates can have different minute fields and yet be in the same chronological minute, example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:01:00");
    * Date date3 = parseDatetime("2003-01-01T12:00:59");
    *
    * // succeeds as time difference == 1s even though minutes fields differ
    * assertThat(date1).isInSameMinuteWindowAs(date3);</code></pre>
-   * 
+   *
    * This assertion fails as time difference is &gt;= one minute:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-01-01T12:01:00");
    * Date date2 = parseDatetime("2003-01-01T12:02:00");
    *
    * // fails, time difference should hae been &lt; 1 min
    * assertThat(date1).isInSameMinuteWindowAs(date2); // ERROR</code></pre>
-   * 
+   *
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -1932,7 +1936,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // succeeds because the all the fields up to minutes are the same
    * assertThat(date1).isInSameMinuteAs(date2);</code></pre>
-   * 
+   *
    * <b>It does not make a true chronological comparison</b> since two dates can have different minute fields and yet be
    * in the same chronological minute, e.g:
    * <pre><code class='java'> // dates in the same minute time window but with different minute fields
@@ -1941,7 +1945,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // fails because minutes fields differ even though time difference is only 1s !
    * assertThat(date1).isInSameMinuteAs(date3); // ERROR</code></pre>
-   * 
+   *
    * If you want to assert that two dates are in the same minute time window use
    * {@link #isInSameMinuteWindowAs(java.util.Date) isInSameMinuteWindowAs} assertion (note that if
    * <code>isInSameMinuteAs</code> succeeds then <code>isInSameMinuteWindowAs</code> will succeed too).
@@ -2005,14 +2009,14 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // succeeds as time difference is &lt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date2);</code></pre>
-   * 
+   *
    * Two dates can have different second fields and yet be in the same chronological second, example:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:02.999");
    * Date date2 = parseDatetimeWithMs("2003-04-26T13:01:03.000");
    *
    * // succeeds as time difference is 1ms &lt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date2);</code></pre>
-   * 
+   *
    * Those assertions fail as time difference is greater or equal to one second:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:01.000");
    * Date date2 = parseDatetimeWithMs("2003-04-26T13:01:02.000");
@@ -2023,7 +2027,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Date date3 = parseDatetimeWithMs("2003-04-26T13:01:02.001");
    * // fails as time difference &gt; 1s
    * assertThat(date1).isInSameSecondWindowAs(date3); // ERROR</code></pre>
-   * 
+   *
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -2072,13 +2076,13 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Verifies that actual and given {@code Date} have same second, minute, hour, day, month and year fields values.
-   * 
+   *
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-01-01T12:00:01.000");
    * Date date2 = parseDatetimeWithMs("2003-01-01T12:00:01.250");
    *
    * // succeeds because the all the time fields up to seconds are the same
    * assertThat(date1).isInSameSecondAs(date2);</code></pre>
-   * 
+   *
    * <b>It does not make a true chronological comparison</b> since two dates can have different second fields and yet
    * be
    * in the same chronological second, e.g:
@@ -2087,7 +2091,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // fails because seconds fields differ even though time difference is only 1ms !
    * assertThat(date1).isInSameSecondAs(date3); // ERROR</code></pre>
-   * 
+   *
    * If you want to assert that two dates are in the same second time window use
    * {@link #isInSameSecondWindowAs(java.util.Date) isInSameSecondWindowAs} assertion.
    * <p>
@@ -2228,11 +2232,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Example:
    * <pre><code class='java'> Date date = new Date();
    * Timestamp timestamp = new Timestamp(date.getTime());
-   * 
+   *
    * // Fail as date is not an instance of Timestamp
    * assertThat(date).isEqualTo(timestamp);
-   * 
-   * // Succeed as we compare date and timestamp time. 
+   *
+   * // Succeed as we compare date and timestamp time.
    * assertThat(date).hasSameTimeAs(timestamp);</code></pre>
    *
    * @param date the date to compare actual time to.
@@ -2265,7 +2269,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(date).hasSameTimeAs("2003-04-26T12:00:01");
    * assertThat(date).hasSameTimeAs("2003-04-27T12:00:00");</code></pre>
-   * 
+   *
    * Default date formats (expressed in the local time zone) are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -2363,7 +2367,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * AbstractDateAssert.setLenientDateParsing(true);
    *
    * // assertions will pass
-   * assertThat(date).isEqualTo("2001-01-34");
+   * assertThat(date).isEqualTo("2001-02-03");
    * assertThat(date).isEqualTo("2001-02-02T24:00:00");
    * assertThat(date).isEqualTo("2001-02-04T-24:00:00.000");
    * assertThat(dateTime).isEqualTo("2001-02-03T04:05:05.1000");
