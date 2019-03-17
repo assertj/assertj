@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
-  <version>3.12.2-SNAPSHOT</version>
+  <version>3.12.2</version>
   <packaging>bundle</packaging>
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
@@ -25,7 +25,7 @@
     <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-core.git</developerConnection>
     <connection>scm:git:git@github.com:joel-costigliola/assertj-core.git</connection>
     <url>git@github.com:joel-costigliola/assertj-core</url>
-    <tag>HEAD</tag>
+    <tag>assertj-core-3.12.2</tag>
   </scm>
   <issueManagement>
     <system>github</system>
