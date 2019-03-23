@@ -3,7 +3,7 @@
 [![Build Status (master)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=master)](https://travis-ci.org/joel-costigliola/assertj-core)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
 
-[![Javadocs](http://www.javadoc.io/badge/joel-costigliola/assertj-core.svg)](http://www.javadoc.io/doc/joel-costigliola/assertj-core)
+[![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (with JUnit, TestNG or any other test framework).
 
