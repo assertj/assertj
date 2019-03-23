@@ -60,7 +60,12 @@ public final class Lists {
     if (elements == null) {
       return null;
     }
-    return Streams.stream(elements).collect(toCollection(ArrayList::new));
+    // Do not replace by streams due to android compatibility
+    ArrayList<T> list = newArrayList();
+    for (T e : elements) {
+      list.add(e);
+    }
+    return list;
   }
 
   /**
