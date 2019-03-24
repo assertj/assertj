@@ -15,7 +15,7 @@ package org.assertj.core.condition;
 import org.assertj.core.api.Condition;
 
 /**
- * Returns {@code true} if all of the joined conditions is satisfied.
+ * Returns {@code true} if all of the joined conditions are satisfied.
  * @param <T> the type of object this condition accepts.
  * 
  * @author Yvonne Wang
@@ -27,7 +27,7 @@ public class AllOf<T> extends Join<T> {
    * Creates a new <code>{@link AllOf}</code>
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
-   * @return the created {@code AnyOf}.
+   * @return the created {@code AllOf}.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
@@ -40,7 +40,7 @@ public class AllOf<T> extends Join<T> {
    * Creates a new <code>{@link AllOf}</code>
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
-   * @return the created {@code AnyOf}.
+   * @return the created {@code AllOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
