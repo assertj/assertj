@@ -17,11 +17,14 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
+import java.util.Comparator;
 
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.Comparables;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -113,4 +116,27 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    */
   protected abstract TEMPORAL parse(String temporalAsString);
 
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super TEMPORAL> customComparator) {
+    return usingComparator(customComparator, null);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super TEMPORAL> customComparator, String customComparatorDescription) {
+    this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
+    return super.usingComparator(customComparator, customComparatorDescription);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingDefaultComparator() {
+    this.comparables = new Comparables();
+    return super.usingDefaultComparator();
+  }
 }
