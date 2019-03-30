@@ -12,27 +12,21 @@
  */
 package org.assertj.core.api;
 
-import static org.mockito.Mockito.mock;
+import org.assertj.core.internal.Comparables;
 
 import java.time.ZonedDateTime;
 
-import org.assertj.core.internal.Comparables;
+public abstract class AbstractZonedDateTimeAssertBaseTest extends TemporalAssertBaseTest<ZonedDateTimeAssert, ZonedDateTime> {
 
-public abstract class ZonedDateTimeAssertBaseTest extends BaseTestTemplate<ZonedDateTimeAssert, ZonedDateTime> {
-
-  protected Comparables comparables;
   protected ZonedDateTime now = ZonedDateTime.now();
-
-  @Override
-  protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
-  }
 
   @Override
   protected ZonedDateTimeAssert create_assertions() {
     return new ZonedDateTimeAssert(now);
   }
 
+  @Override
+  public Comparables getComparables(ZonedDateTimeAssert someAssertions) {
+    return assertions.comparables;
+  }
 }

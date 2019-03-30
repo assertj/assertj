@@ -16,9 +16,10 @@ import static org.mockito.Mockito.verify;
 
 import java.time.ZonedDateTime;
 
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 
-public class ZonedDateTimeAssert_isStrictlyBetween_Test extends org.assertj.core.api.ZonedDateTimeAssertBaseTest {
+public class ZonedDateTimeAssert_isStrictlyBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   private ZonedDateTime before = now.minusSeconds(1);
   private ZonedDateTime after = now.plusSeconds(1);

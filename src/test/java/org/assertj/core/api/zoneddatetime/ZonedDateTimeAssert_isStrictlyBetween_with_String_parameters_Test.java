@@ -19,11 +19,12 @@ import static org.mockito.Mockito.verify;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 public class ZonedDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
-    extends org.assertj.core.api.ZonedDateTimeAssertBaseTest {
+    extends AbstractZonedDateTimeAssertBaseTest {
 
   private ZonedDateTime before = now.minusSeconds(1);
   private ZonedDateTime after = now.plusSeconds(1);
