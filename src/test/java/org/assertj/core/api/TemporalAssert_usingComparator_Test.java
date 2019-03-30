@@ -12,15 +12,14 @@
  */
 package org.assertj.core.api;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.time.temporal.Temporal;
 import java.util.Comparator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.Mock;
 
 public class TemporalAssert_usingComparator_Test extends AbstractTemporalAssertBaseTest {
 
@@ -34,7 +33,6 @@ public class TemporalAssert_usingComparator_Test extends AbstractTemporalAssertB
 
   @Override
   protected ConcreteTemporalAssert invoke_api_method() {
-    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     return assertions.usingComparator(comparator);
   }
 

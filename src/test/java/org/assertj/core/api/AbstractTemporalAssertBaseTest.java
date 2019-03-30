@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.internal.Comparables;
-
 import java.time.ZonedDateTime;
+
+import org.assertj.core.internal.Comparables;
 
 public abstract class AbstractTemporalAssertBaseTest extends TemporalAssertBaseTest<ConcreteTemporalAssert, ZonedDateTime> {
 

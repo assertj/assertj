@@ -19,7 +19,7 @@ import java.time.temporal.Temporal;
 import static org.mockito.Mockito.mock;
 
 public abstract class TemporalAssertBaseTest<ASSERT extends AbstractTemporalAssert<ASSERT, TEMPORAL>, TEMPORAL extends Temporal>
-  extends BaseTestTemplate<ASSERT, TEMPORAL> {
+    extends BaseTestTemplate<ASSERT, TEMPORAL> {
 
   protected Comparables comparables;
 
