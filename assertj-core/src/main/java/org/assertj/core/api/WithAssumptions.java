@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -907,6 +909,26 @@ public interface WithAssumptions {
    * @since 3.9.0
    */
   default <RESULT> CompletableFutureAssert<RESULT> assumeThat(CompletionStage<RESULT> actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Buffer}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   */
+  default AbstractBufferAssert assumeThat(Buffer actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ByteBuffer}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   */
+  default AbstractByteBufferAssert assumeThat(ByteBuffer actual) {
     return Assumptions.assumeThat(actual);
   }
 
