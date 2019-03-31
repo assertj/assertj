@@ -18,6 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class Java6JUnitBDDSoftAssertionsSuccessTest {
+  @SuppressWarnings("deprecation")
   @Rule
   public final Java6JUnitBDDSoftAssertions softly = new Java6JUnitBDDSoftAssertions();
 

@@ -19,12 +19,15 @@ import java.util.List;
 import org.assertj.core.error.AssertionErrorCreator;
 
 /**
+ * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
+ * <p>
  * BDD-style Android-compatible soft assertions. Duplicated from {@link BDDSoftAssertions}.
  *
  * @see BDDSoftAssertions
  *
  * @since 2.5.0 / 3.5.0
  */
+@Deprecated
 public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();

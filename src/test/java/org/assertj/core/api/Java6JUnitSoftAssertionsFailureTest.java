@@ -25,6 +25,7 @@ import org.junit.runners.model.MultipleFailureException;
 public class Java6JUnitSoftAssertionsFailureTest {
   // we cannot make it a rule here, because we need to test the failure without this test failing!
   // @Rule
+  @SuppressWarnings("deprecation")
   public final Java6JUnitSoftAssertions softly = new Java6JUnitSoftAssertions();
 
   @Test

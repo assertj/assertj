@@ -66,11 +66,14 @@ import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
+ * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
+ * <p>
  * Assertions compatible with Android. Duplicated from {@link Assertions}.
  *
  * @see Assertions
  */
 @CheckReturnValue
+@Deprecated
 public class Java6Assertions {
 
   /**

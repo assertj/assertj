@@ -44,12 +44,15 @@ import org.assertj.core.util.CanIgnoreReturnValue;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
+ * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
+ * <p>
  * Android-compatible BDD-style assertions duplicated from {@link BDDAssertions}.
  *
  * @see BDDAssertions
  *
  * @since 2.5.0 / 3.5.0
  */
+@Deprecated
 @CheckReturnValue
 public class Java6BDDAssertions {
 

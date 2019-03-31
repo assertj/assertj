@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
+@SuppressWarnings("deprecation")
 public class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends BaseAssertionsTest {
 
   @Test

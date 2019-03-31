@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 public class Java6Assertions_fail_Test {
 
   @Test
@@ -23,13 +24,13 @@ public class Java6Assertions_fail_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Java6Assertions.fail("Failed :("))
                                                    .withMessage("Failed :(");
   }
-  
+
   @Test
   public void should_include_message_with_parameters_when_failing() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Java6Assertions.fail("Failed %s", ":("))
                                                    .withMessage("Failed :(");
   }
-  
+
   @Test
   public void should_include_message_with_cause_when_failing() {
     String message = "Some Throwable";
