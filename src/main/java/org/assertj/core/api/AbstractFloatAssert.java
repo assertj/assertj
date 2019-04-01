@@ -42,7 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
     implements FloatingPointNumberAssert<SELF, Float> {
 
-  private static final Float NEGATIVE_ZERO = new Float(-0.0);
+  private static final Float NEGATIVE_ZERO = Float.valueOf(-0.0f);
 
   @VisibleForTesting
   Floats floats = Floats.instance();
