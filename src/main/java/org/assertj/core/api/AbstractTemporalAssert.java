@@ -35,7 +35,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
     extends AbstractAssert<SELF, TEMPORAL> {
 
   @VisibleForTesting
-  Comparables comparables = new Comparables();
+  Comparables comparables;
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractTemporalAssert}</code>.
@@ -44,6 +44,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    */
   protected AbstractTemporalAssert(TEMPORAL actual, Class<?> selfType) {
     super(actual, selfType);
+    comparables = new Comparables();
   }
 
   @VisibleForTesting

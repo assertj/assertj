@@ -14,6 +14,7 @@ package org.assertj.core.api.zoneddatetime;
 
 import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
+import static org.assertj.core.api.AbstractZonedDateTimeAssert.COMPARATOR_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -47,7 +48,7 @@ public class ZonedDateTimeAssert_isBefore_Test extends ZonedDateTimeAssertBaseTe
     ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
     ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
     ZonedDateTime cestDateTime2 = ZonedDateTime.of(2013, 6, 10, 3, 0, 0, 0, cestTimeZone);
-    //  utcDateTime < cestDateTime2  
+    //  utcDateTime < cestDateTime2
     assertThat(utcDateTime).as("in UTC time zone").isBefore(cestDateTime2);
     // utcDateTime = cestDateTime1
     try {
@@ -62,7 +63,11 @@ public class ZonedDateTimeAssert_isBefore_Test extends ZonedDateTimeAssertBaseTe
   @Test
   public void test_isBefore_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 0, 0, UTC)).isBefore(ZonedDateTime.of(1998, 1, 1, 3, 3, 0, 0, UTC)))
-                                                   .withMessage(format("%nExpecting:%n  <2000-01-05T03:00Z>%nto be strictly before:%n  <1998-01-01T03:03Z>"));
+                                                   .withMessage(format("%nExpecting:%n" +
+                                                     "  <2000-01-05T03:00Z>%n" +
+                                                     "to be strictly before:%n" +
+                                                     "  <1998-01-01T03:03Z>" +
+                                                     "when comparing values using '%s'", COMPARATOR_DESC));
   }
 
   @Test

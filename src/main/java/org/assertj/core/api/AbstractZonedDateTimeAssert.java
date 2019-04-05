@@ -12,10 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
-import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
-import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgnoringHours;
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
@@ -23,16 +19,24 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualI
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Comparator;
 
+import org.assertj.core.internal.Comparables;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.util.CheckReturnValue;
 
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, ZonedDateTime> {
 
+  public static final Comparator<ChronoZonedDateTime> BY_INSTANT = Comparator.comparing(ChronoZonedDateTime::toInstant);
+
   public static final String NULL_DATE_TIME_PARAMETER_MESSAGE = "The ZonedDateTime to compare actual with should not be null";
+  public static final String COMPARATOR_DESC = "instant comparator";
 
   /**
    * Check that the {@link ZonedDateTime} to compare actual {@link ZonedDateTime} to is not null, otherwise throws a
@@ -48,7 +52,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Verifies that the actual {@code ZonedDateTime} is <b>strictly</b> before the given one.
    * <p>
-   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toInstant()} )
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59Z")).isBefore(parse("2000-01-02T00:00:00Z"));</code></pre>
@@ -62,9 +66,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   public SELF isBefore(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (!actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-    }
+    comparables.assertIsBefore(info, actual, other);
     return myself;
   }
 
@@ -73,9 +75,6 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * must follow <a
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
-   * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check..
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
@@ -96,7 +95,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Verifies that the actual {@code ZonedDateTime} is before or equals to the given one.
    * <p>
-   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toInstant()})
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59Z")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59Z"))
@@ -111,9 +110,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   public SELF isBeforeOrEqualTo(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualsTo(actual, other));
-    }
+    comparables.assertIsBeforeOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -122,9 +119,6 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * String, which must follow <a
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
-   * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check..
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -146,7 +140,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Verifies that the actual {@code ZonedDateTime} is after or equals to the given one.
    * <p>
-   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toInstant()})
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isAfterOrEqualTo(parse("2000-01-01T00:00:00Z"))
@@ -161,9 +155,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   public SELF isAfterOrEqualTo(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualsTo(actual, other));
-    }
+    comparables.assertIsAfterOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -172,9 +164,6 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * String, which must follow <a
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
-   * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -196,7 +185,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Verifies that the actual {@code ZonedDateTime} is <b>strictly</b> after the given one.
    * <p>
-   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toInstant()})
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isAfter(parse("1999-12-31T23:59:59Z"));</code></pre>
@@ -210,9 +199,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   public SELF isAfter(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (!actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
-    }
+    comparables.assertIsAfter(info, actual, other);
     return myself;
   }
 
@@ -221,9 +208,6 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * must follow <a
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
-   * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -403,6 +387,9 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Verifies that the actual {@link ZonedDateTime} is equal to the given one <b>in the actual's
    * {@link java.time.ZoneId}</b>.
+   *
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toInstant()})
+   * <p>
    * <p>
    * Example :
    * <pre><code class='java'> ZonedDateTime firstOfJanuary2000InUTC = ZonedDateTime.parse("2000-01-01T00:00:00Z");
@@ -418,7 +405,12 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    *           ZonedDateTime's java.time.ZoneId.
    */
   public SELF isEqualTo(ZonedDateTime expected) {
-    return super.isEqualTo(sameInstantInActualTimeZone(expected));
+    if (actual == null || expected == null) {
+      super.isEqualTo(expected);
+    } else {
+      comparables.assertEqual(info, actual, expected);
+    }
+    return myself;
   }
 
   /**
@@ -448,7 +440,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isEqualTo(parse(dateTimeAsString));
+    return isEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -463,7 +455,12 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    *           ZonedDateTime's java.time.ZoneId.
    */
   public SELF isNotEqualTo(ZonedDateTime expected) {
-    return super.isNotEqualTo(sameInstantInActualTimeZone(expected));
+    if (actual == null || expected == null) {
+      super.isNotEqualTo(expected);
+    } else {
+      comparables.assertNotEqual(info, actual, expected);
+    }
+    return myself;
   }
 
   /**
@@ -488,7 +485,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isNotEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isNotEqualTo(parse(dateTimeAsString));
+    return isNotEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -703,10 +700,22 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
   }
 
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingDefaultComparator() {
+    SELF self = super.usingDefaultComparator();
+    self.comparables = buildDefaultComparables();
+    return self;
+  }
+
+  private Comparables buildDefaultComparables() {
+    return new Comparables(new ComparatorBasedComparisonStrategy(BY_INSTANT, COMPARATOR_DESC));
+  }
+
   private ZonedDateTime[] convertToDateTimeArray(String... dateTimesAsString) {
     ZonedDateTime[] dates = new ZonedDateTime[dateTimesAsString.length];
     for (int i = 0; i < dateTimesAsString.length; i++) {
-      // building the ZonedDateTime in actual's ZoneId
       dates[i] = parse(dateTimesAsString[i]);
     }
     return dates;
@@ -727,15 +736,13 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
 
   /**
    * Obtains an instance of {@link ZonedDateTime} from a string representation in ISO date format.
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * actual {@link ZonedDateTime}.
+   *
    * @param dateTimeAsString the string to parse
    * @return the parsed {@link ZonedDateTime}
    */
   @Override
   protected ZonedDateTime parse(String dateTimeAsString) {
-    ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
-    return sameInstantInActualTimeZone(zonedDateTime);
+    return ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
   }
 
   private ZonedDateTime sameInstantInActualTimeZone(ZonedDateTime zonedDateTime) {
@@ -826,6 +833,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
 
   protected AbstractZonedDateTimeAssert(ZonedDateTime actual, Class<?> selfType) {
     super(actual, selfType);
+    comparables = buildDefaultComparables();
   }
 
 }

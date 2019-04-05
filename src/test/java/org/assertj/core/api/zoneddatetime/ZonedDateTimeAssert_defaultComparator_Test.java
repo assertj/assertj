@@ -10,32 +10,28 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.zoneddatetime;
 
-import static org.mockito.Mockito.mock;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.ZonedDateTime;
+import org.assertj.core.api.AbstractZonedDateTimeAssert;
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
+import org.assertj.core.api.ZonedDateTimeAssert;
 
-import org.assertj.core.internal.Comparables;
-
-public abstract class AbstractZonedDateTimeAssertBaseTest extends TemporalAssertBaseTest<ZonedDateTimeAssert, ZonedDateTime> {
-
-  protected ZonedDateTime now = ZonedDateTime.now();
+public class ZonedDateTimeAssert_defaultComparator_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   @Override
   protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
   }
 
   @Override
-  protected ZonedDateTimeAssert create_assertions() {
-    return new ZonedDateTimeAssert(now);
+  protected ZonedDateTimeAssert invoke_api_method() {
+    return assertions;
   }
 
   @Override
-  public Comparables getComparables(ZonedDateTimeAssert someAssertions) {
-    return assertions.comparables;
+  protected void verify_internal_effects() {
+    assertThat(getComparables(assertions).getComparator()).isEqualTo(AbstractZonedDateTimeAssert.BY_INSTANT);
+    assertThat(getObjects(assertions).getComparator()).isNull();
   }
 }

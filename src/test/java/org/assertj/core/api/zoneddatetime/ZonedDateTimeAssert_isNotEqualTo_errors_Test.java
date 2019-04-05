@@ -14,6 +14,7 @@ package org.assertj.core.api.zoneddatetime;
 
 import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
+import static org.assertj.core.api.AbstractZonedDateTimeAssert.COMPARATOR_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -44,7 +45,12 @@ public class ZonedDateTimeAssert_isNotEqualTo_errors_Test extends ZonedDateTimeA
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       ZonedDateTime date = ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC);
       assertThat(date).isNotEqualTo(date.toString());
-    }).withMessage(format("%nExpecting:%n <2000-01-05T03:00:05Z>%nnot to be equal to:%n <2000-01-05T03:00:05Z>%n"));
+    }).withMessage(format("%nExpecting:%n" +
+      " <2000-01-05T03:00:05Z>%n" +
+      "not to be equal to:%n" +
+      " <2000-01-05T03:00:05Z>%n" +
+      "when comparing values using '%s'",
+      COMPARATOR_DESC));
   }
 
   @Test

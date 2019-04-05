@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.AbstractZonedDateTimeAssert.COMPARATOR_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.data.MapEntry.entry;
@@ -229,7 +230,8 @@ public class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(39)).contains(format("%nExpecting:%n <Optional[bad option]>%nto be equal to:%n <Optional[good option]>%nbut was not."));
       assertThat(errors.get(40)).contains(format("%nExpecting:%n <2015-01-01>%nto be equal to:%n <2015-01-02>%nbut was not."));
       assertThat(errors.get(41)).contains(format("%nExpecting:%n <2015-01-01T23:59:59>%nto be equal to:%n <2015-01-01T23:59>%nbut was not."));
-      assertThat(errors.get(42)).contains(format("%nExpecting:%n <2015-01-01T23:59:59Z>%nto be equal to:%n <2015-01-01T23:59Z>%nbut was not."));
+      assertThat(errors.get(42)).contains(format("%nExpecting:%n <2015-01-01T23:59:59Z>%nto be equal to:%n <2015-01-01T23:59Z>%n" +
+        "when comparing values using '%s'%nbut was not.", COMPARATOR_DESC));
 
       assertThat(errors.get(43)).contains(format("%nExpecting:%n <OptionalInt[0]>%nto be equal to:%n <1>%nbut was not."));
       assertThat(errors.get(44)).contains(format("%nExpecting:%n <OptionalDouble[0.0]>%nto be equal to:%n <1.0>%nbut was not."));
