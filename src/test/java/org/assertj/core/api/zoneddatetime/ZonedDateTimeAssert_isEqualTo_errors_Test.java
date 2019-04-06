@@ -14,7 +14,6 @@ package org.assertj.core.api.zoneddatetime;
 
 import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
-import static org.assertj.core.api.AbstractZonedDateTimeAssert.COMPARATOR_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -22,6 +21,7 @@ import static org.assertj.core.api.Assertions.fail;
 
 import java.time.ZonedDateTime;
 
+import org.assertj.core.util.temporal.DefaultZonedDateTimeComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -50,7 +50,7 @@ public class ZonedDateTimeAssert_isEqualTo_errors_Test extends ZonedDateTimeAsse
                                                      "to be equal to:%n" +
                                                      " <2012-01-01T03:03:03Z>%n" +
                                                      "when comparing values using '%s'%n" +
-                                                     "but was not.", COMPARATOR_DESC));
+                                                     "but was not.", DefaultZonedDateTimeComparator.getInstance()));
     // @format:on
   }
 

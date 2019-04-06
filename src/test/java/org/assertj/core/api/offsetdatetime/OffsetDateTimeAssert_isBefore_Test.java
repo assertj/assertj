@@ -15,7 +15,6 @@ package org.assertj.core.api.offsetdatetime;
 import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
-import static org.assertj.core.api.AbstractOffsetDateTimeAssert.COMPARATOR_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -24,6 +23,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
 
+import org.assertj.core.util.temporal.DefaultOffsetDateTimeComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -52,7 +52,8 @@ public class OffsetDateTimeAssert_isBefore_Test extends OffsetDateTimeAssertBase
                                                                        "  <2000-01-05T03:00:05Z>%n" +
                                                                        "to be strictly before:%n" +
                                                                        "  <1998-01-01T03:03:03Z>" +
-                                                                       "when comparing values using '%s'", COMPARATOR_DESC));
+                                                                       "when comparing values using '%s'",
+                                                                       DefaultOffsetDateTimeComparator.getInstance()));
   }
 
   @Test

@@ -15,7 +15,6 @@ package org.assertj.core.api.offsetdatetime;
 import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
-import static org.assertj.core.api.AbstractOffsetDateTimeAssert.COMPARATOR_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -23,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.OffsetDateTime;
 
+import org.assertj.core.util.temporal.DefaultOffsetDateTimeComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -51,7 +51,7 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends OffsetDateTimeAssertBas
                                                      "to be equal to:%n" +
                                                      " <2012-01-01T03:03:03Z>%n" +
                                                      "when comparing values using '%s'%n" +
-                                                     "but was not.", COMPARATOR_DESC));
+                                                     "but was not.", DefaultOffsetDateTimeComparator.getInstance()));
   }
 
   @Test

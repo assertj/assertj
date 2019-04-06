@@ -15,9 +15,9 @@ package org.assertj.core.api.offsetdatetime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-import org.assertj.core.api.AbstractOffsetDateTimeAssert;
 import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
+import org.assertj.core.util.temporal.DefaultOffsetDateTimeComparator;
 
 import java.time.OffsetDateTime;
 
@@ -30,7 +30,7 @@ public class OffsetDateTimeAssert_usingDefaultComparator_Test extends AbstractOf
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(getComparables(assertions).getComparator()).isEqualTo(AbstractOffsetDateTimeAssert.BY_INSTANT);
+    assertThat(getComparables(assertions).getComparator()).isEqualTo(DefaultOffsetDateTimeComparator.getInstance());
     assertThat(getObjects(assertions).getComparator()).isNull();
   }
 }

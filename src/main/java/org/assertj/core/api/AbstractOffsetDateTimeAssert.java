@@ -28,6 +28,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.temporal.DefaultOffsetDateTimeComparator;
 
 /**
  * Assertions for {@link java.time.OffsetDateTime} type from new Date &amp; Time API introduced in Java 8.
@@ -41,10 +42,7 @@ import org.assertj.core.util.CheckReturnValue;
 public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, OffsetDateTime> {
 
-  public static final Comparator<OffsetDateTime> BY_INSTANT = Comparator.comparing(OffsetDateTime::toInstant);
-
   public static final String NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE = "The OffsetDateTime to compare actual with should not be null";
-  public static final String COMPARATOR_DESC = "instant comparator";
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractOffsetDateTimeAssert}</code>.
@@ -664,7 +662,9 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   private Comparables buildDefaultComparables() {
-    return new Comparables(new ComparatorBasedComparisonStrategy(BY_INSTANT, COMPARATOR_DESC));
+    Comparator<OffsetDateTime> defaultComparator = DefaultOffsetDateTimeComparator.getInstance();
+    String description = defaultComparator.toString();
+    return new Comparables(new ComparatorBasedComparisonStrategy(defaultComparator, description));
   }
 
   /**

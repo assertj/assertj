@@ -29,14 +29,12 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.temporal.DefaultZonedDateTimeComparator;
 
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, ZonedDateTime> {
 
-  public static final Comparator<ChronoZonedDateTime> BY_INSTANT = Comparator.comparing(ChronoZonedDateTime::toInstant);
-
   public static final String NULL_DATE_TIME_PARAMETER_MESSAGE = "The ZonedDateTime to compare actual with should not be null";
-  public static final String COMPARATOR_DESC = "instant comparator";
 
   /**
    * Check that the {@link ZonedDateTime} to compare actual {@link ZonedDateTime} to is not null, otherwise throws a
@@ -710,7 +708,9 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   private Comparables buildDefaultComparables() {
-    return new Comparables(new ComparatorBasedComparisonStrategy(BY_INSTANT, COMPARATOR_DESC));
+    Comparator<ChronoZonedDateTime> defaultComparator = DefaultZonedDateTimeComparator.getInstance();
+    String description = defaultComparator.toString();
+    return new Comparables(new ComparatorBasedComparisonStrategy(defaultComparator, description));
   }
 
   private ZonedDateTime[] convertToDateTimeArray(String... dateTimesAsString) {
