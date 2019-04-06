@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.AbstractOffsetDateTimeAssert.COMPARATOR_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.test.Maps.mapOf;
@@ -217,7 +218,8 @@ public class AutoCloseableBDDSoftAssertionsTest {
 
       assertThat(errors.get(42)).contains(format("%nExpecting:%n <12:00>%nto be equal to:%n <13:00>%nbut was not."));
       assertThat(errors.get(43)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
-      assertThat(errors.get(44)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00>%nbut was not."));
+      assertThat(errors.get(44)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00>%n" +
+        "when comparing values using '%s'%nbut was not.", COMPARATOR_DESC));
       return;
     }
     fail("Should not reach here");

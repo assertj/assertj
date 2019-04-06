@@ -18,10 +18,8 @@ import java.time.OffsetDateTime;
 
 import org.assertj.core.internal.Comparables;
 
+public abstract class AbstractOffsetDateTimeAssertBaseTest extends TemporalAssertBaseTest<OffsetDateTimeAssert, OffsetDateTime> {
 
-public abstract class OffsetDateTimeAssertBaseTest extends BaseTestTemplate<OffsetDateTimeAssert, OffsetDateTime> {
-
-  protected Comparables comparables;
   protected OffsetDateTime now = OffsetDateTime.now();
 
   @Override
@@ -36,4 +34,8 @@ public abstract class OffsetDateTimeAssertBaseTest extends BaseTestTemplate<Offs
     return new OffsetDateTimeAssert(now);
   }
 
+  @Override
+  public Comparables getComparables(OffsetDateTimeAssert someAssertions) {
+    return assertions.comparables;
+  }
 }

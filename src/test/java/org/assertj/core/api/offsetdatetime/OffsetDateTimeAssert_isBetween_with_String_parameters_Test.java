@@ -19,11 +19,12 @@ import static org.mockito.Mockito.verify;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 public class OffsetDateTimeAssert_isBetween_with_String_parameters_Test
-    extends org.assertj.core.api.OffsetDateTimeAssertBaseTest {
+    extends AbstractOffsetDateTimeAssertBaseTest {
 
   private OffsetDateTime before = now.minusSeconds(1);
   private OffsetDateTime after = now.plusSeconds(1);

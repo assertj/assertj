@@ -16,9 +16,10 @@ import static org.mockito.Mockito.verify;
 
 import java.time.OffsetDateTime;
 
+import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 
-public class OffsetDateTimeAssert_isStrictlyBetween_Test extends org.assertj.core.api.OffsetDateTimeAssertBaseTest {
+public class OffsetDateTimeAssert_isStrictlyBetween_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   private OffsetDateTime before = now.minusSeconds(1);
   private OffsetDateTime after = now.plusSeconds(1);

@@ -15,6 +15,7 @@ package org.assertj.core.api.offsetdatetime;
 import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
+import static org.assertj.core.api.AbstractOffsetDateTimeAssert.COMPARATOR_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -53,7 +54,8 @@ public class OffsetDateTimeAssert_isAfterOrEqualTo_Test extends OffsetDateTimeAs
                                                                        "Expecting:%n" +
                                                                        "  <2000-01-05T03:00:05Z>%n" +
                                                                        "to be after or equals to:%n" +
-                                                                       "  <2012-01-01T03:03:03Z>"));
+                                                                       "  <2012-01-01T03:03:03Z>" +
+                                                                       "when comparing values using '%s'", COMPARATOR_DESC));
   }
 
   @Test
