@@ -133,7 +133,7 @@ public class ByNameSingleExtractorTest {
   public void should_extract_property_with_barename_method() {
     BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
     assertThat(holder).extracting("value")
-                      .containsExactly(OptionalInt.of(42));
+                      .isEqualTo(OptionalInt.of(42));
   }
 
   @Test
@@ -141,7 +141,7 @@ public class ByNameSingleExtractorTest {
     BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
     Assertions.setExtractBareNamePropertyMethods(false);
     assertThat(holder).extracting("value")
-                      .containsExactly(42);
+                      .isEqualTo(42);
     Assertions.setExtractBareNamePropertyMethods(true);
   }
 

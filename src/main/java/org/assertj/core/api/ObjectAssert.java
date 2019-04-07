@@ -43,7 +43,7 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
   @Override
   @CheckReturnValue
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, Object>... extractors) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
     return super.extracting(extractors);
   }
 

@@ -48,9 +48,9 @@ public class IterableAssert_containsAnyElementsOf_Test extends IterableAssertBas
   @Test
   public void should_compile_as_containsAnyElementsOf_declares_bounded_wildcard_parameter() {
     // GIVEN
-    Map<String, String> map = newHashMap("some_key", "some_value");
+    Iterable<String> iterable = list("some_value", "some_different_value");
     // THEN
-    assertThat(map).extracting("some_key").containsAnyElementsOf(list("some_value", "some_other_value"));
+    assertThat(iterable).containsAnyElementsOf(list("some_value", "some_other_value"));
   }
 
 }

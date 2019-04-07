@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.test.Employee;
@@ -31,21 +32,34 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for <code>{@link ObjectAssert#extracting(Function)}</code> and <code>{@link ObjectAssert#extracting(Function[])}</code>.
+ */
 public class ObjectAssert_extracting_with_function_Test {
 
-  private Employee yoda;
+  private Employee luke;
 
   private static final Function<Employee, String> firstName = employee -> employee.getName().getFirst();
 
   @BeforeEach
   public void setUp() {
-    yoda = new Employee(1L, new Name("Yoda"), 800);
+    luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
   }
 
   @Test
   public void should_allow_extracting_a_value_using_a_single_extractor() {
-    assertThat(yoda).extracting(firstName).isEqualTo("Yoda");
-    assertThat(yoda).extracting(Employee::getAge).isEqualTo(800);
+    assertThat(luke).extracting(firstName).isEqualTo("Luke");
+    assertThat(luke).extracting(Employee::getAge).isEqualTo(26);
+  }
+
+  @Test
+  public void should_allow_extracting_values_using_multiple_extractors() {
+    assertThat(luke).extracting(Employee::getName, Employee::getAge)
+      .hasSize(2)
+      .doesNotContainNull();
+    assertThat(luke).extracting(firstName, employee -> employee.getName().getLast())
+      .hasSize(2)
+      .containsExactly("Luke", "Skywalker");
   }
 
   @Test
@@ -65,7 +79,7 @@ public class ObjectAssert_extracting_with_function_Test {
     // GIVEN
     Function<Employee, Object> extractor = null;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(yoda).extracting(extractor));
+    Throwable error = catchThrowable(() -> assertThat(luke).extracting(extractor));
     // THEN
     assertThat(error).isInstanceOf(NullPointerException.class)
                      .hasMessage("The given java.util.function.Function extractor must not be null");
@@ -73,7 +87,7 @@ public class ObjectAssert_extracting_with_function_Test {
 
   @Test
   public void extracting_should_honor_registered__comparator() {
-    assertThat(yoda).usingComparator(ALWAY_EQUALS)
+    assertThat(luke).usingComparator(ALWAY_EQUALS)
                     .extracting(firstName)
                     .isEqualTo("YODA");
   }
@@ -82,14 +96,14 @@ public class ObjectAssert_extracting_with_function_Test {
   public void extracting_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
-    AbstractObjectAssert<?, ?> assertion = assertThat(yoda).as("test description")
+    AbstractObjectAssert<?, ?> assertion = assertThat(luke).as("test description")
                                                            .withFailMessage("error message")
                                                            .withRepresentation(UNICODE_REPRESENTATION)
                                                            .usingComparator(ALWAY_EQUALS)
                                                            .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
                                                            .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                                            .extracting(firstName)
-                                                           .isEqualTo("YODA");
+                                                           .isEqualTo("LUKE");
     // THEN
     assertThat(assertion.descriptionText()).isEqualTo("test description");
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);

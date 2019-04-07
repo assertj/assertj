@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,7 +79,6 @@ import java.util.stream.Stream;
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
@@ -289,18 +289,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
       final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("IllegalArgumentException message");
       softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
-      softly.assertThatThrownBy(new ThrowingCallable() {
-
-        @Override
-        public void call() throws Exception {
-          throw new Exception("something was wrong");
-        }
-
+      softly.assertThatThrownBy(() -> {
+        throw new Exception("something was wrong");
       }).hasMessage("something was good");
 
       softly.assertThat(mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
 
-      softly.assertThat(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13, 00));
+      softly.assertThat(LocalTime.of(12, 0)).isEqualTo(LocalTime.of(13, 0));
       softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC))
             .isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
 
@@ -780,7 +775,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
-    softly.assertThat(asList()).first();
+    softly.assertThat(emptyList()).first();
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.assertThat(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
@@ -911,7 +906,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
             .containsExactly("1", "2");
       softly.assertThat(numbers)
             .extracting("one")
-            .containsExactly("1");
+            .isEqualTo("1");
     }
   }
 
@@ -1591,14 +1586,20 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .overridingErrorMessage("error message")
           .extracting(Name::getFirst)
           .isEqualTo("Jack");
+    softly.assertThat(name)
+          .as("extracting(first)")
+          .overridingErrorMessage("error message")
+          .extracting("first")
+          .isEqualTo("Jack");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(5);
+    assertThat(errorsCollected).hasSize(6);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(\"first\", \"last\")] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(Name::getFirst, Name::getLast)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[asString()] error message");
     assertThat(errorsCollected.get(3)).hasMessage("[asList()] error message");
     assertThat(errorsCollected.get(4)).hasMessage("[extracting(Name::getFirst)] error message");
+    assertThat(errorsCollected.get(5)).hasMessage("[extracting(first)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1636,9 +1637,15 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     exactlyEntriesMap.put("kl", "KL");
     exactlyEntriesMap.put("mn", "MN");
     softly.assertThat(map).containsExactlyEntriesOf(exactlyEntriesMap);
+    softly.assertThat(map)
+          .as("extracting(\"a\")")
+          .overridingErrorMessage("error message")
+          // convert to Object otherwise will use extracting(String) in AbstractObjectAssert
+          .extracting((Object) "a")
+          .isEqualTo("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(14);
+    assertThat(errors).hasSize(15);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1654,6 +1661,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(11)).hasMessage("[flatExtracting(\"name\", \"job\", \"city\", \"rank\")] error message");
     assertThat(errors.get(12)).hasMessage("[size()] error message");
     assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
+    assertThat(errors.get(14)).hasMessage("[extracting(\"a\")] error message");
   }
 
   @Test

@@ -15,9 +15,12 @@ package org.assertj.core.api.assumptions;
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.test.CartoonCharacter;
@@ -62,8 +65,20 @@ public class Assumptions_assumeThat_with_extracting_Test {
   }
 
   @Test
-  public void should_run_test_when_assumption_using_extracting_on_object_passes() {
-    assertThatCode(() -> assumeThat(yoda).extracting("name").containsExactly("Yoda")).doesNotThrowAnyException();
+  public void should_run_test_when_assumption_using_extracting_on_object_with_single_parameter_passes() {
+    assertThatCode(() -> assumeThat(yoda).extracting("name").isEqualTo("Yoda")).doesNotThrowAnyException();
+  }
+
+  @Test
+  public void should_run_test_when_assumption_using_extracting_on_map_with_single_parameter_passes() {
+    Map<Jedi, String> jedis = mapOf(entry(yoda, "master"), entry(luke, "padawan"));
+    assertThatCode(() -> assumeThat(jedis).extracting(yoda).isEqualTo("master")).doesNotThrowAnyException();
+  }
+
+  @Test
+  public void should_run_test_when_assumption_using_extracting_on_object_with_multiple_parameters_passes() {
+    assertThatCode(() -> assumeThat(yoda).extracting("name", "class")
+                                         .containsExactly("Yoda", Jedi.class)).doesNotThrowAnyException();
   }
 
   @Test
