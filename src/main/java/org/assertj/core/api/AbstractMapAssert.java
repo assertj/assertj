@@ -1499,14 +1499,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * If a given key is not present in the map under test, a null value is extracted.
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
    * map.put("name", "kawhi");
    * map.put("age", 25);
    *
    * assertThat(map).extracting("name", "age")
-   *                .contains("kawhi", 25);
-   * </code></pre>
+   *                .contains("kawhi", 25);</code></pre>
    * <p>
    * Note that the order of extracted keys value is consistent with the iteration order of the array under test.
    * <p>
@@ -1533,13 +1531,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * If a given key is not present in the map under test, a null value is extracted.
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
    * map.put("name", "kawhi");
    *
    * assertThat(map).extracting("name")
-   *                .isEqualTo("kawhi");
-   * </code></pre>
+   *                .isEqualTo("kawhi");</code></pre>
    * <p>
    * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
    * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
