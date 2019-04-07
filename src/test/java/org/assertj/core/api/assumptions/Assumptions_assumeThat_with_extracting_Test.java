@@ -69,7 +69,7 @@ public class Assumptions_assumeThat_with_extracting_Test {
   @Test
   public void should_run_test_when_assumption_using_extracting_on_object_with_multiple_parameters_passes() {
     assertThatCode(() -> assumeThat(yoda).extracting("name", "class")
-                                         .containsOnly("Yoda", Jedi.class)).doesNotThrowAnyException();
+                                         .containsExactly("Yoda", Jedi.class)).doesNotThrowAnyException();
   }
 
   @Test
