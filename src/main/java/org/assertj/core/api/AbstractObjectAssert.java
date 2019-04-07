@@ -674,7 +674,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return a new assertion object whose object under test is the list containing the extracted values
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, Object>... extractors) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
     List<Object> values = Stream.of(extractors)
                                 .map(extractor -> extractor.apply(actual))
                                 .collect(toList());

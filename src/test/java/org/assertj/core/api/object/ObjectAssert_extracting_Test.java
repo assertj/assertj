@@ -26,8 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#extracting(String)}</code> and
- * <code>{@link ObjectAssert#extracting(String[])}</code>.
+ * Tests for <code>{@link ObjectAssert#extracting(String)}</code> and <code>{@link ObjectAssert#extracting(String[])}</code>.
  */
 public class ObjectAssert_extracting_Test {
 
@@ -52,16 +51,6 @@ public class ObjectAssert_extracting_Test {
                     .hasSize(2)
                     .doesNotContainNull();
     assertThat(luke).extracting("name.first", "name.last")
-                    .hasSize(2)
-                    .containsExactly("Luke", "Skywalker");
-  }
-
-  @Test
-  public void should_allow_assertions_on_array_of_properties_extracted_from_given_object_with_lambdas() {
-    assertThat(luke).extracting(Employee::getName, Employee::getAge)
-                    .hasSize(2)
-                    .doesNotContainNull();
-    assertThat(luke).extracting(employee -> employee.getName().first, employee -> employee.getName().getLast())
                     .hasSize(2)
                     .containsExactly("Luke", "Skywalker");
   }
@@ -111,7 +100,7 @@ public class ObjectAssert_extracting_Test {
     obiwan.setHeight(new BigDecimal("1.820"));
 
     assertThat(obiwan).extracting("height")
-                      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class) // FIXME not working
+                      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class) // FIXME not working for objects
                       .isEqualTo(new BigDecimal("1.82"));
   }
 
