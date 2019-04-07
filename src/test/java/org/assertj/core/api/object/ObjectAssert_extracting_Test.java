@@ -21,11 +21,13 @@ import java.math.BigDecimal;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#extracting(String[])}</code>.
+ * Tests for <code>{@link ObjectAssert#extracting(String)}</code> and
+ * <code>{@link ObjectAssert#extracting(String[])}</code>.
  */
 public class ObjectAssert_extracting_Test {
 
@@ -34,6 +36,14 @@ public class ObjectAssert_extracting_Test {
   @BeforeEach
   public void setup() {
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+  }
+
+  @Test
+  public void should_allow_assertions_on_property_extracted_from_given_object_by_name() {
+    assertThat(luke).extracting("id")
+                    .isNotNull();
+    assertThat(luke).extracting("name.first")
+                    .isEqualTo("Luke");
   }
 
   @Test
@@ -57,6 +67,15 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
+  public void should_use_property_field_name_as_description_when_extracting_single_property() {
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(luke).extracting("name.first")
+                                                                                     .isNull())
+                                                   .withMessageContaining("[Extracted: name.first]");
+  }
+
+  @Test
   public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
     Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
 
@@ -64,6 +83,16 @@ public class ObjectAssert_extracting_Test {
                                                                                                  "name.last")
                                                                                      .isEmpty())
                                                    .withMessageContaining("[Extracted: name.first, name.last]");
+  }
+
+  @Test
+  public void should_keep_existing_description_if_set_when_extracting_single_property() {
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(luke).as("check luke first name")
+                                                                                     .extracting("name.first")
+                                                                                     .isNull())
+                                                   .withMessageContaining("[check luke first name]");
   }
 
   @Test
@@ -76,8 +105,18 @@ public class ObjectAssert_extracting_Test {
                                                    .withMessageContaining("[check luke first and last name]");
   }
 
+  @Ignore
+  public void should_allow_to_specify_type_comparator_after_using_extracting_with_single_parameter_on_object() {
+    Person obiwan = new Person("Obi-Wan");
+    obiwan.setHeight(new BigDecimal("1.820"));
+
+    assertThat(obiwan).extracting("height")
+                      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class) // FIXME not working
+                      .isEqualTo(new BigDecimal("1.82"));
+  }
+
   @Test
-  public void should_allow_to_specify_type_comparator_after_using_extracting_on_object() {
+  public void should_allow_to_specify_type_comparator_after_using_extracting_with_multiple_parameters_on_object() {
     Person obiwan = new Person("Obi-Wan");
     obiwan.setHeight(new BigDecimal("1.820"));
 

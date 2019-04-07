@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.test.Employee;
@@ -31,6 +32,10 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for <code>{@link ObjectAssert#extracting(Function)}</code> and
+ * <code>{@link ObjectAssert#extracting(Function[])}</code>.
+ */
 public class ObjectAssert_extracting_with_function_Test {
 
   private Employee yoda;
