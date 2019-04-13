@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
@@ -94,13 +95,19 @@ public class ObjectAssert_extracting_Test {
                                                    .withMessageContaining("[check luke first and last name]");
   }
 
-  @Ignore
+  @Test
   public void should_allow_to_specify_type_comparator_after_using_extracting_with_single_parameter_on_object() {
     Person obiwan = new Person("Obi-Wan");
     obiwan.setHeight(new BigDecimal("1.820"));
 
+    // Workaround to overcome the lack of BigDecimal type in the result of extracting(String)
+    Comparator<Object> heightComparator = (o1, o2) -> {
+      if (o1 instanceof BigDecimal) return BIG_DECIMAL_COMPARATOR.compare((BigDecimal) o1, (BigDecimal) o2);
+      throw new IllegalStateException("only supported for BigDecimal");
+    };
+
     assertThat(obiwan).extracting("height")
-                      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class) // FIXME not working for objects
+                      .usingComparator(heightComparator)
                       .isEqualTo(new BigDecimal("1.82"));
   }
 
