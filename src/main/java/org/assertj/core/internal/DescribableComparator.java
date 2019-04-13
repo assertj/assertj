@@ -10,31 +10,16 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.util.temporal;
+package org.assertj.core.internal;
 
-import java.time.Instant;
-import java.time.chrono.ChronoZonedDateTime;
 import java.util.Comparator;
 
-public class DefaultZonedDateTimeComparator extends AbstractByInstantComparator<ChronoZonedDateTime> {
+public abstract class DescribableComparator<T> implements Comparator<T> {
 
-  private static final Comparator<ChronoZonedDateTime> INSTANCE = new DefaultZonedDateTimeComparator();
-
-  public static Comparator<ChronoZonedDateTime> getInstance() {
-    return INSTANCE;
-  }
-
-  private DefaultZonedDateTimeComparator() {
-    super();
-  }
-
-  @Override
-  protected Instant getInstant(ChronoZonedDateTime temporal) {
-    return temporal.toInstant();
-  }
+  public abstract String description();
 
   @Override
   public String toString() {
-    return "default ZonedDateTime comparison by instant";
+    return description();
   }
 }

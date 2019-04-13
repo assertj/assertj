@@ -34,8 +34,8 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 import org.assertj.core.util.Lists;
-import org.assertj.core.util.temporal.DefaultOffsetDateTimeComparator;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
@@ -219,7 +219,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
       assertThat(errors.get(42)).contains(format("%nExpecting:%n <12:00>%nto be equal to:%n <13:00>%nbut was not."));
       assertThat(errors.get(43)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
       assertThat(errors.get(44)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00>%n" +
-        "when comparing values using '%s'%nbut was not.", DefaultOffsetDateTimeComparator.getInstance()));
+        "when comparing values using '%s'%nbut was not.", OffsetDateTimeByInstantComparator.getInstance()));
       return;
     }
     fail("Should not reach here");

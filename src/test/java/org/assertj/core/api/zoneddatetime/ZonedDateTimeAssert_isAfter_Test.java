@@ -24,7 +24,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.assertj.core.util.temporal.DefaultZonedDateTimeComparator;
+import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -68,7 +68,7 @@ public class ZonedDateTimeAssert_isAfter_Test extends ZonedDateTimeAssertBaseTes
                                                      "to be strictly after:%n" +
                                                      "  <2012-01-01T03:03:03Z>" +
                                                      "when comparing values using '%s'",
-                                                     DefaultZonedDateTimeComparator.getInstance()));
+                                                     ChronoZonedDateTimeByInstantComparator.getInstance()));
   }
 
   @Test

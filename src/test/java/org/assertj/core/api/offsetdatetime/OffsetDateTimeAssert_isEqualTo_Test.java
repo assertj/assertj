@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.OffsetDateTime;
 
-import org.assertj.core.util.temporal.DefaultOffsetDateTimeComparator;
+import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -51,7 +51,8 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends OffsetDateTimeAssertBas
                                                      "to be equal to:%n" +
                                                      " <2012-01-01T03:03:03Z>%n" +
                                                      "when comparing values using '%s'%n" +
-                                                     "but was not.", DefaultOffsetDateTimeComparator.getInstance()));
+                                                     "but was not.",
+                                                     OffsetDateTimeByInstantComparator.getInstance()));
   }
 
   @Test

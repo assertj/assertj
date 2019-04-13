@@ -10,31 +10,29 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.util.temporal;
+package org.assertj.core.internal;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.util.Comparator;
 
-public class DefaultOffsetDateTimeComparator extends AbstractByInstantComparator<OffsetDateTime> {
 
-  private static final Comparator<OffsetDateTime> INSTANCE = new DefaultOffsetDateTimeComparator();
+public class OffsetDateTimeByInstantComparator extends DescribableComparator<OffsetDateTime> {
 
-  public static Comparator<OffsetDateTime> getInstance() {
+  private static final OffsetDateTimeByInstantComparator INSTANCE = new OffsetDateTimeByInstantComparator();
+
+  public static OffsetDateTimeByInstantComparator getInstance() {
     return INSTANCE;
   }
 
-  private DefaultOffsetDateTimeComparator() {
-    super();
+  private OffsetDateTimeByInstantComparator() {
   }
 
   @Override
-  protected Instant getInstant(OffsetDateTime temporal) {
-    return temporal.toInstant();
+  public String description() {
+    return OffsetDateTimeByInstantComparator.class.getSimpleName();
   }
 
   @Override
-  public String toString() {
-    return "default OffsetDateTime comparison by instant";
+  public int compare(OffsetDateTime o1, OffsetDateTime o2) {
+    return OffsetDateTime.timeLineOrder().compare(o1, o2);
   }
 }

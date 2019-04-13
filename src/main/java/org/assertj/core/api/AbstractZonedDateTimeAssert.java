@@ -19,17 +19,15 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualI
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.ZonedDateTime;
-import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Comparator;
 
+import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.temporal.DefaultZonedDateTimeComparator;
 
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, ZonedDateTime> {
@@ -708,9 +706,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   private Comparables buildDefaultComparables() {
-    Comparator<ChronoZonedDateTime> defaultComparator = DefaultZonedDateTimeComparator.getInstance();
-    String description = defaultComparator.toString();
-    return new Comparables(new ComparatorBasedComparisonStrategy(defaultComparator, description));
+    ChronoZonedDateTimeByInstantComparator defaultComparator = ChronoZonedDateTimeByInstantComparator.getInstance();
+    return new Comparables(new ComparatorBasedComparisonStrategy(defaultComparator, defaultComparator.description()));
   }
 
   private ZonedDateTime[] convertToDateTimeArray(String... dateTimesAsString) {

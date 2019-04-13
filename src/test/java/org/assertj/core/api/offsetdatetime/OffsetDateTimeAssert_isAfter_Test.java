@@ -22,7 +22,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
 
-import org.assertj.core.util.temporal.DefaultOffsetDateTimeComparator;
+import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -51,7 +51,7 @@ public class OffsetDateTimeAssert_isAfter_Test extends OffsetDateTimeAssertBaseT
                                                                        "to be strictly after:%n" +
                                                                        "  <2000-01-01T03:00:05.123456789Z>" +
                                                                        "when comparing values using '%s'",
-                                                                       DefaultOffsetDateTimeComparator.getInstance()));
+                                                                       OffsetDateTimeByInstantComparator.getInstance()));
   }
 
   @Test

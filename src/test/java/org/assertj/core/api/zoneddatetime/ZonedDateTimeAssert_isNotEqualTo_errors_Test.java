@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.fail;
 
 import java.time.ZonedDateTime;
 
-import org.assertj.core.util.temporal.DefaultZonedDateTimeComparator;
+import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -50,7 +50,7 @@ public class ZonedDateTimeAssert_isNotEqualTo_errors_Test extends ZonedDateTimeA
       "not to be equal to:%n" +
       " <2000-01-05T03:00:05Z>%n" +
       "when comparing values using '%s'",
-      DefaultZonedDateTimeComparator.getInstance()));
+      ChronoZonedDateTimeByInstantComparator.getInstance()));
   }
 
   @Test

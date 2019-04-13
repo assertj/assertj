@@ -18,7 +18,7 @@ import java.time.chrono.ChronoZonedDateTime;
 
 import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
-import org.assertj.core.util.temporal.DefaultZonedDateTimeComparator;
+import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 
 public class ZonedDateTimeAssert_usingDefaultComparator_Test extends AbstractZonedDateTimeAssertBaseTest {
 
@@ -29,7 +29,7 @@ public class ZonedDateTimeAssert_usingDefaultComparator_Test extends AbstractZon
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(getComparables(assertions).getComparator()).isEqualTo(DefaultZonedDateTimeComparator.getInstance());
+    assertThat(getComparables(assertions).getComparator()).isSameAs(ChronoZonedDateTimeByInstantComparator.getInstance());
     assertThat(getObjects(assertions).getComparator()).isNull();
   }
 }
