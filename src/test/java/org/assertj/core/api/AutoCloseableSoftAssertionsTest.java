@@ -38,6 +38,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+import org.assertj.core.internal.ChronoLocalDateTimeComparator;
 import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 import org.junit.jupiter.api.Test;
@@ -230,7 +231,8 @@ public class AutoCloseableSoftAssertionsTest {
                                                    + " <\"something was wrong\">"));
       assertThat(errors.get(39)).contains(format("%nExpecting:%n <Optional[bad option]>%nto be equal to:%n <Optional[good option]>%nbut was not."));
       assertThat(errors.get(40)).contains(format("%nExpecting:%n <2015-01-01>%nto be equal to:%n <2015-01-02>%nbut was not."));
-      assertThat(errors.get(41)).contains(format("%nExpecting:%n <2015-01-01T23:59:59>%nto be equal to:%n <2015-01-01T23:59>%nbut was not."));
+      assertThat(errors.get(41)).contains(format("%nExpecting:%n <2015-01-01T23:59:59>%nto be equal to:%n <2015-01-01T23:59>%n" +
+        "when comparing values using '%s'%nbut was not.", ChronoLocalDateTimeComparator.getInstance()));
       assertThat(errors.get(42)).contains(format("%nExpecting:%n <2015-01-01T23:59:59Z>%nto be equal to:%n <2015-01-01T23:59Z>%n" +
         "when comparing values using '%s'%nbut was not.", ChronoZonedDateTimeByInstantComparator.getInstance()));
 

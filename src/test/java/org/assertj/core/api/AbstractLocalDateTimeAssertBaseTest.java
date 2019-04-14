@@ -19,9 +19,8 @@ import java.time.LocalDateTime;
 import org.assertj.core.internal.Comparables;
 
 
-public abstract class LocalDateTimeAssertBaseTest extends BaseTestTemplate<LocalDateTimeAssert, LocalDateTime> {
+public abstract class AbstractLocalDateTimeAssertBaseTest extends TemporalAssertBaseTest<LocalDateTimeAssert, LocalDateTime> {
 
-  protected Comparables comparables;
   protected LocalDateTime now = LocalDateTime.now();
 
   @Override
@@ -36,4 +35,8 @@ public abstract class LocalDateTimeAssertBaseTest extends BaseTestTemplate<Local
     return new LocalDateTimeAssert(now);
   }
 
+  @Override
+  protected Comparables getComparables(LocalDateTimeAssert someAssertions) {
+    return someAssertions.comparables;
+  }
 }

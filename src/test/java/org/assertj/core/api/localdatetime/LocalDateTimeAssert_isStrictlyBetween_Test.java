@@ -16,9 +16,10 @@ import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
 
+import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 
-public class LocalDateTimeAssert_isStrictlyBetween_Test extends org.assertj.core.api.LocalDateTimeAssertBaseTest {
+public class LocalDateTimeAssert_isStrictlyBetween_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   private LocalDateTime before = now.minusSeconds(1);
   private LocalDateTime after = now.plusSeconds(1);
@@ -30,7 +31,6 @@ public class LocalDateTimeAssert_isStrictlyBetween_Test extends org.assertj.core
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, false, false);
+    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, false, false);
   }
-
 }

@@ -21,6 +21,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDateTime;
 
+import org.assertj.core.internal.ChronoLocalDateTimeComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -52,7 +53,9 @@ public class LocalDateTimeAssert_isAfterOrEqualTo_Test extends LocalDateTimeAsse
                                                                        "Expecting:%n" +
                                                                        "  <2000-01-05T03:00:05>%n" +
                                                                        "to be after or equals to:%n" +
-                                                                       "  <2012-01-01T03:03:03>"));
+                                                                       "  <2012-01-01T03:03:03>" +
+                                                                       "when comparing values using '%s'",
+                                                                       ChronoLocalDateTimeComparator.getInstance()));
   }
 
   @Test

@@ -21,6 +21,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDateTime;
 
+import org.assertj.core.internal.ChronoLocalDateTimeComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,7 +43,12 @@ public class LocalDateTimeAssert_isBeforeOrEqualTo_Test extends LocalDateTimeAss
   @Test
   public void test_isBeforeOrEqual_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isBeforeOrEqualTo(LocalDateTime.of(1998, 1, 1, 3, 3, 3)))
-                                                   .withMessage(format("%nExpecting:%n  <2000-01-05T03:00:05>%nto be before or equals to:%n  <1998-01-01T03:03:03>"));
+                                                   .withMessage(format("%nExpecting:%n" +
+                                                     "  <2000-01-05T03:00:05>%n" +
+                                                     "to be before or equals to:%n" +
+                                                     "  <1998-01-01T03:03:03>" +
+                                                     "when comparing values using '%s'",
+                                                     ChronoLocalDateTimeComparator.getInstance()));
   }
 
   @Test

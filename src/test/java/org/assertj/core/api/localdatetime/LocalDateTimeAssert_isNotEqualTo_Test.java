@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDateTime;
 
+import org.assertj.core.internal.ChronoLocalDateTimeComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,7 +43,12 @@ public class LocalDateTimeAssert_isNotEqualTo_Test extends LocalDateTimeAssertBa
   public void test_isNotEqualTo_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isNotEqualTo(LocalDateTime.of(2000, 1, 5, 3, 0, 5).toString());
-    }).withMessage(format("%nExpecting:%n <2000-01-05T03:00:05>%nnot to be equal to:%n <2000-01-05T03:00:05>%n"));
+    }).withMessage(format("%nExpecting:%n" +
+      " <2000-01-05T03:00:05>%n" +
+      "not to be equal to:%n" +
+      " <2000-01-05T03:00:05>%n" +
+      "when comparing values using '%s'",
+      ChronoLocalDateTimeComparator.getInstance()));
   }
 
   @Test

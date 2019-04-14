@@ -19,11 +19,11 @@ import static org.mockito.Mockito.verify;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
-public class LocalDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
-    extends org.assertj.core.api.LocalDateTimeAssertBaseTest {
+public class LocalDateTimeAssert_isStrictlyBetween_with_String_parameters_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   private LocalDateTime before = now.minusSeconds(1);
   private LocalDateTime after = now.plusSeconds(1);
@@ -35,7 +35,7 @@ public class LocalDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, false, false);
+    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, false, false);
   }
 
   @Test
@@ -57,5 +57,4 @@ public class LocalDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
     // THEN
     assertThat(thrown).isInstanceOf(DateTimeParseException.class);
   }
-
 }
