@@ -83,6 +83,15 @@ public class DateUtil {
   }
 
   /**
+   * ISO 8601 date-time format with millisecond and UTC time zone (yyyy-MM-dd'T'HH:mm:ss.SSSX), example :
+   * <code>2003-04-26T03:01:02.758+00:00</code>
+   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSSX} {@link DateFormat}
+   */
+  public static DateFormat newIsoDateTimeWithMsAndUtcTimeZoneFormat() {
+    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  }
+
+  /**
    * {@link Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
    * <code>2003-04-26 03:01:02.999</code>
    * @return a {@code yyyy-MM-dd HH:mm:ss.SSS} {@link DateFormat}

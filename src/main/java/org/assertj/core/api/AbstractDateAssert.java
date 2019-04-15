@@ -63,7 +63,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   /**
    * the default DateFormat used to parse any String date representation.
    */
-  private static final List<DateFormat> DEFAULT_DATE_FORMATS = newArrayList(newIsoDateTimeWithMsFormat(),
+  private static final List<DateFormat> DEFAULT_DATE_FORMATS = newArrayList(newIsoDateTimeWithMsAndUtcTimeZoneFormat(),
+                                                                            newIsoDateTimeWithMsFormat(),
                                                                             newTimestampDateFormat(),
                                                                             newIsoDateTimeWithUtcTimeZoneFormat(),
                                                                             newIsoDateTimeFormat(),
