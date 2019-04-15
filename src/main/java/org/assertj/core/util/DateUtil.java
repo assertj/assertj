@@ -57,11 +57,11 @@ public class DateUtil {
   }
 
   /**
-   * ISO 8601 date-time format with UTC time zone (yyyy-MM-dd'T'HH:mm:ssX), example :
+   * ISO 8601 date-time format with ISO time zone (yyyy-MM-dd'T'HH:mm:ssX), example :
    * <code>2003-04-26T03:01:02+00:00</code>
    * @return a {@code yyyy-MM-dd'T'HH:mm:ssX} {@link DateFormat}
    */
-  public static DateFormat newIsoDateTimeWithUtcTimeZoneFormat() {
+  public static DateFormat newIsoDateTimeWithIsoTimeZoneFormat() {
     return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ssX");
   }
 
@@ -80,6 +80,15 @@ public class DateUtil {
    */
   public static DateFormat newIsoDateTimeWithMsFormat() {
     return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+  }
+
+  /**
+   * ISO 8601 date-time format with millisecond and ISO time zone (yyyy-MM-dd'T'HH:mm:ss.SSSX), example :
+   * <code>2003-04-26T03:01:02.758+00:00</code>
+   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSSX} {@link DateFormat}
+   */
+  public static DateFormat newIsoDateTimeWithMsAndIsoTimeZoneFormat() {
+    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
   }
 
   /**
@@ -155,7 +164,7 @@ public class DateUtil {
 
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT}, returns null if the given String is null.
-   * <p> 
+   * <p>
    * Example:
    * <pre><code class='java'> Date date = parseDatetime("2003-04-26T03:01:02");</code></pre>
    *

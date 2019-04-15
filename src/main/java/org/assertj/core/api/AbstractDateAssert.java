@@ -19,9 +19,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.DateUtil.newIsoDateFormat;
 import static org.assertj.core.util.DateUtil.newIsoDateTimeFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsAndIsoTimeZoneFormat;
 import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
-import static org.assertj.core.util.DateUtil.newIsoDateTimeWithUtcTimeZoneFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeWithIsoTimeZoneFormat;
 import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -67,11 +69,12 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   /**
    * the default DateFormat used to parse any String date representation.
    */
-  private static final List<DateFormat> DEFAULT_DATE_FORMATS = newArrayList(newIsoDateTimeWithMsFormat(),
-                                                                            newTimestampDateFormat(),
-                                                                            newIsoDateTimeWithUtcTimeZoneFormat(),
-                                                                            newIsoDateTimeFormat(),
-                                                                            newIsoDateFormat());
+  private static final List<DateFormat> DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(),
+                                                                    newIsoDateTimeWithMsFormat(),
+                                                                    newTimestampDateFormat(),
+                                                                    newIsoDateTimeWithIsoTimeZoneFormat(),
+                                                                    newIsoDateTimeFormat(),
+                                                                    newIsoDateFormat());
 
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
