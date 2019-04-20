@@ -35,6 +35,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -122,6 +123,16 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
+      if (actualFieldValue instanceof Optional) {
+        if (!(expectedFieldValue instanceof Optional)) {
+          differences.add(new ComparisonDifference(currentPath, actualFieldValue, expectedFieldValue));
+          continue;
+        }
+      } else if (expectedFieldValue instanceof Optional) {
+        differences.add(new ComparisonDifference(currentPath, actualFieldValue, expectedFieldValue));
+        continue;
+      }
+
       if (actualFieldValue instanceof Collection) {
         if (!(expectedFieldValue instanceof Collection)) {
           differences.add(new ComparisonDifference(currentPath, actualFieldValue, expectedFieldValue));
@@ -198,8 +209,7 @@ public class RecursiveComparisonDifferenceCalculator {
       // Handle unordered Collection.
       if (actualFieldValue instanceof Collection) {
         if (!compareUnorderedCollection((Collection<?>) actualFieldValue, (Collection<?>) expectedFieldValue, currentPath,
-                                        toCompare,
-                                        visited, recursiveComparisonConfiguration)) {
+                                        toCompare, visited, recursiveComparisonConfiguration)) {
           differences.add(new ComparisonDifference(currentPath, actualFieldValue, expectedFieldValue));
           continue;
         }
@@ -222,6 +232,15 @@ public class RecursiveComparisonDifferenceCalculator {
       // comparison still runs in O(N) time.
       if (actualFieldValue instanceof Map) {
         if (!compareUnorderedMap((Map<?, ?>) actualFieldValue, (Map<?, ?>) expectedFieldValue, currentPath, toCompare, visited)) {
+          differences.add(new ComparisonDifference(currentPath, actualFieldValue, expectedFieldValue));
+          continue;
+        }
+        continue;
+      }
+
+      // Handle Optional
+      if (actualFieldValue instanceof Optional) {
+        if (!compareOptional((Optional<?>) actualFieldValue, expectedFieldValue, currentPath, toCompare, visited)) {
           differences.add(new ComparisonDifference(currentPath, actualFieldValue, expectedFieldValue));
           continue;
         }
@@ -534,6 +553,21 @@ public class RecursiveComparisonDifferenceCalculator {
       if (!visited.contains(dualValue)) toCompare.addFirst(dualValue);
     }
 
+    return true;
+  }
+
+  private static boolean compareOptional(Optional<?> optional1, Object other, List<String> path,
+                                         Deque<DualValue> toCompare, Set<DualValue> visited) {
+    if (!(other instanceof Optional)) return false;
+    Optional<?> optional2 = (Optional<?>) other;
+    if (optional1.isPresent() != optional2.isPresent()) return false;
+    // either both are empty or present
+    if (!optional1.isPresent()) return true; // both optional are empty
+    // both are present, we have to compare their values recursively
+    Object value1 = optional1.get();
+    Object value2 = optional2.get();
+    DualValue dualValue = new DualValue(path, value1, value2);
+    if (!visited.contains(dualValue)) toCompare.addFirst(dualValue);
     return true;
   }
 

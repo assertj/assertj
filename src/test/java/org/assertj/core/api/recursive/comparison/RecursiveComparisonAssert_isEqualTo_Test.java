@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Stream;
@@ -380,22 +381,19 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
   @Test
   public void should_fail_when_comparing_sorted_with_unsorted_map() {
+    // GIVEN
     WithMap<Long, Boolean> actual = new WithMap<>(new TreeMap<Long, Boolean>());
     actual.map.put(1L, true);
     actual.map.put(2L, false);
     WithMap<Long, Boolean> expected = new WithMap<>(new LinkedHashMap<Long, Boolean>());
     expected.map.put(2L, false);
     expected.map.put(1L, true);
-
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
-
     // THEN
     ComparisonDifference mapDifference = diff("map", actual.map, expected.map);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, mapDifference);
   }
-
-  // old tests
 
   @Test
   public void should_report_missing_property() {
@@ -411,6 +409,65 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     ComparisonDifference missingFieldDifference = diff("", actual, expected,
                                                        "org.assertj.core.internal.objects.data.Giant can't be compared to org.assertj.core.internal.objects.data.Human as Human does not declare all Giant fields, it lacks these:[height]");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, missingFieldDifference);
+  }
+
+  @ParameterizedTest
+  @MethodSource("sameBooks")
+  public void should_pass_when_comparing_optional_fields_recursively_and_not_using_optional_equals(BookWithOptionalCoAuthor actual, BookWithOptionalCoAuthor expected) {
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
+  }
+
+  public static Stream<Arguments> sameBooks() {
+    return Stream.of(Arguments.of(new BookWithOptionalCoAuthor(new Author("test")), new BookWithOptionalCoAuthor(new Author("test"))),
+                     Arguments.of(new BookWithOptionalCoAuthor(null), new BookWithOptionalCoAuthor(null)), // empty optional coAuthor
+                     Arguments.of(new BookWithOptionalCoAuthor(), new BookWithOptionalCoAuthor())); // null coAuthor
+  }
+
+  @ParameterizedTest(name = "author 1 {0} / author 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
+  @MethodSource("differentOptionalCoAuthors")
+  public void should_fail_when_comparing_different_optional_fields(Author author1, Author author2, String path, Object value1,
+                                                                   Object value2) {
+    // GIVEN
+    BookWithOptionalCoAuthor actual = new BookWithOptionalCoAuthor(author1);
+    BookWithOptionalCoAuthor expected = new BookWithOptionalCoAuthor(author2);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff(path, value1, value2));
+  }
+
+  public static Stream<Arguments> differentOptionalCoAuthors() {
+    Author pratchett = new Author("Terry Pratchett");
+    return Stream.of(Arguments.of(pratchett, new Author("George Martin"), "coAuthor.name", "Terry Pratchett", "George Martin"),
+                     Arguments.of(pratchett, null, "coAuthor", Optional.of(pratchett), Optional.empty()),
+                     Arguments.of(null, pratchett, "coAuthor", Optional.empty(), Optional.of(pratchett)));
+  }
+
+  @Test
+  public void should_fail_when_comparing_optional_field_with_non_optional_field() {
+    // GIVEN
+    Author pratchett = new Author("Terry Pratchett");
+    BookWithOptionalCoAuthor actual = new BookWithOptionalCoAuthor(pratchett);
+    BookWithCoAuthor expected = new BookWithCoAuthor(pratchett);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
+                                                              diff("coAuthor", Optional.of(pratchett), pratchett));
+  }
+
+  @Test
+  public void should_fail_when_comparing_non_optional_field_with_optional_field() {
+    // GIVEN
+    Author pratchett = new Author("Terry Pratchett");
+    BookWithCoAuthor actual = new BookWithCoAuthor(pratchett);
+    BookWithOptionalCoAuthor expected = new BookWithOptionalCoAuthor(pratchett);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
+                                                              diff("coAuthor", pratchett, Optional.of(pratchett)));
   }
 
   public static class WithMap<K, V> {
@@ -441,4 +498,48 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
   }
 
+  static class Author {
+
+    String name;
+
+    public Author(String name) {
+      this.name = name;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    // equals not overridden on purpose!
+  }
+
+  static class BookWithOptionalCoAuthor {
+
+    Optional<Author> coAuthor;
+
+    public BookWithOptionalCoAuthor(Author author) {
+      this.coAuthor = Optional.ofNullable(author);
+    }
+
+    public BookWithOptionalCoAuthor() {
+      this.coAuthor = null;
+    }
+
+    public Optional<Author> getCoAuthor() {
+      return coAuthor;
+    }
+  }
+
+  static class BookWithCoAuthor {
+
+    Author coAuthor;
+
+    public BookWithCoAuthor(Author author) {
+      this.coAuthor = author;
+    }
+
+    public Author getCoAuthor() {
+      return coAuthor;
+    }
+  }
 }

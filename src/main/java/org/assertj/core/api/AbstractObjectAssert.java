@@ -713,6 +713,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
+   * @deprecated Prefer calling {@link #usingRecursiveComparison()} for comparing objects field by field as it offers more flexibility, better reporting and an easier to use API.
+   *
    * Asserts that the object under test (actual) is equal to the given object based on a recursive property/field by property/field comparison (including
    * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
@@ -781,6 +783,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
    * @throws IntrospectionError if one property/field to compare can not be found.
    */
+  @Deprecated
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
     objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorByPropertyOrField,
                                                             getComparatorsByType());
@@ -813,6 +816,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   /**
    * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   * <p>
+   * The detailed documentation available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {
@@ -860,6 +865,16 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *   </ul>
    * </li>
    * </ul>
+   * <p>
+   * It is possible to change the comparison behavior, among things what you can is:
+   * <ul>
+   *   <li>Choosing a strict or lenient recursive comparison (lenient being the default wich allows to compare different types like {@code Book} and {@code BookDto} </li>
+   *   <li>Ignoring fields in the comparison </li>
+   *   <li>Specifying comparators to use in the comparison per fields and types</li>
+   *   <li>Forcing recursive comparison on classes that have redefined equals (by default overridden equals are used)</li>
+   * </ul>
+   * <p>
+   * Please consult the detailed documentation available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    *
    * @return a new {@link RecursiveComparisonAssert} instance
    */
