@@ -30,7 +30,7 @@ public interface ExtensionPoints<SELF extends ExtensionPoints<SELF, ACTUAL>, ACT
    * @return {@code this ExtensionPoints} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
-   * @see #is(Condition)
+   * @see #has(Condition)
    */
   SELF is(Condition<? super ACTUAL> condition);
 
