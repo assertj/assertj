@@ -13,7 +13,7 @@
 package org.assertj.core.test;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.TreeMap;
 
 import org.assertj.core.data.MapEntry;
 
@@ -23,8 +23,16 @@ import org.assertj.core.data.MapEntry;
  */
 public final class Maps {
   @SafeVarargs
-  public static <K, V> Map<K, V> mapOf(MapEntry<K, V>... entries) {
-    Map<K, V> map = new LinkedHashMap<>();
+  public static <K, V> LinkedHashMap<K, V> mapOf(MapEntry<K, V>... entries) {
+    LinkedHashMap<K, V> map = new LinkedHashMap<>();
+    for (MapEntry<K, V> entry : entries) {
+      map.put(entry.key, entry.value);
+    }
+    return map;
+  }
+  @SafeVarargs
+  public static <K extends Comparable<? super K>, V> TreeMap<K, V> treeMapOf(MapEntry<K, V>... entries) {
+    TreeMap<K, V> map = new TreeMap<>();
     for (MapEntry<K, V> entry : entries) {
       map.put(entry.key, entry.value);
     }

@@ -290,11 +290,11 @@ public class RecursiveComparisonConfiguration {
     return parentPath.isEmpty() ? name : format("%s.%s", parentPath, name);
   }
 
-  boolean shouldIgnoreOverriddenEqualsOf(DualValue dualKey) {
-    if (dualKey.isJavaType()) return false; // we must compare basic types otherwise the recursive comparison loops infinitely!
+  boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
+    if (dualValue.isJavaType()) return false; // we must compare basic types otherwise the recursive comparison loops infinitely!
     return ignoreAllOverriddenEquals
-           || matchesAnIgnoredOverriddenEqualsField(dualKey)
-           || shouldIgnoreOverriddenEqualsOf(dualKey.actual.getClass());
+           || matchesAnIgnoredOverriddenEqualsField(dualValue)
+           || shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass());
   }
 
   @VisibleForTesting
