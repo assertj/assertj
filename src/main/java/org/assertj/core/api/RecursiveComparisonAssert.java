@@ -538,8 +538,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Example:
    * <pre><code class='java'> public class Person {
    *   String name;
-   *   List<Person> friends = new ArrayList<>();
-   *   List<Person> enemies = new ArrayList<>();
+   *   List&lt;Person&gt; friends = new ArrayList<>();
+   *   List&lt;Person&gt; enemies = new ArrayList<>();
    * }
    *
    * Person sherlock1 = new Person("Sherlock Holmes");
@@ -582,8 +582,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Example:
    * <pre><code class='java'> public class Person {
    *   String name;
-   *   List<Person> friends = new ArrayList<>();
-   *   List<Person> enemies = new ArrayList<>();
+   *   List&lt;Person&gt; friends = new ArrayList<>();
+   *   List&lt;Person&gt; enemies = new ArrayList<>();
    * }
    *
    * Person sherlock1 = new Person("Sherlock Holmes");
