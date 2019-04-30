@@ -52,6 +52,10 @@ public class RecursiveComparisonConfiguration {
   private List<Pattern> ignoredOverriddenEqualsRegexes = new ArrayList<>();
   private boolean ignoreAllOverriddenEquals = false;
 
+  // ignore order in collections section
+  private Set<FieldLocation> ignoredCollectionOrderInFields = new LinkedHashSet<>();
+  private List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
+
   // registered comparators section
   private TypeComparators typeComparators = defaultTypeComparators();
   private FieldComparators fieldComparators = new FieldComparators();
@@ -184,6 +188,49 @@ public class RecursiveComparisonConfiguration {
   }
 
   /**
+   * Adds the given fields to the list of the object under test fields to ignore collection order in the recursive comparison.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...)} for examples.
+   *
+   * @param fieldsToIgnoreCollectionOrder the fields of the object under test to ignore collection order in the comparison.
+   */
+  public void ignoreCollectionOrderInFields(String... fieldsToIgnoreCollectionOrder) {
+    List<FieldLocation> fieldLocations = FieldLocation.from(fieldsToIgnoreCollectionOrder);
+    ignoredCollectionOrderInFields.addAll(fieldLocations);
+  }
+
+  /**
+   * Returns the list of the object under test fields to ignore collection order in the recursive comparison.
+   *
+   * @return the list of the object under test fields to ignore collection order in the recursive comparison.
+   */
+  public Set<FieldLocation> getIgnoredCollectionOrderInFields() {
+    return ignoredCollectionOrderInFields;
+  }
+
+  /**
+   * Adds the given regexes to the list of regexes used to find the object under test fields to ignore collection order in the recursive comparison.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...)} for examples.
+   *
+   * @param regexes regexes used to find the object under test fields to ignore collection order in in the comparison.
+   */
+  public void ignoreCollectionOrderInFieldsMatchingRegexes(String... regexes) {
+      ignoredCollectionOrderInFieldsMatchingRegexes.addAll(Stream.of(regexes)
+                                                                 .map(Pattern::compile)
+                                                                 .collect(toList()));
+  }
+
+  /**
+   * Returns the list of regexes used to find the object under test fields to ignore collection order in the recursive comparison.
+   *
+   * @return the list of regexes used to find the object under test fields to ignore collection order in the recursive comparison.
+   */
+  public List<Pattern> getIgnoredCollectionOrderInFieldsMatchingRegexes() {
+    return ignoredCollectionOrderInFieldsMatchingRegexes;
+  }
+
+  /**
    * Registers the given {@link Comparator} to compare the fields with the given type.
    * <p>
    * Comparators specified by this method have less precedence than comparators added with {@link #registerComparatorForField(Comparator, FieldLocation)}.
@@ -263,6 +310,8 @@ public class RecursiveComparisonConfiguration {
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
+    describeIgnoredCollectionOrderInFields(description);
+    describeIgnoredCollectionOrderInFieldsMatchingRegexes(description);
     describeRegisteredComparatorByTypes(description);
     describeRegisteredComparatorForFields(description);
     describeTypeCheckingStrictness(description);
@@ -300,6 +349,11 @@ public class RecursiveComparisonConfiguration {
   @VisibleForTesting
   boolean shouldIgnoreOverriddenEqualsOf(Class<? extends Object> clazz) {
     return matchesAnIgnoredOverriddenEqualsRegex(clazz) || matchesAnIgnoredOverriddenEqualsType(clazz);
+  }
+
+  boolean shouldIgnoreCollectionOrder(DualValue dualKey) {
+    return matchesAnIgnoredCollectionOrderInField(dualKey)
+           || matchesAnIgnoredCollectionOrderInFieldRegex(dualKey);
   }
 
   private void describeIgnoredFieldsRegexes(StringBuilder description) {
@@ -357,6 +411,17 @@ public class RecursiveComparisonConfiguration {
     return join(fieldsDescription).with(", ");
   }
 
+  private void describeIgnoredCollectionOrderInFields(StringBuilder description) {
+    if (!ignoredCollectionOrderInFields.isEmpty())
+      description.append(format("- collection order in the following fields were ignored in the comparison: %s%n", describeIgnoredCollectionOrderInFields()));
+  }
+
+  private void describeIgnoredCollectionOrderInFieldsMatchingRegexes(StringBuilder description) {
+    if (!ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty())
+      description.append(format("- collection order in the fields matching the following regexes were ignored in the comparison: %s%n",
+                                describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
+  }
+
   private boolean matchesAnIgnoredOverriddenEqualsRegex(Class<?> clazz) {
     if (ignoredOverriddenEqualsRegexes.isEmpty()) return false; // shortcut
     String canonicalName = clazz.getCanonicalName();
@@ -395,10 +460,27 @@ public class RecursiveComparisonConfiguration {
                         .anyMatch(fieldLocation -> fieldLocation.matches(fieldConcatenatedPath));
   }
 
+  private boolean matchesAnIgnoredCollectionOrderInField(DualValue dualKey) {
+    return ignoredCollectionOrderInFields.stream()
+                                         .anyMatch(fieldLocation -> fieldLocation.matches(dualKey.concatenatedPath));
+  }
+
+  private boolean matchesAnIgnoredCollectionOrderInFieldRegex(DualValue dualKey) {
+    return ignoredCollectionOrderInFieldsMatchingRegexes.stream()
+                                                        .anyMatch(regex -> regex.matcher(dualKey.concatenatedPath).matches());
+  }
+
   private String describeIgnoredFields() {
     List<String> fieldsDescription = ignoredFields.stream()
                                                   .map(FieldLocation::getFieldPath)
                                                   .collect(toList());
+    return join(fieldsDescription).with(", ");
+  }
+
+  private String describeIgnoredCollectionOrderInFields() {
+    List<String> fieldsDescription = ignoredCollectionOrderInFields.stream()
+                                                                   .map(FieldLocation::getFieldPath)
+                                                                   .collect(toList());
     return join(fieldsDescription).with(", ");
   }
 

@@ -159,6 +159,33 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
+  public void should_allow_to_ignore_collection_order_in_fields() {
+    // GIVEN
+    String field1 = "foo";
+    String field2 = "foo.bar";
+    // WHEN
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .ignoringCollectionOrderInFields(field1, field2)
+                                                                       .getRecursiveComparisonConfiguration();
+    // THEN
+    assertThat(configuration.getIgnoredCollectionOrderInFields()).containsExactly(fielLocation(field1), fielLocation(field2));
+  }
+
+  @Test
+  public void should_allow_to_ignore_collection_order_in_fields_matching_regexes() {
+    // GIVEN
+    String regex1 = "foo";
+    String regex2 = ".*foo.*";
+    // WHEN
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .ignoringCollectionOrderInFieldsMatchingRegexes(regex1, regex2)
+                                                                       .getRecursiveComparisonConfiguration();
+    // THEN
+    assertThat(configuration.getIgnoredCollectionOrderInFieldsMatchingRegexes()).extracting(Pattern::pattern)
+                                                                                .containsExactly(regex1, regex2);
+  }
+
+  @Test
   public void should_allow_to_register_field_comparators() {
     // GIVEN
     String field1 = "foo";

@@ -533,6 +533,91 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Makes the recursive comparison to ignore collection order in the given the object under test fields. Nested fields can be specified like this: {@code home.address.street}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   List<Person> friends = new ArrayList<>();
+   *   List<Person> enemies = new ArrayList<>();
+   * }
+   *
+   * Person sherlock1 = new Person("Sherlock Holmes");
+   * sherlock1.friends.add(new Person("Dr. John Watson"));
+   * sherlock1.friends.add(new Person("Molly Hooper"));
+   * sherlock1.enemies.add(new Person("Jim Moriarty"));
+   * sherlock1.enemies.add(new Person("Irene Adler"));
+   *
+   * Person sherlock2 = new Person("Sherlock Holmes");
+   * sherlock2.friends.add(new Person("Molly Hooper"));
+   * sherlock2.friends.add(new Person("Dr. John Watson"));
+   * sherlock2.enemies.add(new Person("Irene Adler"));
+   * sherlock2.enemies.add(new Person("Jim Moriarty"));
+   *
+   * // assertion succeeds as friends and enemies fields collection order is ignored in the comparison
+   * assertThat(sherlock1).usingRecursiveComparison()
+   *                      .ignoringCollectionOrderInFields("friends", "enemies")
+   *                      .isEqualTo(sherlock2);
+   *
+   * // assertion fails as enemies field collection order differ and it is not ignored
+   * assertThat(sherlock1).usingRecursiveComparison()
+   *                      .ignoringCollectionOrderInFields("friends")
+   *                      .isEqualTo(sherlock2);</code></pre>
+   *
+   * @param fieldsToIgnoreCollectionOrder the fields of the object under test to ignore collection order in the comparison.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF ignoringCollectionOrderInFields(String... fieldsToIgnoreCollectionOrder) {
+    recursiveComparisonConfiguration.ignoreCollectionOrderInFields(fieldsToIgnoreCollectionOrder);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore collection order in the object under test fields matching the given regexes.
+   * <p>
+   * Nested fields can be specified by using dots like this: {@code home\.address\.street} ({@code \} is used to escape
+   * dots since they have a special meaning in regexes).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   List<Person> friends = new ArrayList<>();
+   *   List<Person> enemies = new ArrayList<>();
+   * }
+   *
+   * Person sherlock1 = new Person("Sherlock Holmes");
+   * sherlock1.friends.add(new Person("Dr. John Watson"));
+   * sherlock1.friends.add(new Person("Molly Hooper"));
+   * sherlock1.enemies.add(new Person("Jim Moriarty"));
+   * sherlock1.enemies.add(new Person("Irene Adler"));
+   *
+   * Person sherlock2 = new Person("Sherlock Holmes");
+   * sherlock2.friends.add(new Person("Molly Hooper"));
+   * sherlock2.friends.add(new Person("Dr. John Watson"));
+   * sherlock2.enemies.add(new Person("Irene Adler"));
+   * sherlock2.enemies.add(new Person("Jim Moriarty"));
+   *
+   * // assertion succeeds as friends and enemies fields collection order is ignored in the comparison
+   * assertThat(sherlock1).usingRecursiveComparison()
+   *                      .ignoringCollectionOrderInFieldsMatchingRegexes("friend.", "enemie.")
+   *                      .isEqualTo(sherlock2);
+   *
+   * // assertion fails as enemies field collection order differ and it is not ignored
+   * assertThat(sherlock1).usingRecursiveComparison()
+   *                      .ignoringCollectionOrderInFields("friend.")
+   *                      .isEqualTo(sherlock2);</code></pre>
+   *
+   * @param regexes regexes used to find the object under test fields to ignore collection order in the comparison.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF ignoringCollectionOrderInFieldsMatchingRegexes(String... regexes) {
+    recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes(regexes);
+    return myself;
+  }
+
+  /**
    * Makes the recursive comparison to check that actual's type is compatible with expected's type (and do the same for each field). <br>
    * Compatible means that the expected's type is the same or a subclass of actual's type.
    * <p>

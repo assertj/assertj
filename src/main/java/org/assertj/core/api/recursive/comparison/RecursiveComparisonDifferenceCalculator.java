@@ -176,7 +176,7 @@ public class RecursiveComparisonDifferenceCalculator {
 
       // Special handle SortedSets because they are fast to compare
       // because their elements must be in the same order to be equivalent Sets.
-      if (actualFieldValue instanceof SortedSet) {
+      if (actualFieldValue instanceof SortedSet && !recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue)) {
         if (!compareOrderedCollection((Collection<?>) actualFieldValue, (Collection<?>) expectedFieldValue, currentPath,
                                       toCompare, visited)) {
           differences.add(new ComparisonDifference(currentPath, actualFieldValue, expectedFieldValue));
@@ -186,7 +186,7 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       // Check List, as element order matters this comparison is faster than using unordered comparison.
-      if (actualFieldValue instanceof List) {
+      if (actualFieldValue instanceof List && !recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue)) {
         if (!compareOrderedCollection((Collection<?>) actualFieldValue, (Collection<?>) expectedFieldValue, currentPath,
                                       toCompare, visited)) {
           differences.add(new ComparisonDifference(currentPath, actualFieldValue, expectedFieldValue));

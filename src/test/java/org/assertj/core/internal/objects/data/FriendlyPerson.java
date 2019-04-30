@@ -20,4 +20,12 @@ import java.util.Set;
 public class FriendlyPerson extends Person {
   public List<FriendlyPerson> friends = new ArrayList<>();
   public Set<FriendlyPerson> otherFriends = new HashSet<>();
+
+  public FriendlyPerson() {
+      super();
+  }
+
+  public FriendlyPerson(String name) {
+      super(name);
+  }
 }
