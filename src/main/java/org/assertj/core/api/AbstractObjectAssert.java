@@ -643,6 +643,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param propertyOrField the property/field to extract from the initial object under test
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted property/field values
    * @throws IntrospectionError if one of the given name does not match a field or property
+   *
+   * @since 3.13.0
    */
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
     Object value = byName(propertyOrField).apply(actual);

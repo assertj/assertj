@@ -1540,6 +1540,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param key the key used to get value from the map under test
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
+   *
+   * @since 3.13.0
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(Object key) {
