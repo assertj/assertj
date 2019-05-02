@@ -367,6 +367,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  public <ASSERT extends Assert<?, ?>> ASSERT instanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
+    return instanceOfAssertFactory.apply(actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public SELF isInstanceOf(Class<?> type) {
     objects.assertIsInstanceOf(info, actual, type);
     return myself;
@@ -456,7 +462,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @SuppressWarnings("unchecked")
   @Override
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList() {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
     objects.assertIsInstanceOf(info, actual, List.class);
     return newListAssertInstance((List<Object>) actual).as(info.description());
   }
@@ -746,7 +752,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // can be final as it is not proxied
   @SafeVarargs
   private final SELF satisfiesAnyOfAssertionsGroups(Consumer<ACTUAL>... assertionsGroups) throws AssertionError {
-    checkArgument(stream(assertionsGroups).allMatch(assertions -> assertions != null), "No assertions group should be null");
+    checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
     if (stream(assertionsGroups).anyMatch(this::satisfiesAssertions)) return myself;
     // none of the assertions group was met! let's report all the errors
     List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchAssertionError).collect(toList());

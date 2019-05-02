@@ -229,7 +229,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_list_assert_factory_Test() {
-    assertThat(Arrays.asList(ITEMS), t -> new ObjectAssert<>(t)).first().isEqualTo(ITEMS[0]);
+    assertThat(Arrays.asList(ITEMS), ObjectAssert::new).first().isEqualTo(ITEMS[0]);
   }
 
   /**
@@ -355,12 +355,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_comparable_Test() {
-    assertThat(new Comparable<String>() {
-      @Override
-      public int compareTo(final String o) {
-        return 0;
-      }
-    }).isNotNull();
+    assertThat((Comparable<String>) o -> 0).isNotNull();
   }
 
   /**
@@ -385,7 +380,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_iterable_assert_factory_Test() {
-    assertThat((Iterable<TestItem>) Arrays.asList(ITEMS), t -> new ObjectAssert<>(t)).first().isEqualTo(ITEMS[0]);
+    assertThat((Iterable<TestItem>) Arrays.asList(ITEMS), ObjectAssert::new).first().isEqualTo(ITEMS[0]);
   }
 
   /**

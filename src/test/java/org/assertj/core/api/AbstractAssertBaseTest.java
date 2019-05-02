@@ -12,15 +12,17 @@
  */
 package org.assertj.core.api;
 
-
 /**
  * Base class to test the concrete methods of {@link AbstractAssert} (using a dummy implementation).
  * 
  * @author Olivier Michallat
  */
 public abstract class AbstractAssertBaseTest extends BaseTestTemplate<ConcreteAssert, Object> {
+
+  protected final Object actual = 6L;
+
   @Override
   protected ConcreteAssert create_assertions() {
-    return new ConcreteAssert(6L);
+    return new ConcreteAssert(actual);
   }
 }

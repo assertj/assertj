@@ -37,19 +37,9 @@ import org.junit.jupiter.api.Test;
  */
 public class BDDAssertions_then_Test {
 
-  AssertFactory<String, StringAssert> stringAssertFactory = new AssertFactory<String, StringAssert>() {
-    @Override
-    public StringAssert createAssert(String string) {
-      return new StringAssert(string);
-    }
-  };
+  private AssertFactory<String, StringAssert> stringAssertFactory = StringAssert::new;
 
-  AssertFactory<Integer, IntegerAssert> integerAssertFactory = new AssertFactory<Integer, IntegerAssert>() {
-    @Override
-    public IntegerAssert createAssert(Integer string) {
-      return new IntegerAssert(string);
-    }
-  };
+  private AssertFactory<Integer, IntegerAssert> integerAssertFactory = IntegerAssert::new;
 
   @Test
   public void then_char() {
@@ -260,21 +250,16 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void should_build_ThrowableAssert_with_throwable_thrown() {
-    thenThrownBy(new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        throw new Throwable("something was wrong");
-      }
+    thenThrownBy(() -> {
+      throw new Throwable("something was wrong");
     }).isInstanceOf(Throwable.class)
       .hasMessage("something was wrong");
   }
 
+  @Test
   public void should_build_ThrowableAssert_with_throwable_thrown_with_format_string() {
-    thenThrownBy(new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        throw new Throwable("something was wrong");
-      }
+    thenThrownBy(() -> {
+      throw new Throwable("something was wrong");
     }).isInstanceOf(Throwable.class)
       .hasMessage("something was %s", "wrong");
   }
