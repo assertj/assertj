@@ -29,7 +29,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class CollectionAssert_usingComparator_Test {
+public class ByteAssert_usingComparator_Test {
 
   private ByteAssert assertions = new ByteAssert((byte) 5);
 

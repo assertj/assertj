@@ -49,7 +49,7 @@ public class ListAssert<ELEMENT> extends
     FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public ListAssert(List<? extends ELEMENT> actual) {
-    super(actual, ListAssert.class, new ObjectAssertFactory<ELEMENT>());
+    super(actual, ListAssert.class, new ObjectAssertFactory<>());
   }
 
   public ListAssert(Stream<? extends ELEMENT> actual) {
@@ -184,6 +184,7 @@ public class ListAssert<ELEMENT> extends
     checkIsNotNull(sequence);
     // NO SUPPORT FOR infinite streams as it prevents chaining other assertions afterward, it requires to consume the
     // Stream partially, if you chain another assertion, the stream is already consumed.
+    @SuppressWarnings("unchecked")
     Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
     if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
     int i = 0;
@@ -332,13 +333,13 @@ public class ListAssert<ELEMENT> extends
 
   @Override
   @SafeVarargs
-  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
+  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
     return super.flatExtracting(extractors);
   }
 
   @Override
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(Function<? super ELEMENT, ?>... extractors) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(Function<? super ELEMENT, ?>... extractors) {
     return super.flatExtracting(extractors);
   }
 

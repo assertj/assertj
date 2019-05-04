@@ -88,6 +88,7 @@ public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
   @Test
   public void should_pass_and_only_invoke_predicate_once_for_single_value() {
     // GIVEN
+    @SuppressWarnings("unchecked")
     Predicate<Object> predicate = mock(Predicate.class);
     when(predicate.test(any())).thenReturn(true);
     // WHEN
