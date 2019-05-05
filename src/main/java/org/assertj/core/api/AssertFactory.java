@@ -12,21 +12,28 @@
  */
 package org.assertj.core.api;
 
-import java.util.function.Function;
-
 /**
- * A {@link Function} to produce an {@link Assert} for a given value.
- * This function typically wraps a call to <code>assertThat(value)</code> to produce a concrete assert type {@code ASSERT}
- * for the input value.
+ * A single method factory interface to create an {@link Assert} for a given value.
+ * This factory method typically wraps a call to <code>assertThat(t)</code> to produce a concrete assert type {@code ASSERT}
+ * for the input element of type {@code T}.
  * <p>
- * This function is typically used by navigation assertions on iterable types like {@link AbstractIterableAssert} when calling
+ * This interface is typically used by navigation assertions on iterable types like {@link AbstractIterableAssert} when calling
  * {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable&lt;E&gt;, AssertFactory&lt;E, ASSERT&gt;)}
  * <p>
- * @param <T> the type of the input to the function.
+ * @param <T> the type of the input to the factory.
  * @param <ASSERT> the type of the resulting {@code Assert}.
- * 
+ *
  * @since 2.5.0 / 3.5.0
  */
 @FunctionalInterface
-public interface AssertFactory<T, ASSERT extends Assert<?, ?>> extends Function<T, ASSERT> {
+public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {
+
+  /**
+   * Creates the custom Assert object for the given element value.
+   *
+   * Typically this will just invoke <code>assertThat(t)</code>
+   * @param t the type to convert to an Assert object
+   * @return returns <code>assertThat(t)</code>
+   */
+  ASSERT createAssert(T t);
 }

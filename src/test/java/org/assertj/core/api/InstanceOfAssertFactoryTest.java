@@ -15,7 +15,7 @@ public class InstanceOfAssertFactoryTest {
   private InstanceOfAssertFactory<Integer, Assert<?, ?>> underTest;
 
   @Mock
-  private AssertFactory<Integer, Assert<?, ?>> assertFactory;
+  private AssertFactory<Integer, Assert<?, ?>> mockAssertFactory;
 
   @Mock
   private Assert<?, ?> mockAssert;
@@ -23,13 +23,13 @@ public class InstanceOfAssertFactoryTest {
   @BeforeEach
   public void setUp() {
     initMocks(this);
-    willReturn(mockAssert).given(assertFactory).apply(any());
-    underTest = new InstanceOfAssertFactory<>(Integer.class, assertFactory);
+    willReturn(mockAssert).given(mockAssertFactory).createAssert(any());
+    underTest = new InstanceOfAssertFactory<>(Integer.class, mockAssertFactory);
   }
 
   @Test
   public void should_throw_npe_if_no_type_is_given() {
-    assertThatNullPointerException().isThrownBy(() -> new InstanceOfAssertFactory<>(null, assertFactory));
+    assertThatNullPointerException().isThrownBy(() -> new InstanceOfAssertFactory<>(null, mockAssertFactory));
   }
 
   @Test
@@ -40,7 +40,7 @@ public class InstanceOfAssertFactoryTest {
   @Test
   public void should_return_assert_factory_result_if_actual_is_an_instance_of_given_type() {
     // When
-    Assert<?, ?> result = underTest.apply(0);
+    Assert<?, ?> result = underTest.createAssert(0);
 
     // Then
     assertThat(result).isSameAs(mockAssert);
@@ -48,7 +48,7 @@ public class InstanceOfAssertFactoryTest {
 
   @Test
   public void should_throw_assertion_error_if_actual_is_not_an_instance_of_given_type() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> underTest.apply("string"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> underTest.createAssert("string"))
                                                    .withMessage(shouldBeInstance("string", Integer.class).create());
   }
 

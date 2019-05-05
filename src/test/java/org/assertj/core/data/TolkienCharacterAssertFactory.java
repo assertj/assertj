@@ -17,7 +17,7 @@ import org.assertj.core.api.AssertFactory;
 public class TolkienCharacterAssertFactory implements AssertFactory<TolkienCharacter, TolkienCharacterAssert> {
 
   @Override
-  public TolkienCharacterAssert apply(TolkienCharacter character) {
+  public TolkienCharacterAssert createAssert(TolkienCharacter character) {
     return TolkienCharacterAssert.assertThat(character);
   }
 

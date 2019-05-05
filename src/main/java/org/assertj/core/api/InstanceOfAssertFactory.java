@@ -28,9 +28,9 @@ public class InstanceOfAssertFactory<T, ASSERT extends Assert<?, ?>> implements 
 
   /** {@inheritDoc} */
   @Override
-  public ASSERT apply(Object value) {
+  public ASSERT createAssert(Object value) {
     Assertions.assertThat(value).isInstanceOf(type);
-    return assertFactory.apply(type.cast(value));
+    return assertFactory.createAssert(type.cast(value));
   }
 
 }

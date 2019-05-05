@@ -15,11 +15,11 @@ package org.assertj.core.api;
 /**
  * @since 2.5.0 / 3.5.0
  */
-public class ObjectAssertFactory<T>  implements AssertFactory<T, ObjectAssert<T>> {
+public class ObjectAssertFactory<T> implements AssertFactory<T, ObjectAssert<T>> {
 
   @Override
-  public ObjectAssert<T> apply(T t) {
+  public ObjectAssert<T> createAssert(T t) {
     return new ObjectAssert<>(t);
   }
-  
+
 }

@@ -40,7 +40,7 @@ public class AbstractAssert_instanceOf_Test extends AbstractAssertBaseTest {
   @Test
   public void should_return_factory_result() {
     // Given
-    willReturn(mockAssert).given(mockFactory).apply(actual);
+    willReturn(mockAssert).given(mockFactory).createAssert(actual);
 
     // When
     Assert<?, ?> result = assertions.instanceOf(mockFactory);
