@@ -533,7 +533,41 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Makes the recursive comparison to ignore collection order in the given the object under test fields. Nested fields can be specified like this: {@code home.address.street}.
+   * Makes the recursive comparison to ignore collection order in all fields in the object under test.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   List&lt;Person&gt; friends = new ArrayList&lt;&gt;();
+   * }
+   *
+   * Person sherlock1 = new Person("Sherlock Holmes");
+   * sherlock1.friends.add(new Person("Dr. John Watson"));
+   * sherlock1.friends.add(new Person("Molly Hooper"));
+   *
+   * Person sherlock2 = new Person("Sherlock Holmes");
+   * sherlock2.friends.add(new Person("Molly Hooper"));
+   * sherlock2.friends.add(new Person("Dr. John Watson"));
+   *
+   * // assertion succeeds as all fields collection order is ignored in the comparison
+   * assertThat(sherlock1).usingRecursiveComparison()
+   *                      .ignoringCollectionOrder()
+   *                      .isEqualTo(sherlock2);
+   *
+   * // assertion fails as fields collection order is not ignored in the comparison
+   * assertThat(sherlock1).usingRecursiveComparison()
+   *                      .isEqualTo(sherlock2);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF ignoringCollectionOrder() {
+    recursiveComparisonConfiguration.setIgnoreCollectionOrder(true);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore collection order in the object under test specified fields. Nested fields can be specified like this: {@code home.address.street}.
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {
@@ -574,7 +608,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Makes the recursive comparison to ignore collection order in the object under test fields matching the given regexes.
+   * Makes the recursive comparison to ignore collection order in the object under test fields matching the specified regexes.
    * <p>
    * Nested fields can be specified by using dots like this: {@code home\.address\.street} ({@code \} is used to escape
    * dots since they have a special meaning in regexes).

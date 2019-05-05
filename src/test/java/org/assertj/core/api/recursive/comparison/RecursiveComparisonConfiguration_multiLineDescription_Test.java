@@ -137,6 +137,16 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  public void should_show_the_ignored_collection_order() {
+    // GIVEN
+    recursiveComparisonConfiguration.setIgnoreCollectionOrder(true);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).contains(format("- collection order were ignored in all fields in the comparison%n"));
+  }
+
+  @Test
   public void should_show_the_ignored_collection_order_in_fields() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar");
@@ -220,6 +230,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
+    recursiveComparisonConfiguration.setIgnoreCollectionOrder(true);
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("f.*", "ba.", "foo.*");
     recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
@@ -238,6 +249,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                "  - the types matching the following regexes: .*oo, .ar, oo.ba%n" +
+               "- collection order were ignored in all fields in the comparison%n" +
                "- collection order in the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- collection order in the fields matching the following regexes were ignored in the comparison: f.*, ba., foo.*%n" +
                "- these types were compared with the following comparators:%n" +

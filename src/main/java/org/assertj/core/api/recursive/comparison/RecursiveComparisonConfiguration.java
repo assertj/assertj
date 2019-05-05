@@ -53,6 +53,7 @@ public class RecursiveComparisonConfiguration {
   private boolean ignoreAllOverriddenEquals = false;
 
   // ignore order in collections section
+  private boolean ignoreCollectionOrder = false;
   private Set<FieldLocation> ignoredCollectionOrderInFields = new LinkedHashSet<>();
   private List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
 
@@ -187,6 +188,22 @@ public class RecursiveComparisonConfiguration {
     ignoredOverriddenEqualsForTypes.addAll(list(types));
   }
 
+  @VisibleForTesting
+  boolean getIgnoreCollectionOrder() {
+    return ignoreCollectionOrder;
+  }
+
+  /**
+   * Sets whether to ignore collection order in the comparison.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringCollectionOrder()} for code examples.
+   *
+   * @param ignoreCollectionOrder whether to ignore collection order in the comparison.
+   */
+  public void setIgnoreCollectionOrder(boolean ignoreCollectionOrder) {
+    this.ignoreCollectionOrder = ignoreCollectionOrder;
+  }
+
   /**
    * Adds the given fields to the list of the object under test fields to ignore collection order in the recursive comparison.
    * <p>
@@ -216,9 +233,9 @@ public class RecursiveComparisonConfiguration {
    * @param regexes regexes used to find the object under test fields to ignore collection order in in the comparison.
    */
   public void ignoreCollectionOrderInFieldsMatchingRegexes(String... regexes) {
-      ignoredCollectionOrderInFieldsMatchingRegexes.addAll(Stream.of(regexes)
-                                                                 .map(Pattern::compile)
-                                                                 .collect(toList()));
+    ignoredCollectionOrderInFieldsMatchingRegexes.addAll(Stream.of(regexes)
+                                                               .map(Pattern::compile)
+                                                               .collect(toList()));
   }
 
   /**
@@ -310,6 +327,7 @@ public class RecursiveComparisonConfiguration {
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
+    describeIgnoreCollectionOrder(description);
     describeIgnoredCollectionOrderInFields(description);
     describeIgnoredCollectionOrderInFieldsMatchingRegexes(description);
     describeRegisteredComparatorByTypes(description);
@@ -352,7 +370,8 @@ public class RecursiveComparisonConfiguration {
   }
 
   boolean shouldIgnoreCollectionOrder(DualValue dualKey) {
-    return matchesAnIgnoredCollectionOrderInField(dualKey)
+    return ignoreCollectionOrder
+           || matchesAnIgnoredCollectionOrderInField(dualKey)
            || matchesAnIgnoredCollectionOrderInFieldRegex(dualKey);
   }
 
@@ -411,9 +430,14 @@ public class RecursiveComparisonConfiguration {
     return join(fieldsDescription).with(", ");
   }
 
+  private void describeIgnoreCollectionOrder(StringBuilder description) {
+    if (ignoreCollectionOrder) description.append(format("- collection order were ignored in all fields in the comparison%n"));
+  }
+
   private void describeIgnoredCollectionOrderInFields(StringBuilder description) {
     if (!ignoredCollectionOrderInFields.isEmpty())
-      description.append(format("- collection order in the following fields were ignored in the comparison: %s%n", describeIgnoredCollectionOrderInFields()));
+      description.append(format("- collection order in the following fields were ignored in the comparison: %s%n",
+                                describeIgnoredCollectionOrderInFields()));
   }
 
   private void describeIgnoredCollectionOrderInFieldsMatchingRegexes(StringBuilder description) {

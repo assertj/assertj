@@ -159,6 +159,16 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
+  public void should_allow_to_ignore_collection_order() {
+    // WHEN
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .ignoringCollectionOrder()
+                                                                       .getRecursiveComparisonConfiguration();
+    // THEN
+    assertThat(configuration.getIgnoreCollectionOrder()).isTrue();
+  }
+
+  @Test
   public void should_allow_to_ignore_collection_order_in_fields() {
     // GIVEN
     String field1 = "foo";

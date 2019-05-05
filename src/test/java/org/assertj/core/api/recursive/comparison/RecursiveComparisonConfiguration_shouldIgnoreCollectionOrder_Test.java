@@ -36,6 +36,23 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
+  @ParameterizedTest(name = "{0} collection order should be ignored")
+  @MethodSource("should_ignore_collection_order_source")
+  public void should_ignore_collection_order(DualValue dualKey) {
+    // GIVEN
+    recursiveComparisonConfiguration.setIgnoreCollectionOrder(true);
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualKey);
+    // THEN
+    assertThat(ignored).as("%s collection order should be ignored", dualKey).isTrue();
+  }
+
+  @SuppressWarnings("unused")
+  private static Stream<Arguments> should_ignore_collection_order_source() {
+    return Stream.of(arguments(dualKeyWithPath("name")),
+                     arguments(dualKeyWithPath("name", "first")));
+  }
+
   @Test
   public void should_register_ignore_collection_order_in_fields_without_duplicates() {
     // GIVEN
@@ -100,8 +117,8 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
   }
 
   @ParameterizedTest(name = "{0} collection order should be ignored")
-  @MethodSource("should_ignore_collection_order_source")
-  public void should_ignore_collection_order(DualValue dualKey) {
+  @MethodSource("should_ignore_collection_order_in_fields_source")
+  public void should_ignore_collection_order_in_fields(DualValue dualKey) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes(".*name");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("number");
@@ -112,7 +129,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
   }
 
   @SuppressWarnings("unused")
-  private static Stream<Arguments> should_ignore_collection_order_source() {
+  private static Stream<Arguments> should_ignore_collection_order_in_fields_source() {
     return Stream.of(arguments(dualKeyWithPath("name")),
                      arguments(dualKeyWithPath("number")),
                      arguments(dualKeyWithPath("surname")),
