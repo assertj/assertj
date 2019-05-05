@@ -46,6 +46,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class Assumptions_assumeThat_with_various_java_8_types_Test {
 
+  // TODO fails for time =23.59.59 as adding 100 will give an inferior time
+
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(
         new AssumptionRunner<ThrowingCallable>(() -> {}) {

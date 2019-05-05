@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -25,13 +24,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
@@ -327,77 +320,6 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_fail_when_comparing_unsorted_with_sorted_set() {
-    // GIVEN
-    WithCollection<String> actual = new WithCollection<>(new LinkedHashSet<String>());
-    actual.collection.add("bar");
-    actual.collection.add("foo");
-    WithCollection<String> expected = new WithCollection<>(new TreeSet<String>());
-    expected.collection.add("bar");
-    expected.collection.add("foo");
-
-    // WHEN
-    compareRecursivelyFailsAsExpected(actual, expected);
-
-    // THEN
-    ComparisonDifference collectionDifference = diff("collection", actual.collection, expected.collection);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, collectionDifference);
-  }
-
-  @Test
-  public void should_fail_when_comparing_sorted_with_unsorted_set() {
-    WithCollection<String> actual = new WithCollection<>(new TreeSet<String>());
-    actual.collection.add("bar");
-    actual.collection.add("foo");
-    WithCollection<String> expected = new WithCollection<>(new LinkedHashSet<String>());
-    expected.collection.add("bar");
-    expected.collection.add("foo");
-
-    // WHEN
-    compareRecursivelyFailsAsExpected(actual, expected);
-
-    // THEN
-    ComparisonDifference collectionDifference = diff("collection", actual.collection, expected.collection);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, collectionDifference);
-  }
-
-  @Test
-  public void should_fail_when_comparing_unsorted_with_sorted_map() {
-    WithMap<Long, Boolean> actual = new WithMap<>(new LinkedHashMap<>());
-    actual.map.put(1L, true);
-    actual.map.put(2L, false);
-    WithMap<Long, Boolean> expected = new WithMap<>(new TreeMap<>());
-    expected.map.put(2L, false);
-    expected.map.put(1L, true);
-
-    // WHEN
-    compareRecursivelyFailsAsExpected(actual, expected);
-
-    // THEN
-    ComparisonDifference mapDifference = diff("map", actual.map, expected.map);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, mapDifference);
-  }
-
-  @Test
-  public void should_fail_when_comparing_sorted_with_unsorted_map() {
-    WithMap<Long, Boolean> actual = new WithMap<>(new TreeMap<Long, Boolean>());
-    actual.map.put(1L, true);
-    actual.map.put(2L, false);
-    WithMap<Long, Boolean> expected = new WithMap<>(new LinkedHashMap<Long, Boolean>());
-    expected.map.put(2L, false);
-    expected.map.put(1L, true);
-
-    // WHEN
-    compareRecursivelyFailsAsExpected(actual, expected);
-
-    // THEN
-    ComparisonDifference mapDifference = diff("map", actual.map, expected.map);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, mapDifference);
-  }
-
-  // old tests
-
-  @Test
   public void should_report_missing_property() {
     // GIVEN
     Giant actual = new Giant();
@@ -411,34 +333,6 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     ComparisonDifference missingFieldDifference = diff("", actual, expected,
                                                        "org.assertj.core.internal.objects.data.Giant can't be compared to org.assertj.core.internal.objects.data.Human as Human does not declare all Giant fields, it lacks these:[height]");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, missingFieldDifference);
-  }
-
-  public static class WithMap<K, V> {
-    public Map<K, V> map;
-
-    public WithMap(Map<K, V> map) {
-      this.map = map;
-    }
-
-    @Override
-    public String toString() {
-      return format("WithMap [map=%s]", map);
-    }
-
-  }
-
-  public static class WithCollection<E> {
-    public Collection<E> collection;
-
-    public WithCollection(Collection<E> collection) {
-      this.collection = collection;
-    }
-
-    @Override
-    public String toString() {
-      return format("WithCollection [collection=%s]", collection);
-    }
-
   }
 
 }

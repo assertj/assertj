@@ -41,12 +41,12 @@ public class RecursiveComparisonAssert_isEqualTo_BaseTest extends ObjectsBaseTes
                                                                                    info.representation()));
   }
 
-  public void compareRecursivelyFailsAsExpected(Object actual, Object expected) {
+  public AssertionError compareRecursivelyFailsAsExpected(Object actual, Object expected) {
     RecursiveComparisonAssert<?> recursiveComparisonAssert = new RecursiveComparisonAssert<>(actual,
                                                                                              recursiveComparisonConfiguration);
     info = recursiveComparisonAssert.info;
     recursiveComparisonAssert.objects = objects;
-    expectAssertionError(() -> recursiveComparisonAssert.isEqualTo(expected));
+    return expectAssertionError(() -> recursiveComparisonAssert.isEqualTo(expected));
   }
 
   public static ComparisonDifference diff(String path, Object actual, Object other) {

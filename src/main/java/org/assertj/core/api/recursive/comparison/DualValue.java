@@ -14,18 +14,29 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Strings.join;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.stream.Stream;
 
 // logically immutable
 final class DualValue {
+
+  static final Class<?>[] DEFAULT_ORDERED_COLLECTION_TYPES = array(List.class, SortedSet.class, LinkedHashSet.class);
 
   final List<String> path;
   final String concatenatedPath;
   final Object actual;
   final Object expected;
   private final int hashCode;
+
 
   DualValue(List<String> path, Object actual, Object expected) {
     this.path = path;
@@ -65,5 +76,61 @@ final class DualValue {
   public boolean isJavaType() {
     if (actual == null) return false;
     return actual.getClass().getName().startsWith("java.");
+  }
+
+  public boolean isExpectedFieldAnArray() {
+    return isArray(expected);
+  }
+
+  public boolean isActualFieldAnArray() {
+    return isArray(actual);
+  }
+
+  public boolean hasIterableValues() {
+    return actual instanceof Iterable && expected instanceof Iterable;
+  }
+
+  public boolean isActualFieldAnOptional() {
+    return actual instanceof Optional;
+  }
+
+  public boolean isExpectedFieldAnOptional() {
+    return expected instanceof Optional;
+  }
+
+  public boolean isActualFieldAMap() {
+    return actual instanceof Map;
+  }
+
+  public boolean isExpectedFieldAMap() {
+    return expected instanceof Map;
+  }
+
+  public boolean isActualFieldASortedMap() {
+    return actual instanceof SortedMap;
+  }
+
+  public boolean isExpectedFieldASortedMap() {
+    return expected instanceof SortedMap;
+  }
+
+  public boolean isActualFieldAnOrderedCollection() {
+    return isAnOrderedCollection(actual);
+  }
+
+  public boolean isExpectedFieldAnOrderedCollection() {
+    return isAnOrderedCollection(expected);
+  }
+
+  public boolean isActualFieldAnIterable() {
+    return actual instanceof Iterable;
+  }
+
+  public boolean isExpectedFieldAnIterable() {
+    return expected instanceof Iterable;
+  }
+
+  private static boolean isAnOrderedCollection(Object value) {
+    return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES).anyMatch(type -> type.isInstance(value));
   }
 }
