@@ -42,7 +42,7 @@ public class AbstractSoftAssertions {
     proxies.collectError(error);
   }
   
-  public void $(Runnable assertion) {
+  public void check(Runnable assertion) {
       try {
         assertion.run();
       } catch (AssertionError error) {
