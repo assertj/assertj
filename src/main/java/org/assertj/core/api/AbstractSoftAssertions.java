@@ -44,7 +44,7 @@ public class AbstractSoftAssertions {
   
   public void check(ThrowingCallable assertion) {
       try {
-        assertion.run();
+        assertion.call();
       } catch (AssertionError error) {
         proxies.collectError(error);
       }
