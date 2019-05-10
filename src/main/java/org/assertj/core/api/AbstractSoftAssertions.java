@@ -42,9 +42,9 @@ public class AbstractSoftAssertions {
     proxies.collectError(error);
   }
   
-  public void check(ThrowingCallable assertion) {
+  public void check(ThrowingRunnable assertion) {
       try {
-        assertion.call();
+        assertion.run();
       } catch (AssertionError error) {
         proxies.collectError(error);
       }
@@ -196,7 +196,7 @@ public class AbstractSoftAssertions {
     return className.contains("$ByteBuddy$");
   }
   
-  public interface ThrowingCallable {
-    void call() throws Throwable;
+  public interface ThrowingRunnable {
+    void run() throws Exception;
   }
 }
