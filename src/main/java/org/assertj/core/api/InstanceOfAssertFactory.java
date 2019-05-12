@@ -1,6 +1,7 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 
 /**
  * {@link AssertFactory} decorator which casts the input value to the given type before invoking the decorated {@link AssertFactory}.
@@ -22,8 +23,8 @@ public class InstanceOfAssertFactory<T, ASSERT extends Assert<?, ?>> implements 
    * @param assertFactory the {@code AssertFactory} to decorate.
    */
   public InstanceOfAssertFactory(Class<T> type, AssertFactory<T, ASSERT> assertFactory) {
-    this.type = requireNonNull(type, "'type' cannot be null");
-    this.assertFactory = requireNonNull(assertFactory, "'assertFactory' cannot be null");
+    this.type = requireNonNull(type, shouldNotBeNull("type").create());
+    this.assertFactory = requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
   }
 
   /** {@inheritDoc} */

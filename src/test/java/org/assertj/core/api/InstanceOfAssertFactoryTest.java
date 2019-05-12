@@ -1,16 +1,19 @@
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class InstanceOfAssertFactoryTest {
+@ExtendWith(MockitoExtension.class)
+class InstanceOfAssertFactoryTest {
 
   private InstanceOfAssertFactory<Integer, Assert<?, ?>> underTest;
 
@@ -21,35 +24,48 @@ public class InstanceOfAssertFactoryTest {
   private Assert<?, ?> mockAssert;
 
   @BeforeEach
-  public void setUp() {
-    initMocks(this);
-    willReturn(mockAssert).given(mockAssertFactory).createAssert(any());
+  void setUp() {
     underTest = new InstanceOfAssertFactory<>(Integer.class, mockAssertFactory);
   }
 
   @Test
-  public void should_throw_npe_if_no_type_is_given() {
-    assertThatNullPointerException().isThrownBy(() -> new InstanceOfAssertFactory<>(null, mockAssertFactory));
+  void should_throw_npe_if_no_type_is_given() {
+    // WHEN
+    Throwable thrown = catchThrowable(() -> new InstanceOfAssertFactory<>(null, mockAssertFactory));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("type").create());
   }
 
   @Test
-  public void should_throw_npe_if_no_assert_factory_is_given() {
-    assertThatNullPointerException().isThrownBy(() -> new InstanceOfAssertFactory<>(Object.class, null));
+  void should_throw_npe_if_no_assert_factory_is_given() {
+    // WHEN
+    Throwable thrown = catchThrowable(() -> new InstanceOfAssertFactory<>(Object.class, null));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("assertFactory").create());
   }
 
   @Test
-  public void should_return_assert_factory_result_if_actual_is_an_instance_of_given_type() {
-    // When
-    Assert<?, ?> result = underTest.createAssert(0);
-
-    // Then
-    assertThat(result).isSameAs(mockAssert);
+  void should_return_assert_factory_result_if_actual_is_an_instance_of_given_type() {
+    // GIVEN
+    int value = 0;
+    willReturn(mockAssert).given(mockAssertFactory).createAssert(value);
+    // WHEN
+    Assert<?, ?> result = underTest.createAssert(value);
+    // THEN
+    then(result).isSameAs(mockAssert);
   }
 
   @Test
-  public void should_throw_assertion_error_if_actual_is_not_an_instance_of_given_type() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> underTest.createAssert("string"))
-                                                   .withMessage(shouldBeInstance("string", Integer.class).create());
+  void should_throw_assertion_error_if_actual_is_not_an_instance_of_given_type() {
+    // GIVEN
+    String value = "string";
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.createAssert(value));
+    // THEN
+    then(thrown).isInstanceOf(AssertionError.class)
+                .hasMessage(shouldBeInstance("string", Integer.class).create());
   }
 
 }

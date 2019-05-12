@@ -19,6 +19,7 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -30,9 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class AbstractAssert_asInstanceOf_Test {
 
-  private final Object actual = 6L;
-
-  private AbstractAssert<?, ?> underTest = new ConcreteAssert(actual);
+  private AbstractAssert<?, ?> underTest;
 
   @Mock
   private InstanceOfAssertFactory<?, ?> mockFactory;
@@ -40,15 +39,20 @@ class AbstractAssert_asInstanceOf_Test {
   @Mock
   private Assert<?, ?> mockAssert;
 
+  private final Object actual = 6L;
+
+  @BeforeEach
+  void setUp() {
+    underTest = new ConcreteAssert(actual);
+  }
+
   @Test
   void should_return_factory_result() {
-    // Given
+    // GIVEN
     willReturn(mockAssert).given(mockFactory).createAssert(actual);
-
-    // When
+    // WHEN
     Assert<?, ?> result = underTest.asInstanceOf(mockFactory);
-
-    // Then
+    // THEN
     assertThat(result).isSameAs(mockAssert);
   }
 
