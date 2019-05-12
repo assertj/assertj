@@ -123,7 +123,8 @@ public class Failures {
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory) {
     AssertionError error = failureIfErrorMessageIsOverridden(info);
     if (error != null) return error;
-    AssertionError assertionError = new AssertionFailedError(messageFactory.create(info.description(), info.representation()));
+    String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
+    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();
     return assertionError;

@@ -45,26 +45,32 @@ public class AssertionErrorCreator {
   // single assertion error
 
   public AssertionError assertionError(String message, Object actual, Object expected) {
-    return assertionFailedError(message, actual, expected).orElse(assertionError(message));
+    return assertionFailedError(message, actual, expected).orElse(createAssertionError(message));
+  }
+
+  public AssertionError assertionError(String message) {
+    return assertionFailedError(message, null, null).orElse(createAssertionError(message));
   }
 
   private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected) {
-    try {
-      Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
-                                                MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
-                                                message,
-                                                expected,
-                                                actual);
-      if (o instanceof AssertionError) {
-        AssertionError assertionError = (AssertionError) o;
-        return Optional.of(assertionError);
-      }
-    } catch (Throwable ignored) {
-    }
-    return Optional.empty();
+    return Optional.ofNullable(tryInstantiateAssertionFailedError(message, actual, expected))
+      .filter(AssertionError.class::isInstance)
+      .map(AssertionError.class::cast);
   }
 
-  private static AssertionError assertionError(String message) {
+  private Object tryInstantiateAssertionFailedError(String message, Object actual, Object expected) {
+    try {
+      return constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
+                                            MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
+                                            message,
+                                            expected,
+                                            actual);
+    } catch (Throwable e) {
+      return null;
+    }
+  }
+
+  private static AssertionError createAssertionError(String message) {
     return new AssertionError(message);
   }
 
