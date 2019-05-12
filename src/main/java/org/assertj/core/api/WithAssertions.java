@@ -104,7 +104,7 @@ import org.assertj.core.util.CheckReturnValue;
  *
  */
 @CheckReturnValue
-public interface WithAssertions {
+public interface WithAssertions extends InstanceOfAssertFactories {
 
   /**
    * Assertions entry point for float {@link Offset}.

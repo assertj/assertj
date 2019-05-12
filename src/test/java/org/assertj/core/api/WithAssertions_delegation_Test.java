@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.BufferedInputStream;
@@ -45,6 +44,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -388,7 +388,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void withAssertions_assertThat_iterator_Test() {
-    assertThat(list(ITEMS).iterator()).hasNext();
+    assertThat(Lists.list(ITEMS).iterator()).hasNext();
   }
 
   /**

@@ -18,88 +18,88 @@ import java.util.function.Predicate;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
 
-public class InstanceOfAssertFactoriesTest {
+class InstanceOfAssertFactoriesTest {
 
   @Test
-  public void predicate_factory_should_allow_predicate_assertions() {
+  void predicate_factory_should_allow_predicate_assertions() {
     Predicate<Object> predicate = Objects::isNull;
-    assertThat((Object) predicate).instanceOf(PREDICATE).accepts((Object) null);
+    assertThat((Object) predicate).asInstanceOf(PREDICATE).accepts((Object) null);
   }
 
   @Test
-  public void typed_predicate_factory_should_allow_typed_predicate_assertions() {
+  void typed_predicate_factory_should_allow_typed_predicate_assertions() {
     Predicate<String> predicate = Strings::isNullOrEmpty;
-    assertThat((Object) predicate).instanceOf(predicate(String.class)).accepts("");
+    assertThat((Object) predicate).asInstanceOf(predicate(String.class)).accepts("");
   }
 
   @Test
-  public void int_predicate_factory_should_allow_int_predicate_assertions() {
+  void int_predicate_factory_should_allow_int_predicate_assertions() {
     IntPredicate predicate = i -> i == 0;
-    assertThat((Object) predicate).instanceOf(INT_PREDICATE).accepts(0);
+    assertThat((Object) predicate).asInstanceOf(INT_PREDICATE).accepts(0);
   }
 
   @Test
-  public void long_predicate_factory_should_allow_long_predicate_assertions() {
+  void long_predicate_factory_should_allow_long_predicate_assertions() {
     LongPredicate predicate = l -> l == 0L;
-    assertThat((Object) predicate).instanceOf(LONG_PREDICATE).accepts(0L);
+    assertThat((Object) predicate).asInstanceOf(LONG_PREDICATE).accepts(0L);
   }
 
   @Test
-  public void double_predicate_factory_should_allow_double_predicate_assertions() {
+  void double_predicate_factory_should_allow_double_predicate_assertions() {
     DoublePredicate predicate = d -> d == 0.0;
-    assertThat((Object) predicate).instanceOf(DOUBLE_PREDICATE).accepts(0.0);
+    assertThat((Object) predicate).asInstanceOf(DOUBLE_PREDICATE).accepts(0.0);
   }
 
   @Test
-  public void completable_future_factory_should_allow_completable_future_assertions() {
+  void completable_future_factory_should_allow_completable_future_assertions() {
     CompletableFuture<Object> completableFuture = completedFuture("done");
-    assertThat((Object) completableFuture).instanceOf(COMPLETABLE_FUTURE).isDone();
+    assertThat((Object) completableFuture).asInstanceOf(COMPLETABLE_FUTURE).isDone();
   }
 
   @Test
-  public void typed_completable_future_factory_should_allow_typed_completable_future_assertions() {
+  void typed_completable_future_factory_should_allow_typed_completable_future_assertions() {
     CompletableFuture<String> completableFuture = completedFuture("done");
-    assertThat((Object) completableFuture).instanceOf(completableFuture(String.class)).isDone();
+    assertThat((Object) completableFuture).asInstanceOf(completableFuture(String.class)).isDone();
   }
 
   @Test
-  public void completion_stage_factory_should_allow_completable_future_assertions() {
+  void completion_stage_factory_should_allow_completable_future_assertions() {
     CompletionStage<Object> completableFuture = completedFuture("done");
-    assertThat((Object) completableFuture).instanceOf(COMPLETION_STAGE).isDone();
+    assertThat((Object) completableFuture).asInstanceOf(COMPLETION_STAGE).isDone();
   }
 
   @Test
-  public void typed_completion_stage_factory_should_allow_typed_completable_future_assertions() {
+  void typed_completion_stage_factory_should_allow_typed_completable_future_assertions() {
     CompletionStage<String> completableFuture = completedFuture("done");
-    assertThat((Object) completableFuture).instanceOf(completionStage(String.class)).isDone();
+    assertThat((Object) completableFuture).asInstanceOf(completionStage(String.class)).isDone();
   }
 
   @Test
-  public void string_factory_should_allow_string_assertions() {
-    assertThat((Object) "string").instanceOf(STRING).startsWith("str");
+  void string_factory_should_allow_string_assertions() {
+    assertThat((Object) "string").asInstanceOf(STRING).startsWith("str");
   }
 
   @Test
-  public void integer_factory_should_allow_integer_assertions() {
-    assertThat((Object) 0).instanceOf(INTEGER).isZero();
+  void integer_factory_should_allow_integer_assertions() {
+    assertThat((Object) 0).asInstanceOf(INTEGER).isZero();
   }
 
   @Test
   @SuppressWarnings("deprecation")
-  public void class_factory_should_allow_class_assertions() {
-    assertThat((Object) Certificate.class).instanceOf(CLASS).hasAnnotations(Deprecated.class);
+  void class_factory_should_allow_class_assertions() {
+    assertThat((Object) Certificate.class).asInstanceOf(CLASS).hasAnnotations(Deprecated.class);
   }
 
   @Test
-  public void list_factory_should_allow_list_assertions() {
+  void list_factory_should_allow_list_assertions() {
     List<Object> list = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    assertThat((Object) list).instanceOf(LIST).contains("Bart", "Lisa");
+    assertThat((Object) list).asInstanceOf(LIST).contains("Bart", "Lisa");
   }
 
   @Test
-  public void typed_list_factory_should_allow_typed_list_assertions() {
+  void typed_list_factory_should_allow_typed_list_assertions() {
     List<String> list = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    assertThat((Object) list).instanceOf(list(String.class)).contains("Bart", "Lisa");
+    assertThat((Object) list).asInstanceOf(list(String.class)).contains("Bart", "Lisa");
   }
 
 }

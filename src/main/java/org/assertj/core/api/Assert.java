@@ -281,11 +281,14 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat((Object) &quot;abc&quot;).instanceOf(InstanceOfAssertFactories.STRING).startsWith(&quot;ab&quot;);
-   * assertThat((Object) 1).instanceOf(InstanceOfAssertFactories.INTEGER).isNotZero();
+   * Object string = &quot;abc&quot;;
+   * assertThat(string).asInstanceOf(InstanceOfAssertFactories.STRING).startsWith(&quot;ab&quot;);
+   *
+   * Object integer = 1;
+   * assertThat(integer).asInstanceOf(InstanceOfAssertFactories.INTEGER).isNotZero();
    *
    * // assertions will fail
-   * assertThat((Object) &quot;abc&quot;).instanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
+   * assertThat(&quot;abc&quot;).asInstanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
    *
    * @param instanceOfAssertFactory the factory which verifies the type and creates the new {@code Assert}.
    * @param <ASSERT> the type of the resulting {@code Assert}.
@@ -296,7 +299,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @since 3.13.0
    */
-  <ASSERT extends Assert<?, ?>> ASSERT instanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory);
+  <ASSERT extends Assert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory);
 
   /**
    * Verifies that the actual value is an instance of the given type.

@@ -136,7 +136,7 @@ import org.assertj.core.util.introspection.Introspection;
  * @author William Delanoue
  */
 @CheckReturnValue
-public class Assertions {
+public class Assertions implements InstanceOfAssertFactories {
 
   /**
    * Creates a new <code>{@link Assertions}</code>.

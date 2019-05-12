@@ -9,62 +9,60 @@ import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 
 /**
- * Static {@link InstanceOfAssertFactory InstanceOfAssertFactories} for {@link Assert#instanceOf(InstanceOfAssertFactory)}.
+ * Static {@link InstanceOfAssertFactory InstanceOfAssertFactories} for {@link Assert#asInstanceOf(InstanceOfAssertFactory)}.
  *
  * @since 3.13.0
  */
-public final class InstanceOfAssertFactories {
+public interface InstanceOfAssertFactories {
 
-  public static final InstanceOfAssertFactory<Predicate, PredicateAssert<Object>> PREDICATE = new InstanceOfAssertFactory<>(Predicate.class,
-                                                                                                                            PredicateAssert::new);
+  InstanceOfAssertFactory<Predicate, PredicateAssert<Object>> PREDICATE = new InstanceOfAssertFactory<>(Predicate.class,
+                                                                                                        PredicateAssert::new);
 
-  @SuppressWarnings("unchecked")
-  public static <T> InstanceOfAssertFactory<Predicate, PredicateAssert<T>> predicate(Class<T> type) {
-    return new InstanceOfAssertFactory<>(Predicate.class, predicate -> new PredicateAssert<>(predicate));
+  @SuppressWarnings("unused") // type parameter needed for type inference
+  static <T> InstanceOfAssertFactory<Predicate, PredicateAssert<T>> predicate(Class<T> type) {
+    return new InstanceOfAssertFactory<>(Predicate.class, PredicateAssert<T>::new);
   }
 
-  public static final InstanceOfAssertFactory<IntPredicate, IntPredicateAssert> INT_PREDICATE = new InstanceOfAssertFactory<>(IntPredicate.class,
-                                                                                                                              IntPredicateAssert::new);
+  InstanceOfAssertFactory<IntPredicate, IntPredicateAssert> INT_PREDICATE = new InstanceOfAssertFactory<>(IntPredicate.class,
+                                                                                                          IntPredicateAssert::new);
 
-  public static final InstanceOfAssertFactory<LongPredicate, LongPredicateAssert> LONG_PREDICATE = new InstanceOfAssertFactory<>(LongPredicate.class,
-                                                                                                                                 LongPredicateAssert::new);
+  InstanceOfAssertFactory<LongPredicate, LongPredicateAssert> LONG_PREDICATE = new InstanceOfAssertFactory<>(LongPredicate.class,
+                                                                                                             LongPredicateAssert::new);
 
-  public static final InstanceOfAssertFactory<DoublePredicate, DoublePredicateAssert> DOUBLE_PREDICATE = new InstanceOfAssertFactory<>(DoublePredicate.class,
-                                                                                                                                       DoublePredicateAssert::new);
+  InstanceOfAssertFactory<DoublePredicate, DoublePredicateAssert> DOUBLE_PREDICATE = new InstanceOfAssertFactory<>(DoublePredicate.class,
+                                                                                                                   DoublePredicateAssert::new);
 
-  public static final InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<Object>> COMPLETABLE_FUTURE = new InstanceOfAssertFactory<>(CompletableFuture.class,
-                                                                                                                                                     CompletableFutureAssert::new);
+  InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<Object>> COMPLETABLE_FUTURE = new InstanceOfAssertFactory<>(CompletableFuture.class,
+                                                                                                                                 CompletableFutureAssert::new);
 
-  @SuppressWarnings("unchecked")
-  public static <RESULT> InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<RESULT>> completableFuture(Class<RESULT> resultType) {
-    return new InstanceOfAssertFactory<>(CompletableFuture.class,
-                                         completableFuture -> new CompletableFutureAssert<>(completableFuture));
+  @SuppressWarnings("unused") // type parameter needed for type inference
+  static <RESULT> InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<RESULT>> completableFuture(Class<RESULT> resultType) {
+    return new InstanceOfAssertFactory<>(CompletableFuture.class, CompletableFutureAssert<RESULT>::new);
   }
 
-  public static final InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<Object>> COMPLETION_STAGE = new InstanceOfAssertFactory<>(CompletionStage.class,
-                                                                                                                                                 CompletableFutureAssert::new);
+  InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<Object>> COMPLETION_STAGE = new InstanceOfAssertFactory<>(CompletionStage.class,
+                                                                                                                             CompletableFutureAssert::new);
 
-  @SuppressWarnings("unchecked")
-  public static <RESULT> InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<RESULT>> completionStage(Class<RESULT> resultType) {
-    return new InstanceOfAssertFactory<>(CompletionStage.class,
-                                         completionStage -> new CompletableFutureAssert<>(completionStage));
+  @SuppressWarnings("unused") // type parameter needed for type inference
+  static <RESULT> InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<RESULT>> completionStage(Class<RESULT> resultType) {
+    return new InstanceOfAssertFactory<>(CompletionStage.class, CompletableFutureAssert<RESULT>::new);
   }
 
-  public static final InstanceOfAssertFactory<Integer, IntegerAssert> INTEGER = new InstanceOfAssertFactory<>(Integer.class,
-                                                                                                              IntegerAssert::new);
+  InstanceOfAssertFactory<Integer, IntegerAssert> INTEGER = new InstanceOfAssertFactory<>(Integer.class,
+                                                                                          IntegerAssert::new);
 
-  public static final InstanceOfAssertFactory<String, StringAssert> STRING = new InstanceOfAssertFactory<>(String.class,
-                                                                                                           StringAssert::new);
+  InstanceOfAssertFactory<String, StringAssert> STRING = new InstanceOfAssertFactory<>(String.class,
+                                                                                       StringAssert::new);
 
-  public static final InstanceOfAssertFactory<Class, ClassAssert> CLASS = new InstanceOfAssertFactory<>(Class.class,
-                                                                                                        ClassAssert::new);
+  InstanceOfAssertFactory<Class, ClassAssert> CLASS = new InstanceOfAssertFactory<>(Class.class,
+                                                                                    ClassAssert::new);
 
-  public static final InstanceOfAssertFactory<List, ListAssert<Object>> LIST = new InstanceOfAssertFactory<>(List.class,
-                                                                                                             ListAssert::new);
+  InstanceOfAssertFactory<List, ListAssert<Object>> LIST = new InstanceOfAssertFactory<>(List.class,
+                                                                                         ListAssert::new);
 
-  @SuppressWarnings("unchecked")
-  public static <ELEMENT> InstanceOfAssertFactory<List, ListAssert<ELEMENT>> list(Class<ELEMENT> elementType) {
-    return new InstanceOfAssertFactory<>(List.class, list -> new ListAssert(list));
+  @SuppressWarnings("unused") // type parameter needed for type inference
+  static <ELEMENT> InstanceOfAssertFactory<List, ListAssert<ELEMENT>> list(Class<ELEMENT> elementType) {
+    return new InstanceOfAssertFactory<>(List.class, ListAssert<ELEMENT>::new);
   }
 
 }

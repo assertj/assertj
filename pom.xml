@@ -97,6 +97,12 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>2.23.0</version>
+      <scope>test</scope>
+    </dependency>
     <!-- NEEDED! Unlike File, a Path is not linked to the JRE's filesystem. In order to accurately test assertions, we need
       a decent JSR 203 implementation which lets us test our assertions. Right now, this is memoryfilesystem (https://github.com/marschall/memoryfilesystem).
       Another choice would be jimfs from Google (https://github.com/google/jimfs), but its support for reading/writing file attributes

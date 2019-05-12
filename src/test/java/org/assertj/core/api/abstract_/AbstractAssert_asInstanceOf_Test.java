@@ -14,17 +14,25 @@ package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.MockitoAnnotations.initMocks;
 
-import org.assertj.core.api.*;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assert;
+import org.assertj.core.api.ConcreteAssert;
+import org.assertj.core.api.InstanceOfAssertFactory;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * Tests for <code>{@link AbstractAssert#instanceOf(InstanceOfAssertFactory)}</code>.
+ * Tests for <code>{@link AbstractAssert#asInstanceOf(InstanceOfAssertFactory)}</code>.
  */
-public class AbstractAssert_instanceOf_Test extends AbstractAssertBaseTest {
+@ExtendWith(MockitoExtension.class)
+class AbstractAssert_asInstanceOf_Test {
+
+  private final Object actual = 6L;
+
+  private AbstractAssert<?, ?> underTest = new ConcreteAssert(actual);
 
   @Mock
   private InstanceOfAssertFactory<?, ?> mockFactory;
@@ -32,42 +40,16 @@ public class AbstractAssert_instanceOf_Test extends AbstractAssertBaseTest {
   @Mock
   private Assert<?, ?> mockAssert;
 
-  @BeforeEach
-  public void initMockito() {
-    initMocks(this);
-  }
-
   @Test
-  public void should_return_factory_result() {
+  void should_return_factory_result() {
     // Given
     willReturn(mockAssert).given(mockFactory).createAssert(actual);
 
     // When
-    Assert<?, ?> result = assertions.instanceOf(mockFactory);
+    Assert<?, ?> result = underTest.asInstanceOf(mockFactory);
 
     // Then
     assertThat(result).isSameAs(mockAssert);
-  }
-
-  @Override
-  public void should_have_internal_effects() {
-    // Test disabled, instanceOf has no internal effect
-  }
-
-  @Override
-  protected ConcreteAssert invoke_api_method() {
-    // instanceOf does not return SELF
-    return null;
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    // instanceOf has no internal effect
-  }
-
-  @Override
-  public void should_return_this() {
-    // Test disabled, instanceOf does not return SELF
   }
 
 }

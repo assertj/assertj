@@ -18,11 +18,8 @@ package org.assertj.core.api;
  * @author Olivier Michallat
  */
 public abstract class AbstractAssertBaseTest extends BaseTestTemplate<ConcreteAssert, Object> {
-
-  protected final Object actual = 6L;
-
   @Override
   protected ConcreteAssert create_assertions() {
-    return new ConcreteAssert(actual);
+    return new ConcreteAssert(6L);
   }
 }
