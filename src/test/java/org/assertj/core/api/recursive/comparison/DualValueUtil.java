@@ -10,26 +10,23 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.internal.objects.data;
+package org.assertj.core.api.recursive.comparison;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import static org.assertj.core.util.Lists.list;
+
 import java.util.List;
-import java.util.Set;
 
-public class FriendlyPerson extends Person {
-  public List<FriendlyPerson> friends = new ArrayList<>();
-  public Set<FriendlyPerson> otherFriends = new HashSet<>();
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 
-  public FriendlyPerson() {
-      super();
+public class DualValueUtil {
+
+  static DualValue dualKeyWithPath(String... pathElements) {
+    return new DualValue(list(pathElements), new Object(), new Object());
   }
 
-  public FriendlyPerson(String name) {
-      super(name);
+  static List<String> randomPath() {
+    return list(RandomStringUtils.random(RandomUtils.nextInt(0, 10)));
   }
 
-  public static FriendlyPerson friend(String name) {
-    return new FriendlyPerson(name);
-  }
 }

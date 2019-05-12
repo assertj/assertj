@@ -10,26 +10,15 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.internal.objects.data;
+package org.assertj.core.error;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+public class ShouldHaveCauseReference extends BasicErrorMessageFactory {
 
-public class FriendlyPerson extends Person {
-  public List<FriendlyPerson> friends = new ArrayList<>();
-  public Set<FriendlyPerson> otherFriends = new HashSet<>();
-
-  public FriendlyPerson() {
-      super();
+  public static ErrorMessageFactory shouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
+    return new ShouldHaveCauseReference(actualCause, expectedCause);
   }
 
-  public FriendlyPerson(String name) {
-      super(name);
-  }
-
-  public static FriendlyPerson friend(String name) {
-    return new FriendlyPerson(name);
+  private ShouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
+    super("%nExpecting actual cause reference to be:%n <\"%s\">%nbut was:%n <\"%s\">.", expectedCause, actualCause);
   }
 }

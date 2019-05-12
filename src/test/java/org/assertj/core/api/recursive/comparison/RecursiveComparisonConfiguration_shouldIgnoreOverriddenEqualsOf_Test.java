@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -71,9 +72,9 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored with these regexes {1}")
   @MethodSource("ignoringOverriddenEqualsByRegexesSource")
-  public void should_ignore_overridden_equals_by_regexes(Class<?> clazz, List<String> fieldRegexes) {
+  public void should_ignore_overridden_equals_by_regexes(Class<?> clazz, String[] fieldRegexes) {
     // GIVEN
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(fieldRegexes.toArray(new String[0]));
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(fieldRegexes);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(clazz);
     // THEN
@@ -83,9 +84,9 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringOverriddenEqualsByRegexesSource() {
-    return Stream.of(arguments(Person.class, list("foo", ".*Person")),
-                     arguments(Human.class, list("org.assertj.core.internal.*.data\\.Human", "foo")),
-                     arguments(Multimap.class, list("com.google.common.collect.*")));
+    return Stream.of(arguments(Person.class, array("foo", ".*Person")),
+                     arguments(Human.class, array("org.assertj.core.internal.*.data\\.Human", "foo")),
+                     arguments(Multimap.class, array("com.google.common.collect.*")));
   }
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored for these types {1}")
@@ -108,9 +109,9 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored for these fields {1}")
   @MethodSource("ignoringOverriddenEqualsForFieldsSource")
-  public void should_ignore_overridden_equals_by_fields(DualValue dualKey, List<String> fields) {
+  public void should_ignore_overridden_equals_by_fields(DualValue dualKey, String[] fields) {
     // GIVEN
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields.toArray(new String[0]));
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualKey);
     // THEN
@@ -120,11 +121,10 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringOverriddenEqualsForFieldsSource() {
-    return Stream.of(arguments(dualKeyWithPath("name"), list("name")),
-                     arguments(dualKeyWithPath("name"), list("foo", "name", "foo")),
-                     arguments(dualKeyWithPath("name", "first"), list("name.first")),
-                     arguments(dualKeyWithPath("father", "name", "first"), list("father", "name.first", "father.name.first")));
-
+    return Stream.of(arguments(dualKeyWithPath("name"), array("name")),
+                     arguments(dualKeyWithPath("name"), array("foo", "name", "foo")),
+                     arguments(dualKeyWithPath("name", "first"), array("name.first")),
+                     arguments(dualKeyWithPath("father", "name", "first"), array("father", "name.first", "father.name.first")));
   }
 
   private static DualValue dualKeyWithPath(String... pathElements) {

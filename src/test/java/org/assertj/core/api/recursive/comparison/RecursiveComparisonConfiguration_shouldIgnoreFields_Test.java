@@ -13,6 +13,8 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.recursive.comparison.DualValueUtil.dualKeyWithPath;
+import static org.assertj.core.api.recursive.comparison.DualValueUtil.randomPath;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -22,8 +24,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -145,16 +145,8 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   }
 
-  private static DualValue dualKeyWithPath(String... pathElements) {
-    return new DualValue(list(pathElements), new Object(), new Object());
-  }
-
-  private static DualValue dualKey(Object key1, Object key2) {
+  static DualValue dualKey(Object key1, Object key2) {
     return new DualValue(randomPath(), key1, key2);
-  }
-
-  private static List<String> randomPath() {
-    return list(RandomStringUtils.random(RandomUtils.nextInt(0, 10)));
   }
 
 }

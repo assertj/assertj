@@ -562,7 +562,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    */
   @CheckReturnValue
   public SELF ignoringCollectionOrder() {
-    recursiveComparisonConfiguration.setIgnoreCollectionOrder(true);
+    recursiveComparisonConfiguration.ignoreCollectionOrder(true);
     return myself;
   }
 

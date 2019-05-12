@@ -200,7 +200,7 @@ public class RecursiveComparisonConfiguration {
    *
    * @param ignoreCollectionOrder whether to ignore collection order in the comparison.
    */
-  public void setIgnoreCollectionOrder(boolean ignoreCollectionOrder) {
+  public void ignoreCollectionOrder(boolean ignoreCollectionOrder) {
     this.ignoreCollectionOrder = ignoreCollectionOrder;
   }
 
@@ -431,18 +431,18 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeIgnoreCollectionOrder(StringBuilder description) {
-    if (ignoreCollectionOrder) description.append(format("- collection order were ignored in all fields in the comparison%n"));
+    if (ignoreCollectionOrder) description.append(format("- collection order was ignored in all fields in the comparison%n"));
   }
 
   private void describeIgnoredCollectionOrderInFields(StringBuilder description) {
     if (!ignoredCollectionOrderInFields.isEmpty())
-      description.append(format("- collection order in the following fields were ignored in the comparison: %s%n",
+      description.append(format("- collection order was ignored in the following fields in the comparison: %s%n",
                                 describeIgnoredCollectionOrderInFields()));
   }
 
   private void describeIgnoredCollectionOrderInFieldsMatchingRegexes(StringBuilder description) {
     if (!ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty())
-      description.append(format("- collection order in the fields matching the following regexes were ignored in the comparison: %s%n",
+      description.append(format("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n",
                                 describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
   }
 

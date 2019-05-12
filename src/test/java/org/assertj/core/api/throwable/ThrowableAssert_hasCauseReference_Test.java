@@ -10,26 +10,25 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.internal.objects.data;
+package org.assertj.core.api.throwable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import static org.mockito.Mockito.verify;
 
-public class FriendlyPerson extends Person {
-  public List<FriendlyPerson> friends = new ArrayList<>();
-  public Set<FriendlyPerson> otherFriends = new HashSet<>();
+import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.api.ThrowableAssertBaseTest;
 
-  public FriendlyPerson() {
-      super();
+public class ThrowableAssert_hasCauseReference_Test extends ThrowableAssertBaseTest {
+
+  private Throwable npe = new NullPointerException();
+
+  @Override
+  protected ThrowableAssert invoke_api_method() {
+    return assertions.hasCauseReference(npe);
   }
 
-  public FriendlyPerson(String name) {
-      super(name);
+  @Override
+  protected void verify_internal_effects() {
+    verify(throwables).assertHasCauseReference(getInfo(assertions), getActual(assertions), npe);
   }
 
-  public static FriendlyPerson friend(String name) {
-    return new FriendlyPerson(name);
-  }
 }

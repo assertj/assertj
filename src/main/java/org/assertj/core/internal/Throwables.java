@@ -17,6 +17,7 @@ import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveCauseInstance.shouldHaveCauseInstance;
+import static org.assertj.core.error.ShouldHaveCauseReference.shouldHaveCauseReference;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.error.ShouldHaveMessageFindingMatchRegex.shouldHaveMessageFindingMatchRegex;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
@@ -44,6 +45,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Libor Ondrusek
  * @author Jack Gough
+ * @author Mike Gilchrist
  */
 public class Throwables {
 
@@ -90,6 +92,19 @@ public class Throwables {
     if (actualCause == null) throw failures.failure(info, shouldHaveCause(actualCause, expectedCause));
     if (!compareThrowable(actualCause, expectedCause))
       throw failures.failure(info, shouldHaveCause(actualCause, expectedCause));
+  }
+
+  /**
+   * Asserts that the actual {@code Throwable} has a cause that refers to the expected one.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param expectedCause the expected cause.
+   */
+  public void assertHasCauseReference(AssertionInfo info, Throwable actual, Throwable expectedCause) {
+    assertNotNull(info, actual);
+    Throwable actualCause = actual.getCause();
+    if (actualCause != expectedCause) throw failures.failure(info, shouldHaveCauseReference(actualCause, expectedCause));
   }
 
   /**

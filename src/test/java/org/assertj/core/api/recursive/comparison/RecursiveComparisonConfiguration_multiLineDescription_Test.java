@@ -139,11 +139,11 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   @Test
   public void should_show_the_ignored_collection_order() {
     // GIVEN
-    recursiveComparisonConfiguration.setIgnoreCollectionOrder(true);
+    recursiveComparisonConfiguration.ignoreCollectionOrder(true);
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- collection order were ignored in all fields in the comparison%n"));
+    assertThat(multiLineDescription).contains(format("- collection order was ignored in all fields in the comparison%n"));
   }
 
   @Test
@@ -153,7 +153,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- collection order in the following fields were ignored in the comparison: foo, bar, foo.bar%n"));
+    assertThat(multiLineDescription).contains(format("- collection order was ignored in the following fields in the comparison: foo, bar, foo.bar%n"));
   }
 
   @Test
@@ -163,7 +163,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- collection order in the fields matching the following regexes were ignored in the comparison: f.*, ba., foo.*%n"));
+    assertThat(multiLineDescription).contains(format("- collection order was ignored in the fields matching the following regexes in the comparison: f.*, ba., foo.*%n"));
   }
 
   @Test
@@ -230,7 +230,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
-    recursiveComparisonConfiguration.setIgnoreCollectionOrder(true);
+    recursiveComparisonConfiguration.ignoreCollectionOrder(true);
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("f.*", "ba.", "foo.*");
     recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
@@ -249,9 +249,9 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                "  - the types matching the following regexes: .*oo, .ar, oo.ba%n" +
-               "- collection order were ignored in all fields in the comparison%n" +
-               "- collection order in the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
-               "- collection order in the fields matching the following regexes were ignored in the comparison: f.*, ba., foo.*%n" +
+               "- collection order was ignored in all fields in the comparison%n" +
+               "- collection order was ignored in the following fields in the comparison: foo, bar, foo.bar%n" +
+               "- collection order was ignored in the fields matching the following regexes in the comparison: f.*, ba., foo.*%n" +
                "- these types were compared with the following comparators:%n" +
                "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
                "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +

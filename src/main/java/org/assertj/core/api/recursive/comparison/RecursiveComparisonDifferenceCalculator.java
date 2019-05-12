@@ -341,21 +341,11 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   /**
-   * Deeply compare two Collections that must be same length and in same
-   * order.
-   *
-   * @param col1 First collection of items to compare
-   * @param col2 Second collection of items to compare
-   * @param path The path to the collections
-   * @param dualValuesToCompare add items to compare to the Stack (Stack versus recursion)
-   * @param visitedDualValues
-   *          Set of objects already compared (prevents cycles) value of
-   *          'true' indicates that the Collections may be equal, and the
-   *          sets items will be added to the Stack for further comparison.
+   * Deeply compare two Collections that must be same length and in same order.
    */
   private static void compareOrderedCollections(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualFieldAnOrderedCollection()) {
-      // at the moment if expected is an ordered collection then actual should also be one unless stated explictely (#1495)
+      // at the moment if expected is an ordered collection then actual should also be one
       comparisonState.addDifference(dualValue, ACTUAL_NOT_ORDERED_COLLECTION, dualValue.actual.getClass().getCanonicalName());
       return;
     }
