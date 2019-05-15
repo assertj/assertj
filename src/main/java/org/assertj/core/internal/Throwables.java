@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
@@ -29,11 +31,15 @@ import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootC
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Throwables.getRootCause;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
@@ -172,10 +178,66 @@ public class Throwables {
     throw failures.failure(info, shouldContain(actual.getMessage(), description));
   }
 
+  /**
+   * Asserts that the message of the actual {@code Throwable} contains with the given values.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param values the Strings expected to be contained in the actual {@code Throwable}'s message.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
+   */
+  public void assertHasMessageContainingAll(AssertionInfo info, Throwable actual, CharSequence... values) {
+    doCommonCheckForMessages(info, actual, values);
+    assertNotNull(info, actual);
+    String actualMessage = actual.getMessage();
+    Set<CharSequence> notFound = stream(values)
+      .filter(value -> actualMessage == null || !actualMessage.contains(value))
+      .collect(toCollection(LinkedHashSet::new));
+    if (notFound.isEmpty()) return;
+    if (notFound.size() == 1 && values.length == 1) {
+      throw failures.failure(info, shouldContain(actualMessage, values[0]), actualMessage, values[0]);
+    }
+    throw failures.failure(info, shouldContain(actualMessage, values, notFound), actualMessage, values);
+  }
+
+  /**
+   * Asserts that the message of the actual {@code Throwable} does not contain the given content or is {@code null}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param content the content expected not to be contained in the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} contains the given content.
+   * @since 3.12.0
+   */  
   public void assertHasMessageNotContaining(AssertionInfo info, Throwable actual, String content) {
     assertNotNull(info, actual);
     if (actual.getMessage() == null || !actual.getMessage().contains(content)) return;
     throw failures.failure(info, shouldNotContain(actual.getMessage(), content), actual.getMessage(), content);
+  }
+
+  /**
+   * Asserts that the message of the actual {@code Throwable} does not contain any of the given values or is {@code null}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param values the contents expected to not be contained in the actual {@code Throwables}'s message.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
+   */
+  public void assertHasMessageNotContainingAny(AssertionInfo info, Throwable actual, CharSequence... values) {
+    doCommonCheckForMessages(info, actual, values);
+    String actualMessage = actual.getMessage();
+    Set<CharSequence> found = stream(values)
+      .filter(value -> actualMessage != null && actualMessage.contains(value))
+       .collect(toCollection(LinkedHashSet::new));
+    if (found.isEmpty()) return;
+    if (found.size() == 1 && values.length == 1) {
+      throw failures.failure(info, shouldNotContain(actualMessage, values[0]), actualMessage, values[0]);
+    }
+    throw failures.failure(info, shouldNotContain(actualMessage, values, found, StandardComparisonStrategy.instance()), actualMessage, values);
   }
 
   /**
@@ -339,8 +401,37 @@ public class Throwables {
     throw failures.failure(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
   }
 
+  private static void doCommonCheckForMessages(AssertionInfo info, Throwable actual, CharSequence[] values) {
+    assertNotNull(info, actual);
+    checkIsNotNull(values);
+    checkIsNotEmpty(values);
+    checkCharSequenceArrayDoesNotHaveNullElements(values);
+  }
+
   private static void assertNotNull(AssertionInfo info, Throwable actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  private static void checkIsNotNull(CharSequence... values) {
+    if (values == null) throw arrayOfValuesToLookForIsNull();
+  }
+
+  private static void checkIsNotEmpty(CharSequence... values) {
+    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
+  }
+
+  private static void checkCharSequenceArrayDoesNotHaveNullElements(CharSequence[] values) {
+    if (values.length == 1) {
+      checkCharSequenceIsNotNull(values[0]);
+    } else {
+      for (int i = 0; i < values.length; i++) {
+        checkNotNull(values[i], "Expecting CharSequence elements not to be null but found one at index " + i);
+      }
+    }
+  }
+
+  private static void checkCharSequenceIsNotNull(CharSequence sequence) {
+    checkNotNull(sequence, "The char sequence to look for should not be null");
   }
 
   private static boolean compareThrowable(Throwable actual, Throwable expected) {
