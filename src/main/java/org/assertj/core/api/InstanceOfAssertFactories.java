@@ -15,10 +15,11 @@ import java.util.function.Predicate;
  */
 public interface InstanceOfAssertFactories {
 
+  @SuppressWarnings("rawtypes") // using Class instance
   InstanceOfAssertFactory<Predicate, PredicateAssert<Object>> PREDICATE = new InstanceOfAssertFactory<>(Predicate.class,
                                                                                                         PredicateAssert::new);
 
-  @SuppressWarnings("unused") // type parameter needed for type inference
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <T> InstanceOfAssertFactory<Predicate, PredicateAssert<T>> predicate(Class<T> type) {
     return new InstanceOfAssertFactory<>(Predicate.class, PredicateAssert<T>::new);
   }
@@ -32,18 +33,20 @@ public interface InstanceOfAssertFactories {
   InstanceOfAssertFactory<DoublePredicate, DoublePredicateAssert> DOUBLE_PREDICATE = new InstanceOfAssertFactory<>(DoublePredicate.class,
                                                                                                                    DoublePredicateAssert::new);
 
+  @SuppressWarnings("rawtypes") // using Class instance
   InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<Object>> COMPLETABLE_FUTURE = new InstanceOfAssertFactory<>(CompletableFuture.class,
                                                                                                                                  CompletableFutureAssert::new);
 
-  @SuppressWarnings("unused") // type parameter needed for type inference
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <RESULT> InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<RESULT>> completableFuture(Class<RESULT> resultType) {
     return new InstanceOfAssertFactory<>(CompletableFuture.class, CompletableFutureAssert<RESULT>::new);
   }
 
+  @SuppressWarnings("rawtypes") // using Class instance
   InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<Object>> COMPLETION_STAGE = new InstanceOfAssertFactory<>(CompletionStage.class,
                                                                                                                              CompletableFutureAssert::new);
 
-  @SuppressWarnings("unused") // type parameter needed for type inference
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <RESULT> InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<RESULT>> completionStage(Class<RESULT> resultType) {
     return new InstanceOfAssertFactory<>(CompletionStage.class, CompletableFutureAssert<RESULT>::new);
   }
@@ -54,13 +57,15 @@ public interface InstanceOfAssertFactories {
   InstanceOfAssertFactory<String, StringAssert> STRING = new InstanceOfAssertFactory<>(String.class,
                                                                                        StringAssert::new);
 
+  @SuppressWarnings("rawtypes") // using Class instance
   InstanceOfAssertFactory<Class, ClassAssert> CLASS = new InstanceOfAssertFactory<>(Class.class,
                                                                                     ClassAssert::new);
 
+  @SuppressWarnings("rawtypes") // using Class instance
   InstanceOfAssertFactory<List, ListAssert<Object>> LIST = new InstanceOfAssertFactory<>(List.class,
                                                                                          ListAssert::new);
 
-  @SuppressWarnings("unused") // type parameter needed for type inference
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <ELEMENT> InstanceOfAssertFactory<List, ListAssert<ELEMENT>> list(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(List.class, ListAssert<ELEMENT>::new);
   }
