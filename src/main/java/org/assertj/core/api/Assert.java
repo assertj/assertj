@@ -287,7 +287,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Object integer = 1;
    * assertThat(integer).asInstanceOf(InstanceOfAssertFactories.INTEGER).isNotZero();
    *
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(&quot;abc&quot;).asInstanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
    *
    * @param instanceOfAssertFactory the factory which verifies the type and creates the new {@code Assert}.

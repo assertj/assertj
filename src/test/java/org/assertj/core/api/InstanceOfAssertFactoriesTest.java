@@ -5,12 +5,8 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.*;
 
-import java.security.Certificate;
 import java.util.Objects;
-import java.util.function.DoublePredicate;
-import java.util.function.IntPredicate;
-import java.util.function.LongPredicate;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
@@ -130,12 +126,11 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void class_factory_should_allow_class_assertions() {
     // GIVEN
-    @SuppressWarnings("deprecation")
-    Object value = Certificate.class;
+    Object value = Function.class;
     // WHEN
     ClassAssert result = assertThat(value).asInstanceOf(CLASS);
     // THEN
-    result.hasAnnotations(Deprecated.class);
+    result.hasAnnotations(FunctionalInterface.class);
   }
 
   @Test
