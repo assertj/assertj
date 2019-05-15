@@ -195,6 +195,30 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Verifies that the message of the actual {@code Throwable} contains all the given values.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   * Throwable throwableWithoutMessage = new IllegalArgumentException();
+   *
+   * // assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageContainingAll("amount", "123");
+   *
+   * // assertions will fail:
+   * assertThat(throwableWithoutMessage).hasMessageContainingAll("123");
+   * assertThat(throwableWithMessage).hasMessageContainingAll("234"); </code></pre>
+   *
+   * @param values the Strings expected to be contained in the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not contain all the given values.
+   */
+  public SELF hasMessageContainingAll(CharSequence... values) {
+    throwables.assertHasMessageContainingAll(info, actual, values);
+    return myself;
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} does not contain the given content or is {@code null}.
    * <p>
    * Examples:
@@ -216,6 +240,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageNotContaining(String content) {
     throwables.assertHasMessageNotContaining(info, actual, content);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} does not contain any of the given values or is {@code null}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   * Throwable throwableWithoutMessage = new IllegalArgumentException();
+   *
+   * // assertions will pass:
+   * assertThat(throwableWithMessage).hasMessageNotContainingAny("234");
+   * assertThat(throwableWithoutMessage).hasMessageNotContainingAny("foo");
+   *
+   * // assertion will fail:
+   * assertThat(throwableWithMessage).hasMessageNotContainingAny("foo", "amount");</code></pre>
+   *
+   * @param values the contents expected to not be contained in the actual {@code Throwables}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} contains any of the given values.
+   * @since 3.12.0
+   */
+  public SELF hasMessageNotContainingAny(CharSequence... values) {
+    throwables.assertHasMessageNotContainingAny(info, actual, values);
     return myself;
   }
 

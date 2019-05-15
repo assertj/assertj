@@ -16,7 +16,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
- * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named 
+ * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named
  * differently to make testing code fluent (ex : <code>withMessage</code> instead of <code>hasMessage</code>.
  * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
  *           .isThrownBy(() -&gt; { throw new IOException("boom! tcha!"); });
@@ -97,25 +97,25 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * Throwable wrappingException = new Throwable(illegalArgumentException);
    *
    * // This assertion succeeds:
-   * 
+   *
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw wrappingException;})
    *           .withCause(illegalArgumentException);
    *
    * // These assertions fail:
-   * 
+   *
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw wrappingException;})
    *           .withCause(new IllegalArgumentException("bad arg"));
-   *           
+   *
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw wrappingException;})
    *           .withCause(new NullPointerException());
-   *           
+   *
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw wrappingException;})
    *           .withCause(null);</code></pre>
-   * 
+   *
    * @param cause the expected cause.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
@@ -139,7 +139,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *           .withNoCause();
    *
    * // These assertion fails:
-   * Throwable illegalArgumentException = new Throwable(exception); 
+   * Throwable illegalArgumentException = new Throwable(exception);
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withNoCause();</code></pre>
@@ -209,6 +209,33 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
   }
 
   /**
+   * Verifies that the message of the actual {@code Throwable} contains all the given values.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withMessageContainingAll("amount", "123");
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withMessageContainingAll("456");</code></pre>
+   *
+   * @param values the Strings expected to be contained in the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not contain all the given values.
+   * @see AbstractThrowableAssert#hasMessageContainingAll(CharSequence...)
+   */
+  public ThrowableAssertAlternative<T> withMessageContainingAll(CharSequence... values) {
+    delegate.hasMessageContainingAll(values);
+    return this;
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} does not contain the given content or is null.
    * <p>
    * Examples:
@@ -216,7 +243,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * assertThatExceptionOfType(Exception.class)
    *           .isThrownBy(codeThrowing(new Exception("boom")))
    *           .withMessageNotContaining("bam");
-   *           
+   *
    * assertThatExceptionOfType(Exception.class)
    *           .isThrownBy(codeThrowing(new Exception()))
    *           .withMessageNotContaining("bam");
@@ -225,7 +252,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * assertThatExceptionOfType(Exception.class)
    *           .isThrownBy(codeThrowing(new Exception("boom")))
    *           .withMessageNotContaining("boom");</code></pre>
-   *           
+   *
    * @param content the content exptected to not be contained in the actual {@code Throwables}'s message.
    * @return this assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
@@ -234,6 +261,35 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    */
   public ThrowableAssertAlternative<T> withMessageNotContaining(String content) {
     delegate.hasMessageNotContaining(content);
+    return this;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} does not contain any of the given values or is {@code null}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> //assertions will pass
+   * assertThatExceptionOfType(Exception.class)
+   *           .isThrownBy(codeThrowing(new Exception("boom")))
+   *           .withMessageNotContainingAny("bam");
+   *
+   * assertThatExceptionOfType(Exception.class)
+   *           .isThrownBy(codeThrowing(new Exception()))
+   *           .withMessageNotContainingAny("bam");
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Exception.class)
+   *           .isThrownBy(codeThrowing(new Exception("boom")))
+   *           .withMessageNotContainingAny("bam", "boom");</code></pre>
+   *
+   * @param values the contents expected to not be contained in the actual {@code Throwables}'s message.
+   * @return this assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} contains any of the given values.
+   * @see AbstractThrowableAssert#hasMessageNotContainingAny(CharSequence...)
+   */
+  public ThrowableAssertAlternative<T> withMessageNotContainingAny(CharSequence... values) {
+    delegate.hasMessageNotContainingAny(values);
     return this;
   }
 
@@ -263,7 +319,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
     delegate.hasStackTraceContaining(description);
     return this;
   }
-  
+
   /**
    * Verifies that the message of the actual {@code Throwable} matches with the given regular expression.
    * <p>
@@ -377,7 +433,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * @throws AssertionError if the actual {@code Throwable} has no cause.
    * @throws AssertionError if the cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
    *           type.
-   * @see AbstractThrowableAssert#hasCauseExactlyInstanceOf(Class)          
+   * @see AbstractThrowableAssert#hasCauseExactlyInstanceOf(Class)
    */
   public ThrowableAssertAlternative<T> withCauseExactlyInstanceOf(Class<? extends Throwable> type) {
     delegate.hasCauseExactlyInstanceOf(type);

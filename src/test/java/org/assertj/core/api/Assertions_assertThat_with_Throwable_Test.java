@@ -83,9 +83,9 @@ public class Assertions_assertThat_with_Throwable_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> catchThrowableOfType(codeThrowingException, IOException.class));
     // THEN
-    assertThat(assertionError).hasMessageContaining(IOException.class.getName())
-                              .hasMessageContaining(Exception.class.getName())
-                              .hasMessageContaining(getStackTrace(exception));
+    assertThat(assertionError).hasMessageContainingAll(IOException.class.getName(),
+                                                    Exception.class.getName(),
+                                                    getStackTrace(exception));
   }
 
   @Test
@@ -107,9 +107,21 @@ public class Assertions_assertThat_with_Throwable_Test {
   @Test
   public void should_fail_with_good_message_when_assertion_is_failing() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(raisingException("boom")).hasMessage("bam"))
-                                                   .withMessageContaining("Expecting message:")
-                                                   .withMessageContaining("<\"bam\">").withMessageContaining("but was:")
-                                                   .withMessageContaining("<\"boom\">");
+                                                   .withMessageContainingAll("Expecting message:",
+                                                                          "<\"bam\">",
+                                                                          "but was:",
+                                                                          "<\"boom\">");
+  }
+  
+  @Test
+  public void should_fail_with_good_message_when_vararg_has_message_containing_assertion_is_failing() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(raisingException("boom")).hasMessageContaining("bam")
+                                                   .hasMessageContainingAll("boom",
+                                                                         "Expecting:",
+                                                                         "<\"boom\">",
+                                                                         "<[\"bam\", \"boom\"]>",
+                                                                         "but could not find:",
+                                                                         "<[\"bam\"]>"));
   }
 
   private ThrowingCallable raisingException(final String reason) {
