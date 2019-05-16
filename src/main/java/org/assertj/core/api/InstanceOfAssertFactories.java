@@ -1,6 +1,15 @@
 package org.assertj.core.api;
 
+import java.io.File;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
@@ -51,15 +60,72 @@ public interface InstanceOfAssertFactories {
     return new InstanceOfAssertFactory<>(CompletionStage.class, CompletableFutureAssert<RESULT>::new);
   }
 
+  @SuppressWarnings("rawtypes") // using Class instance
+  InstanceOfAssertFactory<Optional, OptionalAssert<Object>> OPTIONAL = new InstanceOfAssertFactory<>(Optional.class,
+                                                                                                     OptionalAssert::new);
+
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  static <VALUE> InstanceOfAssertFactory<Optional, OptionalAssert<VALUE>> optional(Class<VALUE> resultType) {
+    return new InstanceOfAssertFactory<>(Optional.class, OptionalAssert<VALUE>::new);
+  }
+
+  InstanceOfAssertFactory<OptionalDouble, OptionalDoubleAssert> OPTIONAL_DOUBLE = new InstanceOfAssertFactory<>(OptionalDouble.class,
+                                                                                                                OptionalDoubleAssert::new);
+
+  InstanceOfAssertFactory<OptionalInt, OptionalIntAssert> OPTIONAL_INT = new InstanceOfAssertFactory<>(OptionalInt.class,
+                                                                                                       OptionalIntAssert::new);
+
+  InstanceOfAssertFactory<OptionalLong, OptionalLongAssert> OPTIONAL_LONG = new InstanceOfAssertFactory<>(OptionalLong.class,
+                                                                                                          OptionalLongAssert::new);
+
+  InstanceOfAssertFactory<BigDecimal, BigDecimalAssert> BIG_DECIMAL = new InstanceOfAssertFactory<>(BigDecimal.class,
+                                                                                                    BigDecimalAssert::new);
+
+  InstanceOfAssertFactory<BigInteger, BigIntegerAssert> BIG_INTEGER = new InstanceOfAssertFactory<>(BigInteger.class,
+                                                                                                    BigIntegerAssert::new);
+
+  InstanceOfAssertFactory<URI, UriAssert> URI = new InstanceOfAssertFactory<>(URI.class,
+                                                                              UriAssert::new);
+
+  InstanceOfAssertFactory<URL, UrlAssert> URL = new InstanceOfAssertFactory<>(URL.class,
+                                                                              UrlAssert::new);
+
+  InstanceOfAssertFactory<Boolean, BooleanAssert> BOOLEAN = new InstanceOfAssertFactory<>(Boolean.class,
+                                                                                          BooleanAssert::new);
+
+  InstanceOfAssertFactory<boolean[], BooleanArrayAssert> BOOLEAN_ARRAY = new InstanceOfAssertFactory<>(boolean[].class,
+                                                                                                       BooleanArrayAssert::new);
+
+  InstanceOfAssertFactory<Byte, ByteAssert> BYTE = new InstanceOfAssertFactory<>(Byte.class,
+                                                                                 ByteAssert::new);
+
+  InstanceOfAssertFactory<byte[], ByteArrayAssert> BYTE_ARRAY = new InstanceOfAssertFactory<>(byte[].class,
+                                                                                              ByteArrayAssert::new);
+
+  InstanceOfAssertFactory<Character, CharacterAssert> CHARACTER = new InstanceOfAssertFactory<>(Character.class,
+                                                                                                CharacterAssert::new);
+
+  InstanceOfAssertFactory<char[], CharArrayAssert> CHAR_ARRAY = new InstanceOfAssertFactory<>(char[].class,
+                                                                                              CharArrayAssert::new);
+
+  @SuppressWarnings("rawtypes") // using Class instance
+  InstanceOfAssertFactory<Class, ClassAssert> CLASS = new InstanceOfAssertFactory<>(Class.class,
+                                                                                    ClassAssert::new);
+
+  InstanceOfAssertFactory<Double, DoubleAssert> DOUBLE = new InstanceOfAssertFactory<>(Double.class,
+                                                                                       DoubleAssert::new);
+
+  InstanceOfAssertFactory<double[], DoubleArrayAssert> DOUBLE_ARRAY = new InstanceOfAssertFactory<>(double[].class,
+                                                                                                    DoubleArrayAssert::new);
+
+  InstanceOfAssertFactory<File, FileAssert> FILE = new InstanceOfAssertFactory<>(File.class,
+                                                                                 FileAssert::new);
+
   InstanceOfAssertFactory<Integer, IntegerAssert> INTEGER = new InstanceOfAssertFactory<>(Integer.class,
                                                                                           IntegerAssert::new);
 
   InstanceOfAssertFactory<String, StringAssert> STRING = new InstanceOfAssertFactory<>(String.class,
                                                                                        StringAssert::new);
-
-  @SuppressWarnings("rawtypes") // using Class instance
-  InstanceOfAssertFactory<Class, ClassAssert> CLASS = new InstanceOfAssertFactory<>(Class.class,
-                                                                                    ClassAssert::new);
 
   @SuppressWarnings("rawtypes") // using Class instance
   InstanceOfAssertFactory<List, ListAssert<Object>> LIST = new InstanceOfAssertFactory<>(List.class,

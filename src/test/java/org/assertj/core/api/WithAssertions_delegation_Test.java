@@ -795,6 +795,6 @@ public class WithAssertions_delegation_Test implements WithAssertions {
 
   @Test
   public void withAssertions_assertThat_uri_Test() {
-    assertThat(URI.create("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
+    assertThat(java.net.URI.create("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
   }
 }

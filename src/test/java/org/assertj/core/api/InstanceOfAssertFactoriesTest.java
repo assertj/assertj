@@ -5,8 +5,20 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.*;
 
+import java.io.File;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.util.Objects;
-import java.util.function.*;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
+import java.util.function.DoublePredicate;
+import java.util.function.Function;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
@@ -104,13 +116,193 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void string_factory_should_allow_string_assertions() {
+  void optional_factory_should_allow_optional_assertions() {
     // GIVEN
-    Object value = "string";
+    Object value = Optional.of("something");
     // WHEN
-    StringAssert result = assertThat(value).asInstanceOf(STRING);
+    OptionalAssert<Object> result = assertThat(value).asInstanceOf(OPTIONAL);
     // THEN
-    result.startsWith("str");
+    result.isPresent();
+  }
+
+  @Test
+  void typed_optional_factory_should_allow_typed_optional_assertions() {
+    // GIVEN
+    Object value = Optional.of("something");
+    // WHEN
+    OptionalAssert<String> result = assertThat(value).asInstanceOf(optional(String.class));
+    // THEN
+    result.isPresent();
+  }
+
+  @Test
+  void optional_double_factory_should_allow_optional_double_assertions() {
+    // GIVEN
+    Object value = OptionalDouble.of(0.0);
+    // WHEN
+    OptionalDoubleAssert result = assertThat(value).asInstanceOf(OPTIONAL_DOUBLE);
+    // THEN
+    result.isPresent();
+  }
+
+  @Test
+  void optional_int_factory_should_allow_optional_int_assertions() {
+    // GIVEN
+    Object value = OptionalInt.of(0);
+    // WHEN
+    OptionalIntAssert result = assertThat(value).asInstanceOf(OPTIONAL_INT);
+    // THEN
+    result.isPresent();
+  }
+
+  @Test
+  void optional_long_factory_should_allow_optional_long_assertions() {
+    // GIVEN
+    Object value = OptionalLong.of(0L);
+    // WHEN
+    OptionalLongAssert result = assertThat(value).asInstanceOf(OPTIONAL_LONG);
+    // THEN
+    result.isPresent();
+  }
+
+  @Test
+  void big_decimal_factory_should_allow_big_decimal_assertions() {
+    // GIVEN
+    Object value = BigDecimal.valueOf(0.0);
+    // WHEN
+    BigDecimalAssert result = assertThat(value).asInstanceOf(BIG_DECIMAL);
+    // THEN
+    result.isEqualTo("0.0");
+  }
+
+  @Test
+  void big_integer_factory_should_allow_big_integer_assertions() {
+    // GIVEN
+    Object value = BigInteger.valueOf(0L);
+    // WHEN
+    BigIntegerAssert result = assertThat(value).asInstanceOf(BIG_INTEGER);
+    // THEN
+    result.isEqualTo(0L);
+  }
+
+  @Test
+  void uri_factory_should_allow_uri_assertions() {
+    // GIVEN
+    Object value = java.net.URI.create("http://localhost");
+    // WHEN
+    UriAssert result = assertThat(value).asInstanceOf(URI);
+    // THEN
+    result.hasHost("localhost");
+  }
+
+  @Test
+  void url_factory_should_allow_url_assertions() throws MalformedURLException {
+    // GIVEN
+    Object value = new java.net.URL("http://localhost");
+    // WHEN
+    UrlAssert result = assertThat(value).asInstanceOf(URL);
+    // THEN
+    result.hasHost("localhost");
+  }
+
+  @Test
+  void boolean_factory_should_allow_boolean_assertions() {
+    // GIVEN
+    Object value = true;
+    // WHEN
+    BooleanAssert result = assertThat(value).asInstanceOf(BOOLEAN);
+    // THEN
+    result.isTrue();
+  }
+
+  @Test
+  void boolean_array_factory_should_allow_boolean_array_assertions() {
+    // GIVEN
+    Object value = new boolean[] { true, false };
+    // WHEN
+    BooleanArrayAssert result = assertThat(value).asInstanceOf(BOOLEAN_ARRAY);
+    // THEN
+    result.containsExactly(true, false);
+  }
+
+  @Test
+  void byte_factory_should_allow_byte_assertions() {
+    // GIVEN
+    Object value = (byte) 0;
+    // WHEN
+    ByteAssert result = assertThat(value).asInstanceOf(BYTE);
+    // THEN
+    result.isEqualTo((byte) 0);
+  }
+
+  @Test
+  void byte_array_factory_should_allow_byte_array_assertions() {
+    // GIVEN
+    Object value = new byte[] { 0, 1 };
+    // WHEN
+    ByteArrayAssert result = assertThat(value).asInstanceOf(BYTE_ARRAY);
+    // THEN
+    result.containsExactly(0, 1);
+  }
+
+  @Test
+  void character_factory_should_allow_character_assertions() {
+    // GIVEN
+    Object value = 'a';
+    // WHEN
+    CharacterAssert result = assertThat(value).asInstanceOf(CHARACTER);
+    // THEN
+    result.isLowerCase();
+  }
+
+  @Test
+  void char_array_factory_should_allow_char_array_assertions() {
+    // GIVEN
+    Object value = new char[] { 'a', 'b' };
+    // WHEN
+    CharArrayAssert result = assertThat(value).asInstanceOf(CHAR_ARRAY);
+    // THEN
+    result.doesNotHaveDuplicates();
+  }
+
+  @Test
+  void class_factory_should_allow_class_assertions() {
+    // GIVEN
+    Object value = Function.class;
+    // WHEN
+    ClassAssert result = assertThat(value).asInstanceOf(CLASS);
+    // THEN
+    result.hasAnnotations(FunctionalInterface.class);
+  }
+
+  @Test
+  void double_factory_should_allow_double_assertions() {
+    // GIVEN
+    Object value = 0.0;
+    // WHEN
+    DoubleAssert result = assertThat(value).asInstanceOf(DOUBLE);
+    // THEN
+    result.isZero();
+  }
+
+  @Test
+  void double_array_factory_should_allow_double_array_assertions() {
+    // GIVEN
+    Object value = new double[] { 0.0, 1.0 };
+    // WHEN
+    DoubleArrayAssert result = assertThat(value).asInstanceOf(DOUBLE_ARRAY);
+    // THEN
+    result.containsExactly(0.0, 1.0);
+  }
+
+  @Test
+  void file_factory_should_allow_file_assertions() {
+    // GIVEN
+    Object value = new File("random-file-which-does-not-exist");
+    // WHEN
+    FileAssert result = assertThat(value).asInstanceOf(FILE);
+    // THEN
+    result.doesNotExist();
   }
 
   @Test
@@ -124,13 +316,13 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void class_factory_should_allow_class_assertions() {
+  void string_factory_should_allow_string_assertions() {
     // GIVEN
-    Object value = Function.class;
+    Object value = "string";
     // WHEN
-    ClassAssert result = assertThat(value).asInstanceOf(CLASS);
+    StringAssert result = assertThat(value).asInstanceOf(STRING);
     // THEN
-    result.hasAnnotations(FunctionalInterface.class);
+    result.startsWith("str");
   }
 
   @Test
