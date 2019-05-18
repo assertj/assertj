@@ -3,7 +3,9 @@ package org.assertj.core.api;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.*;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayInputStream;
@@ -11,6 +13,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,13 +28,16 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.*;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
@@ -549,6 +555,197 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void atomic_integer_array_factory_should_allow_atomic_integer_array_assertions() {
+    // GIVEN
+    Object value = new AtomicIntegerArray(new int[] { 0, 1 });
+    // WHEN
+    AtomicIntegerArrayAssert result = assertThat(value).asInstanceOf(ATOMIC_INTEGER_ARRAY);
+    // THEN
+    result.containsExactly(0, 1);
+  }
+
+  @Test
+  void atomic_integer_field_updater_factory_should_allow_atomic_integer_field_updater_assertions() {
+    // GIVEN
+    Object value = AtomicIntegerFieldUpdater.newUpdater(VolatileFieldContainer.class, "intField");
+    // WHEN
+    AtomicIntegerFieldUpdaterAssert<Object> result = assertThat(value).asInstanceOf(atomicIntegerFieldUpdater());
+    // THEN
+    result.hasValue(0, new VolatileFieldContainer());
+  }
+
+  @Test
+  void typed_atomic_integer_field_updater_factory_should_allow_typed_atomic_integer_field_updater_assertions() {
+    // GIVEN
+    Object value = AtomicIntegerFieldUpdater.newUpdater(VolatileFieldContainer.class, "intField");
+    // WHEN
+    AtomicIntegerFieldUpdaterAssert<VolatileFieldContainer> result = assertThat(value).asInstanceOf(atomicIntegerFieldUpdater(VolatileFieldContainer.class));
+    // THEN
+    result.hasValue(0, new VolatileFieldContainer());
+  }
+
+  @Test
+  void atomic_long_factory_should_allow_atomic_long_assertions() {
+    // GIVEN
+    Object value = new AtomicLong();
+    // WHEN
+    AtomicLongAssert result = assertThat(value).asInstanceOf(ATOMIC_LONG);
+    // THEN
+    result.hasValue(0L);
+  }
+
+  @Test
+  void atomic_long_array_factory_should_allow_atomic_long_array_assertions() {
+    // GIVEN
+    Object value = new AtomicLongArray(new long[] { 0L, 1L });
+    // WHEN
+    AtomicLongArrayAssert result = assertThat(value).asInstanceOf(ATOMIC_LONG_ARRAY);
+    // THEN
+    result.containsExactly(0L, 1L);
+  }
+
+  @Test
+  void atomic_long_field_updater_factory_should_allow_atomic_long_field_updater_assertions() {
+    // GIVEN
+    Object value = AtomicLongFieldUpdater.newUpdater(VolatileFieldContainer.class, "longField");
+    // WHEN
+    AtomicLongFieldUpdaterAssert<Object> result = assertThat(value).asInstanceOf(atomicLongFieldUpdater());
+    // THEN
+    result.hasValue(0L, new VolatileFieldContainer());
+  }
+
+  @Test
+  void typed_atomic_long_field_updater_factory_should_allow_typed_atomic_long_field_updater_assertions() {
+    // GIVEN
+    Object value = AtomicLongFieldUpdater.newUpdater(VolatileFieldContainer.class, "longField");
+    // WHEN
+    AtomicLongFieldUpdaterAssert<VolatileFieldContainer> result = assertThat(value).asInstanceOf(atomicLongFieldUpdater(VolatileFieldContainer.class));
+    // THEN
+    result.hasValue(0L, new VolatileFieldContainer());
+  }
+
+  @Test
+  void atomic_reference_factory_should_allow_atomic_reference_assertions() {
+    // GIVEN
+    Object value = new AtomicReference<>();
+    // WHEN
+    AtomicReferenceAssert<Object> result = assertThat(value).asInstanceOf(atomicReference());
+    // THEN
+    result.hasValue(null);
+  }
+
+  @Test
+  void typed_atomic_reference_factory_should_allow_typed_atomic_reference_assertions() {
+    // GIVEN
+    Object value = new AtomicReference<>(0);
+    // WHEN
+    AtomicReferenceAssert<Integer> result = assertThat(value).asInstanceOf(atomicReference(Integer.class));
+    // THEN
+    result.hasValue(0);
+  }
+
+  @Test
+  void atomic_reference_array_factory_should_allow_atomic_reference_array_assertions() {
+    // GIVEN
+    Object value = new AtomicReferenceArray<>(new Object[] { 0, "" });
+    // WHEN
+    AtomicReferenceArrayAssert<Object> result = assertThat(value).asInstanceOf(atomicReferenceArray());
+    // THEN
+    result.containsExactly(0, "");
+  }
+
+  @Test
+  void typed_atomic_reference_array_factory_should_allow_typed_atomic_reference_array_assertions() {
+    // GIVEN
+    Object value = new AtomicReferenceArray<>(new Integer[] { 0, 1 });
+    // WHEN
+    AtomicReferenceArrayAssert<Integer> result = assertThat(value).asInstanceOf(atomicReferenceArray(Integer.class));
+    // THEN
+    result.containsExactly(0, 1);
+  }
+
+  @Test
+  void atomic_reference_field_updater_factory_should_allow_atomic_reference_field_updater_assertions() {
+    // GIVEN
+    Object value = AtomicReferenceFieldUpdater.newUpdater(VolatileFieldContainer.class, String.class, "stringField");
+    // WHEN
+    AtomicReferenceFieldUpdaterAssert<Object, Object> result = assertThat(value).asInstanceOf(atomicReferenceFieldUpdater());
+    // THEN
+    result.hasValue(null, new VolatileFieldContainer());
+  }
+
+  @Test
+  void typed_atomic_reference_field_updater_factory_should_allow_typed_atomic_reference_field_updater_assertions() {
+    // GIVEN
+    Object value = AtomicReferenceFieldUpdater.newUpdater(VolatileFieldContainer.class, String.class, "stringField");
+    // WHEN
+    AtomicReferenceFieldUpdaterAssert<String, VolatileFieldContainer> result = assertThat(value).asInstanceOf(atomicReferenceFieldUpdater(String.class,
+                                                                                                                                          VolatileFieldContainer.class));
+    // THEN
+    result.hasValue(null, new VolatileFieldContainer());
+  }
+
+  @Test
+  void atomic_markable_reference_factory_should_allow_atomic_markable_reference_assertions() {
+    // GIVEN
+    Object value = new AtomicMarkableReference<>(null, false);
+    // WHEN
+    AtomicMarkableReferenceAssert<Object> result = assertThat(value).asInstanceOf(atomicMarkableReference());
+    // THEN
+    result.hasReference(null);
+  }
+
+  @Test
+  void typed_atomic_markable_reference_factory_should_allow_typed_atomic_markable_reference_assertions() {
+    // GIVEN
+    Object value = new AtomicMarkableReference<>(0, false);
+    // WHEN
+    AtomicMarkableReferenceAssert<Integer> result = assertThat(value).asInstanceOf(atomicMarkableReference(Integer.class));
+    // THEN
+    result.hasReference(0);
+  }
+
+  @Test
+  void atomic_stamped_reference_factory_should_allow_atomic_stamped_reference_assertions() {
+    // GIVEN
+    Object value = new AtomicStampedReference<>(null, 0);
+    // WHEN
+    AtomicStampedReferenceAssert<Object> result = assertThat(value).asInstanceOf(atomicStampedReference());
+    // THEN
+    result.hasReference(null);
+  }
+
+  @Test
+  void typed_atomic_stamped_reference_factory_should_allow_typed_atomic_stamped_reference_assertions() {
+    // GIVEN
+    Object value = new AtomicStampedReference<>(0, 0);
+    // WHEN
+    AtomicStampedReferenceAssert<Integer> result = assertThat(value).asInstanceOf(atomicStampedReference(Integer.class));
+    // THEN
+    result.hasReference(0);
+  }
+
+  @Test
+  void throwable_factory_should_allow_throwable_assertions() {
+    // GIVEN
+    Object value = new RuntimeException("message");
+    // WHEN
+    AbstractThrowableAssert<?, ? extends Throwable> result = assertThat(value).asInstanceOf(THROWABLE);
+    // THEN
+    result.hasMessage("message");
+  }
+
+  @Test
+  void char_sequence_factory_should_allow_char_sequence_assertions() {
+    // GIVEN
+    Object value = "string";
+    // WHEN
+    AbstractCharSequenceAssert<?, ? extends CharSequence> result = assertThat(value).asInstanceOf(CHAR_SEQUENCE);
+    // THEN
+    result.startsWith("str");
+  }
+
+  @Test
   void string_factory_should_allow_string_assertions() {
     // GIVEN
     Object value = "string";
@@ -579,6 +776,26 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void iterator_factory_should_allow_iterator_assertions() {
+    // GIVEN
+    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
+    // WHEN
+    IteratorAssert<Object> result = assertThat(value).asInstanceOf(iterator());
+    // THEN
+    result.hasNext();
+  }
+
+  @Test
+  void typed_iterator_factory_should_allow_typed_iterator_assertions() {
+    // GIVEN
+    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
+    // WHEN
+    IteratorAssert<String> result = assertThat(value).asInstanceOf(iterator(String.class));
+    // THEN
+    result.hasNext();
+  }
+
+  @Test
   void list_factory_should_allow_list_assertions() {
     // GIVEN
     Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
@@ -596,6 +813,104 @@ class InstanceOfAssertFactoriesTest {
     ListAssert<String> result = assertThat(value).asInstanceOf(list(String.class));
     // THEN
     result.contains("Bart", "Lisa");
+  }
+
+  @Test
+  void stream_factory_should_allow_list_assertions() {
+    // GIVEN
+    Object value = Stream.of(1, 2, 3);
+    // WHEN
+    ListAssert<Object> result = assertThat(value).asInstanceOf(stream());
+    // THEN
+    result.containsExactly(1, 2, 3);
+  }
+
+  @Test
+  void typed_stream_factory_should_allow_typed_list_assertions() {
+    // GIVEN
+    Object value = Stream.of(1, 2, 3);
+    // WHEN
+    ListAssert<Integer> result = assertThat(value).asInstanceOf(stream(Integer.class));
+    // THEN
+    result.containsExactly(1, 2, 3);
+  }
+
+  @Test
+  void double_stream_factory_should_allow_double_list_assertions() {
+    // GIVEN
+    Object value = DoubleStream.of(1.0, 2.0, 3.0);
+    // WHEN
+    ListAssert<Double> result = assertThat(value).asInstanceOf(DOUBLE_STREAM);
+    // THEN
+    result.containsExactly(1.0, 2.0, 3.0);
+  }
+
+  @Test
+  void long_stream_factory_should_allow_long_list_assertions() {
+    // GIVEN
+    Object value = LongStream.of(1L, 2L, 3L);
+    // WHEN
+    ListAssert<Long> result = assertThat(value).asInstanceOf(LONG_STREAM);
+    // THEN
+    result.containsExactly(1L, 2L, 3L);
+  }
+
+  @Test
+  void int_stream_factory_should_allow_int_list_assertions() {
+    // GIVEN
+    Object value = IntStream.of(1, 2, 3);
+    // WHEN
+    ListAssert<Integer> result = assertThat(value).asInstanceOf(INT_STREAM);
+    // THEN
+    result.containsExactly(1, 2, 3);
+  }
+
+  @Test
+  void path_factory_should_allow_path_assertions() {
+    // GIVEN
+    Object value = Paths.get("random-file-which-does-not-exist");
+    // WHEN
+    AbstractPathAssert<?> result = assertThat(value).asInstanceOf(PATH);
+    // THEN
+    result.doesNotExist();
+  }
+
+  @Test
+  void map_factory_should_allow_map_assertions() {
+    // GIVEN
+    Object value = mapOf(entry("key", "value"));
+    // WHEN
+    MapAssert<Object, Object> result = assertThat(value).asInstanceOf(map());
+    // THEN
+    result.containsExactly(entry("key", "value"));
+  }
+
+  @Test
+  void typed_map_factory_should_allow_typed_map_assertions() {
+    // GIVEN
+    Object value = mapOf(entry("key", "value"));
+    // WHEN
+    MapAssert<String, String> result = assertThat(value).asInstanceOf(map(String.class, String.class));
+    // THEN
+    result.containsExactly(entry("key", "value"));
+  }
+
+  @Test
+  void comparable_factory_should_allow_comparable_assertions() {
+    // GIVEN
+    Object value = 0;
+    // WHEN
+    AbstractComparableAssert<?, Integer> result = assertThat(value).asInstanceOf(comparable(Integer.class));
+    // THEN
+    result.isEqualByComparingTo(0);
+  }
+
+  private static class VolatileFieldContainer {
+
+    volatile int intField;
+    volatile long longField;
+    volatile String stringField;
+
   }
 
 }

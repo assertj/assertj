@@ -2634,8 +2634,8 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
-   * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
+   * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertion requires to inspect its content.
+   * Once this is done the {@code Stream} can't be reused as it has already been consumed.</b>
    * <p>
    * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link Stream}.
    * <p>
@@ -2665,8 +2665,8 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link DoubleStream}.
    * <p>
-   * <b>Be aware that the {@code DoubleStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
-   * Once this is done the {@code DoubleStream} can't reused as it would have been consumed.</b>
+   * <b>Be aware that the {@code DoubleStream} under test will be converted to a {@code List} when an assertion requires to inspect its content.
+   * Once this is done the {@code DoubleStream} can't reused as it has already been consumed.</b>
    * <p>
    * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link DoubleStream}.
    * <p>
@@ -2695,8 +2695,8 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link LongStream}.
    * <p>
-   * <b>Be aware that the {@code LongStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
-   * Once this is done the {@code LongStream} can't reused as it would have been consumed.</b>
+   * <b>Be aware that the {@code LongStream} under test will be converted to a {@code List} when an assertion requires to inspect its content.
+   * Once this is done the {@code LongStream} can't reused as it has already been consumed.</b>
    * <p>
    * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link LongStream}.
    * <p>
@@ -2725,8 +2725,8 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link IntStream}.
    * <p>
-   * <b>Be aware that the {@code IntStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
-   * Once this is done the {@code IntStream} can't reused as it would have been consumed.</b>
+   * <b>Be aware that the {@code IntStream} under test will be converted to a {@code List} when an assertion requires to inspect its content.
+   * Once this is done the {@code IntStream} can't reused as it has already been consumed.</b>
    * <p>
    * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link IntStream}.
    * <p>
