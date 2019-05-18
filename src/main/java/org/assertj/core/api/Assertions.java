@@ -1136,15 +1136,12 @@ public class Assertions {
 
   /**
    * Allows catching a {@link Throwable} more easily when used with Java 8 lambdas.
-   *
    * <p>
    * This caught {@link Throwable} can then be asserted.
-   * </p>
-   *
+   * <p>
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowableAssert.ThrowingCallable, Class)}.
    * <p>
    * Example:
-   * </p>
-   *
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
    *   // when
@@ -1170,30 +1167,29 @@ public class Assertions {
    * otherwise it checks that the caught {@link Throwable} has the specified type and casts it making it convenient to perform subtype-specific assertions on it.
    * <p>
    * Example:
-   * <pre><code class='java'> class CustomParseException extends Exception {
+   * <pre><code class='java'> class TextException extends Exception {
    *   int line;
    *   int column;
    *
-   *   public CustomParseException(String msg, int l, int c) {
+   *   public TextException(String msg, int line, int column) {
    *     super(msg);
-   *     line = l;
-   *     column = c;
+   *     this.line = line;
+   *     this.column = column;
    *   }
    * }
    *
-   * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
-   *                                               CustomParseException.class);
+   * TextException textException = catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); },
+   *                                                    TextException.class);
    * // assertions succeed
-   * assertThat(e).hasMessageContaining("boom");
-   * assertThat(e.line).isEqualTo(1);
-   * assertThat(e.column).isEqualTo(5);
+   * assertThat(textException).hasMessage("boom!");
+   * assertThat(textException.line).isEqualTo(1);
+   * assertThat(textException.column).isEqualTo(5);
    *
    * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions
    * assertThat(catchThrowableOfType(() -&gt; {}, Exception.class)).isNull();
    *
-   * // fails as CustomParseException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
-   *                      RuntimeException.class);</code></pre>
+   * // fails as TextException is not a RuntimeException
+   * catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); }, RuntimeException.class);</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
