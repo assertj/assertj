@@ -367,6 +367,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  @CheckReturnValue
   public <ASSERT extends Assert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
     return instanceOfAssertFactory.createAssert(actual);
   }

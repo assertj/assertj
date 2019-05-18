@@ -51,7 +51,8 @@ class SoftProxies {
                                                                                                                       .or(named("extractingResultOf"))
                                                                                                                       .or(named("flatExtracting"))
                                                                                                                       .or(named("usingRecursiveComparison"))
-                                                                                                                      .or(named("extractingFromEntries"));
+                                                                                                                      .or(named("extractingFromEntries"))
+                                                                                                                      .or(named("asInstanceOf"));
 
   private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
                                                                                             .or(named("describedAs"))
@@ -180,7 +181,7 @@ class SoftProxies {
   }
 
   private static Junction<MethodDescription> methodsNamed(String name) {
-    return ElementMatchers.<MethodDescription> named(name);
+    return ElementMatchers.named(name);
   }
 
 }

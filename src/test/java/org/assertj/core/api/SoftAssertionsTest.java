@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -858,15 +859,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_assert_using_assertSoftly() {
-    assertThatThrownBy(() -> {
-      assertSoftly(assertions -> {
-        assertions.assertThat(true).isFalse();
-        assertions.assertThat(42).isEqualTo("meaning of life");
-        assertions.assertThat("red").isEqualTo("blue");
-      });
-    }).as("it should call assertAll() and fail with multiple validation errors")
-      .hasMessageContaining("meaning of life")
-      .hasMessageContaining("blue");
+    assertThatThrownBy(() -> assertSoftly(assertions -> {
+      assertions.assertThat(true).isFalse();
+      assertions.assertThat(42).isEqualTo("meaning of life");
+      assertions.assertThat("red").isEqualTo("blue");
+    })).as("it should call assertAll() and fail with multiple validation errors")
+       .hasMessageContaining("meaning of life")
+       .hasMessageContaining("blue");
   }
 
   @Test
@@ -1942,6 +1941,20 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                       .hasMessageContaining("HOBBIT")
                                       .hasMessageContaining("ELF")
                                       .hasMessageContaining("MAN");
+  }
+
+  @Test
+  public void soft_assertions_should_work_with_asInstanceOf() {
+    // GIVEN
+    Object s = "abc";
+    // WHEN
+    softly.assertThat(s)
+          .as("startsWith")
+          .asInstanceOf(STRING)
+          .startsWith("b");
+    // THEN
+    assertThat(softly.errorsCollected(), ThrowableAssert.class).hasSize(1)
+                                                               .first().hasMessageContaining("[startsWith]");
   }
 
   @Nested
