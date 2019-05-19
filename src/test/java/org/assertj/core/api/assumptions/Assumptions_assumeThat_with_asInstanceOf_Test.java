@@ -32,14 +32,13 @@ public class Assumptions_assumeThat_with_asInstanceOf_Test {
   }
 
   @Test
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void should_run_test_when_assumption_with_as_instance_of_passes() {
-    assertThatCode(() -> assumeThat(value).asInstanceOf(STRING)).doesNotThrowAnyException();
+    assertThatCode(() -> assumeThat(value).asInstanceOf(STRING).startsWith("str")).doesNotThrowAnyException();
   }
 
   @Test
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void should_ignore_test_when_assumption_with_as_instance_of_fails() {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(value).asInstanceOf(INTEGER));
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(value).asInstanceOf(INTEGER)
+                                                                                                   .isZero());
   }
 }

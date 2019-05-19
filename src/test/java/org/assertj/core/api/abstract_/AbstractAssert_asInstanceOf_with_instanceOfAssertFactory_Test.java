@@ -29,7 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * Tests for <code>{@link AbstractAssert#asInstanceOf(InstanceOfAssertFactory)}</code>.
  */
 @ExtendWith(MockitoExtension.class)
-class AbstractAssert_asInstanceOf_Test {
+class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test {
 
   private AbstractAssert<?, ?> underTest;
 
