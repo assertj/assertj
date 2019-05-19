@@ -419,7 +419,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that actual {@code actual.toString()} is equal to the given {@code String}.
    * <p>
    * Example :
-   * <pre><code class='java'> CartoonCaracter homer = new CartoonCaracter("Homer");
+   * <pre><code class='java'> CartoonCharacter homer = new CartoonCharacter("Homer");
    *
    * // Instead of writing ...
    * assertThat(homer.toString()).isEqualTo("Homer");
