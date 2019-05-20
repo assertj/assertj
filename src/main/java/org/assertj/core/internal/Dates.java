@@ -156,7 +156,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not after or equal to the given one.
    */
-  public void assertIsAfterOrEqualsTo(AssertionInfo info, Date actual, Date other) {
+  public void assertIsAfterOrEqualTo(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isAfterOrEqualTo(actual, other))

@@ -905,9 +905,35 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not after or equals to the given one.
+   * @deprecated prefer calling {@link #isAfterOrEqualTo(Date)}
    */
+  @Deprecated
   public SELF isAfterOrEqualsTo(Date other) {
-    dates.assertIsAfterOrEqualsTo(info, actual, other);
+    dates.assertIsAfterOrEqualTo(info, actual, other);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is after or equals to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+   *
+   * // assertions will pass
+   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isAfterOrEqualTo(dateFormat.parse(&quot;1990-12-01&quot;));
+   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isAfterOrEqualTo(dateFormat.parse(&quot;2000-12-01&quot;));
+   *
+   * // assertion will fail
+   * assertThat(dateFormat.parse(&quot;1990-12-01&quot;)).isAfterOrEqualTo(dateFormat.parse(&quot;2000-12-01&quot;));</code></pre>
+   *
+   * @param other the given Date.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if other {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not after or equals to the given one.
+   */
+  public SELF isAfterOrEqualTo(Date other) {
+    dates.assertIsAfterOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -949,9 +975,54 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not after or equals to the given Date represented as
    *           String.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated prefer calling {@link #isAfterOrEqualTo(String)}
    */
+  @Deprecated
   public SELF isAfterOrEqualsTo(String dateAsString) {
-    return isAfterOrEqualsTo(parse(dateAsString));
+    return isAfterOrEqualTo(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isAfterOrEqualTo(Date)} but given date is represented as String either with one of the
+   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * <p>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualTo("2002-12-17");
+   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualTo("2002-12-18");
+   *
+   * // assertion will fail
+   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualTo("2002-12-19");</code></pre>
+   *
+   * Defaults date format (expressed in the local time zone) are :
+   * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   * <li><code>yyyy-MM-dd</code></li>
+   * </ul>
+   * <p>
+   * Example of valid string date representations:
+   * <ul>
+   * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26</code></li>
+   * </ul>
+   *
+   * @param dateAsString the given Date represented as String in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if given date as String is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not after or equals to the given Date represented as
+   *           String.
+   * @throws AssertionError if the given date as String could not be converted to a Date.
+   */
+  public SELF isAfterOrEqualTo(String dateAsString) {
+    return isAfterOrEqualTo(parse(dateAsString));
   }
 
   /**

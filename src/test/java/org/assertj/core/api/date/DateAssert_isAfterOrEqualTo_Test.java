@@ -20,25 +20,25 @@ import org.assertj.core.api.DateAssert;
 
 
 /**
- * Tests for <code>{@link DateAssert#isAfterOrEqualsTo(Date)}</code>.
+ * Tests for <code>{@link DateAssert#isAfterOrEqualTo(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isAfterOrEqualsTo_Test extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isAfterOrEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isAfterOrEqualsTo(otherDate);
+    return assertions.isAfterOrEqualTo(otherDate);
   }
 
   @Override
   protected DateAssert assertionInvocationWithStringArg(String date) {
-    return assertions.isAfterOrEqualsTo(date);
+    return assertions.isAfterOrEqualTo(date);
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
-    verify(dates).assertIsAfterOrEqualsTo(getInfo(assertions), getActual(assertions), date);
+    verify(dates).assertIsAfterOrEqualTo(getInfo(assertions), getActual(assertions), date);
   }
 
 }
