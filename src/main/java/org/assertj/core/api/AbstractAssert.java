@@ -374,13 +374,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
-  @CheckReturnValue
-  public <T> AbstractObjectAssert<?, T> asInstanceOf(Class<T> type) {
-    return asInstanceOf(new InstanceOfAssertFactory<>(type, Assertions::assertThat));
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public SELF isInstanceOf(Class<?> type) {
     objects.assertIsInstanceOf(info, actual, type);
     return myself;

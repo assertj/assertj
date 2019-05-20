@@ -16,7 +16,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -301,34 +300,6 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @since 3.13.0
    */
   <ASSERT extends Assert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory);
-
-  /**
-   * Verifies that the actual value is an instance of the given type and creates a new {@link ObjectAssert} using the
-   * new type. This does not provide a new {@link Assert} narrowed to the input type, but allows to do type specific
-   * operations (e.g., {@link AbstractObjectAssert#extracting(Function)}).
-   * <p>
-   * <b>To obtain a new {@code Assert} narrowed to the input type, please refer to {@link #asInstanceOf(InstanceOfAssertFactory)}.</b>
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions will pass
-   * Object string = &quot;abc&quot;;
-   * assertThat(string).asInstanceOf(String.class).extracting(String::length).isEqualTo(3);
-   *
-   * Object integer = 1;
-   * assertThat(integer).asInstanceOf(Integer.class).extracting(Integer::doubleValue).isEqualTo(1.0);
-   *
-   * // assertion will fail
-   * assertThat(&quot;abc&quot;).asInstanceOf(Integer.class);</code></pre>
-   *
-   * @param type the class instance of the target type.
-   * @param <T> the type to check the actual value against.
-   * @return a new {@code ObjectAssert} instance.
-   *
-   * @see #asInstanceOf(InstanceOfAssertFactory)
-   *
-   * @since 3.13.0
-   */
-  <T> AbstractObjectAssert<?, T> asInstanceOf(Class<T> type);
 
   /**
    * Verifies that the actual value is an instance of the given type.
