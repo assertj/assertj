@@ -30,18 +30,18 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Tests for <code>{@link Dates#assertIsBeforeOrEqualsTo(AssertionInfo, Date, Date)}</code>.
+ * Tests for <code>{@link Dates#assertIsBeforeOrEqualTo(AssertionInfo, Date, Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsBeforeOrEqualsTo_Test extends DatesBaseTest {
+public class Dates_assertIsBeforeOrEqualTo_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_strictly_before_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2000-01-01");
     try {
-      dates.assertIsBeforeOrEqualsTo(info, actual, other);
+      dates.assertIsBeforeOrEqualTo(info, actual, other);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBeforeOrEqualsTo(actual, other));
       return;
@@ -51,24 +51,24 @@ public class Dates_assertIsBeforeOrEqualsTo_Test extends DatesBaseTest {
 
   @Test
   public void should_throw_error_if_given_date_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> dates.assertIsBeforeOrEqualsTo(someInfo(), actual, null))
+    assertThatNullPointerException().isThrownBy(() -> dates.assertIsBeforeOrEqualTo(someInfo(), actual, null))
                                     .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsBeforeOrEqualsTo(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsBeforeOrEqualTo(someInfo(), null, parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_pass_if_actual_is_strictly_before_given_date() {
-    dates.assertIsBeforeOrEqualsTo(someInfo(), actual, parseDate("2020-01-01"));
+    dates.assertIsBeforeOrEqualTo(someInfo(), actual, parseDate("2020-01-01"));
   }
 
   @Test
   public void should_pass_if_actual_is_equals_to_given_date() {
-    dates.assertIsBeforeOrEqualsTo(someInfo(), actual, parseDate("2011-01-01"));
+    dates.assertIsBeforeOrEqualTo(someInfo(), actual, parseDate("2011-01-01"));
   }
 
   @Test
@@ -76,7 +76,7 @@ public class Dates_assertIsBeforeOrEqualsTo_Test extends DatesBaseTest {
     AssertionInfo info = someInfo();
     Date other = parseDate("2000-01-01");
     try {
-      datesWithCustomComparisonStrategy.assertIsBeforeOrEqualsTo(info, actual, other);
+      datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(info, actual, other);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeBeforeOrEqualsTo(actual, other, yearAndMonthComparisonStrategy));
       return;
@@ -86,7 +86,7 @@ public class Dates_assertIsBeforeOrEqualsTo_Test extends DatesBaseTest {
 
   @Test
   public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualsTo(someInfo(),
+    assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(someInfo(),
                                                                                                                  actual,
                                                                                                                  null))
                                     .withMessage(dateToCompareActualWithIsNull());
@@ -94,18 +94,18 @@ public class Dates_assertIsBeforeOrEqualsTo_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualsTo(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(someInfo(), null, parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_pass_if_actual_is_strictly_before_given_date_according_to_custom_comparison_strategy() {
-    datesWithCustomComparisonStrategy.assertIsBeforeOrEqualsTo(someInfo(), actual, parseDate("2020-01-01"));
+    datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(someInfo(), actual, parseDate("2020-01-01"));
   }
 
   @Test
   public void should_pass_if_actual_is_equals_to_given_date_according_to_custom_comparison_strategy() {
-    datesWithCustomComparisonStrategy.assertIsBeforeOrEqualsTo(someInfo(), actual, parseDate("2011-01-31"));
+    datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(someInfo(), actual, parseDate("2011-01-31"));
   }
 
 }
