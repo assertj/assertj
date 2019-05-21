@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.assertj.core.internal.Failures;
 
-public class AbstractSoftAssertions {
+public class AbstractSoftAssertions implements InstanceOfAssertFactories {
 
   protected final SoftProxies proxies;
 

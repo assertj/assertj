@@ -24,12 +24,7 @@ import org.junit.jupiter.api.Test;
 
 public class FactoryBasedNavigableList_withString_Test {
 
-  AssertFactory<String, StringAssert> stringAssertFactory = new AssertFactory<String, StringAssert>() {
-    @Override
-    public StringAssert createAssert(String string) {
-      return new StringAssert(string);
-    }
-  };
+  private AssertFactory<String, StringAssert> stringAssertFactory = StringAssert::new;
   
   @Test
   public void should_navigate_to_list_elements_and_perform_specific_string_assertions() {

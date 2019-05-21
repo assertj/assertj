@@ -78,23 +78,25 @@ public class Tuple_Test {
                     .contains(tuple("2".getBytes(), "Bar"))
                     .contains(tuple("3".getBytes(), "Baz"));
   }
-}
 
-final class SinteticClass {
+  @SuppressWarnings("unused")
+  private final class SinteticClass {
 
-  private byte[] pk;
-  private String name;
+    private byte[] pk;
+    private String name;
 
-  public SinteticClass(byte[] pk, String name) {
-    this.pk = pk;
-    this.name = name;
+    public SinteticClass(byte[] pk, String name) {
+      this.pk = pk;
+      this.name = name;
+    }
+
+    public byte[] getPk() {
+      return pk;
+    }
+
+    public String getName() {
+      return name;
+    }
   }
 
-  public byte[] getPk() {
-    return pk;
-  }
-
-  public String getName() {
-    return name;
-  }
 }

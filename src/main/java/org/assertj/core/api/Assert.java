@@ -273,6 +273,36 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF usingDefaultComparator();
 
   /**
+   * Uses an {@link InstanceOfAssertFactory} to verify that the actual value is an instance of a given type and to produce
+   * a new {@link Assert} narrowed to that type.
+   * <p>
+   * {@link InstanceOfAssertFactories} provides static factories for all the types supported by {@code Assertions#assertThat}.
+   * <p>
+   * Additional factories can be created with custom {@code InstanceOfAssertFactory} instances.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * Object string = &quot;abc&quot;;
+   * assertThat(string).asInstanceOf(InstanceOfAssertFactories.STRING).startsWith(&quot;ab&quot;);
+   *
+   * Object integer = 1;
+   * assertThat(integer).asInstanceOf(InstanceOfAssertFactories.INTEGER).isNotZero();
+   *
+   * // assertion will fail
+   * assertThat(&quot;abc&quot;).asInstanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
+   *
+   * @param instanceOfAssertFactory the factory which verifies the type and creates the new {@code Assert}.
+   * @param <ASSERT> the type of the resulting {@code Assert}.
+   * @return the narrowed {@code Assert} instance.
+   *
+   * @see InstanceOfAssertFactory
+   * @see InstanceOfAssertFactories
+   *
+   * @since 3.13.0
+   */
+  <ASSERT extends Assert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory);
+
+  /**
    * Verifies that the actual value is an instance of the given type.
    * <p>
    * Example:
@@ -556,7 +586,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @return a list assertion object
    */
-  AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> asList();
+  AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
 
   /**
    * Returns a String assertion for the <code>toString()</code> of the actual

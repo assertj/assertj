@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -532,7 +533,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   public void should_work_with_flat_extracting() {
     // GIVEN
     List<CartoonCharacter> characters = asList(homer, fred);
-    CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[characters.size()]);
+    CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[0]);
     // WHEN
     softly.then(characters)
           .flatExtracting(CartoonCharacter::getChildren)
@@ -863,15 +864,13 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   @Test
   public void should_assert_using_assertSoftly() {
-    assertThatThrownBy(() -> {
-      assertSoftly(assertions -> {
-        assertions.assertThat(true).isFalse();
-        assertions.assertThat(42).isEqualTo("meaning of life");
-        assertions.assertThat("red").isEqualTo("blue");
-      });
-    }).as("it should call assertAll() and fail with multiple validation errors")
-      .hasMessageContaining("meaning of life")
-      .hasMessageContaining("blue");
+    assertThatThrownBy(() -> assertSoftly(assertions -> {
+      assertions.assertThat(true).isFalse();
+      assertions.assertThat(42).isEqualTo("meaning of life");
+      assertions.assertThat("red").isEqualTo("blue");
+    })).as("it should call assertAll() and fail with multiple validation errors")
+       .hasMessageContaining("meaning of life")
+       .hasMessageContaining("blue");
   }
 
   @Test
@@ -1629,6 +1628,21 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                       .hasMessageContaining("HOBBIT")
                                       .hasMessageContaining("ELF")
                                       .hasMessageContaining("MAN");
+  }
+
+  @Test
+  public void soft_assertions_should_work_with_asInstanceOf() {
+    // GIVEN
+    Object s = "abc";
+    // WHEN
+    softly.then(s)
+          .as("startsWith")
+          .asInstanceOf(STRING)
+          .startsWith("b");
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(1);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("[startsWith]");
   }
 
   @Nested

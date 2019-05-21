@@ -18,7 +18,7 @@ public class ConcreteIterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<ConcreteIterableAssert<ELEMENT>, Iterable<ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public ConcreteIterableAssert(Collection<ELEMENT> actual) {
-    super(actual, ConcreteIterableAssert.class, new ObjectAssertFactory<ELEMENT>());
+    super(actual, ConcreteIterableAssert.class, new ObjectAssertFactory<>());
   }
 
   @Override

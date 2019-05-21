@@ -23,12 +23,7 @@ public class FactoryBasedNavigableIterableAssert_Test extends BaseNavigableItera
 
   @Override
   protected FactoryBasedNavigableIterableAssert<?, Iterable<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
-    AssertFactory<Vehicle, VehicleAssert> assertFactory = new AssertFactory<Vehicle, VehicleAssert>() {
-      @Override
-      public VehicleAssert createAssert(Vehicle vehicle) {
-        return VehicleAssert.assertThat(vehicle);
-      }
-    };
+    AssertFactory<Vehicle, VehicleAssert> assertFactory = VehicleAssert::assertThat;
     return assertThat(expectedVehicles, assertFactory);
   }
   
