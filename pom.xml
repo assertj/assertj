@@ -98,6 +98,7 @@
                   <goal>jar</goal>
                 </goals>
                 <configuration>
+                    <source>${maven.compiler.source}</source>
                     <additionalparam>${additionalparam}</additionalparam>
                 </configuration>
               </execution>
@@ -244,7 +245,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -323,8 +324,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.source}</target>
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
@@ -453,6 +454,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>8</maven.compiler.source>
     <additionalparam>-Xdoclint:none</additionalparam>
   </properties>
 
