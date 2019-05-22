@@ -13,9 +13,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
-import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -104,7 +104,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
     Objects.instance().assertNotNull(info, actual);
     assertLocalDateParameterIsNotNull(other);
     if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualsTo(actual, other));
+      throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
     }
     return myself;
   }
@@ -149,7 +149,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
     Objects.instance().assertNotNull(info, actual);
     assertLocalDateParameterIsNotNull(other);
     if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualsTo(actual, other));
+      throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
     }
     return myself;
   }

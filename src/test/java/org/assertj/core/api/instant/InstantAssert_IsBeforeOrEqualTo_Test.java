@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api.instant;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Instant;
@@ -36,10 +36,8 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
 
   @Test
   public void test_isBeforeOrEqual_assertion_error_message() {
-    Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
-    Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantAfter).isBeforeOrEqualTo(instantReference))
-                                                   .withMessage(format("%nExpecting:%n  <2007-12-03T10:15:35Z>%nto be before or equals to:%n  <2007-12-03T10:15:30Z>"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isBeforeOrEqualTo(BEFORE))
+                                                   .withMessage(shouldBeBeforeOrEqualTo(REFERENCE, BEFORE).create());
   }
 
   @Test
@@ -69,4 +67,3 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
   }
 
 }
-

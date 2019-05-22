@@ -12,12 +12,11 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
-import static java.lang.String.format;
-import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZoneId;
@@ -35,43 +34,31 @@ public class ZonedDateTimeAssert_isBeforeOrEqualTo_Test extends ZonedDateTimeAss
 
   @Test
   public void test_isBeforeOrEqual_assertion() {
-	// WHEN
-	assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
-	assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE.toString());
-	assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE);
-	assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE.toString());
-	// THEN
-	verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
+    // WHEN
+    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
+    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE.toString());
+    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE.toString());
+    // THEN
+    verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
   }
 
   @Test
   public void isBeforeOrEqualTo_should_compare_datetimes_in_actual_timezone() {
-	ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, ZoneOffset.UTC);
-	ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
-	ZonedDateTime cestDateTime1 = ZonedDateTime.of(2013, 6, 10, 2, 0, 0, 0, cestTimeZone);
-	ZonedDateTime cestDateTime2 = ZonedDateTime.of(2013, 6, 10, 3, 0, 0, 0, cestTimeZone);
-	// utcDateTime = cestDateTime1
-	assertThat(utcDateTime).as("in UTC time zone").isBeforeOrEqualTo(cestDateTime1);
-	// utcDateTime < cestDateTime2
-	assertThat(utcDateTime).as("in UTC time zone").isBeforeOrEqualTo(cestDateTime2);
+    ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, ZoneOffset.UTC);
+    ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
+    ZonedDateTime cestDateTime1 = ZonedDateTime.of(2013, 6, 10, 2, 0, 0, 0, cestTimeZone);
+    ZonedDateTime cestDateTime2 = ZonedDateTime.of(2013, 6, 10, 3, 0, 0, 0, cestTimeZone);
+    // utcDateTime = cestDateTime1
+    assertThat(utcDateTime).as("in UTC time zone").isBeforeOrEqualTo(cestDateTime1);
+    // utcDateTime < cestDateTime2
+    assertThat(utcDateTime).as("in UTC time zone").isBeforeOrEqualTo(cestDateTime2);
   }
 
   @Test
   public void test_isBeforeOrEqual_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0,
-                                                                                                 UTC)).isBeforeOrEqualTo(ZonedDateTime.of(1998,
-                                                                                                                                          1,
-                                                                                                                                          1,
-                                                                                                                                          3,
-                                                                                                                                          3,
-                                                                                                                                          3,
-                                                                                                                                          0,
-                                                                                                                                          UTC)))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <2000-01-05T03:00:05Z>%n" +
-                                                                       "to be before or equals to:%n" +
-                                                                       "  <1998-01-01T03:03:03Z>"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isBeforeOrEqualTo(BEFORE))
+                                                   .withMessage(shouldBeBeforeOrEqualTo(REFERENCE, BEFORE).create());
   }
 
   @Test
@@ -95,19 +82,19 @@ public class ZonedDateTimeAssert_isBeforeOrEqualTo_Test extends ZonedDateTimeAss
   }
 
   private static void verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(ZonedDateTime dateToCheck,
-	                                                                                        ZonedDateTime reference) {
-	try {
-	  assertThat(dateToCheck).isBeforeOrEqualTo(reference);
-	} catch (AssertionError e) {
-	  // AssertionError was expected, test same assertion with String based parameter
-	  try {
-		assertThat(dateToCheck).isBeforeOrEqualTo(reference.toString());
-	  } catch (AssertionError e2) {
-		// AssertionError was expected (again)
-		return;
-	  }
-	}
-	fail("Should have thrown AssertionError");
+                                                                                            ZonedDateTime reference) {
+    try {
+      assertThat(dateToCheck).isBeforeOrEqualTo(reference);
+    } catch (AssertionError e) {
+      // AssertionError was expected, test same assertion with String based parameter
+      try {
+        assertThat(dateToCheck).isBeforeOrEqualTo(reference.toString());
+      } catch (AssertionError e2) {
+        // AssertionError was expected (again)
+        return;
+      }
+    }
+    fail("Should have thrown AssertionError");
   }
 
 }

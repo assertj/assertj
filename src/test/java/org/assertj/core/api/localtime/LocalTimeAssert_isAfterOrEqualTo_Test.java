@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalTime;
@@ -32,24 +32,17 @@ public class LocalTimeAssert_isAfterOrEqualTo_Test extends LocalTimeAssertBaseTe
 
   @Test
   public void test_isAfterOrEqual_assertion() {
-	// WHEN
-	assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
-	assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
-	// THEN
-	verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
+    // WHEN
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
+    // THEN
+    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalTime.of(3, 0,
-                                                                                             5)).isAfterOrEqualTo(LocalTime.of(3,
-                                                                                                                               3,
-                                                                                                                               3)))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <03:00:05>%n" +
-                                                                       "to be after or equals to:%n" +
-                                                                       "  <03:03:03>"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isAfterOrEqualTo(AFTER))
+                                                   .withMessage(shouldBeAfterOrEqualTo(REFERENCE, AFTER).create());
   }
 
   @Test

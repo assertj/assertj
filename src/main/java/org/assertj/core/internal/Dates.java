@@ -13,10 +13,10 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
-import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.error.ShouldBeAfterYear.shouldBeAfterYear;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeBeforeYear.shouldBeBeforeYear;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
@@ -128,7 +128,7 @@ public class Dates {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isBeforeOrEqualTo(actual, other))
-      throw failures.failure(info, shouldBeBeforeOrEqualsTo(actual, other, comparisonStrategy));
+      throw failures.failure(info, shouldBeBeforeOrEqualTo(actual, other, comparisonStrategy));
   }
 
   /**
@@ -160,7 +160,7 @@ public class Dates {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isAfterOrEqualTo(actual, other))
-      throw failures.failure(info, shouldBeAfterOrEqualsTo(actual, other, comparisonStrategy));
+      throw failures.failure(info, shouldBeAfterOrEqualTo(actual, other, comparisonStrategy));
   }
 
   /**

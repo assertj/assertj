@@ -12,12 +12,11 @@
  */
 package org.assertj.core.api.instant;
 
-
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Instant;
@@ -40,11 +39,7 @@ public class InstantAssert_isAfterOrEqual_Test extends InstantAssertBaseTest {
     Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
     Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isAfterOrEqualTo(instantAfter))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <2007-12-03T10:15:30Z>%n" +
-                                                                       "to be after or equals to:%n" +
-                                                                       "  <2007-12-03T10:15:35Z>"));
+                                                   .withMessage(shouldBeAfterOrEqualTo(instantReference, instantAfter).create());
   }
 
   @Test

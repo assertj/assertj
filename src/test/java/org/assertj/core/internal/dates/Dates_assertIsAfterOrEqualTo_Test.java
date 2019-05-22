@@ -14,7 +14,7 @@ package org.assertj.core.internal.dates;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,6 +24,7 @@ import static org.mockito.Mockito.verify;
 import java.util.Date;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldBeAfterOrEqualTo;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ public class Dates_assertIsAfterOrEqualTo_Test extends DatesBaseTest {
     try {
       dates.assertIsAfterOrEqualTo(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeAfterOrEqualsTo(actual, other));
+      verify(failures).failure(info, shouldBeAfterOrEqualTo(actual, other));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -78,7 +79,7 @@ public class Dates_assertIsAfterOrEqualTo_Test extends DatesBaseTest {
     try {
       datesWithCustomComparisonStrategy.assertIsAfterOrEqualTo(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeAfterOrEqualsTo(actual, other, yearAndMonthComparisonStrategy));
+      verify(failures).failure(info, ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo(actual, other, yearAndMonthComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
