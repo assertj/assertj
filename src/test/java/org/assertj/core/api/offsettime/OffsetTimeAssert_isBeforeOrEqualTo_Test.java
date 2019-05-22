@@ -12,15 +12,14 @@
  */
 package org.assertj.core.api.offsettime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetTime;
-import java.time.ZoneOffset;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,17 +43,8 @@ public class OffsetTimeAssert_isBeforeOrEqualTo_Test extends OffsetTimeAssertBas
 
   @Test
   public void test_isBeforeOrEqual_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
-                                                                                              ZoneOffset.UTC)).isBeforeOrEqualTo(OffsetTime.of(3,
-                                                                                                                                               0,
-                                                                                                                                               4,
-                                                                                                                                               0,
-                                                                                                                                               ZoneOffset.UTC)))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <03:00:05Z>%n" +
-                                                                       "to be before or equals to:%n" +
-                                                                       "  <03:00:04Z>"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isBeforeOrEqualTo(BEFORE))
+                                                   .withMessage(shouldBeBeforeOrEqualTo(REFERENCE, BEFORE).create());
   }
 
   @Test

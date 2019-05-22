@@ -12,44 +12,41 @@
  */
 package org.assertj.core.error;
 
-import java.util.Date;
-
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@link Date} is after or equals to another
- * one
+ * Creates an error message indicating that an assertion that verifies that an {@link Object} is before or equal to another one
  * failed.
  * 
  * @author Joel Costigliola
  */
-public class ShouldBeAfterOrEqualsTo extends BasicErrorMessageFactory {
+public class ShouldBeBeforeOrEqualTo extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldBeAfterOrEqualsTo}</code>.
+   * Creates a new <code>{@link ShouldBeBeforeOrEqualTo}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeAfterOrEqualsTo(Object actual, Object other,
-	                                                        ComparisonStrategy comparisonStrategy) {
-	return new ShouldBeAfterOrEqualsTo(actual, other, comparisonStrategy);
+  public static ErrorMessageFactory shouldBeBeforeOrEqualTo(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeBeforeOrEqualTo(actual, other, comparisonStrategy);
   }
 
   /**
-   * Creates a new <code>{@link ShouldBeAfterOrEqualsTo}</code>.
+   * Creates a new <code>{@link ShouldBeBeforeOrEqualTo}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeAfterOrEqualsTo(Object actual, Object other) {
-	return new ShouldBeAfterOrEqualsTo(actual, other, StandardComparisonStrategy.instance());
+  public static ErrorMessageFactory shouldBeBeforeOrEqualTo(Object actual, Object other) {
+    return new ShouldBeBeforeOrEqualTo(actual, other, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeAfterOrEqualsTo(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n  <%s>%nto be after or equals to:%n  <%s>%s", actual, other, comparisonStrategy);
+  private ShouldBeBeforeOrEqualTo(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+    super("%nExpecting:%n  <%s>%nto be before or equal to:%n  <%s>%s", actual, other, comparisonStrategy);
   }
 }

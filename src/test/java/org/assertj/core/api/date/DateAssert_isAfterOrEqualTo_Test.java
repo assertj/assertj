@@ -18,7 +18,6 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for <code>{@link DateAssert#isAfterOrEqualTo(Date)}</code>.
  * 

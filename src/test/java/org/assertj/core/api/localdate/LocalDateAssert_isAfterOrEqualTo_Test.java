@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api.localdate;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDate;
@@ -32,23 +32,17 @@ public class LocalDateAssert_isAfterOrEqualTo_Test extends LocalDateAssertBaseTe
 
   @Test
   public void test_isAfterOrEqual_assertion() {
-	// WHEN
-	assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
-	assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
-	// THEN
-	verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
+    // WHEN
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
+    // THEN
+    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
-    assertThat(LocalDate.of(2000, 1, 5)).isAfterOrEqualTo(LocalDate.of(2012, 1, 1))).withMessage(format("%n" +
-                                                                                                        "Expecting:%n" +
-                                                                                                        "  <2000-01-05>%n"
-                                                                                                        +
-                                                                                                        "to be after or equals to:%n"
-                                                                                                        +
-                                                                                                        "  <2012-01-01>"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isAfterOrEqualTo(AFTER))
+                                                   .withMessage(shouldBeAfterOrEqualTo(REFERENCE, AFTER).create());
   }
 
   @Test

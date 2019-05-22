@@ -13,9 +13,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
-import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgnoringHours;
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
@@ -116,7 +116,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualsTo(actual, other));
+      throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
     }
     return myself;
   }
@@ -163,7 +163,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualsTo(actual, other));
+      throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
     }
     return myself;
   }

@@ -711,7 +711,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual {@code Date} is before or equals to the given one.
+   * Verifies that the actual {@code Date} is before or equal to the given one.
    * <p>
    * Example:
    * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
@@ -914,7 +914,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual {@code Date} is after or equals to the given one.
+   * Verifies that the actual {@code Date} is after or equal to the given one.
    * <p>
    * Example:
    * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);

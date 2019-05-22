@@ -12,12 +12,12 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
-import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZoneId;
@@ -57,8 +57,8 @@ public class ZonedDateTimeAssert_isAfterOrEqualTo_Test extends ZonedDateTimeAsse
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isAfterOrEqualTo(ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC)))
-                                                   .withMessage(format("%nExpecting:%n  <2000-01-05T03:00:05Z>%nto be after or equals to:%n  <2012-01-01T03:03:03Z>"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isAfterOrEqualTo(AFTER))
+                                                   .withMessage(shouldBeAfterOrEqualTo(REFERENCE, AFTER).create());
   }
 
   @Test
@@ -66,7 +66,7 @@ public class ZonedDateTimeAssert_isAfterOrEqualTo_Test extends ZonedDateTimeAsse
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       ZonedDateTime actual = null;
       assertThat(actual).isAfterOrEqualTo(ZonedDateTime.now());
-    }).withMessage( actualIsNull());
+    }).withMessage(actualIsNull());
   }
 
   @Test
@@ -82,7 +82,7 @@ public class ZonedDateTimeAssert_isAfterOrEqualTo_Test extends ZonedDateTimeAsse
   }
 
   private static void verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(ZonedDateTime dateToCheck,
-      ZonedDateTime reference) {
+                                                                                           ZonedDateTime reference) {
     try {
       assertThat(dateToCheck).isAfterOrEqualTo(reference);
     } catch (AssertionError e) {
