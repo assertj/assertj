@@ -10,62 +10,64 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.api.abstract_;
+package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.AbstractAssertBaseTest;
-import org.assertj.core.api.AbstractLongAssert;
-import org.assertj.core.api.ConcreteAssert;
-import org.assertj.core.api.InstanceOfAssertFactory;
+import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.presentation.UnicodeRepresentation;
+import org.assertj.core.test.Jedi;
+import org.assertj.core.test.Person;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * Tests for <code>{@link AbstractAssert#asInstanceOf(InstanceOfAssertFactory)}</code>.
+ * Tests for <code>{@link AbstractObjectAssert#asInstanceOf(Class)}</code>.
  *
  * @author Stefano Cordio
  */
-class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test extends AbstractAssertBaseTest {
+class ObjectAssert_asInstanceOf_with_class_Test extends ObjectAssertBaseTest {
 
   @Override
-  protected ConcreteAssert invoke_api_method() {
-    assertions.asInstanceOf(LONG);
+  protected ObjectAssert<Jedi> invoke_api_method() {
+    assertions.asInstanceOf(Person.class);
     return null;
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertIsInstanceOf(getInfo(assertions), getActual(assertions), Long.class);
+    verify(objects).assertIsInstanceOf(getInfo(assertions), getActual(assertions), Person.class);
   }
 
   @Override
   public void should_return_this() {
-    // Test disabled since asInstanceOf(InstanceOfAssertFactory) does not return this.
+    // Test disabled since asInstanceOf(Class) does not return this.
   }
 
   @Test
-  void should_throw_npe_if_no_factory_is_given() {
+  void should_throw_npe_if_no_type_is_given() {
     // GIVEN
-    InstanceOfAssertFactory<?, ?> factory = null;
+    Class<?> type = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.asInstanceOf(factory));
+    Throwable thrown = catchThrowable(() -> assertions.asInstanceOf(type));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
+                .hasMessage(shouldNotBeNull("type").create());
   }
 
   @Test
-  void should_return_narrowed_assert_type() {
+  void should_return_new_object_assert_with_updated_actual_type() {
     // WHEN
-    AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
+    AbstractAssert<?, Person> result = assertions.asInstanceOf(Person.class);
     // THEN
-    then(result).isInstanceOf(AbstractLongAssert.class);
+    then(result).isInstanceOf(AbstractObjectAssert.class);
   }
 
   @Test
@@ -75,7 +77,7 @@ class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test extends Abst
               .overridingErrorMessage("error message")
               .withRepresentation(new UnicodeRepresentation());
     // WHEN
-    AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
+    AbstractAssert<?, ?> result = assertions.asInstanceOf(Person.class);
     // THEN
     then(result).hasFieldOrPropertyWithValue("objects", objects)
                 .extracting(AbstractAssert::getWritableAssertionInfo)

@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
@@ -919,6 +920,39 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   SELF withComparatorByPropertyOrField(Map<String, Comparator<?>> comparatorsToPropaget) {
     this.comparatorByPropertyOrField = comparatorsToPropaget;
     return myself;
+  }
+
+  /**
+   * Verifies that the actual value is an instance of the given type and creates a new {@link ObjectAssert} using the
+   * new type. This does not provide a new {@link Assert} narrowed to the input type but allows type specific operations
+   * (e.g., {@link AbstractObjectAssert#extracting(Function)}), which can be handy for types not having dedicated assert
+   * classes.
+   * <p>
+   * <b>To obtain a new {@code Assert} narrowed to the input type, {@link #asInstanceOf(InstanceOfAssertFactory)} should be used.</b>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * Object string = &quot;abc&quot;;
+   * assertThat(string).asInstanceOf(String.class).extracting(String::length).isEqualTo(3);
+   *
+   * Object integer = 1;
+   * assertThat(integer).asInstanceOf(Integer.class).extracting(Integer::doubleValue).isEqualTo(1.0);
+   *
+   * // assertion will fail
+   * assertThat(&quot;abc&quot;).asInstanceOf(Integer.class);</code></pre>
+   *
+   * @param type the class instance of the target type.
+   * @param <T> the type to check the actual value against.
+   * @return a new {@code ObjectAssert} instance.
+   *
+   * @see #asInstanceOf(InstanceOfAssertFactory)
+   *
+   * @since 3.13.0
+   */
+  @CheckReturnValue
+  public <T> AbstractObjectAssert<?, T> asInstanceOf(Class<T> type) {
+    requireNonNull(type, shouldNotBeNull("type").create());
+    return asInstanceOf(InstanceOfAssertFactories.type(type));
   }
 
 }

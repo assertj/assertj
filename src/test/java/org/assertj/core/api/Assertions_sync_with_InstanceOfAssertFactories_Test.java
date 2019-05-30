@@ -32,6 +32,9 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ *  @author Stefano Cordio
+ */
 class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertionsTest {
 
   private static final Class<?>[] FIELD_FACTORIES_IGNORED_TYPES = {
@@ -57,8 +60,7 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
     // WHEN
     Map<Type, Type> fieldFactories = findFieldFactoryTypes();
     // THEN
-    then(fieldFactories).containsAllEntriesOf(assertThatMethods)
-                        .hasSameSizeAs(assertThatMethods);
+    then(fieldFactories).containsExactlyInAnyOrderEntriesOf(assertThatMethods);
   }
 
   @Test
@@ -68,8 +70,7 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
     // WHEN
     Map<Type, Type> methodFactories = findMethodFactoryTypes();
     // THEN
-    then(methodFactories).containsAllEntriesOf(assertThatMethods)
-                         .hasSameSizeAs(assertThatMethods);
+    then(methodFactories).containsExactlyInAnyOrderEntriesOf(assertThatMethods);
   }
 
   private Map<Type, Type> findAssertThatParameterAndReturnTypes() {
