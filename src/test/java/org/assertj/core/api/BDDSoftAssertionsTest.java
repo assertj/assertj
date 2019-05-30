@@ -1512,19 +1512,22 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(iterableMap)
           .flatExtracting("name", "job", "city", "rank")
           .contains("Unexpected", "Builder", "Dover", "Boston", "Paris", 1, 2, 3);
-    Map<String, String> exactlyEntriesMap = mapOf(entry("kl", "KL"), entry("mn", "MN"));
-    softly.then(map).containsExactlyEntriesOf(exactlyEntriesMap);
+    softly.then(map)
+          .as("size()")
+          .overridingErrorMessage("error message")
+          .size()
+          .isGreaterThan(1000);
+    softly.then(map).containsExactlyEntriesOf(mapOf(entry("kl", "KL"), entry("mn", "MN")));
+    softly.then(map).containsExactlyInAnyOrderEntriesOf(mapOf(entry("a", "1"), entry("b", "2")));
     softly.then(map)
           .as("extracting(\"a\")")
           .overridingErrorMessage("error message")
           // convert to Object otherwise will use extracting(String) in AbstractObjectAssert
           .extracting((Object) "a")
           .isEqualTo("456");
-
-    // softly.then(map).size().isGreaterThan(1000); not yet supported
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(14);
+    assertThat(errors).hasSize(16);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1538,8 +1541,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(9)).hasMessageContaining("b");
     assertThat(errors.get(10)).hasMessageContaining("456");
     assertThat(errors.get(11)).hasMessageContaining("Unexpected");
-    assertThat(errors.get(12)).hasMessageContaining("\"a\"=\"1\"");
-    assertThat(errors.get(13)).hasMessage("[extracting(\"a\")] error message");
+    assertThat(errors.get(12)).hasMessage("[size()] error message");
+    assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
+    assertThat(errors.get(14)).hasMessageContaining("to contain only");
+    assertThat(errors.get(15)).hasMessage("[extracting(\"a\")] error message");
   }
 
   @Test

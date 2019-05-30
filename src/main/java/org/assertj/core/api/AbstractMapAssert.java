@@ -575,8 +575,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries.
    */
   public SELF containsAllEntriesOf(Map<? extends K, ? extends V> other) {
-    Map.Entry<? extends K, ? extends V>[] entries = other.entrySet().toArray(new Map.Entry[0]);
-    maps.assertContains(info, actual, entries);
+    maps.assertContains(info, actual, toEntries(other));
     return myself;
   }
 
@@ -585,7 +584,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * <p>
    * Verifies that the actual map contains only the entries of the given map and nothing else, <b>in order</b>.<br>
    * This assertion should only be used with maps that have a consistent iteration order (i.e. don't use it with
-   * {@link java.util.HashMap}, prefer {@link #containsOnly(java.util.Map.Entry...)} in that case).
+   * {@link java.util.HashMap}, prefer {@link #containsExactlyInAnyOrderEntriesOf(java.util.Map)} in that case).
    * <p>
    * Example :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
@@ -618,8 +617,50 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.12.0
    */
   public SELF containsExactlyEntriesOf(Map<? extends K, ? extends V> map) {
-    Map.Entry<? extends K, ? extends V>[] entries = map.entrySet().toArray(new Map.Entry[0]);
-    return containsExactly(entries);
+    return containsExactly(toEntries(map));
+  }
+
+  /**
+   * Same as {@link #containsOnly(Map.Entry[])} but handles the conversion of {@link Map#entrySet()} to array.
+   * <p>
+   * Verifies that the actual map contains only the given entries and nothing else, in any order.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
+   *                                                            entry(nenya, galadriel),
+   *                                                            entry(narya, gandalf));
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                                                             entry(nenya, galadriel),
+   *                                                                             entry(narya, gandalf)));
+   *
+   * // assertion will pass although actual and expected order differ
+   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(nenya, galadriel),
+   *                                                                             entry(narya, gandalf),
+   *                                                                             entry(oneRing, frodo)));
+   * // assertion will fail as actual and expected have different sizes
+   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                                                             entry(nenya, galadriel),
+   *                                                                             entry(narya, gandalf),
+   *                                                                             entry(narya, gandalf)));</code></pre>
+   *
+   * @param map the given {@link Map} with the expected entries to be found in actual.
+   * @return {@code this} assertions object
+   * @throws NullPointerException if the given map is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws IllegalArgumentException if the given map is empty.
+   * @throws AssertionError if the actual map does not contain the entries of the given map, i.e the actual map contains
+   *           some or none of the entries of the given map, or the actual map contains more entries than the entries of
+   *           the given map.
+   * @since 3.13.0
+   */
+  public SELF containsExactlyInAnyOrderEntriesOf(Map<? extends K, ? extends V> map) {
+    return containsOnly(toEntries(map));
+  }
+
+  private Map.Entry<? extends K, ? extends V>[] toEntries(Map<? extends K, ? extends V> map) {
+    return map.entrySet().toArray(new Map.Entry[0]);
   }
 
   /**
