@@ -97,6 +97,9 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
             value -> assumeThat(value).containsExactlyEntriesOf(mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"))),
             value -> assumeThat(value).containsExactlyEntriesOf(mapOf(entry("b", "2"), entry("a", "1"), entry("c", "3")))),
         assumptionRunner(map,
+            value -> assumeThat(value).containsExactlyInAnyOrderEntriesOf(mapOf(entry("a", "1"), entry("c", "3"), entry("b", "2"))),
+            value -> assumeThat(value).containsExactlyInAnyOrderEntriesOf(mapOf(entry("a", "1"), entry("c", "3")))),
+        assumptionRunner(map,
             value -> assumeThat(value).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
                                       .containsExactlyInAnyOrder(tuple("a", "1"), tuple("b", "2"), tuple("c", "3")),
             value -> assumeThat(value).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
