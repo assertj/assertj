@@ -48,9 +48,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceComparator;
 import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
@@ -141,6 +144,108 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public SELF isNotEmpty() {
     iterables.assertNotEmpty(info, actual);
     return myself;
+  }
+
+
+  /**
+   * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveIterableComparisonAssert RecursiveIterableComparisonAssert} assertions.
+   * <p>
+   * The essential underlying idea is the same as {@link RecursiveComparisonAssert}, which a detailed documentation for it is
+   * available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
+   * <br>
+   * The difference being, this api is for recursively comparing iterables and apart from {@link RecursiveIterableComparisonAssert#isEqualTo(Iterable) isEqualTo},
+   * <br>
+   * it also allows the use of iterable assertions like {@link AbstractIterableAssert#contains contains} to be called.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   boolean hasPhd;
+   * }
+   *
+   * public class Doctor {
+   *  String name;
+   *  boolean hasPhd;
+   * }
+   *
+   * Doctor drSheldon = new Doctor("Sheldon Cooper", true);
+   * Doctor drLeonard = new Doctor("Leonard Hofstadter", true);
+   * Doctor drRaj = new Doctor("Raj Koothrappali", true);
+   *
+   * Person sheldon = new Person("Sheldon Cooper", true);
+   * Person leonard = new Person("Leonard Hofstadter", true);
+   * Person raj = new Person("Raj Koothrappali", true);
+   * Person howard = new Person("Howard Wolowitz", false);
+   *
+   * List<Doctor> doctors = Arrays.asList(drSheldon, drLeonard, drRaj);
+   * List<Person> people = Arrays.asList(sheldon, leonard, raj);
+   *
+   * Set<Doctor> doctorsSet = new HashSet<>(doctors);
+   *
+   * // assertion succeeds as both lists contains the same items in same orders.
+   * assertThat(doctors).usingRecursiveComparison().isEqualTo(people);
+   *
+   * // assertion fails because the order of items are different. (HashSet doesn't maintain insertion order)
+   * assertThat(doctors).usingRecursiveComparison().isEqualTo(doctorsSet);
+   *
+   * // assertion succeeds as doctors list does contain sheldon and raj.
+   * assertThat(doctors).usingRecursiveComparison().contains(sheldon, raj);</code></pre>
+   * <p>
+   * The default recursive iterable comparison behavior has the same default configuration as {@link RecursiveComparisonAssert}, that is:
+   * <ul>
+   * <li>elements of actual and expected iterables and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a Doctor (call {@link RecursiveIterableComparisonAssert#withStrictTypeChecking() withStrictTypeChecking()} to change that behavior). </li>
+   * <li>overridden equals methods were used in the comparison (unless stated otherwise)</li>
+   * <li>these types were compared with the following comparators:
+   *   <ul>
+   *   <li>java.lang.Double -&gt; DoubleComparator[precision=1.0E-15] </li>
+   *   <li>java.lang.Float -&gt; FloatComparator[precision=1.0E-6] </li>
+   *   <li>any comparators previously registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} </li>
+   *   </ul>
+   * </li>
+   * </ul>
+   *
+   * <p>
+   * In addition to default behavior, {@link RecursiveIterableComparisonAssert RecursiveIterableComparisonAssert} has few additional points that can be configured:
+   * <ul>
+   * <li>different types of iterables can be compared by default, this allows to compare for example an ArrayList<Person> and a LinkedHashSet<Person>. This behavior can be turned off by calling {@link RecursiveIterableComparisonAssert#withStrictTypeCheckingOnActualIterable() withStrictTypeCheckingOnActualIterable}.</li>
+   * <li>
+   * although different type of iterables can be compared, order does matter. Comparing a List<Person> to a Set<Person> will almost always fail,
+   * but the order of comparison can be configured to be ignored by calling {@link RecursiveIterableComparisonAssert#ignoringActualIterableOrder() igroringActualIterableOrder}.
+   * This allows the comparison of ordered/unordered iterable pairs, such as comparing a a List<Person> to a Set<Person>.
+   * </li>
+   * </ul>
+   * </p>
+   *
+   * <p>
+   * It is also possible to change the behavior of comparison just as the way {@link RecursiveComparisonAssert RecursiveComparisonAssert} allows:
+   * <ul>
+   *   <li>Choosing a strict or lenient recursive comparison (lenient being the default which allows to compare different types like {@code Doctor} and {@code Person} </li>
+   *   <li>Ignoring fields in the comparison </li>
+   *   <li>Specifying comparators to use in the comparison per fields and types</li>
+   *   <li>Forcing recursive comparison on classes that have redefined equals (by default overridden equals are used)</li>
+   * </ul>
+   * <p>
+   * Please consult the detailed documentation available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   *
+   * @return a new {@link RecursiveIterableComparisonAssert} instance
+   */
+  @Beta
+  public RecursiveIterableComparisonAssert<?> usingRecursiveComparison() {
+    return usingRecursiveComparison(new RecursiveComparisonConfiguration());
+  }
+
+  /**
+   * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveIterableComparisonAssert} assertions.
+   *
+   * @return a new {@link RecursiveIterableComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   */
+  @Beta
+  public RecursiveIterableComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    SELF myselfCopy = usingElementComparator(new RecursiveComparisonDifferenceComparator(recursiveComparisonConfiguration));
+    return new RecursiveIterableComparisonAssert<>(actual, recursiveComparisonConfiguration, myselfCopy)
+      .withAssertionState(myselfCopy)
+      .withTypeComparators(comparatorsByType);
   }
 
   /**

@@ -57,6 +57,12 @@ public class RecursiveComparisonConfiguration {
   private Set<FieldLocation> ignoredCollectionOrderInFields = new LinkedHashSet<>();
   private List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
 
+  // RecursiveIterableComparisonAssert configuration section
+  private boolean ignoreActualIterableOrder = false; // ignore the order of iterables when comparing their elements
+  private boolean strictTypeCheckingOnActualIterable = false; // don't allow different type of iterables to be compared (i.e. List vs Set)
+  private boolean allowArrayTypeForExpected = false;
+
+
   // registered comparators section
   private TypeComparators typeComparators = defaultTypeComparators();
   private FieldComparators fieldComparators = new FieldComparators();
@@ -236,6 +242,37 @@ public class RecursiveComparisonConfiguration {
     ignoredCollectionOrderInFieldsMatchingRegexes.addAll(Stream.of(regexes)
                                                                .map(Pattern::compile)
                                                                .collect(toList()));
+  }
+
+  /**
+   * Sets whether to ignore the order of comparison of elements when the Actual is of type Iterable.
+   * <p>
+   * See {@link org.assertj.core.api.RecursiveIterableComparisonAssert#ignoringActualIterableOrder()} for code examples.
+   *
+   * @param ignoreActualIterableOrder whether to the comparison order of elements in actual Iterable.
+   */
+  public void ignoreActualIterableOrder(boolean ignoreActualIterableOrder) {
+    this.ignoreActualIterableOrder = ignoreActualIterableOrder;
+  }
+
+  public boolean getIgnoreActualIterableOrder() {
+    return ignoreActualIterableOrder;
+  }
+
+  public void setStrictTypeCheckingOnActualIterable(boolean strictTypeCheckingOnActualIterable) {
+    this.strictTypeCheckingOnActualIterable = strictTypeCheckingOnActualIterable;
+  }
+
+  public boolean isInStrictTypeCheckingOnActualMode() {
+    return strictTypeCheckingOnActualIterable;
+  }
+
+  public void allowArrayTypeForExpected(boolean allowArrayTypeForExpected) {
+    this.allowArrayTypeForExpected = allowArrayTypeForExpected;
+  }
+
+  public boolean getAllowArrayTypeForExpected() {
+    return allowArrayTypeForExpected;
   }
 
   /**
