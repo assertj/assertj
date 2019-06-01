@@ -41,6 +41,18 @@ import org.junit.runners.model.Statement;
  */
 public class JUnitBDDSoftAssertions extends AbstractBDDSoftAssertions implements TestRule {
 
+  private final SoftProxies proxies;
+
+  public JUnitBDDSoftAssertions() {
+    super();
+    proxies = new SoftProxies();
+  }
+
+  @Override
+  protected SoftProxies getProxies() {
+    return proxies;
+  }
+
   @Override
   public Statement apply(final Statement base, Description description) {
       return softAssertionsStatement(this, base);

@@ -32,6 +32,18 @@ public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
+  protected final SoftProxies proxies;
+
+  public Java6BDDSoftAssertions() {
+    super();
+    proxies = new SoftProxies();
+  }
+
+  @Override
+  protected SoftProxies getProxies() {
+    return proxies;
+  }
+
   /**
    * Verifies that no proxied assertion methods have failed.
    *

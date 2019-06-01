@@ -124,6 +124,18 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
+  protected final SoftProxies proxies;
+
+  public SoftAssertions() {
+    super();
+    proxies = new SoftProxies();
+  }
+
+  @Override
+  protected SoftProxies getProxies() {
+    return proxies;
+  }
+
   /**
    * Verifies that no soft assertions have failed.
    *

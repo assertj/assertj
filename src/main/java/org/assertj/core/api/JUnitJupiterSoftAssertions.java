@@ -16,7 +16,10 @@ import java.util.List;
 
 import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 /**
  * Same as {@link SoftAssertions}, but with the following differences: <br>
@@ -36,13 +39,28 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */
-public class JUnitJupiterSoftAssertions extends AbstractStandardSoftAssertions implements AfterEachCallback {
+public class JUnitJupiterSoftAssertions extends AbstractStandardSoftAssertions implements BeforeEachCallback, AfterEachCallback {
 
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  static final Namespace ASSERTJ_JUNIT_EXTENSION_NAMESPACE = Namespace.create("AssertJ");
+  private static final String SOFT_PROXIES_KEY = "JUnitJupiterSoftAssertions SoftProxies";
+  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private Store store;
+
+  // is used by errorsCollected() which gets the errors from the SoftProxies instance in use when the tests ran.
+  @Override
+  protected SoftProxies getProxies() {
+    return store.get(SOFT_PROXIES_KEY, SoftProxies.class);
+  }
 
   @Override
   public void afterEach(ExtensionContext extensionContext) {
     List<Throwable> errors = errorsCollected();
     if (!errors.isEmpty()) assertionErrorCreator.tryThrowingMultipleFailuresError(errors);
+  }
+
+  @Override
+  public void beforeEach(ExtensionContext extensionContext) throws Exception {
+    store = extensionContext.getStore(ASSERTJ_JUNIT_EXTENSION_NAMESPACE);
+    store.put(SOFT_PROXIES_KEY, new SoftProxies());
   }
 }

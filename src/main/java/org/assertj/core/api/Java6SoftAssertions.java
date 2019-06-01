@@ -30,7 +30,19 @@ import org.assertj.core.error.AssertionErrorCreator;
 @Deprecated
 public class Java6SoftAssertions extends Java6AbstractStandardSoftAssertions {
 
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+
+  protected final SoftProxies proxies;
+
+  public Java6SoftAssertions() {
+    super();
+    proxies = new SoftProxies();
+  }
+
+  @Override
+  protected SoftProxies getProxies() {
+    return proxies;
+  }
 
   /**
    * Verifies that no proxied assertion methods have failed.

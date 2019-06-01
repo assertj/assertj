@@ -50,7 +50,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @since 2.5.0 / 3.5.0
  */
 @CheckReturnValue
-public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
+public abstract class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
   // then* methods duplicated from BDDAssertions
 
   /**

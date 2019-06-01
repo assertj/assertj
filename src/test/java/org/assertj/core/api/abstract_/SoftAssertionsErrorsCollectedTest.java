@@ -12,12 +12,13 @@
  */
 package org.assertj.core.api.abstract_; // Make sure that package-private access is lost
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List;
 
 import org.assertj.core.api.AbstractStandardSoftAssertions;
+import org.assertj.core.api.SoftProxies;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This tests that classes extended from {@link AbstractStandardSoftAssertions} will have access to the list of
@@ -40,6 +41,20 @@ public class SoftAssertionsErrorsCollectedTest {
   }
 
   private class TestCollector extends AbstractStandardSoftAssertions {
+
+    protected final SoftProxies proxies;
+
+    public TestCollector() {
+      super();
+      proxies = new SoftProxies();
+    }
+
+    @Override
+    protected SoftProxies getProxies() {
+      return proxies;
+    }
+
+
     public List<Throwable> getErrors() {
       return errorsCollected();
     }

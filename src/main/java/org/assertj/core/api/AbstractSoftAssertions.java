@@ -19,17 +19,16 @@ import java.util.List;
 
 import org.assertj.core.internal.Failures;
 
-public class AbstractSoftAssertions implements InstanceOfAssertFactories {
-
-  protected final SoftProxies proxies;
+public abstract class AbstractSoftAssertions implements InstanceOfAssertFactories {
 
   public AbstractSoftAssertions() {
-    proxies = new SoftProxies();
   }
 
   public <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
-    return proxies.createSoftAssertionProxy(assertClass, actualClass, actual);
+    return getProxies().createSoftAssertionProxy(assertClass, actualClass, actual);
   }
+
+  protected abstract SoftProxies getProxies();
 
   /**
    * Catch and collect assertion errors coming from standard and <b>custom</b> assertions.
@@ -62,7 +61,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    */
   public void fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
-    proxies.collectError(error);
+    getProxies().collectError(error);
   }
 
   /**
@@ -74,7 +73,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    */
   public void fail(String failureMessage, Object... args) {
     AssertionError error = Failures.instance().failure(String.format(failureMessage, args));
-    proxies.collectError(error);
+    getProxies().collectError(error);
   }
 
   /**
@@ -87,7 +86,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
   public void fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
-    proxies.collectError(error);
+    getProxies().collectError(error);
   }
 
   /**
@@ -116,7 +115,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    */
   public void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     AssertionError error = Failures.instance().expectedThrowableNotThrown(throwableClass);
-    proxies.collectError(error);
+    getProxies().collectError(error);
   }
 
   /**
@@ -124,7 +123,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * @return a copy of list of soft assertions collected errors.
    */
   public List<Throwable> errorsCollected() {
-    return decorateErrorsCollected(proxies.errorsCollected());
+    return decorateErrorsCollected(getProxies().errorsCollected());
   }
 
   /**
@@ -149,7 +148,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * @return true if the last assertion was a success.
    */
   public boolean wasSuccess() {
-    return proxies.wasSuccess();
+    return getProxies().wasSuccess();
   }
 
   private List<Throwable> addLineNumberToErrorMessages(List<Throwable> errors) {

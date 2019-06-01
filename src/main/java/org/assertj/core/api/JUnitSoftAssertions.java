@@ -38,6 +38,18 @@ import org.junit.runners.model.Statement;
  */
 public class JUnitSoftAssertions extends AbstractStandardSoftAssertions implements TestRule {
 
+  protected final SoftProxies proxies;
+
+  public JUnitSoftAssertions() {
+    super();
+    proxies = new SoftProxies();
+  }
+
+  @Override
+  protected SoftProxies getProxies() {
+    return proxies;
+  }
+
   @Override
   public Statement apply(final Statement base, Description description) {
     return softAssertionsStatement(this, base);
