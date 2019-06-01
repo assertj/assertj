@@ -288,8 +288,8 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link Future}.
    *
-   * @param <RESULT>    the {@code Future} result type.
-   * @param resultType  the result type instance.
+   * @param <RESULT>   the {@code Future} result type.
+   * @param resultType the result type instance.
    * @return the factory instance.
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
@@ -338,6 +338,20 @@ public interface InstanceOfAssertFactories {
    */
   InstanceOfAssertFactory<long[], AbstractLongArrayAssert<?>> LONG_ARRAY = new InstanceOfAssertFactory<>(long[].class,
                                                                                                          Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for an object of a specific type.
+   * <p>
+   * <b>While this factory ensures that {@code actual} is an instance of the input type, it creates always
+   * an {@link ObjectAssert} with the corresponding type.</b>
+   *
+   * @param <T>  the object type.
+   * @param type the object type instance.
+   * @return the factory instance.
+   */
+  static <T> InstanceOfAssertFactory<T, ObjectAssert<T>> type(Class<T> type) {
+    return new InstanceOfAssertFactory<>(type, Assertions::assertThat);
+  }
 
   /**
    * {@link InstanceOfAssertFactory} for an array of {@link Object}.
@@ -616,6 +630,18 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for a {@link CharSequence}.
    */
   InstanceOfAssertFactory<CharSequence, AbstractCharSequenceAssert<?, ? extends CharSequence>> CHAR_SEQUENCE = new InstanceOfAssertFactory<>(CharSequence.class,
+                                                                                                                                             Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link StringBuilder}.
+   */
+  InstanceOfAssertFactory<StringBuilder, AbstractCharSequenceAssert<?, ? extends CharSequence>> STRING_BUILDER = new InstanceOfAssertFactory<>(StringBuilder.class,
+                                                                                                                                               Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link StringBuffer}.
+   */
+  InstanceOfAssertFactory<StringBuffer, AbstractCharSequenceAssert<?, ? extends CharSequence>> STRING_BUFFER = new InstanceOfAssertFactory<>(StringBuffer.class,
                                                                                                                                              Assertions::assertThat);
 
   /**

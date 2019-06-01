@@ -61,6 +61,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URI;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL;
@@ -84,6 +86,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.assertj.core.api.InstanceOfAssertFactories.optional;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.mockito.Mockito.mock;
 
@@ -508,6 +511,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void type_factory_should_allow_typed_object_assertions() {
+    // GIVEN
+    Object value = "string";
+    // WHEN
+    ObjectAssert<String> result = assertThat(value).asInstanceOf(type(String.class));
+    // THEN
+    result.extracting(String::isEmpty).isEqualTo(false);
+  }
+
+  @Test
   void array_factory_should_allow_array_assertions() {
     // GIVEN
     Object value = new Object[] { 0, "" };
@@ -834,6 +847,26 @@ class InstanceOfAssertFactoriesTest {
     Object value = "string";
     // WHEN
     AbstractCharSequenceAssert<?, ? extends CharSequence> result = assertThat(value).asInstanceOf(CHAR_SEQUENCE);
+    // THEN
+    result.startsWith("str");
+  }
+
+  @Test
+  void string_builder_factory_should_allow_char_sequence_assertions() {
+    // GIVEN
+    Object value = new StringBuilder("string");
+    // WHEN
+    AbstractCharSequenceAssert<?, ? extends CharSequence> result = assertThat(value).asInstanceOf(STRING_BUILDER);
+    // THEN
+    result.startsWith("str");
+  }
+
+  @Test
+  void string_buffer_factory_should_allow_char_sequence_assertions() {
+    // GIVEN
+    Object value = new StringBuffer("string");
+    // WHEN
+    AbstractCharSequenceAssert<?, ? extends CharSequence> result = assertThat(value).asInstanceOf(STRING_BUFFER);
     // THEN
     result.startsWith("str");
   }
