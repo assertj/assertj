@@ -32,6 +32,21 @@ public class AbstractSoftAssertions {
   }
 
   /**
+   * Catch and collect assertion errors of any assertion call.
+   *
+   * @param assertion an assertion call.
+   */
+  public void check(ThrowingRunnable assertion) {
+    try {
+      assertion.run();
+    } catch (AssertionError error) {
+      proxies.collectError(error);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
    * Fails with the given message.
    *
    * @param failureMessage error message.
@@ -40,14 +55,6 @@ public class AbstractSoftAssertions {
   public void fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
     proxies.collectError(error);
-  }
-  
-  public void check(ThrowingRunnable assertion) throws Exception{
-      try {
-        assertion.run();
-      } catch (AssertionError error) {
-        proxies.collectError(error);
-      }
   }
 
   /**

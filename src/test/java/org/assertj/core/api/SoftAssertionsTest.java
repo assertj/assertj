@@ -152,6 +152,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  public void should_collect_soft_check_assertion() {
+    softly.check(() -> assertThat(true).isFalse());
+    softly.check(() -> assertThat(true).isTrue());
+    assertThat(softly.errorsCollected()).hasSize(1);
+  }
+
+  @Test
   public void all_assertions_should_pass() {
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
