@@ -32,6 +32,29 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Catch and collect assertion errors coming from standard and <b>custom</b> assertions.
+   * <p>
+   * Example :
+   * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
+   * softly.check(() -&gt; Assertions.assertThat(…).…);
+   * softly.check(() -&gt; CustomAssertions.assertThat(…).…);
+   * softly.assertAll(); </code></pre>
+   *
+   * @param assertion an assertion call.
+   */
+  public void check(ThrowingRunnable assertion) {
+    try {
+      assertion.run();
+    } catch (AssertionError error) {
+      proxies.collectError(error);
+    } catch (RuntimeException runtimeException) {
+      throw runtimeException;
+    } catch (Exception exception) {
+      throw new RuntimeException(exception);
+    }
+  }
+
+  /**
    * Fails with the given message.
    *
    * @param failureMessage error message.
@@ -186,5 +209,9 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
 
   private boolean isProxiedAssertionClass(String className) {
     return className.contains("$ByteBuddy$");
+  }
+
+  public interface ThrowingRunnable {
+    void run() throws Exception;
   }
 }

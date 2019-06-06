@@ -28,7 +28,7 @@ public class CustomSoftAssertionsLineNumberTest {
   // ignore because of failure only happening in Travis CI https://travis-ci.org/joel-costigliola/assertj-core/builds/351639100
   @Test
   @Disabled
-  public void should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package() {
+  public void should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package() throws Exception {
     // GIVEN
     MyProjectSoftAssertions softly = new MyProjectSoftAssertions();
     softly.assertThat(new MyProjectClass("v1")).hasValue("v2");
