@@ -32,7 +32,16 @@ public class AbstractSoftAssertions {
   }
 
   /**
-   * Catch and collect assertion errors of any assertion call.
+   * Catch and collect assertion errors of any assertion call,
+   * e.g in case you want to handle different or custom assertions:
+   * <pre>
+   * {@code
+   *     SoftAssertions softly = new SoftAssertions();
+   *     softly.check(() -> Assertions.assertThat(…).…);
+   *     softly.check(() -> CustomAssertions.assertThat(…).…);
+   *     softly.assertAll();
+   * }
+   * </pre>
    *
    * @param assertion an assertion call.
    */
