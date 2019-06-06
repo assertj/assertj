@@ -152,7 +152,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_soft_check_assertion() {
+  public void should_collect_soft_check_assertion() throws Exception {
     softly.check(() -> assertThat(true).isFalse());
     softly.check(() -> assertThat(true).isTrue());
     assertThat(softly.errorsCollected()).hasSize(1);

@@ -36,13 +36,11 @@ public class AbstractSoftAssertions {
    *
    * @param assertion an assertion call.
    */
-  public void check(ThrowingRunnable assertion) {
+  public void check(ThrowingRunnable assertion) throws Exception {
     try {
       assertion.run();
     } catch (AssertionError error) {
       proxies.collectError(error);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
     }
   }
 
