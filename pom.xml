@@ -357,10 +357,19 @@
       </activation>
       <properties>
         <sonar.skip>true</sonar.skip>
-        <!-- currently fails with "javadoc: error - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/
-          are in the unnamed module." -->
-        <maven.javadoc.skip>true</maven.javadoc.skip>
       </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+              <source>8</source>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
