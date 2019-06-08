@@ -16,6 +16,7 @@ import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
@@ -366,10 +367,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /** {@inheritDoc} */
+  @SuppressWarnings("unchecked")
   @Override
   @CheckReturnValue
-  public <ASSERT extends Assert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
-    return instanceOfAssertFactory.createAssert(actual);
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
+    requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory").create());
+    objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getType());
+    return (ASSERT) instanceOfAssertFactory.createAssert(actual).withAssertionState(myself);
   }
 
   /** {@inheritDoc} */
