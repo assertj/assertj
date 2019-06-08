@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.2.2</version>
+    <version>2.2.3</version>
     <relativePath />
   </parent>
   <mailingLists>
@@ -357,9 +357,6 @@
       </activation>
       <properties>
         <sonar.skip>true</sonar.skip>
-        <!-- currently fails with "javadoc: error - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/
-          are in the unnamed module." -->
-        <maven.javadoc.skip>true</maven.javadoc.skip>
       </properties>
     </profile>
   </profiles>
