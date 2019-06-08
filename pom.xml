@@ -290,6 +290,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <!-- needed to fix javadoc on java 11+ https://github.com/joel-costigliola/assertj-core/issues/1403 -->
+          <source>8</source>
           <!-- (1) CSS file location -->
           <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
           <!-- (2) Highlight Javascript file -->
@@ -357,9 +359,6 @@
       </activation>
       <properties>
         <sonar.skip>true</sonar.skip>
-        <!-- currently fails with "javadoc: error - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/
-          are in the unnamed module." -->
-        <maven.javadoc.skip>true</maven.javadoc.skip>
       </properties>
     </profile>
   </profiles>
