@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.InstanceOfAssertFactories.array;
+import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.data.MapEntry.entry;
 
@@ -50,9 +50,10 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
     Map<Type, Type> factories = Stream.of(findFieldFactoryTypes(), findMethodFactoryTypes())
                                       .map(Map::entrySet)
                                       .flatMap(Collection::stream)
+                                      .distinct()
                                       .collect(toMap(Entry::getKey, Entry::getValue));
     // THEN
-    then(assertThatMethods).containsOnly(factories.entrySet().toArray(new Map.Entry[0]));
+    then(factories).containsOnly(assertThatMethods.entrySet().toArray(new Map.Entry[0]));
   }
 
   private Map<Type, Type> findAssertThatParameterAndReturnTypes() {
@@ -95,14 +96,13 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
                  .map(Method::getGenericReturnType)
                  .map(this::extractTypeParameters)
                  .filter(not(this::ignoredFactory))
-                 .distinct()
                  .collect(toMap(Entry::getKey, Entry::getValue));
   }
 
   private Entry<Type, Type> extractTypeParameters(Type type) {
     assertThat(type).asInstanceOf(type(ParameterizedType.class))
                     .returns(InstanceOfAssertFactory.class, from(ParameterizedType::getRawType))
-                    .extracting(ParameterizedType::getActualTypeArguments).asInstanceOf(array()).hasSize(2);
+                    .extracting(ParameterizedType::getActualTypeArguments).asInstanceOf(ARRAY).hasSize(2);
     Type[] typeArguments = ((ParameterizedType) type).getActualTypeArguments();
     return entry(normalize(typeArguments[0]), normalize(typeArguments[1]));
   }
