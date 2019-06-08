@@ -12,18 +12,20 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
-import static org.mockito.BDDMockito.willReturn;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assert;
+import org.assertj.core.api.AbstractAssertBaseTest;
+import org.assertj.core.api.AbstractLongAssert;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.presentation.UnicodeRepresentation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
@@ -32,39 +34,53 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author Stefano Cordio
  */
 @ExtendWith(MockitoExtension.class)
-class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test {
+class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test extends AbstractAssertBaseTest {
 
-  private AbstractAssert<?, ?> underTest;
+  @Override
+  protected ConcreteAssert invoke_api_method() {
+    assertions.asInstanceOf(LONG);
+    return null;
+  }
 
-  @Mock
-  private InstanceOfAssertFactory<?, ?> mockFactory;
+  @Override
+  protected void verify_internal_effects() {
+    verify(objects).assertIsInstanceOf(getInfo(assertions), getActual(assertions), Long.class);
+  }
 
-  @Mock
-  private Assert<?, ?> mockAssert;
-
-  private final Object actual = 6L;
-
-  @BeforeEach
-  void setUp() {
-    underTest = new ConcreteAssert(actual);
+  @Override
+  public void should_return_this() {
+    // Test disabled since asInstanceOf does not return this.
   }
 
   @Test
-  void should_return_factory_result() {
-    // GIVEN
-    willReturn(mockAssert).given(mockFactory).createAssert(actual);
+  void should_throw_npe_if_no_factory_is_given() {
     // WHEN
-    Assert<?, ?> result = underTest.asInstanceOf(mockFactory);
+    Throwable thrown = catchThrowable(() -> assertions.asInstanceOf(null));
     // THEN
-    assertThat(result).isSameAs(mockAssert);
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
   }
 
   @Test
-  public void can_call_narrowed_type_assertions() {
-    // GIVEN
-    Object value = "abc";
+  void should_return_narrowed_assert_type() {
+    // WHEN
+    AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
     // THEN
-    assertThat(value).asInstanceOf(CHAR_SEQUENCE).startsWith("ab");
+    then(result).isInstanceOf(AbstractLongAssert.class);
+  }
+
+  @Test
+  void should_keep_existing_assertion_state() {
+    // GIVEN
+    assertions.as("description")
+              .overridingErrorMessage("error message")
+              .withRepresentation(new UnicodeRepresentation());
+    // WHEN
+    AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
+    // THEN
+    then(result).hasFieldOrPropertyWithValue("objects", objects)
+                .extracting(AbstractAssert::getWritableAssertionInfo)
+                .isEqualToComparingFieldByField(getInfo(assertions));
   }
 
 }

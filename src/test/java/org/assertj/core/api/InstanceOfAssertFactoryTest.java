@@ -14,9 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.BDDMockito.willReturn;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -31,13 +29,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class InstanceOfAssertFactoryTest {
 
-  private InstanceOfAssertFactory<Integer, Assert<?, ?>> underTest;
+  private InstanceOfAssertFactory<Integer, AbstractAssert<?, ?>> underTest;
 
   @Mock
-  private AssertFactory<Integer, Assert<?, ?>> mockAssertFactory;
+  private AssertFactory<Integer, AbstractAssert<?, ?>> mockAssertFactory;
 
   @Mock
-  private Assert<?, ?> mockAssert;
+  private AbstractAssert<?, ?> mockAssert;
 
   @BeforeEach
   void setUp() {
@@ -79,9 +77,10 @@ class InstanceOfAssertFactoryTest {
     // GIVEN
     String value = "string";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.createAssert(value));
+    Throwable throwable = catchThrowable(() -> underTest.createAssert(value));
     // THEN
-    then(error).hasMessage(shouldBeInstance("string", Integer.class).create());
+    then(throwable).isInstanceOf(ClassCastException.class)
+                   .hasMessage("Cannot cast %s to %s", value.getClass().getName(), underTest.getType().getName());
   }
 
 }

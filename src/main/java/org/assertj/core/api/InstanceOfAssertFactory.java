@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 
 /**
@@ -25,7 +24,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
  * @author Stefano Cordio
  * @since 3.13.0
  */
-public class InstanceOfAssertFactory<T, ASSERT extends Assert<?, ?>> implements AssertFactory<Object, ASSERT> {
+public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> implements AssertFactory<Object, ASSERT> {
 
   private final Class<T> type;
   private final AssertFactory<T, ASSERT> assertFactory;
@@ -41,10 +40,13 @@ public class InstanceOfAssertFactory<T, ASSERT extends Assert<?, ?>> implements 
     this.assertFactory = requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
   }
 
+  Class<T> getType() {
+    return type;
+  }
+
   /** {@inheritDoc} */
   @Override
   public ASSERT createAssert(Object value) {
-    assertThat(value).isInstanceOf(type);
     return assertFactory.createAssert(type.cast(value));
   }
 
