@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.InstanceOfAssertFactories.array;
+import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.data.MapEntry.entry;
 
@@ -35,14 +35,13 @@ import org.junit.jupiter.api.Test;
 
 class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertionsTest {
 
-  private static final Class[] IGNORED_ASSERT_TYPES = {
+  private static final Class<?>[] IGNORED_ASSERT_TYPES = {
       // ObjectArrayAssert is ignored because the comparison of the input GenericArrayTypes will always fail, since
       // it verifies the inner TypeVariable which returns the defining Method as result of TypeVariable#getGenericDeclaration()
       ObjectArrayAssert.class
   };
 
   @Test
-  @SuppressWarnings("unchecked")
   void each_standard_assertion_should_have_an_instance_of_assert_factory() {
     // GIVEN
     Map<Type, Type> assertThatMethods = findAssertThatParameterAndReturnTypes();
@@ -50,14 +49,16 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
     Map<Type, Type> factories = Stream.of(findFieldFactoryTypes(), findMethodFactoryTypes())
                                       .map(Map::entrySet)
                                       .flatMap(Collection::stream)
+                                      .distinct()
                                       .collect(toMap(Entry::getKey, Entry::getValue));
     // THEN
-    then(assertThatMethods).containsOnly(factories.entrySet().toArray(new Map.Entry[0]));
+    then(factories).hasSameSizeAs(assertThatMethods)
+                   .containsAllEntriesOf(assertThatMethods);
   }
 
   private Map<Type, Type> findAssertThatParameterAndReturnTypes() {
     return Stream.of(findMethodsWithName(Assertions.class, "assertThat", ignoredReturnTypes()))
-                 .map(m -> entry(normalize(genericParameterType(m)), normalize(m.getGenericReturnType())))
+                 .map(method -> entry(normalize(genericParameterType(method)), normalize(method.getGenericReturnType())))
                  .filter(not(this::isPrimitiveTypeKey))
                  .collect(toMap(Entry::getKey, Entry::getValue));
   }
@@ -76,7 +77,7 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
 
   private <K, V> boolean isPrimitiveTypeKey(Entry<K, V> entry) {
     if (entry.getKey() instanceof Class) {
-      return ((Class) entry.getKey()).isPrimitive();
+      return ((Class<?>) entry.getKey()).isPrimitive();
     }
     return false;
   }
@@ -95,14 +96,15 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
                  .map(Method::getGenericReturnType)
                  .map(this::extractTypeParameters)
                  .filter(not(this::ignoredFactory))
-                 .distinct()
                  .collect(toMap(Entry::getKey, Entry::getValue));
   }
 
   private Entry<Type, Type> extractTypeParameters(Type type) {
     assertThat(type).asInstanceOf(type(ParameterizedType.class))
                     .returns(InstanceOfAssertFactory.class, from(ParameterizedType::getRawType))
-                    .extracting(ParameterizedType::getActualTypeArguments).asInstanceOf(array()).hasSize(2);
+                    .extracting(ParameterizedType::getActualTypeArguments)
+                    .asInstanceOf(ARRAY)
+                    .hasSize(2);
     Type[] typeArguments = ((ParameterizedType) type).getActualTypeArguments();
     return entry(normalize(typeArguments[0]), normalize(typeArguments[1]));
   }
@@ -111,7 +113,7 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
     if (type instanceof ParameterizedType) {
       return ((ParameterizedType) type).getRawType();
     } else if (type instanceof TypeVariable) {
-      Type[] bounds = ((TypeVariable) type).getBounds();
+      Type[] bounds = ((TypeVariable<?>) type).getBounds();
       assertThat(bounds).hasSize(1);
       return normalize(bounds[0]);
     }

@@ -16,11 +16,19 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_FIELD_UPDATER;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG_ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG_FIELD_UPDATER;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_MARKABLE_REFERENCE;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_REFERENCE;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_REFERENCE_ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_REFERENCE_FIELD_UPDATER;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_STAMPED_REFERENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
@@ -31,6 +39,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
+import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
+import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
@@ -39,12 +49,16 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
+import static org.assertj.core.api.InstanceOfAssertFactories.ITERABLE;
+import static org.assertj.core.api.InstanceOfAssertFactories.ITERATOR;
+import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_TIME;
@@ -52,14 +66,18 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_STREAM;
+import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_TIME;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_INT;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
+import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
@@ -145,7 +163,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = (Predicate<Object>) Objects::isNull;
     // WHEN
-    PredicateAssert<Object> result = assertThat(value).asInstanceOf(predicate());
+    PredicateAssert<Object> result = assertThat(value).asInstanceOf(PREDICATE);
     // THEN
     result.accepts((Object) null);
   }
@@ -195,7 +213,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = completedFuture("done");
     // WHEN
-    CompletableFutureAssert<Object> result = assertThat(value).asInstanceOf(completableFuture());
+    CompletableFutureAssert<Object> result = assertThat(value).asInstanceOf(COMPLETABLE_FUTURE);
     // THEN
     result.isDone();
   }
@@ -215,7 +233,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = completedFuture("done");
     // WHEN
-    CompletableFutureAssert<Object> result = assertThat(value).asInstanceOf(completionStage());
+    CompletableFutureAssert<Object> result = assertThat(value).asInstanceOf(COMPLETION_STAGE);
     // THEN
     result.isDone();
   }
@@ -235,7 +253,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = Optional.of("something");
     // WHEN
-    OptionalAssert<Object> result = assertThat(value).asInstanceOf(optional());
+    OptionalAssert<Object> result = assertThat(value).asInstanceOf(OPTIONAL);
     // THEN
     result.isPresent();
   }
@@ -425,7 +443,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = mock(Future.class);
     // WHEN
-    FutureAssert<Object> result = assertThat(value).asInstanceOf(future());
+    FutureAssert<Object> result = assertThat(value).asInstanceOf(FUTURE);
     // THEN
     result.isNotDone();
   }
@@ -525,7 +543,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = new Object[] { 0, "" };
     // WHEN
-    ObjectArrayAssert<Object> result = assertThat(value).asInstanceOf(array());
+    ObjectArrayAssert<Object> result = assertThat(value).asInstanceOf(ARRAY);
     // THEN
     result.containsExactly(0, "");
   }
@@ -675,7 +693,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = AtomicIntegerFieldUpdater.newUpdater(VolatileFieldContainer.class, "intField");
     // WHEN
-    AtomicIntegerFieldUpdaterAssert<Object> result = assertThat(value).asInstanceOf(atomicIntegerFieldUpdater());
+    AtomicIntegerFieldUpdaterAssert<Object> result = assertThat(value).asInstanceOf(ATOMIC_INTEGER_FIELD_UPDATER);
     // THEN
     result.hasValue(0, new VolatileFieldContainer());
   }
@@ -715,7 +733,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = AtomicLongFieldUpdater.newUpdater(VolatileFieldContainer.class, "longField");
     // WHEN
-    AtomicLongFieldUpdaterAssert<Object> result = assertThat(value).asInstanceOf(atomicLongFieldUpdater());
+    AtomicLongFieldUpdaterAssert<Object> result = assertThat(value).asInstanceOf(ATOMIC_LONG_FIELD_UPDATER);
     // THEN
     result.hasValue(0L, new VolatileFieldContainer());
   }
@@ -735,7 +753,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = new AtomicReference<>();
     // WHEN
-    AtomicReferenceAssert<Object> result = assertThat(value).asInstanceOf(atomicReference());
+    AtomicReferenceAssert<Object> result = assertThat(value).asInstanceOf(ATOMIC_REFERENCE);
     // THEN
     result.hasValue(null);
   }
@@ -755,7 +773,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = new AtomicReferenceArray<>(new Object[] { 0, "" });
     // WHEN
-    AtomicReferenceArrayAssert<Object> result = assertThat(value).asInstanceOf(atomicReferenceArray());
+    AtomicReferenceArrayAssert<Object> result = assertThat(value).asInstanceOf(ATOMIC_REFERENCE_ARRAY);
     // THEN
     result.containsExactly(0, "");
   }
@@ -775,7 +793,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = AtomicReferenceFieldUpdater.newUpdater(VolatileFieldContainer.class, String.class, "stringField");
     // WHEN
-    AtomicReferenceFieldUpdaterAssert<Object, Object> result = assertThat(value).asInstanceOf(atomicReferenceFieldUpdater());
+    AtomicReferenceFieldUpdaterAssert<Object, Object> result = assertThat(value).asInstanceOf(ATOMIC_REFERENCE_FIELD_UPDATER);
     // THEN
     result.hasValue(null, new VolatileFieldContainer());
   }
@@ -796,7 +814,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = new AtomicMarkableReference<>(null, false);
     // WHEN
-    AtomicMarkableReferenceAssert<Object> result = assertThat(value).asInstanceOf(atomicMarkableReference());
+    AtomicMarkableReferenceAssert<Object> result = assertThat(value).asInstanceOf(ATOMIC_MARKABLE_REFERENCE);
     // THEN
     result.hasReference(null);
   }
@@ -816,7 +834,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = new AtomicStampedReference<>(null, 0);
     // WHEN
-    AtomicStampedReferenceAssert<Object> result = assertThat(value).asInstanceOf(atomicStampedReference());
+    AtomicStampedReferenceAssert<Object> result = assertThat(value).asInstanceOf(ATOMIC_STAMPED_REFERENCE);
     // THEN
     result.hasReference(null);
   }
@@ -886,7 +904,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
-    IterableAssert<Object> result = assertThat(value).asInstanceOf(iterable());
+    IterableAssert<Object> result = assertThat(value).asInstanceOf(ITERABLE);
     // THEN
     result.contains("Bart", "Lisa");
   }
@@ -906,7 +924,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
     // WHEN
-    IteratorAssert<Object> result = assertThat(value).asInstanceOf(iterator());
+    IteratorAssert<Object> result = assertThat(value).asInstanceOf(ITERATOR);
     // THEN
     result.hasNext();
   }
@@ -926,7 +944,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
-    ListAssert<Object> result = assertThat(value).asInstanceOf(list());
+    ListAssert<Object> result = assertThat(value).asInstanceOf(LIST);
     // THEN
     result.contains("Bart", "Lisa");
   }
@@ -946,7 +964,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = Stream.of(1, 2, 3);
     // WHEN
-    ListAssert<Object> result = assertThat(value).asInstanceOf(stream());
+    ListAssert<Object> result = assertThat(value).asInstanceOf(STREAM);
     // THEN
     result.containsExactly(1, 2, 3);
   }
@@ -1006,7 +1024,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = mapOf(entry("key", "value"));
     // WHEN
-    MapAssert<Object, Object> result = assertThat(value).asInstanceOf(map());
+    MapAssert<Object, Object> result = assertThat(value).asInstanceOf(MAP);
     // THEN
     result.containsExactly(entry("key", "value"));
   }

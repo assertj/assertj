@@ -68,13 +68,11 @@ public interface InstanceOfAssertFactories {
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Predicate}, assuming {@code Object} as input type.
-   *
-   * @return the factory instance.
+   * 
+   * @see #predicate(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<Predicate, PredicateAssert<Object>> predicate() {
-    return predicate(Object.class);
-  }
+  InstanceOfAssertFactory<Predicate, PredicateAssert<Object>> PREDICATE = predicate(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Predicate}.
@@ -82,6 +80,8 @@ public interface InstanceOfAssertFactories {
    * @param <T>  the {@code Predicate} input type.
    * @param type the input type instance.
    * @return the factory instance.
+   * 
+   * @see #PREDICATE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <T> InstanceOfAssertFactory<Predicate, PredicateAssert<T>> predicate(Class<T> type) {
@@ -109,12 +109,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link CompletableFuture}, assuming {@code Object} as result type.
    *
-   * @return the factory instance.
+   * @see #completableFuture(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<Object>> completableFuture() {
-    return completableFuture(Object.class);
-  }
+  InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<Object>> COMPLETABLE_FUTURE = completableFuture(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link CompletableFuture}.
@@ -122,6 +120,8 @@ public interface InstanceOfAssertFactories {
    * @param <RESULT>   the {@code CompletableFuture} result type.
    * @param resultType the result type instance.
    * @return the factory instance.
+   *
+   * @see #COMPLETABLE_FUTURE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <RESULT> InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<RESULT>> completableFuture(Class<RESULT> resultType) {
@@ -131,12 +131,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link CompletionStage}, assuming {@code Object} as result type.
    *
-   * @return the factory instance.
+   * @see #completionStage(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<Object>> completionStage() {
-    return completionStage(Object.class);
-  }
+  InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<Object>> COMPLETION_STAGE = completionStage(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link CompletionStage}.
@@ -144,6 +142,8 @@ public interface InstanceOfAssertFactories {
    * @param <RESULT>   the {@code CompletionStage} result type.
    * @param resultType the result type instance.
    * @return the factory instance.
+   *
+   * @see #COMPLETION_STAGE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <RESULT> InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<RESULT>> completionStage(Class<RESULT> resultType) {
@@ -153,12 +153,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link Optional}, assuming {@code Object} as value type.
    *
-   * @return the factory instance.
+   * @see #optional(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<Optional, OptionalAssert<Object>> optional() {
-    return optional(Object.class);
-  }
+  InstanceOfAssertFactory<Optional, OptionalAssert<Object>> OPTIONAL = optional(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link Optional}.
@@ -166,6 +164,8 @@ public interface InstanceOfAssertFactories {
    * @param <VALUE>    the {@code Optional} value type.
    * @param resultType the value type instance.
    * @return the factory instance.
+   *
+   * @see #OPTIONAL
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <VALUE> InstanceOfAssertFactory<Optional, OptionalAssert<VALUE>> optional(Class<VALUE> resultType) {
@@ -278,12 +278,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link Future}, assuming {@code Object} as result type.
    *
-   * @return the factory instance.
+   * @see #future(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<Future, FutureAssert<Object>> future() {
-    return future(Object.class);
-  }
+  InstanceOfAssertFactory<Future, FutureAssert<Object>> FUTURE = future(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Future}.
@@ -291,6 +289,8 @@ public interface InstanceOfAssertFactories {
    * @param <RESULT>   the {@code Future} result type.
    * @param resultType the result type instance.
    * @return the factory instance.
+   *
+   * @see #FUTURE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <RESULT> InstanceOfAssertFactory<Future, FutureAssert<RESULT>> future(Class<RESULT> resultType) {
@@ -356,11 +356,9 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an array of {@link Object}.
    *
-   * @return the factory instance.
+   * @see #array(Class)
    */
-  static InstanceOfAssertFactory<Object[], ObjectArrayAssert<Object>> array() {
-    return array(Object[].class);
-  }
+  InstanceOfAssertFactory<Object[], ObjectArrayAssert<Object>> ARRAY = array(Object[].class);
 
   /**
    * {@link InstanceOfAssertFactory} for an array of elements.
@@ -368,6 +366,8 @@ public interface InstanceOfAssertFactories {
    * @param <ELEMENT> the element type.
    * @param arrayType the element type instance.
    * @return the factory instance.
+   * 
+   * @see #ARRAY
    */
   static <ELEMENT> InstanceOfAssertFactory<ELEMENT[], ObjectArrayAssert<ELEMENT>> array(Class<ELEMENT[]> arrayType) {
     return new InstanceOfAssertFactory<>(arrayType, Assertions::assertThat);
@@ -454,12 +454,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicIntegerFieldUpdater}, assuming {@code Object} as object type.
    *
-   * @return the factory instance.
+   * @see #atomicIntegerFieldUpdater(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<AtomicIntegerFieldUpdater, AtomicIntegerFieldUpdaterAssert<Object>> atomicIntegerFieldUpdater() {
-    return atomicIntegerFieldUpdater(Object.class);
-  }
+  InstanceOfAssertFactory<AtomicIntegerFieldUpdater, AtomicIntegerFieldUpdaterAssert<Object>> ATOMIC_INTEGER_FIELD_UPDATER = atomicIntegerFieldUpdater(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicIntegerFieldUpdater}.
@@ -467,6 +465,8 @@ public interface InstanceOfAssertFactories {
    * @param <OBJECT>   the {@code AtomicIntegerFieldUpdater} object type.
    * @param objectType the object type instance.
    * @return the factory instance.
+   * 
+   * @see #ATOMIC_INTEGER_FIELD_UPDATER
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <OBJECT> InstanceOfAssertFactory<AtomicIntegerFieldUpdater, AtomicIntegerFieldUpdaterAssert<OBJECT>> atomicIntegerFieldUpdater(Class<OBJECT> objectType) {
@@ -488,12 +488,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicLongFieldUpdater}, assuming {@code Object} as object type.
    *
-   * @return the factory instance.
+   * @see #atomicLongFieldUpdater(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<AtomicLongFieldUpdater, AtomicLongFieldUpdaterAssert<Object>> atomicLongFieldUpdater() {
-    return atomicLongFieldUpdater(Object.class);
-  }
+  InstanceOfAssertFactory<AtomicLongFieldUpdater, AtomicLongFieldUpdaterAssert<Object>> ATOMIC_LONG_FIELD_UPDATER = atomicLongFieldUpdater(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicIntegerFieldUpdater}.
@@ -501,6 +499,8 @@ public interface InstanceOfAssertFactories {
    * @param <OBJECT>   the {@code AtomicLongFieldUpdater} object type.
    * @param objectType the object type instance.
    * @return the factory instance.
+   *
+   * @see #ATOMIC_LONG_FIELD_UPDATER
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <OBJECT> InstanceOfAssertFactory<AtomicLongFieldUpdater, AtomicLongFieldUpdaterAssert<OBJECT>> atomicLongFieldUpdater(Class<OBJECT> objectType) {
@@ -510,12 +510,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReference}, assuming {@code Object} as value type.
    *
-   * @return the factory instance.
+   * @see #atomicReference(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<AtomicReference, AtomicReferenceAssert<Object>> atomicReference() {
-    return atomicReference(Object.class);
-  }
+  InstanceOfAssertFactory<AtomicReference, AtomicReferenceAssert<Object>> ATOMIC_REFERENCE = atomicReference(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReference}.
@@ -523,6 +521,8 @@ public interface InstanceOfAssertFactories {
    * @param <VALUE>   the {@code AtomicReference} value type.
    * @param valueType the value type instance.
    * @return the factory instance.
+   *
+   * @see #ATOMIC_REFERENCE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <VALUE> InstanceOfAssertFactory<AtomicReference, AtomicReferenceAssert<VALUE>> atomicReference(Class<VALUE> valueType) {
@@ -532,12 +532,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReferenceArray}, assuming {@code Object} as element type.
    *
-   * @return the factory instance.
+   * @see #atomicReferenceArray(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<AtomicReferenceArray, AtomicReferenceArrayAssert<Object>> atomicReferenceArray() {
-    return atomicReferenceArray(Object.class);
-  }
+  InstanceOfAssertFactory<AtomicReferenceArray, AtomicReferenceArrayAssert<Object>> ATOMIC_REFERENCE_ARRAY = atomicReferenceArray(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReferenceArray}.
@@ -545,6 +543,8 @@ public interface InstanceOfAssertFactories {
    * @param <ELEMENT>   the {@code AtomicReferenceArray} element type.
    * @param elementType the element type instance.
    * @return the factory instance.
+   *
+   * @see #ATOMIC_REFERENCE_ARRAY
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <ELEMENT> InstanceOfAssertFactory<AtomicReferenceArray, AtomicReferenceArrayAssert<ELEMENT>> atomicReferenceArray(Class<ELEMENT> elementType) {
@@ -554,12 +554,11 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReferenceFieldUpdater}, assuming {@code Object} as field and object types.
    *
-   * @return the factory instance.
+   * @see #atomicReferenceFieldUpdater(Class, Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<AtomicReferenceFieldUpdater, AtomicReferenceFieldUpdaterAssert<Object, Object>> atomicReferenceFieldUpdater() {
-    return atomicReferenceFieldUpdater(Object.class, Object.class);
-  }
+  InstanceOfAssertFactory<AtomicReferenceFieldUpdater, AtomicReferenceFieldUpdaterAssert<Object, Object>> ATOMIC_REFERENCE_FIELD_UPDATER = atomicReferenceFieldUpdater(Object.class,
+                                                                                                                                                                       Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReferenceFieldUpdater}.
@@ -569,6 +568,8 @@ public interface InstanceOfAssertFactories {
    * @param fieldType  the field type instance.
    * @param objectType the object type instance.
    * @return the factory instance.
+   *
+   * @see #ATOMIC_REFERENCE_FIELD_UPDATER
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <FIELD, OBJECT> InstanceOfAssertFactory<AtomicReferenceFieldUpdater, AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>> atomicReferenceFieldUpdater(Class<FIELD> fieldType,
@@ -579,12 +580,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicMarkableReference}, assuming {@code Object} as value type.
    *
-   * @return the factory instance.
+   * @see #atomicMarkableReference(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<AtomicMarkableReference, AtomicMarkableReferenceAssert<Object>> atomicMarkableReference() {
-    return atomicMarkableReference(Object.class);
-  }
+  InstanceOfAssertFactory<AtomicMarkableReference, AtomicMarkableReferenceAssert<Object>> ATOMIC_MARKABLE_REFERENCE = atomicMarkableReference(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicMarkableReference}.
@@ -592,6 +591,8 @@ public interface InstanceOfAssertFactories {
    * @param <VALUE>   the {@code AtomicMarkableReference} value type.
    * @param valueType the value type instance.
    * @return the factory instance.
+   *
+   * @see #ATOMIC_MARKABLE_REFERENCE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <VALUE> InstanceOfAssertFactory<AtomicMarkableReference, AtomicMarkableReferenceAssert<VALUE>> atomicMarkableReference(Class<VALUE> valueType) {
@@ -601,12 +602,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicStampedReference}, assuming {@code Object} as value type.
    *
-   * @return the factory instance.
+   * @see #atomicStampedReference(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<AtomicStampedReference, AtomicStampedReferenceAssert<Object>> atomicStampedReference() {
-    return atomicStampedReference(Object.class);
-  }
+  InstanceOfAssertFactory<AtomicStampedReference, AtomicStampedReferenceAssert<Object>> ATOMIC_STAMPED_REFERENCE = atomicStampedReference(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicStampedReference}.
@@ -614,6 +613,8 @@ public interface InstanceOfAssertFactories {
    * @param <VALUE>   the {@code AtomicStampedReference} value type.
    * @param valueType the value type instance.
    * @return the factory instance.
+   * 
+   * @see #ATOMIC_STAMPED_REFERENCE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <VALUE> InstanceOfAssertFactory<AtomicStampedReference, AtomicStampedReferenceAssert<VALUE>> atomicStampedReference(Class<VALUE> valueType) {
@@ -653,12 +654,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link Iterable}, assuming {@code Object} as element type.
    *
-   * @return the factory instance.
+   * @see #iterable(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<Iterable, IterableAssert<Object>> iterable() {
-    return iterable(Object.class);
-  }
+  InstanceOfAssertFactory<Iterable, IterableAssert<Object>> ITERABLE = iterable(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link Iterable}.
@@ -666,6 +665,8 @@ public interface InstanceOfAssertFactories {
    * @param <ELEMENT>   the {@code Iterable} element type.
    * @param elementType the element type instance.
    * @return the factory instance.
+   *
+   * @see #ITERABLE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <ELEMENT> InstanceOfAssertFactory<Iterable, IterableAssert<ELEMENT>> iterable(Class<ELEMENT> elementType) {
@@ -675,12 +676,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link Iterator}, assuming {@code Object} as element type.
    *
-   * @return the factory instance.
+   * @see #iterator(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<Iterator, IteratorAssert<Object>> iterator() {
-    return iterator(Object.class);
-  }
+  InstanceOfAssertFactory<Iterator, IteratorAssert<Object>> ITERATOR = iterator(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link Iterator}.
@@ -688,6 +687,8 @@ public interface InstanceOfAssertFactories {
    * @param <ELEMENT>   the {@code Iterator} element type.
    * @param elementType the element type instance.
    * @return the factory instance.
+   *
+   * @see #ITERATOR
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <ELEMENT> InstanceOfAssertFactory<Iterator, IteratorAssert<ELEMENT>> iterator(Class<ELEMENT> elementType) {
@@ -697,12 +698,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link List}, assuming {@code Object} as element type.
    *
-   * @return the factory instance.
+   * @see #list(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<List, ListAssert<Object>> list() {
-    return list(Object.class);
-  }
+  InstanceOfAssertFactory<List, ListAssert<Object>> LIST = list(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link List}.
@@ -710,6 +709,8 @@ public interface InstanceOfAssertFactories {
    * @param <ELEMENT>   the {@code List} element type.
    * @param elementType the element type instance.
    * @return the factory instance.
+   *
+   * @see #LIST
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <ELEMENT> InstanceOfAssertFactory<List, ListAssert<ELEMENT>> list(Class<ELEMENT> elementType) {
@@ -719,12 +720,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link Stream}, assuming {@code Object} as element type.
    *
-   * @return the factory instance.
+   * @see #stream(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<Stream, ListAssert<Object>> stream() {
-    return stream(Object.class);
-  }
+  InstanceOfAssertFactory<Stream, ListAssert<Object>> STREAM = stream(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Stream}.
@@ -732,6 +731,8 @@ public interface InstanceOfAssertFactories {
    * @param <ELEMENT>   the {@code Stream} element type.
    * @param elementType the element type instance.
    * @return the factory instance.
+   *
+   * @see #STREAM
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <ELEMENT> InstanceOfAssertFactory<Stream, ListAssert<ELEMENT>> stream(Class<ELEMENT> elementType) {
@@ -765,12 +766,10 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link Map}, assuming {@code Object} as key and value types.
    *
-   * @return the factory instance.
+   * @see #map(Class, Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  static InstanceOfAssertFactory<Map, MapAssert<Object, Object>> map() {
-    return map(Object.class, Object.class);
-  }
+  InstanceOfAssertFactory<Map, MapAssert<Object, Object>> MAP = map(Object.class, Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Map}.
@@ -780,6 +779,8 @@ public interface InstanceOfAssertFactories {
    * @param keyType   the key type instace.
    * @param valueType the value type instace.
    * @return the factory instance.
+   *
+   * @see #MAP
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <K, V> InstanceOfAssertFactory<Map, MapAssert<K, V>> map(Class<K> keyType, Class<V> valueType) {
