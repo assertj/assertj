@@ -52,8 +52,8 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
                                       .distinct()
                                       .collect(toMap(Entry::getKey, Entry::getValue));
     // THEN
-    then(factories).hasSameSizeAs(assertThatMethods)
-                   .containsAllEntriesOf(assertThatMethods);
+    then(factories).containsAllEntriesOf(assertThatMethods)
+                   .hasSameSizeAs(assertThatMethods);
   }
 
   private Map<Type, Type> findAssertThatParameterAndReturnTypes() {
