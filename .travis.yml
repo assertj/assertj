@@ -2,9 +2,6 @@ language: java
 install: true
 
 addons:
-  apt:
-    packages:
-      - oracle-java8-installer
   sonarcloud:
     organization: "default"
     token:
@@ -18,8 +15,6 @@ cache:
     - '$HOME/.sonar/cache'
 
 jdk:
-  - openjdk8
-  - oraclejdk8
   - openjdk11
   - openjdk12
   - openjdk-ea
