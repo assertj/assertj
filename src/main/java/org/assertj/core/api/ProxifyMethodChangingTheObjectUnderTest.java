@@ -56,7 +56,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
                                                              actual(currentActual));
   }
 
-  private RecursiveComparisonAssert<?> createRecursiveComparisonAssertProxy(RecursiveComparisonAssert<?> currentAssert) {
+  private RecursiveComparisonAssert<?, ?> createRecursiveComparisonAssertProxy(RecursiveComparisonAssert<?, ?> currentAssert) {
     return proxies.createRecursiveComparisonAssertProxy(currentAssert);
   }
 

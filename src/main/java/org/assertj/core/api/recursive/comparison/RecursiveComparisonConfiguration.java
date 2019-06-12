@@ -31,6 +31,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.RecursiveComparisonAssert;
+import org.assertj.core.api.RecursiveIterableComparisonAssert;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
@@ -57,11 +58,8 @@ public class RecursiveComparisonConfiguration {
   private Set<FieldLocation> ignoredCollectionOrderInFields = new LinkedHashSet<>();
   private List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
 
-  // RecursiveIterableComparisonAssert configuration section
-  private boolean ignoreActualIterableOrder = false; // ignore the order of iterables when comparing their elements
-  private boolean strictTypeCheckingOnActualIterable = false; // don't allow different type of iterables to be compared (i.e. List vs Set)
-  private boolean allowArrayTypeForExpected = false;
-
+  // allow to compare iterable with an array.
+  private boolean allowComparingIterableWithArray = false;
 
   // registered comparators section
   private TypeComparators typeComparators = defaultTypeComparators();
@@ -195,7 +193,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   @VisibleForTesting
-  boolean getIgnoreCollectionOrder() {
+  public boolean getIgnoreCollectionOrder() {
     return ignoreCollectionOrder;
   }
 
@@ -245,34 +243,18 @@ public class RecursiveComparisonConfiguration {
   }
 
   /**
-   * Sets whether to ignore the order of comparison of elements when the Actual is of type Iterable.
+   * Sets whether Iterables can be compared to arrays, false by default.
    * <p>
-   * See {@link org.assertj.core.api.RecursiveIterableComparisonAssert#ignoringActualIterableOrder()} for code examples.
+   * See {@link RecursiveIterableComparisonAssert#allowingComparingIterableWithArray()} for examples.
    *
-   * @param ignoreActualIterableOrder whether to the comparison order of elements in actual Iterable.
+   * @param allowComparingIterableWithArray whether Iterables can be compared to arrays or not.
    */
-  public void ignoreActualIterableOrder(boolean ignoreActualIterableOrder) {
-    this.ignoreActualIterableOrder = ignoreActualIterableOrder;
+  public void allowComparingIterableWithArray(boolean allowComparingIterableWithArray) {
+    this.allowComparingIterableWithArray = allowComparingIterableWithArray;
   }
 
-  public boolean getIgnoreActualIterableOrder() {
-    return ignoreActualIterableOrder;
-  }
-
-  public void setStrictTypeCheckingOnActualIterable(boolean strictTypeCheckingOnActualIterable) {
-    this.strictTypeCheckingOnActualIterable = strictTypeCheckingOnActualIterable;
-  }
-
-  public boolean isInStrictTypeCheckingOnActualMode() {
-    return strictTypeCheckingOnActualIterable;
-  }
-
-  public void allowArrayTypeForExpected(boolean allowArrayTypeForExpected) {
-    this.allowArrayTypeForExpected = allowArrayTypeForExpected;
-  }
-
-  public boolean getAllowArrayTypeForExpected() {
-    return allowArrayTypeForExpected;
+  public boolean getAllowComparingIterableWithArray() {
+    return allowComparingIterableWithArray;
   }
 
   /**
@@ -370,6 +352,7 @@ public class RecursiveComparisonConfiguration {
     describeRegisteredComparatorByTypes(description);
     describeRegisteredComparatorForFields(description);
     describeTypeCheckingStrictness(description);
+    describeComparingIterablesWithArrays(description);
     return description.toString();
   }
 
@@ -600,6 +583,13 @@ public class RecursiveComparisonConfiguration {
         ? "- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
         : "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
     description.append(format(str));
+  }
+
+  private void describeComparingIterablesWithArrays(StringBuilder description) {
+    String str = allowComparingIterableWithArray
+      ? "- comparing iterables with arrays was allowed.%n"
+      : "- comparing iterables with arrays was not allowed.%n";
+    description.append(str);
   }
 
 }

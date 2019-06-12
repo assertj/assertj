@@ -193,7 +193,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * The default recursive iterable comparison behavior has the same default configuration as {@link RecursiveComparisonAssert}, that is:
    * <ul>
-   * <li>elements of actual and expected iterables and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a Doctor (call {@link RecursiveIterableComparisonAssert#withStrictTypeChecking() withStrictTypeChecking()} to change that behavior). </li>
+   * <li>elements of actual and expected iterables and their fields were compared field by field recursively even if they were not of the same type,
+   * this allows for example to compare a Person to a Doctor (call {@link RecursiveIterableComparisonAssert#withStrictTypeChecking() withStrictTypeChecking()} to change that behavior). </li>
    * <li>overridden equals methods were used in the comparison (unless stated otherwise)</li>
    * <li>these types were compared with the following comparators:
    *   <ul>
@@ -207,11 +208,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * In addition to default behavior, {@link RecursiveIterableComparisonAssert RecursiveIterableComparisonAssert} has few additional points that can be configured:
    * <ul>
-   * <li>different types of iterables can be compared by default, this allows to compare for example an ArrayList<Person> and a LinkedHashSet<Person>. This behavior can be turned off by calling {@link RecursiveIterableComparisonAssert#withStrictTypeCheckingOnActualIterable() withStrictTypeCheckingOnActualIterable}.</li>
+   * <li>different types of iterables can be compared by default, this allows to compare for example an ArrayList<Person> and a LinkedHashSet<Person>.
+   * This behavior can be turned off by calling {@link RecursiveIterableComparisonAssert#withStrictTypeChecking()} () withStrictTypeChecking}.
+   * Note that calling {@link RecursiveIterableComparisonAssert#withStrictTypeChecking}, in addition to enforcing type compatibility of Iterables themselves,
+   * it also enforces type compatibility of the elements contained in those Iterables. For an example, see {@link RecursiveIterableComparisonAssert#isEqualTo(Iterable)}.</li>
    * <li>
    * although different type of iterables can be compared, order does matter. Comparing a List<Person> to a Set<Person> will almost always fail,
-   * but the order of comparison can be configured to be ignored by calling {@link RecursiveIterableComparisonAssert#ignoringActualIterableOrder() igroringActualIterableOrder}.
+   * but the order of comparison can be configured to be ignored by calling {@link RecursiveIterableComparisonAssert#ignoringCollectionOrder()} () ignoringCollectionOrder}.
    * This allows the comparison of ordered/unordered iterable pairs, such as comparing a a List<Person> to a Set<Person>.
+   * Note that calling {@link RecursiveIterableComparisonAssert#ignoringCollectionOrder} also causes the order of any fields/properties that are iterables/collections to be ignored.
    * </li>
    * </ul>
    * </p>
@@ -230,7 +235,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new {@link RecursiveIterableComparisonAssert} instance
    */
   @Beta
-  public RecursiveIterableComparisonAssert<?> usingRecursiveComparison() {
+  public RecursiveIterableComparisonAssert<?, ACTUAL> usingRecursiveComparison() {
     return usingRecursiveComparison(new RecursiveComparisonConfiguration());
   }
 
@@ -241,7 +246,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new {@link RecursiveIterableComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
   @Beta
-  public RecursiveIterableComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  public RecursiveIterableComparisonAssert<?, ACTUAL> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     SELF myselfCopy = usingElementComparator(new RecursiveComparisonDifferenceComparator(recursiveComparisonConfiguration));
     return new RecursiveIterableComparisonAssert<>(actual, recursiveComparisonConfiguration, myselfCopy)
       .withAssertionState(myselfCopy)

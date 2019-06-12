@@ -94,7 +94,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     Person actual = new Person("John");
     Person expected = new Person("John");
     // WHEN
-    RecursiveComparisonAssert<?> assertion = assertThat(actual).withRepresentation(UNICODE_REPRESENTATION)
+    RecursiveComparisonAssert<?, ?> assertion = assertThat(actual).withRepresentation(UNICODE_REPRESENTATION)
                                                                .usingRecursiveComparison()
                                                                .isEqualTo(expected);
     // THEN
@@ -108,7 +108,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     Person expected = new Person("John");
     String errorMessage = "boom";
     // WHEN
-    RecursiveComparisonAssert<?> assertion = assertThat(actual).overridingErrorMessage(errorMessage)
+    RecursiveComparisonAssert<?, ?> assertion = assertThat(actual).overridingErrorMessage(errorMessage)
                                                                .usingRecursiveComparison()
                                                                .isEqualTo(expected);
     // THEN

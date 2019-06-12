@@ -145,11 +145,11 @@ class SoftProxies {
     }
   }
 
-  RecursiveComparisonAssert<?> createRecursiveComparisonAssertProxy(RecursiveComparisonAssert<?> recursiveComparisonAssert) {
+  RecursiveComparisonAssert<?, ?> createRecursiveComparisonAssertProxy(RecursiveComparisonAssert<?, ?> recursiveComparisonAssert) {
     Class<?> proxyClass = createSoftAssertionProxyClass(RecursiveComparisonAssert.class);
     try {
       Constructor<?> constructor = proxyClass.getConstructor(Object.class, RecursiveComparisonConfiguration.class);
-      RecursiveComparisonAssert<?> proxiedAssert = (RecursiveComparisonAssert<?>) constructor.newInstance(recursiveComparisonAssert.actual,
+      RecursiveComparisonAssert<?, ?> proxiedAssert = (RecursiveComparisonAssert<?, ?>) constructor.newInstance(recursiveComparisonAssert.actual,
                                                                                                           recursiveComparisonAssert.getRecursiveComparisonConfiguration());
       ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
       return proxiedAssert;

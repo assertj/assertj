@@ -879,7 +879,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return a new {@link RecursiveComparisonAssert} instance
    */
   @Beta
-  public RecursiveComparisonAssert<?> usingRecursiveComparison() {
+  public RecursiveComparisonAssert<?, ACTUAL> usingRecursiveComparison() {
     return usingRecursiveComparison(new RecursiveComparisonConfiguration());
   }
 
@@ -890,7 +890,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
   @Beta
-  public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  public RecursiveComparisonAssert<?, ACTUAL> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself)
                                                                                     .withTypeComparators(comparatorByType);
   }

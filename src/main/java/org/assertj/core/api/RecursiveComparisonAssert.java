@@ -30,12 +30,12 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
 
-public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
+public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF, ACTUAL>, ACTUAL> extends AbstractAssert<SELF, ACTUAL> {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
 
-  public RecursiveComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  public RecursiveComparisonAssert(ACTUAL actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     super(actual, RecursiveComparisonAssert.class);
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
     recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
@@ -143,15 +143,11 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    */
   @Override
   public SELF isEqualTo(Object expected) {
-    // deals with both actual and expected being null
-    if (actual == expected) return myself;
-    if (expected == null) {
-      // for the assertion to pass, actual must be null but this is not the case since actual != expected
-      // => we fail expecting actual to be null
-      objects.assertNull(info, actual);
-    }
-    // at this point expected is not null, which means actual must not be null for the assertion to pass
-    objects.assertNotNull(info, actual);
+    // whether both actual and expected is null or referencing to same object.
+    boolean sameReferenceOrNull = checkIfExpectedIsSameReferenceOrNull(expected);
+    if(sameReferenceOrNull)
+      return myself;
+
     // at this point both actual and expected are not null, we can compare them recursively!
     List<ComparisonDifference> differences = determineDifferencesWith(expected);
     if (!differences.isEmpty()) throw objects.getFailures().failure(info, shouldBeEqualByComparingFieldByFieldRecursively(actual,
@@ -160,6 +156,21 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
                                                                                                                           recursiveComparisonConfiguration,
                                                                                                                           info.representation()));
     return myself;
+  }
+
+  // Checks to see if actual and expected are referencing to same objects or to see if both is null. Fails if only one is null.
+  protected boolean checkIfExpectedIsSameReferenceOrNull(Object expected) {
+    // deals with both actual and expected being null
+    if (actual == expected) return true;
+    if (expected == null) {
+      // for the assertion to pass, actual must be null but this is not the case since actual != expected
+      // => we fail expecting actual to be null
+      objects.assertNull(info, actual);
+      return true;
+    }
+    // at this point expected is not null, which means actual must not be null for the assertion to pass
+    objects.assertNotNull(info, actual);
+    return false;
   }
 
   /**

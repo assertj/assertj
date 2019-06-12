@@ -42,7 +42,7 @@ public class RecursiveComparisonAssert_isEqualTo_BaseTest extends ObjectsBaseTes
   }
 
   public AssertionError compareRecursivelyFailsAsExpected(Object actual, Object expected) {
-    RecursiveComparisonAssert<?> recursiveComparisonAssert = new RecursiveComparisonAssert<>(actual,
+    RecursiveComparisonAssert<?, ?> recursiveComparisonAssert = new RecursiveComparisonAssert<>(actual,
                                                                                              recursiveComparisonConfiguration);
     info = recursiveComparisonAssert.info;
     recursiveComparisonAssert.objects = objects;

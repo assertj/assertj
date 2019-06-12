@@ -1,91 +1,28 @@
 package org.assertj.core.api;
 
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 import static org.assertj.core.util.IterableUtil.sizeOf;
+import static org.assertj.core.util.Lists.list;
+import static java.lang.String.format;
 
-public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableComparisonAssert<SELF>> extends RecursiveComparisonAssert<SELF> {
+public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableComparisonAssert<SELF, ACTUAL>,
+                                              ACTUAL extends Iterable<?>> extends RecursiveComparisonAssert<SELF, ACTUAL> {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private AbstractIterableAssert iterableAssert;
 
-  public RecursiveIterableComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration, AbstractIterableAssert iterableAssert) {
+  public RecursiveIterableComparisonAssert(ACTUAL actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration, AbstractIterableAssert iterableAssert) {
     super(actual, recursiveComparisonConfiguration);
     this.iterableAssert = iterableAssert;
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
   }
 
   /**
-   * By default, any type of iterables can be compared with each other. This may cause unexpected behavior when one of them is ordered and other is not.
-   * For example, a List can be compared to a Set and even though they might have exact same elements, a Set will not preserve insertion order.
-   * So the assertion will fail. To avoid these kind of surprises, comparison ordered can be ignored with calling {@link #ignoringActualIterableOrder ignoringActualIterableOrder}.
-   * <p>
-   * Example:
-   * <pre><code class='java'>public class Person {
-   *     String name;
-   *     boolean hasPhd;
-   * }
-   *
-   * Person sheldon = new People("Sheldon Cooper", true);
-   * Person howard = new People("Howard Wolowitz", false);
-   * Person penny = new People("Penny", false);
-   *
-   * List<Person> peopleList = Arrays.asList(sheldon, howard, penny);
-   * Set<Person> peopleSet = new HashSet<>(peopleList);
-   *
-   * // assertion fails even though iterables contain the exact same elements because order is different.
-   * assertThat(peopleList).usingRecursiveComparison()
-   *                       .isEqualTo(peopleSet);
-   *
-   * // assertion succeeds because both iterables contain exact same items and comparison order is ignored.
-   * assertThat(peopleList).usingRecursiveComparison()
-   *                       .ignoringActualIterableOrder()
-   *                       .isEqualTo(peopleArray);</code></pre>
-   *
-   * @return this {@link RecursiveIterableComparisonAssert} to chain other methods.
-   */
-  public SELF ignoringActualIterableOrder() {
-    recursiveComparisonConfiguration.ignoreActualIterableOrder(true);
-    return myself;
-  }
-
-  /**
-   * By default, different type of iterables can be compared with each other. To change this behavior, use {@link #withStrictTypeCheckingOnActualIterable() withStrictTypeCheckingOnActualIterable}.
-   * This method restricts the types of iterables to be the same.
-   * <p>
-   * Example:
-   * <pre><code class='java'>public class Person {
-   *     String name;
-   *     boolean hasPhd;
-   * }
-   *
-   * Person sheldon = new People("Sheldon Cooper", true);
-   * Person howard = new People("Howard Wolowitz", false);
-   * Person penny = new People("Penny", false);
-   *
-   * List<Person> peopleList = Arrays.asList(sheldon, howard, penny);
-   * Set<Person> peopleSet = new LinkedHashSet<>(peopleList);
-   *
-   * // assertion succeeds because both iterables contain same items and both preserves insertion order.
-   * assertThat(peopleList).usingRecursiveComparison()
-   *                       .isEqualTo(peopleSet);
-   *
-   * // assertion fails because iterables types are restricted to be compatible, which in this case they are not.
-   * assertThat(peopleList).usingRecursiveComparison()
-   *                       .withStrictTypeCheckingOnActualIterable()
-   *                       .isEqualTo(peopleSet);</code></pre>
-   *
-   * @return this {@link RecursiveIterableComparisonAssert} to chain other methods.
-   */
-  public SELF withStrictTypeCheckingOnActualIterable() {
-    recursiveComparisonConfiguration.setStrictTypeCheckingOnActualIterable(true);
-    return myself;
-  }
-
-  /**
-   * By default, expected type can not be an array. This method allows to send arrays as parameters when asserting.
+   * By default, iterables can't be compared to arrays, this method allows it.
    * <p>
    * Example:
    * <pre><code class='java'>public class Person {
@@ -105,13 +42,13 @@ public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableCom
    *
    * // assertion succeeds because array type is explicitly made allowed.
    * assertThat(peopleList).usingRecursiveComparison()
-   *                       .allowingArrayTypeForExpected()
+   *                       .allowingComparingIterableWithArray()
    *                       .isEqualTo(peopleArray);</code></pre>
    *
    * @return this {@link RecursiveIterableComparisonAssert} to chain other methods.
    */
-  public SELF allowingArrayTypeForExpected() {
-    recursiveComparisonConfiguration.allowArrayTypeForExpected(true);
+  public SELF allowingComparingIterableWithArray() {
+    recursiveComparisonConfiguration.allowComparingIterableWithArray(true);
     return myself;
   }
 
@@ -128,15 +65,32 @@ public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableCom
    * <p>
    * <strong>Strict/Lenient Actual/Expected Iterable type comparison</strong>
    * By default, different types of iterables, for example ArrayList(List) and LinkedHashSet(Ordered Set), can be compared.
-   * To turn this behavior off, call {@link #withStrictTypeCheckingOnActualIterable() withStrictTypeCheckingOnActualIterable}.
-   * Notice that this behavior is different than {@link #withStrictTypeChecking() withStrictTypeChecking}, where {@link #withStrictTypeChecking() withStrictTypeChecking}
-   * forces type compatibility of <strong>elements contained in iterables</strong> and {@link #withStrictTypeCheckingOnActualIterable() withStrictTypeCheckingOnActualIterable}
-   * forces type compatibility of the <strong>iterables themselves</strong>, not the elements contained within them.
+   * To enforce strict type checking, call {@link #withStrictTypeChecking}.
+   * Note that calling {@link #withStrictTypeChecking}, in addition to enforcing type compatibility of Iterables themselves,
+   * it also enforces type compatibility of the elements contained in those Iterables. For example:
+   *
+   * <pre><code class='java'> ArrayList<Person> arrayList = new ArrayList<>();
+   * LinkedList<Person> linkedList = new LinkedList<>();
+   *
+   * // assertion fails because strict type check is enforced and ArrayList and LinkedList aren't subtypes of each other.
+   * assertThat(arrayList).usingRecursiveComparison()
+   *                      .withStrictTypeChecking()
+   *                      .isEqualTo(linkedList);
+   *
+   * LinkedList<Person> listPerson = new LinkedList<>();
+   * LinkedList<PersonDTO> listPersonDTO = new LinkedList<>();
+   *
+   * // assertion fails because strict type check is enforced and although LinkedLists are compatible, Person and PersonDTO are not.
+   * assertThat(listPerson).usingRecursiveComparison()
+   *                      .withStrictTypeChecking()
+   *                      .isEqualTo(listPersonDTO);</code></pre>
+   *
    * <p>
    * <strong>Comparing ordered collections with unordered ones and vice/versa.</strong>
    * By default, {@link #isEqualTo(Iterable) isEqualTo} takes element order into consideration.
    * This means that a List and a Set can not be considered equals, even if they contain exactly the same elements.
-   * To ignore the element order when comparing iterables, call {@link #ignoringActualIterableOrder() ignoringActualIterableOrder}.
+   * To ignore the element order when comparing iterables, call {@link #ignoringCollectionOrder}.
+   * Note that calling {@link #ignoringCollectionOrder} also causes the order of any fields/properties that are iterables/collections to be ignored.
    *
    * <pre><code class='java'>public class Person {
    *    String name;
@@ -163,22 +117,20 @@ public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableCom
    * assertThat(peopleList).usingRecursiveComparison()
    *                       .isEqualTo(peopleLinkedSet);
    *
-   *
    * Set<Person> peopleHashSet = new HashSet<>(peopleList);
    *
    * // assertion fails even though iterables have same items, the order is different.
    * assertThat(peopleList).usingRecursiveComparison()
-   *                       .allowingArrayTypeForExpected()
    *                       .isEqualTo(peopleHashSet);
    *
    * // assertion succeeds because the order is ignored.
    * assertThat(peopleList).usingRecursiveComparison()
-   *                       .ignoringActualIterableOrder()
+   *                       .ignoringCollectionOrder()
    *                       .isEqualTo(peopleHashSet);
    *
-   * // assertion fails because iterables are restricted to be compatible by {@link #withStrictTypeCheckingOnActualIterable() withStrictTypeCheckingOnActualIterable}.
+   * // assertion fails because iterables are restricted to be compatible by {@link #withStrictTypeChecking}.
    * assertThat(peopleList).usingRecursiveComparison()
-   *                       .withStrictTypeCheckingOnActualIterable()
+   *                       .withStrictTypeChecking()
    *                       .isEqualTo(peopleLinkedSet);</code></pre>
    *
    * @param expected the object to compare {@code actual} to.
@@ -188,26 +140,26 @@ public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableCom
    */
   @SuppressWarnings("unchecked")
   public SELF isEqualTo(Iterable<?> expected) {
-    if((actual == null && expected == null) || (actual == expected))
-        return myself;
+    // whether both actual and expected is null or referencing to same object.
+    boolean sameReferenceOrNull = checkIfExpectedIsSameReferenceOrNull(expected);
+    if(sameReferenceOrNull)
+      return myself;
 
-    if(actual == null || expected == null)
-      throw new AssertionError("Iterables to compare can not be null.");
+    // actual and expected are not null and not referencing the same object. We can now start recursive comparison.
+    if(recursiveComparisonConfiguration.isInStrictTypeCheckingMode() &&  !actual.getClass().isAssignableFrom(expected.getClass()))
+      throw new AssertionError(format("Comparison enforces strict type checking and fields are considered different since %s is not a subtype of %s.",
+                                  actual.getClass().getName(), expected.getClass().getName()));
 
-    if(recursiveComparisonConfiguration.isInStrictTypeCheckingOnActualMode() &&  !actual.getClass().isAssignableFrom(expected.getClass()))
-      throw new AssertionError("types are not compatible.");
+    if(sizeOf(actual) != sizeOf(expected))
+      throw new AssertionError(format("actual and expected values are %s of different size, actual size=%s when expected size=%s%nActual: %s%nExpected: %s",
+                                  "iterables", sizeOf(actual), sizeOf(expected), actual, expected));
 
-    if(sizeOf((Iterable<?>) actual) != sizeOf(expected))
-      throw new AssertionError("Sizes are not the same.Actual is of size "
-                                          + sizeOf((Iterable<?>) actual)
-                                          + ", Expected is of size " + sizeOf(expected));
-
-    boolean ignoreActualIterableOrder = recursiveComparisonConfiguration.getIgnoreActualIterableOrder();
-    // order can not be ignored
-    if(!ignoreActualIterableOrder)
-      iterableAssert.isEqualTo(expected);
+    boolean ignoreCollectionOrder = recursiveComparisonConfiguration.getIgnoreCollectionOrder();
+    // comparison order can not be ignored
+    if(!ignoreCollectionOrder)
+        iterableAssert.isEqualTo(expected);
     else {
-      // order can be ignored
+      // comparison order can be ignored
       for(Object element : expected)
         iterableAssert.contains(element);
     }
@@ -220,7 +172,7 @@ public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableCom
    * (inherited fields are included in the comparison). If the comparison fails it will report all the differences found and which
    * effective {@link RecursiveComparisonConfiguration} was used to help users understand the failure.
    * <p>
-   * This comparison, i.e Iterable to Array, is not allowed by default. To enable it, call {@link #allowingArrayTypeForExpected() allowingArrayTypeForExpected}/
+   * This comparison, Iterable to Array, is not allowed by default. To enable it, call {@link #allowingComparingIterableWithArray}.
    * <p>
    * All the comparison configuration behavior is documented in {@link RecursiveIterableComparisonAssert#isEqualTo(Object) RecursiveComparisonAssert#isEqualTo}
    * is valid also for the comparison made on the elements of actual and expected iterables.
@@ -242,7 +194,7 @@ public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableCom
    *
    * // assertion succeeds because array type is explicitly made allowed.
    * assertThat(peopleList).usingRecursiveComparison()
-   *                       .allowingArrayTypeForExpected()
+   *                       .allowingComparingIterableWithArray()
    *                       .isEqualTo(peopleArray);</code></pre>
    *
    * @param values the objects that must be contained in {@code actual}.
@@ -251,16 +203,16 @@ public class RecursiveIterableComparisonAssert<SELF extends RecursiveIterableCom
    * @throws IntrospectionError if one property/field to compare can not be found.
    */
   public SELF isEqualTo(Object... values) {
-    if(!recursiveComparisonConfiguration.getAllowArrayTypeForExpected())
-      throw new AssertionError("Type array is not acceptable when comparing iterables, try calling #allowingArrayTypeForExpected configuration.");
-    return isEqualTo(Arrays.asList(values));
+    if(!recursiveComparisonConfiguration.getAllowComparingIterableWithArray())
+      throw new AssertionError("By default Iterable can't be compared to array, call allowingComparingIterableWithArray to allow it.");
+    return isEqualTo(list(values));
   }
 
   /**
    * Verifies that the actual iterable contains the given values, in any order.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = new ArrayList("a", "b", "c");
    *
    * // assertions will pass
    * assertThat(abc).usingRecursiveComparison().contains("b", "a");

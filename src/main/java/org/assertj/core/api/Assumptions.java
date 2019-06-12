@@ -1189,7 +1189,7 @@ public class Assumptions {
   }
 
   private static AbstractAssert<?, ?> asRecursiveComparisonAssumption(AbstractAssert<?, ?> assertion) {
-    RecursiveComparisonAssert<?> recursiveComparisonAssert = (RecursiveComparisonAssert<?>) assertion;
+    RecursiveComparisonAssert<?, ?> recursiveComparisonAssert = (RecursiveComparisonAssert<?, ?>) assertion;
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = recursiveComparisonAssert.getRecursiveComparisonConfiguration();
     Class<?>[] constructorTypes = array(Object.class, RecursiveComparisonConfiguration.class);
     return asAssumption(RecursiveComparisonAssert.class, constructorTypes, assertion.actual, recursiveComparisonConfiguration);

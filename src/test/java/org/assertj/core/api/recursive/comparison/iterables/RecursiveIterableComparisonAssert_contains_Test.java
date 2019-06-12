@@ -20,38 +20,43 @@ public class RecursiveIterableComparisonAssert_contains_Test {
 
   @Test
   public void should_pass_when_iterable_contains_items_in_any_order() {
-    List<Person> peopleList = Arrays.asList(sheldon, leonard, howard, raj);
-
-    assertThat(peopleList).usingRecursiveComparison().contains(raj, leonard, sheldon);
+    // GIVEN
+    List<Person> actual = Arrays.asList(sheldon, leonard, howard, raj);
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+      .contains(raj, leonard, sheldon);
   }
 
   @Test
   public void should_fail_when_iterable_does_not_contain_all_items() {
-    List<Person> peopleList = Arrays.asList(sheldon, leonard, howard, raj);
-
+    // GIVEN
+    List<Person> actual = Arrays.asList(sheldon, leonard, howard, raj);
+    // THEN
     expectAssertionError(() -> {
-      assertThat(peopleList).usingRecursiveComparison()
-                            .contains(raj, leonard, sheldon, penny);
+      assertThat(actual).usingRecursiveComparison()
+        .contains(raj, leonard, sheldon, penny);
     });
   }
 
   @Test
-  public void should_pass_when_items_are_not_compatible() {
-    List<Person> peopleList = Arrays.asList(sheldon, leonard, howard, raj);
+  public void should_pass_by_default_when_items_are_not_type_compatible() {
+    List<Person> actual = Arrays.asList(sheldon, leonard, howard, raj);
     PersonDto sheldonDto = new PersonDto("Sheldon");
     PersonDto leonardDto = new PersonDto("Leonard");
 
-    assertThat(peopleList).usingRecursiveComparison().contains(sheldonDto, leonardDto);
+    assertThat(actual).usingRecursiveComparison()
+      .contains(sheldonDto, leonardDto);
   }
 
   @Test
-  public void should_fail_when_items_are_not_compatible_with_strict_type_check() {
-    List<Person> peopleList = Arrays.asList(sheldon, leonard, howard, raj);
+  public void should_fail_when_items_are_not_compatible_with_strictTypeCheck() {
+    // GIVEN
+    List<Person> actual = Arrays.asList(sheldon, leonard, howard, raj);
     PersonDto sheldonDto = new PersonDto("Sheldon");
     PersonDto leonardDto = new PersonDto("Leonard");
-
+    // THEN
     expectAssertionError(() -> {
-      assertThat(peopleList).usingRecursiveComparison()
+      assertThat(actual).usingRecursiveComparison()
         .withStrictTypeChecking()
         .contains(sheldonDto, leonardDto);
     });

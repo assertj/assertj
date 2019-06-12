@@ -2,6 +2,10 @@ package org.assertj.core.api.recursive.comparison;
 
 import org.assertj.core.internal.FieldByFieldComparator;
 
+/**
+ * Compares two objects field/property by field/property recursively using the new {@link RecursiveComparisonDifferenceCalculator} api,
+ * configured by the given {@link RecursiveComparisonConfiguration}.
+ */
 public class RecursiveComparisonDifferenceComparator extends FieldByFieldComparator {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
