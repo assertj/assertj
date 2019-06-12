@@ -134,6 +134,7 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
+          <release>8</release>
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
@@ -143,7 +144,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Automatic-Module-Name>org.assertj.core</Automatic-Module-Name>
+              <Multi-Release>true</Multi-Release>
             </manifestEntries>
           </archive>
         </configuration>
@@ -351,6 +352,34 @@
           --add-opens
           java.base/java.io=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED</argLine>
       </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>jdk9</id>
+                  <goals>
+                    <goal>compile</goal>
+                  </goals>
+                  <configuration>
+                    <release>9</release>
+                    <compileSourceRoots>
+                      <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
+                    </compileSourceRoots>
+                    <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
+                    <compilerArgs>
+                      <arg>--patch-module</arg><arg>org.assertj.core=${project.build.outputDirectory}</arg>
+                    </compilerArgs>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
     </profile>
     <profile>
       <id>java11+</id>
