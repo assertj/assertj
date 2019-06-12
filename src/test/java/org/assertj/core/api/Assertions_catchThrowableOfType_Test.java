@@ -109,7 +109,7 @@ class Assertions_catchThrowableOfType_Test {
   void should_fail_with_good_message_when_assertion_is_failing() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(raisingException("boom"))
                                                    .hasMessage("bam"))
-                                                   .withMessageContaining("Expecting message:")
+                                                   .withMessageContaining("Expecting message to be:")
                                                    .withMessageContaining("<\"bam\">")
                                                    .withMessageContaining("but was:")
                                                    .withMessageContaining("<\"boom\">");

@@ -205,10 +205,10 @@ public class AutoCloseableBDDSoftAssertionsTest {
 
       assertThat(errors.get(35)).contains(format("%nExpecting:%n <50>%nto be equal to:%n <51>%nbut was not."));
       assertThat(errors.get(36)).contains(format("%nExpecting:%n <[52]>%nto be equal to:%n <[53]>%nbut was not."));
-      assertThat(errors.get(37)).contains(format("%nExpecting message:%n"
-                                                 + " <\"NullPointerException message\">%n"
+      assertThat(errors.get(37)).contains(format("%nExpecting message to be:%n"
+                                                 + "  <\"NullPointerException message\">%n"
                                                  + "but was:%n"
-                                                 + " <\"IllegalArgumentException message\">"));
+                                                 + "  <\"IllegalArgumentException message\">"));
 
       assertThat(errors.get(38)).contains(format("%nExpecting:%n <Optional[not empty]>%nto be equal to:%n <\"empty\">%nbut was not."));
       assertThat(errors.get(39)).contains(format("%nExpecting:%n <OptionalInt[0]>%nto be equal to:%n <1>%nbut was not."));

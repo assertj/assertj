@@ -12,11 +12,11 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.util.Throwables;
 import org.junit.jupiter.api.Test;
 
 public class ShouldHaveMessage_create_Test {
@@ -24,15 +24,20 @@ public class ShouldHaveMessage_create_Test {
   @Test
   public void should_create_error_message() {
     // GIVEN
-    RuntimeException actual = new RuntimeException("error message");
+    Exception cause = new Exception("cause");
+    RuntimeException actual = new RuntimeException("error message", cause);
     // WHEN
     String errorMessage = shouldHaveMessage(actual, "expected error message").create(new TestDescription("TEST"));
     // THEN
-    assertThat(errorMessage).isEqualTo(format("[TEST] %n" +
-                                              "Expecting message:%n" +
-                                              " <\"expected error message\">%n" +
-                                              "but was:%n" +
-                                              " <\"error message\">"));
+    assertThat(errorMessage).isEqualTo("[TEST] %n" +
+                                       "Expecting message to be:%n" +
+                                       "  <\"expected error message\">%n" +
+                                       "but was:%n" +
+                                       "  <\"error message\">%n" +
+                                       "%n" +
+                                       "Throwable that failed the check:\n" +
+                                       "%n%s",
+                                       Throwables.getStackTrace(actual));
   }
 
 }

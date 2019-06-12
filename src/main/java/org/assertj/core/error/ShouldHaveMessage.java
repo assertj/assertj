@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Throwable} have certain message failed.
  * @author Joel Costigliola
@@ -29,6 +31,14 @@ public class ShouldHaveMessage extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveMessage(Throwable actual, String expectedMessage) {
-    super("%nExpecting message:%n <%s>%nbut was:%n <%s>", expectedMessage, actual.getMessage());
+    super("%n" +
+          "Expecting message to be:%n" +
+          "  <%s>%n" +
+          "but was:%n" +
+          "  <%s>%n" +
+          "%n" +
+          "Throwable that failed the check:%n" +
+          "%n" + getStackTrace(actual), // to avoid AssertJ default String formatting
+          expectedMessage, actual.getMessage());
   }
 }

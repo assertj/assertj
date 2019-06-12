@@ -15,6 +15,7 @@ package org.assertj.core.api.throwable;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.util.NoSuchElementException;
 import java.util.function.Function;
@@ -36,11 +37,10 @@ public class ThrowableTypeAssert_description_Test {
 
   static Stream<Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>>> parameters() {
     return Stream.of(
-      t -> t.as("test description"),
-      t -> t.describedAs("test description"),
-      t -> t.as(new TextDescription("%s description", "test")),
-      t -> t.describedAs(new TextDescription("%s description", "test"))
-    );
+                     t -> t.as("test description"),
+                     t -> t.describedAs("test description"),
+                     t -> t.as(new TextDescription("%s description", "test")),
+                     t -> t.describedAs(new TextDescription("%s description", "test")));
   }
 
   @ParameterizedTest
@@ -68,14 +68,15 @@ public class ThrowableTypeAssert_description_Test {
   @ParameterizedTest
   @MethodSource("parameters")
   public void should_contain_provided_description_when_exception_message_is_wrong(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+    IllegalArgumentException exception = new IllegalArgumentException("some cause");
+    assertThatAssertionErrorIsThrownBy(() -> {
       descriptionAdder.apply(assertThatIllegalArgumentException()).isThrownBy(() -> {
-        throw new IllegalArgumentException("some cause");
+        throw exception;
       }).withMessage("other cause");
-    }).withMessage(format("[test description] %n" +
-                          "Expecting message:%n" +
-                          " <\"other cause\">%n" +
+    }).withMessageStartingWith(format("[test description] %n" +
+                          "Expecting message to be:%n" +
+                          "  <\"other cause\">%n" +
                           "but was:%n" +
-                          " <\"some cause\">"));
+                                      "  <\"some cause\">%n"));
   }
 }

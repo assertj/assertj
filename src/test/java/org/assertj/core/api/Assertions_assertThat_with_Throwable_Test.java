@@ -107,12 +107,12 @@ public class Assertions_assertThat_with_Throwable_Test {
   @Test
   public void should_fail_with_good_message_when_assertion_is_failing() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(raisingException("boom")).hasMessage("bam"))
-                                                   .withMessageContainingAll("Expecting message:",
+                                                   .withMessageContainingAll("Expecting message to be:",
                                                                           "<\"bam\">",
                                                                           "but was:",
                                                                           "<\"boom\">");
   }
-  
+
   @Test
   public void should_fail_with_good_message_when_vararg_has_message_containing_assertion_is_failing() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(raisingException("boom")).hasMessageContaining("bam")

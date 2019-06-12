@@ -12,10 +12,10 @@
  */
 package org.assertj.core.internal.throwables;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -23,7 +23,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link Throwables#assertHasMessage(AssertionInfo, Throwable, String)}</code>.
@@ -39,18 +38,21 @@ public class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessage(someInfo(), null, "Throwable message"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    AssertionInfo info = someInfo();
+    Throwable actual = null;
+    // THEN
+    assertThatAssertionErrorIsThrownBy(() -> throwables.assertHasMessage(info, actual, "message")).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_has_not_expected_message() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    try {
-      throwables.assertHasMessage(info, actual, "expected message");
-      fail("AssertionError expected");
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveMessage(actual, "expected message"), "Throwable message", "expected message");
-    }
+    String expectedMessage = "expected message";
+    // WHEN
+    expectAssertionError(() -> throwables.assertHasMessage(info, actual, expectedMessage));
+    // THEN
+    verify(failures).failure(info, shouldHaveMessage(actual, expectedMessage), "Throwable message", expectedMessage);
   }
 }

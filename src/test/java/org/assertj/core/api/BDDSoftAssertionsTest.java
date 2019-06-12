@@ -332,14 +332,14 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(34)).contains(format("%nExpecting:%n <\"48\">%nto be equal to:%n <\"49\">%nbut was not."));
     assertThat(errors.get(35)).contains(format("%nExpecting:%n <50>%nto be equal to:%n <51>%nbut was not."));
     assertThat(errors.get(36)).contains(format("%nExpecting:%n <[52]>%nto be equal to:%n <[53]>%nbut was not."));
-    assertThat(errors.get(37)).contains(format("%nExpecting message:%n"
-                                               + " <\"NullPointerException message\">%n"
+    assertThat(errors.get(37)).contains(format("%nExpecting message to be:%n"
+                                               + "  <\"NullPointerException message\">%n"
                                                + "but was:%n"
-                                               + " <\"IllegalArgumentException message\">"));
-    assertThat(errors.get(38)).contains(format("%nExpecting message:%n"
-                                               + " <\"something was good\">%n"
+                                               + "  <\"IllegalArgumentException message\">"));
+    assertThat(errors.get(38)).contains(format("%nExpecting message to be:%n"
+                                               + "  <\"something was good\">%n"
                                                + "but was:%n"
-                                               + " <\"something was wrong\">"));
+                                               + "  <\"something was wrong\">"));
     assertThat(errors.get(39)).contains(format("%nExpecting:%n"
                                                + " <{\"54\"=\"55\"}>%n"
                                                + "to contain:%n"
