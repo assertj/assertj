@@ -371,6 +371,8 @@
                     <compilerArgs>
                       <arg>--patch-module</arg>
                       <arg>org.assertj.core=${project.build.outputDirectory}</arg>
+                      <arg>--module-version</arg>
+                      <arg>${project.version}</arg>
                     </compilerArgs>
                   </configuration>
                 </execution>
