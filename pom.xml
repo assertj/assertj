@@ -295,17 +295,15 @@
           <source>8</source>
           <!-- (1) CSS file location -->
           <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
-          <!-- (2) Highlight Javascript file -->
-          <top><![CDATA[
-            <script src="http://cdn.jsdelivr.net/highlight.js/8.6/highlight.min.js"></script>
-          ]]></top>
           <!-- init Highlight -->
-          <additionalOptions>--allow-script-in-comments</additionalOptions>
+          <additionalOptions>-html5 --allow-script-in-comments</additionalOptions>
+          <nohelp>true</nohelp>
+          <show>private</show>
           <footer><![CDATA[
-            <script type="text/javascript">
-              hljs.initHighlightingOnLoad();
-            </script>
-          ]]></footer>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css"">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+            <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+        ]]></footer>
         </configuration>
       </plugin>
     </plugins>
