@@ -74,7 +74,7 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <!--JSR-305 only used for non-required meta-annotations-->
+      <!--JSR-305 only used for non-required meta-annotations -->
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
       <version>3.0.2</version>
@@ -369,7 +369,8 @@
                     </compileSourceRoots>
                     <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
                     <compilerArgs>
-                      <arg>--patch-module</arg><arg>org.assertj.core=${project.build.outputDirectory}</arg>
+                      <arg>--patch-module</arg>
+                      <arg>org.assertj.core=${project.build.outputDirectory}</arg>
                     </compilerArgs>
                   </configuration>
                 </execution>

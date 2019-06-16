@@ -36,4 +36,16 @@ module org.assertj.core {
   exports org.assertj.core.util.introspection;
   exports org.assertj.core.util.xml;
   requires java.instrument;
+  // required when printThreadDump is true
+  requires static java.management;
+  // used for pretty print XML
+  requires static java.xml;
+  // For annotations: Beta and NonNull ones for Kotlin
+  requires static jsr305;
+  // JUnit/Hamcrest specific features
+  requires static hamcrest.core;
+  requires static junit;
+  requires static org.junit.jupiter.api;
+  // To throw AssertionFailedError which is IDE friendly
+  requires static org.opentest4j;
 }
