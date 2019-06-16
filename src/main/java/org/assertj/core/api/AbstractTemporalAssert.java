@@ -80,7 +80,6 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
                                         shouldBeCloseTo(actual, other,
                                                         offset.getBeyondOffsetDifferenceDescription(actual, other)));
     }
-
     return myself;
   }
 
@@ -101,8 +100,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * @throws AssertionError if the actual {@code Temporal} is not close to the given for a provided offset.
    */
   public SELF isCloseTo(String otherAsString, TemporalOffset<? super TEMPORAL> offset) {
-    checkNotNull(otherAsString,
-                 "The String representing of the temporal object to compare actual with should not be null");
+    checkNotNull(otherAsString, "The String representing of the temporal object to compare actual with should not be null");
     return isCloseTo(parse(otherAsString), offset);
   }
 

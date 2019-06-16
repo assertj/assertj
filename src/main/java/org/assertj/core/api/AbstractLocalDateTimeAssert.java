@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.time.Clock.systemUTC;
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
@@ -24,8 +26,10 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 
+import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
@@ -37,6 +41,7 @@ import org.assertj.core.internal.Objects;
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
+ * @author Nikolaos Georgiou
  */
 public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, LocalDateTime> {
@@ -315,6 +320,32 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   public SELF isNotIn(String... dateTimesAsString) {
     checkIsNotNullAndNotEmpty(dateTimesAsString);
     return isNotIn(convertToLocalDateTimeArray(dateTimesAsString));
+  }
+
+  /**
+   * Verifies that the actual {@link LocalDateTime} is close to the current date and time on the UTC timezone,
+   * according to the given {@link TemporalUnitOffset}.
+   * You can build the offset parameter using {@link Assertions#within(long, TemporalUnit)} or {@link Assertions#byLessThan(long, TemporalUnit)}.
+   * <p>
+   * If the difference is equal to the offset, the assertion succeeds.
+   * <p>
+   * Example:
+   * <pre><code class='java'> LocalDateTime actual = LocalDateTime.now(Clock.systemUTC());
+   *
+   * // assertion will pass as it is executed less than one second after actual was built
+   * assertThat(actual).isCloseToUtcNow(within(1, ChronoUnit.SECONDS));
+   *
+   * // assertion will fail
+   * assertThat(actual.plusSeconds(2)).isCloseToUtcNow(within(1, ChronoUnit.SECONDS));</code></pre>
+   * 
+   * @param offset The offset used for comparison
+   * @return this assertion object
+   * @throws NullPointerException if {@code offset} parameter is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not close to the current time by less than the given offset.
+   */
+  public SELF isCloseToUtcNow(TemporalUnitOffset offset) {
+    return isCloseTo(now(systemUTC()), offset);
   }
 
   private static Object[] convertToLocalDateTimeArray(String... dateTimesAsString) {
