@@ -23,9 +23,12 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualI
 import static org.assertj.core.error.ShouldBeEqualIgnoringTimezone.shouldBeEqualIgnoringTimezone;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalUnit;
 
+import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
@@ -37,6 +40,7 @@ import org.assertj.core.internal.Objects;
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
+ * @author Nikolaos Georgiou
  */
 public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, OffsetDateTime> {
@@ -236,6 +240,31 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   public SELF isAfter(String offsetDateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(offsetDateTimeAsString);
     return isAfter(parse(offsetDateTimeAsString));
+  }
+
+  /**
+   * Verifies that the actual {@link OffsetDateTime} is close to the current date and time on the UTC timezone,
+   * according to the given {@link TemporalUnitOffset}.
+   * You can build the offset parameter using {@link Assertions#within(long, TemporalUnit)} or {@link Assertions#byLessThan(long, TemporalUnit)}.
+   * <p>
+   * If the difference is equal to the offset, the assertion succeeds.
+   * <p>
+   * Example:
+   * <pre><code class='java'> OffsetDateTime actual = OffsetDateTime.now(Clock.systemUTC());
+   *
+   * // assertion will pass as it is executed less than one second after actual was built
+   * assertThat(actual).isCloseToUtcNow(within(1, ChronoUnit.SECONDS));
+   *
+   * // assertion will fail
+   * assertThat(actual.plusSeconds(2)).isCloseToUtcNow(within(1, ChronoUnit.SECONDS));</code></pre>
+   * @param offset The offset used for comparison
+   * @return this assertion object
+   * @throws NullPointerException if {@code offset} parameter is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not close to the current time by less than the given offset.
+   */
+  public SELF isCloseToUtcNow(TemporalUnitOffset offset) {
+    return isCloseTo(OffsetDateTime.now(Clock.systemUTC()), offset);
   }
 
   /**
