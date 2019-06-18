@@ -29,7 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Utility methods for properties access.
- * 
+ *
  * @author Joel Costigliola
  * @author Alex Ruiz
  * @author Nicolas François
@@ -43,7 +43,7 @@ public class PropertySupport {
 
   /**
    * Returns the singleton instance of this class.
-   * 
+   *
    * @return the singleton instance of this class.
    */
   public static PropertySupport instance() {
@@ -58,7 +58,7 @@ public class PropertySupport {
    * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
    * given <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will
    * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
-   * 
+   *
    * @param <T> the type of the extracted elements.
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
@@ -84,7 +84,7 @@ public class PropertySupport {
 
   /**
    * Static variant of {@link #propertyValueOf(String, Class, Object)} for syntactic sugar.
-   * 
+   *
    * @param <T> the type of the extracted elements.
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
@@ -116,7 +116,7 @@ public class PropertySupport {
     return propertyNameChain.substring(propertyNameChain.indexOf(SEPARATOR) + 1);
   }
 
-  /**
+  /*
    * <pre><code class='java'> isNestedProperty(&quot;address.street&quot;); // true
    * isNestedProperty(&quot;address.street.name&quot;); // true
    * isNestedProperty(&quot;person&quot;); // false
@@ -136,7 +136,7 @@ public class PropertySupport {
    * <p>
    * This only works for simple property, nested property are not supported ! use
    * {@link #propertyValueOf(String, Class, Object)}
-   * 
+   *
    * @param <T> the type of the extracted value.
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
@@ -164,7 +164,7 @@ public class PropertySupport {
    * Returns the value of the given property name given target. If the given object is {@code null}, this method will
    * return null.<br>
    * This method supports nested properties (e.g. "address.street.number").
-   * 
+   *
    * @param <T> the type of the extracted value.
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
@@ -193,7 +193,7 @@ public class PropertySupport {
    * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
    * given <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will
    * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
-   * 
+   *
    * @param fieldOrPropertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
    * @param target the given {@code Iterable}.

@@ -345,23 +345,14 @@ public class Iterables {
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#iterableContains(Iterable, Object)}
-   */
   private boolean iterableContains(Iterable<?> actual, Object value) {
     return comparisonStrategy.iterableContains(actual, value);
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#iterablesRemoveFirst(Iterable, Object)}
-   */
   private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
     comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
-   */
   private void iterablesRemove(Iterable<?> actual, Object value) {
     comparisonStrategy.iterableRemoves(actual, value);
   }
@@ -599,9 +590,6 @@ public class Iterables {
     return true;
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#areEqual(Object, Object)}
-   */
   private boolean areEqual(Object actual, Object other) {
     return comparisonStrategy.areEqual(actual, other);
   }

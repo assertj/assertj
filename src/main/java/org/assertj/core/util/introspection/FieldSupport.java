@@ -159,7 +159,7 @@ public enum FieldSupport {
     return fieldNameChain.substring(fieldNameChain.indexOf(SEPARATOR) + 1);
   }
 
-  /**
+  /*
    * <pre><code class='java'> isNestedField(&quot;address.street&quot;); // true
    * isNestedField(&quot;address.street.name&quot;); // true
    * isNestedField(&quot;person&quot;); // false

@@ -151,7 +151,7 @@ public class DeepDifference {
    * for all fields on A, B, and C. Then a.deepEquals(a') will return an empty list. It
    * uses cycle detection storing visited objects in a Set to prevent endless
    * loops.
-   * 
+   *
    * @param a Object one to compare
    * @param b Object two to compare
    * @param comparatorByPropertyOrField comparators to compare properties or fields with the given names
@@ -398,7 +398,7 @@ public class DeepDifference {
    * Deeply compare to Arrays []. Both arrays must be of the same type, same
    * length, and all elements within the arrays must be deeply equal in order
    * to return true.
-   * 
+   *
    * @param array1 [] type (Object[], String[], etc.)
    * @param array2 [] type (Object[], String[], etc.)
    * @param path the path to the arrays to compare
@@ -426,7 +426,9 @@ public class DeepDifference {
   /**
    * Deeply compare two Collections that must be same length and in same
    * order.
-   * 
+   *
+   * @param <K> the key type
+   * @param <V> the value type
    * @param col1 First collection of items to compare
    * @param col2 Second collection of items to compare
    * @param path The path to the collections
@@ -435,6 +437,8 @@ public class DeepDifference {
    *          Set of objects already compared (prevents cycles) value of
    *          'true' indicates that the Collections may be equal, and the
    *          sets items will be added to the Stack for further comparison.
+   *
+   * @return boolean false if the Collections are for certain not equals
    */
   private static <K, V> boolean compareOrderedCollection(Collection<K> col1, Collection<V> col2,
                                                          List<String> path, Deque<DualKey> toCompare,
@@ -454,7 +458,9 @@ public class DeepDifference {
    * can walk the other collection and look for each item in the map, which
    * runs in O(N) time, rather than an O(N^2) lookup that would occur if each
    * item from collection one was scanned for in collection two.
-   * 
+   *
+   * @param <K> the key type
+   * @param <V> the value type
    * @param col1 First collection of items to compare
    * @param col2 Second collection of items to compare
    * @param path the path to the collections to compare
@@ -488,13 +494,11 @@ public class DeepDifference {
     return true;
   }
 
-  /**
-   * Deeply compares two collections referenced by dualKey. This method attempts
-   * to quickly determine inequality by length, then if lengths match, in case of
-   * collection type is Set and there are passed no custom comparators, there is used
-   * comparison on hashcodes basis, otherwise each element from one collection is checked
-   * for existence in another one using 'deep' comparison.
-   */
+  // Deeply compares two collections referenced by dualKey. This method attempts
+  // to quickly determine inequality by length, then if lengths match, in case of
+  // collection type is Set and there are passed no custom comparators, there is used
+  // comparison on hashcodes basis, otherwise each element from one collection is checked
+  // for existence in another one using 'deep' comparison.
   private static <K, V> boolean compareUnorderedCollection(Collection<K> col1, Collection<V> col2,
                                                            List<String> path, Deque<DualKey> toCompare,
                                                            Set<DualKey> visited,
@@ -526,7 +530,11 @@ public class DeepDifference {
   /**
    * Deeply compare two SortedMap instances. This method walks the Maps in
    * order, taking advantage of the fact that the Maps are SortedMaps.
-   * 
+   *
+   * @param <K1> the first key type
+   * @param <V1> the first value type
+   * @param <K2> the second key type
+   * @param <V2> the second value type
    * @param map1 SortedMap one
    * @param map2 SortedMap two
    * @param path the path to the maps to compare
@@ -565,7 +573,11 @@ public class DeepDifference {
   /**
    * Deeply compare two Map instances. After quick short-circuit tests, this
    * method uses a temporary Map so that this method can run in O(N) time.
-   * 
+   *
+   * @param <K1> the first key type
+   * @param <V1> the first value type
+   * @param <K2> the second key type
+   * @param <V2> the second value type
    * @param map1 Map one
    * @param map2 Map two
    * @param path the path to the maps to compare
@@ -613,7 +625,7 @@ public class DeepDifference {
    * Determine if the passed in class has a non-Object.equals() method. This
    * method caches its results in static ConcurrentHashMap to benefit
    * execution performance.
-   * 
+   *
    * @param c Class to check.
    * @return true, if the passed in Class has a .equals() method somewhere
    *         between itself and just below Object in it's inheritance.
@@ -650,7 +662,7 @@ public class DeepDifference {
    * an object encountered (root, subobject, etc.) has a hashCode() method on
    * it (that is not Object.hashCode()), that hashCode() method will be called
    * and it will stop traversal on that branch.
-   * 
+   *
    * @param obj Object who hashCode is desired.
    * @return the 'deep' hashCode value for the passed in object.
    */
@@ -712,7 +724,7 @@ public class DeepDifference {
    * Determine if the passed in class has a non-Object.hashCode() method. This
    * method caches its results in static ConcurrentHashMap to benefit
    * execution performance.
-   * 
+   *
    * @param c Class to check.
    * @return true, if the passed in Class has a .hashCode() method somewhere
    *         between itself and just below Object in it's inheritance.

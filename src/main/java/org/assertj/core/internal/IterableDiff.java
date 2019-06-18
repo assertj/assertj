@@ -43,7 +43,9 @@ class IterableDiff {
   }
 
   /**
-   * Returns the list of elements in the first iterable that are not in the second, i.e. first - second  
+   * Returns the list of elements in the first iterable that are not in the second, i.e. first - second
+   *
+   * @param <T> the element type
    * @param first the list we want to subtract from
    * @param second the list to subtract
    * @return the list of elements in the first iterable that are not in the second, i.e. first - second

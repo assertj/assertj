@@ -31,7 +31,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Comparable}</code>s.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -101,7 +101,7 @@ public class Comparables {
 
   /**
    * Asserts that two T instances are equal.
-   * 
+   *
    * @param <T> the type of actual and expected
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -123,7 +123,7 @@ public class Comparables {
 
   /**
    * Asserts that two T instances are not equal.
-   * 
+   *
    * @param <T> the type of actual and expected
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -142,7 +142,7 @@ public class Comparables {
    * Asserts that two <code>{@link Comparable}</code>s are equal by invoking
    * <code>{@link Comparable#compareTo(Object)}</code>.<br>
    * Note that it does not rely on the custom {@link #comparisonStrategy} if one has been set.
-   * 
+   *
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -164,7 +164,7 @@ public class Comparables {
    * Asserts that two <code>{@link Comparable}</code>s are not equal by invoking
    * <code>{@link Comparable#compareTo(Object)}</code> .<br>
    * Note that it does not rely on the custom {@link #comparisonStrategy} if one has been set.
-   * 
+   *
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -182,7 +182,7 @@ public class Comparables {
 
   /**
    * Asserts that the actual value is less than the other one.
-   * 
+   *
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -200,7 +200,7 @@ public class Comparables {
 
   /**
    * Asserts that the actual value is less than or equal to the other one.
-   * 
+   *
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -217,7 +217,7 @@ public class Comparables {
 
   /**
    * Asserts that the actual value is greater than the other one.
-   * 
+   *
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -233,16 +233,13 @@ public class Comparables {
     throw failures.failure(info, shouldBeGreater(actual, other, comparisonStrategy));
   }
 
-  /**
-   * delegates to {@link #comparisonStrategy#isGreaterThan(Object, Object)}
-   */
   private boolean isGreaterThan(Object actual, Object other) {
     return comparisonStrategy.isGreaterThan(actual, other);
   }
 
   /**
    * Asserts that the actual value is greater than or equal to the other one.
-   * 
+   *
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.
@@ -267,7 +264,7 @@ public class Comparables {
 
   /**
    * Asserts that the actual value is between start and end, inclusive or not.
-   * 
+   *
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
    * @param actual the actual value.

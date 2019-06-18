@@ -1315,8 +1315,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return newListAssertInstanceForMethodsChangingElementType(values);
   }
 
-  /**
-   * Should be used after any methods changing the elements type like {@link #extracting(Function)} as it will propagate the correct
+  /*
+   * Should be used after any methods changing the elements type like {@link #extracting(Function)} as it will propagate the
+   * correct
    * assertions state, that is everyting but the element comparator (since the element type has changed).
    */
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> newListAssertInstanceForMethodsChangingElementType(List<V> values) {

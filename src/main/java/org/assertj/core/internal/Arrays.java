@@ -92,7 +92,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
@@ -105,7 +105,7 @@ public class Arrays {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
-   * 
+   *
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Arrays instance() {
@@ -330,9 +330,6 @@ public class Arrays {
     // assertion succeeded
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#iterableContains(Iterable, Object)}
-   */
   private boolean iterableContains(Iterable<?> actual, Object value) {
     return comparisonStrategy.iterableContains(actual, value);
   }
@@ -341,9 +338,6 @@ public class Arrays {
     comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
-   */
   private void iterableRemoves(Collection<?> actual, Object value) {
     comparisonStrategy.iterableRemoves(actual, value);
   }
@@ -372,8 +366,7 @@ public class Arrays {
 
   /**
    * Return true if actualArray contains exactly the given sequence at given starting index, false otherwise.
-   * 
-   * 
+   *
    * @param actualStartIndex the index to start looking for sequence in actualArray
    * @param actualArray the actual array to search sequence in
    * @param sequence the sequence to look for
@@ -459,9 +452,6 @@ public class Arrays {
     }
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#areEqual(Object, Object)}
-   */
   private boolean areEqual(Object actual, Object other) {
     return comparisonStrategy.areEqual(actual, other);
   }
@@ -478,9 +468,6 @@ public class Arrays {
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(array, values, found, comparisonStrategy));
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#arrayContains(Object, Object)}
-   */
   private boolean arrayContains(Object array, Object value) {
     return comparisonStrategy.arrayContains(array, value);
   }

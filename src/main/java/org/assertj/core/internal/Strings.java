@@ -489,9 +489,6 @@ public class Strings {
     if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#stringContains(String, String)}
-   */
   private boolean stringContains(CharSequence actual, CharSequence sequence) {
     return comparisonStrategy.stringContains(actual.toString(), sequence.toString());
   }

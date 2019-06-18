@@ -340,7 +340,7 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
-  /**
+  /*
    * Deeply compare two Collections that must be same length and in same order.
    */
   private static void compareOrderedCollections(DualValue dualValue, ComparisonState comparisonState) {
@@ -418,20 +418,6 @@ public class RecursiveComparisonDifferenceCalculator {
     // - expected elements not found in actual.
   }
 
-  /**
-   * Deeply compare two SortedMap instances. This method walks the Maps in
-   * order, taking advantage of the fact that the Maps are SortedMaps.
-   *
-   * @param map1 SortedMap one
-   * @param map2 SortedMap two
-   * @param path the path to the maps to compare
-   * @param dualValuesToCompare add items to compare to the Stack (Stack versus recursion)
-   * @param visitedDualValues Set containing items that have already been compared, to
-   *          prevent cycles.
-   * @return false if the Maps are for certain not equals. 'true' indicates
-   *         that 'on the surface' the maps are equal, however, it will place
-   *         the contents of the Maps on the stack for further comparisons.
-   */
   private static <K, V> void compareSortedMap(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualFieldASortedMap()) {
       // at the moment we only compare iterable with iterables (but we might allow arrays too)
@@ -460,20 +446,6 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
-  /**
-   * Deeply compare two Map instances. After quick short-circuit tests, this
-   * method uses a temporary Map so that this method can run in O(N) time.
-   *
-   * @param map1 Map one
-   * @param map2 Map two
-   * @param path the path to the maps to compare
-   * @param dualValuesToCompare add items to compare to the Stack (Stack versus recursion)
-   * @param visitedDualValues Set containing items that have already been compared, to
-   *          prevent cycles.
-   * @return false if the Maps are for certain not equals. 'true' indicates
-   *         that 'on the surface' the maps are equal, however, it will place
-   *         the contents of the Maps on the stack for further comparisons.
-   */
   private static void compareUnorderedMap(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualFieldAMap()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "a map"));

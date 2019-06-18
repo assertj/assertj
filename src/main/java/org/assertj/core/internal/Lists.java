@@ -36,7 +36,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link List}</code>s.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -128,10 +128,10 @@ public class Lists {
    * <li>a list composed of {True, "abc", False} is <b>NOT ok</b> because elements are not mutually comparable</li>
    * </ul>
    * Empty lists are considered sorted.<br> Unique element lists are considered sorted unless the element type is not Comparable.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code List}.
-   * 
+   *
    * @throws AssertionError if the actual list is not sorted in ascending order according to the natural ordering of its
    *           elements.
    * @throws AssertionError if the actual list is <code>null</code>.
@@ -165,11 +165,11 @@ public class Lists {
   /**
    * Verifies that the actual list is sorted according to the given comparator.<br> Empty lists are considered sorted whatever
    * the comparator is.<br> One element lists are considered sorted if the element is compatible with comparator.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code List}.
    * @param comparator the {@link Comparator} used to compare list elements
-   * 
+   *
    * @throws AssertionError if the actual list is not sorted according to the given comparator.
    * @throws AssertionError if the actual list is <code>null</code>.
    * @throws NullPointerException if the given comparator is <code>null</code>.
@@ -268,9 +268,6 @@ public class Lists {
     Conditions.instance().assertIsNotNull(condition);
   }
 
-  /**
-   * Delegates to {@link ComparisonStrategy#areEqual(Object, Object)}
-   */
   private boolean areEqual(Object actual, Object other) {
     return comparisonStrategy.areEqual(actual, other);
   }
