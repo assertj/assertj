@@ -300,7 +300,7 @@
           <nohelp>true</nohelp>
           <show>private</show>
           <footer><![CDATA[
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css"">
+            <link rel="stylesheet" href="./assertj-javadoc.css"">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
             <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
         ]]></footer>

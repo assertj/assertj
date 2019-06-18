@@ -375,6 +375,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual length is equal or greater than the expected length.
    * @since 3.12.0
    */
+  @Override
   public SELF hasSizeLessThan(int expected) {
     strings.assertHasSizeLessThan(info, actual, expected);
     return myself;
@@ -394,6 +395,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual length is greater than the expected length.
    * @since 3.12.0
    */
+  @Override
   public SELF hasSizeLessThanOrEqualTo(int expected) {
     strings.assertHasSizeLessThanOrEqualTo(info, actual, expected);
     return myself;
@@ -413,6 +415,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual length is equal or less than the expected length.
    * @since 3.12.0
    */
+  @Override
   public SELF hasSizeGreaterThan(int expected) {
     strings.assertHasSizeGreaterThan(info, actual, expected);
     return myself;
@@ -432,6 +435,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual length is less than the expected length.
    * @since 3.12.0
    */
+  @Override
   public SELF hasSizeGreaterThanOrEqualTo(int expected) {
     strings.assertHasSizeGreaterThanOrEqualTo(info, actual, expected);
     return myself;
@@ -822,7 +826,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Example :
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;pippin&quot;)
-   *                              .doesNotContain(&quot;fro&quot;, &quot;sam&quot;);
+   *                    .doesNotContain(&quot;fro&quot;, &quot;sam&quot;);
    *
    *
    * // assertion will fail
@@ -846,7 +850,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Example :
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotContain(Arrays.asList(&quot;&quot;))
-   *                              .doesNotContain(Arrays.asList(&quot;fro&quot;, &quot;sam&quot;));
+   *                    .doesNotContain(Arrays.asList(&quot;fro&quot;, &quot;sam&quot;));
    *
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotContain(Arrays.asList(&quot;Fro&quot;, &quot;Gimli&quot;, &quot;Legolas&quot;));</code></pre>
