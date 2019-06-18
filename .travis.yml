@@ -17,7 +17,8 @@ cache:
 jdk:
   - openjdk11
   - openjdk12
-  - openjdk-ea
+  # fails the build https://travis-ci.org/joel-costigliola/assertj-core/builds/547178151
+  # - openjdk-ea
 
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./mvnw clean verify javadoc:javadoc; fi'
