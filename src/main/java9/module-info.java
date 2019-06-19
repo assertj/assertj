@@ -12,6 +12,7 @@
  */
 
 module org.assertj.core {
+  // AssertJ Core's package API
   exports org.assertj.core.annotations;
   exports org.assertj.core.api;
   exports org.assertj.core.api.exception;
@@ -35,6 +36,7 @@ module org.assertj.core {
   exports org.assertj.core.util.diff.myers;
   exports org.assertj.core.util.introspection;
   exports org.assertj.core.util.xml;
+
   requires java.instrument;
   // required when printThreadDump is true
   requires static java.management;
@@ -48,4 +50,8 @@ module org.assertj.core {
   requires static org.junit.jupiter.api;
   // To throw AssertionFailedError which is IDE friendly
   requires static org.opentest4j;
+
+  // Services loaded by org.assertj.core.configuration.ConfigurationProvider
+  uses org.assertj.core.configuration.Configuration;
+  uses org.assertj.core.presentation.Representation;
 }
