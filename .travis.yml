@@ -17,6 +17,7 @@ cache:
 jdk:
   - openjdk11
   - openjdk12
+  - openjdk13
   # fails the build https://travis-ci.org/joel-costigliola/assertj-core/builds/547178151
   # - openjdk-ea
 
