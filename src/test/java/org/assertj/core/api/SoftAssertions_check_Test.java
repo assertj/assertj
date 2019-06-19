@@ -60,4 +60,15 @@ public class SoftAssertions_check_Test {
                          .hasCauseInstanceOf(IOException.class);
   }
 
+  @Test
+  public void should_rethrow_runtime_exception_as_is() {
+    // GIVEN
+    MyProjectClass custom = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> softly.check(() -> MyProjectAssertions.assertThat(custom).hasValue("")));
+    // THEN
+    assertThat(throwable).isInstanceOf(NullPointerException.class)
+                         .hasNoCause();
+  }
+
 }
