@@ -33,6 +33,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Spliterators;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
@@ -77,14 +78,14 @@ public class MockPathsBaseTest extends PathsBaseTest {
   static DirectoryStream<Path> directoryStream(List<Path> directoryItems) {
     DirectoryStream<Path> stream = mock(DirectoryStream.class);
     given(stream.iterator()).will(inv -> directoryItems.iterator());
-    given(stream.spliterator()).willCallRealMethod();
+    given(stream.spliterator()).will(inv -> Spliterators.spliteratorUnknownSize(directoryItems.iterator(), 0));
     return stream;
   }
 
   private DirectoryStream<Path> filterStream(Predicate<Path> filter, DirectoryStream<Path> source) throws IOException {
     DirectoryStream<Path> stream = mock(DirectoryStream.class);
     given(stream.iterator()).will(inv -> Iterators.filter(source.iterator(), filter::test));
-    given(stream.spliterator()).willCallRealMethod();
+    given(stream.spliterator()).will(inv -> Spliterators.spliteratorUnknownSize(Iterators.filter(source.iterator(), filter::test), 0));
     willAnswer(inv -> {
       source.close();
       return null;
