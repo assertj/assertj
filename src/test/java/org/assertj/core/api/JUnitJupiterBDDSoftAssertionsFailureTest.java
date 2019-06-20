@@ -26,7 +26,7 @@ public class JUnitJupiterBDDSoftAssertionsFailureTest {
 
   // we cannot register the extension here, because we need to test the failure without this test failing!
   // @RegisterExtension
-  JUnitJupiterBDDSoftAssertions softly = new JUnitJupiterBDDSoftAssertions();
+  JUnitJupiterBDDSoftAssertions softly = new JUnitJupiterBDDSoftAssertionsForTest();
 
   @Test
   public void should_report_all_errors() {
@@ -53,4 +53,14 @@ public class JUnitJupiterBDDSoftAssertionsFailureTest {
                                          "and elements not expected:%n" +
                                          "  <[2]>%n"));
   }
+
+  static class JUnitJupiterBDDSoftAssertionsForTest extends JUnitJupiterBDDSoftAssertions {
+    SoftProxies proxies = new SoftProxies();
+
+    @Override
+    protected SoftProxies getProxies() {
+      return proxies;
+    }
+  }
+
 }

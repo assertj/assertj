@@ -45,7 +45,7 @@ public abstract class AbstractSoftAssertions implements InstanceOfAssertFactorie
     try {
       assertion.run();
     } catch (AssertionError error) {
-      proxies.collectError(error);
+      getProxies().collectError(error);
     } catch (RuntimeException runtimeException) {
       throw runtimeException;
     } catch (Exception exception) {
