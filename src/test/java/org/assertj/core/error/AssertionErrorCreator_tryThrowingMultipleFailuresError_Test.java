@@ -34,14 +34,16 @@ public class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
   @Test
   public void should_throw_MultipleFailuresError() {
     // GIVEN
-    List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
+    List<AssertionError> errors = list(new AssertionError(format("%nerror1")), new AssertionError(format("%nerror2")));
     // WHEN
     Throwable thrown = catchThrowable(() -> assertionErrorCreator.tryThrowingMultipleFailuresError(errors));
     // THEN
     assertThat(thrown).isInstanceOf(MultipleFailuresError.class)
-                      .hasMessage(format("Multiple Failures (2 failures)%n"
-                                         + "\terror1%n"
-                                         + "\terror2"));
+                      .hasMessage(format("Multiple Failures (2 failures)%n" +
+                                         "-- failure 1 --%n" +
+                                         "error1%n" +
+                                         "-- failure 2 --%n" +
+                                         "error2"));
     MultipleFailuresError assertionFailedError = (MultipleFailuresError) thrown;
     assertThat(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
   }

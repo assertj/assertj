@@ -22,6 +22,7 @@ import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 // TODO deprecate AssertionErrorFactory
 public class AssertionErrorCreator {
@@ -100,15 +101,17 @@ public class AssertionErrorCreator {
   }
 
   private Optional<AssertionError> tryBuildingMultipleFailuresError(String heading,
-                                                                           List<? extends Throwable> errorsCollected) {
+                                                                    List<? extends Throwable> errorsCollected) {
     if (errorsCollected.isEmpty()) return Optional.empty();
     try {
       Object[] constructorArguments = array(heading, errorsCollected);
       Object multipleFailuresError = constructorInvoker.newInstance("org.opentest4j.MultipleFailuresError",
-                                                                     MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
-                                                                     constructorArguments);
-      if (multipleFailuresError instanceof AssertionError) {
-        AssertionError assertionError = (AssertionError) multipleFailuresError;
+                                                                    MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
+                                                                    constructorArguments);
+      if (multipleFailuresError instanceof AssertionError) { // means that we were able to build a MultipleFailuresError
+        List<Throwable> failures = extractFailuresOf(multipleFailuresError);
+        // we switch to AssertJMultipleFailuresError in order to control the formatting of the error message.
+        AssertionError assertionError = new AssertJMultipleFailuresError(heading, failures);
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
         return Optional.of(assertionError);
       }
@@ -116,6 +119,10 @@ public class AssertionErrorCreator {
       // do nothing, MultipleFailuresError was not in the classpath
     }
     return Optional.empty();
+  }
+
+  private static List<Throwable> extractFailuresOf(Object multipleFailuresError) {
+    return (List<Throwable>) PropertyOrFieldSupport.EXTRACTION.getValueOf("failures", multipleFailuresError);
   }
 
 }

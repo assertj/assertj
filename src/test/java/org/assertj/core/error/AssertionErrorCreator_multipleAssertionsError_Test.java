@@ -40,9 +40,10 @@ public class AssertionErrorCreator_multipleAssertionsError_Test {
     AssertionError assertionError = assertionErrorCreator.multipleAssertionsError(description, errors);
     // THEN
     assertThat(assertionError).isInstanceOf(MultipleFailuresError.class)
-                              .hasMessage(format("[description] (2 failures)%n"
-                                                 + "\terror1%n"
-                                                 + "\terror2"));
+                              .hasMessageContainingAll("[description]",
+                                                       "(2 failures)",
+                                                       "error1",
+                                                       "error2");
     MultipleFailuresError assertionFailedError = (MultipleFailuresError) assertionError;
     assertThat(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
   }

@@ -30,7 +30,8 @@ public class SoftAssertionsErrorDescriptionTest {
     AssertionError error = catchThrowableOfType(() -> softly.assertAll(), AssertionError.class);
     // THEN
     assertThat(error).hasMessageStartingWith(format("Multiple Failures (1 failure)%n"
-                                                    + "\tfailure%n"
+                                                    + "-- failure 1 --"
+                                                    + "failure%n"
                                                     + "at SoftAssertionsErrorDescriptionTest.should_display_the_error_cause_and_the_cause_first_stack_trace_elements(SoftAssertionsErrorDescriptionTest.java:28)"));
   }
 

@@ -25,10 +25,10 @@ public interface AssertionErrorFactory {
 
   /**
    * Creates an <code>{@link AssertionError}</code>.
-   * @param d the description of the failed assertion.
+   * @param description the description of the failed assertion.
    * @param representation the Representation used
    * @return the created {@code AssertionError}.
    */
-  AssertionError newAssertionError(Description d, Representation representation);
+  AssertionError newAssertionError(Description description, Representation representation);
 
 }

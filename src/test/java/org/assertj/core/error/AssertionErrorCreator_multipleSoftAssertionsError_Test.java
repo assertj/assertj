@@ -31,16 +31,18 @@ public class AssertionErrorCreator_multipleSoftAssertionsError_Test {
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Test
-  public void should_create_MultipleFailuresError_using_reflection() {
+  public void should_create_AssertJMultipleFailuresError_using_reflection() {
     // GIVEN
-    List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
+    List<AssertionError> errors = list(new AssertionError(format("%nerror1")), new AssertionError(format("%nerror2")));
     // WHEN
     AssertionError assertionError = assertionErrorCreator.multipleSoftAssertionsError(errors);
     // THEN
-    assertThat(assertionError).isInstanceOf(MultipleFailuresError.class)
-                              .hasMessage(format("Multiple Failures (2 failures)%n"
-                                                 + "\terror1%n"
-                                                 + "\terror2"));
+    assertThat(assertionError).isInstanceOf(AssertJMultipleFailuresError.class)
+                              .hasMessage(format("Multiple Failures (2 failures)%n" +
+                                                 "-- failure 1 --%n" +
+                                                 "error1%n" +
+                                                 "-- failure 2 --%n" +
+                                                 "error2"));
     MultipleFailuresError assertionFailedError = (MultipleFailuresError) assertionError;
     assertThat(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
   }
