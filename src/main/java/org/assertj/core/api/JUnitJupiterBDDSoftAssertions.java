@@ -14,11 +14,14 @@ package org.assertj.core.api;
 
 import java.util.List;
 
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
+ * @deprecated use {@link SoftAssertionsExtension} instead.
+ *
  * Same as {@link SoftAssertions}, but with the following differences: <br>
  * First, it's a JUnit Jupiter extension, which can be used without having to call
  * {@link SoftAssertions#assertAll() assertAll()}, example:
@@ -36,6 +39,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */
+@Deprecated
 public class JUnitJupiterBDDSoftAssertions extends AbstractBDDSoftAssertions implements AfterEachCallback {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
