@@ -36,6 +36,11 @@ public class ShouldHaveSizeLessThanOrEqualTo extends BasicErrorMessageFactory {
   private ShouldHaveSizeLessThanOrEqualTo(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
-    super(format("%nExpecting size of:%n <%s>%nto be less than or equal to:<%s> but was:<%s>", expectedSize, actualSize, "%s"), actual);
+    // %%s is going to be formatted to %s to be replaced by actual later on.
+    super(format("%n" +
+                 "Expecting size of:%n" +
+                 "  <%%s>%n" +
+                 "to be less than or equal to %s but was %s", expectedSize, actualSize),
+          actual);
   }
 }

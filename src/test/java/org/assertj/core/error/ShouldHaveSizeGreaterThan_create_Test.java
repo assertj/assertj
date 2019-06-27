@@ -15,12 +15,12 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThan.shouldHaveSizeGreaterThan;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,18 +36,28 @@ public class ShouldHaveSizeGreaterThan_create_Test {
 
   @BeforeEach
   void setUp() {
-    factory = shouldHaveSizeGreaterThan("ab", 4, 2);
+    factory = shouldHaveSizeGreaterThan("ab", 2, 4);
   }
 
   @Test
   void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %nExpecting size of:%n <2>%nto be greater than:<4> but was:<\"ab\">"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n"
+                                         + "Expecting size of:%n"
+                                         + "  <\"ab\">%n"
+                                         + "to be greater than 4 but was 2"));
   }
 
   @Test
   void should_create_error_message_with_hexadecimal_representation() {
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %nExpecting size of:%n <2>%nto be greater than:<4> but was:<\"['0x0061', '0x0062']\">"));
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n"
+                                         + "Expecting size of:%n"
+                                         + "  <\"['0x0061', '0x0062']\">%n"
+                                         + "to be greater than 4 but was 2"));
   }
 }
