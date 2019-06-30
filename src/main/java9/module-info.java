@@ -42,11 +42,11 @@ module org.assertj.core {
   requires static java.management;
   // used for pretty print XML
   requires static java.xml;
-  // For annotations: Beta and NonNull ones for Kotlin
-  requires static jsr305;
-  // JUnit/Hamcrest specific features
-  requires static hamcrest.core;
-  requires static junit;
+  // these lines are commented to avoid this compilation warning
+  // Required filename-based automodules detected. Please don't publish this project to a public artifact repository!
+  // requires static jsr305;
+  // requires static hamcrest.core;
+  // requires static junit;
   requires static org.junit.jupiter.api;
   // To throw AssertionFailedError which is IDE friendly
   requires static org.opentest4j;
