@@ -35,7 +35,7 @@ public class ShouldHaveMessage_create_Test {
                                        "but was:%n" +
                                        "  <\"error message\">%n" +
                                        "%n" +
-                                       "Throwable that failed the check:\n" +
+                                       "Throwable that failed the check:%n" +
                                        "%n%s",
                                        Throwables.getStackTrace(actual));
   }
