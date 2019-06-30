@@ -190,7 +190,7 @@ public class Comparables {
    *           value is equal to or greater than the other value.
    */
   public <T extends Comparable<? super T>> void assertLessThan(AssertionInfo info, T actual, T other) {
-    this.assertLessThan(info, actual, other, ShouldBeLess::shouldBeLess);
+    assertLessThan(info, actual, other, ShouldBeLess::shouldBeLess);
   }
 
   /**
@@ -205,7 +205,7 @@ public class Comparables {
    *           value is equal to or greater than the other value.
    */
   public <T extends Comparable<? super T>> void assertIsBefore(AssertionInfo info, T actual, T other) {
-    this.assertLessThan(info, actual, other, ShouldBeBefore::shouldBeBefore);
+    assertLessThan(info, actual, other, ShouldBeBefore::shouldBeBefore);
   }
 
   /**
@@ -215,25 +215,25 @@ public class Comparables {
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the value to compare the actual value to.
-   * @param factory the desired error message factory to generate the suitable error message
+   * @param errorMessageFactory the desired error message factory to generate the suitable error message
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not before the other one: this assertion will fail if the actual
    *           value is equal to or after the other value.
    */
   private <T extends Comparable<? super T>> void assertLessThan(AssertionInfo info, T actual, T other,
-                                                                TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> factory) {
+                                                                TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other))
       return;
-    throw failures.failure(info, factory.apply(actual, other, comparisonStrategy));
+    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
   public <T extends Comparable<? super T>> void assertIsBeforeOrEqualTo(AssertionInfo info, T actual, T other) {
-    this.assertLessThanOrEqualTo(info, actual, other, ShouldBeBeforeOrEqualsTo::shouldBeBeforeOrEqualsTo);
+    assertLessThanOrEqualTo(info, actual, other, ShouldBeBeforeOrEqualsTo::shouldBeBeforeOrEqualsTo);
   }
 
   public <T extends Comparable<? super T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
-    this.assertLessThanOrEqualTo(info, actual, other, ShouldBeLessOrEqual::shouldBeLessOrEqual);
+    assertLessThanOrEqualTo(info, actual, other, ShouldBeLessOrEqual::shouldBeLessOrEqual);
   }
 
   /**
@@ -256,11 +256,11 @@ public class Comparables {
   }
 
   public <T extends Comparable<? super T>> void assertIsAfter(AssertionInfo info, T actual, T other) {
-    this.assertGreaterThan(info, actual, other, ShouldBeAfter::shouldBeAfter);
+    assertGreaterThan(info, actual, other, ShouldBeAfter::shouldBeAfter);
   }
 
   public <T extends Comparable<? super T>> void assertGreaterThan(AssertionInfo info, T actual, T other) {
-    this.assertGreaterThan(info, actual, other, ShouldBeGreater::shouldBeGreater);
+    assertGreaterThan(info, actual, other, ShouldBeGreater::shouldBeGreater);
   }
 
 

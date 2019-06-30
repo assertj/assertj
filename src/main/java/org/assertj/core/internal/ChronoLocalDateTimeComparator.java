@@ -31,7 +31,7 @@ public class ChronoLocalDateTimeComparator extends DescribableComparator<ChronoL
   }
 
   @Override
-  public int compare(ChronoLocalDateTime<?> o1, ChronoLocalDateTime<?> o2) {
-    return ChronoLocalDateTime.timeLineOrder().compare(o1, o2);
+  public int compare(ChronoLocalDateTime<?> date1, ChronoLocalDateTime<?> date2) {
+    return ChronoLocalDateTime.timeLineOrder().compare(date1, date2);
   }
 }

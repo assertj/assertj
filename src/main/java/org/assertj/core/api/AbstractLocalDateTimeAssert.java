@@ -55,7 +55,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> before the given one.
+   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> before the given one according to
+   * the comparator in use.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59")).isBefore(parse("2000-01-02T00:00:00"));</code></pre>
@@ -67,7 +68,6 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} is not strictly before the given one.
    */
   public SELF isBefore(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
     comparables.assertIsBefore(info, actual, other);
     return myself;
@@ -96,7 +96,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is before or equals to the given one.
+   * Verifies that the actual {@code LocalDateTime} is before or equals to the given one according to
+   * the comparator in use.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59"))
@@ -109,7 +110,6 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} is not before or equals to the given one.
    */
   public SELF isBeforeOrEqualTo(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
     comparables.assertIsBeforeOrEqualTo(info, actual, other);
     return myself;
@@ -139,7 +139,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is after or equals to the given one.
+   * Verifies that the actual {@code LocalDateTime} is after or equals to the given one according to
+   * the comparator in use.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isAfterOrEqualTo(parse("2000-01-01T00:00:00"))
@@ -152,7 +153,6 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} is not after or equals to the given one.
    */
   public SELF isAfterOrEqualTo(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
     comparables.assertIsAfterOrEqualTo(info, actual, other);
     return myself;
@@ -182,7 +182,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> after the given one.
+   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> after the given one according to
+   * the comparator in use.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isAfter(parse("1999-12-31T23:59:59"));</code></pre>
@@ -194,7 +195,6 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} is not strictly after the given one.
    */
   public SELF isAfter(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
     comparables.assertIsAfter(info, actual, other);
     return myself;
@@ -222,11 +222,24 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
     return isAfter(parse(localDateTimeAsString));
   }
 
-  public SELF isEqualTo(LocalDateTime expected) {
-    if (actual == null || expected == null) {
-      super.isEqualTo(expected);
+  /**
+   * Verifies that the actual {@code LocalDateTime} is equal to the given one according to the comparator in use.
+   *
+   * Example :
+   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isEqualTo(parse("2000-01-01T00:00:00"));</code></pre>
+   *
+   * @param other the given {@link LocalDateTime}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the given {@code Object} is not an instance of {@code LocalDateTime}
+   * @throws AssertionError if the actual {@code LocalDateTime} differs from the given {@code LocalDateTime}
+   *            according to the comparator in use.
+   */
+  public SELF isEqualTo(Object other) {
+    if (actual == null || !(other instanceof LocalDateTime)) {
+      super.isEqualTo(other);
     } else {
-      comparables.assertEqual(info, actual, expected);
+      comparables.assertEqual(info, actual, other);
     }
     return myself;
   }
@@ -253,11 +266,24 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
     return isEqualTo(parse(dateTimeAsString));
   }
 
-  public SELF isNotEqualTo(LocalDateTime expected) {
-    if (actual == null || expected == null) {
-      super.isNotEqualTo(expected);
+  /**
+   * Verifies that the actual {@code LocalDateTime} is not equal to the given one according to the comparator in use.
+   *
+   * Example :
+   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isEqualTo(parse("2000-01-01T00:00:00"));</code></pre>
+   *
+   * @param other the given value to compare the actual value to.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the given {@code Object} is not an instance of {@code LocalDateTime}
+   * @throws AssertionError if the actual {@code LocalDateTime} equals to the given {@code LocalDateTime}
+   *            according to the comparator in use.
+   */
+  public SELF isNotEqualTo(Object other) {
+    if (actual == null || !(other instanceof LocalDateTime)) {
+      super.isNotEqualTo(other);
     } else {
-      comparables.assertNotEqual(info, actual, expected);
+      comparables.assertNotEqual(info, actual, other);
     }
     return myself;
   }
@@ -522,7 +548,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@link LocalDateTime} is in the [start, end] period (start and end included).
+   * Verifies that the actual {@link LocalDateTime} is in the [start, end] period (start and end included) according to
+   * the comparator in use.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();
@@ -586,7 +613,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@link LocalDateTime} is in the ]start, end[ period (start and end excluded).
+   * Verifies that the actual {@link LocalDateTime} is in the ]start, end[ period (start and end excluded) according to
+   * the comparator in use.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();
