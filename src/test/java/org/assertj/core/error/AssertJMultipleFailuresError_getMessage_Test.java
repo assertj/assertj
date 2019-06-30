@@ -30,7 +30,7 @@ public class AssertJMultipleFailuresError_getMessage_Test {
     // WHEN
     String message = error.getMessage();
     // THEN
-    assertThat(message).startsWith(description);
+    assertThat(message).startsWith(format("%n%s", description));
   }
 
   @Test
@@ -48,7 +48,7 @@ public class AssertJMultipleFailuresError_getMessage_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> softly.assertAll());
     // THEN
-    assertThat(error).hasMessage(format("Multiple Failures (10 failures)%n" +
+    assertThat(error).hasMessage(format("%nMultiple Failures (10 failures)%n" +
                                         "-- failure 1 --%n" +
                                         "Expecting empty but was:<[\"\"]>%n" +
                                         "-- failure 2 --%n" +

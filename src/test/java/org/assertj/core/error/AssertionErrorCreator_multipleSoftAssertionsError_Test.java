@@ -38,7 +38,7 @@ public class AssertionErrorCreator_multipleSoftAssertionsError_Test {
     AssertionError assertionError = assertionErrorCreator.multipleSoftAssertionsError(errors);
     // THEN
     assertThat(assertionError).isInstanceOf(AssertJMultipleFailuresError.class)
-                              .hasMessage(format("Multiple Failures (2 failures)%n" +
+                              .hasMessage(format("%nMultiple Failures (2 failures)%n" +
                                                  "-- failure 1 --%n" +
                                                  "error1%n" +
                                                  "-- failure 2 --%n" +

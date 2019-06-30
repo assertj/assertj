@@ -41,10 +41,11 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
     if (failureCount == 0) return super.getMessage();
 
     heading = isBlank(heading) ? "Multiple Failures" : heading.trim();
-    StringBuilder builder = new StringBuilder(heading).append(" (")
-                                                      .append(failureCount).append(" ")
-                                                      .append(pluralize(failureCount, "failure", "failures"))
-                                                      .append(")");
+    StringBuilder builder = new StringBuilder(EOL).append(heading)
+                                                  .append(" (")
+                                                  .append(failureCount).append(" ")
+                                                  .append(pluralize(failureCount, "failure", "failures"))
+                                                  .append(")");
     for (int i = 0; i < failureCount; i++) {
       builder.append(errorSeparator(i + 1));
       String message = nullSafeMessage(failures.get(i));

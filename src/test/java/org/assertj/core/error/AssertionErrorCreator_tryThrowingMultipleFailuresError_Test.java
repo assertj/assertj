@@ -39,7 +39,7 @@ public class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
     Throwable thrown = catchThrowable(() -> assertionErrorCreator.tryThrowingMultipleFailuresError(errors));
     // THEN
     assertThat(thrown).isInstanceOf(MultipleFailuresError.class)
-                      .hasMessage(format("Multiple Failures (2 failures)%n" +
+                      .hasMessage(format("%nMultiple Failures (2 failures)%n" +
                                          "-- failure 1 --%n" +
                                          "error1%n" +
                                          "-- failure 2 --%n" +
