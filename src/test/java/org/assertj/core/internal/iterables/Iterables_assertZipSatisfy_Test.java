@@ -78,7 +78,7 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
     try {
       iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).startsWith(s2));
     } catch (AssertionError e) {
-      assertThat(e).hasMessageContaining(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create());
+      assertThat(e).hasMessageContaining(shouldHaveSameSizeAs(actual, other, actual.size(), other.size()).create());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

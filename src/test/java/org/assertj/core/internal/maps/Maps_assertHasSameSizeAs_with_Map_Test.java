@@ -61,7 +61,7 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
     Map<?, ?> other = mapOf(entry("name", "Solo"));
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null, info.representation()));
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.size(), other.size()).create(null, info.representation()));
   }
 
   @Test

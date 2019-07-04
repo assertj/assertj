@@ -42,7 +42,7 @@ public class FloatArrays_assertHasSameSizeAs_with_Iterable_Test extends FloatArr
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
                                                    .withMessage(format(shouldHaveSameSizeAs(actual,
-                                                                                            actual.length,
+                                                     other, actual.length,
                                                                                             other.size()).create(null,
                                                                                                                  info.representation())));
   }

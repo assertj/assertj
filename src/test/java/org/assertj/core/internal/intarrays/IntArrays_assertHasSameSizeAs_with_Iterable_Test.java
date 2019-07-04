@@ -49,7 +49,7 @@ public class IntArrays_assertHasSameSizeAs_with_Iterable_Test extends IntArraysB
     List<String> other = newArrayList("Solo", "Leia", "Yoda", "Luke");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(format(shouldHaveSameSizeAs(actual, actual.length,
+                                                   .withMessage(format(shouldHaveSameSizeAs(actual, other, actual.length,
                                                                                             other.size()).create(null,
                                                                                                                  info.representation())));
   }

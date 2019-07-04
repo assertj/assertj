@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.internal.Maps#assertContainsExactly(org.assertj.core.api.AssertionInfo, java.util.Map, org.assertj.core.data.MapEntry...)}</code>
+ * <code>{@link org.assertj.core.internal.Maps#assertContainsExactly(org.assertj.core.api.AssertionInfo, java.util.Map, java.util.Map.Entry...)}</code>
  * .
  *
  * @author Jean-Christophe Gay
@@ -112,7 +112,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsExactly(info, linkedActual, expected))
-                                                   .withMessage(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
+                                                   .withMessage(shouldHaveSameSizeAs(linkedActual, expected, linkedActual.size(), expected.length).create());
   }
 
   @Test

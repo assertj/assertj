@@ -41,7 +41,7 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
     List<String> other = newArrayList("Solo", "Leia");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null, info.representation()));
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.size()).create(null, info.representation()));
   }
 
   @Test

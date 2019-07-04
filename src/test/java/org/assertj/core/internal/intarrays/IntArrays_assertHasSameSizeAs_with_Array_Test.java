@@ -36,7 +36,7 @@ public class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBase
     String[] other = array("Solo", "Leia", "Yoda", "Luke");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create(null, info.representation()));
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.length).create(null, info.representation()));
   }
 
   @Test

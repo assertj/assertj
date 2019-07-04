@@ -53,7 +53,7 @@ public class Maps_assertHasSameSizeAs_with_Array_Test extends MapsBaseTest {
     String[] other = array("Solo", "Leia", "Yoda");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.size(),
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.size(),
                                                                                      other.length).create(null,
                                                                                                           info.representation()));
   }

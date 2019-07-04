@@ -48,7 +48,7 @@ public class LongArrays_assertHasSameSizeAs_with_Iterable_Test extends LongArray
     List<String> other = newArrayList("Solo", "Leia", "Yoda", "Luke");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length,
                                                                                      other.size()).create(null,
                                                                                                           info.representation()));
   }

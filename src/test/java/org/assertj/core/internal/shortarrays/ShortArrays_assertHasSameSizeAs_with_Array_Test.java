@@ -47,7 +47,7 @@ public class ShortArrays_assertHasSameSizeAs_with_Array_Test extends ShortArrays
     String[] other = array("Solo", "Leia", "Yoda");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length,
                                                                                      other.length).create(null,
                                                                                                           info.representation()));
   }

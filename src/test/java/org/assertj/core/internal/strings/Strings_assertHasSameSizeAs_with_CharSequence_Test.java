@@ -42,7 +42,7 @@ public class Strings_assertHasSameSizeAs_with_CharSequence_Test extends StringsB
     String other = "Han";
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length(),
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length(),
                                                                                      other.length()).create(null,
                                                                                                             info.representation()));
   }

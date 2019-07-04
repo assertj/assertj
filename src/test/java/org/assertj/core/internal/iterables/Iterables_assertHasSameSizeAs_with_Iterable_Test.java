@@ -60,7 +60,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
     Collection<String> other = newArrayList("Solo", "Luke", "Leia");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(format(shouldHaveSameSizeAs(actual, actual.size(),
+                                                   .withMessage(format(shouldHaveSameSizeAs(actual, other, actual.size(),
                                                                                             other.size()).create(null,
                                                                                                                  info.representation())));
   }
@@ -93,7 +93,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(info,
                                                                                                                                         actual,
                                                                                                                                         other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.size(),
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.size(),
                                                                                      other.size()).create(null,
                                                                                                           info.representation()));
   }

@@ -39,7 +39,7 @@ public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArray
     List<String> other = newArrayList("Solo", "Leia");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length,
                                                                                      other.size()).create(null,
                                                                                                           info.representation()));
   }

@@ -47,7 +47,7 @@ public class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseT
     List<String> other = newArrayList("Solo", "Leia");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(format(shouldHaveSameSizeAs(actual, actual.length(),
+                                                   .withMessage(format(shouldHaveSameSizeAs(actual, other, actual.length(),
                                                                                             other.size()).create(null,
                                                                                                                  info.representation())));
   }

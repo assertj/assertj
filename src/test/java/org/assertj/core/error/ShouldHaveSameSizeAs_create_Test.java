@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldHaveSameSizeAs#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Nicolas François
  */
 public class ShouldHaveSameSizeAs_create_Test {
@@ -33,7 +33,7 @@ public class ShouldHaveSameSizeAs_create_Test {
 
   @BeforeEach
   public void setUp() {
-    factory = shouldHaveSameSizeAs(newArrayList('a', 'b'), 2, 4);
+    factory = shouldHaveSameSizeAs(newArrayList('a', 'b'), newArrayList('a', 'b', 'c', 'd'), 2, 4);
   }
 
   @Test
@@ -45,7 +45,9 @@ public class ShouldHaveSameSizeAs_create_Test {
                                    "while expected is:%n" +
                                    " <4>%n" +
                                    "Actual was:%n" +
-                                   "<['a', 'b']>"));
+                                   "<['a', 'b']>%n" +
+                                   "Expected was:%n" +
+                                   "<['a', 'b', 'c', 'd']>"));
   }
 
   @Test
@@ -56,6 +58,8 @@ public class ShouldHaveSameSizeAs_create_Test {
                                   " <2>%n" +
                                   "while expected is:%n" +
                                   " <4>%n" +
-                                  "Actual was:%n<['0x0061', '0x0062']>"));
-}
+                                  "Actual was:%n<['0x0061', '0x0062']>%n" +
+                                  "Expected was:%n" +
+                                  "<['0x0061', '0x0062', '0x0063', '0x0064']>"));
+  }
 }

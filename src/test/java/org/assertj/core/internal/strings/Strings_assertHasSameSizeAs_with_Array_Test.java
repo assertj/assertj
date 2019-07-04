@@ -45,7 +45,7 @@ public class Strings_assertHasSameSizeAs_with_Array_Test extends StringsBaseTest
     String[] other = array("Solo", "Leia");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(format(shouldHaveSameSizeAs(actual, actual.length(),
+                                                   .withMessage(format(shouldHaveSameSizeAs(actual, other, actual.length(),
                                                                                             other.length).create(null,
                                                                                                                  info.representation())));
   }
