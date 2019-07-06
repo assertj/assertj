@@ -37,7 +37,7 @@ import org.junit.platform.commons.annotation.Testable;
  * Extension for JUnit Jupiter that provides support for injecting an instance
  * of {@link SoftAssertions} or {@link BDDSoftAssertions} into test methods.
  *
- * <h3>Applicability</h3>
+ * <h2>Applicability</h2>
  *
  * <p>In this context, the term "test method" refers to any method annotated with
  * {@code @Test}, {@code @RepeatedTest}, {@code @ParameterizedTest},
@@ -45,7 +45,7 @@ import org.junit.platform.commons.annotation.Testable;
  * This extension does not inject {@code SoftAssertions} or {@code BDDSoftAssertions} arguments into test
  * constructors or lifecycle methods.
  *
- * <h3>Scope</h3>
+ * <h2>Scope</h2>
  *
  * <p>The scope of the {@code SoftAssertions} or {@code BDDSoftAssertions} instance
  * managed by this extension begins when a parameter of type {@code SoftAssertions}
