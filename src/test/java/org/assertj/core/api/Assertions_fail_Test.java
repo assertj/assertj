@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.fail;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 
 public class Assertions_fail_Test {
 
@@ -38,8 +37,8 @@ public class Assertions_fail_Test {
   public void should_include_message_with_cause_when_failing() {
     String message = "Some Throwable";
     Throwable cause = new Throwable();
-    assertThatExceptionOfType(AssertionFailedError.class).isThrownBy(() -> fail(message, cause))
-                                                         .withMessage(message).withCause(cause);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> fail(message, cause))
+                                                   .withMessage(message).withCause(cause);
   }
 
   @Test

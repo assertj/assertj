@@ -32,7 +32,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 
 public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
 
@@ -64,7 +63,7 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
     ThrowingCallable assertion = () -> iterables.assertZipSatisfy(someInfo(), actual, other,
                                                                   (s1, s2) -> assertThat(s1).startsWith(s2));
     // WHEN
-    AssertionFailedError assertionError = catchThrowableOfType(assertion, AssertionFailedError.class);
+    AssertionError assertionError = catchThrowableOfType(assertion, AssertionError.class);
     // THEN
     assertThat(assertionError).isNotNull();
     List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", shouldStartWith("Luke", "LUKE").create()),

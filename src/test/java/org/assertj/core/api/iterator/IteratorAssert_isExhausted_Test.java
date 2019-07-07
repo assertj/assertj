@@ -26,7 +26,6 @@ import org.assertj.core.api.AbstractIteratorAssert;
 import org.assertj.core.api.IteratorAssert;
 import org.assertj.core.api.IteratorAssertBaseTest;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for <code>{@link AbstractIteratorAssert#isExhausted()} ()}</code>.
@@ -56,7 +55,7 @@ public class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Integer> iterator = newArrayList(1).iterator();
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(assertThat(iterator)::isExhausted, AssertionFailedError.class);
+    AssertionError error = catchThrowableOfType(assertThat(iterator)::isExhausted, AssertionError.class);
     // THEN
     assertThat(error).hasMessageContaining(shouldBeExhausted().create());
   }
@@ -66,7 +65,7 @@ public class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = null;
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(assertThat(iterator)::isExhausted, AssertionFailedError.class);
+    AssertionError error = catchThrowableOfType(assertThat(iterator)::isExhausted, AssertionError.class);
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

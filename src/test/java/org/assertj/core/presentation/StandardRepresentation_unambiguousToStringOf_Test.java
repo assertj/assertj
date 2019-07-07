@@ -46,7 +46,6 @@ import org.assertj.core.util.OtherStringTestComparator;
 import org.assertj.core.util.OtherStringTestComparatorWithAt;
 import org.assertj.core.util.StringTestComparator;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for {@link StandardRepresentation#unambiguousToStringOf(Object)}.
@@ -402,7 +401,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
     Ambiguous ambiguous1 = new Ambiguous(0, 1);
     Ambiguous ambiguous2 = new Ambiguous(0, 2);
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(() -> assertThat(ambiguous1).isEqualTo(ambiguous2), AssertionFailedError.class);
+    AssertionError error = catchThrowableOfType(() -> assertThat(ambiguous1).isEqualTo(ambiguous2), AssertionError.class);
     // THEN
     assertThat(error).hasMessageContaining(unambiguousToStringOf(ambiguous1))
                      .hasMessageContaining(unambiguousToStringOf(ambiguous2));
