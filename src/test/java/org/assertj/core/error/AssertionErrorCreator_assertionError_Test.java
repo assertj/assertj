@@ -23,11 +23,10 @@ import org.opentest4j.AssertionFailedError;
 
 public class AssertionErrorCreator_assertionError_Test {
 
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
-
   @Test
   public void should_create_AssertionFailedError_using_reflection() {
     // GIVEN
+    AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
     String actual = "actual";
     String expected = "expected";
     String message = "error message";
@@ -44,10 +43,11 @@ public class AssertionErrorCreator_assertionError_Test {
   @Test
   public void should_create_AssertionError_when_AssertionFailedError_could_not_be_created() throws Exception {
     // GIVEN
-    String message = "error message";
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
-    assertionErrorCreator.constructorInvoker = constructorInvoker;
+
+    AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator(constructorInvoker);
+    String message = "error message";
     // WHEN
     AssertionError assertionError = assertionErrorCreator.assertionError(message, "actual", "expected");
     // THEN

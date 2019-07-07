@@ -22,7 +22,6 @@ import java.util.function.Supplier;
 import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 // TODO deprecate AssertionErrorFactory
@@ -34,8 +33,9 @@ public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_WITH_REASON_ARGS_FOR_ASSERTION_FAILED_ERROR = array(String.class, Throwable.class);
 
-  @VisibleForTesting
-  ConstructorInvoker constructorInvoker;
+  private static final Class<?>[] MSG_ONLY_ARGS_FOR_ASSERTION_FAILED_ERROR = array(String.class);
+
+  private ConstructorInvoker constructorInvoker;
 
   public AssertionErrorCreator() {
     this(new ConstructorInvoker());
@@ -56,7 +56,7 @@ public class AssertionErrorCreator {
   }
 
   public AssertionError assertionError(String message) {
-    return new AssertionError(message);
+    return new LazyAssertionFailedErrorCreator(message).assertionErrorIfCantBeCreated();
   }
 
   private class LazyAssertionFailedErrorCreator {
@@ -73,11 +73,30 @@ public class AssertionErrorCreator {
       this.message = message;
     }
 
+    LazyAssertionFailedErrorCreator(String message) {
+      this.supplier = () -> tryInstantiateAssertionFailedError(message);
+      this.message = message;
+    }
+
     AssertionError assertionErrorIfCantBeCreated() {
       return Optional.ofNullable(supplier.get())
         .filter(AssertionError.class::isInstance)
         .map(AssertionError.class::cast)
-        .orElse(assertionError(message));
+        .map(e -> {
+          Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(e);
+          return e;
+        })
+        .orElse(new AssertionError(message));
+    }
+  }
+
+  private Object tryInstantiateAssertionFailedError(String message) {
+    try {
+      return constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
+                                            MSG_ONLY_ARGS_FOR_ASSERTION_FAILED_ERROR,
+                                            message);
+    } catch (Throwable e) {
+      return null;
     }
   }
 

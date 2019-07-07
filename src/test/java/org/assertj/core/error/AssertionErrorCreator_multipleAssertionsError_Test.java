@@ -29,11 +29,10 @@ import org.opentest4j.MultipleFailuresError;
 
 public class AssertionErrorCreator_multipleAssertionsError_Test {
 
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
-
   @Test
   public void should_create_MultipleFailuresError_using_reflection() {
     // GIVEN
+    AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
     Description description = new TestDescription("description");
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
     // WHEN
@@ -55,7 +54,7 @@ public class AssertionErrorCreator_multipleAssertionsError_Test {
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
-    assertionErrorCreator.constructorInvoker = constructorInvoker;
+    AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator(constructorInvoker);
     // WHEN
     AssertionError assertionError = assertionErrorCreator.multipleAssertionsError(description, errors);
     // THEN

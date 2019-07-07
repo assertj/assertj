@@ -29,11 +29,10 @@ import org.opentest4j.MultipleFailuresError;
 
 public class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
 
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
-
   @Test
   public void should_throw_MultipleFailuresError() {
     // GIVEN
+    AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
     List<AssertionError> errors = list(new AssertionError(format("%nerror1")), new AssertionError(format("%nerror2")));
     // WHEN
     Throwable thrown = catchThrowable(() -> assertionErrorCreator.tryThrowingMultipleFailuresError(errors));
@@ -54,7 +53,7 @@ public class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
-    assertionErrorCreator.constructorInvoker = constructorInvoker;
+    AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator(constructorInvoker);
     // THEN
     thenCode(() -> assertionErrorCreator.tryThrowingMultipleFailuresError(errors)).doesNotThrowAnyException();
   }

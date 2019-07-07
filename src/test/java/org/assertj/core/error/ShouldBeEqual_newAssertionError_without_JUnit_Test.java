@@ -47,7 +47,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
     description = new TestDescription("Jedi");
     factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", new StandardRepresentation());
     constructorInvoker = mock(ConstructorInvoker.class, withSettings().defaultAnswer(CALLS_REAL_METHODS));
-    factory.constructorInvoker = constructorInvoker;
+    factory.creator = new AssertionErrorCreator(constructorInvoker);
   }
 
   @Test
@@ -70,14 +70,10 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
 
   private void check(AssertionError error) throws Exception {
     verify(constructorInvoker).newInstance(AssertionFailedError.class.getName(),
-                                           new Class<?>[] { String.class, Object.class, Object.class },
-                                           String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
-                                           "Yoda", "Luke");
+                                           new Class<?>[] { String.class },
+                                           String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
     assertThat(error).isNotInstanceOf(ComparisonFailure.class)
                      .isInstanceOf(AssertionFailedError.class);
-    AssertionFailedError assertionFailedError = (AssertionFailedError) error;
-    assertThat(assertionFailedError.getActual().getValue()).isEqualTo("Luke");
-    assertThat(assertionFailedError.getExpected().getValue()).isEqualTo("Yoda");
     assertThat(error).hasMessage(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }
 
