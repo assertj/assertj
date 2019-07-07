@@ -45,6 +45,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   private static final Representation REPRESENTATION = CONFIGURATION_PROVIDER.representation();
 
   @Test
+  @SuppressWarnings("deprecation") // test for deprecated method
   public void should_throw_assertion_error_rather_than_null_pointer_when_one_nested_member_is_null() {
     // GIVEN
     Jedi yoda = new Jedi("Yoda", "Green");
@@ -157,6 +158,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
+  @SuppressWarnings("deprecation") // test for deprecated method
   public void should_not_fall_with_npe_if_field_of_one_of_compared_objects_is_null() {
     // GIVEN
     final Name actualName = new Name("Andy");
