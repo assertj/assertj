@@ -17,6 +17,7 @@ import static org.assertj.core.util.Throwables.describeErrors;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
@@ -30,6 +31,8 @@ public class AssertionErrorCreator {
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
 
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
+
+  private static final Class<?>[] MSG_WITH_REASON_ARGS_FOR_ASSERTION_FAILED_ERROR = array(String.class, Throwable.class);
 
   @VisibleForTesting
   ConstructorInvoker constructorInvoker;
@@ -45,17 +48,37 @@ public class AssertionErrorCreator {
   // single assertion error
 
   public AssertionError assertionError(String message, Object actual, Object expected) {
-    return assertionFailedError(message, actual, expected).orElse(createAssertionError(message));
+    return new LazyAssertionFailedErrorCreator(message, actual, expected).assertionErrorIfCantBeCreated();
+  }
+
+  public AssertionError assertionError(String message, Throwable reason) {
+    return new LazyAssertionFailedErrorCreator(message, reason).assertionErrorIfCantBeCreated();
   }
 
   public AssertionError assertionError(String message) {
-    return assertionFailedError(message, null, null).orElse(createAssertionError(message));
+    return new AssertionError(message);
   }
 
-  private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected) {
-    return Optional.ofNullable(tryInstantiateAssertionFailedError(message, actual, expected))
-      .filter(AssertionError.class::isInstance)
-      .map(AssertionError.class::cast);
+  private class LazyAssertionFailedErrorCreator {
+    private final Supplier<Object> supplier;
+    private final String message;
+
+    LazyAssertionFailedErrorCreator(String message, Object actual, Object expected) {
+      this.supplier = () -> tryInstantiateAssertionFailedError(message, actual, expected);
+      this.message = message;
+    }
+
+    LazyAssertionFailedErrorCreator(String message, Throwable reason) {
+      this.supplier = () -> tryInstantiateAssertionFailedError(message, reason);
+      this.message = message;
+    }
+
+    AssertionError assertionErrorIfCantBeCreated() {
+      return Optional.ofNullable(supplier.get())
+        .filter(AssertionError.class::isInstance)
+        .map(AssertionError.class::cast)
+        .orElse(assertionError(message));
+    }
   }
 
   private Object tryInstantiateAssertionFailedError(String message, Object actual, Object expected) {
@@ -70,8 +93,15 @@ public class AssertionErrorCreator {
     }
   }
 
-  private static AssertionError createAssertionError(String message) {
-    return new AssertionError(message);
+  private Object tryInstantiateAssertionFailedError(String message, Throwable reason) {
+    try {
+      return constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
+                                            MSG_WITH_REASON_ARGS_FOR_ASSERTION_FAILED_ERROR,
+                                            message,
+                                            reason);
+    } catch (Throwable e) {
+      return null;
+    }
   }
 
   // multiple assertions error

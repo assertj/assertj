@@ -163,7 +163,7 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(String message) {
-    return prettyPrintedWithoutAssertJRelatedElementsFromStackTraceIfNeeded(new AssertionError(message));
+    return prettyPrintedWithoutAssertJRelatedElementsFromStackTraceIfNeeded(assertionErrorCreator.assertionError(message));
   }
 
   /**
@@ -178,7 +178,7 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(String message, Throwable cause) {
-    return prettyPrintedWithoutAssertJRelatedElementsFromStackTraceIfNeeded(new AssertionFailedError(message, cause));
+    return prettyPrintedWithoutAssertJRelatedElementsFromStackTraceIfNeeded(assertionErrorCreator.assertionError(message, cause));
   }
 
   private AssertionError prettyPrintedWithoutAssertJRelatedElementsFromStackTraceIfNeeded(AssertionError error) {
