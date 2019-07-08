@@ -14,6 +14,8 @@ package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -33,96 +35,102 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#extracting(Function)}</code> and <code>{@link ObjectAssert#extracting(Function[])}</code>.
+ * Tests for <code>{@link ObjectAssert#extracting(Function)}</code>.
  */
-public class ObjectAssert_extracting_with_function_Test {
+class ObjectAssert_extracting_with_function_Test {
 
   private Employee luke;
 
   private static final Function<Employee, String> firstName = employee -> employee.getName().getFirst();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
   }
 
   @Test
-  public void should_allow_extracting_a_value_using_a_single_extractor() {
-    assertThat(luke).extracting(firstName).isEqualTo("Luke");
-    assertThat(luke).extracting(Employee::getAge).isEqualTo(26);
+  void should_allow_extracting_a_value_with_the_corresponding_type_using_a_single_lambda() {
+    // WHEN
+    AbstractObjectAssert<?, String> result = assertThat(luke).extracting(firstName);
+    // THEN
+    result.isEqualTo("Luke")
+          .extracting(String::length).isEqualTo(4);
   }
 
   @Test
-  public void should_allow_extracting_values_using_multiple_extractors() {
-    assertThat(luke).extracting(Employee::getName, Employee::getAge)
-      .hasSize(2)
-      .doesNotContainNull();
-    assertThat(luke).extracting(firstName, employee -> employee.getName().getLast())
-      .hasSize(2)
-      .containsExactly("Luke", "Skywalker");
+  void should_allow_extracting_a_value_with_the_corresponding_type_using_a_single_method_reference() {
+    // WHEN
+    AbstractObjectAssert<?, Integer> result = assertThat(luke).extracting(Employee::getAge);
+    // THEN
+    result.isEqualTo(26)
+          .extracting(Integer::longValue).isEqualTo(26L);
   }
 
   @Test
-  public void should_rethrow_any_extractor_function_exception() {
+  void should_rethrow_any_extractor_function_exception() {
     // GIVEN
     RuntimeException explosion = new RuntimeException("boom!");
-    // WHEN
-    Throwable error = catchThrowable(() -> {
+    Function<Employee, Object> bomb = employee -> {
       throw explosion;
-    });
+    };
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(luke).extracting(bomb));
     // THEN
-    assertThat(error).isSameAs(explosion);
+    then(error).isSameAs(explosion);
   }
 
   @Test
-  public void should_throw_a_NullPointerException_if_the_given_extractor_is_null() {
+  void should_throw_a_NullPointerException_if_the_given_extractor_is_null() {
     // GIVEN
     Function<Employee, Object> extractor = null;
     // WHEN
     Throwable error = catchThrowable(() -> assertThat(luke).extracting(extractor));
     // THEN
-    assertThat(error).isInstanceOf(NullPointerException.class)
-                     .hasMessage("The given java.util.function.Function extractor must not be null");
+    then(error).isInstanceOf(NullPointerException.class)
+               .hasMessage(shouldNotBeNull("extractor").create());
   }
 
   @Test
-  public void extracting_should_honor_registered__comparator() {
-    assertThat(luke).usingComparator(ALWAY_EQUALS)
-                    .extracting(firstName)
-                    .isEqualTo("YODA");
-  }
-
-  @Test
-  public void extracting_should_keep_assertion_state() {
+  void extracting_should_honor_registered_comparator() {
+    // GIVEN
+    ObjectAssert<Employee> assertion = assertThat(luke).usingComparator(ALWAY_EQUALS);
     // WHEN
-    // not all comparators are used but we want to test that they are passed correctly after extracting
-    AbstractObjectAssert<?, ?> assertion = assertThat(luke).as("test description")
-                                                           .withFailMessage("error message")
-                                                           .withRepresentation(UNICODE_REPRESENTATION)
-                                                           .usingComparator(ALWAY_EQUALS)
-                                                           .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
-                                                           .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
-                                                           .extracting(firstName)
-                                                           .isEqualTo("LUKE");
+    AbstractObjectAssert<?, String> result = assertion.extracting(firstName);
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(ALWAY_EQUALS_STRING);
-    assertThat(comparatorByPropertyOrFieldOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
-    assertThat(comparatorOf(assertion).getComparator()).isSameAs(ALWAY_EQUALS);
+    result.isEqualTo("YODA");
   }
 
-  public static Objects comparatorOf(AbstractObjectAssert<?, ?> assertion) {
+  @Test
+  void extracting_should_keep_assertion_state() {
+    // GIVEN
+    // not all comparators are used but we want to test that they are passed correctly after extracting
+    AbstractObjectAssert<?, Employee> assertion = assertThat(luke).as("test description")
+                                                                  .withFailMessage("error message")
+                                                                  .withRepresentation(UNICODE_REPRESENTATION)
+                                                                  .usingComparator(ALWAY_EQUALS)
+                                                                  .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
+                                                                  .usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
+    // WHEN
+    AbstractObjectAssert<?, ?> result = assertion.extracting(firstName);
+    // THEN
+    then(result.descriptionText()).isEqualTo("test description");
+    then(result.info.overridingErrorMessage()).isEqualTo("error message");
+    then(result.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(comparatorsByTypeOf(result).get(String.class)).isSameAs(ALWAY_EQUALS_STRING);
+    then(comparatorByPropertyOrFieldOf(result).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+    then(comparatorOf(result).getComparator()).isSameAs(ALWAY_EQUALS);
+  }
+
+  private static Objects comparatorOf(AbstractObjectAssert<?, ?> assertion) {
     return (Objects) PropertyOrFieldSupport.EXTRACTION.getValueOf("objects", assertion);
   }
 
-  public static TypeComparators comparatorsByTypeOf(AbstractObjectAssert<?, ?> assertion) {
+  private static TypeComparators comparatorsByTypeOf(AbstractObjectAssert<?, ?> assertion) {
     return (TypeComparators) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorByType", assertion);
   }
 
   @SuppressWarnings("unchecked")
-  public static Map<String, Comparator<?>> comparatorByPropertyOrFieldOf(AbstractObjectAssert<?, ?> assertion) {
+  private static Map<String, Comparator<?>> comparatorByPropertyOrFieldOf(AbstractObjectAssert<?, ?> assertion) {
     return (Map<String, Comparator<?>>) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorByPropertyOrField", assertion);
   }
 }

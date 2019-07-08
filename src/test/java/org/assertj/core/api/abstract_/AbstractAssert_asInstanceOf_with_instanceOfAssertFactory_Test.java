@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractAssert;
@@ -74,7 +75,7 @@ class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test extends Abst
     // GIVEN
     assertions.as("description")
               .overridingErrorMessage("error message")
-              .withRepresentation(new UnicodeRepresentation());
+              .withRepresentation(UNICODE_REPRESENTATION);
     // WHEN
     AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
     // THEN

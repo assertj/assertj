@@ -34,7 +34,7 @@ public class ProxyableObjectAssert<ACTUAL> extends AbstractObjectAssert<Proxyabl
   }
 
   @Override
-  protected AbstractObjectAssert<?, ?> newObjectAssert(Object objectUnderTest) {
+  protected <T> AbstractObjectAssert<?, T> newObjectAssert(T objectUnderTest) {
     return new ProxyableObjectAssert<>(objectUnderTest);
   }
 }

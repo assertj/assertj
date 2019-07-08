@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
@@ -646,6 +647,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @since 3.13.0
    */
+  @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
     Object value = byName(propertyOrField).apply(actual);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
@@ -677,10 +679,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(@SuppressWarnings("unchecked") Function<? super ACTUAL, ?>... extractors) {
+    requireNonNull(extractors, shouldNotBeNull("extractors").create());
     List<Object> values = Stream.of(extractors)
                                 .map(extractor -> extractor.apply(actual))
                                 .collect(toList());
-    return newListAssertInstance(values).as(info.description());
+    return newListAssertInstance(values).withAssertionState(myself);
   }
 
   /**
@@ -706,9 +709,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @since 3.11.0
    */
-  public AbstractObjectAssert<?, ?> extracting(Function<? super ACTUAL, ?> extractor) {
-    requireNonNull(extractor, "The given java.util.function.Function extractor must not be null");
-    Object extractedValue = extractor.apply(actual);
+  @CheckReturnValue
+  public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
+    requireNonNull(extractor, shouldNotBeNull("extractor").create());
+    T extractedValue = extractor.apply(actual);
     return newObjectAssert(extractedValue).withAssertionState(myself);
   }
 
@@ -896,7 +900,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   // override for proxyable friendly AbstractObjectAssert
-  protected AbstractObjectAssert<?, ?> newObjectAssert(Object objectUnderTest) {
+  protected <T> AbstractObjectAssert<?, T> newObjectAssert(T objectUnderTest) {
     return new ObjectAssert<>(objectUnderTest);
   }
 
