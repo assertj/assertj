@@ -82,11 +82,13 @@ public class AssertionErrorCreator {
       return Optional.ofNullable(supplier.get())
         .filter(AssertionError.class::isInstance)
         .map(AssertionError.class::cast)
-        .map(e -> {
-          Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(e);
-          return e;
-        })
+        .map(this::removeStackTraceIfNeeded)
         .orElse(new AssertionError(message));
+    }
+
+    private AssertionError removeStackTraceIfNeeded(AssertionError e) {
+      Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(e);
+      return e;
     }
   }
 
