@@ -40,11 +40,11 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * softly.check(() -&gt; CustomAssertions.assertThat(…).…);
    * softly.assertAll(); </code></pre>
    *
-   * @param assertion an assertion call.
+   * @param executable an assertion call.
    */
-  public void check(ThrowingRunnable assertion) {
+  public void check(Executable executable) {
     try {
-      assertion.run();
+      executable.execute();
     } catch (AssertionError error) {
       proxies.collectError(error);
     } catch (RuntimeException runtimeException) {
@@ -211,7 +211,8 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     return className.contains("$ByteBuddy$");
   }
 
-  public interface ThrowingRunnable {
-    void run() throws Exception;
+  @FunctionalInterface
+  public interface Executable {
+    void execute() throws Exception;
   }
 }
