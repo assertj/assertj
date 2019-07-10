@@ -869,6 +869,17 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  public void should_assert_using_assertSoftlyExecutables () {
+    assertThatThrownBy(() -> assertSoftly(
+      () -> assertThat(true).isFalse(),
+      () -> assertThat(42).isEqualTo("meaning of life"),
+      () -> assertThat("red").isEqualTo("blue")
+    )).as("it should call assertAll() and fail with multiple validation errors")
+      .hasMessageContaining("meaning of life")
+      .hasMessageContaining("blue");
+  }
+
+  @Test
   public void should_work_with_atomic() {
     // WHEN
     // simple atomic value

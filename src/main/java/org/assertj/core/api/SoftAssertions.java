@@ -156,9 +156,39 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
   * @since 3.6.0
   */
-public static void assertSoftly(Consumer<SoftAssertions> softly) {
+  public static void assertSoftly(Consumer<SoftAssertions> softly) {
       SoftAssertions assertions = new SoftAssertions();
       softly.accept(assertions);
       assertions.assertAll();
+  }
+
+
+  /**
+   * Use this to avoid having to call assertAll manually.
+   *
+   * <pre><code class='java'> &#064;Test
+   * public void host_dinner_party_where_nobody_dies() {
+   *   Mansion mansion = new Mansion();
+   *   mansion.hostPotentiallyMurderousDinnerParty();
+   *   SoftAssertions.assertSoftly(
+   *     () -&#062; assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7),
+   *     () -&#062; assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;),
+   *     () -&#062; assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;),
+   *     () -&#062; assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6),
+   *     () -&#062; assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;),
+   *     () -&#062; assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;),
+   *     () -&#062; assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;)
+   *   );
+   * }</code></pre>
+   *
+   * @param executables assertion calls.
+   * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
+   */
+  public static void assertSoftly(Executable... executables) {
+    SoftAssertions softly = new SoftAssertions();
+    for (final Executable executable : executables) {
+      softly.check(executable);
+    }
+    softly.assertAll();
   }
 }
