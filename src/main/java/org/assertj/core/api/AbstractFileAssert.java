@@ -731,16 +731,16 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
-   * Examples:
-   * <pre><code class="java"> // Let's assume we have the following directory structure:
-   * // [root]
-   * // [root/sub-dir-1]
-   * // [root/sub-dir-1/file-1.ext]
-   * // [root/sub-dir-1/file-2.ext]
-   * // [root/sub-file-1.ext]
-   * // [root/sub-file-2.ext]
+   * Given the following directory structure:
+   * <pre><code class="text"> /root/
+   * /root/sub-dir-1/
+   * /root/sub-dir-1/file-1.ext
+   * /root/sub-dir-1/file-2.ext
+   * /root/sub-file-1.ext
+   * /root/sub-file-2.ext</code></pre>
    *
-   * File root = new File("root");
+   * Here are some assertions examples:
+   * <pre><code class="java"> File root = new File("root");
    *
    * // The following assertions succeed:
    * assertThat(root).isDirectoryContaining(file -&gt; file.getName().startsWith("sub-dir"))
@@ -772,16 +772,16 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
-   * Examples:
-   * <pre><code class="java"> // Let's assume we have the following directory structure:
-   * // [root]
-   * // [root/sub-dir-1]
-   * // [root/sub-dir-1/file-1.ext]
-   * // [root/sub-dir-1/file-2.ext]
-   * // [root/sub-file-1.ext]
-   * // [root/sub-file-2.ext]
+   * Given the following directory structure:
+   * <pre><code class="text"> /root/
+   * /root/sub-dir-1/
+   * /root/sub-dir-1/file-1.ext
+   * /root/sub-dir-1/file-2.ext
+   * /root/sub-file-1.ext
+   * /root/sub-file-2.ext</code></pre>
    *
-   * File root = new File("root");
+   * Here are some assertions examples:
+   * <pre><code class="java"> File root = new File("root");
    *
    * // The following assertions succeed:
    * assertThat(root).isDirectoryContaining("glob:**sub-dir*")
@@ -815,16 +815,16 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
-   * Examples:
-   * <pre><code class="java"> // Let's assume we have the following directory structure:
-   * // [root]
-   * // [root/sub-dir-1]
-   * // [root/sub-dir-1/file-1.ext]
-   * // [root/sub-dir-1/file-2.ext]
-   * // [root/sub-file-1.ext]
-   * // [root/sub-file-2.ext]
+   * Given the following directory structure:
+   * <pre><code class="text"> /root/
+   * /root/sub-dir-1/
+   * /root/sub-dir-1/file-1.ext
+   * /root/sub-dir-1/file-2.ext
+   * /root/sub-file-1.ext
+   * /root/sub-file-2.ext</code></pre>
    *
-   * File root = new File("root");
+   * Here are some assertions examples:
+   * <pre><code class="java"> File root = new File("root");
    *
    * // The following assertions succeed:
    * assertThat(root).isDirectoryNotContaining(file -&gt; file.getName().startsWith("dir"))
@@ -856,16 +856,16 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
-   * Examples:
-   * <pre><code class="java"> // Let's assume we have the following directory structure:
-   * // [root]
-   * // [root/sub-dir-1]
-   * // [root/sub-dir-1/file-1.ext]
-   * // [root/sub-dir-1/file-2.ext]
-   * // [root/sub-file-1.ext]
-   * // [root/sub-file-2.ext]
+   * Given the following directory structure:
+   * <pre><code class="text"> /root/
+   * /root/sub-dir-1/
+   * /root/sub-dir-1/file-1.ext
+   * /root/sub-dir-1/file-2.ext
+   * /root/sub-file-1.ext
+   * /root/sub-file-2.ext</code></pre>
    *
-   * File root = new File("root");
+   * Here are some assertions examples:
+   * <pre><code class="java"> File root = new File("root");
    *
    * // The following assertions succeed:
    * assertThat(root).isDirectoryNotContaining("glob:**dir")
@@ -900,17 +900,17 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
-   * Examples:
-   * <pre><code class="java"> // Let's assume we have the following directory structure:
-   * // [root]
-   * // [root/sub-dir-1]
-   * // [root/sub-dir-1/file-1.ext]
-   * // [root/sub-dir-1/file-2.ext]
-   * // [root/sub-dir-2]
-   * // [root/sub-file-1.ext]
-   * // [root/sub-file-2.ext]
+   * Given the following directory structure:
+   * <pre><code class="text"> /root/
+   * /root/sub-dir-1/
+   * /root/sub-dir-1/file-1.ext
+   * /root/sub-dir-1/file-2.ext
+   * /root/sub-dir-2/
+   * /root/sub-file-1.ext
+   * /root/sub-file-2.ext</code></pre>
    *
-   * File root = new File("root");
+   * Here are some assertions examples:
+   * <pre><code class="java"> File root = new File("root");
    *
    * // The following assertion succeeds:
    * assertThat(new File(root, "sub-dir-2")).isEmptyDirectory();
@@ -936,17 +936,17 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
-   * Examples:
-   * <pre><code class="java"> // assume that we have such directory structure:
-   * // [root]
-   * // [root/sub-dir-1]
-   * // [root/sub-dir-1/file-1.ext]
-   * // [root/sub-dir-1/file-2.ext]
-   * // [root/sub-dir-2]
-   * // [root/sub-file-1.ext]
-   * // [root/sub-file-2.ext]
+   * Given the following directory structure:
+   * <pre><code class="text"> /root/
+   * /root/sub-dir-1/
+   * /root/sub-dir-1/file-1.ext
+   * /root/sub-dir-1/file-2.ext
+   * /root/sub-dir-2/
+   * /root/sub-file-1.ext
+   * /root/sub-file-2.ext</code></pre>
    *
-   * File root = new File("root");
+   * Here are some assertions examples:
+   * <pre><code class="java"> File root = new File("root");
    *
    * // The following assertions succeed:
    * assertThat(root).isNotEmptyDirectory();

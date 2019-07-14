@@ -618,6 +618,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   /**
    * Extracts the value of given field/property from the object under test, the extracted value becoming the new object under test.
    * <p>
+   * If the object under test is a {@link Map}, the field/property is used as a key to the map.
+   * <p>
    * Nested field/property is supported, specifying "adress.street.number" is equivalent to get the value
    * corresponding to actual.getAdress().getStreet().getNumber()
    * <p>
@@ -636,6 +638,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // The extracted value being a String, we would like to use String assertions but we can't due to Java generics limitations.
    * // The following assertion does NOT compile:
    * assertThat(frodo).extracting(&quot;name&quot;)
+   *                  .startsWith(&quot;Fro&quot;);
+   *
+   * // To get String assertions use asInstanceOf:
+   * assertThat(frodo).extracting(&quot;name&quot;)
+   *                  .asInstanceOf(InstanceOfAssertFactories.STRING);
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    *
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
@@ -646,6 +653,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one of the given name does not match a field or property
    *
    * @since 3.13.0
+   * @see #asInstanceOf(InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {

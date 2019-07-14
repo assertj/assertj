@@ -1353,7 +1353,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * In error messages, sets the threshold when iterable/array formatting will on one line (if their String description
+   * In error messages, sets the threshold when iterable/array formatting will be on one line (if their String description
    * is less than this parameter) or it will be formatted with one element per line.
    * <p>
    * The following array will be formatted on one line as its length &lt; 80:
