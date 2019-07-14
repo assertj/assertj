@@ -13,8 +13,9 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 import org.assertj.core.internal.Failures;
@@ -153,15 +154,32 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
   }
 
   private List<Throwable> addLineNumberToErrorMessages(List<Throwable> errors) {
-    errors.forEach(this::addLineNumberToErrorMessage);
-    return errors;
+    return errors.stream()
+                 .map(this::addLineNumberToErrorMessage)
+                 .collect(toList());
   }
 
-  private void addLineNumberToErrorMessage(Throwable error) {
+  private Throwable addLineNumberToErrorMessage(Throwable error) {
     StackTraceElement testStackTraceElement = getFirstStackTraceElementFromTest(error.getStackTrace());
     if (testStackTraceElement != null) {
-      changeErrorMessage(error, buildErrorMessageWithLineNumber(error.getMessage(), testStackTraceElement));
+      try {
+        return createNewInstanceWithLineNumberInErrorMessage(error, testStackTraceElement);
+      } catch (@SuppressWarnings("unused") SecurityException | ReflectiveOperationException ignored) {}
     }
+    return error;
+  }
+
+  private Throwable createNewInstanceWithLineNumberInErrorMessage(Throwable error,
+                                                                  StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    Constructor<? extends Throwable> constructor = error.getClass().getConstructor(String.class, Throwable.class);
+    Throwable errorWithLineNumber = constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(),
+                                                                                            testStackTraceElement),
+                                                            error.getCause());
+    errorWithLineNumber.setStackTrace(error.getStackTrace());
+    for (Throwable suppressed : error.getSuppressed()) {
+      errorWithLineNumber.addSuppressed(suppressed);
+    }
+    return errorWithLineNumber;
   }
 
   private String buildErrorMessageWithLineNumber(String originalErrorMessage, StackTraceElement testStackTraceElement) {
@@ -169,14 +187,6 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     String testName = testStackTraceElement.getMethodName();
     int lineNumber = testStackTraceElement.getLineNumber();
     return format("%s%nat %s.%s(%s.java:%s)", originalErrorMessage, testClassName, testName, testClassName, lineNumber);
-  }
-
-  private void changeErrorMessage(Throwable error, String errorMessageWithLineNumber) {
-    try {
-      Field field = Throwable.class.getDeclaredField("detailMessage");
-      field.setAccessible(true);
-      field.set(error, errorMessageWithLineNumber);
-    } catch (Exception ignored) {}
   }
 
   private String simpleClassNameOf(StackTraceElement testStackTraceElement) {
