@@ -68,10 +68,11 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
   private void assertExecutionResults(Class<?> testClass, boolean nested) {
     EngineTestKit.engine("junit-jupiter")
                  .selectors(selectClass(testClass))
+                 .configurationParameter("junit.jupiter.conditions.deactivate", "*")
                  .execute().tests()
                  .assertStatistics(stats -> stats.started(nested ? 8 : 4).succeeded(nested ? 4 : 2).failed(nested ? 4 : 2))
                  .failed()
-                 // @format:off
+                 // @formatter:off
                  .assertThatEvents().haveExactly(nested ? 2 : 1,
                                                  event(test("multipleFailures"),
                                                        finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class),
@@ -80,7 +81,7 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
                                                  event(test("parameterizedTest"),
                                                        finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class), 
                                                                            message(msg -> msg.contains("Multiple Failures (1 failure)")))));
-    // @format:on
+                 // @formatter:on
   }
 
 }

@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD;
 import java.util.Arrays;
 
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Nested;
@@ -36,7 +37,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  * @since 3.13
  * @see BDDSoftAssertionsExtensionIntegrationTest
  */
-@DisplayName(value = "JUnit 5 Soft Assertions extension integration tests")
+@DisplayName("JUnit Jupiter Soft Assertions extension integration tests")
 class SoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
 
 	@Override
@@ -90,29 +91,31 @@ class SoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExten
 	}
 
 	@TestInstance(PER_METHOD)
-	// Uses "Example" suffix to ensure that this class is not executed as part of the Maven build.
+	@Disabled("Executed via the JUnit Platform Test Kit")
 	static class TestInstancePerMethodExample extends AbstractSoftAssertionsExample {
 	}
 
 	@TestInstance(PER_CLASS)
-	// Uses "Example" suffix to ensure that this class is not executed as part of the Maven build.
+	@Disabled
 	static class TestInstancePerClassExample extends AbstractSoftAssertionsExample {
 	}
 
 	@TestInstance(PER_METHOD)
-	// Uses "Example" suffix to ensure that this class is not executed as part of the Maven build.
+	@Disabled("Executed via the JUnit Platform Test Kit")
 	static class TestInstancePerMethodNestedExample extends AbstractSoftAssertionsExample {
 
 		@Nested
+		@Disabled("Executed via the JUnit Platform Test Kit")
 		class InnerExample extends AbstractSoftAssertionsExample {
 		}
 	}
 
 	@TestInstance(PER_CLASS)
-	// Uses "Example" suffix to ensure that this class is not executed as part of the Maven build.
+	@Disabled("Executed via the JUnit Platform Test Kit")
 	static class TestInstancePerClassNestedExample extends AbstractSoftAssertionsExample {
 
 		@Nested
+		@Disabled("Executed via the JUnit Platform Test Kit")
 		class InnerExample extends AbstractSoftAssertionsExample {
 		}
 	}
