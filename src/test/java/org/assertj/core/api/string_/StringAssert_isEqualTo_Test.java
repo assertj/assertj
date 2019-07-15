@@ -36,6 +36,14 @@ public class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
   }
 
   @Test
+  public void should_not_interpret_string_with_String_format_semantics_when_given_a_single_string() {
+    // GIVEN
+    String string = "12.3 %";
+    // THEN
+    assertThat(string).isEqualTo("12.3 %");
+  }
+
+  @Test
   public void should_throw_IllegalFormatException_when_given_an_invalid_format() {
     // GIVEN
     String template = "%s %s";
