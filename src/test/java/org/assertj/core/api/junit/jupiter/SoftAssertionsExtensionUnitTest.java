@@ -41,7 +41,7 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
  * @see BDDSoftAssertionsExtensionIntegrationTest
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@DisplayName(value = "JUnit 5 Soft Assertions extension")
+@DisplayName("JUnit Jupiter Soft Assertions extension")
 class SoftAssertionsExtensionUnitTest {
 
   private final SoftAssertionsExtension extension = new SoftAssertionsExtension();
