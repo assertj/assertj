@@ -2369,7 +2369,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Navigate and allow to perform assertions on the first element of the {@link Iterable} under test.
+   * Navigate and allow to perform assertions on the last element of the {@link Iterable} under test.
    * <p>
    * By default available assertions after {@code last()} are {@code Object} assertions, it is possible though to
    * get more specific assertions if you create {@code IterableAssert} with either:
