@@ -439,7 +439,7 @@ public class Strings {
   public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, CharSequence other) {
     Objects.instance().assertNotNull(info, actual);
     checkOtherIsNotNull(other, "CharSequence or String");
-    checkSameSizes(info, actual, actual.length(), other.length());
+    checkSameSizes(info, actual, other, actual.length(), other.length());
   }
 
   /**

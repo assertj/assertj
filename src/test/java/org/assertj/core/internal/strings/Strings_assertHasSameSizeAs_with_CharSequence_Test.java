@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -28,23 +29,28 @@ import org.junit.jupiter.api.Test;
  */
 public class Strings_assertHasSameSizeAs_with_CharSequence_Test extends StringsBaseTest {
 
-  private static String actual = "Luke";
+  private String actual = "Luke";
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSameSizeAs(someInfo(), null, "Solo"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    // WHEN
+    ThrowingCallable code = () -> strings.assertHasSameSizeAs(someInfo(), actual, "Solo");
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+    // GIVEN
     AssertionInfo info = someInfo();
     String other = "Han";
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length(),
-                                                                                     other.length()).create(null,
-                                                                                                            info.representation()));
+    // WHEN
+    ThrowingCallable code = () -> strings.assertHasSameSizeAs(info, actual, other);
+    // THEN
+    String error = shouldHaveSameSizeAs(actual, other, actual.length(), other.length()).create(null, info.representation());
+    assertThatAssertionErrorIsThrownBy(code).withMessage(error);
   }
 
   @Test

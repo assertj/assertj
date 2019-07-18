@@ -13,14 +13,14 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -74,14 +74,13 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_when_compared_iterables_have_different_sizes() {
+    // GIVEN
     other.add("Vader");
-    try {
-      iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).startsWith(s2));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessageContaining(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> iterables.assertZipSatisfy(someInfo(), actual, other,
+                                                                                 (s1, s2) -> assertThat(s1).startsWith(s2)));
+    // THEN
+    assertThat(error).hasMessageContaining(shouldHaveSameSizeAs(actual, other, actual.size(), other.size()).create());
   }
 
   @Test
@@ -92,18 +91,24 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      actual = null;
-      iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
-    }).withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    // WHEN
+    ThrowingCallable code = () -> iterables.assertZipSatisfy(someInfo(), actual, other,
+                                                             (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_other_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      other = null;
-      iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
-    }).withMessage("The iterable to zip actual with must not be null");
+    // GIVEN
+    other = null;
+    // WHEN
+    ThrowingCallable code = () -> iterables.assertZipSatisfy(someInfo(), actual, other,
+                                                             (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
+    // THEN
+    assertThatNullPointerException().isThrownBy(code).withMessage("The iterable to zip actual with must not be null");
   }
 
   private static String firstChar(String s2) {

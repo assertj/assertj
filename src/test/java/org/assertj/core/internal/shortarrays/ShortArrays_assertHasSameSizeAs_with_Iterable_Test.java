@@ -12,56 +12,52 @@
  */
 package org.assertj.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.test.ShortArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
 /**
  * Tests for <code>{@link ShortArrays#assertHasSameSizeAs(AssertionInfo, short[], Iterable)}</code>.
- * 
+ *
  * @author Nicolas François
  */
 public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArraysBaseTest {
 
-  private static short[] actual;
-  private final List<String> other = newArrayList("Solo", "Leia");
-
-  @BeforeAll
-  public static void setUpOnce() {
-    actual = arrayOf(6, 8);
-  }
-
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(someInfo(), null, other))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    // WHEN
+    ThrowingCallable code = () -> arrays.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia"));
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    List<String> other = newArrayList("Solo", "Leia", "Yoda");
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
-                                                                                     other.size()).create(null,
-                                                                                                          info.representation()));
+    List<String> other = list("Solo", "Leia");
+    // WHEN
+    ThrowingCallable code = () -> arrays.assertHasSameSizeAs(info, actual, other);
+    // THEN
+    String error = shouldHaveSameSizeAs(actual, other, actual.length, other.size()).create(null, info.representation());
+    assertThatAssertionErrorIsThrownBy(code).withMessage(error);
   }
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSameSizeAs(someInfo(), actual, other);
+    arrays.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia", "Luke"));
   }
 }

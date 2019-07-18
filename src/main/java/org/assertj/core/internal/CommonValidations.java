@@ -99,25 +99,25 @@ public final class CommonValidations {
 
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Object other, int sizeOfActual) {
     checkOtherIsNotNull(other, "Array");
-    checkSameSizes(info, actual, sizeOfActual, Array.getLength(other));
+    checkSameSizes(info, actual, other, sizeOfActual, Array.getLength(other));
   }
 
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Iterable<?> other, int sizeOfActual) {
     checkOtherIsNotNull(other, "Iterable");
-    checkSameSizes(info, actual, sizeOfActual, sizeOf(other));
+    checkSameSizes(info, actual, other, sizeOfActual, sizeOf(other));
   }
 
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Map<?, ?> other, int sizeOfActual) {
     checkOtherIsNotNull(other, "Map");
-    checkSameSizes(info, actual, sizeOfActual, other.size());
+    checkSameSizes(info, actual, other, sizeOfActual, other.size());
   }
 
   static void checkOtherIsNotNull(Object other, String otherType) {
     checkNotNull(other, "The "+ otherType +" to compare actual size with should not be null");
   }
 
-  static void checkSameSizes(AssertionInfo info, Object actual, int sizeOfActual, int sizeOfOther) {
-    if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+  static void checkSameSizes(AssertionInfo info, Object actual, Object other, int sizeOfActual, int sizeOfOther) {
+    if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSameSizeAs(actual, other, sizeOfActual, sizeOfOther));
   }
 
   public static void checkSizes(Object actual, int sizeOfActual, int sizeOfOther, AssertionInfo info) {
