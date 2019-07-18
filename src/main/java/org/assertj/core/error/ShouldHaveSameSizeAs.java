@@ -37,6 +37,6 @@ public class ShouldHaveSameSizeAs extends BasicErrorMessageFactory {
      // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
      // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%nActual and expected should have same size but actual size is:%n <%s>%n" +
-        "while expected is:%n <%s>%nActual was:%n<%s>%nExpected was:%n<%s>", actualSize, expectedSize, "%s", "%s"), actual, expected);
+        "while expected size is:%n <%s>%nActual was:%n<%s>%nExpected was:%n<%s>", actualSize, expectedSize, "%s", "%s"), actual, expected);
   }
 }

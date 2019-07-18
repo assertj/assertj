@@ -42,7 +42,7 @@ public class ShouldHaveSameSizeAs_create_Test {
      assertThat(message).isEqualTo(String.format("[Test] %n" +
                                    "Actual and expected should have same size but actual size is:%n" +
                                    " <2>%n" +
-                                   "while expected is:%n" +
+                                   "while expected size is:%n" +
                                    " <4>%n" +
                                    "Actual was:%n" +
                                    "<['a', 'b']>%n" +
@@ -56,7 +56,7 @@ public class ShouldHaveSameSizeAs_create_Test {
     assertThat(message).isEqualTo(String.format("[Test] %n" +
                                   "Actual and expected should have same size but actual size is:%n" +
                                   " <2>%n" +
-                                  "while expected is:%n" +
+                                  "while expected size is:%n" +
                                   " <4>%n" +
                                   "Actual was:%n<['0x0061', '0x0062']>%n" +
                                   "Expected was:%n" +
