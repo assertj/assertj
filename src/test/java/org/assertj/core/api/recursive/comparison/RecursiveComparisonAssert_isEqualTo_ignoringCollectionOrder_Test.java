@@ -41,7 +41,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_source() {
     FriendlyPerson friendlyPerson1 = friend("Sherlock Holmes");
     friendlyPerson1.friends.add(friend("Dr. John Watson"));

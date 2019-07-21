@@ -1244,14 +1244,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    *
-   * // this extracts the race
-   * Function&lt;TolkienCharacter, Race&gt; race = new Function&lt;TolkienCharacter, Race&gt;() {
-   *    {@literal @}Override
-   *    public Race apply(TolkienCharacter input) {
-   *        return input.getRace();
-   *    }
-   * }
-   *
    * // fellowship has hobbitses, right, my presioussss?
    * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getRace).contains(HOBBIT);</code></pre>
    *
@@ -1341,23 +1333,19 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
    * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
    * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
-   * homer.addChildren(bart, lisa, maggie);
+   * homer.getChildren().add(bart);
+   * homer.getChildren().add(lisa);
+   * homer.getChildren().add(maggie);
    *
    * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
    * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
    * fred.getChildren().add(pebbles);
    *
-   * Function&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Function&lt;CartoonChildren, List&lt;CartoonChildren&gt;&gt;() {
-   *    {@literal @}Override
-   *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
-   *        return input.getChildren();
-   *    }
-   * }
+   * List&lt;CartoonCharacter&gt; parents = list(homer, fred);
    *
-   * List&lt;CartoonCharacter&gt; parents = newArrayList(homer, fred);
-   * // check children
-   * assertThat(parent).flatExtracting(CartoonCharacter::getChildren)
-   *                   .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
+   * // check children property which is a List&lt;CartoonCharacter&gt;
+   * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
+   *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
    * The order of extracted values is consistent with both the order of the collection itself, as well as the extracted
    * collections.
@@ -1374,7 +1362,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /**
    * Extract the Iterable values from Iterable's elements under test by applying an Iterable extracting function (which
-   * might throw an exception) on them and concatenating the result lists. The returned iterable becomes a new object
+   * might throw a checked exception) on them and concatenating the result lists. The returned iterable becomes a new object
    * under test.
    * <p>
    * It allows testing the results of extracting values that are represented by Iterables.
@@ -1384,20 +1372,19 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
    * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
    * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
-   * homer.addChildren(bart, lisa, maggie);
+   * homer.getChildren().add(bart);
+   * homer.getChildren().add(lisa);
+   * homer.getChildren().add(maggie);
    *
    * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
    * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
    * fred.getChildren().add(pebbles);
    *
-   * List&lt;CartoonCharacter&gt; parents = newArrayList(homer, fred);
-   * // check children
-   * assertThat(parent).flatExtracting((ThrowingExtractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;, Exception&gt;)input -&gt; {
-   *   if (input.getChildren().size() == 0) {
-   *     throw new Exception("no children");
-   *   }
-   *   return input.getChildren();
-   * }).containsOnly(bart, lisa, maggie, pebbles);</code></pre>
+   * List&lt;CartoonCharacter&gt; parents = list(homer, fred);
+   *
+   * // check children property where getChildren() can throw an Exception!
+   * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
+   *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
    * The order of extracted values is consistent with both the order of the collection itself, as well as the extracted
    * collections.
@@ -1510,14 +1497,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
    * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
    * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
-   * homer.addChildren(bart, lisa, maggie);
+   * homer.getChildren().add(bart);
+   * homer.getChildren().add(lisa);
+   * homer.getChildren().add(maggie);
    *
    * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
    * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
    * fred.getChildren().add(pebbles);
    *
-   * List&lt;CartoonCharacter&gt; parents = newArrayList(homer, fred);
-   * // check children
+   * List&lt;CartoonCharacter&gt; parents = list(homer, fred);
+   *
+   * // check children which is a List&lt;CartoonCharacter&gt;
    * assertThat(parents).flatExtracting("children")
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
@@ -1580,7 +1570,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // let's verify 'name', 'age' and Race of some TolkienCharacter in fellowshipOfTheRing :
    * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
-   *                                            character &gt; character.getAge(),
+   *                                            character -&gt; character.getAge(),
    *                                            TolkienCharacter::getRace)
    *                                .containsOnly(tuple(&quot;Frodo&quot;, 33, HOBBIT),
    *                                              tuple(&quot;Sam&quot;, 38, HOBBIT),

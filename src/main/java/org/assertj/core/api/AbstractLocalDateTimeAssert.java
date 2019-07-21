@@ -332,12 +332,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * Example:
    * <pre><code class='java'> LocalDateTime actual = LocalDateTime.now(Clock.systemUTC());
    *
-   * // assertion will pass as it is executed less than one second after actual was built
+   * // assertion will pass as if executed less than one second after actual was built
    * assertThat(actual).isCloseToUtcNow(within(1, ChronoUnit.SECONDS));
    *
    * // assertion will fail
    * assertThat(actual.plusSeconds(2)).isCloseToUtcNow(within(1, ChronoUnit.SECONDS));</code></pre>
-   * 
+   *
    * @param offset The offset used for comparison
    * @return this assertion object
    * @throws NullPointerException if {@code offset} parameter is {@code null}.

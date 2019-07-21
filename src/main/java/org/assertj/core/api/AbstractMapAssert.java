@@ -639,6 +639,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(nenya, galadriel),
    *                                                                             entry(narya, gandalf),
    *                                                                             entry(oneRing, frodo)));
+   * // assertion will fail as actual does not contain all expected entries
+   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                                                             entry(nenya, galadriel),
+   *                                                                             entry(vilya, elrond)));
    * // assertion will fail as actual and expected have different sizes
    * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
    *                                                                             entry(nenya, galadriel),

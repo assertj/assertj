@@ -712,6 +712,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).extracting(TolkienCharacter::getName)
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    *
+   * @param <T> the expected extracted value type.
    * @param extractor the extractor function used to extract the value from the object under test.
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted value
    *
