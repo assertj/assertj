@@ -18,7 +18,6 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,8 +54,6 @@ public class CustomAsserts_filter_stacktrace_Test {
   @Test
   public void should_filter_when_abstract_custom_assert_fails() {
     try {
-      System.out.println("removeAssertJRelatedElementsFromStackTrace "
-                         + Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace());
       new CustomAssert("").failInAbstractAssert();
     } catch (AssertionError e) {
       assertThat(e.getStackTrace()).areNot(elementOf(CustomAbstractAssert.class));
@@ -76,12 +73,7 @@ public class CustomAsserts_filter_stacktrace_Test {
   @BeforeEach
   @AfterEach
   public void enableStackTraceFiltering() {
-    System.out.println("removeAssertJRelatedElementsFromStackTrace "
-                       + Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace());
-    System.out.println("Assertions.setRemoveAssertJRelatedElementsFromStackTrace(true)");
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(true);
-    System.out.println("removeAssertJRelatedElementsFromStackTrace "
-                       + Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace());
   }
 
   private static Condition<StackTraceElement> elementOf(final Class<?> clazz) {
