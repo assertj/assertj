@@ -26,7 +26,6 @@ public class Configuration_describe_Test {
     Configuration configuration = new NonDefaultConfiguration();
     // WHEN
     String description = configuration.describe();
-    System.out.println(description);
     // THEN
     assertThat(description).isEqualTo(format("- representation .................................. = BinaryRepresentation%n" +
                                              "- comparingPrivateFieldsEnabled ................... = false%n" +

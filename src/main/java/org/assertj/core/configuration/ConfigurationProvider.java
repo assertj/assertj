@@ -29,7 +29,6 @@ import org.assertj.core.presentation.StandardRepresentation;
  */
 public final class ConfigurationProvider {
 
-  private static final String NEWLINE = format("%n");
   public static final ConfigurationProvider CONFIGURATION_PROVIDER = new ConfigurationProvider();
   private final Representation representation;
   private final Configuration configuration;
@@ -43,8 +42,6 @@ public final class ConfigurationProvider {
     configuration = Services.get(Configuration.class, DEFAULT_CONFIGURATION);
     if (configuration != DEFAULT_CONFIGURATION) {
       configuration.apply();
-      System.out.println(NEWLINE + "AssertJ has found and applied the following registered configuration: " + configuration);
-      System.out.println(configuration.describe());
     }
   }
 
