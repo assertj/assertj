@@ -71,7 +71,9 @@ public final class ConfigurationProvider {
   }
 
   /**
-   * Makes sure that AssertJ loads any registered {@link Configuration}.
+   * Triggers loading any registered {@link Configuration}.
+   * <p>
+   * This method should be called before any user configuration changes to make sure these are not overridden by a registered {@link Configuration} later on.
    */
   public static void loadRegisteredConfiguration() {
     // does nothing but results in loading any registered Configuration as CONFIGURATION_PROVIDER is initialized
