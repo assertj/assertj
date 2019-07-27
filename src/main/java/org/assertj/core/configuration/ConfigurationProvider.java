@@ -41,7 +41,7 @@ public final class ConfigurationProvider {
     }
     configuration = Services.get(Configuration.class, DEFAULT_CONFIGURATION);
     if (configuration != DEFAULT_CONFIGURATION) {
-      configuration.apply();
+      configuration.applyAndDisplay();
     }
   }
 
