@@ -53,6 +53,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.function.Function;
 
 import org.assertj.core.configuration.Configuration;
+import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -112,6 +113,7 @@ public class StandardRepresentation implements Representation {
   }
 
   public static void setMaxLengthForSingleLineDescription(int value) {
+    ConfigurationProvider.loadRegisteredConfiguration();
     checkArgument(value > 0, "maxLengthForSingleLineDescription must be > 0 but was %s", value);
     maxLengthForSingleLineDescription = value;
   }
@@ -122,6 +124,7 @@ public class StandardRepresentation implements Representation {
   }
 
   public static void setMaxElementsForPrinting(int value) {
+    ConfigurationProvider.loadRegisteredConfiguration();
     checkArgument(value >= 1, "maxElementsForPrinting must be >= 1, but was %s", value);
     maxElementsForPrinting = value;
   }

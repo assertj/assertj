@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 
+import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -89,6 +90,7 @@ public enum FieldSupport {
    * @param allowUsingPrivateFields allow private fields extraction and comparison. Default {@code true}.
    */
   public void setAllowUsingPrivateFields(boolean allowUsingPrivateFields) {
+    ConfigurationProvider.loadRegisteredConfiguration();
     this.allowUsingPrivateFields = allowUsingPrivateFields;
   }
 

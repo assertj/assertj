@@ -15,6 +15,7 @@ package org.example.custom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
@@ -32,7 +33,7 @@ public class CustomAsserts_filter_stacktrace_Test {
       assertThat(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
     }
   }
-  
+
   @Test
   public void should_filter_when_custom_assert_fails_with_overridden_message() {
     try {
@@ -41,7 +42,7 @@ public class CustomAsserts_filter_stacktrace_Test {
       assertThat(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
     }
   }
-  
+
   @Test
   public void should_filter_when_custom_assert_throws_assertion_error() {
     try {
@@ -54,6 +55,8 @@ public class CustomAsserts_filter_stacktrace_Test {
   @Test
   public void should_filter_when_abstract_custom_assert_fails() {
     try {
+      System.out.println("removeAssertJRelatedElementsFromStackTrace "
+                         + Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace());
       new CustomAssert("").failInAbstractAssert();
     } catch (AssertionError e) {
       assertThat(e.getStackTrace()).areNot(elementOf(CustomAbstractAssert.class));
@@ -62,18 +65,23 @@ public class CustomAsserts_filter_stacktrace_Test {
 
   @Test
   public void should_not_filter_when_global_remove_option_is_disabled() {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
+    Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     try {
       new CustomAssert("").fail();
     } catch (AssertionError e) {
       assertThat(e.getStackTrace()).areAtLeastOne(elementOf(CustomAssert.class));
     }
   }
-  
+
   @BeforeEach
   @AfterEach
   public void enableStackTraceFiltering() {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(true);
+    System.out.println("removeAssertJRelatedElementsFromStackTrace "
+                       + Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace());
+    System.out.println("Assertions.setRemoveAssertJRelatedElementsFromStackTrace(true)");
+    Assertions.setRemoveAssertJRelatedElementsFromStackTrace(true);
+    System.out.println("removeAssertJRelatedElementsFromStackTrace "
+                       + Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace());
   }
 
   private static Condition<StackTraceElement> elementOf(final Class<?> clazz) {
@@ -95,7 +103,7 @@ public class CustomAsserts_filter_stacktrace_Test {
       failWithMessage("failing assert");
       return this;
     }
-    
+
     public CustomAssert throwAnAssertionError() {
       throwAssertionError(new BasicErrorMessageFactory("failing assert"));
       return this;

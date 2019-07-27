@@ -80,6 +80,7 @@ import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
+import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
@@ -137,6 +138,11 @@ import org.assertj.core.util.introspection.Introspection;
  */
 @CheckReturnValue
 public class Assertions implements InstanceOfAssertFactories {
+
+  static {
+    // just call a method to trigger loading the ConfigurationProvider and thus look for any registered Configuration
+    ConfigurationProvider.class.hashCode();
+  }
 
   /**
    * Creates a new <code>{@link Assertions}</code>.

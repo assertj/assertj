@@ -22,6 +22,7 @@ import static org.assertj.core.util.Strings.quote;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -63,6 +64,7 @@ public final class Introspection {
   }
 
   public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
+    ConfigurationProvider.loadRegisteredConfiguration();
     bareNamePropertyMethods = barenamePropertyMethods;
   }
 

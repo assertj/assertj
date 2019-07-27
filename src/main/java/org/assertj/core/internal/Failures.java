@@ -21,6 +21,7 @@ import java.lang.management.ThreadMXBean;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.configuration.Configuration;
+import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.AssertionErrorFactory;
@@ -69,6 +70,7 @@ public class Failures {
    * @param removeAssertJRelatedElementsFromStackTrace flag
    */
   public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
+    ConfigurationProvider.loadRegisteredConfiguration();
     this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
   }
 

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.BasicErrorMessageFactory;
@@ -796,6 +797,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   public static void setCustomRepresentation(Representation customRepresentation) {
+    ConfigurationProvider.loadRegisteredConfiguration();
     AbstractAssert.customRepresentation = customRepresentation;
   }
 

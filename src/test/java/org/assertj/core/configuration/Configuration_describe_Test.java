@@ -27,7 +27,8 @@ public class Configuration_describe_Test {
     // WHEN
     String description = configuration.describe();
     // THEN
-    assertThat(description).isEqualTo(format("- representation .................................. = BinaryRepresentation%n" +
+    assertThat(description).isEqualTo(format("Applying configuration org.assertj.core.configuration.NonDefaultConfiguration%n" +
+                                             "- representation .................................. = BinaryRepresentation%n" +
                                              "- comparingPrivateFieldsEnabled ................... = false%n" +
                                              "- extractingPrivateFieldsEnabled .................. = false%n" +
                                              "- bareNamePropertyExtractionEnabled ............... = false%n" +

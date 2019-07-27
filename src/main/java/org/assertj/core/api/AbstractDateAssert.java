@@ -19,9 +19,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.DateUtil.newIsoDateFormat;
 import static org.assertj.core.util.DateUtil.newIsoDateTimeFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeWithIsoTimeZoneFormat;
 import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsAndIsoTimeZoneFormat;
 import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
-import static org.assertj.core.util.DateUtil.newIsoDateTimeWithIsoTimeZoneFormat;
 import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -39,6 +39,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.util.CheckReturnValue;
@@ -2529,6 +2530,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param value whether lenient parsing mode should be enabled or not
    */
   public static void setLenientDateParsing(boolean value) {
+    ConfigurationProvider.loadRegisteredConfiguration();
     for (DateFormat defaultDateFormat : DEFAULT_DATE_FORMATS) {
       defaultDateFormat.setLenient(value);
     }
@@ -2576,6 +2578,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
    */
   public static void registerCustomDateFormat(DateFormat userCustomDateFormat) {
+    ConfigurationProvider.loadRegisteredConfiguration();
     checkNotNull(userCustomDateFormat, DATE_FORMAT_SHOULD_NOT_BE_NULL);
     userDateFormats.get().add(userCustomDateFormat);
   }

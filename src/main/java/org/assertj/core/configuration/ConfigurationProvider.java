@@ -69,4 +69,11 @@ public final class ConfigurationProvider {
   public Configuration configuration() {
     return configuration;
   }
+
+  /**
+   * Makes sure that AssertJ loads any registered {@link Configuration}.
+   */
+  public static void loadRegisteredConfiguration() {
+    // does nothing but results in loading any registered Configuration as CONFIGURATION_PROVIDER is initialized
+  }
 }
