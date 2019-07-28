@@ -111,7 +111,10 @@ public class AssertionErrorCreator {
       if (multipleFailuresError instanceof AssertionError) { // means that we were able to build a MultipleFailuresError
         List<Throwable> failures = extractFailuresOf(multipleFailuresError);
         // we switch to AssertJMultipleFailuresError in order to control the formatting of the error message.
-        AssertionError assertionError = new AssertJMultipleFailuresError(heading, failures);
+        // we use reflection to avoid making opentest4j a required dependency
+        AssertionError assertionError = (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
+                                                                                        MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
+                                                                                        array(heading, failures));
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
         return Optional.of(assertionError);
       }
