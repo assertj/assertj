@@ -59,7 +59,7 @@ public class AssertionErrorCreator {
         AssertionError assertionError = (AssertionError) o;
         return Optional.of(assertionError);
       }
-    } catch (Throwable ignored) {
+    } catch (ReflectiveOperationException ignored) {
     }
     return Optional.empty();
   }

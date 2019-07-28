@@ -195,7 +195,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
         return assertionError;
       }
       return null;
-    } catch (Throwable e) {
+    } catch (ReflectiveOperationException e) {
       return null;
     }
   }
@@ -205,12 +205,12 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       AssertionError comparisonFailure = newComparisonFailure(descriptionFormatter.format(description).trim());
       Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(comparisonFailure);
       return comparisonFailure;
-    } catch (Throwable e) {
+    } catch (ReflectiveOperationException e) {
       return null;
     }
   }
 
-  private AssertionError newComparisonFailure(String description) throws Exception {
+  private AssertionError newComparisonFailure(String description) throws ReflectiveOperationException {
     Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure", MSG_ARG_TYPES, msgArgs(description));
     if (o instanceof AssertionError) return (AssertionError) o;
     return null;

@@ -46,7 +46,7 @@ public class AssertionErrorCreator_assertionError_Test {
     // GIVEN
     String message = "error message";
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
-    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
+    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(ReflectiveOperationException.class);
     assertionErrorCreator.constructorInvoker = constructorInvoker;
     // WHEN
     AssertionError assertionError = assertionErrorCreator.assertionError(message, "actual", "expected");

@@ -52,7 +52,7 @@ public class AssertionErrorCreator_multipleSoftAssertionsError_Test {
     // GIVEN
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
-    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
+    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(ReflectiveOperationException.class);
     assertionErrorCreator.constructorInvoker = constructorInvoker;
     // WHEN
     AssertionError assertionError = assertionErrorCreator.multipleSoftAssertionsError(errors);

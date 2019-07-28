@@ -54,7 +54,7 @@ public class AssertionErrorCreator_multipleAssertionsError_Test {
     Description description = new TestDescription("description");
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
-    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
+    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(ReflectiveOperationException.class);
     assertionErrorCreator.constructorInvoker = constructorInvoker;
     // WHEN
     AssertionError assertionError = assertionErrorCreator.multipleAssertionsError(description, errors);

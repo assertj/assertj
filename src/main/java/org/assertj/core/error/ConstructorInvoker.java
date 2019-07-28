@@ -27,7 +27,7 @@ public class ConstructorInvoker {
 
   public static final ConstructorInvoker CONSTRUCTOR_INVOKER = new ConstructorInvoker();
 
-  public Object newInstance(String className, Class<?>[] parameterTypes, Object... parameterValues) throws Exception {
+  public Object newInstance(String className, Class<?>[] parameterTypes, Object... parameterValues) throws ReflectiveOperationException {
     Class<?> targetType = Class.forName(className);
     Constructor<?> constructor = targetType.getConstructor(parameterTypes);
     setAccessible(constructor, true);

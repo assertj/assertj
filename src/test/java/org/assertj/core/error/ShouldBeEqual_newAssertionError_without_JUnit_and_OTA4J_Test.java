@@ -61,7 +61,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
   @Test
   public void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
     when(constructorInvoker.newInstance(any(String.class), any(Class[].class),
-                                        any(Object[].class))).thenThrow(new AssertionError("Thrown on purpose"));
+                                        any(Object[].class))).thenThrow(new ReflectiveOperationException("Thrown on purpose"));
     AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
     check(error);
   }
