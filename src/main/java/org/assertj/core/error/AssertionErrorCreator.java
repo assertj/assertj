@@ -59,11 +59,9 @@ public class AssertionErrorCreator {
         AssertionError assertionError = (AssertionError) o;
         return Optional.of(assertionError);
       }
-      // TODO: single return
-      return Optional.empty();
-    } catch (Throwable e) {
-      return Optional.empty();
+    } catch (Throwable ignored) {
     }
+    return Optional.empty();
   }
 
   private static AssertionError assertionError(String message) {
