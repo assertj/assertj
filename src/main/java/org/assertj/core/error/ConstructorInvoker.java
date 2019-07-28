@@ -22,8 +22,6 @@ import java.lang.reflect.Constructor;
  */
 public class ConstructorInvoker {
 
-  public static final ConstructorInvoker CONSTRUCTOR_INVOKER = new ConstructorInvoker();
-
   public Object newInstance(String className, Class<?>[] parameterTypes, Object... parameterValues) throws Exception {
     Class<?> targetType = Class.forName(className);
     Constructor<?> constructor = targetType.getConstructor(parameterTypes);
