@@ -82,8 +82,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
-import static org.assertj.core.api.InstanceOfAssertFactories.URI;
-import static org.assertj.core.api.InstanceOfAssertFactories.URL;
+import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
+import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.array;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicIntegerFieldUpdater;
@@ -113,6 +113,8 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -319,21 +321,21 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void uri_factory_should_allow_uri_assertions() {
+  void uri_type_factory_should_allow_uri_assertions() {
     // GIVEN
-    Object value = java.net.URI.create("http://localhost");
+    Object value = URI.create("http://localhost");
     // WHEN
-    AbstractUriAssert<?> result = assertThat(value).asInstanceOf(URI);
+    AbstractUriAssert<?> result = assertThat(value).asInstanceOf(URI_TYPE);
     // THEN
     result.hasHost("localhost");
   }
 
   @Test
-  void url_factory_should_allow_url_assertions() throws MalformedURLException {
+  void url_type_factory_should_allow_url_assertions() throws MalformedURLException {
     // GIVEN
-    Object value = new java.net.URL("http://localhost");
+    Object value = new URL("http://localhost");
     // WHEN
-    AbstractUrlAssert<?> result = assertThat(value).asInstanceOf(URL);
+    AbstractUrlAssert<?> result = assertThat(value).asInstanceOf(URL_TYPE);
     // THEN
     result.hasHost("localhost");
   }

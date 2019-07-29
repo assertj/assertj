@@ -204,15 +204,25 @@ public interface InstanceOfAssertFactories {
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link URI}.
+   * <p>
+   * Note: The {@code TYPE} suffix prevents the shadowing of {@code java.net.URI} when the factory is statically imported.
+   * </p>
+   *
+   * @since 3.13.2
    */
-  InstanceOfAssertFactory<URI, AbstractUriAssert<?>> URI = new InstanceOfAssertFactory<>(URI.class,
-                                                                                         Assertions::assertThat);
+  InstanceOfAssertFactory<URI, AbstractUriAssert<?>> URI_TYPE = new InstanceOfAssertFactory<>(URI.class,
+                                                                                              Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link URL}.
+   * <p>
+   * Note: The {@code TYPE} suffix prevents the shadowing of {@code java.net.URL} when the factory is statically imported.
+   * </p>
+   * 
+   * @since 3.13.2
    */
-  InstanceOfAssertFactory<URL, AbstractUrlAssert<?>> URL = new InstanceOfAssertFactory<>(URL.class,
-                                                                                         Assertions::assertThat);
+  InstanceOfAssertFactory<URL, AbstractUrlAssert<?>> URL_TYPE = new InstanceOfAssertFactory<>(URL.class,
+                                                                                              Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code boolean} or its corresponding boxed type {@link Boolean}.
