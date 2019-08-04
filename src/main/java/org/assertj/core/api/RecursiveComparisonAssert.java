@@ -63,7 +63,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * the expected object to compare the object under test to must also have one but it can of a different type like {@code AddressDto}.
    * <p>
    * It is possible to enforce strict type checking by calling {@link #withStrictTypeChecking()} and make the comparison fail whenever the compared objects or their fields are not compatible.<br>
-   * Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an {@code Animal} and expected a {@code Dog}, they will be compared fiels by field in strict type checking mode.
+   * Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an {@code Animal} and expected a {@code Dog}, they will be compared field by field in strict type checking mode.
    * <p>
    * <strong>Ignoring null fields in the recursive comparison</strong>
    * <p>
@@ -342,7 +342,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * sherlock2.home.address.number = 221;
    *
    * // assertion succeeds but that's not what we expected since the home.address.street fields differ
-   * // but the equals implemenation in Address does not compare them.
+   * // but the equals implementation in Address does not compare them.
    * assertThat(sherlock).usingRecursiveComparison()
    *                     .isEqualTo(sherlock2);
    *
@@ -398,7 +398,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * sherlock2.home.address.number = 221;
    *
    * // assertion succeeds but that's not what we expected since the home.address.street fields differ
-   * // but the equals implemenation in Address does not compare them.
+   * // but the equals implementation in Address does not compare them.
    * assertThat(sherlock).usingRecursiveComparison()
    *                     .isEqualTo(sherlock2);
    *
@@ -454,7 +454,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * sherlock2.home.address.number = 221;
    *
    * // assertion succeeds but that's not what we expected since the home.address.street fields differ
-   * // but the equals implemenation in Address does not compare them.
+   * // but the equals implementation in Address does not compare them.
    * assertThat(sherlock).usingRecursiveComparison()
    *                     .isEqualTo(sherlock2);
    *
@@ -513,7 +513,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * sherlock2.home.address.number = 221;
    *
    * // assertion succeeds but that's not what we expected since the home.address.street fields differ
-   * // but the equals implemenation in Address does not compare them.
+   * // but the equals implementation in Address does not compare them.
    * assertThat(sherlock).usingRecursiveComparison()
    *                     .isEqualTo(sherlock2);
    *

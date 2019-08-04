@@ -103,7 +103,7 @@ public class RecursiveComparisonConfiguration {
    * <p>
    * See {@link RecursiveComparisonAssert#ignoringActualNullFields()} for code examples.
    *
-   * @param ignoreAllActualNullFields whether to ingore actual null fields in the recursive comparison
+   * @param ignoreAllActualNullFields whether to ignore actual null fields in the recursive comparison
    */
   public void setIgnoreAllActualNullFields(boolean ignoreAllActualNullFields) {
     this.ignoreAllActualNullFields = ignoreAllActualNullFields;
