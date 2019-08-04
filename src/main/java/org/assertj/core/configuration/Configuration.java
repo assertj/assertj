@@ -124,7 +124,7 @@ public class Configuration {
   }
 
   /**
-   * Sest whether the extractor considers bare-named property methods like {@code String name()}.
+   * Sets whether the extractor considers bare-named property methods like {@code String name()}.
    * <p>
    * See {@link Assertions#setExtractBareNamePropertyMethods(boolean)} for a detailed description.
    * <p>
@@ -187,7 +187,7 @@ public class Configuration {
   }
 
   /**
-   * AssertJ uses defaults date formats in date assertions, this property let's you register additional ones (default there are no addtional date formats).
+   * AssertJ uses defaults date formats in date assertions, this property let's you register additional ones (default there are no additional date formats).
    * <p>
    * See {@link Assertions#registerCustomDateFormat(java.text.DateFormat)} for a detailed description.
    *
@@ -303,7 +303,7 @@ public class Configuration {
                   "- extractingPrivateFieldsEnabled .................. = %s%n" +
                   "- bareNamePropertyExtractionEnabled ............... = %s%n" +
                   "- lenientDateParsingEnabled ....................... = %s%n" +
-                  "- additionnal date formats ........................ = %s%n" +
+                  "- additional date formats ......................... = %s%n" +
                   "- maxLengthForSingleLineDescription ............... = %s%n" +
                   "- maxElementsForPrinting .......................... = %s%n" +
                   "- removeAssertJRelatedElementsFromStackTraceEnabled = %s%n",

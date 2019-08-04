@@ -33,7 +33,7 @@ public class Configuration_describe_Test {
                                              "- extractingPrivateFieldsEnabled .................. = false%n" +
                                              "- bareNamePropertyExtractionEnabled ............... = false%n" +
                                              "- lenientDateParsingEnabled ....................... = true%n" +
-                                             "- additionnal date formats ........................ = [yyyy_MM_dd, yyyy|MM|dd]%n" +
+                                             "- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]%n" +
                                              "- maxLengthForSingleLineDescription ............... = 81%n" +
                                              "- maxElementsForPrinting .......................... = 1001%n" +
                                              "- removeAssertJRelatedElementsFromStackTraceEnabled = false%n"));
