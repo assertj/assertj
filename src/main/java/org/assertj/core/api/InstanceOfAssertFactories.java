@@ -786,8 +786,8 @@ public interface InstanceOfAssertFactories {
    *
    * @param <K>       the {@code Map} key type.
    * @param <V>       the {@code Map} value type.
-   * @param keyType   the key type instace.
-   * @param valueType the value type instace.
+   * @param keyType   the key type instance.
+   * @param valueType the value type instance.
    * @return the factory instance.
    *
    * @see #MAP
