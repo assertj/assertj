@@ -204,88 +204,164 @@
  */
 package org.assertj.guava.api;
 
-import org.assertj.core.data.MapEntry;
+import static java.util.stream.Collectors.toMap;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.from;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-import com.google.common.base.Optional;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
-import com.google.common.collect.Range;
-import com.google.common.collect.RangeMap;
-import com.google.common.collect.Table;
-import com.google.common.io.ByteSource;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import org.assertj.core.api.InstanceOfAssertFactory;
+import org.junit.Test;
 
 /**
- * The entry point for all Guava assertions.
- *
- * @author marcelfalliere
- * @author miralak
- * @author Kornel
- * @author Jan Gorman
- * @author Joel Costigliola
- * @author Marcin Kwaczyński
- * @author Max Daniline
+ * @author Stefano Cordio
+ * @since 3.3.0
  */
-public class Assertions implements InstanceOfAssertFactories {
+public class Assertions_sync_with_InstanceOfAssertFactories_Test {
 
-  public static ByteSourceAssert assertThat(final ByteSource actual) {
-    return new ByteSourceAssert(actual);
+  private static final Class<?>[] FIELD_FACTORIES_IGNORED_TYPES = {
+      // There can be no Range field factory with a base type.
+      RangeAssert.class,
+      // There can be no RangeMap field factory with a base type.
+      RangeMapAssert.class,
+  };
+
+  private static final Class<?>[] METHOD_FACTORIES_IGNORED_TYPES = {
+  };
+
+  @Test
+  public void each_guava_assertion_should_have_an_instance_of_assert_factory_static_field() {
+    // GIVEN
+    Map<Type, Type> assertThatMethods = findAssertThatParameterAndReturnTypes();
+    // WHEN
+    Map<Type, Type> fieldFactories = findFieldFactoryTypes();
+    // THEN
+    then(fieldFactories).containsAllEntriesOf(assertThatMethods)
+                        .hasSameSizeAs(assertThatMethods);
   }
 
-  public static <K, V> MultimapAssert<K, V> assertThat(final Multimap<K, V> actual) {
-    return new MultimapAssert<>(actual);
+  @Test
+  public void each_guava_assertion_with_type_parameters_should_have_an_instance_of_assert_factory_static_method() {
+    // GIVEN
+    Map<Type, Type> assertThatMethods = findTypedAssertThatParameterAndReturnTypes();
+    // WHEN
+    Map<Type, Type> methodFactories = findMethodFactoryTypes();
+    // THEN
+    then(methodFactories).containsAllEntriesOf(assertThatMethods)
+                         .hasSameSizeAs(assertThatMethods);
   }
 
-  public static <T> OptionalAssert<T> assertThat(final Optional<T> actual) {
-    return new OptionalAssert<>(actual);
+  private Map<Type, Type> findAssertThatParameterAndReturnTypes() {
+    return Stream.of(findAssertThatMethods(FIELD_FACTORIES_IGNORED_TYPES))
+                 .map(this::toParameterAndReturnTypeEntry)
+                 .filter(not(this::isPrimitiveTypeKey))
+                 .collect(toMap(Entry::getKey, Entry::getValue));
   }
 
-  public static <T extends Comparable<T>> RangeAssert<T> assertThat(final Range<T> actual) {
-    return new RangeAssert<>(actual);
+  private <K, V> boolean isPrimitiveTypeKey(Entry<K, V> entry) {
+    if (entry.getKey() instanceof Class) {
+      return ((Class<?>) entry.getKey()).isPrimitive();
+    }
+    return false;
   }
 
-  public static <K extends Comparable<K>, V> RangeMapAssert<K, V> assertThat(final RangeMap<K, V> actual) {
-    return new RangeMapAssert<>(actual);
+  private Map<Type, Type> findTypedAssertThatParameterAndReturnTypes() {
+    return Stream.of(findAssertThatMethods(METHOD_FACTORIES_IGNORED_TYPES))
+                 .filter(this::hasTypeParameters)
+                 .map(this::toParameterAndReturnTypeEntry)
+                 .collect(toMap(Entry::getKey, Entry::getValue));
   }
 
-  public static <R, C, V> TableAssert<R, C, V> assertThat(Table<R, C, V> actual) {
-    return new TableAssert<>(actual);
+  private static Method[] findAssertThatMethods(Class<?>... ignoredReturnTypes) {
+    Set<Class<?>> ignoredReturnTypesSet = newLinkedHashSet(ignoredReturnTypes);
+    return Arrays.stream(Assertions.class.getMethods())
+                 .filter(method -> method.getName().equals("assertThat"))
+                 .filter(method -> !ignoredReturnTypesSet.contains(method.getReturnType()))
+                 .toArray(Method[]::new);
   }
 
-  public static <T> MultisetAssert<T> assertThat(final Multiset<T> actual) {
-    return new MultisetAssert<>(actual);
+  private boolean hasTypeParameters(Method method) {
+    return method.getTypeParameters().length != 0;
   }
 
-  // ------------------------------------------------------------------------------------------------------
-  // Data utility methods : not assertions but here to have a single entry point to all AssertJ Guava features.
-  // ------------------------------------------------------------------------------------------------------
-
-  /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a fully featured entry point to all
-   * AssertJ Guava features (but you can use {@link MapEntry} if you prefer).
-   * <p>
-   * Typical usage is to call <code>entry</code> in MultimapAssert <code>contains</code> assertion as shown below :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
-   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   *
-   * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;)); </code></pre>
-   *
-   * @param <K> the type of the key of this entry.
-   * @param <V> the type of the value of this entry.
-   * @param key the key of the entry to create.
-   * @param value the value of the entry to create.
-   *
-   * @return the built entry
-   */
-  public static <K, V> MapEntry<K, V> entry(K key, V value) {
-    return MapEntry.entry(key, value);
+  private Entry<Type, Type> toParameterAndReturnTypeEntry(Method method) {
+    return entry(normalize(genericParameterType(method)), normalize(method.getGenericReturnType()));
   }
 
-  /**
-   * protected to avoid direct instantiation but allowing subclassing.
-   */
-  protected Assertions() {
-    // empty
+  private Type genericParameterType(Method method) {
+    Type[] parameterTypes = method.getGenericParameterTypes();
+    assertThat(parameterTypes).hasSize(1);
+    return parameterTypes[0];
   }
+
+  private Map<Type, Type> findFieldFactoryTypes() {
+    return Stream.of(InstanceOfAssertFactories.class.getFields())
+                 .filter(not(Field::isSynthetic)) // Exclude $jacocoData - see #590 and jacoco/jacoco#168
+                 .map(Field::getGenericType)
+                 .map(this::extractTypeParameters)
+                 .filter(not(this::isIgnoredFieldFactory))
+                 .collect(toMap(Entry::getKey, Entry::getValue));
+  }
+
+  private boolean isIgnoredFieldFactory(Entry<Type, Type> e) {
+    return isIgnoredFactory(e, FIELD_FACTORIES_IGNORED_TYPES);
+  }
+
+  private Map<Type, Type> findMethodFactoryTypes() {
+    return Stream.of(InstanceOfAssertFactories.class.getMethods())
+                 .map(Method::getGenericReturnType)
+                 .map(this::extractTypeParameters)
+                 .filter(not(this::isIgnoredMethodFactory))
+                 .collect(toMap(Entry::getKey, Entry::getValue));
+  }
+
+  private boolean isIgnoredMethodFactory(Entry<Type, Type> e) {
+    return isIgnoredFactory(e, METHOD_FACTORIES_IGNORED_TYPES);
+  }
+
+  private boolean isIgnoredFactory(Entry<Type, Type> e, Class<?>... ignoredTypes) {
+    return Stream.of(ignoredTypes).anyMatch(type -> e.getValue().equals(type));
+  }
+
+  private Entry<Type, Type> extractTypeParameters(Type type) {
+    assertThat(type).asInstanceOf(type(ParameterizedType.class))
+                    .returns(InstanceOfAssertFactory.class, from(ParameterizedType::getRawType))
+                    .extracting(ParameterizedType::getActualTypeArguments)
+                    .asInstanceOf(ARRAY)
+                    .hasSize(2);
+    Type[] typeArguments = ((ParameterizedType) type).getActualTypeArguments();
+    return entry(normalize(typeArguments[0]), normalize(typeArguments[1]));
+  }
+
+  private Type normalize(Type type) {
+    if (type instanceof ParameterizedType) {
+      return ((ParameterizedType) type).getRawType();
+    } else if (type instanceof TypeVariable) {
+      Type[] bounds = ((TypeVariable<?>) type).getBounds();
+      assertThat(bounds).hasSize(1);
+      return normalize(bounds[0]);
+    }
+    return type;
+  }
+
+  // Borrowed from JDK 11
+  private static <T> Predicate<T> not(Predicate<T> target) {
+    return target.negate();
+  }
+
 }

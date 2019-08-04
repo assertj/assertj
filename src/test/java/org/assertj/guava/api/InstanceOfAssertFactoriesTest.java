@@ -204,88 +204,137 @@
  */
 package org.assertj.guava.api;
 
-import org.assertj.core.data.MapEntry;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.guava.api.InstanceOfAssertFactories.*;
+
+import java.io.IOException;
+
+import org.assertj.guava.data.MapEntry;
+import org.junit.Test;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ImmutableRangeMap;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Range;
-import com.google.common.collect.RangeMap;
-import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
 /**
- * The entry point for all Guava assertions.
- *
- * @author marcelfalliere
- * @author miralak
- * @author Kornel
- * @author Jan Gorman
- * @author Joel Costigliola
- * @author Marcin Kwaczyński
- * @author Max Daniline
+ * @author Stefano Cordio
+ * @since 3.3.0
  */
-public class Assertions implements InstanceOfAssertFactories {
+public class InstanceOfAssertFactoriesTest {
 
-  public static ByteSourceAssert assertThat(final ByteSource actual) {
-    return new ByteSourceAssert(actual);
+  @Test
+  public void byte_source_factory_should_allow_byte_source_assertions() throws IOException {
+    // GIVEN
+    Object value = ByteSource.empty();
+    // WHEN
+    ByteSourceAssert result = assertThat(value).asInstanceOf(BYTE_SOURCE);
+    // THEN
+    result.isEmpty();
   }
 
-  public static <K, V> MultimapAssert<K, V> assertThat(final Multimap<K, V> actual) {
-    return new MultimapAssert<>(actual);
+  @Test
+  public void multimap_factory_should_allow_multimap_assertions() {
+    // GIVEN
+    Object value = ImmutableMultimap.of("key", "value");
+    // WHEN
+    MultimapAssert<Object, Object> result = assertThat(value).asInstanceOf(MULTIMAP);
+    // THEN
+    result.contains(Assertions.entry("key", "value"));
   }
 
-  public static <T> OptionalAssert<T> assertThat(final Optional<T> actual) {
-    return new OptionalAssert<>(actual);
+  @Test
+  public void typed_multimap_factory_should_allow_typed_multimap_assertions() {
+    // GIVEN
+    Object value = ImmutableMultimap.of("key", "value");
+    // WHEN
+    MultimapAssert<String, String> result = assertThat(value).asInstanceOf(multimap(String.class, String.class));
+    // THEN
+    result.contains(Assertions.entry("key", "value"));
   }
 
-  public static <T extends Comparable<T>> RangeAssert<T> assertThat(final Range<T> actual) {
-    return new RangeAssert<>(actual);
+  @Test
+  public void optional_factory_should_allow_optional_assertions() {
+    // GIVEN
+    Object value = Optional.of("something");
+    // WHEN
+    OptionalAssert<Object> result = assertThat(value).asInstanceOf(OPTIONAL);
+    // THEN
+    result.isPresent();
   }
 
-  public static <K extends Comparable<K>, V> RangeMapAssert<K, V> assertThat(final RangeMap<K, V> actual) {
-    return new RangeMapAssert<>(actual);
+  @Test
+  public void typed_optional_factory_should_allow_typed_optional_assertions() {
+    // GIVEN
+    Object value = Optional.of("something");
+    // WHEN
+    OptionalAssert<String> result = assertThat(value).asInstanceOf(optional(String.class));
+    // THEN
+    result.isPresent();
   }
 
-  public static <R, C, V> TableAssert<R, C, V> assertThat(Table<R, C, V> actual) {
-    return new TableAssert<>(actual);
+  @Test
+  public void range_factory_should_allow_range_assertions() {
+    // GIVEN
+    Object value = Range.atLeast(0);
+    // WHEN
+    RangeAssert<Integer> result = assertThat(value).asInstanceOf(range(Integer.class));
+    // THEN
+    result.contains(0);
   }
 
-  public static <T> MultisetAssert<T> assertThat(final Multiset<T> actual) {
-    return new MultisetAssert<>(actual);
+  @Test
+  public void range_map_factory_should_allow_range_map_assertions() {
+    // GIVEN
+    Object value = ImmutableRangeMap.of(Range.atLeast(0), "value");
+    // WHEN
+    RangeMapAssert<Integer, String> result = assertThat(value).asInstanceOf(rangeMap(Integer.class, String.class));
+    // THEN
+    result.contains(MapEntry.entry(0, "value"));
   }
 
-  // ------------------------------------------------------------------------------------------------------
-  // Data utility methods : not assertions but here to have a single entry point to all AssertJ Guava features.
-  // ------------------------------------------------------------------------------------------------------
-
-  /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a fully featured entry point to all
-   * AssertJ Guava features (but you can use {@link MapEntry} if you prefer).
-   * <p>
-   * Typical usage is to call <code>entry</code> in MultimapAssert <code>contains</code> assertion as shown below :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
-   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   *
-   * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;)); </code></pre>
-   *
-   * @param <K> the type of the key of this entry.
-   * @param <V> the type of the value of this entry.
-   * @param key the key of the entry to create.
-   * @param value the value of the entry to create.
-   *
-   * @return the built entry
-   */
-  public static <K, V> MapEntry<K, V> entry(K key, V value) {
-    return MapEntry.entry(key, value);
+  @Test
+  public void table_factory_should_allow_table_assertions() {
+    // GIVEN
+    Object value = ImmutableTable.of(0, 0.0, "value");
+    // WHEN
+    TableAssert<Object, Object, Object> result = assertThat(value).asInstanceOf(TABLE);
+    // THEN
+    result.containsCell(0, 0.0, "value");
   }
 
-  /**
-   * protected to avoid direct instantiation but allowing subclassing.
-   */
-  protected Assertions() {
-    // empty
+  @Test
+  public void typed_table_factory_should_allow_typed_table_assertions() {
+    // GIVEN
+    Object value = ImmutableTable.of(0, 0.0, "value");
+    // WHEN
+    TableAssert<Integer, Double, String> result = assertThat(value).asInstanceOf(table(Integer.class, Double.class,
+                                                                                       String.class));
+    // THEN
+    result.containsCell(0, 0.0, "value");
   }
+
+  @Test
+  public void multiset_factory_should_allow_multiset_assertions() {
+    // GIVEN
+    Object value = ImmutableMultiset.of("value");
+    // WHEN
+    MultisetAssert<Object> result = assertThat(value).asInstanceOf(MULTISET);
+    // THEN
+    result.containsAtLeast(1, "value");
+  }
+
+  @Test
+  public void typed_multiset_factory_should_allow_typed_multiset_assertions() {
+    // GIVEN
+    Object value = ImmutableMultiset.of("value");
+    // WHEN
+    MultisetAssert<String> result = assertThat(value).asInstanceOf(multiset(String.class));
+    // THEN
+    result.containsAtLeast(1, "value");
+  }
+
 }
