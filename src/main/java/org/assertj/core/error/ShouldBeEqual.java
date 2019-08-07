@@ -49,6 +49,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
   protected final ComparisonStrategy comparisonStrategy;
   private Representation representation;
+  @VisibleForTesting
   AssertionErrorCreator creator = new AssertionErrorCreator();
   @VisibleForTesting
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
