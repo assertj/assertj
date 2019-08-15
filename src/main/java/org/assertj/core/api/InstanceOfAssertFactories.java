@@ -34,6 +34,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -772,6 +773,28 @@ public interface InstanceOfAssertFactories {
    */
   InstanceOfAssertFactory<Path, AbstractPathAssert<?>> PATH = new InstanceOfAssertFactory<>(Path.class,
                                                                                             Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Spliterator}, assuming {@code Object} as element type.
+   *
+   * @see #spliterator(Class)
+   */
+  @SuppressWarnings("rawtypes") // rawtypes: using Class instance
+  InstanceOfAssertFactory<Spliterator, SpliteratorAssert<Object>> SPLITERATOR = spliterator(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Spliterator}.
+   *
+   * @param <ELEMENT>   the {@code Spliterator} element type.
+   * @param elementType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #SPLITERATOR
+   */
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  static <ELEMENT> InstanceOfAssertFactory<Spliterator, SpliteratorAssert<ELEMENT>> spliterator(Class<ELEMENT> elementType) {
+    return new InstanceOfAssertFactory<>(Spliterator.class, Assertions::<ELEMENT> assertThat);
+  }
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Map}, assuming {@code Object} as key and value types.

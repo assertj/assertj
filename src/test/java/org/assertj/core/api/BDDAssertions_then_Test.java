@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -273,4 +275,9 @@ public class BDDAssertions_then_Test {
     then(URI.create("http://assertj.org")).hasNoPort();
   }
 
+  @Test
+  public void then_Spliterator() {
+    Spliterator<Integer> spliterator = Stream.of(1, 2).spliterator();
+    then(spliterator).hasCharacteristics(Spliterator.SIZED);
+  }
 }

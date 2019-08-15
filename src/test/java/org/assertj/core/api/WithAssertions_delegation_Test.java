@@ -36,6 +36,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -795,5 +796,10 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   public void withAssertions_assertThat_uri_Test() {
     assertThat(java.net.URI.create("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
+  }
+
+  @Test
+  public void withAssertions_assertThat_spliterator_Test() {
+    assertThat(Stream.of(1, 2).spliterator()).hasCharacteristics(Spliterator.SIZED);
   }
 }

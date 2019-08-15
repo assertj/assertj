@@ -40,6 +40,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -2532,6 +2533,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractUriAssert<?> assertThat(final URI actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code>.
+   *
+   * @param <ELEMENT> the type of the elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(final Spliterator<ELEMENT> actual) {
     return Assertions.assertThat(actual);
   }
 

@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Spliterator;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
@@ -365,6 +366,17 @@ public class Assumptions_assumeThat_with_various_types_Test {
           public void runPassingAssumption() {
             assumeThatObject(actual).satisfies(l -> assertThatObject(l).has(
               new Condition<>(list -> list.getFirst().equals("abc"), "First element is 'abc'")));
+          }
+        },
+        new AssumptionRunner<Spliterator>(Stream.of(1, 2).spliterator()) {
+          @Override
+          public void runFailingAssumption() {
+            assumeThat(actual).hasCharacteristics(Spliterator.DISTINCT);
+          }
+
+          @Override
+          public void runPassingAssumption() {
+            assumeThat(actual).hasCharacteristics(Spliterator.SIZED);
           }
       });
     // @format:on

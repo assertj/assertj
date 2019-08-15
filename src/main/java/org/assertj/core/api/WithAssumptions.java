@@ -36,6 +36,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -1034,4 +1035,14 @@ public interface WithAssumptions {
     return Assumptions.assumeThat(uri);
   }
 
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> assumption.
+   *
+   * @param <ELEMENT> the type of the elements.
+   * @param spliterator the actual value.
+   * @return the created assumption for assertion object.
+   */
+  default <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> assumeThat(final Spliterator<ELEMENT> spliterator) {
+    return Assumptions.assumeThat(spliterator);
+  }
 }

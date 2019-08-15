@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
@@ -297,4 +298,14 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
     return proxy(ProxyableListAssert.class, IntStream.class, actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual {@link Spliterator} value.
+   * @return the created assertion object.
+   */
+  public <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
+    return proxy(SpliteratorAssert.class, Spliterator.class, actual);
+  }
 }
