@@ -2764,6 +2764,12 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
    *
+   * Example:
+   * <pre><code class='java'>
+   * Spliterator&lt;Integer&gt; spliterator = Stream.of(1, 2, 3).spliterator();
+   * assertThat(spliterator).hasCharacteristics(Spliterator.SIZED);
+   * </code></pre>
+   *
    * @param <ELEMENT> the type of elements.
    * @param actual the spliterator to test.
    * @return the created assertion object.
