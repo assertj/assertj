@@ -1,0 +1,66 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ * Copyright 2012-2019 the original author or authors.
+ */
+package org.assertj.core.api;
+
+import org.assertj.core.internal.Spliterators;
+
+import java.util.Spliterator;
+
+/**
+ * Assertions for {@link Spliterator} type.
+ *
+ * @param <SELF> the "self" type of this assertion class.
+ * @param <ELEMENT> the type of elements.
+ *
+ * @author William Bakker
+ */
+public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SELF, ELEMENT>, ELEMENT> extends
+    AbstractAssert<SELF, Spliterator<ELEMENT>> {
+
+  private final Spliterators spliterators = Spliterators.instance();
+
+  public AbstractSpliteratorAssert(Spliterator<ELEMENT> actual, Class<?> selfType) {
+    super(actual, selfType);
+  }
+
+  /**
+   * Asserts the actual <code>{@link Spliterator}</code> has the given characteristics.
+   *
+   * @param characteristics the expected characteristics.
+   * @throws AssertionError if the actual {@code Spliterator} is {@code null}.
+   * @throws AssertionError if the actual {@code Spliterator} does not have the expected characteristics.
+   *
+   * @return {@code this} assertion object.
+   */
+  public SELF hasCharacteristics(int... characteristics) {
+    isNotNull();
+    spliterators.assertHasCharacteristics(info, actual, characteristics);
+    return this.myself;
+  }
+
+  /**
+   * Asserts the actual <code>{@link Spliterator}</code> has only the given characteristics and no else.
+   *
+   * @param characteristics the expected characteristics.
+   * @throws AssertionError if the actual {@code Spliterator} is {@code null}.
+   * @throws AssertionError if the actual {@code Spliterator} does not have the expected characteristics
+   *                        or the actual {@code Spliterator} has additional characteristics.
+   *
+   * @return {@code this} assertion object.
+   */
+  public SELF hasOnlyCharacteristics(int... characteristics) {
+    isNotNull();
+    spliterators.assertHasOnlyCharacteristics(info, actual, characteristics);
+    return this.myself;
+  }
+}

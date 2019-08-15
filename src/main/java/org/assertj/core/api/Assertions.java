@@ -45,6 +45,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -134,6 +135,7 @@ import org.assertj.core.util.introspection.Introspection;
  * @author Mikhail Mazursky
  * @author Nicolas François
  * @author Julien Meddah
+ * @author William Bakker
  * @author William Delanoue
  */
 @CheckReturnValue
@@ -2756,6 +2758,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static ListAssert<Integer> assertThat(IntStream actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the spliterator to test.
+   * @return the created assertion object.
+   */
+  public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
