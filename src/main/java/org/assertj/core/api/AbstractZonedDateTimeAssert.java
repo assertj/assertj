@@ -12,10 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
-import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
-import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgnoringHours;
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
@@ -23,11 +19,17 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualI
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Comparator;
 
+import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
+import org.assertj.core.internal.Comparables;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.util.CheckReturnValue;
 
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, ZonedDateTime> {
@@ -46,12 +48,19 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
-   * Verifies that the actual {@code ZonedDateTime} is <b>strictly</b> before the given one.
+   * Verifies that the actual {@code ZonedDateTime} is <b>strictly</b> before the given one according to the comparator in use.
    * <p>
-   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59Z")).isBefore(parse("2000-01-02T00:00:00Z"));</code></pre>
+   * <pre><code class='java'> // fails because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-02T00:00:00Z")).isBefore(parse("2000-01-02T01:00:00+01:00"));
+   * // succeeds even though they refer to the same instant but with different offset
+   * assertThat(parse("2000-01-02T00:00:00Z")).usingComparator(ZonedDateTime::compareTo)
+   *                                          .isBefore(parse("2000-01-02T01:00:00+01:00"));</code></pre>
    *
    * @param other the given {@link ZonedDateTime}.
    * @return this assertion object.
@@ -60,11 +69,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @throws AssertionError if the actual {@code ZonedDateTime} is not strictly before the given one.
    */
   public SELF isBefore(ZonedDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (!actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-    }
+    comparables.assertIsBefore(info, actual, other);
     return myself;
   }
 
@@ -74,8 +80,10 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check..
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
@@ -94,13 +102,19 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
-   * Verifies that the actual {@code ZonedDateTime} is before or equals to the given one.
+   * Verifies that the actual {@code ZonedDateTime} is before or equals to the given one according to the comparator in use.
    * <p>
-   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59Z")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59Z"))
-   *                                          .isBeforeOrEqualTo(parse("2000-01-02T00:00:00Z"));</code></pre>
+   * <pre><code class='java'> // succeeds because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T00:00:00Z")).isBeforeOrEqualTo(parse("2000-01-01T01:00:00+01:00"));
+   * // fails even though they refer to the same instant
+   * assertThat(parse("2000-01-01T01:00:00+01:00")).usingComparator(ZonedDateTime::compareTo)
+   *                                               .isBeforeOrEqualTo(parse("2000-01-01T00:00:00Z"));</code></pre>
    *
    * @param other the given {@link ZonedDateTime}.
    * @return this assertion object.
@@ -109,11 +123,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @throws AssertionError if the actual {@code ZoneDateTime} is not before or equals to the given one.
    */
   public SELF isBeforeOrEqualTo(ZonedDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
-    }
+    comparables.assertIsBeforeOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -123,8 +134,10 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check..
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -144,13 +157,19 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
-   * Verifies that the actual {@code ZonedDateTime} is after or equals to the given one.
+   * Verifies that the actual {@code ZonedDateTime} is after or equals to the given one according to the comparator in use.
    * <p>
-   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isAfterOrEqualTo(parse("2000-01-01T00:00:00Z"))
-   *                                          .isAfterOrEqualTo(parse("1999-12-31T23:59:59Z"));</code></pre>
+   * <pre><code class='java'> // succeeds because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T00:00:00Z")).isAfterOrEqualTo(parse("2000-01-01T01:00:00+01:00"));
+   * // fails even though they refer to the same instant
+   * assertThat(parse("2000-01-01T00:00:00Z")).usingComparator(ZonedDateTime::compareTo)
+   *                                          .isAfterOrEqualTo(parse("2000-01-01T01:00:00+01:00"));</code></pre>
    *
    * @param other the given {@link ZonedDateTime}.
    * @return this assertion object.
@@ -159,11 +178,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @throws AssertionError if the actual {@code ZonedDateTime} is not after or equals to the given one.
    */
   public SELF isAfterOrEqualTo(ZonedDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
-    }
+    comparables.assertIsAfterOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -173,8 +189,10 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check.
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -194,12 +212,19 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
-   * Verifies that the actual {@code ZonedDateTime} is <b>strictly</b> after the given one.
+   * Verifies that the actual {@code ZonedDateTime} is <b>strictly</b> after the given one according to the comparator in use.
    * <p>
-   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isAfter(parse("1999-12-31T23:59:59Z"));</code></pre>
+   * <pre><code class='java'> // fails because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T01:00:00Z")).isAfter(parse("2000-01-01T00:00:00-01:00"));
+   * // succeeds even though they refer to the same instant
+   * assertThat(parse("2000-01-01T01:00:00Z")).usingComparator(ZonedDateTime::compareTo)
+   *                                          .isAfter(parse("2000-01-01T00:00:00-01:00"));</code></pre>
    *
    * @param other the given {@link ZonedDateTime}.
    * @return this assertion object.
@@ -208,11 +233,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @throws AssertionError if the actual {@code ZonedDateTime} is not strictly after the given one.
    */
   public SELF isAfter(ZonedDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (!actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
-    }
+    comparables.assertIsAfter(info, actual, other);
     return myself;
   }
 
@@ -222,8 +244,10 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check.
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -401,24 +425,36 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
-   * Verifies that the actual {@link ZonedDateTime} is equal to the given one <b>in the actual's
-   * {@link java.time.ZoneId}</b>.
+   * Verifies that the actual {@link ZonedDateTime} is equal to the given one according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> ZonedDateTime firstOfJanuary2000InUTC = ZonedDateTime.parse("2000-01-01T00:00:00Z");
    * assertThat(firstOfJanuary2000InUTC).isEqualTo(parse("2000-01-01T00:00:00Z"));
    * 
-   * // the following assertion succeeds as ZonedDateTime are compared in actual's time zone
+   * // the following assertion succeeds as ZonedDateTime are compared based on the instant they are referring to
    * // 2000-01-01T01:00:00+01:00 = 2000-01-01T00:00:00 in UTC
-   * assertThat(firstOfJanuary2000InUTC).isEqualTo(parse("2000-01-01T01:00:00+01:00"));</code></pre>
+   * assertThat(firstOfJanuary2000InUTC).isEqualTo(parse("2000-01-01T01:00:00+01:00"));
+   * // the following assertion fails as the comparator compares the zone info, too
+   * assertThat(firstOfJanuary2000InUTC).usingComparator(ZonedDateTime::compareTo)
+   *                                    .isEqualTo(parse("2000-01-01T01:00:00+01:00"));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is not equal to the {@link ZonedDateTime} in the actual
-   *           ZonedDateTime's java.time.ZoneId.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is not equal to the {@link ZonedDateTime} according
+   *                      to the comparator in use.
    */
   public SELF isEqualTo(ZonedDateTime expected) {
-    return super.isEqualTo(sameInstantInActualTimeZone(expected));
+    if (actual == null || expected == null) {
+      super.isEqualTo(expected);
+    } else {
+      comparables.assertEqual(info, actual, expected);
+    }
+    return myself;
   }
 
   /**
@@ -427,8 +463,10 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check.
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
@@ -448,22 +486,37 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isEqualTo(parse(dateTimeAsString));
+    return isEqualTo(parse(dateTimeAsString));
   }
 
   /**
-   * Verifies that the actual value is not equal to the given one <b>in the actual ZonedDateTime's java.time.ZoneId</b>.
+   * Verifies that the actual value is not equal to the given one according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isNotEqualTo(parse("2000-01-15T00:00:00Z"));</code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isNotEqualTo(parse("2000-01-15T00:00:00Z"));
+   * // fails because of the default comparator since they refer to the same instant
+   * assertThat(parse("2000-01-01T00:00:00Z")).isNotEqualTo(parse("2000-01-01T02:00:00+02:00"));
+   * // succeeds due of the different comparator even though they refer to the same instant.
+   * assertThat(parse("2000-01-01T00:00:00Z")).usingComparator(ZonedDateTime::compareTo)
+   *                                          .isNotEqualTo(parse("2000-01-01T02:00:00+02:00"));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is equal to the {@link ZonedDateTime} in the actual
-   *           ZonedDateTime's java.time.ZoneId.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is equal to the {@link ZonedDateTime} according
+   *                to the comparator in use.
    */
   public SELF isNotEqualTo(ZonedDateTime expected) {
-    return super.isNotEqualTo(sameInstantInActualTimeZone(expected));
+    if (actual == null || expected == null) {
+      super.isNotEqualTo(expected);
+    } else {
+      comparables.assertNotEqual(info, actual, expected);
+    }
+    return myself;
   }
 
   /**
@@ -472,8 +525,10 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * {@link ZonedDateTime} to check.. {@link ZonedDateTime}.
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
@@ -488,7 +543,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isNotEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isNotEqualTo(parse(dateTimeAsString));
+    return isNotEqualTo(parse(dateTimeAsString));
   }
 
   /**
@@ -578,7 +633,13 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
-   * Verifies that the actual {@link ZonedDateTime} is in the [start, end] period (start and end included).
+   * Verifies that the actual {@link ZonedDateTime} is in the [start, end] period (start and end included) according to
+   * the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> ZonedDateTime zonedDateTime = ZonedDateTime.now();
@@ -591,8 +652,13 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * 
    * // assertions fail:
    * assertThat(zonedDateTime).isBetween(zonedDateTime.minusSeconds(10), zonedDateTime.minusSeconds(1));
-   * assertThat(zonedDateTime).isBetween(zonedDateTime.plusSeconds(1), zonedDateTime.plusSeconds(10));</code></pre>
-   * 
+   * assertThat(zonedDateTime).isBetween(zonedDateTime.plusSeconds(1), zonedDateTime.plusSeconds(10));
+   *
+   * // succeeds with default comparator
+   * assertThat(parse("2010-01-01T00:00:00Z")).isBetween(parse("2010-01-01T01:00:00+01:00"), parse("2010-01-01T01:00:00+01:00"));
+   * // fails with a comparator which checks the offset, too
+   * assertThat(parse("2010-01-01T00:00:00Z")).usingComparator(ChronoZonedDateTime::compareTo)
+   *                                          .isBetween(parse("2010-01-01T01:00:00+01:00"), parse("2010-01-01T01:00:00+01:00"));</code></pre>
    * @param startInclusive the start value (inclusive), expected not to be null.
    * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
@@ -612,6 +678,11 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * Same assertion as {@link #isBetween(ZonedDateTime, ZonedDateTime)} but here you pass {@link ZonedDateTime} String representations 
    * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a> 
    * to allow calling {@link ZonedDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> ZonedDateTime firstOfJanuary2000 = ZonedDateTime.parse("2000-01-01T00:00:00Z");
@@ -642,7 +713,13 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
-   * Verifies that the actual {@link ZonedDateTime} is in the ]start, end[ period (start and end excluded).
+   * Verifies that the actual {@link ZonedDateTime} is in the ]start, end[ period (start and end excluded) according to
+   * the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> ZonedDateTime zonedDateTime = ZonedDateTime.now();
@@ -654,8 +731,14 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(10), zonedDateTime.minusSeconds(1));
    * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.plusSeconds(1), zonedDateTime.plusSeconds(10));
    * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime, zonedDateTime.plusSeconds(1));
-   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(1), zonedDateTime);</code></pre>
-   * 
+   * assertThat(zonedDateTime).isStrictlyBetween(zonedDateTime.minusSeconds(1), zonedDateTime);
+   *
+   * // fails with default comparator since the end value refers to the same instant as the actual
+   * assertThat(parse("2010-01-01T12:00:00Z")).isStrictlyBetween(parse("2010-01-01T12:59:59+01:00"), parse("2010-01-01T13:00:00+01:00"));
+   * // succeeds with a different comparator even though the end value refers to the same instant as the actual
+   * assertThat(parse("2010-01-01T12:00:00Z")).usingComparator(ChronoZonedDateTime::compareTo)
+   *       .isStrictlyBetween(parse("2010-01-01T12:59:59+01:00"), parse("2010-01-01T13:00:00+01:00"));</code></pre>
+   *
    * @param startExclusive the start value (exclusive), expected not to be null.
    * @param endExclusive the end value (exclusive), expected not to be null.
    * @return this assertion object.
@@ -675,6 +758,11 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * Same assertion as {@link #isStrictlyBetween(ZonedDateTime, ZonedDateTime)} but here you pass {@link ZonedDateTime} String representations 
    * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a> 
    * to allow calling {@link ZonedDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link ChronoZonedDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code ZonedDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> ZonedDateTime firstOfJanuary2000 = ZonedDateTime.parse("2000-01-01T00:00:00Z");
@@ -703,10 +791,23 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
   }
 
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingDefaultComparator() {
+    SELF self = super.usingDefaultComparator();
+    self.comparables = buildDefaultComparables();
+    return self;
+  }
+
+  private Comparables buildDefaultComparables() {
+    ChronoZonedDateTimeByInstantComparator defaultComparator = ChronoZonedDateTimeByInstantComparator.getInstance();
+    return new Comparables(new ComparatorBasedComparisonStrategy(defaultComparator, defaultComparator.description()));
+  }
+
   private ZonedDateTime[] convertToDateTimeArray(String... dateTimesAsString) {
     ZonedDateTime[] dates = new ZonedDateTime[dateTimesAsString.length];
     for (int i = 0; i < dateTimesAsString.length; i++) {
-      // building the ZonedDateTime in actual's ZoneId
       dates[i] = parse(dateTimesAsString[i]);
     }
     return dates;
@@ -727,15 +828,13 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
 
   /**
    * Obtains an instance of {@link ZonedDateTime} from a string representation in ISO date format.
-   * Note that the {@link ZonedDateTime} created from the given String is built in the {@link java.time.ZoneId} of the
-   * actual {@link ZonedDateTime}.
+   *
    * @param dateTimeAsString the string to parse
    * @return the parsed {@link ZonedDateTime}
    */
   @Override
   protected ZonedDateTime parse(String dateTimeAsString) {
-    ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
-    return sameInstantInActualTimeZone(zonedDateTime);
+    return ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
   }
 
   private ZonedDateTime sameInstantInActualTimeZone(ZonedDateTime zonedDateTime) {
@@ -826,6 +925,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
 
   protected AbstractZonedDateTimeAssert(ZonedDateTime actual, Class<?> selfType) {
     super(actual, selfType);
+    comparables = buildDefaultComparables();
   }
 
 }

@@ -14,10 +14,6 @@ package org.assertj.core.api;
 
 import static java.time.Clock.systemUTC;
 import static java.time.OffsetDateTime.now;
-import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
-import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
-import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgnoringHours;
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
@@ -28,10 +24,15 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalUnit;
+import java.util.Comparator;
 
 import org.assertj.core.data.TemporalUnitOffset;
+import org.assertj.core.internal.Comparables;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertions for {@link java.time.OffsetDateTime} type from new Date &amp; Time API introduced in Java 8.
@@ -56,26 +57,34 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   protected AbstractOffsetDateTimeAssert(OffsetDateTime actual, Class<?> selfType) {
     super(actual, selfType);
+    comparables = buildDefaultComparables();
   }
 
   /**
-   * Verifies that the actual {@code OffsetDateTime} is <b>strictly</b> before the given one.
+   * Verifies that the actual {@code OffsetDateTime} is <b>strictly</b> before the given one according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59Z")).isBefore(parse("2000-01-02T00:00:00Z"));</code></pre>
+   * <pre><code class='java'> // fails because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T00:00:00Z")).isBefore(parse("2000-01-01T01:00:00+01:00"));
+   * // succeeds even though they refer to the same instant but with different offset
+   * assertThat(parse("2000-01-01T00:00:00Z")).usingComparator(OffsetDateTime::compareTo)
+   *                                          .isBefore(parse("2000-01-01T01:00:00+01:00"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is not strictly before the given one.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not strictly before the given one according to
+   *                    the comparator in use.
    */
   public SELF isBefore(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
-    if (!actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-    }
+    comparables.assertIsBefore(info, actual, other);
     return myself;
   }
 
@@ -85,6 +94,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * must follow <a href=
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_DATE_TIME"
    * >ISO OffsetDateTime format</a> to allow calling {@link java.time.OffsetDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
@@ -105,24 +119,30 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   /**
-   * Verifies that the actual {@code OffsetDateTime} is before or equals to the given one.
+   * Verifies that the actual {@code OffsetDateTime} is before or equals to the given one according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59Z")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59Z"))
-   *                                          .isBeforeOrEqualTo(parse("2000-01-02T00:00:00Z"));</code></pre>
+   * <pre><code class='java'> // succeeds because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T00:00:00Z")).isBeforeOrEqualTo(parse("2000-01-01T01:00:00+01:00"));
+   * // fails even though they refer to the same instant
+   * assertThat(parse("2000-01-01T01:00:00+01:00")).usingComparator(OffsetDateTime::compareTo)
+   *                                               .isBeforeOrEqualTo(parse("2000-01-01T00:00:00Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is not before or equals to the given one.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not before or equals to the given one according to
+   * the comparator in use.
    */
   public SELF isBeforeOrEqualTo(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
-    if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
-    }
+    comparables.assertIsBeforeOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -132,6 +152,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * String, which must follow <a href=
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_DATE_TIME"
    * >ISO OffsetDateTime format</a> to allow calling {@link java.time.OffsetDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -152,24 +177,30 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   /**
-   * Verifies that the actual {@code OffsetDateTime} is after or equals to the given one.
+   * Verifies that the actual {@code OffsetDateTime} is after or equals to the given one according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isAfterOrEqualTo(parse("2000-01-01T00:00:00Z"))
-   *                                          .isAfterOrEqualTo(parse("1999-12-31T23:59:59Z"));</code></pre>
+   * <pre><code class='java'> // succeeds because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T00:00:00Z")).isAfterOrEqualTo(parse("2000-01-01T01:00:00+01:00"));
+   * // fails even though they refer to the same instant
+   * assertThat(parse("2000-01-01T00:00:00Z")).usingComparator(OffsetDateTime::compareTo)
+   *                                          .isAfterOrEqualTo(parse("2000-01-01T01:00:00+01:00"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is not after or equals to the given one.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not after or equals to the given one according to
+   *                        the comparator in use.
    */
   public SELF isAfterOrEqualTo(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
-    if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
-    }
+    comparables.assertIsAfterOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -179,6 +210,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * String, which must follow <a href=
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_DATE_TIME"
    * >ISO OffsetDateTime format</a> to allow calling {@link java.time.OffsetDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -199,23 +235,30 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   /**
-   * Verifies that the actual {@code OffsetDateTime} is <b>strictly</b> after the given one.
+   * Verifies that the actual {@code OffsetDateTime} is <b>strictly</b> after the given one according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isAfter(parse("1999-12-31T23:59:59Z"));</code></pre>
+   * <pre><code class='java'> // fails because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T01:00:00Z")).isAfter(parse("2000-01-01T00:00:00-01:00"));
+   * // succeeds even though they refer to the same instant
+   * assertThat(parse("2000-01-01T01:00:00Z")).usingComparator(OffsetDateTime::compareTo)
+   *                                          .isAfter(parse("2000-01-01T00:00:00-01:00"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is not strictly after the given one.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not strictly after the given one according to
+   *                        the comparator in use.
    */
   public SELF isAfter(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
-    if (!actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
-    }
+    comparables.assertIsAfter(info, actual, other);
     return myself;
   }
 
@@ -225,6 +268,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * must follow <a href=
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_DATE_TIME"
    * >ISO OffsetDateTime format</a> to allow calling {@link java.time.OffsetDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid conversion
@@ -241,6 +289,35 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   public SELF isAfter(String offsetDateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(offsetDateTimeAsString);
     return isAfter(parse(offsetDateTimeAsString));
+  }
+
+  /**
+   * Verifies that the actual {@code OffsetDateTime} is equal to the given one according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // succeeds because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T00:00:00Z")).isEqualTo(parse("2000-01-01T01:00:00+01:00"));
+   * // fails even though they refer to the same instant
+   * assertThat(parse("2000-01-01T00:00:00Z")).usingComparator(OffsetDateTime::compareTo)
+   *                                          .isEqualTo(parse("2000-01-01T01:00:00+01:00"));</code></pre>
+   *
+   * @param other the given value to compare the actual value to.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not equal to the given one according to
+   *                        the comparator in use.
+   */
+  public SELF isEqualTo(OffsetDateTime other) {
+    if (actual == null || other == null) {
+      super.isEqualTo(other);
+    } else {
+      comparables.assertEqual(info, actual, other);
+    }
+    return myself;
   }
 
   /**
@@ -276,6 +353,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_DATE_TIME"
    * >ISO OffsetDateTime format</a> to allow calling {@link java.time.OffsetDateTime#parse(CharSequence)} method.
    * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
+   * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("2000-01-01T00:00:00Z")).isEqualTo("2000-01-01T00:00:00Z");</code></pre>
@@ -293,12 +375,46 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     return isEqualTo(parse(dateTimeAsString));
   }
 
+
+  /**
+   * Verifies that the actual {@code OffsetDateTime} is not equal to the given one according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // fails because they refer to the same instant with different offset
+   * assertThat(parse("2000-01-01T00:00:00Z")).isNotEqualTo(parse("2000-01-01T01:00:00+01:00"));
+   * // succeeds even though they refer to the same instant
+   * assertThat(parse("2000-01-01T00:00:00Z")).usingComparator(OffsetDateTime::compareTo)
+   *                                          .isNotEqualTo(parse("2000-01-01T01:00:00+01:00"));</code></pre>
+   * @param other the given value to compare the actual value to.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is equal to the given one according to
+   *                        the comparator in use.
+   */
+  public SELF isNotEqualTo(OffsetDateTime other) {
+    if (actual == null || other == null) {
+      super.isNotEqualTo(other);
+    } else {
+      comparables.assertNotEqual(info, actual, other);
+    }
+    return myself;
+  }
+
   /**
    * Same assertion as {@link #isNotEqualTo(Object)} (where Object is expected to be {@link java.time.OffsetDateTime})
    * but here you
    * pass {@link java.time.OffsetDateTime} String representation that must follow <a href=
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_DATE_TIME"
    * >ISO OffsetDateTime format</a> to allow calling {@link java.time.OffsetDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
@@ -546,7 +662,12 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   /**
-   * Verifies that the actual {@link OffsetDateTime} is in the [start, end] period (start and end included).
+   * Verifies that the actual {@link OffsetDateTime} is in the [start, end] period (start and end included) according to the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> OffsetDateTime offsetDateTime = OffsetDateTime.now();
@@ -559,7 +680,13 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    *
    * // assertions fail:
    * assertThat(offsetDateTime).isBetween(offsetDateTime.minusSeconds(10), offsetDateTime.minusSeconds(1));
-   * assertThat(offsetDateTime).isBetween(offsetDateTime.plusSeconds(1), offsetDateTime.plusSeconds(10));</code></pre>
+   * assertThat(offsetDateTime).isBetween(offsetDateTime.plusSeconds(1), offsetDateTime.plusSeconds(10));
+   *
+   * // succeeds with default comparator
+   * assertThat(parse("2010-01-01T00:00:00Z")).isBetween(parse("2010-01-01T01:00:00+01:00"), parse("2010-01-01T01:00:00+01:00"));
+   * // fails with a comparator which checks the offset, too
+   * assertThat(parse("2010-01-01T00:00:00Z")).usingComparator(OffsetDateTime::compareTo)
+   *                                          .isBetween(parse("2010-01-01T01:00:00+01:00"), parse("2010-01-01T01:00:00+01:00"));</code></pre>
    *
    * @param startExclusive the start value (exclusive), expected not to be null.
    * @param endExclusive the end value (exclusive), expected not to be null.
@@ -567,7 +694,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
-   * @throws AssertionError if the actual value is not in [start, end] period.
+   * @throws AssertionError if the actual value is not in [start, end] period according to the comparator in use.
    *
    * @since 3.7.1
    */
@@ -580,6 +707,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * Same assertion as {@link #isBetween(OffsetDateTime, OffsetDateTime)} but here you pass {@link OffsetDateTime} String representations
    * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_DATE_TIME">ISO OffsetDateTime format</a>
    * to allow calling {@link OffsetDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> OffsetDateTime firstOfJanuary2000 = OffsetDateTime.parse("2000-01-01T00:00:00Z");
@@ -610,7 +742,13 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   /**
-   * Verifies that the actual {@link OffsetDateTime} is in the ]start, end[ period (start and end excluded).
+   * Verifies that the actual {@link OffsetDateTime} is in the ]start, end[ period (start and end excluded) according to
+   * the comparator in use.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> OffsetDateTime offsetDateTime = OffsetDateTime.now();
@@ -622,7 +760,13 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * assertThat(offsetDateTime).isStrictlyBetween(offsetDateTime.minusSeconds(10), offsetDateTime.minusSeconds(1));
    * assertThat(offsetDateTime).isStrictlyBetween(offsetDateTime.plusSeconds(1), offsetDateTime.plusSeconds(10));
    * assertThat(offsetDateTime).isStrictlyBetween(offsetDateTime, offsetDateTime.plusSeconds(1));
-   * assertThat(offsetDateTime).isStrictlyBetween(offsetDateTime.minusSeconds(1), offsetDateTime);</code></pre>
+   * assertThat(offsetDateTime).isStrictlyBetween(offsetDateTime.minusSeconds(1), offsetDateTime);
+   *
+   * // fails with default comparator since the end value refers to the same instant as the actual
+   * assertThat(parse("2010-01-01T12:00:00Z")).isStrictlyBetween(parse("2010-01-01T12:59:59+01:00"), parse("2010-01-01T13:00:00+01:00"));
+   * // succeeds with a different comparator even though the end value refers to the same instant as the actual
+   * assertThat(parse("2010-01-01T12:00:00Z")).usingComparator(OffsetDateTime::compareTo)
+   *       .isStrictlyBetween(parse("2010-01-01T12:59:59+01:00"), parse("2010-01-01T13:00:00+01:00"));</code></pre>
    *
    * @param startExclusive the start value (exclusive), expected not to be null.
    * @param endExclusive the end value (exclusive), expected not to be null.
@@ -630,7 +774,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
-   * @throws AssertionError if the actual value is not in ]start, end[ period.
+   * @throws AssertionError if the actual value is not in ]start, end[ period according to the comparator in use.
    *
    * @since 3.7.1
    */
@@ -643,6 +787,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * Same assertion as {@link #isStrictlyBetween(OffsetDateTime, OffsetDateTime)} but here you pass {@link OffsetDateTime} String representations
    * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_OFFSET_DATE_TIME">ISO OffsetDateTime format</a>
    * to allow calling {@link OffsetDateTime#parse(CharSequence)} method.
+   * <p>
+   * <b>Breaking change</b> since 3.14.0: The default comparator uses {@link OffsetDateTime#timeLineOrder()}
+   * to avoid the anomaly of comparing {@code OffsetDateTime} objects which refer to the same instant (i.e. point in time)
+   * but happen to be in a different timezone / offset / chronology.
+   * This behaviour can be overridden by {@link AbstractOffsetDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> OffsetDateTime firstOfJanuary2000 = OffsetDateTime.parse("2000-01-01T00:00:00Z");
@@ -669,6 +818,20 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingDefaultComparator() {
+    SELF self = super.usingDefaultComparator();
+    self.comparables = buildDefaultComparables();
+    return self;
+  }
+
+  private Comparables buildDefaultComparables() {
+    OffsetDateTimeByInstantComparator defaultComparator = OffsetDateTimeByInstantComparator.getInstance();
+    return new Comparables(new ComparatorBasedComparisonStrategy(defaultComparator, defaultComparator.description()));
   }
 
   /**

@@ -18,10 +18,11 @@ import java.time.ZonedDateTime;
 
 import org.assertj.core.internal.Comparables;
 
-public abstract class ZonedDateTimeAssertBaseTest extends BaseTestTemplate<ZonedDateTimeAssert, ZonedDateTime> {
+public abstract class AbstractZonedDateTimeAssertBaseTest extends TemporalAssertBaseTest<ZonedDateTimeAssert, ZonedDateTime> {
 
-  protected Comparables comparables;
   protected ZonedDateTime now = ZonedDateTime.now();
+  protected ZonedDateTime yesterday = now.minusDays(1);
+  protected ZonedDateTime tomorrow = now.plusDays(1);
 
   @Override
   protected void inject_internal_objects() {
@@ -35,4 +36,8 @@ public abstract class ZonedDateTimeAssertBaseTest extends BaseTestTemplate<Zoned
     return new ZonedDateTimeAssert(now);
   }
 
+  @Override
+  public Comparables getComparables(ZonedDateTimeAssert someAssertions) {
+    return assertions.comparables;
+  }
 }

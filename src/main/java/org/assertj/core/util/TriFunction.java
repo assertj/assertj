@@ -10,22 +10,11 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.api.zoneddatetime;
+package org.assertj.core.util;
 
-import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
-import org.assertj.core.api.ZonedDateTimeAssert;
+@FunctionalInterface
+public interface TriFunction<A, B, C, R> {
 
-public class ZonedDateTimeAssert_isBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
-
-  @Override
-  protected ZonedDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(yesterday, tomorrow);
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), yesterday, tomorrow, true, true);
-  }
+  R apply(A a, B b, C c);
 }

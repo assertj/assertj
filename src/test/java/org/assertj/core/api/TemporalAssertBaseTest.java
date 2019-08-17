@@ -10,22 +10,25 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.api.zoneddatetime;
+package org.assertj.core.api;
 
-import static org.mockito.Mockito.verify;
+import org.assertj.core.internal.Comparables;
 
-import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
-import org.assertj.core.api.ZonedDateTimeAssert;
+import java.time.temporal.Temporal;
 
-public class ZonedDateTimeAssert_isBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
+import static org.mockito.Mockito.mock;
+
+public abstract class TemporalAssertBaseTest<ASSERT extends AbstractTemporalAssert<ASSERT, TEMPORAL>, TEMPORAL extends Temporal>
+    extends BaseTestTemplate<ASSERT, TEMPORAL> {
+
+  protected Comparables comparables;
 
   @Override
-  protected ZonedDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(yesterday, tomorrow);
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
+    comparables = mock(Comparables.class);
+    assertions.comparables = comparables;
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), yesterday, tomorrow, true, true);
-  }
+  protected abstract Comparables getComparables(ASSERT someAssertions);
 }

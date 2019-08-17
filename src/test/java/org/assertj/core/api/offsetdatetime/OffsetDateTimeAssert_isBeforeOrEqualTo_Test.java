@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.verify;
 
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
+import org.assertj.core.api.OffsetDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,49 +28,34 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class OffsetDateTimeAssert_isBeforeOrEqualTo_Test extends OffsetDateTimeAssertBaseTest {
+public class OffsetDateTimeAssert_isBeforeOrEqualTo_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
-  @Test
-  public void test_isBeforeOrEqual_assertion() {
-    // WHEN
-    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
-    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE.toString());
-    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE);
-    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE.toString());
-    // THEN
-    verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
+  @Override
+  protected OffsetDateTimeAssert invoke_api_method() {
+    return assertions.isBeforeOrEqualTo(now).isBeforeOrEqualTo(tomorrow.toString());
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertIsBeforeOrEqualTo(getInfo(assertions), getActual(assertions), now);
+    verify(comparables).assertIsBeforeOrEqualTo(getInfo(assertions), getActual(assertions), tomorrow);
   }
 
   @Test
-  public void test_isBeforeOrEqual_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isBeforeOrEqualTo(BEFORE))
-                                                   .withMessage(shouldBeBeforeOrEqualTo(REFERENCE, BEFORE).create());
+  public void should_fail_if_given_offsetdatetime_parameter_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertions.isBeforeOrEqualTo((OffsetDateTime) null))
+      .withMessage("The OffsetDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      OffsetDateTime actual = null;
-      assertThat(actual).isBeforeOrEqualTo(OffsetDateTime.now());
-    }).withMessage(actualIsNull());
+  public void should_fail_if_given_string_parameter_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertions.isBeforeOrEqualTo((String) null))
+      .withMessage("The String representing the OffsetDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_dateTime_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isBeforeOrEqualTo((OffsetDateTime) null))
-                                        .withMessage("The OffsetDateTime to compare actual with should not be null");
-  }
-
-  @Test
-  public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isBeforeOrEqualTo((String) null))
-                                        .withMessage("The String representing the OffsetDateTime to compare actual with should not be null");
-  }
-
-  private static void verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(OffsetDateTime dateToCheck,
-                                                                                            OffsetDateTime reference) {
-    assertThatThrownBy(() -> assertThat(dateToCheck).isBeforeOrEqualTo(reference)).isInstanceOf(AssertionError.class);
-    assertThatThrownBy(() -> assertThat(dateToCheck).isBeforeOrEqualTo(reference.toString())).isInstanceOf(AssertionError.class);
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isBeforeOrEqualTo("not an OffsetDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 
 }

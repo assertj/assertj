@@ -14,15 +14,15 @@ package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.assertj.core.internal.Comparables;
 
+public abstract class AbstractOffsetDateTimeAssertBaseTest extends TemporalAssertBaseTest<OffsetDateTimeAssert, OffsetDateTime> {
 
-public abstract class LocalDateTimeAssertBaseTest extends BaseTestTemplate<LocalDateTimeAssert, LocalDateTime> {
-
-  protected Comparables comparables;
-  protected LocalDateTime now = LocalDateTime.now();
+  protected OffsetDateTime now = OffsetDateTime.now();
+  protected OffsetDateTime yesterday = now.minusDays(1);
+  protected OffsetDateTime tomorrow = now.plusDays(1);
 
   @Override
   protected void inject_internal_objects() {
@@ -32,8 +32,12 @@ public abstract class LocalDateTimeAssertBaseTest extends BaseTestTemplate<Local
   }
 
   @Override
-  protected LocalDateTimeAssert create_assertions() {
-    return new LocalDateTimeAssert(now);
+  protected OffsetDateTimeAssert create_assertions() {
+    return new OffsetDateTimeAssert(now);
   }
 
+  @Override
+  public Comparables getComparables(OffsetDateTimeAssert someAssertions) {
+    return assertions.comparables;
+  }
 }

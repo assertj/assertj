@@ -12,23 +12,24 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.OffsetDateTime;
 
 import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
+import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 
-public class OffsetDateTimeAssert_isStrictlyBetween_Test extends AbstractOffsetDateTimeAssertBaseTest {
+public class OffsetDateTimeAssert_usingDefaultComparator_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {
-    return assertions.isStrictlyBetween(yesterday, tomorrow);
+    return assertions.usingComparator(OffsetDateTime::compareTo).usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), yesterday, tomorrow, false, false);
+    assertThat(getComparables(assertions).getComparator()).isSameAs(OffsetDateTimeByInstantComparator.getInstance());
+    assertThat(getObjects(assertions).getComparator()).isNull();
   }
-
 }

@@ -12,20 +12,26 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
+import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 
-public class ZonedDateTimeAssert_isBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
+public class ZonedDateTimeAssert_defaultComparator_Test extends AbstractZonedDateTimeAssertBaseTest {
+
+  @Override
+  protected void inject_internal_objects() {
+  }
 
   @Override
   protected ZonedDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(yesterday, tomorrow);
+    return assertions;
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), yesterday, tomorrow, true, true);
+    assertThat(getComparables(assertions).getComparator()).isSameAs(ChronoZonedDateTimeByInstantComparator.getInstance());
+    assertThat(getObjects(assertions).getComparator()).isNull();
   }
 }

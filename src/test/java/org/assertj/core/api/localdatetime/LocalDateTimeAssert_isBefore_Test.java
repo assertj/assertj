@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.localdatetime;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
+import org.assertj.core.api.LocalDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,47 +28,33 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class LocalDateTimeAssert_isBefore_Test extends LocalDateTimeAssertBaseTest {
+public class LocalDateTimeAssert_isBefore_Test extends AbstractLocalDateTimeAssertBaseTest {
 
-  @Test
-  public void test_isBefore_assertion() {
-    // WHEN
-    assertThat(BEFORE).isBefore(REFERENCE);
-    // THEN
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
-    verify_that_isBefore_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
+  @Override
+  public LocalDateTimeAssert invoke_api_method() {
+    return assertions.isBefore(now).isBefore(tomorrow.toString());
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertIsBefore(getInfo(assertions), getActual(assertions), now);
+    verify(comparables).assertIsBefore(getInfo(assertions), getActual(assertions), tomorrow);
   }
 
   @Test
-  public void test_isBefore_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isBefore(LocalDateTime.of(1998, 1, 1, 3, 3, 3)))
-                                                   .withMessage(format("%nExpecting:%n  <2000-01-05T03:00:05>%nto be strictly before:%n  <1998-01-01T03:03:03>"));
+  public void should_fail_if_given_localdatetime_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertions.isBefore((LocalDateTime) null))
+      .withMessage("The LocalDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      LocalDateTime actual = null;
-      assertThat(actual).isBefore(LocalDateTime.now());
-    }).withMessage(actualIsNull());
+  public void should_fail_if_given_string_parameter_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertions.isBefore((String) null))
+      .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_dateTime_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isBefore((LocalDateTime) null))
-                                        .withMessage("The LocalDateTime to compare actual with should not be null");
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isBefore("not a LocalDateTime")).isInstanceOf(DateTimeParseException.class);
   }
-
-  @Test
-  public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isBefore((String) null))
-                                        .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
-  }
-
-  private static void verify_that_isBefore_assertion_fails_and_throws_AssertionError(LocalDateTime dateToTest,
-                                                                                     LocalDateTime reference) {
-    assertThatThrownBy(() -> assertThat(dateToTest).isBefore(reference)).isInstanceOf(AssertionError.class);
-    assertThatThrownBy(() -> assertThat(dateToTest).isBefore(reference.toString())).isInstanceOf(AssertionError.class);
-  }
-
 }

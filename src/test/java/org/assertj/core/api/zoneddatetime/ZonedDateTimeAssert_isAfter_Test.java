@@ -12,18 +12,16 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
-import static java.lang.String.format;
-import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
+import org.assertj.core.api.ZonedDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,74 +29,33 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssert_isAfter_Test extends ZonedDateTimeAssertBaseTest {
+public class ZonedDateTimeAssert_isAfter_Test extends AbstractZonedDateTimeAssertBaseTest {
 
-  @Test
-  public void test_isAfter_assertion() {
-    // WHEN
-    assertThat(AFTER).isAfter(REFERENCE);
-    assertThat(AFTER).isAfter(REFERENCE.format(DateTimeFormatter.ISO_DATE_TIME));
-    // THEN
-    verify_that_isAfter_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
-    verify_that_isAfter_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
+  @Override
+  protected ZonedDateTimeAssert invoke_api_method() {
+    return assertions.isAfter(now).isAfter(yesterday.toString());
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertIsAfter(getInfo(assertions), getActual(assertions), now);
+    verify(comparables).assertIsAfter(getInfo(assertions), getActual(assertions), yesterday);
   }
 
   @Test
-  public void isAfter_should_compare_datetimes_in_actual_timezone() {
-    ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
-    ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
-    ZonedDateTime cestDateTime = ZonedDateTime.of(2013, 6, 10, 1, 0, 0, 0, cestTimeZone);
-    // utcDateTime > cestDateTime
-    assertThat(utcDateTime).as("in UTC time zone").isAfter(cestDateTime);
-    try {
-      ZonedDateTime equalsCestDateTime = ZonedDateTime.of(2013, 6, 10, 2, 0, 0, 0, cestTimeZone);
-      assertThat(utcDateTime).as("in UTC time zone").isAfter(equalsCestDateTime);
-    } catch (AssertionError e) {
-      return;
-    }
-    fail("Should have thrown AssertionError");
+  public void should_fail_if_given_zoneddatetime_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(now).isAfter((ZonedDateTime) null))
+      .withMessage("The ZonedDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void test_isAfter_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isAfter(ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC)))
-                                                   .withMessage(format("%nExpecting:%n  <2000-01-05T03:00:05Z>%nto be strictly after:%n  <2012-01-01T03:03:03Z>"));
+  public void should_fail_if_given_string_parameter_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(now).isAfter((String) null))
+      .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      ZonedDateTime actual = null;
-      assertThat(actual).isAfter(ZonedDateTime.now());
-    }).withMessage(actualIsNull());
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isAfter("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);
   }
-
-  @Test
-  public void should_fail_if_dateTime_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isAfter((ZonedDateTime) null))
-                                        .withMessage("The ZonedDateTime to compare actual with should not be null");
-  }
-
-  @Test
-  public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isAfter((String) null))
-                                        .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
-  }
-
-  private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(ZonedDateTime dateToCheck,
-      ZonedDateTime reference) {
-    try {
-      assertThat(dateToCheck).isAfter(reference);
-    } catch (AssertionError e) {
-      // AssertionError was expected, test same assertion with String based parameter
-      try {
-        assertThat(dateToCheck).isAfter(reference.toString());
-      } catch (AssertionError e2) {
-        // AssertionError was expected (again)
-        return;
-      }
-    }
-    fail("Should have thrown AssertionError");
-  }
-
 }

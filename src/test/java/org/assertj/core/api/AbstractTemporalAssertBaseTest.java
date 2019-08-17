@@ -10,22 +10,22 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.api.zoneddatetime;
+package org.assertj.core.api;
 
-import static org.mockito.Mockito.verify;
+import java.time.ZonedDateTime;
 
-import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
-import org.assertj.core.api.ZonedDateTimeAssert;
+import org.assertj.core.internal.Comparables;
 
-public class ZonedDateTimeAssert_isBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
+public abstract class AbstractTemporalAssertBaseTest extends TemporalAssertBaseTest<ConcreteTemporalAssert, ZonedDateTime> {
 
   @Override
-  protected ZonedDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(yesterday, tomorrow);
+  protected ConcreteTemporalAssert create_assertions() {
+    return new ConcreteTemporalAssert(ZonedDateTime.now());
   }
 
   @Override
-  protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), yesterday, tomorrow, true, true);
+  protected Comparables getComparables(ConcreteTemporalAssert someAssertions) {
+    return someAssertions.comparables;
   }
+
 }

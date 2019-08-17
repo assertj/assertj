@@ -38,6 +38,9 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+import org.assertj.core.internal.ChronoLocalDateTimeComparator;
+import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
+import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
@@ -228,8 +231,10 @@ public class AutoCloseableSoftAssertionsTest {
                                                  + "  <\"something was wrong\">"));
       assertThat(errors.get(39)).contains(format("%nExpecting:%n <Optional[bad option]>%nto be equal to:%n <Optional[good option]>%nbut was not."));
       assertThat(errors.get(40)).contains(format("%nExpecting:%n <2015-01-01>%nto be equal to:%n <2015-01-02>%nbut was not."));
-      assertThat(errors.get(41)).contains(format("%nExpecting:%n <2015-01-01T23:59:59>%nto be equal to:%n <2015-01-01T23:59>%nbut was not."));
-      assertThat(errors.get(42)).contains(format("%nExpecting:%n <2015-01-01T23:59:59Z>%nto be equal to:%n <2015-01-01T23:59Z>%nbut was not."));
+      assertThat(errors.get(41)).contains(format("%nExpecting:%n <2015-01-01T23:59:59>%nto be equal to:%n <2015-01-01T23:59>%n" +
+        "when comparing values using '%s'%nbut was not.", ChronoLocalDateTimeComparator.getInstance()));
+      assertThat(errors.get(42)).contains(format("%nExpecting:%n <2015-01-01T23:59:59Z>%nto be equal to:%n <2015-01-01T23:59Z>%n" +
+        "when comparing values using '%s'%nbut was not.", ChronoZonedDateTimeByInstantComparator.getInstance()));
 
       assertThat(errors.get(43)).contains(format("%nExpecting:%n <OptionalInt[0]>%nto be equal to:%n <1>%nbut was not."));
       assertThat(errors.get(44)).contains(format("%nExpecting:%n <OptionalDouble[0.0]>%nto be equal to:%n <1.0>%nbut was not."));
@@ -238,7 +243,8 @@ public class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(46)).contains(format("%nExpecting:%n <12:00>%nto be equal to:%n <13:00>%nbut was not."));
       assertThat(errors.get(47)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
 
-      assertThat(errors.get(48)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00>%nbut was not."));
+      assertThat(errors.get(48)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00>%n" +
+        "when comparing values using '%s'%nbut was not.", OffsetDateTimeByInstantComparator.getInstance()));
 
       return;
     }

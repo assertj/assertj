@@ -12,21 +12,26 @@
  */
 package org.assertj.core.api.localdatetime;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.LocalDateTime;
+import java.util.Comparator;
 
 import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 
-public class LocalDateTimeAssert_isBetween_Test extends AbstractLocalDateTimeAssertBaseTest {
+public class LocalDateTimeAssert_usingComparator_Test extends AbstractLocalDateTimeAssertBaseTest {
+
+  private Comparator<LocalDateTime> testComparator = LocalDateTime::compareTo;
 
   @Override
   protected LocalDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(yesterday, tomorrow);
+    return assertions.usingComparator(testComparator);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), yesterday, tomorrow, true, true);
+    assertThat(getComparables(assertions).getComparator()).isEqualTo(testComparator);
+    assertThat(getObjects(assertions).getComparator()).isEqualTo(testComparator);
   }
-
 }

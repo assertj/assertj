@@ -13,11 +13,18 @@
 package org.assertj.core.api.zoneddatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
 
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
+import java.time.chrono.JapaneseChronology;
+import java.time.chrono.JapaneseDate;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
+import org.assertj.core.api.ZonedDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,31 +34,48 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssert_isNotEqualTo_Test extends ZonedDateTimeAssertBaseTest {
+public class ZonedDateTimeAssert_isNotEqualTo_Test extends AbstractZonedDateTimeAssertBaseTest {
 
-  @Test
-  public void isNotEqualTo_should_compare_datetimes_in_actual_timezone() {
-    ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 2, 0, 0, 0, ZoneOffset.UTC);
-    ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
-    ZonedDateTime cestDateTime = ZonedDateTime.of(2013, 6, 10, 2, 0, 0, 0, cestTimeZone);
-    // datetime are not equals because they are in different timezone
-    assertThat(utcDateTime).as("in UTC time zone").isNotEqualTo(cestDateTime);
-    assertThat(cestDateTime).as("in CEST time zone").isNotEqualTo(utcDateTime);
+  private Object otherType = new Object();
+
+  @Override
+  public ZonedDateTimeAssert invoke_api_method() {
+    return assertions
+      .isNotEqualTo(now)
+      .isNotEqualTo(yesterday.toString())
+      .isNotEqualTo((ZonedDateTime) null)
+      .isNotEqualTo(otherType);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertNotEqual(getInfo(assertions), getActual(assertions), now);
+    verify(comparables).assertNotEqual(getInfo(assertions), getActual(assertions), yesterday);
+    verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions), null);
+    verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions), otherType);
   }
 
   @Test
-  public void should_pass_if_actual_dateTime_is_null_and_expected_dateTime_as_string_is_not() {
-    assertThat((ZonedDateTime) null).isNotEqualTo("2000-01-01T01:00:00+01:00");
+  public void should_fail_if_both_are_null() {
+    assertThatThrownBy(() -> assertThat((ZonedDateTime) null).isNotEqualTo((ZonedDateTime) null))
+      .isInstanceOf(AssertionError.class);
   }
 
   @Test
-  public void should_pass_if_actual_dateTime_is_null_and_expected_dateTime_is_not() {
-    assertThat((ZonedDateTime) null).isNotEqualTo(ZonedDateTime.now());
+  public void should_fail_if_given_string_parameter_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(now).isNotEqualTo((String) null))
+      .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_pass_if_dateTime_as_ZoneDateTime_is_null() {
-    assertThat(ZonedDateTime.now()).isNotEqualTo((ZonedDateTime) null);
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isNotEqualTo("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);
+  }
+
+  @Test
+  public void should_pass_even_if_given_would_be_equal_to_actual_with_default_comparator() {
+    ChronoZonedDateTime<JapaneseDate> inJapan = JapaneseChronology.INSTANCE.zonedDateTime(now);
+    assertThat(now).isNotEqualTo(inJapan);
   }
 
 }

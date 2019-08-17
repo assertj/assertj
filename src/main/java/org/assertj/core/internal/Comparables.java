@@ -16,10 +16,6 @@ import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
-import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
-import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
-import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -27,6 +23,8 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.*;
+import org.assertj.core.util.TriFunction;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -192,10 +190,50 @@ public class Comparables {
    *           value is equal to or greater than the other value.
    */
   public <T extends Comparable<? super T>> void assertLessThan(AssertionInfo info, T actual, T other) {
+    assertLessThan(info, actual, other, ShouldBeLess::shouldBeLess);
+  }
+
+  /**
+   * Asserts that the actual value is strictly before the other one.
+   *
+   * @param <T> used to guarantee that two objects of the same type are being compared against each other.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not before the other one: this assertion will fail if the actual
+   *           value is equal to or greater than the other value.
+   */
+  public <T extends Comparable<? super T>> void assertIsBefore(AssertionInfo info, T actual, T other) {
+    assertLessThan(info, actual, other, ShouldBeBefore::shouldBeBefore);
+  }
+
+  /**
+   * Asserts that the actual value is less than the other one and throws an error with the given message factory.
+   *
+   * @param <T> used to guarantee that two objects of the same type are being compared against each other.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @param errorMessageFactory the desired error message factory to generate the suitable error message
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not before the other one: this assertion will fail if the actual
+   *           value is equal to or after the other value.
+   */
+  private <T extends Comparable<? super T>> void assertLessThan(AssertionInfo info, T actual, T other,
+                                                                TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other))
       return;
-    throw failures.failure(info, shouldBeLess(actual, other, comparisonStrategy));
+    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
+  }
+
+  public <T extends Comparable<? super T>> void assertIsBeforeOrEqualTo(AssertionInfo info, T actual, T other) {
+    assertLessThanOrEqualTo(info, actual, other, ShouldBeBeforeOrEqualTo::shouldBeBeforeOrEqualTo);
+  }
+
+  public <T extends Comparable<? super T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
+    assertLessThanOrEqualTo(info, actual, other, ShouldBeLessOrEqual::shouldBeLessOrEqual);
   }
 
   /**
@@ -205,15 +243,26 @@ public class Comparables {
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the value to compare the actual value to.
+   * @param errorMessageFactory the desired error message factory to generate the suitable error message
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the other one.
    */
-  public <T extends Comparable<? super T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
+  private <T extends Comparable<? super T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other,
+                                                                         TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other))
       return;
-    throw failures.failure(info, shouldBeLessOrEqual(actual, other, comparisonStrategy));
+    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
+
+  public <T extends Comparable<? super T>> void assertIsAfter(AssertionInfo info, T actual, T other) {
+    assertGreaterThan(info, actual, other, ShouldBeAfter::shouldBeAfter);
+  }
+
+  public <T extends Comparable<? super T>> void assertGreaterThan(AssertionInfo info, T actual, T other) {
+    assertGreaterThan(info, actual, other, ShouldBeGreater::shouldBeGreater);
+  }
+
 
   /**
    * Asserts that the actual value is greater than the other one.
@@ -222,19 +271,29 @@ public class Comparables {
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the value to compare the actual value to.
+   * @param errorMessageFactory the desired error message factory to generate the suitable error message
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not greater than the other one: this assertion will fail if the
    *           actual value is equal to or less than the other value.
    */
-  public <T extends Comparable<? super T>> void assertGreaterThan(AssertionInfo info, T actual, T other) {
+  private <T extends Comparable<? super T>> void assertGreaterThan(AssertionInfo info, T actual, T other,
+                                                                   TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other))
       return;
-    throw failures.failure(info, shouldBeGreater(actual, other, comparisonStrategy));
+    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
   private boolean isGreaterThan(Object actual, Object other) {
     return comparisonStrategy.isGreaterThan(actual, other);
+  }
+
+  public <T extends Comparable<? super T>> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other) {
+    assertGreaterThanOrEqualTo(info, actual, other, ShouldBeGreaterOrEqual::shouldBeGreaterOrEqual);
+  }
+
+  public <T extends Comparable<? super T>> void assertIsAfterOrEqualTo(AssertionInfo info, T actual, T other) {
+    assertGreaterThanOrEqualTo(info, actual, other, ShouldBeAfterOrEqualTo::shouldBeAfterOrEqualTo);
   }
 
   /**
@@ -244,14 +303,16 @@ public class Comparables {
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the value to compare the actual value to.
+   * @param errorMessageFactory the desired error message factory to generate the suitable error message
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the other one.
    */
-  public <T extends Comparable<? super T>> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other) {
+  private <T extends Comparable<? super T>> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other,
+                                                                           TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other))
       return;
-    throw failures.failure(info, shouldBeGreaterOrEqual(actual, other, comparisonStrategy));
+    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
   private boolean isLessThan(Object actual, Object other) {

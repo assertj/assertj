@@ -12,13 +12,21 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
-import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
+import java.time.chrono.JapaneseChronology;
+import java.time.chrono.JapaneseDate;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
+import org.assertj.core.api.ZonedDateTimeAssert;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests specific to {@link org.assertj.core.api.ZonedDateTimeAssert#isEqualTo(ZonedDateTime)} that can't be
@@ -27,16 +35,25 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssert_isEqualTo_Test extends ZonedDateTimeAssertBaseTest {
+public class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAssertBaseTest {
 
-  @Test
-  public void isEqualTo_should_compare_datetimes_in_actual_timezone() {
-    ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
-    ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
-    ZonedDateTime cestDateTime = ZonedDateTime.of(2013, 6, 10, 2, 0, 0, 0, cestTimeZone);
-    // datetime are equals in same timezone
-    assertThat(utcDateTime).as("in UTC time zone").isEqualTo(cestDateTime);
-    assertThat(cestDateTime).as("in CEST time zone").isEqualTo(utcDateTime);
+  private Object otherType = new Object();
+
+  @Override
+  public ZonedDateTimeAssert invoke_api_method() {
+    return assertions
+      .isEqualTo(now)
+      .isEqualTo(yesterday.toString())
+      .isEqualTo((ZonedDateTime) null)
+      .isEqualTo(otherType);
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), now);
+    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), yesterday);
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), null);
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), otherType);
   }
 
   @Test
@@ -44,4 +61,20 @@ public class ZonedDateTimeAssert_isEqualTo_Test extends ZonedDateTimeAssertBaseT
     assertThat((ZonedDateTime) null).isEqualTo((ZonedDateTime) null);
   }
 
+  @Test
+  public void should_fail_if_given_string_parameter_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(now).isEqualTo((String) null))
+      .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
+  }
+
+  @Test
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isEqualTo("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);
+  }
+
+  @Test
+  public void should_fail_if_given_would_be_equal_to_actual_with_default_comparator() {
+    ChronoZonedDateTime<JapaneseDate> inJapan = JapaneseChronology.INSTANCE.zonedDateTime(now);
+    assertThatThrownBy(() -> assertThat(now).isEqualTo(inJapan)).isInstanceOf(AssertionFailedError.class);
+  }
 }

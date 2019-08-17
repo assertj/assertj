@@ -10,22 +10,29 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.api.zoneddatetime;
+package org.assertj.core.internal;
 
-import static org.mockito.Mockito.verify;
+import java.time.OffsetDateTime;
 
-import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
-import org.assertj.core.api.ZonedDateTimeAssert;
 
-public class ZonedDateTimeAssert_isBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
+public class OffsetDateTimeByInstantComparator extends DescribableComparator<OffsetDateTime> {
 
-  @Override
-  protected ZonedDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(yesterday, tomorrow);
+  private static final OffsetDateTimeByInstantComparator INSTANCE = new OffsetDateTimeByInstantComparator();
+
+  public static OffsetDateTimeByInstantComparator getInstance() {
+    return INSTANCE;
+  }
+
+  private OffsetDateTimeByInstantComparator() {
   }
 
   @Override
-  protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), yesterday, tomorrow, true, true);
+  public String description() {
+    return "OffsetDateTime.timeLineOrder()";
+  }
+
+  @Override
+  public int compare(OffsetDateTime date1, OffsetDateTime date2) {
+    return OffsetDateTime.timeLineOrder().compare(date1, date2);
   }
 }

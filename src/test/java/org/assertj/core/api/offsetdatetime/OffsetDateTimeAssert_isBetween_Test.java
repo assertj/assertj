@@ -14,23 +14,19 @@ package org.assertj.core.api.offsetdatetime;
 
 import static org.mockito.Mockito.verify;
 
-import java.time.OffsetDateTime;
-
+import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 
-public class OffsetDateTimeAssert_isBetween_Test extends org.assertj.core.api.OffsetDateTimeAssertBaseTest {
-
-  private OffsetDateTime before = now.minusSeconds(1);
-  private OffsetDateTime after = now.plusSeconds(1);
+public class OffsetDateTimeAssert_isBetween_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(before, after);
+    return assertions.isBetween(yesterday, tomorrow);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, true, true);
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), yesterday, tomorrow, true, true);
   }
 
 }
