@@ -10,7 +10,6 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-
 module org.assertj.core {
   // AssertJ Core's package API
   exports org.assertj.core.annotations;
