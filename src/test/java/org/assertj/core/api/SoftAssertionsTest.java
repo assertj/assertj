@@ -159,6 +159,44 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  public void all_composed_assertions_should_pass() {
+    // GIVEN
+    SoftAssertions delegate = new SoftAssertions();
+    delegate.assertThat(1).isEqualTo(1);
+    delegate.assertAll();
+
+    softly.assertThat(1).isEqualTo(1);
+    softly.assertThat(list(1, 2)).containsOnly(1, 2);
+
+    // WHEN
+    softly.assertAlso(delegate);
+    softly.assertAll();
+
+    // THEN
+    assertThat(softly.wasSuccess()).isTrue();
+  }
+
+  @Test
+  public void should_return_failure_for_failed_composed_assertions() {
+    // GIVEN
+    softly.assertThat(1).isEqualTo(1);
+    assertThat(softly.wasSuccess()).isTrue();
+
+    SoftAssertions delegate = new SoftAssertions();
+    delegate.assertThat(1).isEqualTo(2);
+    delegate.assertThat(list(1, 2)).containsOnly(1, 4);
+    assertThat(delegate.wasSuccess()).isFalse();
+    assertThat(delegate.errorsCollected()).hasSize(2);
+
+    // WHEN
+    softly.assertAlso(delegate);
+
+    // THEN
+    assertThat(softly.wasSuccess()).isFalse();
+    assertThat(softly.errorsCollected()).hasSize(2);
+  }
+
+  @Test
   public void should_return_success_of_last_assertion() {
     softly.assertThat(true).isFalse();
     softly.assertThat(true).isEqualTo(true);

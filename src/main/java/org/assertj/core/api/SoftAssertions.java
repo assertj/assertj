@@ -97,6 +97,36 @@ import org.opentest4j.MultipleFailuresError;
  *   });
  * }</code></pre>
  *
+ * <p>You can also compose several soft assertions together using the {@link SoftAssertions#assertAlso(SoftAssertions)} method</p>
+ * <pre><code class='java'> &#064;Test
+ * public SoftAssertions check_kitchen() {
+ *   SoftAssertions softly = new SoftAssertions();
+ *   softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
+ *   return softly;
+ * }
+ * public SoftAssertions check_library() {
+ *   SoftAssertions softly = new SoftAssertions();
+ *   softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
+ *   return softly;
+ * }
+ * public void host_dinner_party_where_nobody_dies() {
+ *   Mansion mansion = new Mansion();
+ *   mansion.hostPotentiallyMurderousDinnerParty();
+ *   softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
+ *   softly.assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
+ *   softly.assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
+ *   softly.assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
+ *   softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
+ *
+ *   SoftAssertions kitchen = check_kitchen();
+ *   softly.assertAlso(kitchen);
+ *
+ *   SoftAssertions library = check_library();
+ *   softly.assertAlso(library);
+ *
+ *   softly.assertAll();
+ * }</code></pre>
+ *
  * <p>
  * SoftAssertions works by providing you with proxies of the AssertJ assertion objects (those created by
  * {@link Assertions}#assertThat...) whose assertion failures are caught and stored. Only when you call
@@ -132,6 +162,15 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
     if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
+  }
+
+  /**
+   * Add all assertion errors of <code>softly</code> argument to current <code>{@link SoftAssertions}</code> instance.
+   *
+   * @param softly the <code>{@link SoftAssertions}</code> assertion error source
+   */
+  public void assertAlso(SoftAssertions softly) {
+    softly.errorsCollected().forEach(proxies::collectError);
   }
 
   /**
