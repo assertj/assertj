@@ -280,7 +280,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is equal to expected build using {@link String#format(String stringTemplate, Object... args)}.
    * <p>
-   * Note that for this assertion to be called, <b>you must use a format template with parameters</b> otherwise {@link #isEqualTo(Object)} is callled which
+   * Note that for this assertion to be called, <b>you must use a format template with parameters</b> otherwise {@link #isEqualTo(Object)} is called which
    * does not perform any formatting. For example, it you only use {@code %n} in the template they won't be replaced.
    * <p>
    * Examples:
