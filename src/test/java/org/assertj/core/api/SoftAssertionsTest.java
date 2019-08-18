@@ -422,6 +422,12 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting("first", "last")
           .contains("John", "Doe");
     softly.assertThat(name)
+          .extracting("first")
+          .isEqualTo("John");
+    softly.assertThat(name)
+          .extracting("first", STRING)
+          .startsWith("Jo");
+    softly.assertThat(name)
           .extracting(Name::getFirst, Name::getLast)
           .contains("John", "Doe");
     softly.assertThat(name)

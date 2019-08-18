@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ObjectAssert#extracting(Function)}</code>.
  */
-class ObjectAssert_extracting_with_function_Test {
+class ObjectAssert_extracting_with_Function_Test {
 
   private Employee luke;
 

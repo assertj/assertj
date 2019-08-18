@@ -618,10 +618,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   /**
    * Extracts the value of given field/property from the object under test, the extracted value becoming the new object under test.
    * <p>
-   * If the object under test is a {@link Map}, the field/property is used as a key to the map.
+   * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
    * <p>
-   * Nested field/property is supported, specifying "adress.street.number" is equivalent to get the value
-   * corresponding to actual.getAdress().getStreet().getNumber()
+   * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
+   * corresponding to actual.getAddress().getStreet().getNumber()
    * <p>
    * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -640,20 +640,19 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).extracting(&quot;name&quot;)
    *                  .startsWith(&quot;Fro&quot;);
    *
-   * // To get String assertions use asInstanceOf:
-   * assertThat(frodo).extracting(&quot;name&quot;)
-   *                  .asInstanceOf(InstanceOfAssertFactories.STRING);
+   * // To get String assertions, use {@link #extracting(String, InstanceOfAssertFactory)}:
+   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.STRING)
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
-   *
+   * <p>
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
    * for, if the field is not accessible (i.e. does not exist) an {@link IntrospectionError} is thrown.
    *
    * @param propertyOrField the property/field to extract from the initial object under test
-   * @return a new {@link ObjectAssert} instance whose object under test is the extracted property/field values
+   * @return a new {@link ObjectAssert} instance whose object under test is the extracted property/field value
    * @throws IntrospectionError if one of the given name does not match a field or property
    *
    * @since 3.13.0
-   * @see #asInstanceOf(InstanceOfAssertFactory)
+   * @see #extracting(String, InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
@@ -661,6 +660,55 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
     return newObjectAssert(value).as(description);
+  }
+
+  /**
+   * Extracts the value of given field/property from the object under test, the extracted value becoming the new object under test.
+   * <p>
+   * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
+   * <p>
+   * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
+   * corresponding to actual.getAddress().getStreet().getNumber()
+   * <p>
+   * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   *
+   * // let's extract and verify Frodo's name:
+   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.STRING)
+   *                  .startsWith(&quot;Fro&quot;);
+   *
+   * // The following assertion will fail as Frodo's name is not an Integer:
+   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.INTEGER)
+   *                  .isZero();</code></pre>
+   * <p>
+   * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
+   * for, if the field is not accessible (i.e. does not exist) an {@link IntrospectionError} is thrown.
+   *
+   * @param <ASSERT>        the type of the resulting {@code Assert}
+   * @param propertyOrField the property/field to extract from the initial object under test
+   * @param assertFactory   the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance whose object under test is the extracted property/field value
+   * @throws NullPointerException if the given factory is {@code null}
+   * @throws IntrospectionError if one of the given name does not match a field or property
+   *
+   * @since 3.14.0
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
+                                                                 InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    Object value = byName(propertyOrField).apply(actual);
+    objects.assertIsInstanceOf(info, value, assertFactory.getType());
+    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
+    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+    return (ASSERT) assertFactory.createAssert(value).as(description);
   }
 
   /**

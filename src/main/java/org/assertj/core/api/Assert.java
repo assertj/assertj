@@ -291,8 +291,9 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * // assertion will fail
    * assertThat(&quot;abc&quot;).asInstanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
    *
+   * @param <ASSERT>                the type of the resulting {@code Assert}.
    * @param instanceOfAssertFactory the factory which verifies the type and creates the new {@code Assert}.
-   * @param <ASSERT> the type of the resulting {@code Assert}.
+   * @throws NullPointerException if the given factory is {@code null}.
    * @return the narrowed {@code Assert} instance.
    *
    * @see InstanceOfAssertFactory
