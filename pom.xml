@@ -413,7 +413,7 @@
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
           <!-- Template location -->
-          <header>licence-header.txt</header>
+          <header>LICENSE.txt</header>
           <properties>
             <!-- Values to be substituted in template -->
             <inceptionYear>2012</inceptionYear>
