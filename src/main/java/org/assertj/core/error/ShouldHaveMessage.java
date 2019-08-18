@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
 /**
@@ -38,7 +39,7 @@ public class ShouldHaveMessage extends BasicErrorMessageFactory {
           "  <%s>%n" +
           "%n" +
           "Throwable that failed the check:%n" +
-          "%n" + getStackTrace(actual), // to avoid AssertJ default String formatting
+          "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
           expectedMessage, actual.getMessage());
   }
 }
