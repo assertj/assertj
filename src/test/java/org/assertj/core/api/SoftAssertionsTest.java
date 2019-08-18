@@ -422,6 +422,12 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting("first", "last")
           .contains("John", "Doe");
     softly.assertThat(name)
+          .extracting("first")
+          .isEqualTo("John");
+    softly.assertThat(name)
+          .extracting("first", STRING)
+          .startsWith("Jo");
+    softly.assertThat(name)
           .extracting(Name::getFirst, Name::getLast)
           .contains("John", "Doe");
     softly.assertThat(name)
@@ -640,6 +646,39 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
                                         .containsExactly("error 1", "error 2", "error 3");
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void should_collect_all_errors_when_using_extracting_on_object() {
+    // GIVEN
+    TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+    // WHEN
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 1")
+          .extracting("name")
+          .isEqualTo("Foo");
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 2")
+          .extracting("name", "age")
+          .contains("Frodo", 55);
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 3")
+          .extracting("name", STRING)
+          .startsWith("Bar");
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 4")
+          .extracting(TolkienCharacter::getName,
+                      character -> character.age,
+                      character -> character.getRace())
+          .containsExactly("Frodon", 33, HOBBIT);
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 5")
+          .extracting(TolkienCharacter::getName)
+          .isEqualTo("Foo");
+    // THEN
+    assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                        .containsExactly("error 1", "error 2", "error 3", "error 4", "error 5");
   }
 
   @Test
