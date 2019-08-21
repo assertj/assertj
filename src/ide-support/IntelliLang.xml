@@ -1,0 +1,31 @@
+<application>
+  <component name="LanguageInjectionConfiguration">
+    <injection language="RegExp" injector-id="java">
+      <display-name>AssertJ.AbstractCharSequenceAssert (org.assertj.core.api)</display-name>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("containsPattern").withParameters("java.lang.CharSequence").definedInClass("org.assertj.core.api.AbstractCharSequenceAssert"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("doesNotMatch").withParameters("java.lang.CharSequence").definedInClass("org.assertj.core.api.AbstractCharSequenceAssert"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("matches").withParameters("java.lang.CharSequence").definedInClass("org.assertj.core.api.AbstractCharSequenceAssert"))]]></place>
+    </injection>
+    <injection language="RegExp" injector-id="java">
+      <display-name>AssertJ.AbstractThrowableAssert (org.assertj.core.api)</display-name>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("hasMessageFindingMatch").withParameters("java.lang.String").definedInClass("org.assertj.core.api.AbstractThrowableAssert"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("hasMessageMatching").withParameters("java.lang.String").definedInClass("org.assertj.core.api.AbstractThrowableAssert"))]]></place>
+    </injection>
+    <injection language="RegExp" injector-id="java">
+      <display-name>AssertJ.RecursiveComparisonAssert (org.assertj.core.api)</display-name>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ignoringCollectionOrderInFieldsMatchingRegexes").withParameters("java.lang.String...").definedInClass("org.assertj.core.api.RecursiveComparisonAssert"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ignoringFieldsMatchingRegexes").withParameters("java.lang.String...").definedInClass("org.assertj.core.api.RecursiveComparisonAssert"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ignoringOverriddenEqualsForFieldsMatchingRegexes").withParameters("java.lang.String...").definedInClass("org.assertj.core.api.RecursiveComparisonAssert"))]]></place>
+    </injection>
+    <injection language="RegExp" injector-id="java">
+      <display-name>AssertJ.RecursiveComparisonConfiguration (org.assertj.core.api.recursive.comparison)</display-name>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ignoreCollectionOrderInFieldsMatchingRegexes").withParameters("java.lang.String...").definedInClass("org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ignoreFieldsMatchingRegexes").withParameters("java.lang.String...").definedInClass("org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ignoreOverriddenEqualsForFieldsMatchingRegexes").withParameters("java.lang.String...").definedInClass("org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration"))]]></place>
+    </injection>
+    <injection language="RegExp" injector-id="java">
+      <display-name>AssertJ.ThrowableAssertAlternative (org.assertj.core.api)</display-name>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("withMessageMatching").withParameters("java.lang.String").definedInClass("org.assertj.core.api.ThrowableAssertAlternative"))]]></place>
+    </injection>
+  </component>
+</application>
