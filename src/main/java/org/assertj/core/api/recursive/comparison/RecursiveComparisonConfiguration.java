@@ -34,6 +34,7 @@ import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
+import org.intellij.lang.annotations.Language;
 
 @Beta
 public class RecursiveComparisonConfiguration {
@@ -128,7 +129,7 @@ public class RecursiveComparisonConfiguration {
    *
    * @param regexes regexes used to ignore fields in the comparison.
    */
-  public void ignoreFieldsMatchingRegexes(String... regexes) {
+  public void ignoreFieldsMatchingRegexes(@Language("regexp") String... regexes) {
     ignoredFieldsRegexes.addAll(Stream.of(regexes)
                                       .map(Pattern::compile)
                                       .collect(toList()));
@@ -171,7 +172,7 @@ public class RecursiveComparisonConfiguration {
    *
    * @param regexes regexes used to specify the fields we want to force a recursive comparison on.
    */
-  public void ignoreOverriddenEqualsForFieldsMatchingRegexes(String... regexes) {
+  public void ignoreOverriddenEqualsForFieldsMatchingRegexes(@Language("regexp") String... regexes) {
     ignoredOverriddenEqualsRegexes.addAll(Stream.of(regexes)
                                                 .map(Pattern::compile)
                                                 .collect(toList()));
@@ -232,7 +233,7 @@ public class RecursiveComparisonConfiguration {
    *
    * @param regexes regexes used to find the object under test fields to ignore collection order in in the comparison.
    */
-  public void ignoreCollectionOrderInFieldsMatchingRegexes(String... regexes) {
+  public void ignoreCollectionOrderInFieldsMatchingRegexes(@Language("regexp") String... regexes) {
     ignoredCollectionOrderInFieldsMatchingRegexes.addAll(Stream.of(regexes)
                                                                .map(Pattern::compile)
                                                                .collect(toList()));

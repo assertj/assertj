@@ -29,6 +29,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.intellij.lang.annotations.Language;
 
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
 
@@ -297,7 +298,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public SELF ignoringFieldsMatchingRegexes(String... regexes) {
+  public SELF ignoringFieldsMatchingRegexes(@Language("regexp") String... regexes) {
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regexes);
     return myself;
   }
@@ -527,7 +528,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public SELF ignoringOverriddenEqualsForFieldsMatchingRegexes(String... regexes) {
+  public SELF ignoringOverriddenEqualsForFieldsMatchingRegexes(@Language("regexp") String... regexes) {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(regexes);
     return myself;
   }
@@ -646,7 +647,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public SELF ignoringCollectionOrderInFieldsMatchingRegexes(String... regexes) {
+  public SELF ignoringCollectionOrderInFieldsMatchingRegexes(@Language("regexp") String... regexes) {
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes(regexes);
     return myself;
   }

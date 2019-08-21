@@ -21,6 +21,7 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.util.VisibleForTesting;
+import org.intellij.lang.annotations.Language;
 
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
@@ -299,7 +300,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
    * @throws NullPointerException if the regex is null
    */
-  public SELF hasMessageMatching(String regex) {
+  public SELF hasMessageMatching(@Language("regexp") String regex) {
     throwables.assertHasMessageMatching(info, actual, regex);
     return myself;
   }
@@ -327,7 +328,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws NullPointerException if the regex is null
    * @since 3.12.0
    */
-  public SELF hasMessageFindingMatch(String regex) {
+  public SELF hasMessageFindingMatch(@Language("regexp") String regex) {
     throwables.assertHasMessageFindingMatch(info, actual, regex);
     return myself;
   }

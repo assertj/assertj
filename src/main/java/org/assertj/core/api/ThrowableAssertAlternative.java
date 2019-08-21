@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
+import org.intellij.lang.annotations.Language;
 
 /**
  * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named
@@ -343,7 +344,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * @throws NullPointerException if the regex is null
    * @see AbstractThrowableAssert#hasMessageMatching(String)
    */
-  public ThrowableAssertAlternative<T> withMessageMatching(String regex) {
+  public ThrowableAssertAlternative<T> withMessageMatching(@Language("regexp") String regex) {
     delegate.hasMessageMatching(regex);
     return this;
   }

@@ -26,6 +26,7 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
+import org.intellij.lang.annotations.Language;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -1018,7 +1019,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
    */
-  public SELF matches(CharSequence regex) {
+  public SELF matches(@Language("regexp") CharSequence regex) {
     strings.assertMatches(info, actual, regex);
     return myself;
   }
@@ -1040,7 +1041,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} matches the given regular expression.
    */
-  public SELF doesNotMatch(CharSequence regex) {
+  public SELF doesNotMatch(@Language("regexp") CharSequence regex) {
     strings.assertDoesNotMatch(info, actual, regex);
     return myself;
   }
@@ -1397,7 +1398,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
-  public SELF containsPattern(CharSequence regex) {
+  public SELF containsPattern(@Language("regexp") CharSequence regex) {
     strings.assertContainsPattern(info, actual, regex);
     return myself;
   }
