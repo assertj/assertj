@@ -548,18 +548,18 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * TolkienCharacter noname = new TolkienCharacter(null, 33);
    *
    * // assertions will pass :
-   * assertThat(frodo).hasFieldOrProperty("name", "Frodo");
-   * assertThat(frodo).hasFieldOrProperty("age", 33);
-   * assertThat(noname).hasFieldOrProperty("name", null);
+   * assertThat(frodo).hasFieldOrPropertyWithValue("name", "Frodo");
+   * assertThat(frodo).hasFieldOrPropertyWithValue("age", 33);
+   * assertThat(noname).hasFieldOrPropertyWithValue("name", null);
    *
    * // assertions will fail :
-   * assertThat(frodo).hasFieldOrProperty("name", "not_equals");
-   * assertThat(frodo).hasFieldOrProperty(null, 33);
-   * assertThat(frodo).hasFieldOrProperty("age", null);
-   * assertThat(noname).hasFieldOrProperty("name", "Frodo");
+   * assertThat(frodo).hasFieldOrPropertyWithValue("name", "not_equals");
+   * assertThat(frodo).hasFieldOrPropertyWithValue(null, 33);
+   * assertThat(frodo).hasFieldOrPropertyWithValue("age", null);
+   * assertThat(noname).hasFieldOrPropertyWithValue("name", "Frodo");
    * // disable extracting private fields
    * Assertions.setAllowExtractingPrivateFields(false);
-   * assertThat(frodo).hasFieldOrProperty("age", 33); </code></pre>
+   * assertThat(frodo).hasFieldOrPropertyWithValue("age", 33); </code></pre>
    *
    * @param name the field/property name to check
    * @param value the field/property expected value
