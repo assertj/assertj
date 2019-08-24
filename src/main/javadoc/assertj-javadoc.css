@@ -80,6 +80,7 @@ code, tt {
     padding-top:4px;
     margin-top:2px;
     line-height:1.4em;
+    border-radius: 5px;
 }
 dt code {
     font-family:'DejaVu Sans Mono', monospace;
@@ -592,81 +593,109 @@ div.contentContainer ul.blockList li.blockList h2{
 }
 
 /*
-  mono-blue theme.
+
+Railscasts-like style (c) Visoft, Inc. (Damien White)
+
 */
+
 .hljs {
   display: block;
   overflow-x: auto;
-  padding-left: 0.4em;
-  padding-right: 0.6em;
-  padding-top: 0.7em;
-  padding-bottom: 0.7em;
-  margin-right: 1.0em;
-  background: #dfe5ed8f;
-  -webkit-text-size-adjust: none;
-}
-
-.hljs,
-.hljs-list .hljs-built_in {
-  color: #00193a;
-}
-
-.hljs-keyword,
-.hljs-title,
-.hljs-important,
-.hljs-request,
-.hljs-header,
-.hljs-javadoctag {
-  font-weight: bold;
+  padding: 0.5em;
+  background: #232323;
+  color: #e6e1dc;
 }
 
 .hljs-comment,
-.hljs-chunk,
-.hljs-template_comment {
-  color: #738191;
+.hljs-quote {
+  color: #bc9458;
+  font-style: italic;
 }
 
-.hljs-number {
-  color: #711313;
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #c26230;
 }
 
 .hljs-string,
-.hljs-title,
-.hljs-parent,
-.hljs-built_in,
-.hljs-literal,
-.hljs-filename,
-.hljs-value,
-.hljs-addition,
-.hljs-tag,
-.hljs-argument,
-.hljs-link_label,
-.hljs-blockquote,
-.hljs-header {
-  color: #0048ab;
+.hljs-number,
+.hljs-regexp,
+.hljs-variable,
+.hljs-template-variable {
+  color: #a5c261;
 }
 
-.hljs-decorator,
-.hljs-prompt,
-.hljs-yardoctag,
-.hljs-subst,
+.hljs-subst {
+  color: #519f50;
+}
+
+.hljs-tag,
+.hljs-name {
+  color: #e8bf6a;
+}
+
+.hljs-type {
+  color: #da4939;
+}
+
+
 .hljs-symbol,
-.hljs-doctype,
-.hljs-regexp,
-.hljs-preprocessor,
-.hljs-pragma,
-.hljs-pi,
-.hljs-attribute,
-.hljs-attr_selector,
-.hljs-javadoc,
-.hljs-xmlDocTag,
-.hljs-deletion,
-.hljs-shebang,
-.hljs-string .hljs-variable,
-.hljs-link_url,
 .hljs-bullet,
-.hljs-sqbracket,
-.hljs-phony {
-  color: #4c81c9;
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-attr,
+.hljs-link {
+  color: #6d9cbe;
+}
+
+.hljs-params {
+  color: #d0d0ff;
+}
+
+.hljs-attribute {
+  color: #cda869;
+}
+
+.hljs-meta {
+  color: #9b859d;
+}
+
+.hljs-title,
+.hljs-section {
+  color: #ffc66d;
+}
+
+.hljs-addition {
+  background-color: #144212;
+  color: #e6e1dc;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion {
+  background-color: #600;
+  color: #e6e1dc;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-selector-class {
+  color: #9b703f;
+}
+
+.hljs-selector-id {
+  color: #8b98ab;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
 }
 
