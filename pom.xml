@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
   <version>3.13.3-SNAPSHOT</version>
@@ -31,6 +32,10 @@
     <system>github</system>
     <url>https://github.com/joel-costigliola/assertj-core/issues</url>
   </issueManagement>
+  <properties>
+    <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -332,7 +337,7 @@
           <!-- (1) CSS file location -->
           <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
           <!-- init Highlight -->
-          <additionalOptions>-html5 --allow-script-in-comments --no-module-directories</additionalOptions>
+          <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
           <nohelp>true</nohelp>
           <show>private</show>
           <footer><![CDATA[
@@ -425,6 +430,15 @@
       </activation>
       <properties>
         <sonar.skip>true</sonar.skip>
+      </properties>
+    </profile>
+    <profile>
+      <id>java13+</id>
+      <activation>
+        <jdk>[13,)</jdk>
+      </activation>
+      <properties>
+        <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
       </properties>
     </profile>
   </profiles>
