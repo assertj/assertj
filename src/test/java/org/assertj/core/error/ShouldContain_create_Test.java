@@ -137,6 +137,23 @@ public class ShouldContain_create_Test {
   }
 
   @Test
+  void should_create_error_message_for_file_directory_escaping_percent() {
+    // GIVEN
+    File directory = mock(File.class);
+    given(directory.getAbsolutePath()).willReturn("root%dir");
+    factory = directoryShouldContain(directory, list("foo%1.txt", "bar%2.txt"), "glob:**%Test.java");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"));
+    // THEN
+    assertThat(message).isEqualTo(format("[Test] %n" +
+      "Expecting directory:%n" +
+      "  <root%%dir>%n" +
+      "to contain at least one file matching glob:**%%Test.java but there was none.%n" +
+      "The directory content was:%n" +
+      "  [foo%%1.txt, bar%%2.txt]"));
+  }
+
+  @Test
   public void should_create_error_message_for_path_directory() {
     // GIVEN
     Path directory = mock(Path.class);

@@ -19,6 +19,8 @@ import java.util.List;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
+import static org.assertj.core.util.Strings.escapePercent;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a given set of values failed.
  * A group of elements can be a collection, an array or a {@code String}.<br>
@@ -70,8 +72,8 @@ public class ShouldContain extends BasicErrorMessageFactory {
     // not passing directoryContent and filterDescription as parameter to avoid AssertJ default String formatting
     super("%nExpecting directory:%n" +
           "  <%s>%n" +
-          "to contain at least one file matching " + filterDescription + " but there was none.%n" +
-          "The directory content was:%n  " + directoryContent,
+          "to contain at least one file matching " + escapePercent(filterDescription) + " but there was none.%n" +
+          "The directory content was:%n  " + escapePercent(directoryContent.toString()),
           actual);
   }
 
