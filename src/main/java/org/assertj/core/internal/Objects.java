@@ -425,11 +425,10 @@ public class Objects {
    * @param actual the given object.
    * @param values the given array.
    * @throws NullPointerException if the given array is {@code null}.
-   * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the given object is not present in the given array.
    */
   public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
-    checkIsNotNullAndNotEmpty(values);
+    checkArrayIsNotNull(values);
     assertIsIn(info, actual, asList(values));
   }
 
@@ -440,17 +439,15 @@ public class Objects {
    * @param actual the given object.
    * @param values the given array.
    * @throws NullPointerException if the given array is {@code null}.
-   * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the given object is present in the given array.
    */
   public void assertIsNotIn(AssertionInfo info, Object actual, Object[] values) {
-    checkIsNotNullAndNotEmpty(values);
+    checkArrayIsNotNull(values);
     assertIsNotIn(info, actual, asList(values));
   }
 
-  private void checkIsNotNullAndNotEmpty(Object[] values) {
+  private void checkArrayIsNotNull(Object[] values) {
     checkNotNull(values, "The given array should not be null");
-    checkArgument(values.length > 0, "The given array should not be empty");
   }
 
   /**
@@ -474,11 +471,10 @@ public class Objects {
    * @param actual the given object.
    * @param values the given iterable.
    * @throws NullPointerException if the given collection is {@code null}.
-   * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is not present in the given collection.
    */
   public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
-    checkIsNotNullAndNotEmpty(values);
+    checkNotNullIterable(values);
     if (!isActualIn(actual, values)) throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
@@ -489,17 +485,15 @@ public class Objects {
    * @param actual the given object.
    * @param values the given collection.
    * @throws NullPointerException if the given iterable is {@code null}.
-   * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is present in the given collection.
    */
   public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
-    checkIsNotNullAndNotEmpty(values);
+    checkNotNullIterable(values);
     if (isActualIn(actual, values)) throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
-  private void checkIsNotNullAndNotEmpty(Iterable<?> values) {
+  private void checkNotNullIterable(Iterable<?> values) {
     checkNotNull(values, "The given iterable should not be null");
-    checkArgument(values.iterator().hasNext(), "The given iterable should not be empty");
   }
 
   private boolean isActualIn(Object actual, Iterable<?> values) {

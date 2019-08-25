@@ -2407,6 +2407,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private ELEMENT lastElement() {
     if (actual instanceof List) {
+      @SuppressWarnings("unchecked")
       List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
       return list.get(list.size() - 1);
     }
@@ -2467,6 +2468,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
     ELEMENT elementAtIndex = null;
     if (actual instanceof List) {
+      @SuppressWarnings("unchecked")
       List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
       elementAtIndex = list.get(index);
     } else {

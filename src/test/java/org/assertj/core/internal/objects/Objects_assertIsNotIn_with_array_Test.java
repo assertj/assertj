@@ -13,15 +13,13 @@
 package org.assertj.core.internal.objects;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.assertj.core.internal.ErrorMessages.arrayIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.arrayIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -32,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Objects#assertIsNotIn(AssertionInfo, Object, Object[])}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -48,16 +46,14 @@ public class Objects_assertIsNotIn_with_array_Test extends ObjectsBaseTest {
 
   @Test
   public void should_throw_error_if_array_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      Object[] array = null;
-      objects.assertIsNotIn(someInfo(), "Yoda", array);
-    }).withMessage(arrayIsNull());
+    Object[] array = null;
+    assertThatNullPointerException().isThrownBy(() -> objects.assertIsNotIn(someInfo(), "Yoda", array))
+                                    .withMessage(arrayIsNull());
   }
 
   @Test
-  public void should_throw_error_if_array_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> objects.assertIsNotIn(someInfo(), "Yoda", emptyArray()))
-                                        .withMessage(arrayIsEmpty());
+  public void should_pass_if_given_array_is_empty() {
+    objects.assertIsNotIn(someInfo(), "Luke", emptyArray());
   }
 
   @Test
@@ -72,14 +68,12 @@ public class Objects_assertIsNotIn_with_array_Test extends ObjectsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_in_array() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    try {
-      objects.assertIsNotIn(info, "Yoda", values);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeIn("Yoda", asList(values)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    expectAssertionError(() -> objects.assertIsNotIn(info, "Yoda", values));
+    // THEN
+    verify(failures).failure(info, shouldNotBeIn("Yoda", asList(values)));
   }
 
   @Test
@@ -89,13 +83,11 @@ public class Objects_assertIsNotIn_with_array_Test extends ObjectsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_in_array_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    try {
-      objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeIn("YODA", asList(values), customComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    expectAssertionError(() -> objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values));
+    // THEN
+    verify(failures).failure(info, shouldNotBeIn("YODA", asList(values), customComparisonStrategy));
   }
 }
