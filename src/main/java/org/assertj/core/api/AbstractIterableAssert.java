@@ -263,7 +263,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the unique element of the {@link Iterable} satifies the given assertions expressed as a {@link Consumer},
+   * Verifies that the unique element of the {@link Iterable} satisfies the given assertions expressed as a {@link Consumer},
    * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
    * <p>
    * Example:
@@ -308,7 +308,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
-   * @throws AssertionError if the {@link Iterable}'s unique element does not satifies the given assertions.
+   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfy the given assertions.
    *
    * @since 3.5.0
    */
