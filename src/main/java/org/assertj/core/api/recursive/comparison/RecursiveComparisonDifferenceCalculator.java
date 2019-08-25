@@ -62,7 +62,7 @@ public class RecursiveComparisonDifferenceCalculator {
   private static final String VALUE_FIELD_NAME = "value";
   private static final String STRICT_TYPE_ERROR = "the fields are considered different since the comparison enforces strict type check and %s is not a subtype of %s";
   private static final String DIFFERENT_SIZE_ERROR = "actual and expected values are %s of different size, actual size=%s when expected size=%s";
-  private static final String MISSING_FIELDS = "%s can't be compared to %s as %s does not declare all %s fields, it lacks these:%s";
+  private static final String MISSING_FIELDS = "%s can't be compared to %s as %s does not declare all %s fields, it lacks these: %s";
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
   private static final Map<Class<?>, Boolean> customHash = new ConcurrentHashMap<>();
 

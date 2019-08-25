@@ -41,6 +41,18 @@ public class ComparisonDifference_multiLineDescription_Test {
   }
 
   @Test
+  public void multiline_description_should_indicate_top_level_objects_difference() {
+    // GIVEN
+    ComparisonDifference comparisonDifference = new ComparisonDifference(list(), "foo", "bar");
+    // WHEN
+    String multiLineDescription = comparisonDifference.multiLineDescription();
+    // THEN
+    assertThat(multiLineDescription).isEqualTo(format("Top level actual and expected objects differ:%n" +
+                                                      "- actual value   : \"foo\"%n" +
+                                                      "- expected value : \"bar\""));
+  }
+
+  @Test
   public void multiline_description_should_show_sets_type_difference_when_their_content_is_the_same() {
     // GIVEN
     Set<String> actual = newLinkedHashSet("bar", "foo");

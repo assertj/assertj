@@ -27,7 +27,9 @@ import org.assertj.core.presentation.Representation;
 
 public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
-  private static final String TEMPLATE = "field/property '%s' differ:%n" +
+  private static final String FIELD = "field/property '%s'";
+  private static final String TOP_LEVEL_OBJECTS = "Top level actual and expected objects";
+  private static final String TEMPLATE = "%s differ:%n" +
                                          "- actual value   : %s%n" +
                                          "- expected value : %s%s";
 
@@ -100,10 +102,14 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline)
                                                  .orElse("");
     return format(TEMPLATE,
-                  getPath(),
+                  getObjectPathDescription(),
                   unambiguousActualRepresentation,
                   unambiguousExpectedRepresentation,
                   additionalInfo);
+  }
+
+  private String getObjectPathDescription() {
+    return concatenatedPath.isEmpty() ? TOP_LEVEL_OBJECTS : format(FIELD, getPath());
   }
 
   private static String formatOnNewline(String info) {
