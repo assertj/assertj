@@ -105,7 +105,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_specified_fields_source() {
     FriendlyPerson friendlyPerson1 = friend("Sherlock Holmes");
     friendlyPerson1.friends.add(friend("Dr. John Watson"));
@@ -174,7 +173,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_fields_matching_specified_regexes_source() {
     FriendlyPerson friendlyPerson1 = friend("Sherlock Holmes");
     friendlyPerson1.friends.add(friend("Dr. John Watson"));

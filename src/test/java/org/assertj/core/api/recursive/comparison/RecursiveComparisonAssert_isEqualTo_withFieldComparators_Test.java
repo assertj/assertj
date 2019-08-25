@@ -56,7 +56,6 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> recursivelyEqualObjectsWhenUsingFieldComparators() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;

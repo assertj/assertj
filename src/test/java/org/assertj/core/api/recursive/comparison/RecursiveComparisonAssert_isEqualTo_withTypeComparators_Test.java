@@ -62,7 +62,6 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> recursivelyEqualObjectsWhenUsingTypeComparators() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;

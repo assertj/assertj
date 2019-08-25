@@ -62,7 +62,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored", dualKey).isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringNullFieldsSource() {
     return Stream.of(arguments(dualKey(null, "John")),
                      arguments(dualKey(null, 123)),
@@ -82,7 +81,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored with these ignored fields %s", dualKey, ignoredFields).isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringSpecifiedFieldsSource() {
     return Stream.of(arguments(dualKeyWithPath("name"), list("name")),
                      arguments(dualKeyWithPath("name"), list("foo", "name", "foo")),
@@ -112,7 +110,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored with these regexes %s", dualKey, regexes).isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringRegexSpecifiedFieldsSource() {
     return Stream.of(arguments(dualKeyWithPath("name"), list(".*name")),
                      arguments(dualKeyWithPath("name"), list("foo", "n.m.", "foo")),
@@ -136,7 +133,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored", dualKey).isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringFieldsSource() {
     return Stream.of(arguments(dualKeyWithPath("name")),
                      arguments(dualKeyWithPath("number")),

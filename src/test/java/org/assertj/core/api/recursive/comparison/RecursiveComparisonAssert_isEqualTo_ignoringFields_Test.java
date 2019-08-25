@@ -59,7 +59,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> recursivelyEqualObjectsIgnoringNullValues() {
     Person person1 = new Person(null);
     person1.home.address.number = 1;
@@ -122,7 +121,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> recursivelyEqualObjectsIgnoringGivenFields() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;
@@ -219,7 +217,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> recursivelyEqualObjectsWhenFieldsMatchingGivenRegexesAreIgnored() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;
