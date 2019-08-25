@@ -14,9 +14,9 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.util.Throwables;
 import org.junit.jupiter.api.Test;
 
 public class ShouldHaveMessage_create_Test {
@@ -37,7 +37,7 @@ public class ShouldHaveMessage_create_Test {
                                        "%n" +
                                        "Throwable that failed the check:%n" +
                                        "%n%s",
-                                       Throwables.getStackTrace(actual));
+                                       getStackTrace(actual));
   }
 
   @Test
@@ -48,14 +48,14 @@ public class ShouldHaveMessage_create_Test {
     String errorMessage = shouldHaveMessage(actual, "expected error message").create(new TestDescription("TEST"));
     // THEN
     assertThat(errorMessage).isEqualTo("[TEST] %n" +
-        "Expecting message to be:%n" +
-        "  <\"expected error message\">%n" +
-        "but was:%n" +
-        "  <\"%%3A\">%n" +
-        "%n" +
-        "Throwable that failed the check:%n" +
-        "%n%s",
-      Throwables.getStackTrace(actual));
+                                       "Expecting message to be:%n" +
+                                       "  <\"expected error message\">%n" +
+                                       "but was:%n" +
+                                       "  <\"%%3A\">%n" +
+                                       "%n" +
+                                       "Throwable that failed the check:%n" +
+                                       "%n%s",
+                                       getStackTrace(actual));
   }
 
 }
