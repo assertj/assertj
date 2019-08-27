@@ -381,7 +381,7 @@ public class Strings {
    */
   public void assertHasSizeBetween(AssertionInfo info, CharSequence actual, int lowerBoundary, int higherBoundary) {
     assertNotNull(info, actual);
-    checkSizeBetween(actual, actual.length(), lowerBoundary, higherBoundary, info);
+    checkSizeBetween(actual, lowerBoundary, higherBoundary, actual.length(), info);
   }
 
   /**
