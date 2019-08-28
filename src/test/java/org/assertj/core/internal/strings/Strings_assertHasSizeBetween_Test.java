@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSizeBetween.shouldHaveSizeBetween;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
@@ -31,32 +32,41 @@ public class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeBetween(someInfo(), null, 2, 7))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    String actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(4, 7));
+    // THEN
+    assertThat(error).hasMessage(actualIsNull());   
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_less_to_min_expected_size() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     String actual = "Han";
-
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(4, 7));
+    // THEN
     String errorMessage = shouldHaveSizeBetween(actual, actual.length(), 4, 7).create();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeBetween(info, actual, 4, 7))
-                                                   .withMessage(errorMessage);
+    assertThat(error).hasMessage(errorMessage);    
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_greater_than_max_expected_size() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     String actual = "Han";
-
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(1, 2));
+    // THEN
     String errorMessage = shouldHaveSizeBetween(actual, actual.length(), 1, 2).create();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeBetween(info, actual, 1, 2))
-                                                   .withMessage(errorMessage);
+    assertThat(error).hasMessage(errorMessage);    
   }
 
   @Test
   public void should_pass_if_size_of_actual_is_between_sizes() {
-    strings.assertHasSizeBetween(someInfo(), "Han", 2, 7);
+    // GIVEN
+    String actual = "Han";
+    // THEN
+    strings.assertHasSizeBetween(someInfo(), actual, 2, 7);
   }
 }
