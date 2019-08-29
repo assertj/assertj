@@ -42,6 +42,11 @@ public class Object_special_assertion_methods_in_assumptions_Test extends BaseAs
                                       value -> assumeThat(value).extracting(TolkienCharacter::getName)
                                                                 .isEqualTo("Gandalf")),
                      assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, STRING)
+                                                                .startsWith("Fro"),
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, STRING)
+                                                                .startsWith("Gan")),
+                     assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
                                       value -> assumeThat(value).extracting("name", "age")
                                                                 .contains("Frodo", 33),
                                       value -> assumeThat(value).extracting("name", "age")
