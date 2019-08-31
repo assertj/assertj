@@ -656,6 +656,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
+    return internalExtracting(propertyOrField);
+  }
+
+  private AbstractObjectAssert<?, ?> internalExtracting(String propertyOrField) {
     Object value = byName(propertyOrField).apply(actual);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
@@ -702,7 +706,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return extracting(propertyOrField).asInstanceOf(assertFactory);
+    return internalExtracting(propertyOrField).asInstanceOf(assertFactory);
   }
 
   /**
@@ -767,6 +771,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
+    return internalExtracting(extractor);
+  }
+
+  private <T> AbstractObjectAssert<?, T> internalExtracting(Function<? super ACTUAL, T> extractor) {
     requireNonNull(extractor, shouldNotBeNull("extractor").create());
     T extractedValue = extractor.apply(actual);
     return newObjectAssert(extractedValue).withAssertionState(myself);
@@ -804,7 +812,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
                                                                     InstanceOfAssertFactory<? super T, ASSERT> assertFactory) {
-    return extracting(extractor).asInstanceOf(assertFactory);
+    return internalExtracting(extractor).asInstanceOf(assertFactory);
   }
 
   /**
