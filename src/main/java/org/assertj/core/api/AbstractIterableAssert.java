@@ -1643,6 +1643,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * {@inheritDoc}
    */
+  @Deprecated
   @Override
   public SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable) {
     return containsOnly(toArray(iterable));
@@ -1653,7 +1654,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF hasSameElementsAs(Iterable<? extends ELEMENT> iterable) {
-    return containsOnlyElementsOf(iterable);
+    // containsOnlyElementsOf is deprecated so we use its implementation
+    return containsOnly(toArray(iterable));
   }
 
   /**
