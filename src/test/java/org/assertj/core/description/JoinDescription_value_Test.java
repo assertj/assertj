@@ -13,8 +13,7 @@
 package org.assertj.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Arrays;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,8 @@ class JoinDescription_value_Test {
   }
 
   private static JoinDescription joinDescription(Description... descriptions) {
-    return new JoinDescription("all of:<[", "]>", Arrays.asList(descriptions));
+
+    return new JoinDescription("all of:<[", "]>", list(descriptions));
   }
 
   @Test
