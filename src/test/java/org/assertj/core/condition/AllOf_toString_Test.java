@@ -39,7 +39,7 @@ public class AllOf_toString_Test {
 
   @Test
   public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
-    String expected = "all of:<[Condition 1, Condition 2]>";
+    String expected = "all of:<[\n  Condition 1,\n  Condition 2\n]>";
     assertThat(allOf).hasToString(expected);
   }
 }
