@@ -659,13 +659,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return internalExtracting(propertyOrField);
   }
 
-  private AbstractObjectAssert<?, ?> internalExtracting(String propertyOrField) {
-    Object value = byName(propertyOrField).apply(actual);
-    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
-    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return newObjectAssert(value).withAssertionState(myself).as(description);
-  }
-
   /**
    * Extracts the value of given field/property from the object under test, the extracted value becoming the new object under test.
    * <p>
@@ -707,6 +700,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
     return internalExtracting(propertyOrField).asInstanceOf(assertFactory);
+  }
+
+  private AbstractObjectAssert<?, ?> internalExtracting(String propertyOrField) {
+    Object value = byName(propertyOrField).apply(actual);
+    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
+    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+    return newObjectAssert(value).withAssertionState(myself).as(description);
   }
 
   /**
@@ -774,12 +774,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return internalExtracting(extractor);
   }
 
-  private <T> AbstractObjectAssert<?, T> internalExtracting(Function<? super ACTUAL, T> extractor) {
-    requireNonNull(extractor, shouldNotBeNull("extractor").create());
-    T extractedValue = extractor.apply(actual);
-    return newObjectAssert(extractedValue).withAssertionState(myself);
-  }
-
   /**
    * Uses the given {@link Function} to extract a value from the object under test, the extracted value becoming the new object under test.
    * <p>
@@ -796,7 +790,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.STRING)
    *                  .startsWith(&quot;Fro&quot;);
    *
-   * // The following assertion does NOT compile as Frodo's name is not an Integer:
+   * // The following assertion will fail as Frodo's name is not an Integer:
    * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.INTEGER)
    *                  .isZero();</code></pre>
    *
@@ -811,8 +805,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
-                                                                    InstanceOfAssertFactory<? super T, ASSERT> assertFactory) {
+                                                                    InstanceOfAssertFactory<?, ASSERT> assertFactory) {
     return internalExtracting(extractor).asInstanceOf(assertFactory);
+  }
+
+  private <T> AbstractObjectAssert<?, T> internalExtracting(Function<? super ACTUAL, T> extractor) {
+    requireNonNull(extractor, shouldNotBeNull("extractor").create());
+    T extractedValue = extractor.apply(actual);
+    return newObjectAssert(extractedValue).withAssertionState(myself);
   }
 
   /**

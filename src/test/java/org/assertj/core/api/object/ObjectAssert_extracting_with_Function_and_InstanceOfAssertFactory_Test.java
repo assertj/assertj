@@ -21,6 +21,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.function.Function;
 
@@ -93,6 +94,24 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
     AbstractIntegerAssert<?> result = assertThat(luke).extracting(Employee::getAge, INTEGER);
     // THEN
     result.isPositive();
+  }
+
+  @Test
+  void should_allow_actual_type_narrowed_assertions_on_value_extracted_as_an_object() {
+    // GIVEN
+    final Function<Employee, Object> ageAsObject = Employee::getAge;
+    // WHEN
+    AbstractIntegerAssert<?> result = assertThat(luke).extracting(ageAsObject, INTEGER);
+    // THEN
+    result.isPositive();
+  }
+
+  @Test
+  void should_fail_when_the_wrong_factory_type_is_used() {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(luke).extracting(Employee::getAge, STRING));
+    // THEN
+    then(error).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
   }
 
   @Test
