@@ -116,7 +116,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
-      <version>2.23.0</version>
+      <version>3.0.0</version>
       <scope>test</scope>
     </dependency>
     <!-- NEEDED! Unlike File, a Path is not linked to the JRE's filesystem. In order to accurately test assertions, we need
