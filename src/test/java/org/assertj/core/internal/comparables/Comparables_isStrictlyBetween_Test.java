@@ -39,25 +39,25 @@ public class Comparables_isStrictlyBetween_Test extends ComparablesBaseTest {
   @Test
   public void fails_if_actual_is_equal_to_start() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, 8, 10, false, false))
-                                                   .withMessage(format("%nExpecting:%n <8>%nto be between:%n ]8, 10["));
+                                                   .withMessage(format("%nExpecting:%n <8>%nto be between:%n ]8, 10[%n"));
   }
 
   @Test
   public void fails_if_actual_is_equal_to_end() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 10, 8, 10, false, false))
-                                                   .withMessage(format("%nExpecting:%n <10>%nto be between:%n ]8, 10["));
+                                                   .withMessage(format("%nExpecting:%n <10>%nto be between:%n ]8, 10[%n"));
   }
 
   @Test
   public void fails_if_actual_is_less_than_start() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 6, 8, 10, false, false))
-                                                   .withMessage(format("%nExpecting:%n <6>%nto be between:%n ]8, 10["));
+                                                   .withMessage(format("%nExpecting:%n <6>%nto be between:%n ]8, 10[%n"));
   }
 
   @Test
   public void fails_if_actual_is_greater_than_end() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 12, 8, 10, false, false))
-                                                   .withMessage(format("%nExpecting:%n <12>%nto be between:%n ]8, 10["));
+                                                   .withMessage(format("%nExpecting:%n <12>%nto be between:%n ]8, 10[%n"));
   }
 
   @Test

@@ -14,13 +14,16 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,20 +33,34 @@ import org.junit.jupiter.api.Test;
  */
 public class ShouldBeAfter_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldBeAfter(parse("2011-01-01"), parse("2012-01-01"));
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeAfter(parse("2011-01-01"), parse("2012-01-01"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
                                          "  <2011-01-01T00:00:00.000>%n" +
                                          "to be strictly after:%n" +
-                                         "  <2012-01-01T00:00:00.000>"));
+                                         "  <2012-01-01T00:00:00.000>%n"));
+  }
+
+  @Test
+  public void should_create_error_message_with_comparison_strategy() {
+    // GIVEN
+    ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(NEVER_EQUALS);
+    ErrorMessageFactory factory = shouldBeAfter(parse("2011-01-01"), parse("2012-01-01"), comparisonStrategy);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo("[Test] %n" +
+                            "Expecting:%n" +
+                            "  <2011-01-01T00:00:00.000>%n" +
+                            "to be strictly after:%n" +
+                            "  <2012-01-01T00:00:00.000>%n" +
+                            "when comparing values using '%s'",
+                            NEVER_EQUALS.description());
   }
 }

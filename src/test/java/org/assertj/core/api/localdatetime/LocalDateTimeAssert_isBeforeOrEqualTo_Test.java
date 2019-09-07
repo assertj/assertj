@@ -14,12 +14,14 @@ package org.assertj.core.api.localdatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
+import org.assertj.core.api.LocalDateTimeAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,52 +32,17 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalDateTimeAssert isBeforeOrEqualTo")
-public class LocalDateTimeAssert_isBeforeOrEqualTo_Test extends LocalDateTimeAssertBaseTest {
+public class LocalDateTimeAssert_isBeforeOrEqualTo_Test extends AbstractLocalDateTimeAssertBaseTest {
 
-  @Test
-  public void should_pass_if_actual_is_before_dateTime_parameter() {
-    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
+  @Override
+  protected LocalDateTimeAssert invoke_api_method() {
+    return assertions.isBeforeOrEqualTo(NOW).isBeforeOrEqualTo(TOMORROW.toString());
   }
 
-  @Test
-  public void should_pass_if_actual_is_before_dateTime_as_string_parameter() {
-    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE.toString());
-  }
-
-  @Test
-  public void should_pass_if_actual_is_equal_to_dateTime_parameter() {
-    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE);
-  }
-
-  @Test
-  public void should_pass_if_actual_is_equal_to_dateTime_as_string_parameter() {
-    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE.toString());
-  }
-
-  @Test
-  public void should_fail_if_actual_is_after_dateTime_parameter() {
-    // WHEN
-    ThrowingCallable code = () -> assertThat(AFTER).isBeforeOrEqualTo(REFERENCE);
-    // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeBeforeOrEqualTo(AFTER, REFERENCE).create());
-  }
-
-  @Test
-  public void should_fail_if_actual_is_after_dateTime_as_string_parameter() {
-    // WHEN
-    ThrowingCallable code = () -> assertThat(AFTER).isBeforeOrEqualTo(REFERENCE.toString());
-    // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeBeforeOrEqualTo(AFTER, REFERENCE).create());
-  }
-
-  @Test
-  public void should_fail_if_actual_is_null() {
-    // GIVEN
-    LocalDateTime dateTime = null;
-    // WHEN
-    ThrowingCallable code = () -> assertThat(dateTime).isBeforeOrEqualTo(LocalDateTime.now());
-    // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertIsBeforeOrEqualTo(getInfo(assertions), getActual(assertions), NOW);
+    verify(comparables).assertIsBeforeOrEqualTo(getInfo(assertions), getActual(assertions), TOMORROW);
   }
 
   @Test
@@ -100,4 +67,8 @@ public class LocalDateTimeAssert_isBeforeOrEqualTo_Test extends LocalDateTimeAss
                                         .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
+  @Test
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isBeforeOrEqualTo("not a LocalDateTime")).isInstanceOf(DateTimeParseException.class);
+  }
 }

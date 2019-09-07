@@ -14,23 +14,18 @@ package org.assertj.core.api.zoneddatetime;
 
 import static org.mockito.Mockito.verify;
 
-import java.time.ZonedDateTime;
-
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 
-public class ZonedDateTimeAssert_isBetween_Test extends org.assertj.core.api.ZonedDateTimeAssertBaseTest {
-
-  private ZonedDateTime before = now.minusSeconds(1);
-  private ZonedDateTime after = now.plusSeconds(1);
+public class ZonedDateTimeAssert_isBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   @Override
   protected ZonedDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(before, after);
+    return assertions.isBetween(YESTERDAY, TOMORROW);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, true, true);
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, true, true);
   }
-
 }

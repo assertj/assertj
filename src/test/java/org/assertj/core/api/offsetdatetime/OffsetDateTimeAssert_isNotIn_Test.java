@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.time.OffsetDateTime.now;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.OffsetDateTime;
 
@@ -41,9 +43,9 @@ public class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseT
   @Test
   public void should_fail_if_actual_is_in_offsetDateTimes_as_string_array_parameter() {
     // WHEN
-    ThrowingCallable code = () -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString());
+    AssertionError error = expectAssertionError(() -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString()));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeIn(REFERENCE, asList(REFERENCE, AFTER)).create());
+    then(error).hasMessage(shouldNotBeIn(REFERENCE, asList(REFERENCE, AFTER)).create());
   }
 
   @Test
@@ -53,8 +55,8 @@ public class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseT
     // WHEN
     ThrowingCallable code = () -> assertThat(OffsetDateTime.now()).isNotIn(otherOffsetDateTimesAsString);
     // THEN
-    assertThatIllegalArgumentException().isThrownBy(code)
-                                        .withMessage("The given OffsetDateTime array should not be null");
+    thenIllegalArgumentException().isThrownBy(code)
+                                  .withMessage("The given OffsetDateTime array should not be null");
   }
 
   @Test
@@ -62,10 +64,10 @@ public class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseT
     // GIVEN
     String[] otherOffsetDateTimesAsString = new String[0];
     // WHEN
-    ThrowingCallable code = () -> assertThat(OffsetDateTime.now()).isNotIn(otherOffsetDateTimesAsString);
+    ThrowingCallable code = () -> assertThat(now()).isNotIn(otherOffsetDateTimesAsString);
     // THEN
-    assertThatIllegalArgumentException().isThrownBy(code)
-                                        .withMessage("The given OffsetDateTime array should not be empty");
+    thenIllegalArgumentException().isThrownBy(code)
+                                  .withMessage("The given OffsetDateTime array should not be empty");
   }
 
 }

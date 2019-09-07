@@ -18,7 +18,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Object} is before another one failed.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldBeBefore extends BasicErrorMessageFactory {
@@ -45,6 +45,6 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
   }
 
   private ShouldBeBefore(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n  <%s>%nto be strictly before:%n  <%s>%s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n  <%s>%nto be strictly before:%n  <%s>%n%s", actual, other, comparisonStrategy);
   }
 }

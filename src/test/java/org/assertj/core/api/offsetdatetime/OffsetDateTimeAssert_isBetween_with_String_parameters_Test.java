@@ -16,26 +16,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
 
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 public class OffsetDateTimeAssert_isBetween_with_String_parameters_Test
-    extends org.assertj.core.api.OffsetDateTimeAssertBaseTest {
-
-  private OffsetDateTime before = now.minusSeconds(1);
-  private OffsetDateTime after = now.plusSeconds(1);
+    extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {
-    return assertions.isBetween(before.toString(), after.toString());
+    return assertions.isBetween(BEFORE.toString(), AFTER.toString());
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, true, true);
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), BEFORE, AFTER, true, true);
   }
 
   @Test
@@ -43,7 +40,7 @@ public class OffsetDateTimeAssert_isBetween_with_String_parameters_Test
     // GIVEN
     String abc = "abc";
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.isBetween(abc, after.toString()));
+    Throwable thrown = catchThrowable(() -> assertions.isBetween(abc, AFTER.toString()));
     // THEN
     assertThat(thrown).isInstanceOf(DateTimeParseException.class);
   }
@@ -53,7 +50,7 @@ public class OffsetDateTimeAssert_isBetween_with_String_parameters_Test
     // GIVEN
     String abc = "abc";
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.isBetween(before.toString(), abc));
+    Throwable thrown = catchThrowable(() -> assertions.isBetween(BEFORE.toString(), abc));
     // THEN
     assertThat(thrown).isInstanceOf(DateTimeParseException.class);
   }

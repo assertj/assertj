@@ -14,7 +14,7 @@ package org.assertj.core.api.offsetdatetime;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
@@ -43,7 +43,8 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isIn(AFTER.toString(), REFERENCE.toString());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeIn(REFERENCE_WITH_DIFFERENT_OFFSET, asList(AFTER, REFERENCE)).create());
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeIn(REFERENCE_WITH_DIFFERENT_OFFSET,
+                                                                    asList(AFTER, REFERENCE)).create());
   }
 
   @Test
@@ -53,8 +54,8 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
     // WHEN
     ThrowingCallable code = () -> assertThat(OffsetDateTime.now()).isIn(otherOffsetDateTimesAsString);
     // THEN
-    assertThatIllegalArgumentException().isThrownBy(code)
-                                        .withMessage("The given OffsetDateTime array should not be null");
+    thenIllegalArgumentException().isThrownBy(code)
+                                  .withMessage("The given OffsetDateTime array should not be null");
   }
 
   @Test
@@ -64,8 +65,8 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
     // WHEN
     ThrowingCallable code = () -> assertThat(OffsetDateTime.now()).isIn(otherOffsetDateTimesAsString);
     // THEN
-    assertThatIllegalArgumentException().isThrownBy(code)
-                                        .withMessage("The given OffsetDateTime array should not be empty");
+    thenIllegalArgumentException().isThrownBy(code)
+                                  .withMessage("The given OffsetDateTime array should not be empty");
   }
 
 }

@@ -43,7 +43,7 @@ public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
                                                                        "Expecting:%n" +
                                                                        "  <03:00:05.123Z>%n" +
                                                                        "to be strictly after:%n" +
-                                                                       "  <03:00:05.123456789Z>"));
+                                                                       "  <03:00:05.123456789Z>%n"));
   }
 
   @Test

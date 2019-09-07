@@ -16,12 +16,13 @@ import static org.assertj.core.util.DateUtil.parse;
 
 import java.util.Date;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is after another one failed.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldBeAfter extends BasicErrorMessageFactory {
@@ -59,6 +60,6 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
   }
 
   private ShouldBeAfter(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n  <%s>%nto be strictly after:%n  <%s>%s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n  <%s>%nto be strictly after:%n  <%s>%n%s", actual, other, comparisonStrategy);
   }
 }

@@ -53,7 +53,7 @@ public class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
                                                                        "Expecting:%n" +
                                                                        "  <03:00:05Z>%n" +
                                                                        "to be strictly before:%n" +
-                                                                       "  <03:00:04Z>"));
+                                                                       "  <03:00:04Z>%n"));
   }
 
   @Test

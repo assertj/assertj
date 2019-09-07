@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static org.mockito.Mockito.mock;
-
-import java.time.ZonedDateTime;
-
 import org.assertj.core.internal.Comparables;
 
-public abstract class ZonedDateTimeAssertBaseTest extends BaseTestTemplate<ZonedDateTimeAssert, ZonedDateTime> {
+import java.time.temporal.Temporal;
+
+import static org.mockito.Mockito.mock;
+
+public abstract class TemporalAssertBaseTest<ASSERT extends AbstractTemporalAssert<ASSERT, TEMPORAL>, TEMPORAL extends Temporal>
+    extends BaseTestTemplate<ASSERT, TEMPORAL> {
 
   protected Comparables comparables;
-  protected ZonedDateTime now = ZonedDateTime.now();
 
   @Override
   protected void inject_internal_objects() {
@@ -30,9 +30,5 @@ public abstract class ZonedDateTimeAssertBaseTest extends BaseTestTemplate<Zoned
     assertions.comparables = comparables;
   }
 
-  @Override
-  protected ZonedDateTimeAssert create_assertions() {
-    return new ZonedDateTimeAssert(now);
-  }
-
+  protected abstract Comparables getComparables(ASSERT someAssertions);
 }
