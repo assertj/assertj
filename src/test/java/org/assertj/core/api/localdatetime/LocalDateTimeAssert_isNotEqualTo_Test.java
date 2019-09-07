@@ -34,9 +34,9 @@ public class LocalDateTimeAssert_isNotEqualTo_Test extends AbstractLocalDateTime
   @Override
   protected LocalDateTimeAssert invoke_api_method() {
     return assertions
-      .isNotEqualTo(now)
-      .isNotEqualTo(yesterday.toString())
-      .isNotEqualTo((LocalDateTime) null);
+                     .isNotEqualTo(now)
+                     .isNotEqualTo(yesterday.toString())
+                     .isNotEqualTo((LocalDateTime) null);
   }
 
   @Override
@@ -49,7 +49,7 @@ public class LocalDateTimeAssert_isNotEqualTo_Test extends AbstractLocalDateTime
   @Test
   public void should_fail_if_given_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertions.isNotEqualTo((String) null))
-      .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
+                                        .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
   @Test

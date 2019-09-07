@@ -42,10 +42,11 @@ class ChronoLocalDateTimeComparatorTest {
 
   @Test
   void should_disregard_chronology_difference() {
+    // GIVEN
     LocalDateTime now = LocalDateTime.now();
     JapaneseDate japaneseDate = JapaneseDate.from(now);
     ChronoLocalDateTime<JapaneseDate> nowInJapanese = japaneseDate.atTime(now.toLocalTime());
-
+    // THEN
     assertThat(now.compareTo(nowInJapanese)).as("Built-in comparison should report that they differ").isNotZero();
     assertThat(comparator.compare(now, nowInJapanese)).isZero();
     assertThat(comparator.compare(now, now)).isZero();

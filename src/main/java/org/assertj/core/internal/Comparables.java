@@ -23,7 +23,15 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.*;
+import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.error.ShouldBeAfter;
+import org.assertj.core.error.ShouldBeAfterOrEqualTo;
+import org.assertj.core.error.ShouldBeBefore;
+import org.assertj.core.error.ShouldBeBeforeOrEqualTo;
+import org.assertj.core.error.ShouldBeGreater;
+import org.assertj.core.error.ShouldBeGreaterOrEqual;
+import org.assertj.core.error.ShouldBeLess;
+import org.assertj.core.error.ShouldBeLessOrEqual;
 import org.assertj.core.util.TriFunction;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -223,8 +231,7 @@ public class Comparables {
   private <T extends Comparable<? super T>> void assertLessThan(AssertionInfo info, T actual, T other,
                                                                 TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
-    if (isLessThan(actual, other))
-      return;
+    if (isLessThan(actual, other)) return;
     throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
@@ -262,7 +269,6 @@ public class Comparables {
   public <T extends Comparable<? super T>> void assertGreaterThan(AssertionInfo info, T actual, T other) {
     assertGreaterThan(info, actual, other, ShouldBeGreater::shouldBeGreater);
   }
-
 
   /**
    * Asserts that the actual value is greater than the other one.
@@ -308,7 +314,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is less than the other one.
    */
   private <T extends Comparable<? super T>> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other,
-                                                                           TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
+                                                                            TriFunction<T, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other))
       return;

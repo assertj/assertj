@@ -32,7 +32,8 @@ public class LocalDateTimeAssert_isBefore_Test extends AbstractLocalDateTimeAsse
 
   @Override
   public LocalDateTimeAssert invoke_api_method() {
-    return assertions.isBefore(now).isBefore(tomorrow.toString());
+    return assertions.isBefore(now)
+                     .isBefore(tomorrow.toString());
   }
 
   @Override
@@ -44,13 +45,13 @@ public class LocalDateTimeAssert_isBefore_Test extends AbstractLocalDateTimeAsse
   @Test
   public void should_fail_if_given_localdatetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertions.isBefore((LocalDateTime) null))
-      .withMessage("The LocalDateTime to compare actual with should not be null");
+                                        .withMessage("The LocalDateTime to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_given_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertions.isBefore((String) null))
-      .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
+                                        .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
   @Test

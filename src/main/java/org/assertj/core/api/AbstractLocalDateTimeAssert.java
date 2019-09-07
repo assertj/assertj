@@ -62,12 +62,11 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> before the given one according to
-   * the comparator in use.
+   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> before the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isBefore(ChronoLocalDateTime)}.
    * <p>
-   * The default comparator uses {@link ChronoLocalDateTime#timeLineOrder()} which avoids the anomaly of comparing
-   * {@code ChronoLocalDateTime} objects which refer to the same instant (i.e. point in time)
-   * but happen to be in a different timezone / offset / chronology.
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
    * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
@@ -108,12 +107,11 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is before or equals to the given one according to
-   * the comparator in use.
+   * Verifies that the actual {@code LocalDateTime} is before or equals to the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isBefore(ChronoLocalDateTime)}.
    * <p>
-   * The default comparator uses {@link ChronoLocalDateTime#timeLineOrder()} which avoids the anomaly of comparing
-   * {@code ChronoLocalDateTime} objects which refer to the same instant (i.e. point in time)
-   * but happen to be in a different timezone / offset / chronology.
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
    * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
@@ -156,13 +154,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is after or equals to the given one according to
-   * the comparator in use.
+   * Verifies that the actual {@code LocalDateTime} is after or equals to the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isAfter(ChronoLocalDateTime)}.
    * <p>
-   * The default comparator uses {@link ChronoLocalDateTime#timeLineOrder()} which avoids the anomaly of comparing
-   * {@code ChronoLocalDateTime} objects which refer to the same instant (i.e. point in time)
-   * but happen to be in a different timezone / offset / chronology.
-   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isAfterOrEqualTo(parse("2000-01-01T00:00:00"))
@@ -204,13 +201,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> after the given one according to
-   * the comparator in use.
+   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> after the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isAfter(ChronoLocalDateTime)}.
    * <p>
-   * The default comparator uses {@link ChronoLocalDateTime#timeLineOrder()} which avoids the anomaly of comparing
-   * {@code ChronoLocalDateTime} objects which refer to the same instant (i.e. point in time)
-   * but happen to be in a different timezone / offset / chronology.
-   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isAfter(parse("1999-12-31T23:59:59"));</code></pre>
@@ -250,12 +246,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is equal to the given one according to the comparator in use.
+   * Verifies that the actual {@code LocalDateTime} is equal to the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isEqual(ChronoLocalDateTime)}.
    * <p>
-   * The default comparator uses {@link ChronoLocalDateTime#timeLineOrder()} which avoids the anomaly of comparing
-   * {@code ChronoLocalDateTime} objects which refer to the same instant (i.e. point in time)
-   * but happen to be in a different timezone / offset / chronology.
-   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isEqualTo(parse("2000-01-01T00:00:00"));</code></pre>
@@ -266,7 +262,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} differs from the given {@code LocalDateTime}
    *            according to the comparator in use.
    */
-  public SELF isEqualTo(LocalDateTime other) {
+  @Override
+  public SELF isEqualTo(Object other) {
     if (actual == null || other == null) {
       super.isEqualTo(other);
     } else {
@@ -298,12 +295,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is not equal to the given one according to the comparator in use.
+   * Verifies that the actual {@code LocalDateTime} is not equal to the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isEqual(ChronoLocalDateTime)}.
    * <p>
-   * The default comparator uses {@link ChronoLocalDateTime#timeLineOrder()} which avoids the anomaly of comparing
-   * {@code ChronoLocalDateTime} objects which refer to the same instant (i.e. point in time)
-   * but happen to be in a different timezone / offset / chronology.
-   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isEqualTo(parse("2000-01-01T00:00:00"));</code></pre>
@@ -314,7 +311,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} equals to the given {@code LocalDateTime}
    *            according to the comparator in use.
    */
-  public SELF isNotEqualTo(LocalDateTime other) {
+  @Override
+  public SELF isNotEqualTo(Object other) {
     if (actual == null || other == null) {
       super.isNotEqualTo(other);
     } else {
@@ -430,7 +428,9 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   private static Object[] convertToLocalDateTimeArray(String... dateTimesAsString) {
-    return Arrays.stream(dateTimesAsString).map(LocalDateTime::parse).toArray();
+    return Arrays.stream(dateTimesAsString)
+                 .map(LocalDateTime::parse)
+                 .toArray();
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
@@ -609,13 +609,11 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@link LocalDateTime} is in the [start, end] period (start and end included) according to
-   * the comparator in use.
+   * Verifies that the actual {@link LocalDateTime} is in the [start, end] period (start and end included) according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator.
    * <p>
-   * The default comparator uses {@link ChronoLocalDateTime#timeLineOrder()} which avoids the anomaly of comparing
-   * {@code ChronoLocalDateTime} objects which refer to the same instant (i.e. point in time)
-   * but happen to be in a different timezone / offset / chronology.
-   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();
@@ -679,13 +677,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@link LocalDateTime} is in the ]start, end[ period (start and end excluded) according to
-   * the comparator in use.
+   * Verifies that the actual {@link LocalDateTime} is in the ]start, end[ period (start and end excluded) according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator.
    * <p>
-   * The default comparator uses {@link ChronoLocalDateTime#timeLineOrder()} which avoids the anomaly of comparing
-   * {@code ChronoLocalDateTime} objects which refer to the same instant (i.e. point in time)
-   * but happen to be in a different timezone / offset / chronology.
-   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
+   * <p>
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();

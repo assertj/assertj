@@ -18,13 +18,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
-import java.time.chrono.*;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.chrono.JapaneseChronology;
+import java.time.chrono.JapaneseDate;
 import java.time.format.DateTimeParseException;
 
 import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 
 /**
  * Only test String based assertion (tests with {@link java.time.LocalDateTime} are already defined in assertj-core)
@@ -39,11 +40,10 @@ public class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAss
   @Override
   public LocalDateTimeAssert invoke_api_method() {
     otherType = new Object();
-    return assertions
-      .isEqualTo(now)
-      .isEqualTo(yesterday.toString())
-      .isEqualTo((LocalDateTime) null)
-      .isEqualTo(otherType);
+    return assertions.isEqualTo(now)
+                     .isEqualTo(yesterday.toString())
+                     .isEqualTo((LocalDateTime) null)
+                     .isEqualTo(otherType);
   }
 
   @Override
@@ -51,13 +51,13 @@ public class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAss
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), now);
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), yesterday);
     verify(objects).assertEqual(getInfo(assertions), getActual(assertions), null);
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), otherType);
+    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), otherType);
   }
 
   @Test
   public void should_fail_if_given_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertions.isEqualTo((String) null))
-      .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
+                                        .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
   @Test
@@ -67,7 +67,13 @@ public class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAss
 
   @Test
   public void should_fail_if_given_would_be_equal_to_actual_with_default_comparator() {
+    // GIVEN
     ChronoLocalDateTime<JapaneseDate> inJapan = JapaneseChronology.INSTANCE.localDateTime(now);
-    assertThatThrownBy(() -> assertThat(now).isEqualTo(inJapan)).isInstanceOf(AssertionFailedError.class);
+    // THEN
+    assertThat(now.equals(inJapan)).isFalse();
+    assertThat(now.isEqual(inJapan)).isTrue();
+    assertThat(now).isEqualTo(inJapan);
+    Object inJapanObject = inJapan;
+    assertThat(now).isEqualTo(inJapanObject);
   }
 }

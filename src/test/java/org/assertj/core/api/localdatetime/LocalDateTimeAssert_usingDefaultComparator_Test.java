@@ -24,7 +24,8 @@ public class LocalDateTimeAssert_usingDefaultComparator_Test extends AbstractLoc
 
   @Override
   protected LocalDateTimeAssert invoke_api_method() {
-    return assertions.usingComparator(LocalDateTime::compareTo).usingDefaultComparator();
+    return assertions.usingComparator(LocalDateTime::compareTo)
+                     .usingDefaultComparator();
   }
 
   @Override
