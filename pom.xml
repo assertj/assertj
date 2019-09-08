@@ -328,20 +328,35 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>yuicompressor-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compress</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <sourceDirectory>src/main/javadoc</sourceDirectory>
+          <outputDirectory>${project.build.directory}/javadoc-stylesheet</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <!-- needed to fix javadoc on java 11+ https://github.com/joel-costigliola/assertj-core/issues/1403 -->
           <source>8</source>
           <!-- (1) CSS file location -->
-          <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
+          <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>
           <!-- init Highlight -->
           <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
           <nohelp>true</nohelp>
           <show>private</show>
           <footer><![CDATA[
             <link rel="stylesheet" href="./assertj-javadoc.css"">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
             <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
         ]]></footer>
         </configuration>
@@ -349,6 +364,11 @@
     </plugins>
     <pluginManagement>
       <plugins>
+        <plugin>
+            <groupId>net.alchim31.maven</groupId>
+            <artifactId>yuicompressor-maven-plugin</artifactId>
+            <version>1.5.1</version>
+        </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build
           itself. -->
         <plugin>
