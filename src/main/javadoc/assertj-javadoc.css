@@ -880,100 +880,107 @@ table.striped > tbody > tr > th {
 
 /*
 
-Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
+Railscasts-like style (c) Visoft, Inc. (Damien White)
 
 */
 
 .hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #F0F0F0;
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #232323;
+  color: #e6e1dc;
 }
 
-
-/* Base color: saturation 0; */
-
-.hljs,
-.hljs-subst {
-    color: #444;
-}
-
-.hljs-comment {
-    color: #888888;
+.hljs-comment,
+.hljs-quote {
+  color: #bc9458;
+  font-style: italic;
 }
 
 .hljs-keyword,
-.hljs-attribute,
-.hljs-selector-tag,
-.hljs-meta-keyword,
-.hljs-doctag,
+.hljs-selector-tag {
+  color: #c26230;
+}
+
+.hljs-string,
+.hljs-number,
+.hljs-regexp,
+.hljs-variable,
+.hljs-template-variable {
+  color: #a5c261;
+}
+
+.hljs-subst {
+  color: #519f50;
+}
+
+.hljs-tag,
 .hljs-name {
-    font-weight: bold;
+  color: #e8bf6a;
+}
+
+.hljs-type {
+  color: #da4939;
 }
 
 
-/* User color: hue: 0 */
+.hljs-symbol,
+.hljs-bullet,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-attr,
+.hljs-link {
+  color: #6d9cbe;
+}
 
-.hljs-type,
-.hljs-string,
-.hljs-number,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-quote,
-.hljs-template-tag,
-.hljs-deletion {
-    color: #880000;
+.hljs-params {
+  color: #d0d0ff;
+}
+
+.hljs-attribute {
+  color: #cda869;
+}
+
+.hljs-meta {
+  color: #9b859d;
 }
 
 .hljs-title,
 .hljs-section {
-    color: #880000;
-    font-weight: bold;
+  color: #ffc66d;
 }
 
-.hljs-regexp,
-.hljs-symbol,
-.hljs-variable,
-.hljs-template-variable,
-.hljs-link,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-    color: #BC6060;
-}
-
-
-/* Language color: hue: 90; */
-
-.hljs-literal {
-    color: #78A960;
-}
-
-.hljs-built_in,
-.hljs-bullet,
-.hljs-code,
 .hljs-addition {
-    color: #397300;
+  background-color: #144212;
+  color: #e6e1dc;
+  display: inline-block;
+  width: 100%;
 }
 
-
-/* Meta color: hue: 200 */
-
-.hljs-meta {
-    color: #1f7199;
+.hljs-deletion {
+  background-color: #600;
+  color: #e6e1dc;
+  display: inline-block;
+  width: 100%;
 }
 
-.hljs-meta-string {
-    color: #4d99bf;
+.hljs-selector-class {
+  color: #9b703f;
 }
 
-
-/* Misc effects */
+.hljs-selector-id {
+  color: #8b98ab;
+}
 
 .hljs-emphasis {
-    font-style: italic;
+  font-style: italic;
 }
 
 .hljs-strong {
-    font-weight: bold;
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
 }
