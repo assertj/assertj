@@ -14,16 +14,16 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -31,6 +31,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
 import org.assertj.core.test.Maps;
@@ -40,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * Tests for
  * <code>{@link org.assertj.core.internal.Maps#assertContainsOnly(org.assertj.core.api.AssertionInfo, java.util.Map, org.assertj.core.data.MapEntry...)}</code>
  * .
- * 
+ *
  * @author Jean-Christophe Gay
  */
 public class Maps_assertContainsOnly_Test extends MapsBaseTest {
@@ -48,8 +49,12 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsOnly(someInfo(), null, entry("name", "Yoda")))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    // WHEN
+    ThrowingCallable code = () -> maps.assertContainsOnly(someInfo(), actual, entry("name", "Yoda"));
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @SuppressWarnings("unchecked")
@@ -80,73 +85,56 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_unexpected_entry() {
+    // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
-    try {
-      maps.assertContainsOnly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainOnly(actual, expected, emptySet(), newHashSet(entry("color", "green"))));
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expected, emptySet(), set(entry("color", "green"))));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contains_every_expected_entries() {
+    // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
     Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"));
-    try {
-      maps.assertContainsOnly(info, underTest, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainOnly(underTest, expected, newHashSet(entry("color", "green")), emptySet()));
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsOnly(info, underTest, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(underTest, expected, set(entry("color", "green")), emptySet()));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one()
-       {
+  public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one() {
+    // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
     Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
-    try {
-      maps.assertContainsOnly(info, underTest, expected);
-    } catch (AssertionError e) {
-      verify(failures)
-          .failure(
-              info,
-              shouldContainOnly(underTest, expected, newHashSet(entry("color", "green")),
-                  newHashSet(entry("job", "Jedi"))));
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsOnly(info, underTest, expected));
+    // THEN
+    verify(failures).failure(info,
+                             shouldContainOnly(underTest, expected, set(entry("color", "green")), set(entry("job", "Jedi"))));
   }
 
   @Test
   public void should_fail_if_actual_contains_entry_key_with_different_value() {
-
+    // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expectedEntries = array(entry("name", "Yoda"), entry("color", "yellow"));
-    try {
-      maps.assertContainsOnly(info, actual, expectedEntries);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldContainOnly(actual, expectedEntries, newHashSet(entry("color", "yellow")),
-              newHashSet(entry("color", "green"))));
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsOnly(info, actual, expectedEntries));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expectedEntries, set(entry("color", "yellow")),
+                                                     set(entry("color", "green"))));
   }
 
-  private static <K, V> HashSet<MapEntry<K, V>> newHashSet(MapEntry<K, V> entry) {
-    HashSet<MapEntry<K, V>> notExpected = new HashSet<>();
-    notExpected.add(entry);
-    return notExpected;
+  private static <K, V> HashSet<MapEntry<K, V>> set(MapEntry<K, V> entry) {
+    HashSet<MapEntry<K, V>> set = new HashSet<>();
+    set.add(entry);
+    return set;
   }
 
 }

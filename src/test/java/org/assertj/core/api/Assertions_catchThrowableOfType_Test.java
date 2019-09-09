@@ -18,8 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
-import static org.assertj.core.api.Fail.fail;
-import static org.assertj.core.api.Fail.shouldHaveThrown;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.io.IOException;
 
@@ -42,60 +41,60 @@ class Assertions_catchThrowableOfType_Test {
 
   @Test
   void should_be_able_to_pass_a_description_to_assertThatThrownBy() {
-    Throwable assertionError = catchThrowable(() -> {
-      // make assertThatThrownBy fail to verify the description afterwards
-      assertThatThrownBy(raisingException("boom"), "Test %s", "code").hasMessage("bam");
-    });
-    assertThat(assertionError).isInstanceOf(AssertionError.class)
-                              .hasMessageContaining("[Test code]");
+    // GIVEN
+    // make assertThatThrownBy fail to verify the description afterwards
+    ThrowingCallable code = () -> assertThatThrownBy(raisingException("boom"), "Test %s", "code").hasMessage("bam");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(code);
+    // THEN
+    assertThat(assertionError).hasMessageContaining("[Test code]");
   }
 
   @Test
   void should_fail_if_no_throwable_was_thrown() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"))
-                                                   .withMessage(format("%nExpecting code to raise a throwable."));
+    // GIVEN
+    ThrowingCallable code = () -> {};
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(code).hasMessage("boom ?"));
+    // THEN
+    assertThat(assertionError).hasMessage(format("%nExpecting code to raise a throwable."));
   }
 
   @Test
   void can_capture_exception_and_then_assert_following_AAA_or_BDD_style() {
-    // when
+    // GIVEN
     Exception exception = new Exception("boom!!");
+    // WHEN
     Throwable boom = catchThrowable(codeThrowing(exception));
-
-    // then
+    // THEN
     assertThat(boom).isSameAs(exception);
   }
 
   @Test
   void catchThrowable_returns_null_when_no_exception_thrown() {
-    // when
+    // WHEN
     Throwable boom = catchThrowable(() -> {});
-
-    // then
+    // THEN
     assertThat(boom).isNull();
   }
 
   @Test
   void catchThrowableOfType_should_fail_with_good_message_if_wrong_type() {
-    try {
-      catchThrowableOfType(raisingException("boom!!"), RuntimeException.class);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessageContaining(RuntimeException.class.getName())
-                   .hasMessageContaining(Exception.class.getName());
-      return;
-    }
-    shouldHaveThrown(AssertionError.class);
+    // GIVEN
+    ThrowingCallable code = () -> catchThrowableOfType(raisingException("boom!!"), RuntimeException.class);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(code);
+    // THEN
+    assertThat(assertionError).hasMessageContainingAll(RuntimeException.class.getName(), Exception.class.getName());
   }
 
   @Test
   void catchThrowableOfType_should_succeed_and_return_actual_instance_with_correct_class() {
+    // GIVEN
     final Exception expected = new RuntimeException("boom!!");
-    Exception actual = null;
-    try {
-      actual = catchThrowableOfType(codeThrowing(expected), Exception.class);
-    } catch (AssertionError a) {
-      fail("catchThrowableOfType should not have asserted", a);
-    }
+    // WHEN
+    Exception actual = catchThrowableOfType(codeThrowing(expected), Exception.class);
+    // THEN
     assertThat(actual).isSameAs(expected);
   }
 
@@ -107,8 +106,7 @@ class Assertions_catchThrowableOfType_Test {
 
   @Test
   void should_fail_with_good_message_when_assertion_is_failing() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(raisingException("boom"))
-                                                   .hasMessage("bam"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(raisingException("boom")).hasMessage("bam"))
                                                    .withMessageContaining("Expecting message to be:")
                                                    .withMessageContaining("<\"bam\">")
                                                    .withMessageContaining("but was:")
@@ -121,7 +119,7 @@ class Assertions_catchThrowableOfType_Test {
                                               .withMessageNotContaining("bam");
   }
 
-  private ThrowingCallable raisingException(final String reason) {
+  private static ThrowingCallable raisingException(final String reason) {
     return codeThrowing(new Exception(reason));
   }
 
