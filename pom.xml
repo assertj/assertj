@@ -332,6 +332,7 @@
         <artifactId>yuicompressor-maven-plugin</artifactId>
         <executions>
           <execution>
+            <phase>generate-sources</phase> <!-- invoked by maven-javadoc-plugin -->
             <goals>
               <goal>compress</goal>
             </goals>
