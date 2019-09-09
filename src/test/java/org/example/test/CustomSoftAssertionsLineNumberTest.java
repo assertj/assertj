@@ -23,20 +23,20 @@ import org.junit.jupiter.api.Test;
  * The assertions classes have to be in a package other than org.assertj to test
  * the behavior of line numbers for assertions defined outside the assertj package
  */
-public class CustomSoftAssertionsLineNumberTest {
+class CustomSoftAssertionsLineNumberTest {
 
   // ignore because of failure only happening in Travis CI https://travis-ci.org/joel-costigliola/assertj-core/builds/351639100
   @Test
   @Disabled
-  public void should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package() throws Exception {
+  void should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package() throws Exception {
     // GIVEN
     MyProjectSoftAssertions softly = new MyProjectSoftAssertions();
     softly.assertThat(new MyProjectClass("v1")).hasValue("v2");
     // WHEN
-    AssertionError error = catchThrowableOfType(() -> softly.assertAll(), AssertionError.class);
+    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
     // THEN
     assertThat(error).hasMessageContaining(format("Expecting value to be <v2> but was <v1>:%n" +
-                                                  "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:31)"));
+                                                  "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:34)"));
   }
 
 }
