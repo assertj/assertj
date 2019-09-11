@@ -433,6 +433,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(name)
           .extracting(Name::getFirst)
           .isEqualTo("John");
+    softly.assertThat(name)
+          .extracting(Name::getFirst, STRING)
+          .startsWith("Jo");
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
   }
@@ -676,9 +679,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .overridingErrorMessage("error 5")
           .extracting(TolkienCharacter::getName)
           .isEqualTo("Foo");
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 6")
+          .extracting(TolkienCharacter::getName, STRING)
+          .startsWith("Bar");
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                        .containsExactly("error 1", "error 2", "error 3", "error 4", "error 5");
+                                        .containsExactly("error 1", "error 2", "error 3", "error 4", "error 5", "error 6");
   }
 
   @Test

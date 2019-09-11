@@ -15,92 +15,126 @@ package org.assertj.core.api.object;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
-import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
+import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
+import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
-import java.math.BigDecimal;
-import java.util.Comparator;
+import java.util.function.Function;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.AbstractBigDecimalAssert;
-import org.assertj.core.api.AbstractLongAssert;
+import org.assertj.core.api.AbstractCharSequenceAssert;
+import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#extracting(String, InstanceOfAssertFactory)}</code>.
+ * Tests for <code>{@link ObjectAssert#extracting(Function, InstanceOfAssertFactory)}</code>.
+ *
+ * @author Stefano Cordio
  */
-class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
+class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
 
   private Employee luke;
 
+  private static final Function<Employee, String> firstName = employee -> employee.getName().getFirst();
+
   @BeforeEach
-  void setup() {
+  void setUp() {
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+  }
+
+  @Test
+  void should_throw_npe_if_the_given_extractor_is_null() {
+    // GIVEN
+    Function<Employee, String> extractor = null;
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(luke).extracting(extractor, STRING));
+    // THEN
+    then(error).isInstanceOf(NullPointerException.class);
   }
 
   @Test
   void should_throw_npe_if_the_given_assert_factory_is_null() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("id", null));
+    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting(Employee::getName, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class);
   }
 
   @Test
-  void should_throw_IntrospectionError_if_given_field_name_cannot_be_read() {
+  void should_allow_type_narrowed_assertions_on_value_extracted_with_lambda() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("foo", LONG));
-    // THEN
-    then(thrown).isInstanceOf(IntrospectionError.class)
-                .hasMessageContaining("Can't find any field or property with name 'foo'.");
-  }
-
-  @Test
-  void should_allow_type_narrowed_assertions_on_property_extracted_by_name() {
-    // WHEN
-    AbstractLongAssert<?> result = assertThat(luke).extracting("id", LONG);
-    // THEN
-    result.isPositive();
-  }
-
-  @Test
-  void should_allow_narrowed_assertions_on_inner_property_extracted_by_name() {
-    // WHEN
-    AbstractStringAssert<?> result = assertThat(luke).extracting("name.first", STRING);
+    AbstractStringAssert<?> result = assertThat(luke).extracting(firstName, STRING);
     // THEN
     result.startsWith("Lu");
   }
 
   @Test
+  void should_allow_parent_type_narrowed_assertions_on_value_extracted_with_parent_type_factory() {
+    // WHEN
+    AbstractCharSequenceAssert<?, ?> result = assertThat(luke).extracting(firstName, CHAR_SEQUENCE);
+    // THEN
+    result.startsWith("Lu");
+  }
+
+  @Test
+  void should_allow_type_narrowed_assertions_on_value_extracted_with_method_reference() {
+    // WHEN
+    AbstractIntegerAssert<?> result = assertThat(luke).extracting(Employee::getAge, INTEGER);
+    // THEN
+    result.isPositive();
+  }
+
+  @Test
+  void should_allow_actual_type_narrowed_assertions_on_value_extracted_as_an_object() {
+    // GIVEN
+    final Function<Employee, Object> ageAsObject = Employee::getAge;
+    // WHEN
+    AbstractIntegerAssert<?> result = assertThat(luke).extracting(ageAsObject, INTEGER);
+    // THEN
+    result.isPositive();
+  }
+
+  @Test
   void should_fail_when_the_wrong_factory_type_is_used() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(luke).extracting("name.first", LONG));
+    AssertionError error = expectAssertionError(() -> assertThat(luke).extracting(Employee::getAge, STRING));
     // THEN
     then(error).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
   }
 
   @Test
-  void should_use_property_field_name_as_description_when_extracting_single_property() {
+  void should_rethrow_any_extractor_function_exception() {
+    // GIVEN
+    RuntimeException explosion = new RuntimeException("boom!");
+    Function<Employee, String> bomb = employee -> {
+      throw explosion;
+    };
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(luke).extracting("name.first", STRING)
-                                                                      .isNull());
+    Throwable error = catchThrowable(() -> assertThat(luke).extracting(bomb, STRING));
     // THEN
-    then(error).hasMessageContaining("[Extracted: name.first]");
+    then(error).isSameAs(explosion);
+  }
+
+  @Test
+  void should_honor_registered_comparator() {
+    // GIVEN
+    ObjectAssert<Employee> assertion = assertThat(luke).usingComparator(ALWAY_EQUALS);
+    // WHEN
+    AbstractStringAssert<?> result = assertion.extracting(firstName, STRING);
+    // THEN
+    result.isEqualTo("YODA");
   }
 
   @Test
@@ -113,7 +147,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
                                                                   .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
                                                                   .usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
     // WHEN
-    AbstractStringAssert<?> result = assertion.extracting("name.first", STRING);
+    AbstractStringAssert<?> result = assertion.extracting(firstName, STRING);
     // THEN
     then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
                 .extracting(AbstractAssert::getWritableAssertionInfo)
@@ -124,35 +158,4 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf("objects", assertion);
   }
 
-  @Test
-  void should_allow_to_specify_type_comparator_after_using_extracting_with_single_parameter_on_object() {
-    // GIVEN
-    Person obiwan = new Person("Obi-Wan");
-    obiwan.setHeight(new BigDecimal("1.820"));
-
-    Comparator<Object> heightComparator = (o1, o2) -> {
-      if (o1 instanceof BigDecimal) return BIG_DECIMAL_COMPARATOR.compare((BigDecimal) o1, (BigDecimal) o2);
-      throw new IllegalStateException("only supported for BigDecimal");
-    };
-    // WHEN
-    AbstractBigDecimalAssert<?> result = assertThat(obiwan).extracting("height", BIG_DECIMAL)
-                                                           .usingComparator(heightComparator);
-    // THEN
-    result.isEqualTo(new BigDecimal("1.82"));
-  }
-
-  @SuppressWarnings("unused")
-  private static class Person {
-
-    private final String name;
-    private BigDecimal height;
-
-    public Person(String name) {
-      this.name = name;
-    }
-
-    public void setHeight(BigDecimal height) {
-      this.height = height;
-    }
-  }
 }

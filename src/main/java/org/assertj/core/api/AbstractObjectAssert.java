@@ -656,10 +656,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    Object value = byName(propertyOrField).apply(actual);
-    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
-    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return newObjectAssert(value).as(description);
+    return internalExtracting(propertyOrField);
   }
 
   /**
@@ -699,16 +696,17 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    return internalExtracting(propertyOrField).asInstanceOf(assertFactory);
+  }
+
+  private AbstractObjectAssert<?, ?> internalExtracting(String propertyOrField) {
     Object value = byName(propertyOrField).apply(actual);
-    objects.assertIsInstanceOf(info, value, assertFactory.getType());
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return (ASSERT) assertFactory.createAssert(value).as(description);
+    return newObjectAssert(value).withAssertionState(myself).as(description);
   }
 
   /**
@@ -758,6 +756,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // The extracted value being a String, we would like to use String assertions but we can't due to Java generics limitations.
    * // The following assertion does NOT compile:
    * assertThat(frodo).extracting(TolkienCharacter::getName)
+   *                  .startsWith(&quot;Fro&quot;);
+   *
+   * // To get String assertions, use {@link #extracting(Function, InstanceOfAssertFactory)}:
+   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.STRING)
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    *
    * @param <T> the expected extracted value type.
@@ -765,9 +767,49 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted value
    *
    * @since 3.11.0
+   * @see #extracting(Function, InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
+    return internalExtracting(extractor);
+  }
+
+  /**
+   * Uses the given {@link Function} to extract a value from the object under test, the extracted value becoming the new object under test.
+   * <p>
+   * Note that since the value is extracted as an Object, only Object assertions can be chained after extracting.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Create frodo, setting its name, age and Race
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   *
+   * // let's extract and verify Frodo's name:
+   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.STRING)
+   *                  .startsWith(&quot;Fro&quot;);
+   *
+   * // The following assertion will fail as Frodo's name is not an Integer:
+   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.INTEGER)
+   *                  .isZero();</code></pre>
+   *
+   * @param <T>           the expected extracted value type
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param extractor     the extractor function used to extract the value from the object under test
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance whose object under test is the extracted value
+   * @throws NullPointerException if the given factory is {@code null}
+   *
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
+                                                                    InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalExtracting(extractor).asInstanceOf(assertFactory);
+  }
+
+  private <T> AbstractObjectAssert<?, T> internalExtracting(Function<? super ACTUAL, T> extractor) {
     requireNonNull(extractor, shouldNotBeNull("extractor").create());
     T extractedValue = extractor.apply(actual);
     return newObjectAssert(extractedValue).withAssertionState(myself);

@@ -74,7 +74,7 @@ class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test extends Abst
   void should_keep_existing_assertion_state() {
     // GIVEN
     assertions.as("description")
-              .overridingErrorMessage("error message")
+              .withFailMessage("error message")
               .withRepresentation(UNICODE_REPRESENTATION);
     // WHEN
     AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
