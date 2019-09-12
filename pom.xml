@@ -286,7 +286,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.1</version>
         <extensions>true</extensions>
         <executions>
           <execution>
