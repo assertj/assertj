@@ -1988,21 +1988,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                       .hasMessageContaining("MAN");
   }
 
-  @Test
-  public void soft_assertions_should_work_with_asInstanceOf() {
-    // GIVEN
-    Object value = "abc";
-    // WHEN
-    softly.assertThat(value)
-          .as("startsWith")
-          .asInstanceOf(STRING)
-          .startsWith("b");
-    // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("[startsWith]");
-  }
-
   @Nested
   class ExtractingFromEntries {
 
