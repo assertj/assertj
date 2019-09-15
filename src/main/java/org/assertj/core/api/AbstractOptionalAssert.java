@@ -419,10 +419,10 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, null);
    *
    * // assertion succeeds since all frodo's fields are set
-   * assertThat(Optional.of(frodo)).get().hasNoNullFields();
+   * assertThat(Optional.of(frodo)).get().hasNoNullFieldsOrProperties();
    *
    * // assertion does not succeed because sam does not have its race set
-   * assertThat(Optional.of(sam)).get().hasNoNullFields();</code></pre>
+   * assertThat(Optional.of(sam)).get().hasNoNullFieldsOrProperties();</code></pre>
    *
    * @return a new {@link AbstractObjectAssert} for assertions chaining on the value of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
