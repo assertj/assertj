@@ -44,7 +44,7 @@ public class CompletableFutureAssert_isNotCompletedExceptionally_Test extends Ba
     assertThatThrownBy(() -> assertThat(future).isNotCompletedExceptionally()).isInstanceOf(AssertionError.class)
                                                                               .hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
                                                                               .hasMessageContaining("Caused by: java.lang.RuntimeException")
-                                                                              .hasMessageEndingWith(format("to not be completed exceptionally.%n%s",
-                                                                                                           WARNING));
+                                                                              .hasMessageEndingWith("to not be completed exceptionally.%n%s",
+                                                                                                           WARNING);
   }
 }

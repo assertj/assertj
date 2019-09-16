@@ -63,7 +63,7 @@ public class Assertions_assertThatCode_Test {
 
     // Then
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatCode(boom).doesNotThrowAnyException())
-                                                   .withMessageContaining("java.lang.Exception: boom")
+                                                   .withMessageContaining("java.lang.Exception: %s", "boom")
                                                    .withMessageContaining("at org.assertj.core.api.Assertions_assertThatCode_Test.error_message_contains_stacktrace");
   }
 

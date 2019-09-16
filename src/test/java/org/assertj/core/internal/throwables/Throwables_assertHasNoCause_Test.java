@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Tests for <code>{@link Throwables#assertHasNoCause(AssertionInfo, Throwable, Class)}</code>.
+ * Tests for <code>{@link Throwables#assertHasNoCause(AssertionInfo, Throwable)}</code>.
  * 
  * @author Joel Costigliola
  */

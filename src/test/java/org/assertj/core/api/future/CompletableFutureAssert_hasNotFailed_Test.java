@@ -57,7 +57,7 @@ public class CompletableFutureAssert_hasNotFailed_Test extends BaseTest {
     assertThatThrownBy(() -> assertThat(future).hasNotFailed()).isInstanceOf(AssertionError.class)
                                                                .hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
                                                                .hasMessageContaining("Caused by: java.lang.RuntimeException")
-                                                               .hasMessageEndingWith(format("to not have failed.%n%s", WARNING));
+                                                               .hasMessageEndingWith("to not have failed.%n%s", WARNING);
 
   }
 }
