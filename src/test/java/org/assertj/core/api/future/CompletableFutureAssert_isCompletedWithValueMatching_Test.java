@@ -94,7 +94,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test extends B
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
                          .hasMessageContaining("Caused by: java.lang.RuntimeException")
-                         .hasMessageEndingWith(format("to be completed.%n%s", WARNING));
+                         .hasMessageEndingWith("to be completed.%n%s", WARNING);
 
   }
 

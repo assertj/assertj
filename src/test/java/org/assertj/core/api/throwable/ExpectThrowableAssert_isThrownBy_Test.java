@@ -34,14 +34,17 @@ public class ExpectThrowableAssert_isThrownBy_Test {
   @Test
   public void should_allow_to_check_exception_thrown_by_lambda() {
     // @format:off
-    Throwable exceptionWithCause = new NoSuchElementException("this too").initCause(new IllegalArgumentException("The cause"));
+    Throwable exceptionWithCause = new NoSuchElementException("this too 234").initCause(new IllegalArgumentException("The cause"));
     assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> { throw exceptionWithCause;})
-                                                     .withMessage("this too")
-                                                     .withMessage("this %s", "too")
+                                                     .withMessage("this too 234")
+                                                     .withMessage("this %s %d", "too", 234)
                                                      .withMessageStartingWith("this")
-                                                     .withMessageEndingWith("too")
+                                                     .withMessageStartingWith("%s", "this")
+                                                     .withMessageEndingWith("234")
+                                                     .withMessageEndingWith("too %d", 234)
                                                      .withMessageMatching(".*is.*")
                                                      .withStackTraceContaining("this")
+                                                     .withStackTraceContaining("is %s", "to")
                                                      .withCauseExactlyInstanceOf(IllegalArgumentException.class)
                                                      .withCauseInstanceOf(IllegalArgumentException.class);
     // @format:on

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 
 import java.util.IllegalFormatException;
@@ -91,7 +92,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessage(String message, Object... parameters) {
-    return hasMessage(String.format(message, parameters));
+    return hasMessage(format(message, parameters));
   }
 
   /**
@@ -159,6 +160,15 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * Verifies that the message of the actual {@code Throwable} starts with the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageStartingWith("wrong amount");
+   *
+   * // assertions will fail:
+   * assertThat(throwableWithMessage).hasMessageStartingWith("right amount"); </code></pre>
    *
    * @param description the description expected to start the actual {@code Throwable}'s message.
    * @return this assertion object.
@@ -167,6 +177,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageStartingWith(String description) {
     throwables.assertHasMessageStartingWith(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} starts with the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageStartingWith("%s amount", "wrong");
+   *
+   * // assertions will fail:
+   * assertThat(throwableWithMessage).hasMessageStartingWith("%s amount", "right"); </code></pre>
+   *
+   * @param description the description expected to start the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   */
+  public SELF hasMessageStartingWith(String description, Object... parameters) {
+    throwables.assertHasMessageStartingWith(info, actual, format(description, parameters));
     return myself;
   }
 
@@ -191,6 +226,33 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageContaining(String description) {
     throwables.assertHasMessageContaining(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} contains the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   * Throwable throwableWithoutMessage = new IllegalArgumentException();
+   *
+   * // assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageContaining("amount %d", 123);
+   *
+   * // assertions will fail:
+   * assertThat(throwableWithoutMessage).hasMessageContaining("amount %d", 123);
+   * assertThat(throwableWithMessage).hasMessageContaining("%s amount", "right"); </code></pre>
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   */
+  public SELF hasMessageContaining(String description, Object... parameters) {
+    throwables.assertHasMessageContaining(info, actual, format(description, parameters));
     return myself;
   }
 
@@ -270,6 +332,15 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * Verifies that the stack trace of the actual {@code Throwable} contains the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwableWithMessage).hasStackTraceContaining("amount 123");
+   *
+   * // assertion will fail
+   * assertThat(throwableWithMessage).hasStackTraceContaining("456");</code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
    * @return this assertion object.
@@ -278,6 +349,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasStackTraceContaining(String description) {
     throwables.assertHasStackTraceContaining(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the stack trace of the actual {@code Throwable} contains the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwableWithMessage).hasStackTraceContaining("%s", amount);
+   *
+   * // assertion will fail
+   * assertThat(throwableWithMessage).hasStackTraceContaining("%d", 456);</code></pre>
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   */
+  public SELF hasStackTraceContaining(String description, Object... parameters) {
+    throwables.assertHasStackTraceContaining(info, actual, format(description, parameters));
     return myself;
   }
 
@@ -334,6 +430,15 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * Verifies that the message of the actual {@code Throwable} ends with the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwableWithMessage).hasMessageEndingWith("123");
+   *
+   * // assertion will fail
+   * assertThat(throwableWithMessage).hasMessageEndingWith("456");</code></pre>
    *
    * @param description the description expected to end the actual {@code Throwable}'s message.
    * @return this assertion object.
@@ -342,6 +447,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageEndingWith(String description) {
     throwables.assertHasMessageEndingWith(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} ends with the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwableWithMessage).hasMessageEndingWith("%s 123", "amount");
+   *
+   * // assertion will fail
+   * assertThat(throwableWithMessage).hasMessageEndingWith("amount %d", 456);</code></pre>
+   *
+   * @param description the description expected to end the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   */
+  public SELF hasMessageEndingWith(String description, Object... parameters) {
+    throwables.assertHasMessageEndingWith(info, actual, format(description, parameters));
     return myself;
   }
 
