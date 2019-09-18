@@ -641,7 +641,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                  .startsWith(&quot;Fro&quot;);
    *
    * // To get String assertions, use {@link #extracting(String, InstanceOfAssertFactory)}:
-   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.STRING)
+   * assertThat(frodo).extracting(&quot;name&quot;, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    * <p>
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
@@ -672,16 +672,19 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
+   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * assertion more readable.
+   * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    *
    * // let's extract and verify Frodo's name:
-   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.STRING)
+   * assertThat(frodo).extracting(&quot;name&quot;, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);
    *
    * // The following assertion will fail as Frodo's name is not an Integer:
-   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.INTEGER)
+   * assertThat(frodo).extracting(&quot;name&quot;, as(InstanceOfAssertFactories.INTEGER))
    *                  .isZero();</code></pre>
    * <p>
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
@@ -759,7 +762,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                  .startsWith(&quot;Fro&quot;);
    *
    * // To get String assertions, use {@link #extracting(Function, InstanceOfAssertFactory)}:
-   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.STRING)
+   * assertThat(frodo).extracting(TolkienCharacter::getName, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    *
    * @param <T> the expected extracted value type.
@@ -782,16 +785,19 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
+   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * assertion more readable.
+   * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    *
    * // let's extract and verify Frodo's name:
-   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.STRING)
+   * assertThat(frodo).extracting(TolkienCharacter::getName, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);
    *
    * // The following assertion will fail as Frodo's name is not an Integer:
-   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.INTEGER)
+   * assertThat(frodo).extracting(TolkienCharacter::getName, as(InstanceOfAssertFactories.INTEGER))
    *                  .isZero();</code></pre>
    *
    * @param <T>           the expected extracted value type

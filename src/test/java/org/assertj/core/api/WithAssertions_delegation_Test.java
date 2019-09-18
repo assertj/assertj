@@ -12,7 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.mockito.Mockito.mock;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -37,6 +39,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.function.DoublePredicate;
+import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
@@ -653,7 +656,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   public void withAssertions_setAllowExtractingPrivateFields_Test() {
     setAllowExtractingPrivateFields(false);
-	//reset to default
+    // reset to default
     setAllowExtractingPrivateFields(true);
   }
 
@@ -796,4 +799,26 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   public void withAssertions_assertThat_uri_Test() {
     assertThat(java.net.URI.create("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
   }
+
+  @Test
+  void withAssertions_from_function_Test() {
+    // GIVEN
+    Function<?, ?> extractor = mock(Function.class);
+    // WHEN
+    Function<?, ?> result = from(extractor);
+    // THEN
+    then(result).isSameAs(extractor);
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  void withAssertions_as_instanceOfAssertFactory_Test() {
+    // GIVEN
+    InstanceOfAssertFactory<?, AbstractAssert<?, ?>> assertFactory = mock(InstanceOfAssertFactory.class);
+    // WHEN
+    InstanceOfAssertFactory<?, AbstractAssert<?, ?>> result = as(assertFactory);
+    // THEN
+    then(result).isSameAs(assertFactory);
+  }
+
 }
