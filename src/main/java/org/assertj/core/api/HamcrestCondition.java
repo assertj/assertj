@@ -32,14 +32,14 @@ import org.hamcrest.StringDescription;
 */
 public class HamcrestCondition<T> extends Condition<T> {
 
-  private Matcher<T> matcher;
+  private Matcher<? extends T> matcher;
 
   /**
    * Constructs a {@link Condition} using the matcher given as a parameter.
    * 
    * @param matcher the Hamcrest matcher to use as a condition
    */
- public HamcrestCondition(Matcher<T> matcher) {
+ public HamcrestCondition(Matcher<? extends T> matcher) {
     this.matcher = matcher;
     as(describeMatcher());
   }
