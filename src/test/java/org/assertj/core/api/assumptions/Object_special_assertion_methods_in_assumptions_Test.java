@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.assumptions;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.assumptions.BaseAssumptionRunner.assumptionRunner;
@@ -42,9 +43,9 @@ public class Object_special_assertion_methods_in_assumptions_Test extends BaseAs
                                       value -> assumeThat(value).extracting(TolkienCharacter::getName)
                                                                 .isEqualTo("Gandalf")),
                      assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
-                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, STRING)
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, as(STRING))
                                                                 .startsWith("Fro"),
-                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, STRING)
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, as(STRING))
                                                                 .startsWith("Gan")),
                      assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
                                       value -> assumeThat(value).extracting("name", "age")
@@ -57,9 +58,9 @@ public class Object_special_assertion_methods_in_assumptions_Test extends BaseAs
                                       value -> assumeThat(value).extracting("name")
                                                                 .isEqualTo("Gandalf")),
                      assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
-                                      value -> assumeThat(value).extracting("name", STRING)
+                                      value -> assumeThat(value).extracting("name", as(STRING))
                                                                 .startsWith("Fro"),
-                                      value -> assumeThat(value).extracting("name", STRING)
+                                      value -> assumeThat(value).extracting("name", as(STRING))
                                                                 .startsWith("Gan")));
   }
 

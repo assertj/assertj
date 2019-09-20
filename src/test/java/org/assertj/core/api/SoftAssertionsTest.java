@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.entry;
@@ -425,7 +426,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting("first")
           .isEqualTo("John");
     softly.assertThat(name)
-          .extracting("first", STRING)
+          .extracting("first", as(STRING))
           .startsWith("Jo");
     softly.assertThat(name)
           .extracting(Name::getFirst, Name::getLast)
@@ -434,7 +435,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting(Name::getFirst)
           .isEqualTo("John");
     softly.assertThat(name)
-          .extracting(Name::getFirst, STRING)
+          .extracting(Name::getFirst, as(STRING))
           .startsWith("Jo");
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
@@ -667,7 +668,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .contains("Frodo", 55);
     softly.assertThat(frodo)
           .overridingErrorMessage("error 3")
-          .extracting("name", STRING)
+          .extracting("name", as(STRING))
           .startsWith("Bar");
     softly.assertThat(frodo)
           .overridingErrorMessage("error 4")
@@ -681,7 +682,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .isEqualTo("Foo");
     softly.assertThat(frodo)
           .overridingErrorMessage("error 6")
-          .extracting(TolkienCharacter::getName, STRING)
+          .extracting(TolkienCharacter::getName, as(STRING))
           .startsWith("Bar");
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
