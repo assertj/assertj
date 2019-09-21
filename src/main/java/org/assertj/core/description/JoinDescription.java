@@ -32,16 +32,12 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  */
 public class JoinDescription extends Description {
-  /**
-   * Default indention level.
-   */
-  private static final int INDENTION = 2;
-  private static final String LINE_SEP = System.lineSeparator();
-
+  private static final int DEFAULT_INDENTATION = 2;
+  private static final String LINE_SEPARATOR = System.lineSeparator();
   /**
    * Delimiter string between {@code descriptions}.
    */
-  private static final String DELIMITER = ',' + LINE_SEP;
+  private static final String DELIMITER = ',' + LINE_SEPARATOR;
 
   @VisibleForTesting
   final Collection<Description> descriptions;
@@ -65,17 +61,17 @@ public class JoinDescription extends Description {
   public JoinDescription(String prefix, String suffix, Collection<Description> descriptions) {
     this.prefix = Objects.requireNonNull(prefix);
     this.suffix = Objects.requireNonNull(suffix);
-    this.descriptions = Objects.requireNonNull(descriptions).stream().map(JoinDescription::nonNull).collect(toList());
+    this.descriptions = Objects.requireNonNull(descriptions).stream().map(JoinDescription::checkNotNull).collect(toList());
   }
 
-  private static Description nonNull(Description description) {
+  private static Description checkNotNull(Description description) {
     Preconditions.checkNotNull(description, "The descriptions should not contain null elements");
     return description;
   }
 
   @Override
   public String value() {
-    return value(new IndentedAppendable(new StringBuilder(), INDENTION)).toString();
+    return value(new IndentedAppendable(new StringBuilder(), DEFAULT_INDENTATION)).toString();
   }
 
   @Override
@@ -95,7 +91,7 @@ public class JoinDescription extends Description {
 
   private IndentedAppendable value(IndentedAppendable buff) {
     // shallow indention for prefix
-    buff.indentDelta(-INDENTION)
+    buff.indentDelta(-DEFAULT_INDENTATION)
       .indent()
       .append(prefix);
 
@@ -103,7 +99,7 @@ public class JoinDescription extends Description {
       return buff.append(suffix); // no line sep
     }
 
-    buff.append(LINE_SEP).indentDelta(INDENTION);
+    buff.append(LINE_SEPARATOR).indentDelta(DEFAULT_INDENTATION);
 
     Iterator<? extends Description> it = descriptions.iterator();
 
@@ -114,7 +110,7 @@ public class JoinDescription extends Description {
         JoinDescription joinDesc = (JoinDescription) desc;
 
         // increase indention to write nested conditions more deeply
-        joinDesc.value(buff.indentDelta(INDENTION));
+        joinDesc.value(buff.indentDelta(DEFAULT_INDENTATION));
       } else {
         buff.indent().append(desc.value());
       }
@@ -125,90 +121,69 @@ public class JoinDescription extends Description {
       }
     }
 
-    return buff.append(LINE_SEP)
-      .indentDelta(-INDENTION) // shallow indention to align with prefix
+    return buff.append(LINE_SEPARATOR)
+      .indentDelta(-DEFAULT_INDENTATION) // shallow indention to align with prefix
       .indent()
       .append(suffix);
   }
 
   /**
-   * The wrapper for {@code StringBuilder} aware of indention.
+   * The wrapper for {@code StringBuilder} aware of indentation.
    */
   private static class IndentedAppendable implements Appendable {
-    private static final String[] CACHE = {
-      "",
-      " ",
-      "  ",
-      "   ",
-      "    ",
-      "     ",
-      "      ",
-      "       ",
-      "        ",
-      "         ",
-    };
-    private final StringBuilder buff;
-    private int size;
+    private final StringBuilder stringBuilder;
+    private int currentIndentation;
 
-    public IndentedAppendable(StringBuilder buff, int size) {
-      this.buff = buff;
-      this.size = size;
+    IndentedAppendable(StringBuilder stringBuilder, int indentation) {
+      this.stringBuilder = stringBuilder;
+      this.currentIndentation = indentation;
     }
 
     @Override
-    public IndentedAppendable append(CharSequence csq) {
-      buff.append(csq);
+    public IndentedAppendable append(CharSequence charSequence) {
+      stringBuilder.append(charSequence);
       return this;
     }
 
     @Override
-    public IndentedAppendable append(CharSequence csq, int start, int end) {
-      buff.append(csq, start, end);
+    public IndentedAppendable append(CharSequence charSequence, int start, int end) {
+      stringBuilder.append(charSequence, start, end);
       return this;
     }
 
     @Override
     public IndentedAppendable append(char c) {
-      buff.append(c);
+      stringBuilder.append(c);
       return this;
     }
 
     /**
-     * Adjusts the indention size by {@code delta}.
+     * Adjusts the indentation size by {@code delta}.
      *
-     * @param delta The indention adjustment.
+     * @param delta The indentation adjustment.
      *
      * @return a this instance.
      */
     IndentedAppendable indentDelta(int delta) {
-      this.size += delta;
+      this.currentIndentation += delta;
       return this;
     }
 
     /**
-     * Appends the indention according to current indention size.
+     * Appends the indentation according to current size.
      *
      * @return a this instance.
      */
     IndentedAppendable indent() {
-      int s = size;
-      String[] cache = CACHE;
-
-      // try to avoid the loop
-      if (s >= 0 && s < cache.length) {
-        buff.append(cache[s]);
-        return this;
-      }
-
-      while (s-- > 0) {
-        buff.append(' ');
+      for (int i = 0; i < currentIndentation; i++) {
+        stringBuilder.append(' ');
       }
 
       return this;
     }
 
     public String toString() {
-      return buff.toString();
+      return stringBuilder.toString();
     }
   }
 }

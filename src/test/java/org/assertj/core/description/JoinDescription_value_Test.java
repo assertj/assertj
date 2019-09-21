@@ -42,23 +42,23 @@ class JoinDescription_value_Test {
   void should_use_new_line_when_non_empty() {
     JoinDescription joinDescription = joinDescription(desc("1"), desc("2"));
 
-    assertThat(joinDescription.value()).isEqualTo("all of:<[\n" +
-      "  1,\n" +
-      "  2\n" +
-      "]>");
+    assertThat(joinDescription.value()).isEqualTo(String.format("all of:<[%n" +
+      "  1,%n" +
+      "  2%n" +
+      "]>"));
   }
 
   @Test
   void should_indent_nested_join_descriptions() {
     JoinDescription joinDescription = joinDescription(desc("1"), joinDescription(joinDescription(desc("2"))));
 
-    assertThat(joinDescription.value()).isEqualTo("all of:<[\n" +
-      "  1,\n" +
-      "  all of:<[\n" +
-      "    all of:<[\n" +
-      "      2\n" +
-      "    ]>\n" +
-      "  ]>\n" +
-      "]>");
+    assertThat(joinDescription.value()).isEqualTo(String.format("all of:<[%n" +
+      "  1,%n" +
+      "  all of:<[%n" +
+      "    all of:<[%n" +
+      "      2%n" +
+      "    ]>%n" +
+      "  ]>%n" +
+      "]>"));
   }
 }
