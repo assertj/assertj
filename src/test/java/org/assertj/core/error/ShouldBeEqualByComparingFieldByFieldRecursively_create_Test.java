@@ -15,7 +15,6 @@ package org.assertj.core.error;
 import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
@@ -42,6 +41,7 @@ import org.junit.jupiter.api.Test;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
 
+  private static final TextDescription TEST_DESCRIPTION = new TextDescription("Test");
   private static final Representation REPRESENTATION = CONFIGURATION_PROVIDER.representation();
 
   @Test
@@ -50,14 +50,9 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     // GIVEN
     Jedi yoda = new Jedi("Yoda", "Green");
     Jedi noname = new Jedi(null, "Green");
-    // WHEN
-    Throwable throwable1 = catchThrowable(() -> assertThat(yoda).isEqualToComparingFieldByFieldRecursively(noname));
-    Throwable throwable2 = catchThrowable(() -> assertThat(noname).isEqualToComparingFieldByFieldRecursively(yoda));
     // THEN
-    assertThat(throwable1).isInstanceOf(AssertionError.class)
-                          .isNotInstanceOf(NullPointerException.class);
-    assertThat(throwable2).isInstanceOf(AssertionError.class)
-                          .isNotInstanceOf(NullPointerException.class);
+    expectAssertionError(() -> assertThat(yoda).isEqualToComparingFieldByFieldRecursively(noname));
+    expectAssertionError(() -> assertThat(noname).isEqualToComparingFieldByFieldRecursively(yoda));
   }
 
   @Test
@@ -75,7 +70,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                    withSortedSet,
                                                                    differences,
                                                                    REPRESENTATION)
-        .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -107,7 +102,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                    withTreeMap,
                                                                    differences,
                                                                    REPRESENTATION)
-                                                          .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -137,7 +132,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                    personDAO,
                                                                    differences,
                                                                    REPRESENTATION)
-                                                           .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
     String personHash = toHexString(person.hashCode());
@@ -179,7 +174,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                    yoda2,
                                                                    differences,
                                                                    REPRESENTATION)
-                                                           .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -213,7 +208,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                      differences,
                                                                      recursiveComparisonConfiguration,
                                                                      REPRESENTATION)
-                                                           .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -249,7 +244,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                      nullName,
                                                                      differences,
                                                                      recursiveComparisonConfiguration,
-                                                                     REPRESENTATION).create(new TextDescription("Test"), REPRESENTATION);
+                                                                     REPRESENTATION).create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -281,7 +276,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                      nullName,
                                                                      differences,
                                                                      recursiveComparisonConfiguration,
-                                                                     REPRESENTATION).create(new TextDescription("Test"), REPRESENTATION);
+                                                                     REPRESENTATION).create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
@@ -300,7 +295,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   private List<ComparisonDifference> computeDifferences(Object actual, Object expected,
-                                                          RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+                                                        RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonDifferenceCalculator().determineDifferences(actual, expected, recursiveComparisonConfiguration);
   }
 

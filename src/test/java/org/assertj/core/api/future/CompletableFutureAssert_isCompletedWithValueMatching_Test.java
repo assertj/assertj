@@ -15,9 +15,9 @@ package org.assertj.core.api.future;
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.Warning.WARNING;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -40,10 +40,9 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test extends B
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format(actualIsNull()));
+    assertThat(assertionError).hasMessage(format(actualIsNull()));
   }
 
   @Test
@@ -51,12 +50,11 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test extends B
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo"),
-                                                                                               "is foo"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo"),
+                                                                                                               "is foo"));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessageContaining("<\"done\">")
-                         .hasMessageContaining("to match 'is foo' predicate");
+    assertThat(assertionError).hasMessageContaining("<\"done\">")
+                              .hasMessageContaining("to match 'is foo' predicate");
   }
 
   @Test
@@ -64,12 +62,11 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test extends B
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo")));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo")));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessageContaining("<\"done\">")
-                         .hasMessageContaining("to match given predicate")
-                         .hasMessageContaining("a better error message");
+    assertThat(assertionError).hasMessageContaining("<\"done\">")
+                              .hasMessageContaining("to match given predicate")
+                              .hasMessageContaining("a better error message");
   }
 
   @Test
@@ -77,10 +74,9 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test extends B
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(shouldBeCompleted(future).create());
+    assertThat(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
 
   @Test
@@ -89,12 +85,11 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test extends B
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
-                         .hasMessageContaining("Caused by: java.lang.RuntimeException")
-                         .hasMessageEndingWith("to be completed.%n%s", WARNING);
+    assertThat(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
+                              .hasMessageContaining("Caused by: java.lang.RuntimeException")
+                              .hasMessageEndingWith("to be completed.%n%s", WARNING);
 
   }
 
@@ -104,9 +99,8 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test extends B
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(shouldBeCompleted(future).create());
+    assertThat(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
 }

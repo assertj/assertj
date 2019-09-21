@@ -14,7 +14,6 @@ package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -28,6 +27,7 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
@@ -102,23 +102,23 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     // GIVEN
     Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
+    ThrowingCallable failingAssertionCode = () -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ);
     // THEN
-    Throwable thrown = catchThrowable(() -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ));
+    AssertionError assertionError = expectAssertionError(failingAssertionCode);
     // THEN
-    assertThat(thrown).isInstanceOf(AssertionError.class)
-                      .hasMessageContaining("String checks");
+    assertThat(assertionError).hasMessageContaining("String checks");
   }
 
   @Test
   public void should_not_honor_overriding_error_message() {
     // GIVEN
-    Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
+    Consumer<String> isEmpty = string -> assertThat(string).overridingErrorMessage("fail empty").isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
+    ThrowingCallable failingAssertionCode = () -> assertThat("abc").satisfiesAnyOf(isEmpty, endsWithZ);
     // THEN
-    Throwable thrown = catchThrowable(() -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ));
+    AssertionError assertionError = expectAssertionError(failingAssertionCode);
     // THEN
-    assertThat(thrown).isInstanceOf(AssertionError.class)
-                      .hasMessageContaining("String checks");
+    assertThat(assertionError).hasMessageContaining("fail empty");
   }
 
 }
