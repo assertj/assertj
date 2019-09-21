@@ -32,7 +32,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  */
 public class JoinDescription extends Description {
-  private static final int DEFAULT_INDENTATION = 2;
+  private static final int DEFAULT_INDENTATION = 3;
   private static final String LINE_SEPARATOR = System.lineSeparator();
   /**
    * Delimiter string between {@code descriptions}.

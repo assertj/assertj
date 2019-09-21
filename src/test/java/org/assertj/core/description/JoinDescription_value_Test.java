@@ -43,8 +43,8 @@ class JoinDescription_value_Test {
     JoinDescription joinDescription = joinDescription(desc("1"), desc("2"));
 
     assertThat(joinDescription.value()).isEqualTo(String.format("all of:<[%n" +
-      "  1,%n" +
-      "  2%n" +
+      "   1,%n" +
+      "   2%n" +
       "]>"));
   }
 
@@ -53,12 +53,12 @@ class JoinDescription_value_Test {
     JoinDescription joinDescription = joinDescription(desc("1"), joinDescription(joinDescription(desc("2"))));
 
     assertThat(joinDescription.value()).isEqualTo(String.format("all of:<[%n" +
-      "  1,%n" +
-      "  all of:<[%n" +
-      "    all of:<[%n" +
-      "      2%n" +
-      "    ]>%n" +
-      "  ]>%n" +
+      "   1,%n" +
+      "   all of:<[%n" +
+      "      all of:<[%n" +
+      "         2%n" +
+      "      ]>%n" +
+      "   ]>%n" +
       "]>"));
   }
 }

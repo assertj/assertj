@@ -39,7 +39,7 @@ public class AnyOf_toString_Test {
 
   @Test
   public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
-    String expected = "any of:<[\n  Condition 1,\n  Condition 2\n]>";
+    String expected = String.format("any of:<[%n   Condition 1,%n   Condition 2%n]>");
     assertThat(anyOf).hasToString(expected);
   }
 }
