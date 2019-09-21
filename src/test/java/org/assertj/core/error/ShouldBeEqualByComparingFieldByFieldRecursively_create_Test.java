@@ -54,10 +54,10 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     Throwable throwable1 = catchThrowable(() -> assertThat(yoda).isEqualToComparingFieldByFieldRecursively(noname));
     Throwable throwable2 = catchThrowable(() -> assertThat(noname).isEqualToComparingFieldByFieldRecursively(yoda));
     // THEN
-    assertThat(throwable1).isInstanceOf(AssertionError.class)
-                          .isNotInstanceOf(NullPointerException.class);
-    assertThat(throwable2).isInstanceOf(AssertionError.class)
-                          .isNotInstanceOf(NullPointerException.class);
+    assertThat(throwable1).isNotInstanceOf(NullPointerException.class)
+                          .isInstanceOf(AssertionError.class);
+    assertThat(throwable2).isNotInstanceOf(NullPointerException.class)
+                          .isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -300,7 +300,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   private List<ComparisonDifference> computeDifferences(Object actual, Object expected,
-                                                          RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+                                                        RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonDifferenceCalculator().determineDifferences(actual, expected, recursiveComparisonConfiguration);
   }
 

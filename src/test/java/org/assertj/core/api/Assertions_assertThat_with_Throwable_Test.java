@@ -42,12 +42,11 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void should_be_able_to_pass_a_description_to_assertThatThrownBy() {
-    Throwable assertionError = catchThrowable(() -> {
+    AssertionError assertionError = expectAssertionError(() -> {
       // make assertThatThrownBy fail to verify the description afterwards
       assertThatThrownBy(raisingException("boom"), "Test %s", "code").hasMessage("bam");
     });
-    assertThat(assertionError).isInstanceOf(AssertionError.class)
-                              .hasMessageContaining("[Test code]");
+    assertThat(assertionError).hasMessageContaining("[Test code]");
   }
 
   @Test

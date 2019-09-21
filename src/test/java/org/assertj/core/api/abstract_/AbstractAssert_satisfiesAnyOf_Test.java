@@ -14,7 +14,6 @@ package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -103,10 +102,10 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     // THEN
-    Throwable thrown = catchThrowable(() -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ));
+    AssertionError assertionError = expectAssertionError(() -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty,
+                                                                                                                    endsWithZ));
     // THEN
-    assertThat(thrown).isInstanceOf(AssertionError.class)
-                      .hasMessageContaining("String checks");
+    assertThat(assertionError).hasMessageContaining("String checks");
   }
 
   @Test
@@ -115,10 +114,10 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     // THEN
-    Throwable thrown = catchThrowable(() -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ));
+    AssertionError assertionError = expectAssertionError(() -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty,
+                                                                                                                    endsWithZ));
     // THEN
-    assertThat(thrown).isInstanceOf(AssertionError.class)
-                      .hasMessageContaining("String checks");
+    assertThat(assertionError).hasMessageContaining("String checks");
   }
 
 }
