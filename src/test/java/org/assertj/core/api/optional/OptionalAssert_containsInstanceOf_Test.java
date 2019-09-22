@@ -20,8 +20,13 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import java.util.Optional;
 
 import org.assertj.core.api.BaseTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@DisplayName("OptionalAssert containsInstanceOf")
 public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
   @Test
@@ -36,13 +41,19 @@ public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
   @Test
   public void should_pass_if_optional_contains_required_type() {
-    assertThat(Optional.of("something")).containsInstanceOf(String.class)
-                                        .containsInstanceOf(Object.class);
+    // GIVEN
+    Optional<String> optional = Optional.of("something");
+    // THEN
+    assertThat(optional).containsInstanceOf(String.class)
+                        .containsInstanceOf(Object.class);
   }
 
   @Test
   public void should_pass_if_optional_contains_required_type_subclass() {
-    assertThat(Optional.of(new SubClass())).containsInstanceOf(ParentClass.class);
+    // GIVEN
+    Optional<SubClass> optional = Optional.of(new SubClass());
+    // THEN
+    assertThat(optional).containsInstanceOf(ParentClass.class);
   }
 
   @Test

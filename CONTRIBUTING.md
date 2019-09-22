@@ -10,9 +10,45 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
 * Write unit test assertions with AssertJ ! Let's eat our own dog food.
 * Unit tests method naming convention is underscore-based (like python) and not camel-case, we find it is much readable for long test names!
+* Put GIVEN WHEN THEN steps in each test (you can omit steps when not relevant)
+* Use `@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)` and `@DisplayName` on the test class - see `OptionalAssert_containsInstanceOf_Test` as an example.
+* Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError`  - see `OptionalAssert_containsInstanceOf_Test` as an example..
 * Successful assertion unit test method names should start with: `should_pass_...`.
 * Failing assertion unit test method names should start with: `should_fail_...`.
+* Use static import when it makes the code more readable.
 * If possible, add a (fun) code example in [assertj-examples](https://github.com/joel-costigliola/assertj-examples) and use it in the javadoc.
+
+A good unit test to use as a reference is `OptionalAssert_containsInstanceOf_Test`. Here's a sample below:
+
+```java
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+// other imports not shown for brevity
+
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@DisplayName("OptionalAssert containsInstanceOf")
+public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
+
+  @Test
+  public void should_fail_if_optional_is_empty() {
+    // GIVEN
+    Optional<Object> actual = Optional.empty();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
+    // THEN
+    assertThat(assertionError).hasMessage(shouldBePresent(actual).create());
+  }
+
+  @Test
+  public void should_pass_if_optional_contains_required_type() {
+    // GIVEN
+    Optional<String> optional = Optional.of("something");
+    // THEN
+    assertThat(optional).containsInstanceOf(String.class)
+                        .containsInstanceOf(Object.class);
+  }
+```
+
+It's ok not to follow some of the rules described above if you have a good reason not to (use your best judgement)
 
 [assertj-examples](https://github.com/joel-costigliola/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it can be seen as AssertJs living documentation.
 
