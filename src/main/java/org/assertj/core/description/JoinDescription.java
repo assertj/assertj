@@ -91,15 +91,14 @@ public class JoinDescription extends Description {
 
   private IndentedAppendable value(IndentedAppendable buff) {
     // shallow indention for prefix
-    buff.indentDelta(-DEFAULT_INDENTATION)
-      .indent()
+    buff.indentBy(-DEFAULT_INDENTATION)
       .append(prefix);
 
     if (descriptions.isEmpty()) {
       return buff.append(suffix); // no line sep
     }
 
-    buff.append(LINE_SEPARATOR).indentDelta(DEFAULT_INDENTATION);
+    buff.append(LINE_SEPARATOR).changeIndentationBy(DEFAULT_INDENTATION);
 
     Iterator<? extends Description> it = descriptions.iterator();
 
@@ -110,7 +109,7 @@ public class JoinDescription extends Description {
         JoinDescription joinDesc = (JoinDescription) desc;
 
         // increase indention to write nested conditions more deeply
-        joinDesc.value(buff.indentDelta(DEFAULT_INDENTATION));
+        joinDesc.value(buff.changeIndentationBy(DEFAULT_INDENTATION));
       } else {
         buff.indent().append(desc.value());
       }
@@ -122,8 +121,7 @@ public class JoinDescription extends Description {
     }
 
     return buff.append(LINE_SEPARATOR)
-      .indentDelta(-DEFAULT_INDENTATION) // shallow indention to align with prefix
-      .indent()
+      .indentBy(-DEFAULT_INDENTATION) // shallow indention to align with prefix
       .append(suffix);
   }
 
@@ -164,7 +162,7 @@ public class JoinDescription extends Description {
      *
      * @return a this instance.
      */
-    IndentedAppendable indentDelta(int delta) {
+    IndentedAppendable changeIndentationBy(int delta) {
       this.currentIndentation += delta;
       return this;
     }
@@ -180,6 +178,17 @@ public class JoinDescription extends Description {
       }
 
       return this;
+    }
+
+    /**
+     * Shortcut method from {@link #changeIndentationBy(int)} and {@link #indent()}
+     *
+     * @param delta The indentation adjustment.
+     *
+     * @return a this instance.
+     */
+    IndentedAppendable indentBy(int delta) {
+      return changeIndentationBy(delta).indent();
     }
 
     public String toString() {
