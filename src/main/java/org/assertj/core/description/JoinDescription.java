@@ -156,14 +156,14 @@ public class JoinDescription extends Description {
     }
 
     /**
-     * Adjusts the indentation size by {@code delta}.
+     * Adjusts the indentation size by {@code indentation}.
      *
-     * @param delta The indentation adjustment.
+     * @param indentation The indentation adjustment.
      *
      * @return a this instance.
      */
-    IndentedAppendable changeIndentationBy(int delta) {
-      this.currentIndentation += delta;
+    IndentedAppendable changeIndentationBy(int indentation) {
+      this.currentIndentation += indentation;
       return this;
     }
 
@@ -183,12 +183,12 @@ public class JoinDescription extends Description {
     /**
      * Shortcut method from {@link #changeIndentationBy(int)} and {@link #indent()}
      *
-     * @param delta The indentation adjustment.
+     * @param indentation The indentation adjustment.
      *
      * @return a this instance.
      */
-    IndentedAppendable indentBy(int delta) {
-      return changeIndentationBy(delta).indent();
+    IndentedAppendable indentBy(int indentation) {
+      return changeIndentationBy(indentation).indent();
     }
 
     public String toString() {
