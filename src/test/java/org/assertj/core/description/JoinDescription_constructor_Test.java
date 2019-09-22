@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.internal.TestDescription;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,15 +29,17 @@ import org.junit.jupiter.api.Test;
  *
  * @author Edgar Asatryan
  */
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class JoinDescription_constructor_Test {
   @Test
   void should_set_values() {
+    //given
     String prefix = "a";
     String suffix = "b";
     Collection<Description> descriptions = Arrays.asList(new TestDescription("1"), new TestDescription("2"));
-
     JoinDescription desc = new JoinDescription(prefix, suffix, descriptions);
 
+    //then
     assertThat(desc.prefix).isEqualTo(prefix);
     assertThat(desc.suffix).isEqualTo(suffix);
     assertThat(desc.descriptions).isEqualTo(descriptions);
@@ -43,12 +47,15 @@ class JoinDescription_constructor_Test {
 
   @Test
   void should_throw_when_descriptions_contains_null() {
+    //given
     List<Description> descriptions = Arrays.asList(
       new TestDescription("1"),
       new TestDescription("2"),
       null,
       new TestDescription("3")
     );
+
+    //then
     assertThatNullPointerException()
       .isThrownBy(() -> new JoinDescription("a", "b", descriptions))
       .withMessage("The descriptions should not contain null elements");
