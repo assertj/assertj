@@ -12,38 +12,51 @@
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@DisplayName("CompletableFutureAssert isNotCancelled")
 public class CompletableFutureAssert_isNotCancelled_Test extends BaseTest {
 
   @Test
   public void should_pass_if_completable_future_is_cancelled() {
+    // WHEN
     CompletableFuture<String> future = new CompletableFuture<>();
-
+    // THEN
     assertThat(future).isNotCancelled();
   }
 
   @Test
   public void should_fail_when_completable_future_is_null() {
-    assertThatThrownBy(() -> assertThat((CompletableFuture<String>) null).isNotCancelled()).isInstanceOf(AssertionError.class)
-                                                                                           .hasMessage(format(actualIsNull()));
+    // GIVEN
+    CompletableFuture<String> future = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).isNotCancelled();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_completable_future_is_not_cancelled() {
+    // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);
-
-    assertThatThrownBy(() -> assertThat(future).isNotCancelled()).isInstanceOf(AssertionError.class)
-                                                                 .hasMessage(shouldNotBeCancelled(future).create());
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).isNotCancelled();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeCancelled(future).create());
   }
 }

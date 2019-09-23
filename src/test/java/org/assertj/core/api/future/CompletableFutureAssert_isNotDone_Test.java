@@ -12,35 +12,50 @@
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@DisplayName("CompletableFutureAssert isNotDone")
 public class CompletableFutureAssert_isNotDone_Test extends BaseTest {
 
   @Test
   public void should_pass_if_completable_future_is_not_done() {
-    assertThat(new CompletableFuture<>()).isNotDone();
+    // WHEN
+    CompletableFuture<Object> future = new CompletableFuture<>();
+    // THEN
+    assertThat(future).isNotDone();
   }
 
   @Test
   public void should_fail_when_completable_future_is_null() {
-    assertThatThrownBy(() -> assertThat((CompletableFuture<String>) null).isNotDone()).isInstanceOf(AssertionError.class)
-                                                                                      .hasMessage(format(actualIsNull()));
+    // GIVEN
+    CompletableFuture<String> future = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).isNotDone();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_completable_future_is_done() {
+    // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
-
-    assertThatThrownBy(() -> assertThat(future).isNotDone()).isInstanceOf(AssertionError.class)
-                                                            .hasMessage(shouldNotBeDone(future).create());
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).isNotDone();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeDone(future).create());
   }
 }
