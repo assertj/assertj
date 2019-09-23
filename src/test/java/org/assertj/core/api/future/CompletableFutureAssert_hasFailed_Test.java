@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldHaveFailed.shouldHaveFailed;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
