@@ -14,12 +14,16 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 
+import java.io.File;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a value have certain size failed.
  * 
  * @author Alex Ruiz
  */
 public class ShouldHaveSize extends BasicErrorMessageFactory {
+
+  private static final String SHOULD_HAVE_FILE_SIZE = "%nExpecting file%n  <%s>%nto have size:%n  <%s>%nbut had:%n  <%s>";
 
   /**
    * Creates a new <code>{@link ShouldHaveSize}</code>.
@@ -37,4 +41,19 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%nExpected size:<%s> but was:<%s> in:%n<%s>", expectedSize, actualSize, "%s"), actual);
   }
+
+  /**
+   * Creates a new <code>{@link ShouldHaveSize}</code> for file size.
+   * @param actual the actual file in the failed assertion.
+   * @param expectedSize the expected file size.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveSize(File actual, long expectedSize) {
+    return new ShouldHaveSize(actual, expectedSize);
+  }
+
+  private ShouldHaveSize(File actual, long expectedSize) {
+    super(SHOULD_HAVE_FILE_SIZE, actual, expectedSize, actual.length());
+  }
+
 }
