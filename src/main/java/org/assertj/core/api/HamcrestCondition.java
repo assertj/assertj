@@ -47,6 +47,11 @@ public class HamcrestCondition<T> extends Condition<T> {
     as(describeMatcher());
   }
 
+  /**
+   * Constructs a {@link Condition} using the matcher given as a parameter.
+   * 
+   * @param matcher the Hamcrest matcher to use as a condition
+   */
   public static <T> HamcrestCondition<T> matching(Matcher<? extends T> matcher) {
     return new HamcrestCondition<T>(matcher);
   }
