@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.HamcrestCondition.matching;
 import static org.assertj.core.util.Lists.list;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.StringContains.containsString;
@@ -32,6 +33,7 @@ public class HamcrestConditionTest {
                      .has(aStringContainingA)
                      .satisfies(aStringContainingA);
     assertThat("bc").isNot(aStringContainingA);
+    assertThat("abc").is(matching(containsString("a")));
   }
 
   @Test
