@@ -28,8 +28,11 @@ import org.hamcrest.StringDescription;
  * 
  * // assertion will fail
  * assertThat(&quot;bc&quot;).is(aStringContainingA);</code></pre>
+ *
+ * By static-importing the {@link #matching(Matcher)} method you can do:
+ * <pre><code class='java'>assertThat(&quot;abc&quot;).is(matching(containsString(&quot;a&quot;)));</code></pre>
  * @since 2.9.0 / 3.9.0
-*/
+ */
 public class HamcrestCondition<T> extends Condition<T> {
 
   private Matcher<? extends T> matcher;
@@ -39,14 +42,18 @@ public class HamcrestCondition<T> extends Condition<T> {
    * 
    * @param matcher the Hamcrest matcher to use as a condition
    */
- public HamcrestCondition(Matcher<? extends T> matcher) {
+  public HamcrestCondition(Matcher<? extends T> matcher) {
     this.matcher = matcher;
     as(describeMatcher());
   }
 
- /**
-  * {@inheritDoc}
-  */
+  public static <T> HamcrestCondition<T> matching(Matcher<? extends T> matcher) {
+    return new HamcrestCondition<T>(matcher);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean matches(T value) {
     return matcher.matches(value);
