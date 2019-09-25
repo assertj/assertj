@@ -11,7 +11,7 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Write unit test assertions with AssertJ ! Let's eat our own dog food.
 * Unit tests method naming convention is underscore-based (like python) and not camel-case, we find it is much readable for long test names!
 * Put GIVEN WHEN THEN steps in each test (you can omit steps when not relevant)
-* Use `@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)` and `@DisplayName` on the test class - see `OptionalAssert_containsInstanceOf_Test` as an example.
+* Use `@DisplayName` on the test class - see `OptionalAssert_containsInstanceOf_Test` as an example.
 * Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError`  - see `OptionalAssert_containsInstanceOf_Test` as an example..
 * Successful assertion unit test method names should start with: `should_pass_...`.
 * Failing assertion unit test method names should start with: `should_fail_...`.
@@ -24,7 +24,6 @@ A good unit test to use as a reference is `OptionalAssert_containsInstanceOf_Tes
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 // other imports not shown for brevity
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("OptionalAssert containsInstanceOf")
 public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
