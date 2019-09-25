@@ -12,38 +12,48 @@
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.error.future.ShouldBeCompletedExceptionally.shouldHaveCompletedExceptionally;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("CompletableFutureAssert isCompletedExceptionally")
 public class CompletableFutureAssert_isCompletedExceptionally_Test extends BaseTest {
 
   @Test
   public void should_pass_if_completable_future_is_completed_exceptionally() {
+    // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
+    // WHEN
     future.completeExceptionally(new RuntimeException());
-
+    // THEN
     assertThat(future).isCompletedExceptionally();
   }
 
   @Test
   public void should_fail_when_completable_future_is_null() {
-    assertThatThrownBy(() -> assertThat((CompletableFuture<String>) null).isCompletedExceptionally()).isInstanceOf(AssertionError.class)
-                                                                                                     .hasMessage(format(actualIsNull()));
+    // GIVEN
+    CompletableFuture<String> future = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).isCompletedExceptionally();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_completable_future_is_not_completed_exceptionally() {
+    // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
-
-    assertThatThrownBy(() -> assertThat(future).isCompletedExceptionally()).isInstanceOf(AssertionError.class)
-                                                                           .hasMessage(shouldHaveCompletedExceptionally(future).create());
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).isCompletedExceptionally();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveCompletedExceptionally(future).create());
   }
 }
