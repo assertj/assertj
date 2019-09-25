@@ -20,8 +20,6 @@ import static org.junit.platform.testkit.engine.TestExecutionResultConditions.in
 import static org.junit.platform.testkit.engine.TestExecutionResultConditions.message;
 
 import org.assertj.core.error.AssertJMultipleFailuresError;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.testkit.engine.EngineTestKit;
 
@@ -33,7 +31,6 @@ import org.junit.platform.testkit.engine.EngineTestKit;
  * @see SoftAssertionsExtensionIntegrationTest
  * @see BDDSoftAssertionsExtensionIntegrationTest
  */
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 abstract class AbstractSoftAssertionsExtensionIntegrationTests {
 
   @Test
@@ -78,7 +75,7 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
                                                                            message(msg -> msg.contains("Multiple Failures (2 failures)")))))
                                     .haveExactly(nested ? 2 : 1,
                                                  event(test("parameterizedTest"),
-                                                       finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class), 
+                                    finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class),
                                                                            message(msg -> msg.contains("Multiple Failures (1 failure)")))));
                  // @formatter:on
   }

@@ -127,14 +127,11 @@ import java.util.stream.Stream;
 
 import org.assertj.core.data.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest {
 
   private SoftAssertions softly;

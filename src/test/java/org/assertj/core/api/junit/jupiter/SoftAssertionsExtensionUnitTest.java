@@ -24,8 +24,6 @@ import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -39,7 +37,6 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
  * @see SoftAssertionsExtensionIntegrationTest
  * @see BDDSoftAssertionsExtensionIntegrationTest
  */
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("JUnit Jupiter Soft Assertions extension")
 class SoftAssertionsExtensionUnitTest {
 

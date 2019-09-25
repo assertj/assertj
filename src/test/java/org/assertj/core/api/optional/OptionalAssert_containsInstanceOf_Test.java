@@ -21,11 +21,8 @@ import java.util.Optional;
 
 import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("OptionalAssert containsInstanceOf")
 public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
