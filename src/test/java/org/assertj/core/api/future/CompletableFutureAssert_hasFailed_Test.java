@@ -22,11 +22,8 @@ import java.util.concurrent.CompletableFuture;
 import org.assertj.core.api.BaseTest;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("CompletableFutureAssert hasFailed")
 public class CompletableFutureAssert_hasFailed_Test extends BaseTest {
 

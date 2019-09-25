@@ -22,17 +22,14 @@ import java.util.concurrent.CompletableFuture;
 import org.assertj.core.api.BaseTest;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("CompletableFutureAssert isNotCompleted")
 public class CompletableFutureAssert_isNotCompleted_Test extends BaseTest {
 
   @Test
   public void should_pass_if_completable_future_is_incomplete() {
-    // WHEN
+    // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // THEN
     assertThat(future).isNotCompleted();
