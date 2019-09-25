@@ -30,7 +30,7 @@
   <properties>
     <!-- guava 21+ is for java 8 -->
     <guava.version>21.0</guava.version>
-    <assertj-core.version>3.13.2</assertj-core.version>
+    <assertj-core.version>3.14.0</assertj-core.version>
   </properties>
 
   <dependencies>

@@ -219,14 +219,14 @@ import org.assertj.core.util.VisibleForTesting;
 import com.google.common.base.Optional;
 
 /**
- * 
+ *
  * Assertions for guava {@link Optional}.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Optional)}</code>
  * <p>
- * 
+ *
  * @param <T> the type of elements of the tested Optional value
- * 
+ *
  * @author Kornel Kiełczewski
  */
 public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optional<T>> {
@@ -263,7 +263,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
     if (!actual.isPresent()) {
       throw failures.failure(info, shouldBePresentWithValue(value));
     }
-    if (!actual.get().equals(value)) {
+    if (!objects.getComparisonStrategy().areEqual(actual.get(), value)) {
       throw failures.failure(info, shouldBePresentWithValue(actual, value));
     }
     return this;
