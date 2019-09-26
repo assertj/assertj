@@ -12,46 +12,53 @@
  */
 package org.assertj.core.api.instant;
 
-
-import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.Instant;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("InstantAssert isIn")
 public class InstantAssert_isIn_Test extends InstantAssertBaseTest {
 
   @Test
-  public void test_isIn_assertion() {
-    // WHEN
-    assertThat(REFERENCE).isIn(REFERENCE.toString(), REFERENCE.plusSeconds(1).toString());
-    // THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isIn(REFERENCE.plusSeconds(1).toString(),
-                                                        REFERENCE.plusSeconds(2).toString()))
-                                                                                                     .isInstanceOf(AssertionError.class);
+  public void should_pass_if_actual_is_in_dates_as_string_array_parameter() {
+    assertThat(REFERENCE).isIn(REFERENCE.toString(), AFTER.toString());
   }
 
   @Test
-  public void test_isIn_assertion_error_message() {
-    Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
-    Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isIn(instantAfter.toString()))
-                                                   .withMessage(format("%nExpecting:%n <2007-12-03T10:15:30Z>%nto be in:%n <[2007-12-03T10:15:35Z]>%n"));
+  public void should_fail_if_actual_is_not_in_dates_as_string_array_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isIn(AFTER.toString(), BEFORE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeIn(REFERENCE, asList(AFTER, BEFORE)).create());
   }
 
   @Test
   public void should_fail_if_dates_as_string_array_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isIn((String[]) null))
+    // GIVEN
+    String[] otherInstantsAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(Instant.now()).isIn(otherInstantsAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given Instant array should not be null");
   }
 
   @Test
   public void should_fail_if_dates_as_string_array_parameter_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isIn(new String[0]))
+    // GIVEN
+    String[] otherInstantsAsString = new String[0];
+    // WHEN
+    ThrowingCallable code = () -> assertThat(Instant.now()).isIn(otherInstantsAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given Instant array should not be empty");
   }
 

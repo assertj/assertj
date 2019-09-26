@@ -13,59 +13,86 @@
 package org.assertj.core.api.instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Instant;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("InstantAssert isAfterOrEqual")
 public class InstantAssert_isAfterOrEqual_Test extends InstantAssertBaseTest {
 
   @Test
-  public void test_isAfterOrEqual_assertion() {
-    // WHEN
+  public void should_pass_if_actual_is_after_date_parameter() {
     assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
-    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
-    // THEN
-    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
   }
 
   @Test
-  public void test_isAfterOrEqual_assertion_error_message() {
-    Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
-    Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isAfterOrEqualTo(instantAfter))
-                                                   .withMessage(shouldBeAfterOrEqualTo(instantReference, instantAfter).create());
+  public void should_pass_if_actual_is_after_date_as_string_parameter() {
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE.toString());
+  }
+
+  @Test
+  public void should_pass_if_actual_is_equal_to_date_parameter() {
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
+  }
+
+  @Test
+  public void should_pass_if_actual_is_equal_to_date_as_string_parameter() {
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE.toString());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_before_date_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(BEFORE).isAfterOrEqualTo(REFERENCE);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfterOrEqualTo(BEFORE, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_before_date_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(BEFORE).isAfterOrEqualTo(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfterOrEqualTo(BEFORE, REFERENCE).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      Instant actual = null;
-      assertThat(actual).isAfterOrEqualTo(Instant.now());
-    }).withMessage(actualIsNull());
+    // GIVEN
+    Instant instant = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(instant).isAfterOrEqualTo(Instant.now());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_date_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isAfterOrEqualTo((Instant) null))
+    // GIVEN
+    Instant otherInstant = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(Instant.now()).isAfterOrEqualTo(otherInstant);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The Instant to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_date_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isAfterOrEqualTo((String) null))
+    // GIVEN
+    String otherInstantAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(Instant.now()).isAfterOrEqualTo(otherInstantAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the Instant to compare actual with should not be null");
-  }
-
-  private static void verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(Instant dateToCheck,
-                                                                                           Instant reference) {
-    assertThatThrownBy(() -> assertThat(dateToCheck).isAfterOrEqualTo(reference)).isInstanceOf(AssertionError.class);
-    assertThatThrownBy(() -> assertThat(dateToCheck).isAfterOrEqualTo(reference.toString())).isInstanceOf(AssertionError.class);
   }
 
 }
