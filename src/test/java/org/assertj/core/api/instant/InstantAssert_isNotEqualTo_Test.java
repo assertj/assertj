@@ -12,36 +12,41 @@
  */
 package org.assertj.core.api.instant;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.Instant;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("InstantAssert isNotEqualTo")
 public class InstantAssert_isNotEqualTo_Test extends InstantAssertBaseTest {
 
   @Test
-  public void test_isNotEqualTo_assertion() {
-    // WHEN
-    assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusSeconds(1).toString());
-    // THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString())).isInstanceOf(AssertionError.class);
+  public void should_pass_if_actual_is_not_equal_to_date_as_string_parameter() {
+    assertThat(REFERENCE).isNotEqualTo(AFTER.toString());
   }
 
   @Test
-  public void test_isNotEqualTo_assertion_error_message() {
-    Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isNotEqualTo(instantReference.toString()))
-                                                   .withMessage(format("%nExpecting:%n <2007-12-03T10:15:30Z>%nnot to be equal to:%n <2007-12-03T10:15:30Z>%n"));
+  public void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeEqual(REFERENCE, REFERENCE).create());
   }
 
   @Test
   public void should_fail_if_date_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isNotEqualTo((String) null))
+    // GIVEN
+    String otherInstantAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(Instant.now()).isNotEqualTo(otherInstantAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the Instant to compare actual with should not be null");
   }
 

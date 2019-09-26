@@ -12,66 +12,93 @@
  */
 package org.assertj.core.api.instant;
 
-
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Instant;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("InstantAssert isAfter")
 public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
 
   @Test
-  public void test_isAfter_assertion() {
-    // WHEN
+  public void should_pass_if_actual_is_after_date_parameter() {
     assertThat(AFTER).isAfter(REFERENCE);
-    assertThat(AFTER).isAfter(REFERENCE.toString());
-    // THEN
-    verify_that_isAfter_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
-    verify_that_isAfter_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
   }
 
   @Test
-  public void test_isAfter_assertion_error_message() {
-    Instant instantReference = Instant.parse("2007-12-03T10:15:30.00Z");
-    Instant instantAfter = Instant.parse("2007-12-03T10:15:35.00Z");
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(instantReference).isAfter(instantAfter))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <2007-12-03T10:15:30Z>%n" +
-                                                                       "to be strictly after:%n" +
-                                                                       "  <2007-12-03T10:15:35Z>"));
+  public void should_pass_if_actual_is_after_date_as_string_parameter() {
+    assertThat(AFTER).isAfter(REFERENCE.toString());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_before_date_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(BEFORE).isAfter(REFERENCE);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfter(BEFORE, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_before_date_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(BEFORE).isAfter(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfter(BEFORE, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equal_to_date_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isAfter(REFERENCE);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfter(REFERENCE, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isAfter(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfter(REFERENCE, REFERENCE).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      Instant actual = null;
-      assertThat(actual).isAfter(Instant.now());
-    }).withMessage(actualIsNull());
+    // GIVEN
+    Instant instant = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(instant).isAfter(Instant.now());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_date_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isAfter((Instant) null))
+    // GIVEN
+    Instant otherInstant = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(Instant.now()).isAfter(otherInstant);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The Instant to compare actual with should not be null");
   }
 
   @Test
   public void should_fail_if_date_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Instant.now()).isAfter((String) null))
+    // GIVEN
+    String otherInstantAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(Instant.now()).isAfter(otherInstantAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the Instant to compare actual with should not be null");
-  }
-
-  private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(Instant dateToCheck,
-                                                                                    Instant reference) {
-    assertThatThrownBy(() -> assertThat(dateToCheck).isAfter(reference)).isInstanceOf(AssertionError.class);
-    assertThatThrownBy(() -> assertThat(dateToCheck).isAfter(reference.toString())).isInstanceOf(AssertionError.class);
   }
 
 }
