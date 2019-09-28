@@ -1556,7 +1556,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param keys the keys used to get values from the map under test
    * @return a new assertion object whose object under test is the array containing the extracted map values
+   *
+   * @deprecated use {@link #extractingByKeys(Object[])} instead
    */
+  @Deprecated
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Object... keys) {
     isNotNull();
@@ -1564,6 +1567,41 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).as(description);
+  }
+
+  /**
+   * Extract the values of given keys from the map under test into an array, this new array becoming
+   * the object under test.
+   * <p>
+   * For example, if you specify "id", "name" and "email" keys then the array will contain the map values for
+   * these keys, you can then perform array assertions on the extracted values.
+   * <p>
+   * If a given key is not present in the map under test, a null value is extracted.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * map.put("name", "kawhi");
+   * map.put("age", 25);
+   *
+   * assertThat(map).extractingByKeys("name", "age")
+   *                .contains("kawhi", 25);</code></pre>
+   * <p>
+   * Note that:
+   * <ul>
+   *   <li>The order of the extracted key values is consistent with the iteration order of given keys.</li>
+   *   <li>Providing no keys will result in an empty list.</li>
+   * </ul>
+   *
+   * @param keys the keys used to get values from the map under test
+   * @return a new assertion object whose object under test is the array containing the extracted map values
+   */
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeys(K... keys) {
+    isNotNull();
+    List<V> extractedValues = Stream.of(keys).map(actual::get).collect(Collectors.toList());
+    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
+    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+    return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
   }
 
   /**
@@ -1587,7 +1625,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
    *
    * @since 3.13.0
+   * @deprecated use {@link #extractingByKey(Object)} instead
    */
+  @Deprecated
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(Object key) {
     isNotNull();
@@ -1595,6 +1635,34 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
     return newObjectAssert(extractedValue).as(description);
+  }
+
+  /**
+   * Extract the value of given key from the map under test, the extracted value becoming the new object under test.
+   * <p>
+   * For example, if you specify "id" key, then the object under test will be the map value for this key.
+   * <p>
+   * If a given key is not present in the map under test, a null value is extracted.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * map.put("name", "kawhi");
+   *
+   * assertThat(map).extractingByKey("name")
+   *                .isEqualTo("kawhi");</code></pre>
+   *
+   * @param key the key used to get value from the map under test
+   * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
+   *
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public AbstractObjectAssert<?, V> extractingByKey(K key) {
+    isNotNull();
+    V extractedValue = actual.get(key);
+    String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
+    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+    return newObjectAssert(extractedValue).withAssertionState(myself).as(description);
   }
 
   /**
@@ -1622,7 +1690,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     List<Object> extractedObjects = actual.entrySet().stream()
                                           .map(extractor)
                                           .collect(toList());
-    return newListAssertInstance(extractedObjects).as(info.description());
+    return newListAssertInstance(extractedObjects).withAssertionState(myself).as(info.description());
   }
 
   /**
@@ -1670,7 +1738,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     List<Tuple> extractedTuples = actual.entrySet().stream()
                                         .map(tupleExtractor)
                                         .collect(toList());
-    return newListAssertInstance(extractedTuples).as(info.description());
+    return newListAssertInstance(extractedTuples).withAssertionState(myself).as(info.description());
   }
 
   /**

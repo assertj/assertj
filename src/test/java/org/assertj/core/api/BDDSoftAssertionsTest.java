@@ -1522,8 +1522,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(map)
           .as("extracting(\"a\")")
           .overridingErrorMessage("error message")
-          // convert to Object otherwise will use extracting(String) in AbstractObjectAssert
-          .extracting((Object) "a")
+          .extractingByKey("a")
           .isEqualTo("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();

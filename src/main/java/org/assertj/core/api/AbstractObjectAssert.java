@@ -612,7 +612,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     Tuple values = byName(propertiesOrFields).apply(actual);
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(values.toList()).as(description);
+    return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
   }
 
   /**

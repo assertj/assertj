@@ -39,11 +39,15 @@ import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectAssert#extracting(String, InstanceOfAssertFactory)}</code>.
+ *
+ * @author Stefano Cordio
  */
+@DisplayName("ObjectAssert extracting(String, InstanceOfAssertFactory)")
 class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
 
   private Employee luke;

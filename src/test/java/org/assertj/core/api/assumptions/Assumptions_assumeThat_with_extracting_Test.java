@@ -72,7 +72,7 @@ public class Assumptions_assumeThat_with_extracting_Test {
   @Test
   public void should_run_test_when_assumption_using_extracting_on_map_with_single_parameter_passes() {
     Map<Jedi, String> jedis = mapOf(entry(yoda, "master"), entry(luke, "padawan"));
-    assertThatCode(() -> assumeThat(jedis).extracting(yoda).isEqualTo("master")).doesNotThrowAnyException();
+    assertThatCode(() -> assumeThat(jedis).extractingByKey(yoda).isEqualTo("master")).doesNotThrowAnyException();
   }
 
   @Test

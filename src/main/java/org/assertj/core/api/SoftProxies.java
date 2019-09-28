@@ -51,6 +51,8 @@ class SoftProxies {
                                                                                                                       .or(named("extractingResultOf"))
                                                                                                                       .or(named("flatExtracting"))
                                                                                                                       .or(named("usingRecursiveComparison"))
+                                                                                                                      .or(named("extractingByKey"))
+                                                                                                                      .or(named("extractingByKeys"))
                                                                                                                       .or(named("extractingFromEntries"))
                                                                                                                       .or(named("asInstanceOf"));
 
