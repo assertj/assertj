@@ -13,9 +13,11 @@
 package org.assertj.core.api.assumptions;
 
 import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.assumptions.BaseAssumptionRunner.assumptionRunner;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -84,6 +86,9 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
                      assumptionRunner(map,
                                       value -> assumeThat(value).extractingByKey("a").isEqualTo("1"),
                                       value -> assumeThat(value).extractingByKey("a").isEqualTo("456")),
+                     assumptionRunner(map,
+                                      value -> assumeThat(value).extractingByKey("a", as(STRING)).startsWith("1"),
+                                      value -> assumeThat(value).extractingByKey("a", as(STRING)).startsWith("456")),
                      assumptionRunner(iterableMap,
                                       value -> assumeThat(value).flatExtracting("name", "job", "city", "rank")
                                                                 .contains("Jeff", "Builder", "Dover", "Boston", "Paris", 1, 2, 3),

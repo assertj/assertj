@@ -556,6 +556,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extractingByKey("name")
           .isEqualTo("kawhi");
     softly.assertThat(map)
+          .extractingByKey("name", as(STRING))
+          .startsWith("kaw");
+    softly.assertThat(map)
           .extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
           .contains(tuple("name", "kawhi"), tuple("age", 25));
     softly.assertThat(map)
@@ -1708,9 +1711,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .overridingErrorMessage("error message")
           .extractingByKey("a")
           .isEqualTo("456");
+    softly.assertThat(map)
+          .as("extracting(\"a\") as string")
+          .overridingErrorMessage("error message")
+          .extractingByKey("a", as(STRING))
+          .startsWith("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(16);
+    assertThat(errors).hasSize(17);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1728,6 +1736,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
     assertThat(errors.get(14)).hasMessageContaining("to contain only");
     assertThat(errors.get(15)).hasMessage("[extracting(\"a\")] error message");
+    assertThat(errors.get(16)).hasMessage("[extracting(\"a\") as string] error message");
   }
 
   @Test

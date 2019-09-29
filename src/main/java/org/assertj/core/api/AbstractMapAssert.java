@@ -1655,9 +1655,50 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
    *
    * @since 3.14.0
+   * @see #extractingByKey(Object, InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, V> extractingByKey(K key) {
+    return internalExtractingByKey(key);
+  }
+
+  /**
+   * Extract the value of given key from the map under test, the extracted value becoming the new object under test.
+   * <p>
+   * For example, if you specify "id" key, then the object under test will be the map value for this key.
+   * <p>
+   * If a given key is not present in the map under test, the assertion will fail.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * assertion more readable.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * map.put("name", "kawhi");
+   *
+   * assertThat(map).extractingByKey("name", as(InstanceOfAssertFactories.STRING))
+   *                .startsWith("kaw");</code></pre>
+   * <p>
+   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
+   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param key           the key used to get value from the map under test
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance whose object under test is the extracted map value
+   * @throws NullPointerException if the given factory is {@code null}
+   *
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT extractingByKey(K key, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalExtractingByKey(key).asInstanceOf(assertFactory);
+  }
+
+  private AbstractObjectAssert<?, V> internalExtractingByKey(K key) {
     isNotNull();
     V extractedValue = actual.get(key);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
