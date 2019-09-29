@@ -12,8 +12,12 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -25,6 +29,8 @@ import java.util.Map;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.AbstractStringAssert;
+import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,12 +38,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link MapAssert#extractingByKey(Object)}</code>.
+ * Tests for <code>{@link MapAssert#extractingByKey(Object, InstanceOfAssertFactory)}</code>.
  *
  * @author Stefano Cordio
  */
-@DisplayName("MapAssert extractingByKey(K)")
-class MapAssert_extractingByKey_Test {
+@DisplayName("MapAssert extractingByKey(KEY, InstanceOfAssertFactory)")
+class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test {
 
   private static final Object NAME = "name";
   private Map<Object, Object> map;
@@ -50,35 +56,51 @@ class MapAssert_extractingByKey_Test {
   }
 
   @Test
+  void should_throw_npe_if_the_given_assert_factory_is_null() {
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(map).extractingByKey(NAME, null));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void should_allow_type_narrowed_assertions_on_value_extracted_from_given_map_key() {
+    // WHEN
+    AbstractStringAssert<?> result = assertThat(map).extractingByKey(NAME, as(STRING));
+    // THEN
+    result.startsWith("kaw");
+  }
+
+  @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     Map<Object, Object> map = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME));
+    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_allow_object_assertions_on_value_extracted_from_given_map_key() {
+  void should_fail_when_the_wrong_factory_type_is_used() {
     // WHEN
-    AbstractObjectAssert<?, Object> result = assertThat(map).extractingByKey(NAME);
+    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(INTEGER)));
     // THEN
-    result.isEqualTo("kawhi");
+    then(error).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
   }
 
   @Test
-  void should_extract_null_object_from_unknown_key() {
+  void should_fail_if_key_is_unknown() {
     // WHEN
-    AbstractObjectAssert<?, Object> result = assertThat(map).extractingByKey("unknown");
+    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey("unknown", as(STRING)));
     // THEN
-    result.isNull();
+    then(error).hasMessageContaining(actualIsNull());
   }
 
   @Test
   void should_use_key_name_as_description() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME).isNull());
+    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)).isNull());
     // THEN
     then(error).hasMessageContaining("[Extracted: name]");
   }
@@ -86,10 +108,10 @@ class MapAssert_extractingByKey_Test {
   @Test
   void should_keep_existing_description_if_set_when_extracting_value_object() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name")
-                                                                     .extractingByKey(NAME).isNull());
+    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name as string")
+                                                                     .extractingByKey(NAME, as(STRING)).isNull());
     // THEN
-    then(error).hasMessageContaining("[check name]");
+    then(error).hasMessageContaining("[check name as string]");
   }
 
   @Test
@@ -102,7 +124,7 @@ class MapAssert_extractingByKey_Test {
                                                          .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
                                                          .usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
     // WHEN
-    AbstractObjectAssert<?, Object> result = assertion.extractingByKey(NAME);
+    AbstractStringAssert<?> result = assertion.extractingByKey(NAME, as(STRING));
     // THEN
     then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
                 .extracting(AbstractAssert::getWritableAssertionInfo)
