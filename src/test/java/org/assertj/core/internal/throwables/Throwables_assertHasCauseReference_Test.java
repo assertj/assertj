@@ -68,7 +68,6 @@ public class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest 
     verify(failures).failure(INFO, shouldHaveCauseReference(cause, expected));
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> failingData() {
     return Stream.of(Arguments.of(null, new Throwable(), "no actual cause"),
                      Arguments.of(new Throwable(), new Throwable(), "same type different instance"),

@@ -605,6 +605,63 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Verifies that the message of the root cause of the actual {@code Throwable} is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException("object")));
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseMessage("object");
+   *
+   * // assertions will fail
+   * assertThat((Throwable) null).hasRootCauseMessage("object");
+   * assertThat(throwable).hasRootCauseMessage("another object");
+   * assertThat(new Throwable()).hasRootCauseMessage("object");
+   * assertThat(new Throwable(new NullPointerException())).hasRootCauseMessage("object");</code></pre>
+   *
+   * @param message the expected root cause message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the root cause of the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the root cause of the actual {@code Throwable} is not equal to
+   *                        the given one.
+   * @since 3.14.0
+   */
+  public SELF hasRootCauseMessage(String message) {
+    throwables.assertHasRootCauseMessage(info, actual, message);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the root cause of the actual {@code Throwable} is equal to the given one, after
+   * being formatted using {@link String#format(String, Object...)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'>Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException("expected message")));
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseMessage("%s %s", "expected", "message");
+   *
+   * // assertions will fail
+   * assertThat((Throwable) null).hasRootCauseMessage("%s %s", "expected", "message");
+   * assertThat(throwable).hasRootCauseMessage("%s", "message");
+   * assertThat(new Throwable()).hasRootCauseMessage("%s %s", "expected", "message");
+   * assertThat(new Throwable(new NullPointerException())).hasRootCauseMessage("%s %s", "expected", "message");</code></pre>
+   *
+   * @param message the expected root cause message.
+   * @param parameters argument referenced by the format specifiers in the format string.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the root cause of the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the root cause of the actual {@code Throwable} is not equal to the given one.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @since 3.14.0
+   */
+  public SELF hasRootCauseMessage(String message, Object... parameters) {
+    return hasRootCauseMessage(format(message, parameters));
+  }
+
+  /**
    * Verifies that the actual {@code Throwable} has no suppressed exceptions.
    * <p>
    * Example:
