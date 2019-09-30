@@ -36,6 +36,7 @@ import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -43,6 +44,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
+@DisplayName("ObjectAssert extracting(Function, InstanceOfAssertFactory)")
 class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
 
   private Employee luke;
@@ -59,9 +61,9 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
     // GIVEN
     Function<Employee, String> extractor = null;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(luke).extracting(extractor, STRING));
+    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting(extractor, STRING));
     // THEN
-    then(error).isInstanceOf(NullPointerException.class);
+    then(thrown).isInstanceOf(NullPointerException.class);
   }
 
   @Test

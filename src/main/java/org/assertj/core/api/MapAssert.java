@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.groups.Tuple;
-
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+
+import org.assertj.core.groups.Tuple;
 
 /**
  * Assertions for {@link Map}s.
@@ -98,6 +98,12 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
   @Override
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super Map<KEY, VALUE>, ?>... extractors) {
     return super.extracting(extractors);
+  }
+
+  @SafeVarargs
+  @Override
+  public final AbstractListAssert<?, List<? extends VALUE>, VALUE, ObjectAssert<VALUE>> extractingByKeys(KEY... keys) {
+    return super.extractingByKeys(keys);
   }
 
   @SafeVarargs

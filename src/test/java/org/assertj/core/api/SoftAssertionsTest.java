@@ -544,6 +544,28 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
+  void should_pass_when_using_extracting_with_map() {
+    // GIVEN
+    Map<String, Object> map = mapOf(entry("name", "kawhi"), entry("age", 25));
+    // WHEN
+    softly.assertThat(map)
+          .extractingByKeys("name", "age")
+          .contains("kawhi", 25);
+    softly.assertThat(map)
+          .extractingByKey("name")
+          .isEqualTo("kawhi");
+    softly.assertThat(map)
+          .extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
+          .contains(tuple("name", "kawhi"), tuple("age", 25));
+    softly.assertThat(map)
+          .extractingFromEntries(Map.Entry::getValue)
+          .contains("kawhi", 25);
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
+  }
+
+  @Test
   public void should_work_when_using_extracting_with_array() {
 
     Name[] namesAsArray = { name("John", "Doe"), name("Jane", "Doe") };
@@ -1684,8 +1706,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(map)
           .as("extracting(\"a\")")
           .overridingErrorMessage("error message")
-          // convert to Object otherwise will use extracting(String) in AbstractObjectAssert
-          .extracting((Object) "a")
+          .extractingByKey("a")
           .isEqualTo("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();

@@ -23,6 +23,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@Deprecated
 public class MapAssert_extracting_Test {
 
   private static final Object NAME = "name";
