@@ -583,12 +583,16 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * If you extract "id", "name" and "email" fields/properties then the list will contain the id, name and email values
    * of the object under test, you can then perform list assertions on the extracted values.
    * <p>
-   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to get the value
-   * corresponding to actual.getAdress().getStreet().getNumber()
+   * If the object under test is a {@link Map} with {@link String} keys, extracting will extract values matching the given fields/properties.
+   * <p>
+   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to:
+   * <pre><code class='java'> // "adress.street.number" corresponding to pojo properties
+   * actual.getAdress().getStreet().getNumber();</code></pre>
+   * or if address is a {@link Map}:
+   * <pre><code class='java'> // "adress" is a Map property (that is getAdress() returns a Map)
+   * actual.getAdress().get("street").getNumber();</code></pre>
    * <p>
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
-   * <p>
-   * If the object under test is a {@link Map} with {@link String} keys, extracting will extract values matching the given fields/properties.
    * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
@@ -596,7 +600,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * // let's verify Frodo's name, age and race name:
    * assertThat(frodo).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
-   *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
+   *                  .containsExactly(&quot;Frodo&quot;, 33, &quot;Hobbit&quot;);</code></pre>
    *
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
    * for, if the field is not accessible (i.e. does not exist) an {@link IntrospectionError} is thrown.
@@ -620,8 +624,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
    * <p>
-   * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
-   * corresponding to actual.getAddress().getStreet().getNumber()
+   * <p>
+   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to:
+   * <pre><code class='java'> // "adress.street.number" corresponding to pojo properties
+   * actual.getAdress().getStreet().getNumber();</code></pre>
+   * or if address is a {@link Map}:
+   * <pre><code class='java'> // "adress" is a Map property (that is getAdress() returns a Map)
+   * actual.getAdress().get("street").getNumber();</code></pre>
    * <p>
    * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -634,6 +643,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // let's extract and verify Frodo's name:
    * assertThat(frodo).extracting(&quot;name&quot;)
    *                  .isEqualTo(&quot;Frodo&quot;);
+   * // or its race name:
+   * assertThat(frodo).extracting(&quot;race.name&quot;)
+   *                  .isEqualTo(&quot;Hobbit&quot;);
    *
    * // The extracted value being a String, we would like to use String assertions but we can't due to Java generics limitations.
    * // The following assertion does NOT compile:

@@ -17,6 +17,8 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 
 import org.assertj.core.util.VisibleForTesting;
 
+import java.util.Map;
+
 public class PropertyOrFieldSupport {
   private static final String SEPARATOR = ".";
   private PropertySupport propertySupport;
@@ -54,11 +56,18 @@ public class PropertyOrFieldSupport {
       // extract next sub-property/field value until reaching the last sub-property/field
       return getValueOf(nextNameFrom(propertyOrFieldName), propertyOrFieldValue);
     }
+
     return getSimpleValue(propertyOrFieldName, input);
   }
 
   public Object getSimpleValue(String propertyOrFieldName, Object input) {
-    // first try to get given property values from objects, then try fields
+    // first check if input object is a map
+    if (input instanceof Map) {
+      Map<?, ?> map = (Map<?, ?>) input;
+      return map.get(propertyOrFieldName);
+    }
+
+    // then try to get given property values from objects, then try fields
     try {
       return propertySupport.propertyValueOf(propertyOrFieldName, Object.class, input);
     } catch (IntrospectionError propertyIntrospectionError) {

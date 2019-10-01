@@ -61,13 +61,13 @@ public class ByNameSingleExtractorTest {
   @Test
   public void should_throw_exception_when_given_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>(null).apply(yoda))
-                                        .withMessage("The name of the field/property to read should not be null");
+                                        .withMessage("The name of the property/field to read should not be null");
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>("").apply(yoda))
-                                        .withMessage("The name of the field/property to read should not be empty");
+                                        .withMessage("The name of the property/field to read should not be empty");
   }
 
   @Test
@@ -213,7 +213,7 @@ public class ByNameSingleExtractorTest {
     }
 
     // ensure setter-like methods don't distract us
-    public BareOptionalIntHolder value(int value) {
+    public BareOptionalIntHolder value(@SuppressWarnings("unused") int value) {
       throw new AssertionError("unreached");
     }
   }

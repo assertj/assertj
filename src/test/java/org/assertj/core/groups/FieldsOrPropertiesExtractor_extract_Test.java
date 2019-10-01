@@ -47,45 +47,45 @@ public class FieldsOrPropertiesExtractor_extract_Test {
     List<Object> extractedValues = extract(employees, byName("id"));
     assertThat(extractedValues).containsOnly(1L, 2L);
   }
-  
+
   @Test
   public void should_extract_null_valuesfor_null_property_values() {
     yoda.setName(null);
     List<Object> extractedValues = extract(employees, byName("name"));
     assertThat(extractedValues).containsOnly(null, new Name("Luke", "Skywalker"));
   }
-  
+
   @Test
   public void should_extract_null_values_for_null_nested_property_values() {
     yoda.setName(null);
     List<Object> extractedValues = extract(employees, byName("name.first"));
     assertThat(extractedValues).containsOnly(null, "Luke");
   }
-  
+
   @Test
   public void should_extract_null_valuesfor_null_field_values() {
     List<Object> extractedValues = extract(employees, byName("surname"));
     assertThat(extractedValues).containsOnly(new Name("Master", "Jedi"), null);
   }
-  
+
   @Test
   public void should_extract_null_values_for_null_nested_field_values() {
     List<Object> extractedValues = extract(employees, byName("surname.first"));
     assertThat(extractedValues).containsOnly("Master", null);
   }
-  
+
   @Test
   public void should_extract_property_values_when_no_public_field_match_given_name() {
     List<Object> extractedValues = extract(employees, byName("age"));
     assertThat(extractedValues).containsOnly(800, 26);
   }
-  
+
   @Test
   public void should_extract_pure_property_values() {
     List<Object> extractedValues = extract(employees, byName("adult"));
     assertThat(extractedValues).containsOnly(true);
   }
-  
+
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> extract(employees, byName("unknown")));
@@ -94,13 +94,13 @@ public class FieldsOrPropertiesExtractor_extract_Test {
   @Test
   public void should_throw_exception_when_given_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> extract(employees, byName((String) null)))
-                                        .withMessage("The name of the field/property to read should not be null");
+                                        .withMessage("The name of the property/field to read should not be null");
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> extract(employees, byName("")))
-                                        .withMessage("The name of the field/property to read should not be empty");
+                                        .withMessage("The name of the property/field to read should not be empty");
   }
 
   @Test
@@ -113,7 +113,7 @@ public class FieldsOrPropertiesExtractor_extract_Test {
 
   @Test
   public void should_prefer_properties_over_fields() {
-    
+
     List<Employee> employees = Arrays.<Employee>asList(new EmployeeWithOverriddenName("Overridden Name"));
     List<Object> extractedValues = extract(employees, byName("name"));
     assertThat(extractedValues).containsOnly(new Name("Overridden Name"));
