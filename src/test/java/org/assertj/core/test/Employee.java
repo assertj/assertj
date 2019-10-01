@@ -12,6 +12,9 @@
  */
 package org.assertj.core.test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static java.lang.String.format;
 
 /**
@@ -31,6 +34,8 @@ public class Employee {
   // keep private to test we are able to read private field without property
   @SuppressWarnings("unused")
   private String city = "New York";
+  private Map<String, String> attributes;
+  private Map<String, Employee> relations;
 
   public Employee() {}
 
@@ -38,6 +43,8 @@ public class Employee {
     this.id = id;
     setName(name);
     setAge(age);
+    this.attributes = new HashMap<>();
+    this.relations = new HashMap<>();
   }
 
   public Name getName() {
@@ -54,6 +61,14 @@ public class Employee {
 
   public void setAge(int age) {
     this.age = age;
+  }
+
+  public void setAttribute(String attribute, String attributeValue) {
+    this.attributes.put(attribute, attributeValue);
+  }
+
+  public void setRelation(String relation, Employee other) {
+    this.relations.put(relation, other);
   }
   
   // pure property not backed by a field

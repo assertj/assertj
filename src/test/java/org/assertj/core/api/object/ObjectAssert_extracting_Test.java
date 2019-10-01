@@ -38,6 +38,7 @@ public class ObjectAssert_extracting_Test {
   @BeforeEach
   public void setup() {
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+    luke.setAttribute("side", "light");
   }
 
   @Test
@@ -56,6 +57,13 @@ public class ObjectAssert_extracting_Test {
     assertThat(luke).extracting("name.first", "name.last")
                     .hasSize(2)
                     .containsExactly("Luke", "Skywalker");
+  }
+
+  @Test
+  public void should_allow_assertion_on_mixed_properties_or_fields_with_nested_map_values() {
+    assertThat(luke).extracting("id", "name.last", "attributes.side").containsExactly(
+      2L, "Skywalker", "light"
+    );
   }
 
   @Test
