@@ -10,14 +10,14 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.assumptions;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
 import static org.assertj.core.api.BDDAssertions.thenCode;
-import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.assertj.core.api.BDDAssumptions.given;
 import static org.assertj.core.api.BDDAssumptions.givenObject;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
 
 import java.io.ByteArrayInputStream​;
 import java.io.File;
@@ -68,7 +68,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -94,8 +93,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isFalse())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isFalse());
     }
   }
 
@@ -111,8 +109,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isFalse())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isFalse());
     }
   }
 
@@ -128,8 +125,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).contains(false))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).contains(false));
     }
   }
 
@@ -145,8 +141,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -162,8 +157,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -179,8 +173,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).contains((byte) 0))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).contains((byte) 0));
     }
   }
 
@@ -196,8 +189,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -213,8 +205,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -230,8 +221,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).contains((short) 0))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).contains((short) 0));
     }
   }
 
@@ -247,8 +237,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -264,8 +253,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -281,8 +269,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).contains(0))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).contains(0));
     }
   }
 
@@ -298,8 +285,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -316,8 +302,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -333,8 +318,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -350,8 +334,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).contains(0L))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).contains(0L));
     }
   }
 
@@ -367,8 +350,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -384,8 +366,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -401,8 +382,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).contains(0.0f))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).contains(0.0f));
     }
   }
 
@@ -418,8 +398,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -435,8 +414,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -452,8 +430,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).contains(0.0f))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).contains(0.0f));
     }
   }
 
@@ -469,8 +446,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isZero())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isZero());
     }
   }
 
@@ -486,8 +462,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isLowerCase())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isLowerCase());
     }
   }
 
@@ -503,8 +478,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isLowerCase())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isLowerCase());
     }
   }
 
@@ -520,8 +494,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).contains('C'))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).contains('C'));
     }
   }
 
@@ -537,8 +510,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNullOrEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
     }
   }
 
@@ -554,8 +526,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNullOrEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
     }
   }
 
@@ -571,8 +542,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNullOrEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
     }
   }
 
@@ -588,8 +558,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNullOrEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
     }
   }
 
@@ -605,8 +574,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isInterface())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isInterface());
     }
   }
 
@@ -631,8 +599,7 @@ public class BDDAssumptionsTest {
 
       @Test
       public void should_ignore_test_when_assumption_fails() {
-        thenThrownBy(() -> given(actual).hasAllNullFieldsOrProperties())
-          .isInstanceOf(AssumptionViolatedException.class);
+        expectAssumptionViolatedException(() -> given(actual).hasAllNullFieldsOrProperties());
       }
     }
 
@@ -648,8 +615,7 @@ public class BDDAssumptionsTest {
 
       @Test
       public void should_ignore_test_when_assumption_fails() {
-        thenThrownBy(() -> given(actual).isNullOrEmpty())
-          .isInstanceOf(AssumptionViolatedException.class);
+        expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
       }
     }
 
@@ -665,8 +631,7 @@ public class BDDAssumptionsTest {
 
       @Test
       public void should_ignore_test_when_assumption_fails() {
-        thenThrownBy(() -> givenObject(actual).hasAllNullFieldsOrProperties())
-          .isInstanceOf(AssumptionViolatedException.class);
+        expectAssumptionViolatedException(() -> givenObject(actual).hasAllNullFieldsOrProperties());
       }
     }
   }
@@ -689,8 +654,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotEqualByComparingTo(new Yoda()))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotEqualByComparingTo(new Yoda()));
     }
   }
 
@@ -706,8 +670,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).hasMessage(""))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).hasMessage(""));
     }
   }
 
@@ -726,8 +689,7 @@ public class BDDAssumptionsTest {
 
       @Test
       public void should_ignore_test_when_assumption_fails() {
-        thenThrownBy(() -> given(actual).hasMessage("Yoda time"))
-          .isInstanceOf(AssumptionViolatedException.class);
+        expectAssumptionViolatedException(() -> given(actual).hasMessage("Yoda time"));
       }
     }
 
@@ -743,8 +705,7 @@ public class BDDAssumptionsTest {
 
       @Test
       public void should_ignore_test_when_assumption_fails() {
-        thenThrownBy(() -> given(actual).doesNotThrowAnyException())
-          .isInstanceOf(AssumptionViolatedException.class);
+        expectAssumptionViolatedException(() -> given(actual).doesNotThrowAnyException());
       }
     }
   }
@@ -761,8 +722,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).containsOnly(2))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).containsOnly(2));
     }
   }
 
@@ -778,8 +738,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isExhausted())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isExhausted());
     }
   }
 
@@ -795,8 +754,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).containsOnly(2))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).containsOnly(2));
     }
   }
 
@@ -812,8 +770,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).containsEntry(2, 1))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).containsEntry(2, 1));
     }
   }
 
@@ -829,8 +786,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).accepts(-2, -1))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).accepts(-2, -1));
     }
   }
 
@@ -846,8 +802,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).accepts(-2, -1))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).accepts(-2, -1));
     }
   }
 
@@ -863,8 +818,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).accepts(-2, -1))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).accepts(-2, -1));
     }
   }
 
@@ -880,8 +834,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).accepts(-2.0, -1.0))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).accepts(-2.0, -1.0));
     }
   }
 
@@ -897,8 +850,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -914,8 +866,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -931,8 +882,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -948,8 +898,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -965,8 +914,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).containsOnly(2))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).containsOnly(2));
     }
   }
 
@@ -982,8 +930,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).containsOnly(2))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).containsOnly(2));
     }
   }
 
@@ -999,8 +946,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).containsOnly(2L))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).containsOnly(2L));
     }
   }
 
@@ -1016,8 +962,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).containsOnly(2.0))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).containsOnly(2.0));
     }
   }
 
@@ -1040,8 +985,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotCancelled())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotCancelled());
     }
   }
 
@@ -1057,8 +1001,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotDone())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotDone());
     }
   }
 
@@ -1074,8 +1017,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotDone())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotDone());
     }
   }
 
@@ -1091,8 +1033,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isFalse())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isFalse());
     }
   }
 
@@ -1108,8 +1049,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).hasNegativeValue())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).hasNegativeValue());
     }
   }
 
@@ -1125,8 +1065,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -1151,8 +1090,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).hasValue(2, value))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).hasValue(2, value));
     }
   }
 
@@ -1168,8 +1106,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).hasNegativeValue())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).hasNegativeValue());
     }
   }
 
@@ -1185,8 +1122,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -1211,8 +1147,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).hasValue(2L, value))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).hasValue(2L, value));
     }
   }
 
@@ -1228,8 +1163,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).doesNotHaveValue("Yoda"))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).doesNotHaveValue("Yoda"));
     }
   }
 
@@ -1245,8 +1179,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotEmpty())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -1271,8 +1204,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).hasValue("", value))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).hasValue("", value));
     }
   }
 
@@ -1288,8 +1220,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isNotMarked())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isNotMarked());
     }
   }
 
@@ -1305,8 +1236,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).hasStamp(0))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).hasStamp(0));
     }
   }
 
@@ -1322,8 +1252,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAfter("2016-12-03T10:15:30Z"))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAfter("2016-12-03T10:15:30Z"));
     }
   }
 
@@ -1339,8 +1268,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAfter(LocalDate.now()))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAfter(LocalDate.now()));
     }
   }
 
@@ -1356,8 +1284,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAfter(LocalTime.now()))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAfter(LocalTime.now()));
     }
   }
 
@@ -1373,8 +1300,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAfter(OffsetTime.now()))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAfter(OffsetTime.now()));
     }
   }
 
@@ -1390,8 +1316,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAfter(LocalDateTime.now()))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAfter(LocalDateTime.now()));
     }
   }
 
@@ -1407,8 +1332,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAfter(Instant.now()))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAfter(Instant.now()));
     }
   }
 
@@ -1424,8 +1348,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAfter(OffsetDateTime.now()))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAfter(OffsetDateTime.now()));
     }
   }
 
@@ -1441,8 +1364,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAfter(ZonedDateTime.now()))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAfter(ZonedDateTime.now()));
     }
   }
 
@@ -1458,8 +1380,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).hasContent("B"))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).hasContent("B"));
     }
   }
 
@@ -1475,8 +1396,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAbsolute())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAbsolute());
     }
   }
 
@@ -1492,8 +1412,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(actual).isAbsolute())
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(actual).isAbsolute());
     }
   }
 
@@ -1507,8 +1426,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(new URI("http://assertj.org")).hasPort(80))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(new URI("http://assertj.org")).hasPort(80));
     }
   }
 
@@ -1522,8 +1440,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_ignore_test_when_assumption_fails() {
-      thenThrownBy(() -> given(new URL("http://assertj.org")).hasPort(80))
-        .isInstanceOf(AssumptionViolatedException.class);
+      expectAssumptionViolatedException(() -> given(new URL("http://assertj.org")).hasPort(80));
     }
   }
 }
