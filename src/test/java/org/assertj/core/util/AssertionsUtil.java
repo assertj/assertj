@@ -14,10 +14,12 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.ThrowableAssertAlternative;
+import org.junit.AssumptionViolatedException;
 
 public class AssertionsUtil {
 
@@ -31,4 +33,7 @@ public class AssertionsUtil {
     return assertThatExceptionOfType(AssertionError.class).isThrownBy(shouldRaiseAssertionError);
   }
 
+  public static void expectAssumptionViolatedException(ThrowingCallable shouldRaiseError) {
+    assertThatThrownBy(shouldRaiseError).isInstanceOf(AssumptionViolatedException.class);
+  }
 }
