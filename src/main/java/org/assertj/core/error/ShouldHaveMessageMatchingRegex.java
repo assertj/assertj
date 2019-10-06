@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} matches given regular
  * expression.
@@ -21,11 +24,20 @@ package org.assertj.core.error;
 public class ShouldHaveMessageMatchingRegex extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveMessageMatchingRegex(Throwable actual, CharSequence regex) {
-    return new ShouldHaveMessageMatchingRegex("%nExpecting message:%n  <%s>%nto match regex:%n  <%s>%nbut did not.",
-                                              actual.getMessage(), regex);
+    return new ShouldHaveMessageMatchingRegex(actual, regex);
   }
 
-  private ShouldHaveMessageMatchingRegex(String format, CharSequence actual, CharSequence regex) {
-    super(format, actual, regex);
+  private ShouldHaveMessageMatchingRegex(Throwable actual, CharSequence regex) {
+    super("%n" +
+          "Expecting message:%n" +
+          "  <%s>%n" +
+          "to match regex:%n" +
+          "  <%s>%n" +
+          "but did not.%n" +
+          "%n" +
+          "Throwable that failed the check:%n" +
+          "%n" +
+          escapePercent(getStackTrace(actual)),
+          actual.getMessage(), regex);
   }
 }
