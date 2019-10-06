@@ -18,7 +18,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} matches given regular
  * expression.
- * 
+ *
  * @author Libor Ondrusek
  */
 public class ShouldHaveMessageMatchingRegex extends BasicErrorMessageFactory {
@@ -36,8 +36,7 @@ public class ShouldHaveMessageMatchingRegex extends BasicErrorMessageFactory {
           "but did not.%n" +
           "%n" +
           "Throwable that failed the check:%n" +
-          "%n" +
-          escapePercent(getStackTrace(actual)),
+          "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
           actual.getMessage(), regex);
   }
 }

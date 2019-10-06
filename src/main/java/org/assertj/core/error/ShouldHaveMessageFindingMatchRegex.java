@@ -12,21 +12,31 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} matches given regular
  * expression.
  *
  * @author David Haccoun
  */
-
 public class ShouldHaveMessageFindingMatchRegex extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveMessageFindingMatchRegex(Throwable actual, CharSequence regex) {
-    return new ShouldHaveMessageFindingMatchRegex("%nExpecting message:%n  <%s>%nto be found for regex:%n  <%s>%nbut did not.",
-                                                  actual.getMessage(), regex);
+    return new ShouldHaveMessageFindingMatchRegex(actual, regex);
   }
 
-  private ShouldHaveMessageFindingMatchRegex(String format, CharSequence actual, CharSequence regex) {
-    super(format, actual, regex);
+  private ShouldHaveMessageFindingMatchRegex(Throwable actual, CharSequence regex) {
+    super("%n" +
+          "Expecting message:%n" +
+          "  <%s>%n" +
+          "to be found for regex:%n" +
+          "  <%s>%n" +
+          "but did not.%n" +
+          "%n" +
+          "Throwable that failed the check:%n" +
+          "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
+          actual.getMessage(), regex);
   }
 }

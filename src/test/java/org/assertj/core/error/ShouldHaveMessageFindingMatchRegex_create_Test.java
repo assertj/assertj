@@ -12,9 +12,9 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveMessageFindingMatchRegex.shouldHaveMessageFindingMatchRegex;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author David Haccoun
  */
-public class ShouldHaveMessageFindMatchingRegex_create_Test {
+public class ShouldHaveMessageFindingMatchRegex_create_Test {
 
   @Test
   public void should_create_error_message() {
@@ -32,12 +32,16 @@ public class ShouldHaveMessageFindMatchingRegex_create_Test {
     // WHEN
     String errorMessage = shouldHaveMessageFindingMatchRegex(actual, regex).create(new TestDescription("TEST"));
     // THEN
-    assertThat(errorMessage).isEqualTo(format("[TEST] %n" +
-                                              "Expecting message:%n" +
-                                              "  <\"error %%s message\">%n" +
-                                              "to be found for regex:%n" +
-                                              "  <\"regex\">%n" +
-                                              "but did not."));
+    assertThat(errorMessage).isEqualTo("[TEST] %n" +
+                                       "Expecting message:%n" +
+                                       "  <\"error %%s message\">%n" +
+                                       "to be found for regex:%n" +
+                                       "  <\"regex\">%n" +
+                                       "but did not.%n" +
+                                       "%n" +
+                                       "Throwable that failed the check:%n" +
+                                       "%n%s",
+                                       getStackTrace(actual));
   }
 
 }
