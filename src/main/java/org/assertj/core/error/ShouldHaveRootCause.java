@@ -19,26 +19,28 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 
 public class ShouldHaveRootCause extends BasicErrorMessageFactory {
 
-  public static ErrorMessageFactory shouldHaveRootCauseWithMessage(Throwable actualCause, String expectedMessage) {
+  public static ErrorMessageFactory shouldHaveRootCauseWithMessage(Throwable actual, Throwable actualCause, String expectedMessage) {
+    checkArgument(actual != null, "actual should not be null");
     checkArgument(expectedMessage != null, "expected root cause message should not be null");
-    if (actualCause == null) return new ShouldHaveRootCause(expectedMessage);
-    return new ShouldHaveRootCause(actualCause, expectedMessage);
+    if (actualCause == null) return new ShouldHaveRootCause(actual, expectedMessage);
+    return new ShouldHaveRootCause(actual, actualCause, expectedMessage);
   }
 
-  public static ErrorMessageFactory shouldHaveRootCause(Throwable actualCause, Throwable expectedCause) {
+  public static ErrorMessageFactory shouldHaveRootCause(Throwable actual, Throwable actualCause, Throwable expectedCause) {
+    checkArgument(actual != null, "actual should not be null");
     checkArgument(expectedCause != null, "expected cause should not be null");
     // actualCause has no cause
-    if (actualCause == null) return new ShouldHaveRootCause(expectedCause);
+    if (actualCause == null) return new ShouldHaveRootCause(actual, expectedCause);
     // same message => different type
     if (areEqual(actualCause.getMessage(), expectedCause.getMessage()))
-      return new ShouldHaveRootCause(actualCause, expectedCause.getClass());
+      return new ShouldHaveRootCause(actual, actualCause, expectedCause.getClass());
     // same type => different message
     if (areEqual(actualCause.getClass(), expectedCause.getClass()))
-      return new ShouldHaveRootCause(actualCause, expectedCause.getMessage());
-    return new ShouldHaveRootCause(actualCause, expectedCause);
+      return new ShouldHaveRootCause(actual, actualCause, expectedCause.getMessage());
+    return new ShouldHaveRootCause(actual, actualCause, expectedCause);
   }
 
-  private ShouldHaveRootCause(Throwable actualCause, Throwable expectedCause) {
+  private ShouldHaveRootCause(Throwable actual, Throwable actualCause, Throwable expectedCause) {
     super("%n" +
           "Expecting a root cause with type:%n" +
           "  <%s>%n" +
@@ -47,44 +49,59 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
           "but type was:%n" +
           "  <%s>%n" +
           "and message was:%n" +
-          "  <%s>.",
+          "  <%s>." +
+          "%n" +
+          "Throwable that failed the check:%n" +
+          "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
           expectedCause.getClass().getName(), expectedCause.getMessage(),
           actualCause.getClass().getName(), actualCause.getMessage());
   }
 
-  private ShouldHaveRootCause(Throwable expectedCause) {
+  private ShouldHaveRootCause(Throwable actual, Throwable expectedCause) {
     super("%n" +
           "Expecting a root cause with type:%n" +
           "  <%s>%n" +
           "and message:%n" +
           "  <%s>%n" +
-          "but actual had no root cause.",
+          "but actual had no root cause." +
+          "%n" +
+          "Throwable that failed the check:%n" +
+          "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
           expectedCause.getClass().getName(), expectedCause.getMessage());
   }
 
-  private ShouldHaveRootCause(Throwable actualCause, Class<? extends Throwable> expectedCauseClass) {
+  private ShouldHaveRootCause(Throwable actual, Throwable actualCause, Class<? extends Throwable> expectedCauseClass) {
     super("%n" +
           "Expecting a root cause with type:%n" +
           "  <%s>%n" +
           "but type was:%n" +
-          "  <%s>.",
+          "  <%s>." +
+          "%n" +
+          "Throwable that failed the check:%n" +
+          "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
           expectedCauseClass.getName(), actualCause.getClass().getName());
   }
 
-  private ShouldHaveRootCause(String expectedMessage) {
+  private ShouldHaveRootCause(Throwable actual, String expectedMessage) {
     super("%n" +
         "Expecting a root cause with message:%n" +
         "  <%s>%n" +
-        "but actual had no root cause.",
+        "but actual had no root cause." +
+        "%n" +
+        "Throwable that failed the check:%n" +
+        "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
       expectedMessage);
   }
 
-  private ShouldHaveRootCause(Throwable actualCause, String expectedCauseMessage) {
+  private ShouldHaveRootCause(Throwable actual, Throwable actualCause, String expectedCauseMessage) {
     super("%n" +
           "Expecting a root cause with message:%n" +
           "  <%s>%n" +
           "but message was:%n" +
-          "  <%s>.",
+          "  <%s>." +
+          "%n" +
+          "Throwable that failed the check:%n" +
+          "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
           expectedCauseMessage, actualCause.getMessage());
   }
 }

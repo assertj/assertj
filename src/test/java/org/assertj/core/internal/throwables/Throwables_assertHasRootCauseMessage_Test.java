@@ -43,7 +43,7 @@ public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTes
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, error, "message"));
     // THEN
-    assertThat(assertionError).hasMessage(shouldHaveRootCauseWithMessage(null, "message").create());
+    assertThat(assertionError).hasMessage(shouldHaveRootCauseWithMessage(error,null, "message").create());
   }
 
   @Test
@@ -54,7 +54,7 @@ public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTes
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, error, "message"));
     // THEN
-    assertThat(assertionError).hasMessage(shouldHaveRootCauseWithMessage(root, "message").create());
+    assertThat(assertionError).hasMessage(shouldHaveRootCauseWithMessage(error, root, "message").create());
   }
 
   @Test
@@ -65,7 +65,7 @@ public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTes
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, error, "message"));
     // THEN
-    assertThat(assertionError).hasMessage(shouldHaveRootCauseWithMessage(root, "message").create());
+    assertThat(assertionError).hasMessage(shouldHaveRootCauseWithMessage(error, root, "message").create());
   }
 
   @Test

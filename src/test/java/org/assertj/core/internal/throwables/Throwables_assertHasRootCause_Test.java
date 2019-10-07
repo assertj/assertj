@@ -67,7 +67,7 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
     expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, unexpectedRootCause));
 
     // THEN
-    verify(failures).failure(INFO, shouldHaveRootCause(actualRootCause, unexpectedRootCause));
+    verify(failures).failure(INFO, shouldHaveRootCause(throwable, actualRootCause, unexpectedRootCause));
   }
 
   // @format:off
