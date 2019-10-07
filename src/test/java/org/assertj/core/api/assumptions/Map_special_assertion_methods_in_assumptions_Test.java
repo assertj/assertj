@@ -31,7 +31,7 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.ProxyableMapAssert;
 
 /**
- * verify that assertions final methods or methods changing the object under test in {@link MapAssert} work with assumptions
+ * Verify that assertions final methods or methods changing the object under test in {@link MapAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableMapAssert}).
  */
 public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
@@ -50,8 +50,7 @@ public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssum
                                     entry("b", "2"),
                                     entry("c", "3"));
 
-    return Stream.of(
-                     assumptionRunner(map,
+    return Stream.of(assumptionRunner(map,
                                       value -> assumeThat(value).contains(entry("a", "1"), entry("c", "3")),
                                       value -> assumeThat(value).contains(entry("a", "2"), entry("c", "3"))),
                      assumptionRunner(map,

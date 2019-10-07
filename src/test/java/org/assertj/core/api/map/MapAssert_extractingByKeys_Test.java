@@ -94,15 +94,6 @@ class MapAssert_extractingByKeys_Test {
   }
 
   @Test
-  void should_keep_existing_description_if_set_when_extracting_value_object() {
-    // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name and age")
-                                                                     .extractingByKeys(NAME, "age").isEmpty());
-    // THEN
-    then(error).hasMessageContaining("[check name and age]");
-  }
-
-  @Test
   void should_keep_existing_assertion_state() {
     // GIVEN
     MapAssert<Object, Object> assertion = assertThat(map).as("description")

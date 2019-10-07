@@ -841,6 +841,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(optional)
           .get()
           .isEqualTo("Gandalf");
+    softly.assertThat(optional)
+          .get(as(STRING))
+          .startsWith("Gan");
     // THEN
     softly.assertAll();
   }
@@ -1790,7 +1793,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void optional_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
+  void optional_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
     Optional<String> optional = Optional.of("Yoda");
     Function<String, Optional<String>> upperCaseOptional = s -> s == null ? Optional.empty() : Optional.of(s.toUpperCase());
@@ -1816,15 +1819,22 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .get()
           .isEqualTo("Yoda")
           .isEqualTo("Luke"); // fail
+    softly.assertThat(optional)
+          .as("get(as(STRING))")
+          .overridingErrorMessage("error message")
+          .get(as(STRING))
+          .startsWith("Yo")
+          .startsWith("Lu"); // fail
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(4);
+    assertThat(errorsCollected).hasSize(5);
     assertThat(errorsCollected.get(0)).hasMessage("[map(String::length)] error message");
     assertThat(errorsCollected.get(1)).hasMessageContaining("flatMap(upperCaseOptional)")
                                       .hasMessageContaining("yoda");
     assertThat(errorsCollected.get(2)).hasMessageContaining("map(String::length) after flatMap(upperCaseOptional)")
                                       .hasMessageContaining("888");
     assertThat(errorsCollected.get(3)).hasMessage("[get()] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[get(as(STRING))] error message");
   }
 
   @Test

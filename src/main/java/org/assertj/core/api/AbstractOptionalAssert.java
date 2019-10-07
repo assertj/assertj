@@ -412,7 +412,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an Object assertion 
    * that allows chaining (object) assertions on the optional value.
    * <p>
-   * Note that it is only possible to return Object assertions after calling this method due to java generics limitations.  
+   * Note that it is only possible to return Object assertions after calling this method due to java generics limitations.
    * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -431,8 +431,42 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, VALUE> get() {
+    return internalGet();
+  }
+
+  /**
+   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an new assertion instance
+   * to chain assertions on the optional value.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * assertion more readable.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(Optional.of("frodo")).get(as(InstanceOfAssertFactories.STRING)).startsWith("fro");
+   *
+   * // assertion does not succeed because frodo is not an Integer
+   * assertThat(Optional.of("frodo")).get(as(InstanceOfAssertFactories.INTEGER)).isZero();</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the Optional
+   * @throws NullPointerException if the given factory is {@code null}
+   * @throws AssertionError if the actual {@link Optional} is null
+   * @throws AssertionError if the actual {@link Optional} is empty
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT get(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalGet().asInstanceOf(assertFactory);
+  }
+
+  private AbstractObjectAssert<?, VALUE> internalGet() {
     isPresent();
-    return assertThat(actual.get());
+    return assertThat(actual.get()).withAssertionState(myself);
   }
 
   private void checkNotNull(Object expectedValue) {

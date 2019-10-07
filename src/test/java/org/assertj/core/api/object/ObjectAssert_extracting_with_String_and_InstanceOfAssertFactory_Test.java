@@ -18,6 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -62,7 +63,8 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("id", null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class);
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());;
   }
 
   @Test
@@ -75,7 +77,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_allow_type_narrowed_assertions_on_property_extracted_by_name() {
+  void should_pass_allowing_type_narrowed_assertions_on_property_extracted_by_name() {
     // WHEN
     AbstractLongAssert<?> result = assertThat(luke).extracting("id", LONG);
     // THEN
@@ -83,7 +85,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_allow_narrowed_assertions_on_inner_property_extracted_by_name() {
+  void should_pass_allowing_narrowed_assertions_on_inner_property_extracted_by_name() {
     // WHEN
     AbstractStringAssert<?> result = assertThat(luke).extracting("name.first", STRING);
     // THEN
@@ -91,7 +93,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_fail_when_the_wrong_factory_type_is_used() {
+  void should_fail_if_the_extracted_value_is_not_an_instance_of_the_assert_factory_type() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(luke).extracting("name.first", LONG));
     // THEN

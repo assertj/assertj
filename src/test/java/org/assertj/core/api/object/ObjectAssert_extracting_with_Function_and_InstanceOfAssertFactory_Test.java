@@ -18,6 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -71,11 +72,12 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(luke).extracting(Employee::getName, null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class);
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());;
   }
 
   @Test
-  void should_allow_type_narrowed_assertions_on_value_extracted_with_lambda() {
+  void should_pass_allowing_type_narrowed_assertions_on_value_extracted_with_lambda() {
     // WHEN
     AbstractStringAssert<?> result = assertThat(luke).extracting(firstName, STRING);
     // THEN
@@ -83,7 +85,7 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_allow_parent_type_narrowed_assertions_on_value_extracted_with_parent_type_factory() {
+  void should_pass_allowing_parent_type_narrowed_assertions_on_value_extracted_with_parent_type_factory() {
     // WHEN
     AbstractCharSequenceAssert<?, ?> result = assertThat(luke).extracting(firstName, CHAR_SEQUENCE);
     // THEN
@@ -91,7 +93,7 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_allow_type_narrowed_assertions_on_value_extracted_with_method_reference() {
+  void should_pass_allowing_type_narrowed_assertions_on_value_extracted_with_method_reference() {
     // WHEN
     AbstractIntegerAssert<?> result = assertThat(luke).extracting(Employee::getAge, INTEGER);
     // THEN
@@ -99,7 +101,7 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_allow_actual_type_narrowed_assertions_on_value_extracted_as_an_object() {
+  void should_pass_allowing_actual_type_narrowed_assertions_on_value_extracted_as_an_object() {
     // GIVEN
     final Function<Employee, Object> ageAsObject = Employee::getAge;
     // WHEN
@@ -109,7 +111,7 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_fail_when_the_wrong_factory_type_is_used() {
+  void should_fail_if_the_extracted_value_is_not_an_instance_of_the_assert_factory_type() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(luke).extracting(Employee::getAge, STRING));
     // THEN

@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -55,15 +56,16 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_throw_npe_if_the_given_assert_factory_is_null() {
+  void should_fail_throwing_npe_if_assert_factory_is_null() {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(map).extractingByKey(NAME, null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class);
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());;
   }
 
   @Test
-  void should_allow_type_narrowed_assertions_on_value_extracted_from_given_map_key() {
+  void should_pass_allowing_type_narrowed_assertions_on_value_extracted_from_given_map_key() {
     // WHEN
     AbstractStringAssert<?> result = assertThat(map).extractingByKey(NAME, as(STRING));
     // THEN
@@ -81,7 +83,7 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_fail_when_the_wrong_factory_type_is_used() {
+  void should_fail_if_extracted_value_is_not_an_instance_of_the_assert_factory_type() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(INTEGER)));
     // THEN
@@ -102,15 +104,6 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test {
     AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)).isNull());
     // THEN
     then(error).hasMessageContaining("[Extracted: name]");
-  }
-
-  @Test
-  void should_keep_existing_description_if_set_when_extracting_value_object() {
-    // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name as string")
-                                                                     .extractingByKey(NAME, as(STRING)).isNull());
-    // THEN
-    then(error).hasMessageContaining("[check name as string]");
   }
 
   @Test
