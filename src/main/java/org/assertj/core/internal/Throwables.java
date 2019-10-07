@@ -129,9 +129,9 @@ public class Throwables {
       assertHasNoCause(info, actual);
       return;
     }
-    if (actualRootCause == null) throw failures.failure(info, shouldHaveRootCause(null, expectedRootCause));
+    if (actualRootCause == null) throw failures.failure(info, shouldHaveRootCause(actual,null, expectedRootCause));
     if (!compareThrowable(actualRootCause, expectedRootCause))
-      throw failures.failure(info, shouldHaveRootCause(actualRootCause, expectedRootCause));
+      throw failures.failure(info, shouldHaveRootCause(actual, actualRootCause, expectedRootCause));
   }
 
   /**
@@ -144,9 +144,9 @@ public class Throwables {
   public void assertHasRootCauseMessage(AssertionInfo info, Throwable actual, String expectedMessage) {
     assertNotNull(info, actual);
     Throwable rootCause = getRootCause(actual);
-    if (null == rootCause) throw failures.failure(info, shouldHaveRootCauseWithMessage(rootCause, expectedMessage));
+    if (null == rootCause) throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage));
     if (areEqual(rootCause.getMessage(), expectedMessage)) return;
-    throw failures.failure(info, shouldHaveRootCauseWithMessage(rootCause, expectedMessage), rootCause.getMessage(), expectedMessage);
+    throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage), rootCause.getMessage(), expectedMessage);
   }
 
   /**

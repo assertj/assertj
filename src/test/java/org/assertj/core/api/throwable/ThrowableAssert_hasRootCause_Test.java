@@ -15,6 +15,7 @@ package org.assertj.core.api.throwable;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Throwables.getStackTrace;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert;
@@ -46,11 +47,14 @@ public class ThrowableAssert_hasRootCause_Test extends ThrowableAssertBaseTest {
     AssertionError actual = expectAssertionError(() -> assertThat(throwable).hasRootCause(new NullPointerException()));
 
     // THEN
-    assertThat(actual)
-      .hasMessage(format("%n"
-                         + "Expecting a root cause with type:%n"
-                         + "  <\"java.lang.NullPointerException\">%n"
-                         + "but type was:%n"
-                         + "  <\"java.lang.IllegalStateException\">."));
+    assertThat(actual).hasMessage(format("%n"
+                                         + "Expecting a root cause with type:%n"
+                                         + "  <\"java.lang.NullPointerException\">%n"
+                                         + "but type was:%n"
+                                         + "  <\"java.lang.IllegalStateException\">."
+                                         + "%n"
+                                         + "Throwable that failed the check:%n"
+                                         + "%n%s",
+                                         getStackTrace(throwable)));
   }
 }

@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
 import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCauseWithMessage;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +25,8 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link ShouldHaveRootCause#shouldHaveRootCause(Throwable, Throwable)}</code>
+ * <code>{@link ShouldHaveRootCause#shouldHaveRootCause(Throwable, Throwable, Throwable)}</code>
+ * <code>{@link ShouldHaveRootCause#shouldHaveRootCauseWithMessage(Throwable, Throwable, String)}</code>
  *
  * @author Jack Gough
  */
@@ -34,8 +36,20 @@ public class ShouldHaveRootCause_create_Test {
   private static final TestDescription DESCRIPTION = new TestDescription("TEST");
 
   @Test
+  void should_fail_if_actual_is_null_for_shouldHaveRootCause() {
+    assertThatIllegalArgumentException().isThrownBy(() -> shouldHaveRootCause(null, null, new RuntimeException()))
+                                        .withMessage("actual should not be null");
+  }
+
+  @Test
+  void should_fail_if_actual_is_null_for_shouldHaveRootCauseWithMessage() {
+    assertThatIllegalArgumentException().isThrownBy(() -> shouldHaveRootCauseWithMessage(null, null, "message"))
+                                        .withMessage("actual should not be null");
+  }
+
+  @Test
   public void should_fail_if_expected_message_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> shouldHaveRootCauseWithMessage(null, null))
+    assertThatIllegalArgumentException().isThrownBy(() -> shouldHaveRootCauseWithMessage(new Exception(), null, null))
                                         .withMessage("expected root cause message should not be null");
   }
 
@@ -43,93 +57,122 @@ public class ShouldHaveRootCause_create_Test {
   public void should_create_error_message_for_expected_without_actual() {
     // GIVEN
     Throwable actualCause = null;
+    Throwable actual = new RuntimeException();
     Throwable expectedCause = new RuntimeException("hello");
     // WHEN
-    String actual = shouldHaveRootCause(actualCause, expectedCause).create(DESCRIPTION);
+    String message = shouldHaveRootCause(actual, actualCause, expectedCause).create(DESCRIPTION);
     // THEN
-    assertThat(actual).isEqualTo(format("[TEST] %n"
-                                        + "Expecting a root cause with type:%n"
-                                        + "  <\"java.lang.RuntimeException\">%n"
-                                        + "and message:%n"
-                                        + "  <\"hello\">%n"
-                                        + "but actual had no root cause."));
+    assertThat(message).isEqualTo(format("[TEST] %n"
+                                         + "Expecting a root cause with type:%n"
+                                         + "  <\"java.lang.RuntimeException\">%n"
+                                         + "and message:%n"
+                                         + "  <\"hello\">%n"
+                                         + "but actual had no root cause."
+                                         + "%n"
+                                         + "Throwable that failed the check:%n"
+                                         + "%n%s",
+                                         getStackTrace(actual)));
   }
 
   @Test
   public void should_create_error_message_for_unequal_types() {
     // GIVEN
     Throwable actualCause = new IllegalArgumentException("one");
+    Throwable actual = new RuntimeException(actualCause);
     Throwable expectedCause = new RuntimeException("one");
     // WHEN
-    String actual = shouldHaveRootCause(actualCause, expectedCause).create(DESCRIPTION);
+    String message = shouldHaveRootCause(actual, actualCause, expectedCause).create(DESCRIPTION);
     // THEN
-    assertThat(actual).isEqualTo(format("[TEST] %n"
-                                        + "Expecting a root cause with type:%n"
-                                        + "  <\"java.lang.RuntimeException\">%n"
-                                        + "but type was:%n"
-                                        + "  <\"java.lang.IllegalArgumentException\">."));
+    assertThat(message).isEqualTo(format("[TEST] %n"
+                                         + "Expecting a root cause with type:%n"
+                                         + "  <\"java.lang.RuntimeException\">%n"
+                                         + "but type was:%n"
+                                         + "  <\"java.lang.IllegalArgumentException\">."
+                                         + "%n"
+                                         + "Throwable that failed the check:%n"
+                                         + "%n%s",
+                                         getStackTrace(actual)));
   }
 
   @Test
   public void should_create_error_message_for_unequal_messages() {
     // GIVEN
     Throwable actualCause = new RuntimeException("wibble");
+    Throwable actual = new RuntimeException(actualCause);
     Throwable expectedCause = new RuntimeException("wobble");
     // WHEN
-    String actual = shouldHaveRootCause(actualCause, expectedCause).create(DESCRIPTION);
+    String message = shouldHaveRootCause(actual, actualCause, expectedCause).create(DESCRIPTION);
     // THEN
-    assertThat(actual).isEqualTo(format("[TEST] %n"
-                                        + "Expecting a root cause with message:%n"
-                                        + "  <\"wobble\">%n"
-                                        + "but message was:%n"
-                                        + "  <\"wibble\">."));
+    assertThat(message).isEqualTo(format("[TEST] %n"
+                                         + "Expecting a root cause with message:%n"
+                                         + "  <\"wobble\">%n"
+                                         + "but message was:%n"
+                                         + "  <\"wibble\">."
+                                         + "%n"
+                                         + "Throwable that failed the check:%n"
+                                         + "%n%s",
+                                         getStackTrace(actual)));
   }
 
   @Test
   public void should_create_error_message_for_unequal_types_and_messages() {
     // GIVEN
     Throwable actualCause = new RuntimeException("wibble");
+    Throwable actual = new RuntimeException(actualCause);
     Throwable expectedCause = new IllegalArgumentException("wobble");
     // WHEN
-    String actual = shouldHaveRootCause(actualCause, expectedCause).create(DESCRIPTION);
+    String message = shouldHaveRootCause(actual, actualCause, expectedCause).create(DESCRIPTION);
     // THEN
-    assertThat(actual).isEqualTo(format("[TEST] %n"
-                                        + "Expecting a root cause with type:%n"
-                                        + "  <\"java.lang.IllegalArgumentException\">%n"
-                                        + "and message:%n"
-                                        + "  <\"wobble\">%n"
-                                        + "but type was:%n"
-                                        + "  <\"java.lang.RuntimeException\">%n"
-                                        + "and message was:%n"
-                                        + "  <\"wibble\">."));
+    assertThat(message).isEqualTo(format("[TEST] %n"
+                                         + "Expecting a root cause with type:%n"
+                                         + "  <\"java.lang.IllegalArgumentException\">%n"
+                                         + "and message:%n"
+                                         + "  <\"wobble\">%n"
+                                         + "but type was:%n"
+                                         + "  <\"java.lang.RuntimeException\">%n"
+                                         + "and message was:%n"
+                                         + "  <\"wibble\">."
+                                         + "%n"
+                                         + "Throwable that failed the check:%n"
+                                         + "%n%s",
+                                         getStackTrace(actual)));
   }
 
   @Test
   public void should_create_error_message_for_null_root_cause() {
     // GIVEN
+    Throwable actual = new RuntimeException();
     String expectedMessage = "wobble";
     // WHEN
-    String actual = shouldHaveRootCauseWithMessage(null, expectedMessage).create(DESCRIPTION);
-
+    String message = shouldHaveRootCauseWithMessage(actual, null, expectedMessage).create(DESCRIPTION);
     // THEN
-    assertThat(actual).isEqualTo(format("[TEST] %n" +
-                                        "Expecting a root cause with message:%n" +
-                                        "  <\"wobble\">%n" +
-                                        "but actual had no root cause."));
+    assertThat(message).isEqualTo(format("[TEST] %n" +
+                                         "Expecting a root cause with message:%n" +
+                                         "  <\"wobble\">%n" +
+                                         "but actual had no root cause." +
+                                         "%n" +
+                                         "Throwable that failed the check:%n" +
+                                         "%n%s",
+                                         getStackTrace(actual)));
   }
 
   @Test
   public void should_create_error_message_for_actual_message_unequal_to_expected() {
     // GIVEN
     Throwable actualCause = new RuntimeException("wibble");
+    Throwable actual = new RuntimeException(actualCause);
     String expectedMessage = "wobble";
     // WHEN
-    String actual = shouldHaveRootCauseWithMessage(actualCause, expectedMessage).create(DESCRIPTION);
+    String message = shouldHaveRootCauseWithMessage(actual, actualCause, expectedMessage).create(DESCRIPTION);
     // THEN
-    assertThat(actual).isEqualTo(format("[TEST] %n" +
-                                        "Expecting a root cause with message:%n" +
-                                        "  <\"wobble\">%n" +
-                                        "but message was:%n" +
-                                        "  <\"wibble\">."));
+    assertThat(message).isEqualTo(format("[TEST] %n" +
+                                         "Expecting a root cause with message:%n" +
+                                         "  <\"wobble\">%n" +
+                                         "but message was:%n" +
+                                         "  <\"wibble\">." +
+                                         "%n" +
+                                         "Throwable that failed the check:%n" +
+                                         "%n%s",
+                                         getStackTrace(actual)));
   }
 }

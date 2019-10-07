@@ -41,7 +41,6 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
                                                     String testDescription) {
     // WHEN
     throwables.assertHasRootCause(INFO, throwable, expectedRootCause);
-
     // THEN
     // no exception thrown
   }
@@ -62,12 +61,10 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
                                                       String testDescription) {
     // GIVEN
     final Throwable throwable = withRootCause(actualRootCause);
-
     // WHEN
     expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, unexpectedRootCause));
-
     // THEN
-    verify(failures).failure(INFO, shouldHaveRootCause(actualRootCause, unexpectedRootCause));
+    verify(failures).failure(INFO, shouldHaveRootCause(throwable, actualRootCause, unexpectedRootCause));
   }
 
   // @format:off
@@ -85,10 +82,8 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
     // GIVEN
     final Throwable throwable = null;
     final Throwable expected = new Throwable();
-
     // WHEN
     AssertionError actual = expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, expected));
-
     // THEN
     assertThat(actual).hasMessage(actualIsNull());
   }
@@ -99,10 +94,8 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
     Throwable rootCause = new NullPointerException();
     final Throwable throwable = withRootCause(rootCause);
     final Throwable expected = null;
-
     // WHEN
     expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, expected));
-
     // THEN
     verify(failures).failure(INFO, shouldHaveNoCause(throwable));
   }
