@@ -54,6 +54,7 @@ class SoftProxies {
                                                                                                                       .or(named("extractingByKey"))
                                                                                                                       .or(named("extractingByKeys"))
                                                                                                                       .or(named("extractingFromEntries"))
+                                                                                                                      .or(named("get"))
                                                                                                                       .or(named("asInstanceOf"));
 
   private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
