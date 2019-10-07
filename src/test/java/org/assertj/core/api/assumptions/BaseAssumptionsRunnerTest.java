@@ -80,13 +80,13 @@ public abstract class BaseAssumptionsRunnerTest {
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
-  public void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
+  void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(assumptionRunner::runFailingAssumption);
   }
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
-  public void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
+  void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
     assertThatCode(assumptionRunner::runPassingAssumption).doesNotThrowAnyException();
   }
 }
