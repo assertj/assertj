@@ -16,16 +16,21 @@ import static java.util.Collections.unmodifiableCollection;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.JoinDescription;
 import org.assertj.core.util.VisibleForTesting;
 
 
 /**
  * Join of two or more <code>{@link Condition}</code>s.
  * @param <T> the type of object this condition accepts.
- * 
+ *
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
@@ -44,7 +49,17 @@ public abstract class Join<T> extends Condition<T> {
   protected Join(Condition<? super T>... conditions) {
     checkNotNull(conditions, conditionsIsNull());
     this.conditions = Arrays.stream(conditions).map(Join::notNull).collect(toList());
+    List<Description> descriptions = this.conditions.stream()
+                                                    .map(Condition::description)
+                                                    .collect(toList());
+    this.describedAs(new JoinDescription(descriptionPrefix() + ":[", "]", descriptions));
   }
+
+  /**
+   * method used to prefix the subclass join description, ex: "all of"
+   * @return the prefix to use to build the description.
+   */
+  public abstract String descriptionPrefix();
 
   /**
    * Creates a new <code>{@link Join}</code>.

@@ -12,13 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
-
 import org.assertj.core.api.Condition;
-import org.assertj.core.description.Description;
-import org.assertj.core.description.JoinDescription;
 
 /**
  * Returns {@code true} if all of the joined conditions are satisfied.
@@ -70,10 +64,7 @@ public class AllOf<T> extends Join<T> {
   }
 
   @Override
-  public String toString() {
-    List<Description> descriptions = conditions.stream()
-                                               .map(Condition::description)
-                                               .collect(toList());
-    return new JoinDescription("all of:[", "]", descriptions).value();
+  public String descriptionPrefix() {
+    return "all of";
   }
 }

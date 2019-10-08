@@ -35,4 +35,9 @@ public class ConcreteJoin extends Join<Object> {
   public boolean matches(Object value) {
     return false;
   }
+
+  @Override
+  public String descriptionPrefix() {
+    return "concrete";
+  }
 }
