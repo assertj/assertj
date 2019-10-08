@@ -1644,6 +1644,26 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * A syntax sugar to write fluent assertion with methods having an {@link InstanceOfAssertFactory} parameter.
+   * <p>
+   * Example:
+   * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
+   * assertThat(yoda).extracting(Jedi::getName, as(InstanceOfAssertFactories.STRING))
+   *                 .startsWith("Yo");</code></pre>
+   *
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @param <T>           the type to use for the cast.
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @return same instance of {@code assertFactory}
+   *
+   * @since 3.14.0
+   * @see Assertions#as(InstanceOfAssertFactory)
+   */
+  default <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
+    return Assertions.as(assertFactory);
+  }
+
+  /**
    * Creates a new <code>{@link AnyOf}</code>
    *
    * @param <T> the type of object the given condition accept.

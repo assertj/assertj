@@ -47,7 +47,6 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
   }
 
   // @format:off
-  @SuppressWarnings("unused")
   private static Stream<Arguments> passingData() {
     return Stream.of(Arguments.of(withRootCause(new IllegalArgumentException("bang")), new IllegalArgumentException("bang"), "same root cause"),
                      Arguments.of(withCause(new IllegalArgumentException("wibble")), new IllegalArgumentException("wibble"), "same cause"),
@@ -72,7 +71,6 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
   }
 
   // @format:off
-  @SuppressWarnings("unused")
   private static Stream<Arguments> failingData() {
     return Stream.of(Arguments.of(null, new RuntimeException(), "no actual cause"),
                      Arguments.of(new IllegalArgumentException(), new NullPointerException(), "different root cause type"),

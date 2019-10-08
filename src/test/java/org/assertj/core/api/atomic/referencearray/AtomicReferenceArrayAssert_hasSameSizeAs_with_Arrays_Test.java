@@ -57,7 +57,7 @@ public class AtomicReferenceArrayAssert_hasSameSizeAs_with_Arrays_Test {
     final String[] actual = array("Luke", "Yoda");
     final String[] other = array("Yoda");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameSizeAs(other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length,
                                                                                      other.length).create());
   }
 }

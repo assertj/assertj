@@ -12,26 +12,24 @@
  */
 package org.assertj.core.internal.objects;
 
-import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.assertj.core.internal.ErrorMessages.iterableIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.iterableIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Objects#assertIsNotIn(AssertionInfo, Object, Iterable)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -39,30 +37,30 @@ import org.junit.jupiter.api.Test;
  */
 public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
 
-  private static Iterable<String> values;
+  private Iterable<String> values;
 
-  @BeforeAll
-  public static void setUpOnce() {
+  @BeforeEach
+  public void setUpOnce() {
     values = newArrayList("Yoda", "Leia");
   }
 
   @Test
   public void should_throw_error_if_Iterable_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      Iterable<String> c = null;
-      objects.assertIsNotIn(someInfo(), "Luke", c);
-    }).withMessage(iterableIsNull());
-  }
-
-  @Test
-  public void should_throw_error_if_Iterable_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> objects.assertIsNotIn(someInfo(), "Luke", emptyList()))
-                                        .withMessage(iterableIsEmpty());
+    // GIVEN
+    Iterable<String> iterable = null;
+    // THEN
+    assertThatNullPointerException().isThrownBy(() -> objects.assertIsNotIn(someInfo(), "Luke", iterable))
+                                    .withMessage(iterableIsNull());
   }
 
   @Test
   public void should_pass_if_actual_is_not_in_Iterable() {
     objects.assertIsNotIn(someInfo(), "Luke", values);
+  }
+
+  @Test
+  public void should_pass_if_given_Iterable_is_empty() {
+    objects.assertIsNotIn(someInfo(), "Luke", emptySet());
   }
 
   @Test
@@ -72,14 +70,12 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_in_Iterable() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    try {
-      objects.assertIsNotIn(info, "Yoda", values);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeIn("Yoda", values));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    expectAssertionError(() -> objects.assertIsNotIn(info, "Yoda", values));
+    // THEN
+    verify(failures).failure(info, shouldNotBeIn("Yoda", values));
   }
 
   @Test
@@ -89,14 +85,12 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_in_Iterable_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    try {
-      objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeIn("YODA", values, customComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    expectAssertionError(() -> objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values));
+    // THEN
+    verify(failures).failure(info, shouldNotBeIn("YODA", values, customComparisonStrategy));
   }
 
 }

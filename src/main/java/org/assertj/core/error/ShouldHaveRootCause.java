@@ -14,8 +14,16 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 public class ShouldHaveRootCause extends BasicErrorMessageFactory {
+
+  public static ErrorMessageFactory shouldHaveRootCauseWithMessage(Throwable actualCause, String expectedMessage) {
+    checkArgument(expectedMessage != null, "expected root cause message should not be null");
+    if (actualCause == null) return new ShouldHaveRootCause(expectedMessage);
+    return new ShouldHaveRootCause(actualCause, expectedMessage);
+  }
 
   public static ErrorMessageFactory shouldHaveRootCause(Throwable actualCause, Throwable expectedCause) {
     checkArgument(expectedCause != null, "expected cause should not be null");
@@ -61,6 +69,14 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
           "but type was:%n" +
           "  <%s>.",
           expectedCauseClass.getName(), actualCause.getClass().getName());
+  }
+
+  private ShouldHaveRootCause(String expectedMessage) {
+    super("%n" +
+        "Expecting a root cause with message:%n" +
+        "  <%s>%n" +
+        "but actual had no root cause.",
+      expectedMessage);
   }
 
   private ShouldHaveRootCause(Throwable actualCause, String expectedCauseMessage) {

@@ -13,13 +13,14 @@
 package org.assertj.core.internal.objectarrays;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, Object[], Object)}</code>.
- * 
+ *
  * @author Nicolas François
  * @author Joel Costigliola
  */
@@ -35,29 +36,34 @@ public class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArra
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(someInfo(), null, array("Solo", "Leia")))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    // WHEN
+    ThrowingCallable code = () -> arrays.assertHasSameSizeAs(someInfo(), actual, array("Solo", "Leia", "Luke"));
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_other_is_null() {
-    String[] actual = array("Solo", "Leia");
+    // GIVEN
     String[] other = null;
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(someInfo(), actual,
-                                                                                                other))
-                                                   .withMessage(format("%nExpecting an array but was:<null>"));
+    // WHEN
+    ThrowingCallable code = () -> arrays.assertHasSameSizeAs(someInfo(), actual, other);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(format("%nExpecting an array but was:<null>"));
   }
 
   @Test
   public void should_fail_if_actual_size_is_not_equal_to_other_size() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    String[] actual = array("Yoda");
     String[] other = array("Solo", "Leia");
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length,
-                                                                                     other.length).create(null,
-                                                                                                          info.representation()));
+    // WHEN
+    ThrowingCallable code = () -> arrays.assertHasSameSizeAs(info, actual, other);
+    // THEN
+    String error = shouldHaveSameSizeAs(actual, other, actual.length, other.length).create(null, info.representation());
+    assertThatAssertionErrorIsThrownBy(code).withMessage(error);
   }
 
   @Test

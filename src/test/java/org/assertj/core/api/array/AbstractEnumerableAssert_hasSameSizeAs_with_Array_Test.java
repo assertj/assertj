@@ -71,7 +71,7 @@ public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
     final byte[] actual = new byte[]{1, 2};
     final byte[] other = new byte[]{1, 2, 3};
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameSizeAs(other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.length).create());
   }
 
 }

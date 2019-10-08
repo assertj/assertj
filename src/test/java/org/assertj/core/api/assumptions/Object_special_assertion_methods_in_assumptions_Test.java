@@ -12,44 +12,56 @@
  */
 package org.assertj.core.api.assumptions;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.assumptions.BaseAssumptionRunner.assumptionRunner;
+
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ProxyableObjectAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
 
-import java.util.stream.Stream;
-
 /**
  * verify that assertions final methods or methods changing the object under test in {@link ObjectAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableObjectAssert}).
  */
-public class Object_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {;
+public class Object_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
+  @SuppressWarnings("unchecked")
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
-    return Stream.of(
-        assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
-            value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
-                                      .contains("Frodo", 33),
-            value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
-                                      .contains("Gandalf", 1000)),
-        assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
-            value -> assumeThat(value).extracting(TolkienCharacter::getName)
-                                      .isEqualTo("Frodo"),
-            value -> assumeThat(value).extracting(TolkienCharacter::getName)
-                                      .isEqualTo("Gandalf")),
-        assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
-            value -> assumeThat(value).extracting("name", "age")
-                                      .contains("Frodo", 33),
-            value -> assumeThat(value).extracting("name", "age")
-                                      .contains("Gandalf", 1000)),
-        assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
-            value -> assumeThat(value).extracting("name", "age")
-                                      .contains("Frodo", 33),
-            value -> assumeThat(value).extracting("name", "age")
-                                      .contains("Gandalf", 1000))
-    );
+    return Stream.of(assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
+                                                                .contains("Frodo", 33),
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
+                                                                .contains("Gandalf", 1000)),
+                     assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName)
+                                                                .isEqualTo("Frodo"),
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName)
+                                                                .isEqualTo("Gandalf")),
+                     assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, as(STRING))
+                                                                .startsWith("Fro"),
+                                      value -> assumeThat(value).extracting(TolkienCharacter::getName, as(STRING))
+                                                                .startsWith("Gan")),
+                     assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+                                      value -> assumeThat(value).extracting("name", "age")
+                                                                .contains("Frodo", 33),
+                                      value -> assumeThat(value).extracting("name", "age")
+                                                                .contains("Gandalf", 1000)),
+                     assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+                                      value -> assumeThat(value).extracting("name")
+                                                                .isEqualTo("Frodo"),
+                                      value -> assumeThat(value).extracting("name")
+                                                                .isEqualTo("Gandalf")),
+                     assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
+                                      value -> assumeThat(value).extracting("name", as(STRING))
+                                                                .startsWith("Fro"),
+                                      value -> assumeThat(value).extracting("name", as(STRING))
+                                                                .startsWith("Gan")));
   }
+
 }

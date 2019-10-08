@@ -48,7 +48,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
     assertThat(ignored).as("%s collection order should be ignored", dualKey).isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<DualValue> should_ignore_collection_order_source() {
     return Stream.of(dualKeyWithPath("name"),
                      dualKeyWithPath("name", "first"));
@@ -78,7 +77,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
                        .isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> should_ignore_collection_order_in_specified_fields_source() {
     return Stream.of(arguments(dualKeyWithPath("name"), array("name")),
                      arguments(dualKeyWithPath("name"), array("foo", "name", "foo")),
@@ -109,7 +107,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
                        .isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> should_ignore_collection_order_in_fields_matching_specified_regexes_source() {
     return Stream.of(arguments(dualKeyWithPath("name"), array(".*name")),
                      arguments(dualKeyWithPath("name"), array("foo", "n.m.", "foo")),
@@ -133,7 +130,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
                        .isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> should_ignore_collection_order_in_fields_source() {
     return Stream.of(arguments(dualKeyWithPath("name")),
                      arguments(dualKeyWithPath("number")),

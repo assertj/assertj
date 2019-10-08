@@ -151,19 +151,21 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   /**
    * Verifies that the actual value is present in the given array of values.
    * <p>
+   * This assertion always fails if the given array of values is empty.
+   * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    *
    * // assertion will pass:
    * assertThat(nenya).isIn(elvesRings);
    *
-   * // assertion will fail:
-   * assertThat(oneRing).isIn(elvesRings);</code></pre>
+   * // assertions will fail:
+   * assertThat(oneRing).isIn(elvesRings);
+   * assertThat(oneRing).isIn(new Ring[0]);</code></pre>
    *
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given array is {@code null}.
-   * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is not present in the given array.
    */
   SELF isIn(Object... values);
@@ -171,11 +173,14 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   /**
    * Verifies that the actual value is not present in the given array of values.
    * <p>
+   * This assertion always succeeds if the given array of values is empty.
+   * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    *
-   * // assertion will pass:
+   * // assertions will pass:
    * assertThat(oneRing).isNotIn(elvesRings);
+   * assertThat(oneRing).isNotIn(new Ring[0]);
    *
    * // assertion will fail:
    * assertThat(nenya).isNotIn(elvesRings);</code></pre>
@@ -183,39 +188,43 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given array is {@code null}.
-   * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is present in the given array.
    */
   SELF isNotIn(Object... values);
 
   /**
-   * Verifies that the actual value is present in the given values.
+   * Verifies that the actual value is present in the given iterable.
+   * <p>
+   * This assertion always fails if the given iterable is empty.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = list(vilya, nenya, narya);
    *
    * // assertion will pass:
    * assertThat(nenya).isIn(elvesRings);
    *
-   * // assertion will fail:
-   * assertThat(oneRing).isIn(elvesRings);</code></pre>
+   * // assertions will fail:
+   * assertThat(oneRing).isIn(elvesRings);
+   * assertThat(oneRing).isIn(emptyList());</code></pre>
    *
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
-   * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is not present in the given collection.
    */
   SELF isIn(Iterable<?> values);
 
   /**
-   * Verifies that the actual value is not present in the given values.
+   * Verifies that the actual value is not present in the given iterable.
+   * <p>
+   * This assertion always succeeds if the given iterable is empty.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = list(vilya, nenya, narya);
    *
-   * // assertion will pass:
+   * // assertions will pass:
    * assertThat(oneRing).isNotIn(elvesRings);
+   * assertThat(oneRing).isNotIn(emptyList());
    *
    * // assertion will fail:
    * assertThat(nenya).isNotIn(elvesRings);</code></pre>
@@ -223,7 +232,6 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
-   * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is present in the given collection.
    */
   SELF isNotIn(Iterable<?> values);
@@ -291,8 +299,9 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * // assertion will fail
    * assertThat(&quot;abc&quot;).asInstanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
    *
+   * @param <ASSERT>                the type of the resulting {@code Assert}.
    * @param instanceOfAssertFactory the factory which verifies the type and creates the new {@code Assert}.
-   * @param <ASSERT> the type of the resulting {@code Assert}.
+   * @throws NullPointerException if the given factory is {@code null}.
    * @return the narrowed {@code Assert} instance.
    *
    * @see InstanceOfAssertFactory

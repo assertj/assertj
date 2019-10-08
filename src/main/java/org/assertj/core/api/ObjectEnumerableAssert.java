@@ -349,7 +349,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(elvesRings).containsSubsequence(nenya, vilya);</code></pre>
    * <p>
    * If you want to specify the elements of the subsequence to check with an {@link Iterable}, use {@link #containsSubsequence(Iterable) containsSubsequence(Iterable)} instead.
-  
+
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -1047,32 +1047,42 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
    * iterable and nothing else, <b>in any order</b> and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
-   * Use {@link #isSubsetOf(Iterable)} to check that actual is a subset of given iterable
+   * <b>This assertion has been deprecated because its name is confusing</b>, users were expecting it to behave like {@link #isSubsetOf(Iterable)}.
    * <p>
-   * Example:
+   * For example this assertion fails when users expected it to pass:
+   * <pre><code class='java'> Iterable&lt;Ring&gt; rings = list(nenya, vilya);
+   *
+   * // assertion fails because narya is not in rings, confusing!
+   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya, narya));</code></pre>
+   * <p>
+   * Use {@link #isSubsetOf(Iterable)} to check that actual is a subset of given iterable, or if you need to same assertion semantics use {@link #hasSameElementsAs(Iterable)}.
+   * <p>
+   * Examples:
    * <pre><code class='java'> Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
    *
    * // assertion will pass
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya))
-   *                  .containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
-   * assertThat(newArrayList(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
+   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya))
+   *                  .containsOnlyElementsOf(list(nenya, nenya, vilya, vilya));
+   * assertThat(list(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
    *
    * // assertion will fail as actual does not contain narya
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
+   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya, narya));
    * // assertion will fail as actual contains nenya
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));</code></pre>
+   * assertThat(rings).containsOnlyElementsOf(list(vilya));</code></pre>
    * <p>
    * If you want to directly specify the elements to check, use {@link #containsOnly(Object...) containsOnly(Object...)} instead.
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    *
    * @return {@code this} assertion object.
+   * @deprecated
    */
+  @Deprecated
   SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
-   * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
-   * given iterable and nothing else, <b>in any order</b>.
+   * Verifies that actual contains all the elements of the given iterable and nothing else, <b>in any order</b>
+   * and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);

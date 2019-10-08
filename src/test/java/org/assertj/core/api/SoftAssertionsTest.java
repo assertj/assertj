@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.entry;
@@ -422,11 +423,20 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting("first", "last")
           .contains("John", "Doe");
     softly.assertThat(name)
+          .extracting("first")
+          .isEqualTo("John");
+    softly.assertThat(name)
+          .extracting("first", as(STRING))
+          .startsWith("Jo");
+    softly.assertThat(name)
           .extracting(Name::getFirst, Name::getLast)
           .contains("John", "Doe");
     softly.assertThat(name)
           .extracting(Name::getFirst)
           .isEqualTo("John");
+    softly.assertThat(name)
+          .extracting(Name::getFirst, as(STRING))
+          .startsWith("Jo");
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
   }
@@ -531,6 +541,31 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
             .contains("John")
             .contains("Jane");
     }
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  void should_pass_when_using_extracting_with_map() {
+    // GIVEN
+    Map<String, Object> map = mapOf(entry("name", "kawhi"), entry("age", 25));
+    // WHEN
+    softly.assertThat(map)
+          .extractingByKeys("name", "age")
+          .contains("kawhi", 25);
+    softly.assertThat(map)
+          .extractingByKey("name")
+          .isEqualTo("kawhi");
+    softly.assertThat(map)
+          .extractingByKey("name", as(STRING))
+          .startsWith("kaw");
+    softly.assertThat(map)
+          .extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
+          .contains(tuple("name", "kawhi"), tuple("age", 25));
+    softly.assertThat(map)
+          .extractingFromEntries(Map.Entry::getValue)
+          .contains("kawhi", 25);
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
   }
 
   @Test
@@ -642,6 +677,43 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                         .containsExactly("error 1", "error 2", "error 3");
   }
 
+  @SuppressWarnings("unchecked")
+  @Test
+  public void should_collect_all_errors_when_using_extracting_on_object() {
+    // GIVEN
+    TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+    // WHEN
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 1")
+          .extracting("name")
+          .isEqualTo("Foo");
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 2")
+          .extracting("name", "age")
+          .contains("Frodo", 55);
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 3")
+          .extracting("name", as(STRING))
+          .startsWith("Bar");
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 4")
+          .extracting(TolkienCharacter::getName,
+                      character -> character.age,
+                      character -> character.getRace())
+          .containsExactly("Frodon", 33, HOBBIT);
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 5")
+          .extracting(TolkienCharacter::getName)
+          .isEqualTo("Foo");
+    softly.assertThat(frodo)
+          .overridingErrorMessage("error 6")
+          .extracting(TolkienCharacter::getName, as(STRING))
+          .startsWith("Bar");
+    // THEN
+    assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                        .containsExactly("error 1", "error 2", "error 3", "error 4", "error 5", "error 6");
+  }
+
   @Test
   public void should_collect_all_errors_when_using_flat_extracting() {
     // GIVEN
@@ -751,24 +823,18 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_optional() {
-    // GIVEN
-    Optional<String> optional = Optional.of("Gandalf");
-    // WHEN
-    softly.assertThat(optional).contains("Gandalf");
-    // THEN
-    softly.assertAll();
-  }
-
-  @Test
-  public void should_work_with_optional_chained_with_map() {
+  void should_work_with_optional() {
     // GIVEN
     Optional<String> optional = Optional.of("Gandalf");
     // WHEN
     softly.assertThat(optional)
-          .contains("Gandalf")
+          .contains("Gandalf");
+    softly.assertThat(optional)
           .map(String::length)
           .contains(7);
+    softly.assertThat(optional)
+          .get()
+          .isEqualTo("Gandalf");
     // THEN
     softly.assertAll();
   }
@@ -1637,12 +1703,16 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(map)
           .as("extracting(\"a\")")
           .overridingErrorMessage("error message")
-          // convert to Object otherwise will use extracting(String) in AbstractObjectAssert
-          .extracting((Object) "a")
+          .extractingByKey("a")
           .isEqualTo("456");
+    softly.assertThat(map)
+          .as("extracting(\"a\") as string")
+          .overridingErrorMessage("error message")
+          .extractingByKey("a", as(STRING))
+          .startsWith("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(16);
+    assertThat(errors).hasSize(17);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1660,6 +1730,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
     assertThat(errors.get(14)).hasMessageContaining("to contain only");
     assertThat(errors.get(15)).hasMessage("[extracting(\"a\")] error message");
+    assertThat(errors.get(16)).hasMessage("[extracting(\"a\") as string] error message");
   }
 
   @Test
@@ -1733,14 +1804,21 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .map(String::length)
           .hasValue(4)
           .hasValue(888); // fail
+    softly.assertThat(optional)
+          .as("get()")
+          .overridingErrorMessage("error message")
+          .get()
+          .isEqualTo("Yoda")
+          .isEqualTo("Luke"); // fail
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(3);
+    assertThat(errorsCollected).hasSize(4);
     assertThat(errorsCollected.get(0)).hasMessage("[map(String::length)] error message");
     assertThat(errorsCollected.get(1)).hasMessageContaining("flatMap(upperCaseOptional)")
                                       .hasMessageContaining("yoda");
     assertThat(errorsCollected.get(2)).hasMessageContaining("map(String::length) after flatMap(upperCaseOptional)")
                                       .hasMessageContaining("888");
+    assertThat(errorsCollected.get(3)).hasMessage("[get()] error message");
   }
 
   @Test
@@ -1940,21 +2018,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                       .hasMessageContaining("HOBBIT")
                                       .hasMessageContaining("ELF")
                                       .hasMessageContaining("MAN");
-  }
-
-  @Test
-  public void soft_assertions_should_work_with_asInstanceOf() {
-    // GIVEN
-    Object value = "abc";
-    // WHEN
-    softly.assertThat(value)
-          .as("startsWith")
-          .asInstanceOf(STRING)
-          .startsWith("b");
-    // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("[startsWith]");
   }
 
   @Nested

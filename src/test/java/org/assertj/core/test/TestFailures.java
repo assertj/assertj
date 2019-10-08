@@ -12,9 +12,9 @@
  */
 package org.assertj.core.test;
 
-import org.assertj.core.api.Assertions;
-
 import static org.assertj.core.api.Assertions.fail;
+
+import org.assertj.core.api.Assertions;
 
 /**
  * @author Yvonne Wang
@@ -53,6 +53,7 @@ public final class TestFailures {
    *
    */
   //FIXME A developer method probably to deprecate but as currently very used in the testing code, I add only the information in the javadoc
+  @Deprecated
   public static void failBecauseExpectedAssertionErrorWasNotThrown() {
     fail("Assertion error expected");
   }

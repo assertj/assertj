@@ -14,6 +14,8 @@ package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import java.math.BigDecimal;
@@ -22,6 +24,7 @@ import java.util.Comparator;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -116,6 +119,15 @@ public class ObjectAssert_extracting_Test {
     assertThat(obiwan).extracting("name", "height")
                       .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                       .containsExactly("Obi-Wan", new BigDecimal("1.82"));
+  }
+
+  @Test
+  void should_throw_IntrospectionError_if_given_field_name_cannot_be_read() {
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("foo"));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class)
+                .hasMessageContaining("Can't find any field or property with name 'foo'.");
   }
 
   @SuppressWarnings("unused")

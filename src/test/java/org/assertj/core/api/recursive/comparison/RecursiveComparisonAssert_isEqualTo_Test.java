@@ -192,7 +192,6 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> recursivelyEqualObjects() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;
@@ -331,7 +330,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
     ComparisonDifference missingFieldDifference = diff("", actual, expected,
-                                                       "org.assertj.core.internal.objects.data.Giant can't be compared to org.assertj.core.internal.objects.data.Human as Human does not declare all Giant fields, it lacks these:[height]");
+                                                       "org.assertj.core.internal.objects.data.Giant can't be compared to org.assertj.core.internal.objects.data.Human as Human does not declare all Giant fields, it lacks these: [height]");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, missingFieldDifference);
   }
 

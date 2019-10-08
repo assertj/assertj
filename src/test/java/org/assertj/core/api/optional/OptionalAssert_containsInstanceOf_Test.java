@@ -13,50 +13,54 @@
 package org.assertj.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 
 import org.assertj.core.api.BaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
+@DisplayName("OptionalAssert containsInstanceOf")
+class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
   @Test
-  public void should_fail_if_optional_is_empty() {
+  void should_fail_if_optional_is_empty() {
+    // GIVEN
     Optional<Object> actual = Optional.empty();
-
-    Throwable thrown = catchThrowable(() -> {
-      assertThat(actual).containsInstanceOf(Object.class);
-    });
-
-    assertThat(thrown).isInstanceOf(AssertionError.class)
-                      .hasMessage(shouldBePresent(actual).create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
+    // THEN
+    then(assertionError).hasMessage(shouldBePresent(actual).create());
   }
 
   @Test
-  public void should_pass_if_optional_contains_required_type() {
-    assertThat(Optional.of("something")).containsInstanceOf(String.class)
-                                        .containsInstanceOf(Object.class);
+  void should_pass_if_optional_contains_required_type() {
+    // GIVEN
+    Optional<String> optional = Optional.of("something");
+    // THEN
+    then(optional).containsInstanceOf(String.class);
   }
 
   @Test
-  public void should_pass_if_optional_contains_required_type_subclass() {
-    assertThat(Optional.of(new SubClass())).containsInstanceOf(ParentClass.class);
+  void should_pass_if_optional_contains_required_type_subclass() {
+    // GIVEN
+    Optional<SubClass> optional = Optional.of(new SubClass());
+    // THEN
+    then(optional).containsInstanceOf(ParentClass.class);
   }
 
   @Test
-  public void should_fail_if_optional_contains_other_type_than_required() {
+  void should_fail_if_optional_contains_other_type_than_required() {
+    // GIVEN
     Optional<ParentClass> actual = Optional.of(new ParentClass());
-
-    Throwable thrown = catchThrowable(() -> {
-      assertThat(actual).containsInstanceOf(OtherClass.class);
-    });
-
-    assertThat(thrown).isInstanceOf(AssertionError.class)
-                      .hasMessage(shouldContainInstanceOf(actual, OtherClass.class).create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(OtherClass.class));
+    // THEN
+    then(assertionError).hasMessage(shouldContainInstanceOf(actual, OtherClass.class).create());
   }
 
   private static class ParentClass {

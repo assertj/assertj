@@ -65,7 +65,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
                        .isFalse();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Object> ignoringAllOverriddenEqualsExceptBasicTypes() {
     return Stream.of("foo", 23, 2.0, 123L, true, Byte.MIN_VALUE, new Object(), new Date());
   }
@@ -82,7 +81,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
                        .isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringOverriddenEqualsByRegexesSource() {
     return Stream.of(arguments(Person.class, array("foo", ".*Person")),
                      arguments(Human.class, array("org.assertj.core.internal.*.data\\.Human", "foo")),
@@ -101,7 +99,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
                        .isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringOverriddenEqualsForTypesSource() {
     return Stream.of(arguments(Person.class, list(Human.class, Person.class, String.class)),
                      arguments(Human.class, list(Human.class)));
@@ -119,7 +116,6 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
                        .isTrue();
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> ignoringOverriddenEqualsForFieldsSource() {
     return Stream.of(arguments(dualKeyWithPath("name"), array("name")),
                      arguments(dualKeyWithPath("name"), array("foo", "name", "foo")),

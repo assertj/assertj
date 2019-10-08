@@ -1378,15 +1378,15 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that there are <b>at least</b> <i>n</i> elements in the actual AtomicReferenceArray satisfying the given condition.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneThwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
+   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneTwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
    *
    * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
    *
    * // assertion will pass
-   * oneThwoThree.areAtLeast(2, oddNumber);
+   * oneTwoThree.areAtLeast(2, oddNumber);
    *
    * // assertion will fail
-   * oneThwoThree.areAtLeast(3, oddNumber);</code></pre>
+   * oneTwoThree.areAtLeast(3, oddNumber);</code></pre>
    *
    * @param times the minimum number of times the condition should be verified.
    * @param condition the given condition.
@@ -1424,16 +1424,16 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that there are <b>at most</b> <i>n</i> elements in the actual AtomicReferenceArray satisfying the given condition.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneThwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
+   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneTwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
    *
    * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
    *
    * // assertions will pass
-   * oneThwoThree.areAtMost(2, oddNumber);
-   * oneThwoThree.areAtMost(3, oddNumber);
+   * oneTwoThree.areAtMost(2, oddNumber);
+   * oneTwoThree.areAtMost(3, oddNumber);
    *
    * // assertion will fail
-   * oneThwoThree.areAtMost(1, oddNumber);</code></pre>
+   * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
    *
    * @param times the number of times the condition should be at most verified.
    * @param condition the given condition.
@@ -1452,16 +1452,16 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual AtomicReferenceArray satisfying the given condition.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneThwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
+   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneTwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
    *
    * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
    *
    * // assertion will pass
-   * oneThwoThree.areExactly(2, oddNumber);
+   * oneTwoThree.areExactly(2, oddNumber);
    *
    * // assertions will fail
-   * oneThwoThree.areExactly(1, oddNumber);
-   * oneThwoThree.areExactly(3, oddNumber);</code></pre>
+   * oneTwoThree.areExactly(1, oddNumber);
+   * oneTwoThree.areExactly(3, oddNumber);</code></pre>
    *
    * @param times the exact number of times the condition should be verified.
    * @param condition the given condition.
@@ -1498,15 +1498,15 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that there are <b>at least <i>n</i></b> elements in the actual AtomicReferenceArray satisfying the given condition.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneThwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
+   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneTwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
    *
    * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
    *
    * // assertion will pass
-   * oneThwoThree.haveAtLeast(2, oddNumber);
+   * oneTwoThree.haveAtLeast(2, oddNumber);
    *
    * // assertion will fail
-   * oneThwoThree.haveAtLeast(3, oddNumber);</code></pre>
+   * oneTwoThree.haveAtLeast(3, oddNumber);</code></pre>
    *
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
@@ -1520,16 +1520,16 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that there are <b>at most</b> <i>n</i> elements in the actual AtomicReferenceArray satisfying the given condition.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneThwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
+   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneTwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
    *
    * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
    *
    * // assertions will pass
-   * oneThwoThree.haveAtMost(2, oddNumber);
-   * oneThwoThree.haveAtMost(3, oddNumber);
+   * oneTwoThree.haveAtMost(2, oddNumber);
+   * oneTwoThree.haveAtMost(3, oddNumber);
    *
    * // assertion will fail
-   * oneThwoThree.haveAtMost(1, oddNumber);</code></pre>
+   * oneTwoThree.haveAtMost(1, oddNumber);</code></pre>
    *
    * This method is an alias {@link #areAtMost(int, Condition)}.
    */
@@ -1543,16 +1543,16 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that there are <b>exactly</b> <i>n</i> elements in the actual AtomicReferenceArray satisfying the given condition.
    * <p>
    * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneThwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
+   * <pre><code class='java'> AtomicReferenceArray&lt;Integer&gt; oneTwoThree = new AtomicReferenceArray&lt;&gt;(new Integer[]{1, 2, 3});
    *
    * Condition&lt;Integer&gt; oddNumber = new Condition&lt;&gt;(value % 2 == 1, "odd number");
    *
    * // assertion will pass
-   * oneThwoThree.haveExactly(2, oddNumber);
+   * oneTwoThree.haveExactly(2, oddNumber);
    *
    * // assertions will fail
-   * oneThwoThree.haveExactly(1, oddNumber);
-   * oneThwoThree.haveExactly(3, oddNumber);</code></pre>
+   * oneTwoThree.haveExactly(1, oddNumber);
+   * oneTwoThree.haveExactly(3, oddNumber);</code></pre>
    *
    * This method is an alias {@link #areExactly(int, Condition)}.
    */
@@ -2717,7 +2717,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> filteredOnNull(String propertyOrFieldName) {
-    // need to cast nulll to Object otherwise it calls :
+    // need to cast null to Object otherwise it calls :
     // filteredOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
     return filteredOn(propertyOrFieldName, (Object) null);
   }

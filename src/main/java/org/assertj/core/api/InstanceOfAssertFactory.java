@@ -50,4 +50,8 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     return assertFactory.createAssert(type.cast(value));
   }
 
+  @Override
+  public String toString() {
+    return type.getSimpleName() + " InstanceOfAssertFactory";
+  }
 }

@@ -61,8 +61,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   private static final String ORG_ASSERTJ = "org.assert";
 
-  @VisibleForTesting
-  Objects objects = Objects.instance();
+  protected Objects objects = Objects.instance();
 
   @VisibleForTesting
   Conditions conditions = Conditions.instance();

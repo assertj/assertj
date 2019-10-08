@@ -1265,7 +1265,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * assertThat(tested).hasDigest("SHA1", "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
    * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f".getBytes()); </code></pre>
    *
-   * @param algorithm the algorithm used to calulate the digests to compare.
+   * @param algorithm the algorithm used to calculate the digests to compare.
    * @param expected the expected binary content to compare the actual {@code Path}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given algorithm is {@code null}.

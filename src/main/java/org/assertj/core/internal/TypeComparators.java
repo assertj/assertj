@@ -42,7 +42,7 @@ public class TypeComparators {
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
   private static final FloatComparator DEFAULT_FLOAT_COMPARATOR = new FloatComparator(FLOAT_COMPARATOR_PRECISION);
 
-  // don't convert it to a lambda as it degrades TypeComparatorsPerfTest executio time by ~66%
+  // don't convert it to a lambda as it degrades TypeComparatorsPerfTest execution time by ~66%
   private static final Comparator<Class<?>> CLASS_COMPARATOR = new Comparator<Class<?>>() {
 
     @Override

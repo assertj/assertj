@@ -263,7 +263,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the unique element of the {@link Iterable} satifies the given assertions expressed as a {@link Consumer},
+   * Verifies that the unique element of the {@link Iterable} satisfies the given assertions expressed as a {@link Consumer},
    * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
    * <p>
    * Example:
@@ -308,7 +308,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
-   * @throws AssertionError if the {@link Iterable}'s unique element does not satifies the given assertions.
+   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfy the given assertions.
    *
    * @since 3.5.0
    */
@@ -1643,6 +1643,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * {@inheritDoc}
    */
+  @Deprecated
   @Override
   public SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable) {
     return containsOnly(toArray(iterable));
@@ -1653,7 +1654,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF hasSameElementsAs(Iterable<? extends ELEMENT> iterable) {
-    return containsOnlyElementsOf(iterable);
+    // containsOnlyElementsOf is deprecated so we use its implementation
+    return containsOnly(toArray(iterable));
   }
 
   /**
@@ -2407,6 +2409,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private ELEMENT lastElement() {
     if (actual instanceof List) {
+      @SuppressWarnings("unchecked")
       List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
       return list.get(list.size() - 1);
     }
@@ -2467,6 +2470,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
     ELEMENT elementAtIndex = null;
     if (actual instanceof List) {
+      @SuppressWarnings("unchecked")
       List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
       elementAtIndex = list.get(index);
     } else {

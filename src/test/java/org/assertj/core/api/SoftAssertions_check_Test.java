@@ -21,11 +21,10 @@ import java.util.List;
 import org.example.test.MyProjectAssertions;
 import org.example.test.MyProjectClass;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@DisplayName("SoftAssertions")
 public class SoftAssertions_check_Test {
 
   private SoftAssertions softly;

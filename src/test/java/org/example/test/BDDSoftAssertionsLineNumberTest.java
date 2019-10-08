@@ -24,16 +24,16 @@ import org.junit.jupiter.api.Test;
  * line number information will be removed by the assertj filtering of internal lines.
  * {@link org.assertj.core.util.Throwables#removeAssertJRelatedElementsFromStackTrace}
  */
-public class BDDSoftAssertionsLineNumberTest {
+class BDDSoftAssertionsLineNumberTest {
 
   @Test
-  public void should_print_line_numbers_of_failed_assertions() {
+  void should_print_line_numbers_of_failed_assertions() {
     BDDSoftAssertions softly = new BDDSoftAssertions();
     softly.then(1)
           .isLessThan(0)
           .isLessThan(1);
     // WHEN
-    AssertionError error = catchThrowableOfType(() -> softly.assertAll(), AssertionError.class);
+    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting:%n"

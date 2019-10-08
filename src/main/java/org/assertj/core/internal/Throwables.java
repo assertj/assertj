@@ -26,6 +26,7 @@ import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMe
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.error.ShouldHaveNoSuppressedExceptions.shouldHaveNoSuppressedExceptions;
 import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
+import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCauseWithMessage;
 import static org.assertj.core.error.ShouldHaveRootCauseExactlyInstance.shouldHaveRootCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
@@ -131,6 +132,21 @@ public class Throwables {
     if (actualRootCause == null) throw failures.failure(info, shouldHaveRootCause(null, expectedRootCause));
     if (!compareThrowable(actualRootCause, expectedRootCause))
       throw failures.failure(info, shouldHaveRootCause(actualRootCause, expectedRootCause));
+  }
+
+  /**
+   * Asserts that the message of the root cause of the actual {@code Throwable} is equal to the given one.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param expectedMessage the expected message of the root cause.
+   */
+  public void assertHasRootCauseMessage(AssertionInfo info, Throwable actual, String expectedMessage) {
+    assertNotNull(info, actual);
+    Throwable rootCause = getRootCause(actual);
+    if (null == rootCause) throw failures.failure(info, shouldHaveRootCauseWithMessage(rootCause, expectedMessage));
+    if (areEqual(rootCause.getMessage(), expectedMessage)) return;
+    throw failures.failure(info, shouldHaveRootCauseWithMessage(rootCause, expectedMessage), rootCause.getMessage(), expectedMessage);
   }
 
   /**

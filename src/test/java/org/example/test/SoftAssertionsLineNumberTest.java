@@ -27,17 +27,17 @@ import org.junit.jupiter.api.Test;
  * line number information will be removed by the assertj filtering of internal lines.
  * {@link org.assertj.core.util.Throwables#removeAssertJRelatedElementsFromStackTrace}
  */
-public class SoftAssertionsLineNumberTest {
+class SoftAssertionsLineNumberTest {
 
   @Test
-  public void should_print_line_numbers_of_failed_assertions() {
+  void should_print_line_numbers_of_failed_assertions() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(1)
           .isLessThan(0)
           .isLessThan(1);
     // WHEN
-    AssertionError error = catchThrowableOfType(() -> softly.assertAll(), AssertionError.class);
+    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting:%n"
@@ -54,7 +54,7 @@ public class SoftAssertionsLineNumberTest {
   }
 
   @Test
-  public void should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls() {
+  void should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(Optional.empty()).contains("Foo");
@@ -63,7 +63,7 @@ public class SoftAssertionsLineNumberTest {
     Predicate<String> lowercasePredicate = s -> s.equals(s.toLowerCase());
     softly.assertThat(lowercasePredicate).accepts("a", "b", "C");
     // WHEN
-    AssertionError error = catchThrowableOfType(() -> softly.assertAll(), AssertionError.class);
+    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting Optional to contain:%n"

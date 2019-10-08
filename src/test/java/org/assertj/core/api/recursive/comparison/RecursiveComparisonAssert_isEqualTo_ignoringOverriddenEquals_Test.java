@@ -47,7 +47,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> comparison_ignores_all_fields_overridden_equals_methods_data() {
     Person person1 = new Person();
     person1.neighbour = new AlwaysDifferentPerson();
@@ -80,7 +79,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> comparison_ignores_overridden_equals_methods_by_regexes_data() {
     Person person1 = new Person();
     person1.neighbour = new AlwaysDifferentPerson();
@@ -158,7 +156,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
 
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> comparison_ignores_overridden_equals_methods_by_types_data() {
     Person person1 = new Person();
     person1.neighbour = new AlwaysDifferentPerson();
@@ -230,7 +227,6 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> comparison_ignores_overridden_equals_methods_by_fields_data() {
     Person person1 = new Person();
     person1.neighbour = new AlwaysDifferentPerson();

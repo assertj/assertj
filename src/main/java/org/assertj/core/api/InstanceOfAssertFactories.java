@@ -244,7 +244,7 @@ public interface InstanceOfAssertFactories {
                                                                                             Assertions::assertThat);
 
   /**
-   * {@link InstanceOfAssertFactory} for a {@code byte} aray.
+   * {@link InstanceOfAssertFactory} for a {@code byte} array.
    */
   InstanceOfAssertFactory<byte[], AbstractByteArrayAssert<?>> BYTE_ARRAY = new InstanceOfAssertFactory<>(byte[].class,
                                                                                                          Assertions::assertThat);
