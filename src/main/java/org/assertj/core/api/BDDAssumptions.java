@@ -37,6 +37,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -1542,6 +1543,34 @@ public final class BDDAssumptions {
    */
   @SuppressWarnings("unchecked")
   public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> given(IntStream actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link Spliterator} value.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(Stream.of(1, 2).spliterator()).hasCharacteristics(Spliterator.SIZED)
+   *   // the remaining code is executed
+   *   ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(Stream.of(1, 2).spliterator()).hasCharacteristics(Spliterator.DISTINCT)
+   *   // the remaining code is NOT executed.
+   * }</code></pre>
+   *
+   * @param <ELEMENT> the type of the elements
+   * @param actual the actual {@link Spliterator} value to be validated.
+   * @return the {@link AbstractSpliteratorAssert} assertion object to be used for validation.
+   */
+  public static <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> given(Spliterator<ELEMENT> actual) {
     return assumeThat(actual);
   }
 

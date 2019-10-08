@@ -826,4 +826,5 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     // THEN
     then(result).isSameAs(assertFactory);
   }
+
 }
