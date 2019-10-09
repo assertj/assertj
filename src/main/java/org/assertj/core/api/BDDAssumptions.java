@@ -73,19 +73,19 @@ import org.assertj.core.util.CheckReturnValue;
  * {@link BDDAssumptions} and {@link BDDAssertions} complement each other to allow a fluent Behavior-driven development.
  * <p>
  * Examples:
- * <pre><code class='java'> String frodo = "HOBBIT";
+ * <pre><code class='java'> String hobbit = "HOBBIT";
  * List&lt;String&gt; fellowshipOfTheRing = list("Aragorn", "Gandalf", "Frodo", "Legolas"); // and more
  *
  * {@literal @Test}
  * public void given_the_assumption_is_not_met_the_test_is_skipped() {
- *   given(frodo).isEqualTo("ORC");
+ *   given(hobbit).isEqualTo("ORC");
  *   // ... following code is not executed
  *   then(fellowshipOfTheRing).contains("Sauron");
  * }
  *
  * {@literal @Test}
  * public void given_the_assumption_is_met_the_test_is_executed() {
- *   given(frodo).isEqualTo("HOBBIT");
+ *   given(hobbit).isEqualTo("HOBBIT");
  *   // ... following code is executed
  *   then(fellowshipOfTheRing).doesNotContain("Sauron");
  * }</code></pre>
