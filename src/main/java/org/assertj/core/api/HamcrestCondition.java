@@ -18,35 +18,55 @@ import org.hamcrest.StringDescription;
 
 /**
  * Allows to use a Hamcrest matcher as a condition.
- * 
+ *
  * Example:
  * <pre><code class='java'> Condition&lt;String&gt; aStringContainingA = new HamcrestCondition&lt;&gt;(containsString(&quot;a&quot;));
- * 
+ *
  * // assertions will pass
  * assertThat(&quot;abc&quot;).is(aStringContainingA);
  * assertThat(&quot;bc&quot;).isNot(aStringContainingA);
- * 
+ *
  * // assertion will fail
  * assertThat(&quot;bc&quot;).is(aStringContainingA);</code></pre>
+ *
+ * By static-importing the {@link #matching(Matcher)} method you can do:
+ * <pre><code class='java'> assertThat(&quot;abc&quot;).is(matching(containsString(&quot;a&quot;)));</code></pre>
  * @since 2.9.0 / 3.9.0
-*/
+ */
 public class HamcrestCondition<T> extends Condition<T> {
 
   private Matcher<? extends T> matcher;
 
   /**
    * Constructs a {@link Condition} using the matcher given as a parameter.
-   * 
+   *
    * @param matcher the Hamcrest matcher to use as a condition
    */
- public HamcrestCondition(Matcher<? extends T> matcher) {
+  public HamcrestCondition(Matcher<? extends T> matcher) {
     this.matcher = matcher;
     as(describeMatcher());
   }
 
- /**
-  * {@inheritDoc}
-  */
+  /**
+   * Constructs a {@link Condition} using the matcher given as a parameter.
+   * <p>
+   * Example:
+   * <p>
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.assertThat;
+   * import static org.assertj.core.api.HamcrestCondition.matching;
+   * import static org.hamcrest.core.StringContains.containsString;
+   *
+   * assertThat(&quot;abc&quot;).is(matching(containsString(&quot;a&quot;)));</code></pre>
+   *
+   * @param matcher the Hamcrest matcher to use as a condition
+   */
+  public static <T> HamcrestCondition<T> matching(Matcher<? extends T> matcher) {
+    return new HamcrestCondition<>(matcher);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean matches(T value) {
     return matcher.matches(value);
