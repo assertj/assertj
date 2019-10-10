@@ -12,31 +12,34 @@
  */
 package org.assertj.core.api.spliterator;
 
-import org.assertj.core.api.BaseTest;
+import com.google.common.collect.Sets;
 import org.assertj.core.api.SpliteratorAssert;
+import org.assertj.core.internal.SpliteratorsBaseTest;
 import org.assertj.core.test.StringSpliterator;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Spliterator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.error.ShouldContainOnly.*;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link SpliteratorAssert#hasOnlyCharacteristics(int...)}</code>.
  *
  * @author William Bakker
  */
-public class SpliteratorAssert_hasOnlyCharacteristics_Test extends BaseTest {
+public class SpliteratorAssert_hasOnlyCharacteristics_Test extends SpliteratorsBaseTest {
 
   @Test
   public void should_fail_when_spliterator_is_null() {
     // GIVEN
     Spliterator<?> nullActual = null;
     // THEN
-    assertThatAssertionErrorIsThrownBy(() -> assertThat(nullActual).hasOnlyCharacteristics(Spliterator.DISTINCT))
+    assertThatAssertionErrorIsThrownBy(() -> spliterators.assertHasOnlyCharacteristics(INFO, nullActual, Spliterator.DISTINCT))
       .withMessage(actualIsNull());
   }
 
@@ -45,7 +48,7 @@ public class SpliteratorAssert_hasOnlyCharacteristics_Test extends BaseTest {
     // GIVEN
     Spliterator<?> actual = createSpliterator(Spliterator.DISTINCT);
     // THEN
-    assertThat(actual).hasOnlyCharacteristics(Spliterator.DISTINCT);
+    spliterators.assertHasOnlyCharacteristics(INFO, actual, Spliterator.DISTINCT);
   }
 
   @Test
@@ -53,7 +56,7 @@ public class SpliteratorAssert_hasOnlyCharacteristics_Test extends BaseTest {
     // GIVEN
     Spliterator<?> actual = createSpliterator(Spliterator.DISTINCT | Spliterator.SORTED);
     // THEN
-    assertThat(actual).hasOnlyCharacteristics(Spliterator.DISTINCT, Spliterator.SORTED);
+    spliterators.assertHasOnlyCharacteristics(INFO, actual, Spliterator.DISTINCT, Spliterator.SORTED);
   }
 
   @Test
@@ -61,9 +64,12 @@ public class SpliteratorAssert_hasOnlyCharacteristics_Test extends BaseTest {
     // GIVEN
     Spliterator<?> actual = createSpliterator(Spliterator.SORTED | Spliterator.DISTINCT);
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).hasOnlyCharacteristics(Spliterator.DISTINCT));
+    expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, Spliterator.DISTINCT));
     // THEN
-    assertThat(thrown).isInstanceOf(AssertionError.class);
+    verify(failures).failure(INFO, shouldContainOnly(Sets.newHashSet("DISTINCT", "SORTED"),
+                                                     new String[] {"DISTINCT"},
+                                                     Collections.emptyList(),
+                                                     Collections.singletonList("SORTED")));
   }
 
   @Test
@@ -71,12 +77,16 @@ public class SpliteratorAssert_hasOnlyCharacteristics_Test extends BaseTest {
     // GIVEN
     Spliterator<?> actual = createSpliterator(Spliterator.SORTED);
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).hasOnlyCharacteristics(Spliterator.DISTINCT));
+    expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, Spliterator.DISTINCT));
     // THEN
-    assertThat(thrown).isInstanceOf(AssertionError.class);
+    verify(failures).failure(INFO, shouldContainOnly(Collections.singleton("SORTED"),
+                                                     new String[] {"DISTINCT"},
+                                                     Collections.singletonList("DISTINCT"),
+                                                     Collections.singletonList("SORTED")));
   }
 
   private Spliterator<?> createSpliterator(int characteristics) {
     return new StringSpliterator(characteristics);
   }
+
 }

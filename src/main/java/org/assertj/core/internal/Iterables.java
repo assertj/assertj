@@ -151,6 +151,11 @@ public class Iterables {
     return comparisonStrategy;
   }
 
+  @VisibleForTesting
+  public void setFailures(Failures failures) {
+    this.failures = failures;
+  }
+
   /**
    * Asserts that the given <code>{@link Iterable}</code> is {@code null} or empty.
    *

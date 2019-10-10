@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.VisibleForTesting;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -72,6 +73,11 @@ public class Spliterators {
     return INSTANCE;
   }
 
+  @VisibleForTesting
+  void setFailures(Failures failures) {
+    iterables.setFailures(failures);
+  }
+
   /**
    * Asserts the given <code>{@link Spliterator}</code> has the given characteristics.
    *
@@ -103,7 +109,7 @@ public class Spliterators {
     iterables.assertContainsOnly(info, actualCharacteristicNames, expectedCharacteristicNames.toArray(new String[0]));
   }
 
-  private Set<String> characteristicNames(int[] characteristics) {
+  private static Set<String> characteristicNames(int[] characteristics) {
     Set<String> names = new HashSet<>();
     for (int characteristic : characteristics) {
       names.addAll(characteristicNames(characteristic));
@@ -111,7 +117,7 @@ public class Spliterators {
     return names;
   }
 
-  private Set<String> characteristicNames(int characteristics) {
+  private static Set<String> characteristicNames(int characteristics) {
     Set<String> names = new HashSet<>();
     if (hasCharacteristic(characteristics, Spliterator.DISTINCT)) { names.add(SPLITERATOR_DISTINCT); }
     if (hasCharacteristic(characteristics, Spliterator.SORTED)) { names.add(SPLITERATOR_SORTED); }
@@ -124,7 +130,7 @@ public class Spliterators {
     return names;
   }
 
-  private boolean hasCharacteristic(int characteristics, int characteristic) {
+  private static boolean hasCharacteristic(int characteristics, int characteristic) {
     return (characteristics & characteristic) == characteristic;
   }
 }

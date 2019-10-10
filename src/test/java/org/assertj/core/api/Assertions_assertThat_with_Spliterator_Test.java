@@ -19,7 +19,7 @@ import java.util.Spliterator;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -90,13 +90,7 @@ public class Assertions_assertThat_with_Spliterator_Test {
   @Test
   public void isNotExactlyInstanceOf_should_check_the_original_spliterator() {
     assertThat(stringSpliterator).isNotExactlyInstanceOf(Spliterator.class);
-    try {
-      assertThat(stringSpliterator).isNotExactlyInstanceOf(StringSpliterator.class);
-    } catch (AssertionError e) {
-      // ok
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    expectAssertionError(() -> assertThat(stringSpliterator).isNotExactlyInstanceOf(StringSpliterator.class));
   }
 
   @Test
@@ -124,12 +118,7 @@ public class Assertions_assertThat_with_Spliterator_Test {
   @Test
   public void isNotSameAs_should_check_the_original_spliterator_without_consuming_it() {
     Spliterator<?> spliterator = mock(Spliterator.class);
-    try {
-      assertThat(spliterator).isNotSameAs(spliterator);
-    } catch (AssertionError e) {
-      verifyZeroInteractions(spliterator);
-      return;
-    }
-    Assertions.fail("Expected assertionError, because assert notSame on same spliterator.");
+    expectAssertionError(() -> assertThat(spliterator).isNotSameAs(spliterator));
+    verifyZeroInteractions(spliterator);
   }
 }

@@ -35,6 +35,15 @@ public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SE
 
   /**
    * Asserts the actual <code>{@link Spliterator}</code> has the given characteristics.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Spliterator&lt;Integer&gt; spliterator = Stream.of(1, 2, 3).spliterator();
+   *
+   * // this assertion succeeds:
+   * assertThat(spliterator).hasCharacteristics(Spliterator.SIZED);
+   *
+   * // this assertion fails as the Spliterator does not have characteristic DISTINCT:
+   * assertThat(spliterator).hasCharacteristics(Spliterator.DISTINCT); </code></pre>
    *
    * @param characteristics the expected characteristics.
    * @throws AssertionError if the actual {@code Spliterator} is {@code null}.
@@ -50,6 +59,18 @@ public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SE
 
   /**
    * Asserts the actual <code>{@link Spliterator}</code> has only the given characteristics and no else.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Spliterator&lt;Integer&gt; spliterator = Stream.of(1, 2, 3).spliterator();
+   *
+   * // this assertion succeeds:
+   * assertThat(spliterator).hasOnlyCharacteristics(Spliterator.SIZED,
+   *                                                Spliterator.SUBSIZED,
+   *                                                Spliterator.IMMUTABLE,
+   *                                                Spliterator.ORDERED);
+   *
+   * // this assertion fails as the Spliterator has additional characteristics IMMUTABLE and ORDERED:
+   * assertThat(spliterator).hasOnlyCharacteristics(Spliterator.SIZED, Spliterator.SUBSIZED); </code></pre>
    *
    * @param characteristics the expected characteristics.
    * @throws AssertionError if the actual {@code Spliterator} is {@code null}.
