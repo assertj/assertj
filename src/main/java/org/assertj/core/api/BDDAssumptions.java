@@ -95,8 +95,8 @@ import org.assertj.core.util.CheckReturnValue;
  */
 @CheckReturnValue
 public final class BDDAssumptions {
-  private BDDAssumptions() {
-  }
+
+  private BDDAssumptions() {}
 
   /**
    * Creates a new assumption's instance for a <code>boolean</code> value.
@@ -995,7 +995,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractObjectAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <T> ProxyableObjectAssert<T> given(T actual) {
     return assumeThat(actual);
   }
@@ -1025,7 +1024,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractObjectArrayAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <T> ProxyableObjectArrayAssert<T> given(T[] actual) {
     return assumeThat(actual);
   }
@@ -1085,7 +1083,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractComparableAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(T actual) {
     return assumeThat(actual);
   }
