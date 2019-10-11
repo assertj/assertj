@@ -810,7 +810,7 @@ public class Java6AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @return the created assertion object.
    */
   public AbstractUrlAssert<?> then(URL actual) {
-    return proxy(AbstractUrlAssert.class, URL.class, actual);
+    return proxy(UrlAssert.class, URL.class, actual);
   }
 
 }

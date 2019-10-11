@@ -43,6 +43,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.time.LocalTime;
 import java.time.OffsetTime;
@@ -208,7 +209,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {
       softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
@@ -311,12 +312,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat((IntPredicate) s -> s == 1).accepts(2);
       softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
       softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
+      softly.assertThat(URI.create("http://assertj.org:80").toURL()).hasNoPort();
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (MultipleFailuresError e) {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
-      assertThat(errors).hasSize(52);
+      assertThat(errors).hasSize(53);
       assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
       assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
       assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -410,6 +412,10 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                                  + "to accept <2L> but it did not."));
       assertThat(errors.get(51)).contains(format("%nExpecting:%n  <given predicate>%n"
                                                  + "to accept <2.0> but it did not."));
+      assertThat(errors.get(52)).contains(format("%nExpecting:%n"
+                                                 + "  <http://assertj.org:80>%n"
+                                                 + "not to have a port but had:%n"
+                                                 + "  <80>"));
     }
   }
 

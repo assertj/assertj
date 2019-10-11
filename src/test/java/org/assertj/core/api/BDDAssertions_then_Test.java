@@ -45,6 +45,7 @@ public class BDDAssertions_then_Test {
     then('z').isGreaterThan('a');
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void then_Character() {
     then(new Character('A')).isEqualTo(new Character('A'));
