@@ -38,6 +38,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.time.LocalTime;
 import java.time.OffsetTime;
@@ -204,7 +205,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     // GIVEN
     softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
     softly.then(Boolean.FALSE).isTrue();
@@ -285,11 +286,12 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then((IntPredicate) s -> s == 1).accepts(2);
     softly.then((LongPredicate) s -> s == 1).accepts(2);
     softly.then((DoublePredicate) s -> s == 1).accepts(2);
+    softly.then(URI.create("http://assertj.org:80").toURL()).hasNoPort();
     // WHEN
     MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
     // THEN
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
-    assertThat(errors).hasSize(52);
+    assertThat(errors).hasSize(53);
     assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
     assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
     assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -362,6 +364,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "to accept <2L> but it did not."));
     assertThat(errors.get(51)).contains(format("%nExpecting:%n  <given predicate>%n"
                                                + "to accept <2.0> but it did not."));
+    assertThat(errors.get(52)).contains(format("%nExpecting:%n"
+                                               + "  <http://assertj.org:80>%n"
+                                               + "not to have a port but had:%n"
+                                               + "  <80>"));
   }
 
   @SuppressWarnings("unchecked")
