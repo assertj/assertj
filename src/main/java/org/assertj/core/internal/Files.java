@@ -163,14 +163,14 @@ public class Files {
    * Asserts that the given file has the given size in bytes.
    * @param info contains information about the assertion.
    * @param actual the "actual" file.
-   * @param expected the "expected" file size.
+   * @param expectedInBytes the "expected" file size.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
    */
-  public void assertHasSize(AssertionInfo info, File actual, long expected) {
+  public void assertHasSizeInBytes(AssertionInfo info, File actual, long expectedInBytes) {
     assertIsFile(info, actual);
-    if (expected == actual.length()) return;
-    throw failures.failure(info, shouldHaveSize(actual, expected));
+    if (expectedInBytes == actual.length()) return;
+    throw failures.failure(info, shouldHaveSize(actual, expectedInBytes));
   }
 
   /**

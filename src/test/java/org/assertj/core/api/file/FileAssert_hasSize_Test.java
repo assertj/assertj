@@ -18,7 +18,7 @@ import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.FileAssert#hasSize(long)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.FileAssert#hasSizeInBytes(long)}</code>.
  *
  * @author Krishna Chaithanya Ganta
  */
@@ -27,10 +27,10 @@ public class FileAssert_hasSize_Test extends FileAssertBaseTest {
   private long expected = 123L;
 
   @Override protected FileAssert invoke_api_method() {
-    return assertions.hasSize(expected);
+    return assertions.hasSizeInBytes(expected);
   }
 
   @Override protected void verify_internal_effects() {
-    verify(files).assertHasSize(getInfo(assertions), getActual(assertions), expected);
+    verify(files).assertHasSizeInBytes(getInfo(assertions), getActual(assertions), expected);
   }
 }

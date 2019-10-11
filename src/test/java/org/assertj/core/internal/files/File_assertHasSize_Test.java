@@ -29,11 +29,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Files#assertHasSize(AssertionInfo, File, long)}</code>
+ * Tests for <code>{@link Files#assertHasSizeInBytes(AssertionInfo, File, long)}</code>
  *
  * @author Krishna Chaithanya Ganta
  */
-@DisplayName("FileAssert hasSize")
+@DisplayName("FileAssert hasSizeInBytes")
 public class File_assertHasSize_Test extends FilesBaseTest {
 
   private static File actual;
@@ -46,7 +46,7 @@ public class File_assertHasSize_Test extends FilesBaseTest {
   @Test
   public void should_throw_error_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> files.assertHasSize(someInfo(), null, actual.length()));
+    AssertionError assertionError = expectAssertionError(() -> files.assertHasSizeInBytes(someInfo(), null, actual.length()));
     // THEN
     assertThat(assertionError).hasMessage(actualIsNull());
   }
@@ -56,7 +56,7 @@ public class File_assertHasSize_Test extends FilesBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> files.assertHasSize(info, actual, 36L));
+    expectAssertionError(() -> files.assertHasSizeInBytes(info, actual, 36L));
     // THEN
     verify(failures).failure(info, shouldHaveSize(actual, 36L));
   }
@@ -67,13 +67,13 @@ public class File_assertHasSize_Test extends FilesBaseTest {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertHasSize(info, notAFile, 36L));
+    expectAssertionError(() -> files.assertHasSizeInBytes(info, notAFile, 36L));
     // THEN
     verify(failures).failure(info, shouldBeFile(notAFile));
   }
 
   @Test
   public void should_pass_if_actual_has_expected_size() {
-    files.assertHasSize(someInfo(), actual, actual.length());
+    files.assertHasSizeInBytes(someInfo(), actual, actual.length());
   }
 }

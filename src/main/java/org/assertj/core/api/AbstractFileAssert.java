@@ -346,20 +346,19 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Files.write(file.toPath(), new byte[] {1, 1});
    *
    * // assertion will pass
-   * assertThat(file).hasSize(2);
+   * assertThat(file).hasSizeInBytes(2);
    *
    * // assertions will fail
-   * assertThat(file).hasSize(0);
-   * assertThat(file).hasSize(1);</code></pre>
+   * assertThat(file).hasSizeInBytes(1);</code></pre>
    *
-   * @param expected the expected {@code File}'s size in bytes.
+   * @param expectedInBytes the expected {@code File}'s size in bytes.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
    * @throws AssertionError if the size of the actual {@code File} is not equal to the given size.
    */
-  public SELF hasSize(long expected) {
-    files.assertHasSize(info, actual, expected);
+  public SELF hasSizeInBytes(long expectedInBytes) {
+    files.assertHasSizeInBytes(info, actual, expectedInBytes);
     return myself;
   }
 

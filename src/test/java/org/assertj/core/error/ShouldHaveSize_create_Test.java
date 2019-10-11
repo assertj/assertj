@@ -60,11 +60,13 @@ public class ShouldHaveSize_create_Test {
     String expectedErrorMessage = format("[Test] %n"
                                          + "Expecting file%n"
                                          + "  <abc>%n"
-                                         + "to have size:%n"
-                                         + "  <3L>%n"
+                                         + "to have size of:%n"
+                                         + "  3L bytes%n"
                                          + "but had:%n"
-                                         + "  <0L>");
+                                         + "  0L bytes");
+    //WHEN
+    String actualErrorMessage = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(expectedErrorMessage);
+    assertThat(actualErrorMessage).isEqualTo(expectedErrorMessage);
   }
 }

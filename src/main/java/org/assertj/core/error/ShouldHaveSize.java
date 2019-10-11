@@ -23,7 +23,12 @@ import java.io.File;
  */
 public class ShouldHaveSize extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_FILE_SIZE = "%nExpecting file%n  <%s>%nto have size:%n  <%s>%nbut had:%n  <%s>";
+  private static final String SHOULD_HAVE_FILE_SIZE = "%nExpecting file%n"
+                                                      + "  <%s>%n"
+                                                      + "to have size of:%n"
+                                                      + "  %s bytes%n"
+                                                      + "but had:%n"
+                                                      + "  %s bytes";
 
   /**
    * Creates a new <code>{@link ShouldHaveSize}</code>.
