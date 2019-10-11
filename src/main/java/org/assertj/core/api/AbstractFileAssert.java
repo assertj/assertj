@@ -339,6 +339,30 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
+   * Verifies that the size of the {@code File} under test is <b>exactly</b> equal to the given size <b>in bytes</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;bin&quot;);
+   * Files.write(file.toPath(), new byte[] {1, 1});
+   *
+   * // assertion will pass
+   * assertThat(file).hasSize(2);
+   *
+   * // assertions will fail
+   * assertThat(file).hasSize(1);</code></pre>
+   *
+   * @param expectedSizeInBytes the expected {@code File}'s size in bytes.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws AssertionError if the size of the actual {@code File} is not equal to the given size.
+   */
+  public SELF hasSize(long expectedSizeInBytes) {
+    files.assertHasSizeInBytes(info, actual, expectedSizeInBytes);
+    return myself;
+  }
+
+  /**
    * Specifies the name of the charset to use for text-based assertions on the file's contents.
    *
    * @param charsetName the name of the charset to use.
