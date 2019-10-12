@@ -684,7 +684,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * // failing assertions
    * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 2, 0, 0, 0, ZoneOffset.ofHours(0));
-   * assertThat(OffsetDateTimeA).isAtSameInstantAs(OffsetDateTimeB);</code></pre>
+   * assertThat(OffsetDateTime1).isAtSameInstantAs(OffsetDateTime2);</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
