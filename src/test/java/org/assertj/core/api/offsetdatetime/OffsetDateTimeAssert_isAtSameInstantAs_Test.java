@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.error.ShouldBeAtSameInstant.shouldBeAtSameInstant;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
@@ -22,6 +22,7 @@ import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Test;
 
 class OffsetDateTimeAssert_isAtSameInstantAs_Test extends OffsetDateTimeAssertBaseTest {
+
   @Test
   void should_pass_if_at_the_same_instant() {
     assertThat(REFERENCE).isAtSameInstantAs(SAME_INSTANT);
@@ -30,12 +31,8 @@ class OffsetDateTimeAssert_isAtSameInstantAs_Test extends OffsetDateTimeAssertBa
   @Test
   void should_fail_if_at_a_different_instant() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isAtSameInstantAs(DIFFERENT_INSTANT))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       " <2000-12-14T00:00:00Z>%n" +
-                                                                       "to be equal to:%n" +
-                                                                       " <2000-12-14T03:00:00Z>%n" +
-                                                                       "but was not."));
+                                                   .withMessage(shouldBeAtSameInstant(REFERENCE,
+                                                                                      DIFFERENT_INSTANT).create());
   }
 
   @Test

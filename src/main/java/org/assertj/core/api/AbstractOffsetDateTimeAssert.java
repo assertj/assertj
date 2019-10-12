@@ -16,6 +16,7 @@ import static java.time.Clock.systemUTC;
 import static java.time.OffsetDateTime.now;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
+import static org.assertj.core.error.ShouldBeAtSameInstant.shouldBeAtSameInstant;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgnoringHours;
@@ -694,7 +695,8 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   public SELF isAtSameInstantAs(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
-    comparables.assertEqual(info, actual.toInstant(), other.toInstant());
+    if (!actual.toInstant().equals(other.toInstant()))
+      throw Failures.instance().failure(info, shouldBeAtSameInstant(actual, other));
     return myself;
   }
 
