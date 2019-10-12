@@ -686,11 +686,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 2, 0, 0, 0, ZoneOffset.ofHours(0));
    * assertThat(OffsetDateTime1).isAtSameInstantAs(OffsetDateTime2);</code></pre>
    *
-   * @param other the given {@link java.time.OffsetDateTime}.
+   * @param other the given {@link OffsetDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} does not have the same {@code Instant} as the other.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not at the same {@code Instant} as the other.
    */
   public SELF isAtSameInstantAs(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
