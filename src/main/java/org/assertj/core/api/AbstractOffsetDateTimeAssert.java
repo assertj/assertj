@@ -672,18 +672,18 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   /**
-   * Verifies that actual and given {@code OffsetDateTime} have the same {@link java.time.Instant}.
+   * Verifies that actual and given {@code OffsetDateTime} are at the same {@link java.time.Instant}.
    * <p>
    * Example:
    * <pre><code class='java'> // successful assertions
    * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 0, 0, 0, 0, ZoneOffset.ofHours(0));
-   * assertThat(OffsetDateTime1).hasSameInstantAs(OffsetDateTime2);
+   * assertThat(OffsetDateTime1).isAtSameInstantAs(OffsetDateTime2);
    *
    * // failing assertions
    * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 2, 0, 0, 0, ZoneOffset.ofHours(0));
-   * assertThat(OffsetDateTimeA).hasSameInstantAs(OffsetDateTimeB);</code></pre>
+   * assertThat(OffsetDateTimeA).isAtSameInstantAs(OffsetDateTimeB);</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -691,7 +691,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetDateTime} does not have the same {@code Instant} as the other.
    */
-  public SELF hasSameInstantAs(OffsetDateTime other) {
+  public SELF isAtSameInstantAs(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
     comparables.assertEqual(info, actual.toInstant(), other.toInstant());

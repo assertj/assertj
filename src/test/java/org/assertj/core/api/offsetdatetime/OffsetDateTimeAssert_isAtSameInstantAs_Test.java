@@ -24,19 +24,19 @@ import java.time.ZoneOffset;
 import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OffsetDateTimeAssert_hasSameInstantAs_Test extends BaseTest {
+public class OffsetDateTimeAssert_isAtSameInstantAs_Test extends BaseTest {
   private final OffsetDateTime actual = of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
 
   @Test
-  public void should_pass_if_has_same_instant() {
+  public void should_pass_if_at_the_same_instant() {
     final OffsetDateTime other = of(2000, 12, 12, 0, 0, 0, 0, ZoneOffset.ofHours(0));
-    assertThat(actual).hasSameInstantAs(other);
+    assertThat(actual).isAtSameInstantAs(other);
   }
 
   @Test
-  public void should_fail_if_has_different_instant() {
+  public void should_fail_if_at_a_different_instant() {
     final OffsetDateTime other = of(2000, 12, 12, 2, 0, 0, 0, ZoneOffset.ofHours(0));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameInstantAs(other))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isAtSameInstantAs(other))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
                                                                        " <2000-12-12T00:00:00Z>%n" +
@@ -49,13 +49,13 @@ public class OffsetDateTimeAssert_hasSameInstantAs_Test extends BaseTest {
   public void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       OffsetDateTime actual = null;
-      assertThat(actual).hasSameInstantAs(OffsetDateTime.now());
+      assertThat(actual).isAtSameInstantAs(OffsetDateTime.now());
     }).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_given_OffsetDateTimetime_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).hasSameInstantAs(null))
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).isAtSameInstantAs(null))
                                         .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }
 }
