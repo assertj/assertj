@@ -13,40 +13,33 @@
 package org.assertj.core.api.offsetdatetime;
 
 import static java.lang.String.format;
-import static java.time.OffsetDateTime.of;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OffsetDateTimeAssert_isAtSameInstantAs_Test extends BaseTest {
-  private final OffsetDateTime actual = of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
-
+class OffsetDateTimeAssert_isAtSameInstantAs_Test extends OffsetDateTimeAssertBaseTest {
   @Test
-  public void should_pass_if_at_the_same_instant() {
-    final OffsetDateTime other = of(2000, 12, 12, 0, 0, 0, 0, ZoneOffset.ofHours(0));
-    assertThat(actual).isAtSameInstantAs(other);
+  void should_pass_if_at_the_same_instant() {
+    assertThat(REFERENCE).isAtSameInstantAs(SAME_INSTANT);
   }
 
   @Test
-  public void should_fail_if_at_a_different_instant() {
-    final OffsetDateTime other = of(2000, 12, 12, 2, 0, 0, 0, ZoneOffset.ofHours(0));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isAtSameInstantAs(other))
+  void should_fail_if_at_a_different_instant() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isAtSameInstantAs(DIFFERENT_INSTANT))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       " <2000-12-12T00:00:00Z>%n" +
+                                                                       " <2000-12-14T00:00:00Z>%n" +
                                                                        "to be equal to:%n" +
-                                                                       " <2000-12-12T02:00:00Z>%n" +
+                                                                       " <2000-12-14T03:00:00Z>%n" +
                                                                        "but was not."));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       OffsetDateTime actual = null;
       assertThat(actual).isAtSameInstantAs(OffsetDateTime.now());
@@ -54,8 +47,8 @@ public class OffsetDateTimeAssert_isAtSameInstantAs_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_if_given_OffsetDateTimetime_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).isAtSameInstantAs(null))
+  void should_fail_if_given_OffsetDateTime_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(REFERENCE).isAtSameInstantAs(null))
                                         .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }
 }
