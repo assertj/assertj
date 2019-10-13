@@ -51,14 +51,15 @@ public class HamcrestCondition<T> extends Condition<T> {
    * Constructs a {@link Condition} using the matcher given as a parameter.
    * <p>
    * Example:
-   * <p>
    * <pre><code class='java'> import static org.assertj.core.api.Assertions.assertThat;
    * import static org.assertj.core.api.HamcrestCondition.matching;
    * import static org.hamcrest.core.StringContains.containsString;
    *
    * assertThat(&quot;abc&quot;).is(matching(containsString(&quot;a&quot;)));</code></pre>
    *
+   * @param <T> the type the condition is about
    * @param matcher the Hamcrest matcher to use as a condition
+   * @return the built {@link HamcrestCondition}
    */
   public static <T> HamcrestCondition<T> matching(Matcher<? extends T> matcher) {
     return new HamcrestCondition<>(matcher);
