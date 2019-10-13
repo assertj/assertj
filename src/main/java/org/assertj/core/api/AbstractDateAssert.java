@@ -2723,7 +2723,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     for (DateFormat defaultDateFormat : dateFormats) {
       try {
         return defaultDateFormat.parse(dateAsString);
-      } catch (ParseException e) {
+      } catch (@SuppressWarnings("unused") ParseException e) {
         // ignore and try next date format
       }
     }

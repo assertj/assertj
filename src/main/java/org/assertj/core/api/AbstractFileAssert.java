@@ -321,7 +321,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertion will pass
    * assertThat(bin).hasBinaryContent(new byte[] {1, 1});
    *
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(bin).hasBinaryContent(new byte[] { });
    * assertThat(bin).hasBinaryContent(new byte[] {0, 0});</code></pre>
    *
