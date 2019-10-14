@@ -14,6 +14,7 @@ package org.assertj.core.api.assumptions;
 
 import static org.assertj.core.api.BDDAssertions.thenCode;
 import static org.assertj.core.api.BDDAssumptions.given;
+import static org.assertj.core.api.BDDAssumptions.givenCode;
 import static org.assertj.core.api.BDDAssumptions.givenObject;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
 import static org.mockito.BDDMockito.willReturn;
@@ -675,10 +676,10 @@ public class BDDAssumptionsTest {
   }
 
   @Nested
-  public class BDDAssumptions_given_lambda_Test {
+  public class BDDAssumptions_given_ThrowingCallable_Test {
 
     @Nested
-    public class BDDAssumptions_given_lambda__no_exception_required_Test {
+    public class BDDAssumptions_given_ThrowingCallable__no_exception_required_Test {
       private final ThrowingCallable actual = () -> { /* some code */ };
 
       @Test
@@ -694,7 +695,7 @@ public class BDDAssumptionsTest {
     }
 
     @Nested
-    public class BDDAssumptions_given_lambda__exception_required_Test {
+    public class BDDAssumptions_given_ThrowingCallable__exception_required_Test {
       private final ThrowingCallable actual = () -> {
         throw new Exception("Yoda time");
       };
@@ -708,6 +709,37 @@ public class BDDAssumptionsTest {
       @Test
       public void should_ignore_test_when_assumption_fails() {
         expectAssumptionViolatedException(() -> given(actual).doesNotThrowAnyException());
+      }
+    }
+  }
+
+  @Nested
+  public class BDDAssumptions_given_lambda_Test {
+    @Nested
+    public class BDDAssumptions_given_lambda__no_exception_required_Test {
+      @Test
+      public void should_run_test_when_assumption_passes() {
+        thenCode(() -> givenCode(() -> { /* some code */ }).doesNotThrowAnyException())
+          .doesNotThrowAnyException();
+      }
+
+      @Test
+      public void should_ignore_test_when_assumption_fails() {
+        expectAssumptionViolatedException(() -> givenCode(() -> { /* some code */ }).hasMessage("Yoda time"));
+      }
+    }
+
+    @Nested
+    public class BDDAssumptions_given_lambda__exception_required_Test {
+      @Test
+      public void should_run_test_when_assumption_passes() {
+        thenCode(() -> givenCode(() -> {throw new Exception("Yoda time");}).hasMessage("Yoda time"))
+          .doesNotThrowAnyException();
+      }
+
+      @Test
+      public void should_ignore_test_when_assumption_fails() {
+        expectAssumptionViolatedException(() -> givenCode(() -> {throw new Exception("Yoda time");}).doesNotThrowAnyException());
       }
     }
   }

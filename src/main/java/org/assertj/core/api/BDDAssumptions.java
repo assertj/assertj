@@ -108,7 +108,7 @@ public final class BDDAssumptions {
    * public void given_the_assumption_is_met_the_test_is_executed() {
    *   given(true).isTrue();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
@@ -116,7 +116,8 @@ public final class BDDAssumptions {
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
    *   given(true).isFalse();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>boolean</code> value to be validated.
    * @return the {@link AbstractBooleanAssert} assertion object to be used for validation.
@@ -134,17 +135,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Boolean.valueOf(true)).isTrue()
+   *   given(Boolean.valueOf(true)).isTrue();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Boolean.valueOf(true)).isFalse()
+   *   given(Boolean.valueOf(true)).isFalse();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Boolean} value to be validated.
    * @return the {@link AbstractBooleanAssert} assertion object to be used for validation.
@@ -162,17 +164,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new boolean[] { true, true }).contains(true)
+   *   given(new boolean[] { true, true }).contains(true);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new boolean[] { true, true }).contains(false)
+   *   given(new boolean[] { true, true }).contains(false);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>boolean</code>s' array to be validated.
    * @return the {@link AbstractBooleanArrayAssert} assertion object to be used for validation.
@@ -190,17 +193,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given((byte) 1).isOne()
+   *   given((byte) 1).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given((byte) 1).isZero()
+   *   given((byte) 1).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>byte</code> value to be validated.
    * @return the {@link AbstractByteAssert} assertion object to be used for validation.
@@ -218,17 +222,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Byte.valueOf("1")).isOne()
+   *   given(Byte.valueOf("1")).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Byte.valueOf("1")).isZero()
+   *   given(Byte.valueOf("1")).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Byte} value to be validated.
    * @return the {@link AbstractByteAssert} assertion object to be used for validation.
@@ -246,17 +251,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new byte[] { 1, 2 }).contains((byte) 1)
+   *   given(new byte[] { 1, 2 }).contains((byte) 1);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new byte[] { 1, 2 }).contains((byte) 0)
+   *   given(new byte[] { 1, 2 }).contains((byte) 0);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual bytes' array to be validated.
    * @return the {@link AbstractByteArrayAssert} assertion object to be used for validation.
@@ -274,17 +280,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given((short) 1).isOne()
+   *   given((short) 1).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given((short) 1).isZero()
+   *   given((short) 1).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>short</code> value to be validated.
    * @return the {@link AbstractShortAssert} assertion object to be used for validation.
@@ -302,17 +309,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Short.valueOf("1")).isOne()
+   *   given(Short.valueOf("1")).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Short.valueOf("1")).isZero()
+   *   given(Short.valueOf("1")).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Short} value to be validated.
    * @return the {@link AbstractShortAssert} assertion object to be used for validation.
@@ -330,17 +338,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new short[] { 1, 2 }).contains((short) 1)
+   *   given(new short[] { 1, 2 }).contains((short) 1);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new short[] { 1, 2 }).contains((short) 0)
+   *   given(new short[] { 1, 2 }).contains((short) 0);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>short</code>s' array to be validated.
    * @return the {@link AbstractShortArrayAssert} assertion object to be used for validation.
@@ -358,17 +367,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(1).isOne()
+   *   given(1).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(1).isZero()
+   *   given(1).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>int</code> value to be validated.
    * @return the {@link AbstractIntegerAssert} assertion object to be used for validation.
@@ -386,17 +396,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Integer.valueOf("1")).isOne()
+   *   given(Integer.valueOf("1")).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Integer.valueOf("1")).isZero()
+   *   given(Integer.valueOf("1")).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Integer} value to be validated.
    * @return the {@link AbstractIntegerAssert} assertion object to be used for validation.
@@ -414,17 +425,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new int[] { 1, 2 }).contains((short) 1)
+   *   given(new int[] { 1, 2 }).contains((short) 1);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new int[] { 1, 2 }).contains((short) 0)
+   *   given(new int[] { 1, 2 }).contains((short) 0);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>int</code>s' array to be validated.
    * @return the {@link AbstractIntArrayAssert} assertion object to be used for validation.
@@ -442,17 +454,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(BigInteger.valueOf(1L)).isOne()
+   *   given(BigInteger.valueOf(1L)).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(BigInteger.valueOf(1L)).isZero()
+   *   given(BigInteger.valueOf(1L)).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link BigInteger} value to be validated.
    * @return the {@link AbstractBigIntegerAssert} assertion object to be used for validation.
@@ -470,17 +483,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(1L).isOne()
+   *   given(1L).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(1L).isZero()
+   *   given(1L).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>long</code> value to be validated.
    * @return the {@link AbstractLongAssert} assertion object to be used for validation.
@@ -498,17 +512,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Long.valueOf(1L)).isOne()
+   *   given(Long.valueOf(1L)).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Long.valueOf(1L)).isZero()
+   *   given(Long.valueOf(1L)).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Long} value to be validated.
    * @return the {@link AbstractLongAssert} assertion object to be used for validation.
@@ -526,17 +541,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new long[] { 1, 2 }).contains(1L)
+   *   given(new long[] { 1, 2 }).contains(1L);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new long[] { 1, 2 }).contains(0L)
+   *   given(new long[] { 1, 2 }).contains(0L);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>long</code>s' array to be validated.
    * @return the {@link AbstractLongArrayAssert} assertion object to be used for validation.
@@ -554,17 +570,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(1.0f).isOne()
+   *   given(1.0f).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(1.0f).isZero()
+   *   given(1.0f).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>float</code> value to be validated.
    * @return the {@link AbstractFloatAssert} assertion object to be used for validation.
@@ -582,17 +599,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Float.valueOf(1.0f)).isOne()
+   *   given(Float.valueOf(1.0f)).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Float.valueOf(1.0f)).isZero()
+   *   given(Float.valueOf(1.0f)).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Float} value to be validated.
    * @return the {@link AbstractFloatAssert} assertion object to be used for validation.
@@ -610,17 +628,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new float[] { 1.0f, 2.0f }).contains(1.0f)
+   *   given(new float[] { 1.0f, 2.0f }).contains(1.0f);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new float[] { 1.0f, 2.0f }).contains(0.0f)
+   *   given(new float[] { 1.0f, 2.0f }).contains(0.0f);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>float</code>s' array to be validated.
    * @return the {@link AbstractFloatArrayAssert} assertion object to be used for validation.
@@ -638,17 +657,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(1.0).isOne()
+   *   given(1.0).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(1.0).isZero()
+   *   given(1.0).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>double</code> value to be validated.
    * @return the {@link AbstractDoubleAssert} assertion object to be used for validation.
@@ -666,17 +686,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Double.valueOf(1.0f)).isOne()
+   *   given(Double.valueOf(1.0f)).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Double.valueOf(1.0f)).isZero()
+   *   given(Double.valueOf(1.0f)).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Double} value to be validated.
    * @return the {@link AbstractDoubleAssert} assertion object to be used for validation.
@@ -694,17 +715,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new double[] { 1.0, 2.0 }).contains(1.0)
+   *   given(new double[] { 1.0, 2.0 }).contains(1.0);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new double[] { 1.0, 2.0 }).contains(0.0)
+   *   given(new double[] { 1.0, 2.0 }).contains(0.0);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>double</code>s' array to be validated.
    * @return the {@link AbstractDoubleArrayAssert} assertion object to be used for validation.
@@ -722,17 +744,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(BigDecimal.valueOf(1.0)).isOne()
+   *   given(BigDecimal.valueOf(1.0)).isOne();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(BigDecimal.valueOf(1.0)).isZero()
+   *   given(BigDecimal.valueOf(1.0)).isZero();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link BigDecimal} value to be validated.
    * @return the {@link AbstractBigDecimalAssert} assertion object to be used for validation.
@@ -750,17 +773,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given('A').isUpperCase()
+   *   given('A').isUpperCase();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given('A').isLowerCase()
+   *   given('A').isLowerCase();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>char</code> value to be validated.
    * @return the {@link AbstractCharacterAssert} assertion object to be used for validation.
@@ -778,17 +802,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Character.valueOf('A')).isUpperCase()
+   *   given(Character.valueOf('A')).isUpperCase();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Character.valueOf('A')).isLowerCase()
+   *   given(Character.valueOf('A')).isLowerCase();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Character} value to be validated.
    * @return the {@link AbstractCharacterAssert} assertion object to be used for validation.
@@ -806,17 +831,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new char[] { 'A', 'B' }).contains('A')
+   *   given(new char[] { 'A', 'B' }).contains('A');
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new char[] { 'A', 'B' }).contains('C')
+   *   given(new char[] { 'A', 'B' }).contains('C');
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual <code>char</code>s' array to be validated.
    * @return the {@link AbstractCharacterAssert} assertion object to be used for validation.
@@ -834,17 +860,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given((CharSequence) "Yoda").isNotEmpty()
+   *   given((CharSequence) "Yoda").isNotEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given((CharSequence) "Yoda").isNullOrEmpty()
+   *   given((CharSequence) "Yoda").isNullOrEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link CharSequence} value to be validated.
    * @return the {@link AbstractCharSequenceAssert} assertion object to be used for validation.
@@ -862,17 +889,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given("Yoda").isNotEmpty()
+   *   given("Yoda").isNotEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given("Yoda").isNullOrEmpty()
+   *   given("Yoda").isNullOrEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link String} value to be validated.
    * @return the {@link AbstractStringAssert} assertion object to be used for validation.
@@ -890,17 +918,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new StringBuilder("Yoda")).isNotEmpty()
+   *   given(new StringBuilder("Yoda")).isNotEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new StringBuilder("Yoda")).isNullOrEmpty()
+   *   given(new StringBuilder("Yoda")).isNullOrEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link StringBuilder} value to be validated.
    * @return the {@link AbstractCharSequenceAssert} assertion object to be used for validation.
@@ -918,17 +947,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new StringBuffer("Yoda")).isNotEmpty()
+   *   given(new StringBuffer("Yoda")).isNotEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new StringBuffer("Yoda")).isNullOrEmpty()
+   *   given(new StringBuffer("Yoda")).isNullOrEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link StringBuffer} value to be validated.
    * @return the {@link AbstractCharSequenceAssert} assertion object to be used for validation.
@@ -946,17 +976,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Number.class).isAssignableFrom(Long.class)
+   *   given(Number.class).isAssignableFrom(Long.class);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Number.class).isInterface()
+   *   given(Number.class).isInterface();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Class} value to be validated.
    * @return the {@link AbstractClassAssert} assertion object to be used for validation.
@@ -978,17 +1009,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(frodo).hasNoNullFieldsOrProperties()
+   *   given(frodo).hasNoNullFieldsOrProperties();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(mysteriousHobbit).hasNoNullFieldsOrProperties()
+   *   given(mysteriousHobbit).hasNoNullFieldsOrProperties();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <T> the type of the actual object.
    * @param actual the actual object to be validated.
@@ -1007,17 +1039,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new String[] { "A", "B" }).hasSizeGreaterThan(1)
+   *   given(new String[] { "A", "B" }).hasSizeGreaterThan(1);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new String[] { "A", "B" }).hasSizeGreaterThan(2)
+   *   given(new String[] { "A", "B" }).hasSizeGreaterThan(2);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <T> the type of elements of the actual objects' array.
    * @param actual the actual objects' array to be validated..
@@ -1066,25 +1099,26 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new Yoda()).isEqualByComparingTo(new Yoda())
+   *   given(new Yoda()).isEqualByComparingTo(new Yoda());
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new Yoda()).isNotEqualByComparingTo(new Yoda())
+   *   given(new Yoda()).isNotEqualByComparingTo(new Yoda());
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <T> the type of the actual comparable value.
    * @param actual the actual {@link Comparable} value to be validated.
    * @return the {@link AbstractComparableAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(T actual) {
-    return assumeThat(actual);
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(Comparable<? super T> actual) {
+    return assumeThat((T) actual);
   }
 
   /**
@@ -1095,17 +1129,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new Exception("Yoda time")).hasMessage("Yoda time")
+   *   given(new Exception("Yoda time")).hasMessage("Yoda time");
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new Exception("Yoda time")).hasMessage("")
+   *   given(new Exception("Yoda time")).hasMessage("");
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Throwable} value to be validated.
    * @return the {@link AbstractThrowableAssert} assertion object to be used for validation.
@@ -1116,7 +1151,63 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance from a {@link ThrowingCallable}.
+   * <p>
+   * Examples:
+   * <p>
+   * <u>No Exception required</u>:
+   * <pre><code class='java'>
+   *  ThrowingCallable callable = () -> { {@literal /* some code *}/ };
+   * </code></pre>
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(callable).doesNotThrowAnyException();
+   *   // the remaining code is executed.
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(callable).hasMessage("Yoda time");
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   * <p>
+   * <u>Exception required</u>:
+   * <pre>{@code
+   *  ThrowingCallable callable = () -> { throw new Exception("Yoda time"); };
+   * }</pre>
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(callable).hasMessage("Yoda time");
+   *   // the remaining code is executed.
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(callable).doesNotThrowAnyException();
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   * @param callable the {@link ThrowingCallable} with the code that may raise a throwable to be validated.
+   * @return the {@link AbstractThrowableAssert} assertion object to be used for validation.
+   * @since 3.14.0
+   */
+  public static AbstractThrowableAssert<?, ? extends Throwable> given(ThrowingCallable callable) {
+    return assumeThatCode(lambda);
+  }
+
+  /**
    * Creates a new assumption's instance from a no parameters lambda expression, <code>{@literal () ->} { /* some code {@literal *}/ }</code>.
+   * <p>
+   * This is an alias for {@link #given(ThrowableAssert.ThrowingCallable)}, which allows to use a lambda expression directly. This is required due to the overloaded method {@link #given(Iterable)} takes precedence over {@link #given(ThrowableAssert.ThrowingCallable)}.
    * <p>
    * Examples:
    * <p>
@@ -1125,35 +1216,42 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   {@literal given(() ->} {{@literal /* some code *}/ }).doesNotThrowAnyException()
+   *   {@literal givenCode(() ->} {{@literal /* some code *}/ }).doesNotThrowAnyException();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   {@literal given(() ->} {{@literal /* some code *}/ }).hasMessage("Yoda time")
+   *   {@literal givenCode(() ->} {{@literal /* some code *}/ }).hasMessage("Yoda time");
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    * <p>
    * <u>Exception required</u>:
    * <p>
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   {@literal given(() -> {throw new Exception("Yoda time");}).hasMessage("Yoda time");}</code></pre>
+   *   {@literal givenCode(() -> {throw new Exception("Yoda time");}).hasMessage("Yoda time");
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   {@literal given(() -> {throw new Exception("Yoda time");}).doesNotThrowAnyException();}</code></pre>
+   *   {@literal givenCode(() -> {throw new Exception("Yoda time");}).doesNotThrowAnyException();
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
    *
    * @param lambda the {@link ThrowingCallable} or lambda with the code that may raise a throwable to be validated.
    * @return the {@link AbstractThrowableAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> given(ThrowingCallable lambda) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> givenCode(ThrowingCallable lambda) {
     return assumeThatCode(lambda);
   }
 
@@ -1165,12 +1263,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *  {@literal given((Iterable<Integer>)(Arrays.asList(1, 2))).contains(2);}</code></pre>
+   *  {@literal given((Iterable<Integer>)(Arrays.asList(1, 2))).contains(2);}
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *  {@literal given((Iterable<Integer>)(Arrays.asList(1, 2))).containsOnly(2);}</code></pre>
+   *  {@literal given((Iterable<Integer>)(Arrays.asList(1, 2))).containsOnly(2);}
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
    *
    * @param <ELEMENT> the type of elements of actual iterable value.
    * @param actual the actual {@link Iterable} value to be validated.
@@ -1190,17 +1294,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Arrays.asList(1, 2).iterator()).hasNext()
+   *   given(Arrays.asList(1, 2).iterator()).hasNext();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Arrays.asList(1, 2).iterator()).isExhausted()
+   *   given(Arrays.asList(1, 2).iterator()).isExhausted();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <ELEMENT> the type of elements of actual iterator value.
    * @param actual the actual {@link Iterator} value to be validated.
@@ -1220,17 +1325,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Arrays.asList(1, 2)).contains(2)
+   *   given(Arrays.asList(1, 2)).contains(2);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Arrays.asList(1, 2)).containsOnly(2)
+   *   given(Arrays.asList(1, 2)).containsOnly(2);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <ELEMENT> the type of elements of actual list value.
    * @param actual the actual {@link List} value to be validated.
@@ -1250,17 +1356,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Collections.singletonMap(1, 2)).containsEntry(1, 2)
+   *   given(Collections.singletonMap(1, 2)).containsEntry(1, 2);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Collections.singletonMap(1, 2)).containsEntry(2, 1)
+   *   given(Collections.singletonMap(1, 2)).containsEntry(2, 1);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <K> the type of keys in the actual map value.
    * @param <V> the type of values in the actual map value.
@@ -1281,12 +1388,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   {@literal given((Predicate<Integer>)(value -> value > 0)).accepts(1, 2);}</code></pre>
+   *   {@literal given((Predicate<Integer>)(value -> value > 0)).accepts(1, 2);}
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   {@literal given((Predicate<Integer>)(value -> value > 0)).accepts(-2, -1);}</code></pre>
+   *   {@literal given((Predicate<Integer>)(value -> value > 0)).accepts(-2, -1);}
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
    *
    * @param <T> the type of the value contained in the actual predicate value.
    * @param actual the actual {@link Predicate} value to be validated.
@@ -1306,14 +1419,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   {@literal given((IntPredicate)(value -> value > 0)).accepts(1, 2);}</code></pre>
+   *   {@literal given((IntPredicate)(value -> value > 0)).accepts(1, 2);}
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   {@literal given((IntPredicate)(value -> value > 0)).accepts(-2, -1)}
+   *   {@literal given((IntPredicate)(value -> value > 0)).accepts(-2, -1);}
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link IntPredicate} value to be validated.
    * @return the {@link IntPredicateAssert} assertion object to be used for validation.
@@ -1331,12 +1448,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   {@literal given((LongPredicate)(value -> value > 0)).accepts(1, 2);}</code></pre>
+   *   {@literal given((LongPredicate)(value -> value > 0)).accepts(1, 2);}
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   {@literal given((LongPredicate)(value -> value > 0)).accepts(-2, -1);}</code></pre>
+   *   {@literal given((LongPredicate)(value -> value > 0)).accepts(-2, -1);}
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link LongPredicate} value to be validated.
    * @return the {@link LongPredicateAssert} assertion object to be used for validation.
@@ -1354,12 +1477,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   {@literal given((DoublePredicate)(value -> value > 0)).accepts(1.0, 2.0);}</code></pre>
+   *   {@literal given((DoublePredicate)(value -> value > 0)).accepts(1.0, 2.0);}
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   {@literal given((DoublePredicate)(value -> value > 0)).accepts(-2.0, -1.0);}</code></pre>
+   *   {@literal given((DoublePredicate)(value -> value > 0)).accepts(-2.0, -1.0);}
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link DoublePredicate} value to be validated.
    * @return the {@link DoublePredicateAssert} assertion object to be used for validation.
@@ -1377,17 +1506,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Optional.empty()).isEmpty()
+   *   given(Optional.empty()).isEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Optional.empty()).isNotEmpty()
+   *   given(Optional.empty()).isNotEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <VALUE> the type of the value contained in the actual optional value.
    * @param actual the actual {@link Optional} value to be validated.
@@ -1407,17 +1537,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(OptionalInt.empty()).isEmpty()
+   *   given(OptionalInt.empty()).isEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(OptionalInt.empty()).isNotEmpty()
+   *   given(OptionalInt.empty()).isNotEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link OptionalInt} value to be validated.
    * @return the {@link OptionalIntAssert} assertion object to be used for validation.
@@ -1435,17 +1566,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(OptionalLong.empty()).isEmpty()
+   *   given(OptionalLong.empty()).isEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(OptionalLong.empty()).isNotEmpty()
+   *   given(OptionalLong.empty()).isNotEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link OptionalLong} value to be validated.
    * @return the {@link OptionalLongAssert} assertion object to be used for validation.
@@ -1463,17 +1595,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(OptionalDouble.empty()).isEmpty()
+   *   given(OptionalDouble.empty()).isEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(OptionalDouble.empty()).isNotEmpty()
+   *   given(OptionalDouble.empty()).isNotEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link OptionalDouble} value to be validated.
    * @return the {@link OptionalDoubleAssert} assertion object to be used for validation.
@@ -1491,17 +1624,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Stream.of(1, 2)).contains(2)
+   *   given(Stream.of(1, 2)).contains(2);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Stream.of(1, 2)).containsOnly(2)
+   *   given(Stream.of(1, 2)).containsOnly(2);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <ELEMENT> the type of the value contained in the actual stream value.
    * @param actual the actual {@link Stream} value to be validated.
@@ -1521,17 +1655,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(IntStream.of(1, 2)).contains(2)
+   *   given(IntStream.of(1, 2)).contains(2);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(IntStream.of(1, 2)).containsOnly(2)
+   *   given(IntStream.of(1, 2)).containsOnly(2);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link IntStream} value to be validated.
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
@@ -1550,17 +1685,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(LongStream.of(1, 2)).contains(2)
+   *   given(LongStream.of(1, 2)).contains(2);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(LongStream.of(1, 2)).containsOnly(2)
+   *   given(LongStream.of(1, 2)).containsOnly(2);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link LongStream} value to be validated.
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
@@ -1579,17 +1715,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(DoubleStream.of(1.0, 2.0)).contains(2.0)
+   *   given(DoubleStream.of(1.0, 2.0)).contains(2.0);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(DoubleStream.of(1.0, 2.0)).containsOnly(2.0)
+   *   given(DoubleStream.of(1.0, 2.0)).containsOnly(2.0);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link DoubleStream} value to be validated.
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
@@ -1608,12 +1745,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   {@literal given(Executors.newSingleThreadExecutor().submit(() -> {})).isNotCancelled();}</code></pre>
+   *   {@literal given(Executors.newSingleThreadExecutor().submit(() -> {})).isNotCancelled();}
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   {@literal given(Executors.newSingleThreadExecutor().submit(() -> {})).isCancelled();}</code></pre>
+   *   {@literal given(Executors.newSingleThreadExecutor().submit(() -> {})).isCancelled();}
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
    *
    * @param <RESULT> the type of the value contained in the actual future value.
    * @param future the {@link Future} value to be validated.
@@ -1633,17 +1776,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(CompletableFuture.completedFuture​(1)).isDone()
+   *   given(CompletableFuture.completedFuture​(1)).isDone();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(CompletableFuture.completedFuture​(1)).isNotDone()
+   *   given(CompletableFuture.completedFuture​(1)).isNotDone();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <RESULT> the type of the value contained in the actual future value.
    * @param future the {@link CompletableFuture} value to be validated.
@@ -1666,12 +1810,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   {@literal given((CompletionStage<Integer>) CompletableFuture.completedFuture​(1)).isDone();}</code></pre>
+   *   {@literal given((CompletionStage<Integer>) CompletableFuture.completedFuture​(1)).isDone();}
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   {@literal given((CompletionStage<Integer>) CompletableFuture.completedFuture​(1)).isNotDone();}</code></pre>
+   *   {@literal given((CompletionStage<Integer>) CompletableFuture.completedFuture​(1)).isNotDone();}
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
    *
    * @param <RESULT> the type of the value contained in the actual future value.
    * @param stage the {@link CompletionStage} value to be validated.
@@ -1691,17 +1841,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicBoolean(true)).isTrue()
+   *   given(new AtomicBoolean(true)).isTrue();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicBoolean(true)).isFalse()
+   *   given(new AtomicBoolean(true)).isFalse();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link AtomicBoolean} value to be validated.
    * @return the {@link AtomicBooleanAssert} assertion object to be used for validation.
@@ -1719,17 +1870,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicInteger(1)).hasNonNegativeValue()
+   *   given(new AtomicInteger(1)).hasNonNegativeValue();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicInteger(1)).hasNegativeValue()
+   *   given(new AtomicInteger(1)).hasNegativeValue();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link AtomicInteger} value to be validated.
    * @return the {@link AtomicIntegerAssert} assertion object to be used for validation.
@@ -1747,17 +1899,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicIntegerArray(0)).isEmpty()
+   *   given(new AtomicIntegerArray(0)).isEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicIntegerArray(0)).isNotEmpty()
+   *   given(new AtomicIntegerArray(0)).isNotEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link AtomicIntegerArray} value to be validated.
    * @return the {@link AtomicIntegerArrayAssert} assertion object to be used for validation.
@@ -1785,17 +1938,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(actual).hasValue(1, value)
+   *   given(actual).hasValue(1, value);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(actual).hasValue(2, value))
+   *   given(actual).hasValue(2, value));
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual value.
    * @param actual the actual {@link AtomicIntegerFieldUpdater} value to be validated.
@@ -1815,17 +1969,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicLong(1L)).hasNonNegativeValue()
+   *   given(new AtomicLong(1L)).hasNonNegativeValue();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicLong(1L)).hasNegativeValue()
+   *   given(new AtomicLong(1L)).hasNegativeValue();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link AtomicLong} value to be validated.
    * @return the {@link AtomicLongAssert} assertion object to be used for validation.
@@ -1843,17 +1998,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicLongArray(0)).isEmpty()
+   *   given(new AtomicLongArray(0)).isEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicLongArray(0)).isNotEmpty()
+   *   given(new AtomicLongArray(0)).isNotEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link AtomicLongArray} value to be validated.
    * @return the {@link AtomicLongArrayAssert} assertion object to be used for validation.
@@ -1881,17 +2037,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(actual).hasValue(1L, value)
+   *   given(actual).hasValue(1L, value);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(actual).hasValue(2L, value))
+   *   given(actual).hasValue(2L, value));
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual value.
    * @param actual the actual {@link AtomicLongFieldUpdater} value to be validated.
@@ -1911,17 +2068,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicReference("Yoda")).hasValue("Yoda")
+   *   given(new AtomicReference("Yoda")).hasValue("Yoda");
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicReference("Yoda")).doesNotHaveValue("Yoda")
+   *   given(new AtomicReference("Yoda")).doesNotHaveValue("Yoda");
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <VALUE> the type of the value contained by the actual reference.
    * @param actual the actual {@link AtomicReference} to be validated.
@@ -1941,17 +2099,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicReferenceArray(0)).isEmpty()
+   *   given(new AtomicReferenceArray(0)).isEmpty();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicReferenceArray(0)).isNotEmpty()
+   *   given(new AtomicReferenceArray(0)).isNotEmpty();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <ELEMENT> the type of the value contained in the actual references' array.
    * @param actual the actual {@link AtomicReferenceArray} to be validated.
@@ -1981,17 +2140,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(actual).hasValue("Yoda", value))
+   *   given(actual).hasValue("Yoda", value));
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(actual).hasValue("", value))
+   *   given(actual).hasValue("", value));
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <FIELD> the type of the field which gets updated by the the actual updater.
    * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual updater.
@@ -2012,17 +2172,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicMarkableReference("Yoda", true)).isMarked()
+   *   given(new AtomicMarkableReference("Yoda", true)).isMarked();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicMarkableReference("Yoda", true)).isNotMarked()
+   *   given(new AtomicMarkableReference("Yoda", true)).isNotMarked();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <VALUE> the type of the value contained by the actual reference.
    * @param actual the actual {@link AtomicMarkableReference} to be validated.
@@ -2042,17 +2203,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new AtomicStampedReference("Yoda", 1)).hasStamp(1)
+   *   given(new AtomicStampedReference("Yoda", 1)).hasStamp(1);
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new AtomicStampedReference("Yoda", 1)).hasStamp(0)
+   *   given(new AtomicStampedReference("Yoda", 1)).hasStamp(0);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param <VALUE> the type of the value contained by the actual reference.
    * @param actual the actual {@link AtomicStampedReference} to be validated.
@@ -2072,17 +2234,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Date.from(Instant.parse("2014-12-03T10:15:30Z"))).isBefore("2016-12-03T10:15:30Z")
+   *   given(Date.from(Instant.parse("2014-12-03T10:15:30Z"))).isBefore("2016-12-03T10:15:30Z");
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Date.from(Instant.parse("2014-12-03T10:15:30Z"))).isAfter("2016-12-03T10:15:30Z")
+   *   given(Date.from(Instant.parse("2014-12-03T10:15:30Z"))).isAfter("2016-12-03T10:15:30Z");
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Date} value to be validated.
    * @return the {@link AbstractDateAssert} assertion object to be used for validation.
@@ -2100,17 +2263,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(LocalDate.now()).isBeforeOrEqualTo(LocalDate.now())
+   *   given(LocalDate.now()).isBeforeOrEqualTo(LocalDate.now());
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(LocalDate.now()).isAfter(LocalDate.now())
+   *   given(LocalDate.now()).isAfter(LocalDate.now());
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link LocalDate} value to be validated.
    * @return the {@link AbstractLocalDateAssert} assertion object to be used for validation.
@@ -2128,17 +2292,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(LocalTime.now()).isBeforeOrEqualTo(LocalTime.now())
+   *   given(LocalTime.now()).isBeforeOrEqualTo(LocalTime.now());
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(LocalTime.now()).isAfter(LocalTime.now())
+   *   given(LocalTime.now()).isAfter(LocalTime.now());
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link LocalTime} value to be validated.
    * @return the {@link AbstractLocalTimeAssert} assertion object to be used for validation.
@@ -2156,17 +2321,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(OffsetTime.now()).isBeforeOrEqualTo(OffsetTime.now())
+   *   given(OffsetTime.now()).isBeforeOrEqualTo(OffsetTime.now());
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(OffsetTime.now()).isAfter(OffsetTime.now())
+   *   given(OffsetTime.now()).isAfter(OffsetTime.now());
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link OffsetTime} value to be validated.
    * @return the {@link AbstractOffsetTimeAssert} assertion object to be used for validation.
@@ -2184,17 +2350,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(LocalDateTime.now()).isBeforeOrEqualTo(LocalDateTime.now())
+   *   given(LocalDateTime.now()).isBeforeOrEqualTo(LocalDateTime.now());
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(LocalDateTime.now()).isAfter(LocalDateTime.now())
+   *   given(LocalDateTime.now()).isAfter(LocalDateTime.now());
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link LocalDateTime} value to be validated.
    * @return the {@link AbstractLocalDateTimeAssert} assertion object to be used for validation.
@@ -2212,17 +2379,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(Instant.now()).isBeforeOrEqualTo(Instant.now())
+   *   given(Instant.now()).isBeforeOrEqualTo(Instant.now());
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(Instant.now()).isAfter(Instant.now())
+   *   given(Instant.now()).isAfter(Instant.now());
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Instant} value to be validated.
    * @return the {@link AbstractInstantAssert} assertion object to be used for validation.
@@ -2240,17 +2408,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(OffsetDateTime.now()).isBeforeOrEqualTo(OffsetDateTime.now())
+   *   given(OffsetDateTime.now()).isBeforeOrEqualTo(OffsetDateTime.now());
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(OffsetDateTime.now()).isAfter(OffsetDateTime.now())
+   *   given(OffsetDateTime.now()).isAfter(OffsetDateTime.now());
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link OffsetDateTime} value to be validated.
    * @return the {@link AbstractOffsetDateTimeAssert} assertion object to be used for validation.
@@ -2268,17 +2437,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(ZonedDateTime.now()).isBeforeOrEqualTo(ZonedDateTime.now())
+   *   given(ZonedDateTime.now()).isBeforeOrEqualTo(ZonedDateTime.now());
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(ZonedDateTime.now()).isAfter(ZonedDateTime.now())
+   *   given(ZonedDateTime.now()).isAfter(ZonedDateTime.now());
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link ZonedDateTime} value to be validated.
    * @return the {@link AbstractZonedDateTimeAssert} assertion object to be used for validation.
@@ -2296,17 +2466,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new ByteArrayInputStream​("A".getBytes())).hasContent("A")
+   *   given(new ByteArrayInputStream​("A".getBytes())).hasContent("A");
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new ByteArrayInputStream​("A".getBytes())).hasContent("B")
+   *   given(new ByteArrayInputStream​("A".getBytes())).hasContent("B");
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link InputStream} value to be validated.
    * @return the {@link AbstractInputStreamAssert} assertion object to be used for validation.
@@ -2324,17 +2495,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new File("file.ext")).isRelative()
+   *   given(new File("file.ext")).isRelative();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new File("file.ext")).isAbsolute()
+   *   given(new File("file.ext")).isAbsolute();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link File} value to be validated.
    * @return the {@link AbstractFileAssert} assertion object to be used for validation.
@@ -2352,17 +2524,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new File("file.ext").toPath()).isRelative()
+   *   given(new File("file.ext").toPath()).isRelative();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new File("file.ext").toPath()).isAbsolute()
+   *   given(new File("file.ext").toPath()).isAbsolute();
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link Path} value to be validated.
    * @return the {@link AbstractPathAssert} assertion object to be used for validation.
@@ -2380,17 +2553,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new URI("http://assertj.org")).hasNoPort()
+   *   given(new URI("http://assertj.org")).hasNoPort();
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new URI("http://assertj.org")).hasPort(80)
+   *   given(new URI("http://assertj.org")).hasPort(80);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link URI} value to be validated.
    * @return the {@link AbstractUriAssert} assertion object to be used for validation.
@@ -2408,17 +2582,18 @@ public final class BDDAssumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new URL("http://assertj.org")).hasProtocol("http")
+   *   given(new URL("http://assertj.org")).hasProtocol("http");
    *   // the remaining code is executed
-   *   ...
+   *   // ...
    * }</code></pre>
    * <p>
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new URL("http://assertj.org")).hasPort(80)
+   *   given(new URL("http://assertj.org")).hasPort(80);
    *   // the remaining code is NOT executed.
-   * }</code></pre>
+   *   // ...
+   *}</code></pre>
    *
    * @param actual the actual {@link URL} value to be validated.
    * @return the {@link AbstractUrlAssert} assertion object to be used for validation.
