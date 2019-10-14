@@ -14,6 +14,7 @@ package org.assertj.core.api.assumptions;
 
 import static org.assertj.core.api.BDDAssertions.thenCode;
 import static org.assertj.core.api.BDDAssumptions.given;
+import static org.assertj.core.api.BDDAssumptions.givenCode;
 import static org.assertj.core.api.BDDAssumptions.givenObject;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
 import static org.mockito.BDDMockito.willReturn;
@@ -68,7 +69,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -85,8 +85,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isTrue())
-                                            .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isTrue()).doesNotThrowAnyException();
     }
 
     @Test
@@ -101,8 +100,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isTrue())
-                                            .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isTrue()).doesNotThrowAnyException();
     }
 
     @Test
@@ -117,8 +115,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(true))
-                                                  .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(true)).doesNotThrowAnyException();
     }
 
     @Test
@@ -133,8 +130,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -149,8 +145,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -165,8 +160,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains((byte) 1))
-                                                      .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains((byte) 1)).doesNotThrowAnyException();
     }
 
     @Test
@@ -181,8 +175,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -197,8 +190,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -213,8 +205,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains((short) 1))
-                                                       .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains((short) 1)).doesNotThrowAnyException();
     }
 
     @Test
@@ -229,8 +220,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -245,8 +235,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -261,8 +250,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(1))
-                                               .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(1)).doesNotThrowAnyException();
     }
 
     @Test
@@ -277,8 +265,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -293,8 +280,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -309,8 +295,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -325,8 +310,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(1L))
-                                                .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(1L)).doesNotThrowAnyException();
     }
 
     @Test
@@ -341,8 +325,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -357,8 +340,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -373,8 +355,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(1.0f))
-                                                  .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(1.0f)).doesNotThrowAnyException();
     }
 
     @Test
@@ -389,8 +370,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -405,8 +385,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -421,8 +400,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(1.0))
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(1.0)).doesNotThrowAnyException();
     }
 
     @Test
@@ -437,8 +415,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isOne())
-                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isOne()).doesNotThrowAnyException();
     }
 
     @Test
@@ -453,8 +430,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isUpperCase())
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isUpperCase()).doesNotThrowAnyException();
     }
 
     @Test
@@ -469,8 +445,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isUpperCase())
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isUpperCase()).doesNotThrowAnyException();
     }
 
     @Test
@@ -485,8 +460,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains('A'))
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains('A')).doesNotThrowAnyException();
     }
 
     @Test
@@ -501,8 +475,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isNotEmpty())
-                                                .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isNotEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -517,8 +490,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEqualTo("Yoda"))
-                                                     .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEqualTo("Yoda")).doesNotThrowAnyException();
     }
 
     @Test
@@ -533,8 +505,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isNotEmpty())
-                                                .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isNotEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -549,8 +520,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isNotEmpty())
-                                                .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isNotEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -565,8 +535,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isAssignableFrom(Long.class))
-                                                                .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isAssignableFrom(Long.class)).doesNotThrowAnyException();
     }
 
     @Test
@@ -592,8 +561,7 @@ public class BDDAssumptionsTest {
 
       @Test
       public void should_run_test_when_assumption_passes() {
-        thenCode(() -> given(actual).hasNoNullFieldsOrProperties())
-                                                                   .doesNotThrowAnyException();
+        thenCode(() -> given(actual).hasNoNullFieldsOrProperties()).doesNotThrowAnyException();
       }
 
       @Test
@@ -608,8 +576,7 @@ public class BDDAssumptionsTest {
 
       @Test
       public void should_run_test_when_assumption_passes() {
-        thenCode(() -> given(actual).isNotEmpty())
-                                                  .doesNotThrowAnyException();
+        thenCode(() -> given(actual).isNotEmpty()).doesNotThrowAnyException();
       }
 
       @Test
@@ -624,8 +591,7 @@ public class BDDAssumptionsTest {
 
       @Test
       public void should_run_test_when_assumption_passes() {
-        thenCode(() -> givenObject(actual).hasNoNullFieldsOrProperties())
-                                                                         .doesNotThrowAnyException();
+        thenCode(() -> givenObject(actual).hasNoNullFieldsOrProperties()).doesNotThrowAnyException();
       }
 
       @Test
@@ -648,8 +614,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEqualByComparingTo(new Yoda()))
-                                                                    .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEqualByComparingTo(new Yoda())).doesNotThrowAnyException();
     }
 
     @Test
@@ -664,8 +629,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).hasMessage("Yoda time"))
-                                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).hasMessage("Yoda time")).doesNotThrowAnyException();
     }
 
     @Test
@@ -675,39 +639,34 @@ public class BDDAssumptionsTest {
   }
 
   @Nested
-  public class BDDAssumptions_given_lambda_Test {
-
+  public class BDDAssumptions_givenCode_Test {
     @Nested
-    public class BDDAssumptions_given_lambda__no_exception_required_Test {
-      private final ThrowingCallable actual = () -> { /* some code */ };
-
+    public class BDDAssumptions_givenCode_no_exception_required_Test {
       @Test
       public void should_run_test_when_assumption_passes() {
-        thenCode(() -> given(actual).doesNotThrowAnyException())
-                                                                .doesNotThrowAnyException();
+        thenCode(() -> givenCode(() -> { /* some code */ }).doesNotThrowAnyException()).doesNotThrowAnyException();
       }
 
       @Test
       public void should_ignore_test_when_assumption_fails() {
-        expectAssumptionViolatedException(() -> given(actual).hasMessage("Yoda time"));
+        expectAssumptionViolatedException(() -> givenCode(() -> { /* some code */ }).hasMessage("Yoda time"));
       }
     }
 
     @Nested
-    public class BDDAssumptions_given_lambda__exception_required_Test {
-      private final ThrowingCallable actual = () -> {
-        throw new Exception("Yoda time");
-      };
-
+    public class BDDAssumptions_givenCode_exception_required_Test {
       @Test
       public void should_run_test_when_assumption_passes() {
-        thenCode(() -> given(actual).hasMessage("Yoda time"))
-                                                             .doesNotThrowAnyException();
+        thenCode(() -> givenCode(() -> {
+          throw new Exception("Yoda time");
+        }).hasMessage("Yoda time")).doesNotThrowAnyException();
       }
 
       @Test
       public void should_ignore_test_when_assumption_fails() {
-        expectAssumptionViolatedException(() -> given(actual).doesNotThrowAnyException());
+        expectAssumptionViolatedException(() -> givenCode(() -> {
+          throw new Exception("Yoda time");
+        }).doesNotThrowAnyException());
       }
     }
   }
@@ -718,8 +677,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(2))
-                                               .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(2)).doesNotThrowAnyException();
     }
 
     @Test
@@ -734,8 +692,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).hasNext())
-                                             .doesNotThrowAnyException();
+      thenCode(() -> given(actual).hasNext()).doesNotThrowAnyException();
     }
 
     @Test
@@ -750,8 +707,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(2))
-                                               .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(2)).doesNotThrowAnyException();
     }
 
     @Test
@@ -766,8 +722,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).containsEntry(1, 2))
-                                                       .doesNotThrowAnyException();
+      thenCode(() -> given(actual).containsEntry(1, 2)).doesNotThrowAnyException();
     }
 
     @Test
@@ -782,8 +737,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).accepts(1, 2))
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).accepts(1, 2)).doesNotThrowAnyException();
     }
 
     @Test
@@ -798,8 +752,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).accepts(1, 2))
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).accepts(1, 2)).doesNotThrowAnyException();
     }
 
     @Test
@@ -814,8 +767,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).accepts(1, 2))
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).accepts(1, 2)).doesNotThrowAnyException();
     }
 
     @Test
@@ -830,8 +782,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).accepts(1.0, 2.0))
-                                                     .doesNotThrowAnyException();
+      thenCode(() -> given(actual).accepts(1.0, 2.0)).doesNotThrowAnyException();
     }
 
     @Test
@@ -846,8 +797,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEmpty())
-                                             .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -862,8 +812,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEmpty())
-                                             .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -878,8 +827,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEmpty())
-                                             .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -894,8 +842,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEmpty())
-                                             .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -910,8 +857,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(2))
-                                               .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(2)).doesNotThrowAnyException();
     }
 
     @Test
@@ -926,8 +872,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(2))
-                                               .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(2)).doesNotThrowAnyException();
     }
 
     @Test
@@ -942,8 +887,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(2L))
-                                                .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(2L)).doesNotThrowAnyException();
     }
 
     @Test
@@ -958,8 +902,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).contains(2.0))
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).contains(2.0)).doesNotThrowAnyException();
     }
 
     @Test
@@ -974,15 +917,12 @@ public class BDDAssumptionsTest {
 
     @BeforeEach
     public void beforeEach() {
-      willReturn(true)
-                      .given(actual)
-                      .isCancelled();
+      willReturn(true).given(actual).isCancelled();
     }
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isCancelled())
-                                                 .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isCancelled()).doesNotThrowAnyException();
     }
 
     @Test
@@ -997,8 +937,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isDone())
-                                            .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isDone()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1013,8 +952,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isDone())
-                                            .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isDone()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1029,8 +967,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isTrue())
-                                            .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isTrue()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1045,8 +982,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).hasNonNegativeValue())
-                                                         .doesNotThrowAnyException();
+      thenCode(() -> given(actual).hasNonNegativeValue()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1061,8 +997,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEmpty())
-                                             .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1088,8 +1023,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).hasValue(1, value))
-                                                      .doesNotThrowAnyException();
+      thenCode(() -> given(actual).hasValue(1, value)).doesNotThrowAnyException();
     }
 
     @Test
@@ -1104,8 +1038,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).hasNonNegativeValue())
-                                                         .doesNotThrowAnyException();
+      thenCode(() -> given(actual).hasNonNegativeValue()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1120,8 +1053,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEmpty())
-                                             .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1147,8 +1079,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).hasValue(1L, value))
-                                                       .doesNotThrowAnyException();
+      thenCode(() -> given(actual).hasValue(1L, value)).doesNotThrowAnyException();
     }
 
     @Test
@@ -1163,8 +1094,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).hasValue("Yoda"))
-                                                    .doesNotThrowAnyException();
+      thenCode(() -> given(actual).hasValue("Yoda")).doesNotThrowAnyException();
     }
 
     @Test
@@ -1179,8 +1109,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isEmpty())
-                                             .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isEmpty()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1253,8 +1182,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isBefore("2016-12-03T10:15:30Z"))
-                                                                    .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isBefore("2016-12-03T10:15:30Z")).doesNotThrowAnyException();
     }
 
     @Test
@@ -1269,8 +1197,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isBeforeOrEqualTo(LocalDate.now()))
-                                                                      .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isBeforeOrEqualTo(LocalDate.now())).doesNotThrowAnyException();
     }
 
     @Test
@@ -1285,8 +1212,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isBeforeOrEqualTo(LocalTime.now()))
-                                                                      .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isBeforeOrEqualTo(LocalTime.now())).doesNotThrowAnyException();
     }
 
     @Test
@@ -1301,8 +1227,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isBeforeOrEqualTo(OffsetTime.now()))
-                                                                       .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isBeforeOrEqualTo(OffsetTime.now())).doesNotThrowAnyException();
     }
 
     @Test
@@ -1317,8 +1242,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isBeforeOrEqualTo(LocalDateTime.now()))
-                                                                          .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isBeforeOrEqualTo(LocalDateTime.now())).doesNotThrowAnyException();
     }
 
     @Test
@@ -1333,8 +1257,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isBeforeOrEqualTo(Instant.now()))
-                                                                    .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isBeforeOrEqualTo(Instant.now())).doesNotThrowAnyException();
     }
 
     @Test
@@ -1349,8 +1272,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isBeforeOrEqualTo(OffsetDateTime.now()))
-                                                                           .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isBeforeOrEqualTo(OffsetDateTime.now())).doesNotThrowAnyException();
     }
 
     @Test
@@ -1365,8 +1287,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isBeforeOrEqualTo(ZonedDateTime.now()))
-                                                                          .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isBeforeOrEqualTo(ZonedDateTime.now())).doesNotThrowAnyException();
     }
 
     @Test
@@ -1381,8 +1302,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).hasContent("A"))
-                                                   .doesNotThrowAnyException();
+      thenCode(() -> given(actual).hasContent("A")).doesNotThrowAnyException();
     }
 
     @Test
@@ -1397,8 +1317,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isRelative())
-                                                .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isRelative()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1413,8 +1332,7 @@ public class BDDAssumptionsTest {
 
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isRelative())
-                                                .doesNotThrowAnyException();
+      thenCode(() -> given(actual).isRelative()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1427,8 +1345,7 @@ public class BDDAssumptionsTest {
   public class BDDAssumptions_given_URI_Test {
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(new URI("http://assertj.org")).hasNoPort())
-                                                                      .doesNotThrowAnyException();
+      thenCode(() -> given(new URI("http://assertj.org")).hasNoPort()).doesNotThrowAnyException();
     }
 
     @Test
@@ -1441,8 +1358,7 @@ public class BDDAssumptionsTest {
   public class BDDAssumptions_given_URL_Test {
     @Test
     public void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(new URL("http://assertj.org")).hasProtocol("http"))
-                                                                              .doesNotThrowAnyException();
+      thenCode(() -> given(new URL("http://assertj.org")).hasProtocol("http")).doesNotThrowAnyException();
     }
 
     @Test

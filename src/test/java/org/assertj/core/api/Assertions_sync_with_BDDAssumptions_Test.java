@@ -29,9 +29,18 @@ public class Assertions_sync_with_BDDAssumptions_Test extends BaseAssertionsTest
   }
 
   @Test
-  public void other_assertions_and_bdd_assumptions_should_have_the_same_assertions_methods() {
+  public void object_assertions_and_bdd_assumptions_should_have_the_same_assertions_methods() {
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThatObject", SPECIAL_IGNORED_RETURN_TYPES);
     Method[] givenMethods = findMethodsWithName(BDDAssumptions.class, "givenObject");
+
+    assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
+                            .contains(assertThatMethods);
+  }
+
+  @Test
+  public void code_assertions_and_bdd_assumptions_should_have_the_same_assertions_methods() {
+    Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThatCode", SPECIAL_IGNORED_RETURN_TYPES);
+    Method[] givenMethods = findMethodsWithName(BDDAssumptions.class, "givenCode");
 
     assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
                             .contains(assertThatMethods);
