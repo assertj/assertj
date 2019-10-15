@@ -12,9 +12,11 @@
  */
 package org.assertj.core.error;
 
+import java.io.File;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is empty failed. A group of elements
- * can be a collection, an array or a {@code String}.
+ * can be a collection, an array, {@code String} or a {@code File}.
  * 
  * @author Alex Ruiz
  */
@@ -26,10 +28,19 @@ public class ShouldBeEmpty extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEmpty(Object actual) {
-    return new ShouldBeEmpty(actual);
+    return new ShouldBeEmpty("%nExpecting empty but was:<%s>", actual);
   }
 
-  private ShouldBeEmpty(Object actual) {
-    super("%nExpecting empty but was:<%s>", actual);
+  /**
+   * Creates a new <code>{@link ShouldBeEmpty}</code>.
+   * @param actual the actual file in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeEmpty(File actual) {
+    return new ShouldBeEmpty("%nExpecting file <%s> to be empty", actual);
+  }
+
+  private ShouldBeEmpty(String format, Object... arguments) {
+    super(format, arguments);
   }
 }

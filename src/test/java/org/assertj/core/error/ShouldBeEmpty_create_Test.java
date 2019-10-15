@@ -12,34 +12,44 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.assertj.core.description.Description;
+import java.io.File;
+
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldBeEmpty#create(Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ * Tests for <code>{@link ShouldBeEmpty#create((org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class ShouldBeEmpty_create_Test {
+@DisplayName("ShouldBeEmpty create")
+class ShouldBeEmpty_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldBeEmpty(newArrayList("Luke", "Yoda"));
+  @Test
+  void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeEmpty(newArrayList("Luke", "Yoda"));
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting empty but was:<[\"Luke\", \"Yoda\"]>"));
   }
 
   @Test
-  public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %nExpecting empty but was:<[\"Luke\", \"Yoda\"]>"));
+  void should_create_error_message_for_File() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeEmpty(new File("/te%st.txt"));
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting file </te%%st.txt> to be empty"));
   }
 }

@@ -17,6 +17,7 @@ import static java.nio.file.Files.readAllBytes;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -275,16 +276,44 @@ public class Files {
   }
 
   /**
-  * Asserts that the given file can be modified by the application.
-  * @param info contains information about the assertion.
-  * @param actual the given file.
-  * @throws AssertionError if the given file is {@code null}.
-  * @throws AssertionError if the given file can not be modified.
-  */
+   * Asserts that the given file can be modified by the application.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file can not be modified.
+   */
   public void assertCanWrite(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canWrite()) return;
     throw failures.failure(info, shouldBeWritable(actual));
+  }
+
+  /**
+   * Asserts that the given {@code File} is empty (i.e. size is equal to zero bytes).
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given {@code File} is {@code null}.
+   * @throws AssertionError if the given {@code File} does not exist.
+   * @throws AssertionError if the given {@code File} is not empty.
+   */
+  public void assertIsEmptyFile(AssertionInfo info, File actual) {
+    assertIsFile(info, actual);
+    if (actual.length() == 0) return;
+    throw failures.failure(info, shouldBeEmpty(actual));
+  }
+
+  /**
+   * Asserts that the given {@code File} is not empty (i.e. size is greater than zero bytes).
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given {@code File} is {@code null}.
+   * @throws AssertionError if the given {@code File} does not exist.
+   * @throws AssertionError if the given {@code File} is empty.
+   */
+  public void assertIsNotEmptyFile(AssertionInfo info, File actual) {
+    assertIsFile(info, actual);
+    if (actual.length() > 0) return;
+    throw failures.failure(info, shouldNotBeEmpty(actual));
   }
 
   /**
