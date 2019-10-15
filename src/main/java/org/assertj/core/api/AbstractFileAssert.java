@@ -990,4 +990,29 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     files.assertIsNotEmptyDirectory(info, actual);
     return myself;
   }
+
+  /**
+   * Verify that the actual {@code File} is empty (i.e. size is equal to zero bytes).
+   * <p>
+   * Example:
+   * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   *
+   * // assertion will pass
+   * assertThat(file).isEmpty();
+   *
+   * Files.write(file.toPath(), new byte[]{1, 1});
+   *
+   * // assertion will fail
+   * assertThat(file).isEmpty();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not exist.
+   * @throws AssertionError if the actual {@code File} is not empty.
+   * @since 3.14.0
+   */
+  public SELF isEmpty() {
+    files.assertIsEmptyFile(info, actual);
+    return myself;
+  }
 }
