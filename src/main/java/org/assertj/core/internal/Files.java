@@ -301,6 +301,18 @@ public class Files {
   }
 
   /**
+   * Asserts that the given {@code File} is not empty (i.e. size is greater than zero bytes).
+   * @throws AssertionError if the given {@code File} is {@code null}.
+   * @throws AssertionError if the given {@code File} does not exist.
+   * @throws AssertionError if the given {@code File} is empty.
+   */
+  public void assertIsNotEmptyFile(AssertionInfo info, File actual) {
+    assertIsFile(info, actual);
+    if (actual.length() > 0) return;
+    throw failures.failure(info, shouldNotBeEmpty(actual));
+  }
+
+  /**
    * Asserts that the given file can be read by the application.
    * @param info contains information about the assertion.
    * @param actual the given file.

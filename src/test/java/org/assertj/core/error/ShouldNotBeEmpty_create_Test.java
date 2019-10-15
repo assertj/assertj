@@ -20,6 +20,8 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 /**
  * Tests for <code>{@link ShouldNotBeEmpty#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  *
@@ -39,5 +41,15 @@ class ShouldNotBeEmpty_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(String.format("[Test] %nExpecting actual not to be empty"));
+  }
+
+  @Test
+  void should_create_error_message_for_File() {
+    // GIVEN
+    factory = shouldNotBeEmpty(new File("/test.txt"));
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(String.format("[Test] %nExpecting file </test.txt> not to be empty"));
   }
 }
