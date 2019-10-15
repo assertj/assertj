@@ -21,6 +21,7 @@ public class ComparatorFactory {
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
   public Comparator<Double> doubleComparatorWithPrecision(final double precision) {
+    @SuppressWarnings("unused") // can't use <> with anomymous class in java 8
     Comparator<Double> closeToComparator = new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
@@ -37,6 +38,7 @@ public class ComparatorFactory {
   }
 
   public Comparator<Float> floatComparatorWithPrecision(final float precision) {
+    @SuppressWarnings("unused")
     Comparator<Float> closeToComparator = new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {

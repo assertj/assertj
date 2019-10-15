@@ -1117,7 +1117,9 @@ public final class BDDAssumptions {
    * @return the {@link AbstractComparableAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
+  @SuppressWarnings("unchecked")
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(Comparable<? super T> actual) {
+    // cast needed to call AbstractComparableAssert<?, T> assumeThat(T actual)
     return assumeThat((T) actual);
   }
 
@@ -1225,7 +1227,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractIterableAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <ELEMENT> ProxyableIterableAssert<ELEMENT> given(Iterable<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
@@ -1256,7 +1257,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractIteratorAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <ELEMENT> IteratorAssert<ELEMENT> given(Iterator<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
@@ -1287,7 +1287,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <ELEMENT> FactoryBasedNavigableListAssert<ProxyableListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(List<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
@@ -1319,7 +1318,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractMapAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <K, V> AbstractMapAssert<?, ?, K, V> given(Map<K, V> actual) {
     return assumeThat(actual);
   }
@@ -1350,7 +1348,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractPredicateAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <T> ProxyablePredicateAssert<T> given(Predicate<T> actual) {
     return assumeThat(actual);
   }
