@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
@@ -57,6 +58,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Mikhail Mazursky
  * @author Nicolas François
  * @author Julien Meddah
+ * @author William Bakker
  * @author William Delanoue
  * @author Turbo87
  * @author dorzey
@@ -439,4 +441,15 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
     return new CompletableFutureAssert<>(actual);
   }
 
+  /**
+   * Create assertion for {@link SpliteratorAssert}.
+   *
+   * @param <ELEMENT> the type of elements
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
+    return new SpliteratorAssert<>(actual);
+  }
 }

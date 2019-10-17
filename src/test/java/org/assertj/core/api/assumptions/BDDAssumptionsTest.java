@@ -45,6 +45,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -908,6 +909,21 @@ public class BDDAssumptionsTest {
     @Test
     public void should_ignore_test_when_assumption_fails() {
       expectAssumptionViolatedException(() -> given(actual).containsOnly(2.0));
+    }
+  }
+
+  @Nested
+  public class BDDAssumptions_given_Spliterator_Test {
+    private final Spliterator<Integer> actual = Stream.of(1, 2).spliterator();
+
+    @Test
+    public void should_run_test_when_assumption_passes() {
+      thenCode(() -> given(actual).hasCharacteristics(Spliterator.SIZED)).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void should_ignore_test_when_assumption_fails() {
+      expectAssumptionViolatedException(() -> given(actual).hasCharacteristics(Spliterator.DISTINCT));
     }
   }
 

@@ -59,6 +59,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -2086,6 +2087,26 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errorsCollected.get(1)).hasMessage("overridingErrorMessage with extractingFromEntries");
       assertThat(errorsCollected.get(2)).hasMessageFindingMatch("not found:.*10.*not expected:.*1");
     }
+  }
+
+  @Test
+  public void should_work_with_spliterator() {
+    // GIVEN
+    Spliterator<String> spliterator1 = Stream.of("a", "b", "c").spliterator();
+    Spliterator<String> spliterator2 = Stream.of("a", "b", "c").spliterator();
+    Spliterator<Integer> nullSpliterator = null;
+    // WHEN
+    softly.assertThat(spliterator1)
+          .hasCharacteristics(Spliterator.SIZED) // OK
+          .hasOnlyCharacteristics(Spliterator.IMMUTABLE);  // FAIL
+    softly.assertThat(spliterator2).hasCharacteristics(Spliterator.DISTINCT);
+    softly.assertThat(nullSpliterator).hasCharacteristics(Spliterator.DISTINCT);
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(3);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("IMMUTABLE");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("DISTINCT");
+    assertThat(errorsCollected.get(2)).hasMessageContaining("Expecting actual not to be null");
   }
 
 }

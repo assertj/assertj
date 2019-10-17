@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
@@ -318,4 +319,15 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
     return proxy(ProxyableListAssert.class, IntStream.class, actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual {@link Spliterator} value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
+    return proxy(SpliteratorAssert.class, Spliterator.class, actual);
+  }
 }

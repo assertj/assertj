@@ -34,6 +34,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -68,7 +69,7 @@ public interface InstanceOfAssertFactories {
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Predicate}, assuming {@code Object} as input type.
-   * 
+   *
    * @see #predicate(Class)
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
@@ -80,7 +81,7 @@ public interface InstanceOfAssertFactories {
    * @param <T>  the {@code Predicate} input type.
    * @param type the input type instance.
    * @return the factory instance.
-   * 
+   *
    * @see #PREDICATE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
@@ -218,7 +219,7 @@ public interface InstanceOfAssertFactories {
    * <p>
    * Note: The {@code TYPE} suffix prevents the shadowing of {@code java.net.URL} when the factory is statically imported.
    * </p>
-   * 
+   *
    * @since 3.13.2
    */
   InstanceOfAssertFactory<URL, AbstractUrlAssert<?>> URL_TYPE = new InstanceOfAssertFactory<>(URL.class,
@@ -376,7 +377,7 @@ public interface InstanceOfAssertFactories {
    * @param <ELEMENT> the element type.
    * @param arrayType the element type instance.
    * @return the factory instance.
-   * 
+   *
    * @see #ARRAY
    */
   static <ELEMENT> InstanceOfAssertFactory<ELEMENT[], ObjectArrayAssert<ELEMENT>> array(Class<ELEMENT[]> arrayType) {
@@ -475,7 +476,7 @@ public interface InstanceOfAssertFactories {
    * @param <OBJECT>   the {@code AtomicIntegerFieldUpdater} object type.
    * @param objectType the object type instance.
    * @return the factory instance.
-   * 
+   *
    * @see #ATOMIC_INTEGER_FIELD_UPDATER
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
@@ -623,7 +624,7 @@ public interface InstanceOfAssertFactories {
    * @param <VALUE>   the {@code AtomicStampedReference} value type.
    * @param valueType the value type instance.
    * @return the factory instance.
-   * 
+   *
    * @see #ATOMIC_STAMPED_REFERENCE
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
@@ -772,6 +773,28 @@ public interface InstanceOfAssertFactories {
    */
   InstanceOfAssertFactory<Path, AbstractPathAssert<?>> PATH = new InstanceOfAssertFactory<>(Path.class,
                                                                                             Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Spliterator}, assuming {@code Object} as element type.
+   *
+   * @see #spliterator(Class)
+   */
+  @SuppressWarnings("rawtypes") // rawtypes: using Class instance
+  InstanceOfAssertFactory<Spliterator, SpliteratorAssert<Object>> SPLITERATOR = spliterator(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Spliterator}.
+   *
+   * @param <ELEMENT>   the {@code Spliterator} element type.
+   * @param elementType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #SPLITERATOR
+   */
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  static <ELEMENT> InstanceOfAssertFactory<Spliterator, SpliteratorAssert<ELEMENT>> spliterator(Class<ELEMENT> elementType) {
+    return new InstanceOfAssertFactory<>(Spliterator.class, Assertions::<ELEMENT> assertThat);
+  }
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Map}, assuming {@code Object} as key and value types.

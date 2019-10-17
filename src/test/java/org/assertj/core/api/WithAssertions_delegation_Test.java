@@ -38,6 +38,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -800,7 +801,6 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     assertThat(java.net.URI.create("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
   }
 
-  @Test
   void withAssertions_from_function_Test() {
     // GIVEN
     Function<?, ?> extractor = mock(Function.class);
@@ -819,6 +819,11 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     InstanceOfAssertFactory<?, AbstractAssert<?, ?>> result = as(assertFactory);
     // THEN
     then(result).isSameAs(assertFactory);
+  }
+
+  @Test
+  public void withAssertions_assertThat_spliterator_Test() {
+    assertThat(Stream.of(1, 2).spliterator()).hasCharacteristics(Spliterator.SIZED);
   }
 
 }

@@ -77,6 +77,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.SPLITERATOR;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
@@ -129,6 +130,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -1019,6 +1021,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractPathAssert<?> result = assertThat(value).asInstanceOf(PATH);
     // THEN
     result.doesNotExist();
+  }
+
+  @Test
+  void spliterator_factory_should_allow_spliterator_assertions() {
+    // GIVEN
+    Object value = Stream.of(1, 2).spliterator();
+    // WHEN
+    SpliteratorAssert<Object> result = assertThat(value).asInstanceOf(SPLITERATOR);
+    // THEN
+    result.hasCharacteristics(Spliterator.SIZED);
   }
 
   @Test

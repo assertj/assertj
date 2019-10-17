@@ -41,6 +41,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -1102,6 +1103,18 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assumeThat(IntStream actual) {
     return asAssumption(ProxyableListAssert.class, IntStream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> assumption from the given {@link Spliterator}.
+   *
+   * @param <ELEMENT> the type of the elements
+   * @param actual the Spliterator to test
+   * @return the created assumption for assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  public static <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> assumeThat(Spliterator<ELEMENT> actual) {
+    return asAssumption(SpliteratorAssert.class, Spliterator.class, actual);
   }
 
   // private methods
