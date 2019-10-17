@@ -1994,6 +1994,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
    * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
    * @see AbstractOptionalAssert#get(InstanceOfAssertFactory)
+   * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
    */
   public static <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
     return assertFactory;

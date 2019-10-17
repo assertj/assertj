@@ -74,7 +74,7 @@ class OptionalAssert_get_with_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_pass_allowing_type_narrowed_assertions_if_optional_contains_a_value_of_the_factory_type() {
+  void should_pass_allowing_type_narrowed_assertions_if_optional_contains_an_instance_of_the_factory_type() {
     // WHEN
     AbstractStringAssert<?> result = assertThat(optional).get(STRING);
     // THEN
@@ -82,7 +82,7 @@ class OptionalAssert_get_with_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_fail_if_the_optional_value_is_not_an_instance_of_the_assert_factory_type() {
+  void should_fail_if_optional_does_not_contain_an_instance_of_the_factory_type() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get(INTEGER));
     // THEN

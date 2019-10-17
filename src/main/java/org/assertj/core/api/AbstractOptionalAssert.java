@@ -428,6 +428,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @throws AssertionError if the actual {@link Optional} is null.
    * @throws AssertionError if the actual {@link Optional} is empty.
    * @since 3.9.0
+   * @see #get(InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, VALUE> get() {
