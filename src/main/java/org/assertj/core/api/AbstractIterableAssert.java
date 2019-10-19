@@ -2536,9 +2536,47 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return the assertion on the given element
    * @throws AssertionError if the given index is out of bound.
    * @since 2.5.0 / 3.5.0
+   * @see #element(int, InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public ELEMENT_ASSERT element(int index) {
+    return internalElement(index);
+  }
+
+  /**
+   * Navigate and allow to perform assertions on the chosen element of the {@link Iterable} under test.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Example: use of {@code String} assertions after {@code element(index, as(InstanceOfAssertFactories.STRING)}
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   *
+   * // assertion succeeds
+   * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("sa")
+   *                    .endsWith("am");
+   * // assertion fails
+   * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("fro");
+   * // assertion fails because of wrong factory type
+   * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.INTEGER))
+   *                    .isZero();</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param index         the element's index
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the element at the given index
+   * @throws AssertionError if the given index is out of bound.
+   * @throws NullPointerException if the given factory is {@code null}
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT element(int index, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalElement(index).asInstanceOf(assertFactory);
+  }
+
+  private ELEMENT_ASSERT internalElement(int index) {
     isNotEmpty();
     assertThat(index).describedAs(navigationDescription("check index validity"))
                      .isBetween(0, IterableUtil.sizeOf(actual) - 1);

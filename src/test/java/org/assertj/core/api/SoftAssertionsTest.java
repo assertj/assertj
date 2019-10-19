@@ -209,7 +209,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<{\"54\"=\"55\"}>"));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "deprecation" })
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {
@@ -857,6 +857,10 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(emptyList()).first(as(STRING));
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).element(0);
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).element(0, as(STRING));
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(emptyList()).last();
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(emptyList()).last(as(STRING));
@@ -867,7 +871,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // nested proxied call to isCompleted
     softly.assertThat(new CompletableFuture<String>()).isCompletedWithValue("done");
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(7);
+    assertThat(softly.errorsCollected()).hasSize(9);
   }
 
   @Test
@@ -1027,6 +1031,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .element(0)
           .isNull();
     softly.assertThat(names)
+          .as("element(0) as Name")
+          .overridingErrorMessage("error message")
+          .element(0, as(type(Name.class)))
+          .isNull();
+    softly.assertThat(names)
           .as("last element")
           .overridingErrorMessage("error message")
           .last()
@@ -1038,15 +1047,16 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .isNull();
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(8);
+    assertThat(errorsCollected).hasSize(9);
     assertThat(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[should not be empty] error message 2");
     assertThat(errorsCollected.get(3)).hasMessage("[first element] error message");
     assertThat(errorsCollected.get(4)).hasMessage("[first element as Name] error message");
     assertThat(errorsCollected.get(5)).hasMessage("[element(0)] error message");
-    assertThat(errorsCollected.get(6)).hasMessage("[last element] error message");
-    assertThat(errorsCollected.get(7)).hasMessage("[last element as Name] error message");
+    assertThat(errorsCollected.get(6)).hasMessage("[element(0) as Name] error message");
+    assertThat(errorsCollected.get(7)).hasMessage("[last element] error message");
+    assertThat(errorsCollected.get(8)).hasMessage("[last element as Name] error message");
   }
 
   @Test
@@ -1084,6 +1094,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .element(0)
           .isNull();
     softly.assertThat(names)
+          .as("element(0) as Name")
+          .overridingErrorMessage("error message")
+          .element(0, as(type(Name.class)))
+          .isNull();
+    softly.assertThat(names)
           .as("last element")
           .overridingErrorMessage("error message")
           .last()
@@ -1095,15 +1110,16 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .isNull();
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(8);
+    assertThat(errorsCollected).hasSize(9);
     assertThat(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[shoud not be empty] error message 2");
     assertThat(errorsCollected.get(3)).hasMessage("[first element] error message");
     assertThat(errorsCollected.get(4)).hasMessage("[first element as Name] error message");
     assertThat(errorsCollected.get(5)).hasMessage("[element(0)] error message");
-    assertThat(errorsCollected.get(6)).hasMessage("[last element] error message");
-    assertThat(errorsCollected.get(7)).hasMessage("[last element as Name] error message");
+    assertThat(errorsCollected.get(6)).hasMessage("[element(0) as Name] error message");
+    assertThat(errorsCollected.get(7)).hasMessage("[last element] error message");
+    assertThat(errorsCollected.get(8)).hasMessage("[last element as Name] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
