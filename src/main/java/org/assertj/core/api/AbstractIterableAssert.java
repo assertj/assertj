@@ -2434,12 +2434,49 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(hobbits, StringAssert.class).last()
    *                                        .startsWith("fro");</code></pre>
    *
-   * @return the assertion on the first element
+   * @return the assertion on the last element
    * @throws AssertionError if the actual {@link Iterable} is empty.
    * @since 2.5.0 / 3.5.0
+   * @see #last(InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public ELEMENT_ASSERT last() {
+    return internalLast();
+  }
+
+  /**
+   * Navigate and allow to perform assertions on the last element of the {@link Iterable} under test.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Example: use of {@code String} assertions after {@code last(as(InstanceOfAssertFactories.STRING)}
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   *
+   * // assertion succeeds
+   * assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("pip")
+   *                    .endsWith("pin");
+   * // assertion fails
+   * assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("fro");
+   * // assertion fails because of wrong factory type
+   * assertThat(hobbits).last(as(InstanceOfAssertFactories.INTEGER))
+   *                    .isZero();</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the last element
+   * @throws AssertionError if the actual {@link Iterable} is empty.
+   * @throws NullPointerException if the given factory is {@code null}
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT last(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalLast().asInstanceOf(assertFactory);
+  }
+
+  private ELEMENT_ASSERT internalLast() {
     isNotEmpty();
     return toAssert(lastElement(), navigationDescription("check last element"));
   }
