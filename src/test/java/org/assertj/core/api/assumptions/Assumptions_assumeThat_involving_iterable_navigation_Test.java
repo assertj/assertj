@@ -65,6 +65,7 @@ class Assumptions_assumeThat_involving_iterable_navigation_Test {
       assumeThat(jedis).last().isEqualTo(luke);
       assumeThat(jedis).last(as(type(Jedi.class))).isEqualTo(luke);
       assumeThat(jedis).element(1).isEqualTo(luke);
+      assumeThat(jedis).element(1, as(type(Jedi.class))).isEqualTo(luke);
     }).doesNotThrowAnyException();
   }
 
@@ -106,6 +107,14 @@ class Assumptions_assumeThat_involving_iterable_navigation_Test {
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_element_fails() {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).element(1)
+                                                                                                   .as("check element at index 1")
+                                                                                                   .isEqualTo(yoda));
+  }
+
+  @Test
+  void should_ignore_test_when_assumption_after_navigating_to_element_with_InstanceOfAssertFactory_fails() {
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).element(1,
+                                                                                                            as(type(Jedi.class)))
                                                                                                    .as("check element at index 1")
                                                                                                    .isEqualTo(yoda));
   }

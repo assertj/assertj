@@ -749,6 +749,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(emptyList()).last();
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.then(emptyList()).last(as(STRING));
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).element(1);
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).element(1, as(STRING));
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.then(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
@@ -756,7 +760,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // nested proxied call to isCompleted
     softly.then(new CompletableFuture<String>()).isCompletedWithValue("done");
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(7);
+    assertThat(softly.errorsCollected()).hasSize(9);
   }
 
   // bug #447
