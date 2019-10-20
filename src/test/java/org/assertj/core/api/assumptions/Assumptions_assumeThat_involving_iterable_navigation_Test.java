@@ -12,9 +12,11 @@
  */
 package org.assertj.core.api.assumptions;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -25,68 +27,76 @@ import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Assumptions_assumeThat_involving_iterable_navigation_Test {
+class Assumptions_assumeThat_involving_iterable_navigation_Test {
 
   private Set<Jedi> jedis;
   private Jedi yoda;
   private Jedi luke;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     yoda = new Jedi("Yoda", "green");
     luke = new Jedi("Luke", "green");
     jedis = newLinkedHashSet(yoda, luke);
   }
 
   @Test
-  public void should_run_test_when_assumption_on_size_passes() {
+  void should_run_test_when_assumption_on_size_passes() {
     assertThatCode(() -> assumeThat(jedis).size().isLessThan(3)).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_run_test_when_assumption_after_navigating_back_to_iterable_passes() {
+  void should_run_test_when_assumption_after_navigating_back_to_iterable_passes() {
     assertThatCode(() -> assumeThat(jedis).size().isLessThan(3).returnToIterable()
                                           .hasSize(2)).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_run_test_when_assumption_after_navigating_back_to_list_passes() {
+  void should_run_test_when_assumption_after_navigating_back_to_list_passes() {
     assertThatCode(() -> assumeThat(newArrayList(jedis)).size().isLessThan(3)
                                                         .returnToIterable().hasSize(2)).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_run_test_when_assumption_after_navigating_to_elements_passes() {
+  void should_run_test_when_assumption_after_navigating_to_elements_passes() {
     assertThatCode(() -> {
       assumeThat(jedis).first().isEqualTo(yoda);
+      assumeThat(jedis).first(as(type(Jedi.class))).isEqualTo(yoda);
       assumeThat(jedis).last().isEqualTo(luke);
       assumeThat(jedis).element(1).isEqualTo(luke);
     }).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_ignore_test_when_assumption_on_size_fails() {
+  void should_ignore_test_when_assumption_on_size_fails() {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).size()
                                                                                                    .as("check size")
                                                                                                    .isGreaterThan(3));
   }
 
   @Test
-  public void should_ignore_test_when_assumption_after_navigating_to_first_fails() {
+  void should_ignore_test_when_assumption_after_navigating_to_first_fails() {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).first()
                                                                                                    .as("check first element")
                                                                                                    .isEqualTo(luke));
   }
 
   @Test
-  public void should_ignore_test_when_assumption_after_navigating_to_last_fails() {
+  void should_ignore_test_when_assumption_after_navigating_to_first_with_InstanceOfAssertFactory_fails() {
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).first(as(type(Jedi.class)))
+                                                                                                   .as("check first element")
+                                                                                                   .isEqualTo(luke));
+  }
+
+  @Test
+  void should_ignore_test_when_assumption_after_navigating_to_last_fails() {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).last()
                                                                                                    .as("check last element")
                                                                                                    .isEqualTo(yoda));
   }
 
   @Test
-  public void should_ignore_test_when_assumption_after_navigating_to_element_fails() {
+  void should_ignore_test_when_assumption_after_navigating_to_element_fails() {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).element(1)
                                                                                                    .as("check element at index 1")
                                                                                                    .isEqualTo(yoda));
