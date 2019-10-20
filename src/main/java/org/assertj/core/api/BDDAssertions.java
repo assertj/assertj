@@ -83,6 +83,7 @@ import org.assertj.core.util.CheckReturnValue;
  *   then(bulls).contains(rose, noah).doesNotContain(james);
  * }</code></pre>
  *
+ * @author Gonzalo Müller
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author David DIDIER
@@ -102,6 +103,47 @@ public class BDDAssertions extends Assertions {
    * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
   protected BDDAssertions() {}
+
+  /**
+   * A <code>BDDAssertions</code> which allows to blend assertions with other libraries when the name '<code>then</code>' cause clash.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * import static org.assertj.core.api.BDDAssertions.and;
+   * import static org.mockito.BDDMockito.then;
+   * \\ ...
+   *   {@literal @Test}
+   *   public void bdd_assertions_with_and_field() {
+   *     \\ ...
+   *     then(someMock)
+   *       .should()
+   *       .someMethod()
+   *     then(someMock)
+   *       .should()
+   *       .someMethodN()
+   *     and.then(someValue1)
+   *       .isNotEqualTo(false);
+   *     and.then(someValueM)
+   *       .isEqualTo(1L);
+   *    }</code></pre>
+   * <p>
+   * Can also be used to add extra readability:
+   * <pre><code class='java'>
+   * import static org.assertj.core.api.BDDAssertions.and;
+   * import static org.assertj.core.api.BDDAssertions.then;
+   * \\ ...
+   *   {@literal @Test}
+   *   public void bdd_assertions_with_and_field() {
+   *     \\ ...
+   *     then(someValue1)
+   *       .isNotEqualTo(false);
+   *     and.then(someValueM)
+   *       .isEqualTo(1L);
+   *   }</code></pre>
+   *
+   * @since 3.14.0
+   */
+  public static final BDDAssertions and = new BDDAssertions();
 
   /**
    * Create assertion for {@link Predicate}.
