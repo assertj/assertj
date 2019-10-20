@@ -82,7 +82,11 @@ import org.assertj.core.util.CheckReturnValue;
  *
  *   then(bulls).contains(rose, noah).doesNotContain(james);
  * }</code></pre>
+ * Use <code>{@link #and}</code> to avoid clash with other libraries (like BDDMockito) exposing '<code>then(object)</code>'.
+ * You might have to ignore a warning like: <i>The static method BDDAssertions.then() should be accessed in a static way</i>.
  *
+ *
+ * @author Gonzalo Müller
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author David DIDIER
@@ -102,6 +106,48 @@ public class BDDAssertions extends Assertions {
    * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
   protected BDDAssertions() {}
+
+  /**
+   * A <code>BDDAssertions</code> which allows to blend assertions with other libraries when the name '<code>then</code>' cause clash.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> import static org.assertj.core.api.BDDAssertions.and;
+   * import static org.mockito.BDDMockito.then;
+   * import static org.mockito.Mockito.mock;
+   * import static org.mockito.Mockito.times;
+   *
+   * // suppress and.then warning: The static method BDDAssertions.then() should be accessed in a static way
+   * {@literal @SuppressWarnings}("static-access")
+   * {@literal @Test}
+   * public void bdd_assertions_with_bdd_mockito() {
+   *   // GIVEN
+   *   Person person = mock(Person.class)
+   *   // WHEN
+   *   person.ride(bike);
+   *   person.ride(bike);
+   *   // THEN
+   *   // mockito then()
+   *   then(person).should(times(2)).ride(bike);
+   *   // use AssertJ and.then(person) as then(person) would clash with mockito then(person)
+   *   and.then(person.hasBike()).isTrue();
+   * }</code></pre>
+   * <p>
+   * Can also be used to add extra readability:
+   * <pre><code class='java'> import static org.assertj.core.api.BDDAssertions.and;
+   * import static org.assertj.core.api.BDDAssertions.then;
+   *
+   * // suppress and.then warning: The static method BDDAssertions.then() should be accessed in a static way
+   * {@literal @SuppressWarnings}("static-access")
+   * {@literal @Test}
+   * public void bdd_assertions_with_and_field() {
+   *   // ...
+   *   then(person.hasBike()).isTrue()
+   *   and.then(bike.isNew()).isFalse();
+   * }</code></pre>
+   *
+   * @since 3.14.0
+   */
+  public static final BDDAssertions and = new BDDAssertions();
 
   /**
    * Create assertion for {@link Predicate}.

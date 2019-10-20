@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.assertj.core.api.BDDAssertions.and;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenObject;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
@@ -280,5 +281,11 @@ public class BDDAssertions_then_Test {
   public void then_Spliterator() {
     Spliterator<Integer> spliterator = Stream.of(1, 2).spliterator();
     then(spliterator).hasCharacteristics(Spliterator.SIZED);
+  }
+
+  @Test
+  public void and_then() {
+    and.then(true).isNotEqualTo(false);
+    and.then(1L).isEqualTo(1L);
   }
 }
