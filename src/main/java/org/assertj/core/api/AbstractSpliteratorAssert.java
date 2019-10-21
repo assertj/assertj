@@ -42,7 +42,7 @@ public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SE
    * <pre><code class='java'> Spliterator&lt;Integer&gt; spliterator = Stream.of(1, 2, 3).spliterator();
    *
    * // this assertion succeeds:
-   * assertThat(spliterator).hasCharacteristics(Spliterator.SIZED);
+   * assertThat(spliterator).hasCharacteristics(Spliterator.SIZED, Spliterator.ORDERED);
    *
    * // this assertion fails as the Spliterator does not have characteristic DISTINCT:
    * assertThat(spliterator).hasCharacteristics(Spliterator.DISTINCT); </code></pre>
