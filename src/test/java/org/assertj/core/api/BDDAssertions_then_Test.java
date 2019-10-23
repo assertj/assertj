@@ -283,6 +283,7 @@ public class BDDAssertions_then_Test {
     then(spliterator).hasCharacteristics(Spliterator.SIZED);
   }
 
+  @SuppressWarnings("static-access")
   @Test
   public void and_then() {
     and.then(true).isNotEqualTo(false);

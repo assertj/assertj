@@ -81,6 +81,7 @@ public class Spliterators {
   /**
    * Asserts the given <code>{@link Spliterator}</code> has the given characteristics.
    *
+   * @param info contains information about the assertion.
    * @param actual the given {@code Spliterator}.
    * @param characteristics the expected characteristics.
    * @throws AssertionError if the actual {@code Spliterator} is {@code null}.
@@ -96,6 +97,7 @@ public class Spliterators {
   /**
    * Asserts the given <code>{@link Spliterator}</code> has only the given characteristics and no else.
    *
+   * @param info contains information about the assertion.
    * @param actual the given {@code Spliterator}.
    * @param characteristics the expected characteristics.
    * @throws AssertionError if the actual {@code Spliterator} is {@code null}.

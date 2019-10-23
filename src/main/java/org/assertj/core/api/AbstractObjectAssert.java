@@ -624,7 +624,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
    * <p>
-   * <p>
    * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to:
    * <pre><code class='java'> // "adress.street.number" corresponding to pojo properties
    * actual.getAdress().getStreet().getNumber();</code></pre>
