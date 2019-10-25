@@ -1017,7 +1017,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verify that the actual {@code File} is not empty (i.e. the file size > 0).
+   * Verify that the actual {@code File} is not empty (i.e. the file size &gt; 0).
    * <p>
    * Example:
    * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
