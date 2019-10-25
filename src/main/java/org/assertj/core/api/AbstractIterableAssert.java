@@ -2339,16 +2339,16 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * you will be able to chain {@code first()} with more specific typed assertion.
    * <p>
    * Example: use of {@code String} assertions after {@code first()}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * // String assertions are available after first()
    * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("fro")
+   *                                        .startsWith("Fro")
    *                                        .endsWith("do");
    * // assertion fails
    * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("pip");</code></pre>
+   *                                        .startsWith("Pip");</code></pre>
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty.
@@ -2367,15 +2367,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code first(as(InstanceOfAssertFactories.STRING)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * assertThat(hobbits).first(as(InstanceOfAssertFactories.STRING))
-   *                    .startsWith("fro")
+   *                    .startsWith("Fro")
    *                    .endsWith("do");
    * // assertion fails
    * assertThat(hobbits).first(as(InstanceOfAssertFactories.STRING))
-   *                    .startsWith("pip");
+   *                    .startsWith("Pip");
    * // assertion fails because of wrong factory type
    * assertThat(hobbits).first(as(InstanceOfAssertFactories.INTEGER))
    *                    .isZero();</code></pre>
@@ -2423,16 +2423,16 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * you will be able to chain {@code last()} with more specific typed assertion.
    * <p>
    * Example: use of {@code String} assertions after {@code last()}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * // String assertions are available after last()
    * assertThat(hobbits, StringAssert.class).last()
-   *                                        .startsWith("pi")
+   *                                        .startsWith("Pi")
    *                                        .endsWith("in");
    * // assertion fails
    * assertThat(hobbits, StringAssert.class).last()
-   *                                        .startsWith("fro");</code></pre>
+   *                                        .startsWith("Fro");</code></pre>
    *
    * @return the assertion on the last element
    * @throws AssertionError if the actual {@link Iterable} is empty.
@@ -2451,15 +2451,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code last(as(InstanceOfAssertFactories.STRING)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
-   *                    .startsWith("pip")
+   *                    .startsWith("Pip")
    *                    .endsWith("pin");
    * // assertion fails
    * assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
-   *                    .startsWith("fro");
+   *                    .startsWith("Fro");
    * // assertion fails because of wrong factory type
    * assertThat(hobbits).last(as(InstanceOfAssertFactories.INTEGER))
    *                    .isZero();</code></pre>
@@ -2521,16 +2521,16 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * you will be able to chain {@code element(index)} with more specific typed assertion.
    * <p>
    * Example: use of {@code String} assertions after {@code element(index)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * // String assertions are available after element(index)
    * assertThat(hobbits, StringAssert.class).element(1)
-   *                                        .startsWith("sa")
+   *                                        .startsWith("Sa")
    *                                        .endsWith("am");
    * // assertion fails
    * assertThat(hobbits, StringAssert.class).element(1)
-   *                                        .startsWith("fro");</code></pre>
+   *                                        .startsWith("Fro");</code></pre>
    *
    * @param index the element's index
    * @return the assertion on the given element
@@ -2550,15 +2550,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code element(index, as(InstanceOfAssertFactories.STRING)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
-   *                    .startsWith("sa")
+   *                    .startsWith("Sa")
    *                    .endsWith("am");
    * // assertion fails
    * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
-   *                    .startsWith("fro");
+   *                    .startsWith("Fro");
    * // assertion fails because of wrong factory type
    * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.INTEGER))
    *                    .isZero();</code></pre>
