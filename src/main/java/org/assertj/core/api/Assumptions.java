@@ -26,6 +26,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -1054,6 +1055,17 @@ public class Assumptions {
    */
   public static AbstractInstantAssert<?> assumeThat(Instant actual) {
     return asAssumption(InstantAssert.class, Instant.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link DurationAssert} assumption.
+   *
+   * @param actual the Duration to test
+   * @return the created assumption for assertion object.
+   * @since 3.15.0
+   */
+  public static AbstractDurationAssert<?> assumeThat(Duration actual) {
+    return asAssumption(DurationAssert.class, Duration.class, actual);
   }
 
   /**

@@ -46,6 +46,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -315,12 +316,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
       softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
       softly.assertThat(URI.create("http://assertj.org:80").toURL()).hasNoPort();
+      softly.assertThat(Duration.ofHours(10)).hasHours(5);
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (MultipleFailuresError e) {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
-      assertThat(errors).hasSize(53);
+      assertThat(errors).hasSize(54);
       assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
       assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
       assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -418,6 +420,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                                  + "  <http://assertj.org:80>%n"
                                                  + "not to have a port but had:%n"
                                                  + "  <80>"));
+      assertThat(errors.get(53)).contains(format("%nExpecting Duration:%n"
+                                                 + " <PT10H>%n"
+                                                 + "to have 5L hours but had 10L"));
     }
   }
 

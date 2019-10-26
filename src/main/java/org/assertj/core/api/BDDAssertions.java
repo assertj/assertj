@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -1200,6 +1201,17 @@ public class BDDAssertions extends Assertions {
    * @since 3.7.0
    */
   public static AbstractInstantAssert<?> then(Instant actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  public static AbstractDurationAssert<?> then(Duration actual) {
     return assertThat(actual);
   }
 

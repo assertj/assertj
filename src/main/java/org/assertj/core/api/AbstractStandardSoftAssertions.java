@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -166,6 +167,17 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    */
   public InstantAssert assertThat(Instant actual) {
     return proxy(InstantAssert.class, Instant.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  public DurationAssert assertThat(Duration actual) {
+    return proxy(DurationAssert.class, Duration.class, actual);
   }
 
   /**

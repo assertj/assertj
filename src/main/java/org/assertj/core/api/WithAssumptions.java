@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -879,6 +880,17 @@ public interface WithAssumptions {
    */
   default AbstractInstantAssert<?> assumeThat(final Instant instant) {
     return Assumptions.assumeThat(instant);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DurationAssert}</code> assumption.
+   *
+   * @param duration the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.15.0
+   */
+  default AbstractDurationAssert<?> assumeThat(final Duration duration) {
+    return Assumptions.assumeThat(duration);
   }
 
   /**

@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -442,6 +443,13 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for an {@link Instant}.
    */
   InstanceOfAssertFactory<Instant, AbstractInstantAssert<?>> INSTANT = new InstanceOfAssertFactory<>(Instant.class,
+                                                                                                     Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for an {@link Duration}.
+   * @since 3.15.0
+   */
+  InstanceOfAssertFactory<Duration, AbstractDurationAssert<?>> DURATION = new InstanceOfAssertFactory<>(Duration.class,
                                                                                                      Assertions::assertThat);
 
   /**
