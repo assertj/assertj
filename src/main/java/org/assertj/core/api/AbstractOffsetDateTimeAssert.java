@@ -16,6 +16,7 @@ import static java.time.Clock.systemUTC;
 import static java.time.OffsetDateTime.now;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
+import static org.assertj.core.error.ShouldBeAtSameInstant.shouldBeAtSameInstant;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgnoringHours;
@@ -669,6 +670,34 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
+  }
+
+  /**
+   * Verifies that actual and given {@code OffsetDateTime} are at the same {@link java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
+   * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 0, 0, 0, 0, ZoneOffset.ofHours(0));
+   * // assertion succeeds
+   * assertThat(OffsetDateTime1).isAtSameInstantAs(OffsetDateTime2);
+   *
+   * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
+   * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 2, 0, 0, 0, ZoneOffset.ofHours(0));
+   * // assertion fails
+   * assertThat(OffsetDateTimeA).isAtSameInstantAs(OffsetDateTimeB);</code></pre>
+   *
+   * @param other the given {@link OffsetDateTime}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
+   * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not at the same {@code Instant} as the other.
+   */
+  public SELF isAtSameInstantAs(OffsetDateTime other) {
+    Objects.instance().assertNotNull(info, actual);
+    assertOffsetDateTimeParameterIsNotNull(other);
+    if (!actual.toInstant().equals(other.toInstant()))
+      throw Failures.instance().failure(info, shouldBeAtSameInstant(actual, other));
+    return myself;
   }
 
   /**
