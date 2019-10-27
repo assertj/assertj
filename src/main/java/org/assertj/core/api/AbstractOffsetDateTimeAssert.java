@@ -676,15 +676,14 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * Verifies that actual and given {@code OffsetDateTime} are at the same {@link java.time.Instant}.
    * <p>
    * Example:
-   * <pre><code class='java'> OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
-   * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 0, 0, 0, 0, ZoneOffset.ofHours(0));
+   * <pre><code class='java'> OffsetDateTime offsetDateTime1 = OffsetDateTime.of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
+   * OffsetDateTime offsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 0, 0, 0, 0, ZoneOffset.ofHours(0));
    * // assertion succeeds
-   * assertThat(OffsetDateTime1).isAtSameInstantAs(OffsetDateTime2);
+   * assertThat(offsetDateTime1).isAtSameInstantAs(offsetDateTime2);
    *
-   * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 12, 12, 3, 0, 0, 0, ZoneOffset.ofHours(3));
-   * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 2, 0, 0, 0, ZoneOffset.ofHours(0));
+   * offsetDateTime2 = OffsetDateTime.of(2000, 12, 12, 2, 0, 0, 0, ZoneOffset.ofHours(0));
    * // assertion fails
-   * assertThat(OffsetDateTimeA).isAtSameInstantAs(OffsetDateTimeB);</code></pre>
+   * assertThat(offsetDateTime1).isAtSameInstantAs(offsetDateTime2);</code></pre>
    *
    * @param other the given {@link OffsetDateTime}.
    * @return this assertion object.
