@@ -1459,6 +1459,7 @@ public class BDDAssertions extends Assertions {
    * @param <ELEMENT> the type of elements.
    * @param actual the spliterator to test.
    * @return the created assertion object.
+   * @since 3.14.0
    */
   public static <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
     return assertThat(actual);

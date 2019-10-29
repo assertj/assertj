@@ -1642,6 +1642,7 @@ public final class BDDAssumptions {
    * @param <ELEMENT> the type of the elements
    * @param actual the actual {@link Spliterator} value to be validated.
    * @return the {@link AbstractSpliteratorAssert} assertion object to be used for validation.
+   * @since 3.14.0
    */
   public static <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> given(Spliterator<ELEMENT> actual) {
     return assumeThat(actual);

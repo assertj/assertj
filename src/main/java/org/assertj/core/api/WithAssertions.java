@@ -2562,6 +2562,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param <ELEMENT> the type of the elements.
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.14.0
    */
   default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(final Spliterator<ELEMENT> actual) {
     return Assertions.assertThat(actual);

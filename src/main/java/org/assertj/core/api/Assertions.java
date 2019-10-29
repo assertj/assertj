@@ -2797,6 +2797,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param <ELEMENT> the type of elements.
    * @param actual the spliterator to test.
    * @return the created assertion object.
+   * @since 3.14.0
    */
   public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);

@@ -356,6 +356,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
    * @throws AssertionError if the size of the actual {@code File} is not equal to the given size.
+   * @since 3.14.0
    */
   public SELF hasSize(long expectedSizeInBytes) {
     files.assertHasSizeInBytes(info, actual, expectedSizeInBytes);

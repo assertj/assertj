@@ -325,6 +325,7 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
    * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Spliterator} value.
    * @return the created assertion object.
+   * @since 3.14.0
    */
   @CheckReturnValue
   public <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {

@@ -1041,6 +1041,7 @@ public interface WithAssumptions {
    * @param <ELEMENT> the type of the elements.
    * @param spliterator the actual value.
    * @return the created assumption for assertion object.
+   * @since 3.14.0
    */
   default <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> assumeThat(final Spliterator<ELEMENT> spliterator) {
     return Assumptions.assumeThat(spliterator);
