@@ -306,6 +306,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
                   org.junit;resolution:="optional",
                   org.opentest4j;resolution:="optional",
                   org.testng;resolution:="optional",
+                  jdk.*;resolution:="optional",
                   *
                 </Import-Package>
                 <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
