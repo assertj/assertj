@@ -18,6 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.condition.AllOf.allOf;
 import static org.assertj.core.condition.AnyOf.anyOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
@@ -52,6 +53,34 @@ public class Multiple_combined_conditions_Test {
                                                                         anyOf(contains("a"),
                                                                               contains("b"),
                                                                               contains("c")))));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(code);
+    // THEN
+    assertThat(assertionError).hasMessage(format("%n" +
+                                                 "Expecting:%n" +
+                                                 " <\"Gandalf\">%n" +
+                                                 "to have:%n" +
+                                                 " <any of:[%n" +
+                                                 "   contains i,%n" +
+                                                 "   all of:[%n" +
+                                                 "      contains o,%n" +
+                                                 "      any of:[%n" +
+                                                 "         contains a,%n" +
+                                                 "         contains b,%n" +
+                                                 "         contains c%n" +
+                                                 "      ]%n" +
+                                                 "   ]%n" +
+                                                 "]>"));
+  }
+
+  @Test
+  public void should_report_error_message_with_all_conditions_in_list_described() {
+    // GIVEN
+    ThrowingCallable code = () -> assertThat("Gandalf").has(anyOf(list(contains("i"),
+                                                                       allOf(contains("o"),
+                                                                             anyOf(list(contains("a"),
+                                                                                        contains("b"),
+                                                                                        contains("c")))))));
     // WHEN
     AssertionError assertionError = expectAssertionError(code);
     // THEN

@@ -15,6 +15,7 @@ package org.assertj.core.condition;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.AllOf.allOf;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
@@ -33,6 +34,19 @@ public class AllOf_toString_Test {
     TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
     TestCondition<Object> condition2 = new TestCondition<>("Condition 2");
     Condition<Object> allOf = allOf(condition1, condition2);
+    // THEN
+    assertThat(allOf).hasToString(format("all of:[%n" +
+                                         "   Condition 1,%n" +
+                                         "   Condition 2%n" +
+                                         "]"));
+  }
+
+  @Test
+  public void should_implement_toString_showing_descriptions_of_inner_Conditions_list() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
+    TestCondition<Object> condition2 = new TestCondition<>("Condition 2");
+    Condition<Object> allOf = allOf(list(condition1, condition2));
     // THEN
     assertThat(allOf).hasToString(format("all of:[%n" +
                                          "   Condition 1,%n" +
