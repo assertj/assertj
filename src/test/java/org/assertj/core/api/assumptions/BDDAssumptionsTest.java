@@ -81,7 +81,7 @@ import org.junit.jupiter.api.Test;
  */
 public class BDDAssumptionsTest {
   @Nested
-  public class BDDAssumptions_given_boolean_Test {
+  public class BDDAssumptions_given_boolean_primitive_Test {
     private final boolean actual = true;
 
     @Test
@@ -126,7 +126,7 @@ public class BDDAssumptionsTest {
   }
 
   @Nested
-  public class BDDAssumptions_given_byte_Test {
+  public class BDDAssumptions_given_byte_primitive_Test {
     private final byte actual = (byte) 1;
 
     @Test
@@ -171,7 +171,7 @@ public class BDDAssumptionsTest {
   }
 
   @Nested
-  public class BDDAssumptions_given_short_Test {
+  public class BDDAssumptions_given_short_primitive_Test {
     private final short actual = (short) 1;
 
     @Test
@@ -276,7 +276,7 @@ public class BDDAssumptionsTest {
   }
 
   @Nested
-  public class BDDAssumptions_given_long_Test {
+  public class BDDAssumptions_given_long_primitive_Test {
     private final long actual = 1L;
 
     @Test
@@ -321,7 +321,7 @@ public class BDDAssumptionsTest {
   }
 
   @Nested
-  public class BDDAssumptions_given_float_Test {
+  public class BDDAssumptions_given_float_primitive_Test {
     private final float actual = 1.0f;
 
     @Test
@@ -366,7 +366,7 @@ public class BDDAssumptionsTest {
   }
 
   @Nested
-  public class BDDAssumptions_given_double_Test {
+  public class BDDAssumptions_given_double_primitive_Test {
     private final double actual = 1.0;
 
     @Test
