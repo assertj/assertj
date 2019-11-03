@@ -207,13 +207,16 @@ package org.assertj.guava.api;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-import static org.assertj.guava.data.MapEntry.entry;
 
-import org.assertj.guava.data.MapEntry;
+import org.assertj.core.data.MapEntry;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("RangeMapAssert contains")
 public class RangeMapAssert_contains_Test extends RangeMapAssertBaseTest {
 
   @Test
@@ -247,7 +250,9 @@ public class RangeMapAssert_contains_Test extends RangeMapAssertBaseTest {
   @Test
   public void should_fail_if_entries_to_look_for_are_empty() {
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains());
+    MapEntry<Integer, String>[] entries = array();
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(entries));
     // THEN
     assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
                          .hasMessage("The entries to look for should not be empty");
@@ -265,10 +270,10 @@ public class RangeMapAssert_contains_Test extends RangeMapAssertBaseTest {
                                             " <[[380..450)=violet, [450..495)=blue, [495..570)=green, [570..590)=yellow, " +
                                             "[590..620)=orange, [620..750)=red]>%n" +
                                             "to contain:%n" +
-                                            " <[MapEntry[key=400, value='violet'],%n" +
-                                            "    MapEntry[key=100, value='violet'],%n" +
-                                            "    MapEntry[key=500, value='pink']]>%n" +
+                                            " <[MapEntry[key=400, value=\"violet\"],%n" +
+                                            "    MapEntry[key=100, value=\"violet\"],%n" +
+                                            "    MapEntry[key=500, value=\"pink\"]]>%n" +
                                             "but could not find:%n" +
-                                            " <[MapEntry[key=100, value='violet'], MapEntry[key=500, value='pink']]>%n"));
+                                            " <[MapEntry[key=100, value=\"violet\"], MapEntry[key=500, value=\"pink\"]]>%n"));
   }
 }

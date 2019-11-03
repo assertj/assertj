@@ -214,7 +214,10 @@ import static org.assertj.core.util.Strings.quote;
  *
  * @param <K> key type
  * @param <V> value type
+ *
+ * @deprecated use {@link org.assertj.core.data.MapEntry} instead
  */
+@Deprecated
 public final class MapEntry<K, V> {
   public final K key;
 

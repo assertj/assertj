@@ -205,11 +205,21 @@
 package org.assertj.guava.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.guava.api.InstanceOfAssertFactories.*;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.guava.api.InstanceOfAssertFactories.BYTE_SOURCE;
+import static org.assertj.guava.api.InstanceOfAssertFactories.MULTIMAP;
+import static org.assertj.guava.api.InstanceOfAssertFactories.MULTISET;
+import static org.assertj.guava.api.InstanceOfAssertFactories.OPTIONAL;
+import static org.assertj.guava.api.InstanceOfAssertFactories.TABLE;
+import static org.assertj.guava.api.InstanceOfAssertFactories.multimap;
+import static org.assertj.guava.api.InstanceOfAssertFactories.multiset;
+import static org.assertj.guava.api.InstanceOfAssertFactories.optional;
+import static org.assertj.guava.api.InstanceOfAssertFactories.range;
+import static org.assertj.guava.api.InstanceOfAssertFactories.rangeMap;
+import static org.assertj.guava.api.InstanceOfAssertFactories.table;
 
 import java.io.IOException;
 
-import org.assertj.guava.data.MapEntry;
 import org.junit.Test;
 
 import com.google.common.base.Optional;
@@ -293,7 +303,7 @@ public class InstanceOfAssertFactoriesTest {
     // WHEN
     RangeMapAssert<Integer, String> result = assertThat(value).asInstanceOf(rangeMap(Integer.class, String.class));
     // THEN
-    result.contains(MapEntry.entry(0, "value"));
+    result.contains(entry(0, "value"));
   }
 
   @Test
