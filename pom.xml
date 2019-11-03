@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
   <version>3.14.1-SNAPSHOT</version>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
   <parent>
@@ -34,6 +34,7 @@
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
     <byte-buddy.version>1.10.2</byte-buddy.version>
+    <bnd.version>4.3.0</bnd.version>
     <!-- Dependency versions overriding -->
     <junit-jupiter.version>5.5.2</junit-jupiter.version>
     <mockito.version>3.1.0</mockito.version>
@@ -70,6 +71,16 @@
       <artifactId>junit</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
+      <exclusions>
+        <!--
+        This has to be excluded because it's subjecting the code to the
+        incorrect version of certain hamcrest packages.
+        -->
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -193,6 +204,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
                   </includes>
                   <excludes>
                     <exclude>org.assertj:assertj-core</exclude>
+                    <exclude>org.hamcrest:hamcrest-core</exclude>
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
@@ -211,17 +223,6 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Multi-Release>true</Multi-Release>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
       <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -234,6 +235,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.2.1</version>
         <executions>
+          <!-- STEP 2: execute maven shade to rename bytebuddy -->
           <execution>
             <phase>package</phase>
             <goals>
@@ -264,6 +266,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
+          <!-- STEP 3: unpack the shaded classes back into the build dir -->
           <execution>
             <id>unpack-shade</id>
             <phase>package</phase>
@@ -284,35 +287,94 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>4.2.1</version>
-        <extensions>true</extensions>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
         <executions>
+          <!-- STEP 4: analyze & collect OSGi metadata -->
           <execution>
             <id>bundle-after-unpack-shaded</id>
             <phase>package</phase>
             <goals>
-              <goal>bundle</goal>
+              <goal>bnd-process</goal>
             </goals>
             <configuration>
-              <instructions>
-                <Export-Package>org.assertj.core.*</Export-Package>
-                <!-- Don't import what assertj-core exports but import everything else. Also need to explicitly import packages
-                  that are dynamically loaded using Class.forName() (org.junit, org.opentest4j and org.testng are needed by the assumptions
-                  engine). -->
-                <Import-Package>
-                  !org.assertj.core.*,
-                  org.junit;resolution:="optional",
-                  org.opentest4j;resolution:="optional",
-                  org.testng;resolution:="optional",
-                  jdk.*;resolution:="optional",
-                  *
-                </Import-Package>
-                <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
-                <_removeheaders>Bnd-LastModified</_removeheaders>
-              </instructions>
-              <niceManifest>true</niceManifest>
+              <bnd><![CDATA[
+                Import-Package:\
+                  !org.assertj.core.*,\
+                  *;resolution:="optional"
+                Multi-Release: true
+                -exportcontents: \
+                  !org.assertj.core.internal.*,\
+                  org.assertj.core.*
+                -noclassforname: true
+                -removeheaders: Bnd-LastModified,Private-Package
+                -fixupmessages: \
+                  "Classes found in the wrong directory...";is:=ignore
+              ]]></bnd>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version><!--$NO-MVN-MAN-VER$-->
+        <executions>
+          <!-- STEP 5: detach the primary artifact so we can re-execute maven-jar-plugin -->
+          <execution>
+            <id>remove-primary-artifact</id>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <script language="beanshell">
+                  project.getReference("maven.project").getArtifact().setFile(null);
+                </script>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.beanshell</groupId>
+            <artifactId>bsh</artifactId>
+            <version>2.0b5</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <!-- STEP 1: create the initial JAR during prepare-package phase -->
+            <id>default-jar</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestEntries>
+                  <Multi-Release>true</Multi-Release>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- STEP 6: finally jar including shading and OSGi metadata -->
+            <id>final-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+              </archive>
             </configuration>
           </execution>
         </executions>
@@ -395,6 +457,28 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
             <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
         ]]></footer>
         </configuration>
+      </plugin>
+      <plugin>
+        <!-- Verify that additional OSGi package imports didn't sneak in. -->
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-resolver-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
+        <executions>
+          <execution>
+            <id>verify-osgi-metadata</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>resolve</goal>
+            </goals>
+            <configuration>
+              <bndruns>
+                <bndrun>verify.bndrun</bndrun>
+              </bndruns>
+              <failOnChanges>false</failOnChanges>
+              <reportOptional>false</reportOptional>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <pluginManagement>
