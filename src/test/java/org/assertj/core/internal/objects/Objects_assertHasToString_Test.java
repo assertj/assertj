@@ -12,16 +12,18 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Person;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,18 +48,22 @@ public class Objects_assertHasToString_Test extends ObjectsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertHasToString(someInfo(), null, "foo"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    Object object = null;
+    // WHEN
+    ThrowingCallable code = () -> objects.assertHasToString(someInfo(), object, "foo");
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_toString_is_not_the_expected_String() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    try {
-      objects.assertHasToString(info, actual, "bar");
-      failBecauseExpectedAssertionErrorWasNotThrown();
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveToString(actual, "bar"));
-    }
+    // WHEN
+    AssertionError error = expectAssertionError(() -> objects.assertHasToString(info, actual, "bar"));
+    // THEN
+    verify(failures).failure(info, shouldHaveToString("foo", "bar"), "foo", "bar");
+    assertThat(error).hasMessageContainingAll("\"foo\"", "\"bar\"");
   }
 }
