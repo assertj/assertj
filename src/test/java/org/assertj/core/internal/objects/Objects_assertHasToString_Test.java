@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.test.TestData.someInfo;
@@ -26,6 +27,7 @@ import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 public class Objects_assertHasToString_Test extends ObjectsBaseTest {
 
@@ -57,7 +59,9 @@ public class Objects_assertHasToString_Test extends ObjectsBaseTest {
       objects.assertHasToString(info, actual, "bar");
       failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveToString(actual, "bar"));
+      verify(failures).failure(info, shouldHaveToString("foo", "bar"), "foo", "bar");
+      assertThat(err).isExactlyInstanceOf(AssertionFailedError.class);
+      assertThat(err).hasMessageContainingAll("\"foo\"", "\"bar\"");
     }
   }
 }

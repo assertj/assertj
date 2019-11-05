@@ -414,8 +414,9 @@ public class Objects {
 
   public void assertHasToString(AssertionInfo info, Object actual, String expectedToString) {
     assertNotNull(info, actual);
-    if (!actual.toString().equals(expectedToString))
-      throw failures.failure(info, shouldHaveToString(actual, expectedToString));
+    String actualString = actual.toString();
+    if (!actualString.equals(expectedToString))
+      throw failures.failure(info, shouldHaveToString(actualString, expectedToString), actualString, expectedToString);
   }
 
   /**
