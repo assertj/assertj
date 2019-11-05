@@ -107,6 +107,13 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.5</version>
+        <configuration>
+          <excludes>
+            <!-- exclude deprecated classes -->
+            <exclude>org/assertj/guava/data/MapEntry*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
