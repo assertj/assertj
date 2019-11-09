@@ -117,7 +117,6 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.5</version>
         <configuration>
           <excludes>
             <!-- exclude deprecated classes -->
@@ -135,6 +134,7 @@
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>yuicompressor-maven-plugin</artifactId>
+        <version>1.5.1</version>
         <executions>
           <execution>
             <phase>generate-sources</phase> <!-- invoked by maven-javadoc-plugin -->
