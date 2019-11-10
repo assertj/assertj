@@ -40,7 +40,7 @@ public class ShouldHaveSizeLessThan extends BasicErrorMessageFactory {
     super(format("%n" +
                  "Expecting size of:%n" +
                  "  <%%s>%n" +
-                 "to be less than %s but was %s", expectedSize, actualSize, "%s"),
+                 "to be less than %s but was %s", expectedSize, actualSize),
           actual);
   }
 }

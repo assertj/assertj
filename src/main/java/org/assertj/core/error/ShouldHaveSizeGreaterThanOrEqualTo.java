@@ -40,7 +40,7 @@ public class ShouldHaveSizeGreaterThanOrEqualTo extends BasicErrorMessageFactory
     super(format("%n" +
                  "Expecting size of:%n" +
                  "  <%%s>%n" +
-                 "to be greater than or equal to %s but was %s", expectedSize, actualSize, "%s"),
+                 "to be greater than or equal to %s but was %s", expectedSize, actualSize),
           actual);
   }
 }
