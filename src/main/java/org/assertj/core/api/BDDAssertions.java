@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -1464,4 +1465,60 @@ public class BDDAssertions extends Assertions {
   public static <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
     return assertThat(actual);
   }
+
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
+   * which allows to chain assertions on the thrown exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> thenExceptionOfType(IOException.class)
+   *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
+   *           .withMessage("boom!"); </code></pre>
+   *
+   * This method is more or less the same of {@link #thenThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   * @param <T> the exception type.
+   * @param exceptionType the exception type class.
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static <T extends Throwable> ThrowableTypeAssert<T> thenExceptionOfType(final Class<? extends T> exceptionType) {
+    return assertThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static ThrowableTypeAssert<NullPointerException> thenNullPointerException() {
+    return assertThatNullPointerException();
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static ThrowableTypeAssert<IllegalArgumentException> thenIllegalArgumentException() {
+    return assertThatIllegalArgumentException();
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static ThrowableTypeAssert<IOException> thenIOException() {
+    return assertThatIOException();
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static ThrowableTypeAssert<IllegalStateException> thenIllegalStateException() {
+    return assertThatIllegalStateException();
+  }
+
+
 }

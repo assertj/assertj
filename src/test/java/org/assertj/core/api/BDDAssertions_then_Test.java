@@ -16,9 +16,15 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.BDDAssertions.and;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.thenIOException;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.thenIllegalStateException;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.api.BDDAssertions.thenObject;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Arrays;
@@ -289,4 +295,40 @@ public class BDDAssertions_then_Test {
     and.then(true).isNotEqualTo(false);
     and.then(1L).isEqualTo(1L);
   }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_throwable_thrown() {
+    thenExceptionOfType(Throwable.class).isThrownBy(() -> {
+      throw new Throwable();
+    });
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_NullPointerException_thrown() {
+    thenNullPointerException().isThrownBy(() -> {
+      throw new NullPointerException("something was wrong");
+    }).withMessage("something was wrong");
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_IllegalArgumentException_thrown() {
+    thenIllegalArgumentException().isThrownBy(() -> {
+      throw new IllegalArgumentException("something was wrong");
+    }).withMessage("something was wrong");
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_IllegalStateException_thrown() {
+    thenIllegalStateException().isThrownBy(() -> {
+      throw new IllegalStateException("something was wrong");
+    }).withMessage("something was wrong");
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_IOException_thrown() {
+    thenIOException().isThrownBy(() -> {
+      throw new IOException("something was wrong");
+    }).withMessage("something was wrong");
+  }
+
 }
