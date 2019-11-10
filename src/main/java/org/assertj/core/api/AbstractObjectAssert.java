@@ -988,7 +988,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * It is possible to change the comparison behavior, among things what you can is:
    * <ul>
-   *   <li>Choosing a strict or lenient recursive comparison (lenient being the default wich allows to compare different types like {@code Book} and {@code BookDto} </li>
+   *   <li>Choosing a strict or lenient recursive comparison (lenient being the default which allows to compare different types like {@code Book} and {@code BookDto} </li>
    *   <li>Ignoring fields in the comparison </li>
    *   <li>Specifying comparators to use in the comparison per fields and types</li>
    *   <li>Forcing recursive comparison on classes that have redefined equals (by default overridden equals are used)</li>
