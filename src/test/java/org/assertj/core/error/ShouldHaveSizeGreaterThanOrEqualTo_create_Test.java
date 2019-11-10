@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Sandra Parsick
  * @author Georg Berky
  */
-public class ShouldHaveSizeGreaterThanOrEqualTo_create_Test {
+class ShouldHaveSizeGreaterThanOrEqualTo_create_Test {
 
   private ErrorMessageFactory factory;
 
