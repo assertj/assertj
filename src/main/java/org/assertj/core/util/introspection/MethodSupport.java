@@ -66,9 +66,7 @@ public class MethodSupport {
       Method method = itemClass.getMethod(methodName);
       assertHasReturnType(itemClass, method);
       return method;
-    } catch (SecurityException e) {
-      throw prepareMethodNotFoundException(methodName, itemClass, e);
-    } catch (NoSuchMethodException e) {
+    } catch (SecurityException | NoSuchMethodException e) {
       throw prepareMethodNotFoundException(methodName, itemClass, e);
     }
   }
