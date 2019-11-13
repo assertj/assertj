@@ -33,7 +33,7 @@
 
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <byte-buddy.version>1.10.2</byte-buddy.version>
+    <byte-buddy.version>1.10.3</byte-buddy.version>
     <bnd.version>4.3.0</bnd.version>
     <!-- Dependency versions overriding -->
     <junit-jupiter.version>5.5.2</junit-jupiter.version>
