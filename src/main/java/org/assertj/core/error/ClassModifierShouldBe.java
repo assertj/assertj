@@ -65,4 +65,13 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
     return new ClassModifierShouldBe(actual, true, Modifier.toString(Modifier.PROTECTED));
   }
 
+  /**
+   * Creates a new {@link ClassModifierShouldBe}.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBePackagePrivate(Class<?> actual) {
+    return new ClassModifierShouldBe(actual, true, "Package-Private");
+  }
 }
