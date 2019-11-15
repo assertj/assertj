@@ -267,7 +267,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Verifies that the actual {@code Class} is package-private (has no modifier).
    * <p>
    * Example:
-   * <pre><code class='java'> public MyClass { }
+   * <pre><code class='java'> class MyClass { }
    *
    * // this assertion succeeds:
    * assertThat(MyClass.class).isPackagePrivate();
