@@ -273,8 +273,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).isPackagePrivate();
    *
    * // these assertions fail:
-   * assertThat(String.class).isProtected();
-   * assertThat(Math.class).isProtected();</code></pre>
+   * assertThat(String.class).isPackagePrivate();
+   * assertThat(Math.class).isPackagePrivate();</code></pre>
    *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
