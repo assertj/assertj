@@ -16,9 +16,10 @@ import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 @DisplayName("Classes assertIsPackagePrivate")
@@ -26,19 +27,30 @@ class Classes_assertIsPackagePrivate_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsPackagePrivate(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    //GIVEN
+    Class clazz = null;
+    //WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(clazz).isPackagePrivate());
+    //THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_pass_if_actual_is_a_package_private_class() {
-    classes.assertIsPackagePrivate(someInfo(), PackagePrivateClass.class);
+    //GIVEN
+    Class clazz = PackagePrivateClass.class;
+    //THEN
+    then(clazz).isPackagePrivate();
   }
 
   @Test
   public void should_fail_if_actual_is_not_a_package_private_class() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsPackagePrivate(someInfo(), Object.class))
-                                                   .withMessage(shouldBePackagePrivate(Object.class).create());
+    //GIVEN
+    Class clazz = Object.class;
+    //WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(clazz).isPackagePrivate());
+    //THEN
+    then(assertionError).hasMessage(shouldBePackagePrivate(Object.class).create());
   }
 }
 
