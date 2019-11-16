@@ -217,9 +217,8 @@ public class Classes {
    */
   public void assertIsPackagePrivate(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if ((Modifier.isPublic(actual.getModifiers())
-      || Modifier.isProtected(actual.getModifiers())
-      || Modifier.isPrivate(actual.getModifiers()))) {
+    final int modifiers = actual.getModifiers();
+    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
       throw failures.failure(info, shouldBePackagePrivate(actual));
     }
   }
