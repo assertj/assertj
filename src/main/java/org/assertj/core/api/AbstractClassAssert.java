@@ -278,9 +278,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not protected.
+   * @throws AssertionError if the actual {@code Class} is not package private.
    *
-   * @since 2.7.0 / 3.7.0
+   * @since 3.15.0
    */
   public SELF isPackagePrivate() {
     classes.assertIsPackagePrivate(info, actual);
