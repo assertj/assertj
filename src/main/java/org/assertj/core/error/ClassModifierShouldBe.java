@@ -72,6 +72,6 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBePackagePrivate(Class<?> actual) {
-    return new ClassModifierShouldBe(actual, true, "Package-Private");
+    return new ClassModifierShouldBe(actual, true, "package-private");
   }
 }
