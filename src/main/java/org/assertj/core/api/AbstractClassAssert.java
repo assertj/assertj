@@ -264,6 +264,30 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that the actual {@code Class} is package-private (has no modifier).
+   * <p>
+   * Example:
+   * <pre><code class='java'> class MyClass { }
+   *
+   * // this assertion succeeds:
+   * assertThat(MyClass.class).isPackagePrivate();
+   *
+   * // these assertions fail:
+   * assertThat(String.class).isPackagePrivate();
+   * assertThat(Math.class).isPackagePrivate();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not package-private.
+   *
+   * @since 3.15.0
+   */
+  public SELF isPackagePrivate() {
+    classes.assertIsPackagePrivate(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
    * <p>
    * Example:

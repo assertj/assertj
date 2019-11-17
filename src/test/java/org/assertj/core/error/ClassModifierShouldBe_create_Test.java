@@ -20,10 +20,10 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ClassModifierShouldBe_create_Test {
+class ClassModifierShouldBe_create_Test {
 
   @Test
-  public void should_create_error_message_for_is_final() {
+  void should_create_error_message_for_is_final() {
     String error = shouldBeFinal(Object.class).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -33,7 +33,7 @@ public class ClassModifierShouldBe_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_is_not_final() {
+  void should_create_error_message_for_is_not_final() {
     String error = shouldNotBeFinal(String.class).create(new TestDescription("TEST"));
 
     assertThat(error).isEqualTo(format("[TEST] %n" +
@@ -41,4 +41,5 @@ public class ClassModifierShouldBe_create_Test {
                                        "  <java.lang.String>%n" +
                                        "not to be a \"final\" class but was \"public final\"."));
   }
+
 }

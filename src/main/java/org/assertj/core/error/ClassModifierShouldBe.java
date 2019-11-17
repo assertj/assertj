@@ -15,18 +15,19 @@ package org.assertj.core.error;
 import java.lang.reflect.Modifier;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a class is (or is not) final.
+ * Error message factory for an assertion which checks that a class has (or has not) a specific modifier.
  *
  * @author Michal Kordas
  */
 public class ClassModifierShouldBe extends BasicErrorMessageFactory {
 
   private ClassModifierShouldBe(Class<?> actual, boolean positive, String modifier) {
-    super("%nExpecting:%n  <%s>%n" + (positive ? "to" : "not to") + " be a %s class but was %s.", actual, modifier, Modifier.toString(actual.getModifiers()));
+    super("%nExpecting:%n  <%s>%n" + (positive ? "to" : "not to") + " be a %s class but was %s.",
+          actual, modifier, Modifier.toString(actual.getModifiers()));
   }
 
   /**
-   * Creates a new {@link ClassModifierShouldBe}.
+   * Creates a new instance for a positive check of the {@code final} modifier.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
@@ -36,7 +37,7 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new {@link ClassModifierShouldBe}.
+   * Creates a new instance for a negative check of the {@code final} modifier.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
@@ -46,7 +47,7 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new {@link ClassModifierShouldBe}.
+   * Creates a new instance for a positive check of the {@code public} modifier.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
@@ -56,13 +57,23 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
   }
 
   /**
-   * Creates a new {@link ClassModifierShouldBe}.
+   * Creates a new instance for a positive check of the {@code protected} modifier.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeProtected(Class<?> actual) {
     return new ClassModifierShouldBe(actual, true, Modifier.toString(Modifier.PROTECTED));
+  }
+
+  /**
+   * Creates a new instance for a positive check of the {@code package-private} modifier.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBePackagePrivate(Class<?> actual) {
+    return new ClassModifierShouldBe(actual, true, "package-private");
   }
 
 }
