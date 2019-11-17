@@ -1,0 +1,49 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test_linux:
+    name: Linux (OpenJDK ${{ matrix.java }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [11, 13, ea]
+    steps:
+      - uses: actions/checkout@master
+      # If installing the JDK is in a different step then wrong java would be used
+      - name: Install JDK and Build Project
+        run: |
+          . ./.github/scripts/install-jdk.sh --feature ${{ matrix.java }} --os linux-x64
+          ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+
+  test_os:
+    name: OS ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macOS-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Test
+        run: ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+
+  sonar:
+    name: Sonar Cloud
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'master' && github.repository == 'joel-costigliola/assertj-core'
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Test
+        run: ./mvnw -V --no-transfer-progress clean org.jacoco:jacoco-maven-plugin:prepare-agent install javadoc:javadoc sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
