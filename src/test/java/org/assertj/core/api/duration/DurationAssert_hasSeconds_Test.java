@@ -19,7 +19,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 
+import org.assertj.core.api.AbstractDurationAssert;
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,18 +33,33 @@ class DurationAssert_hasSeconds_Test extends BaseTest {
 
   @Test
   void should_pass_if_duration_has_matching_seconds() {
-    assertThat(Duration.ofSeconds(120L)).hasSeconds(120L);
+    // GIVEN
+    Duration duration = Duration.ofSeconds(120L);
+    // WHEN
+    AbstractDurationAssert<?> durationAssert = assertThat(duration);
+    // THEN
+    durationAssert.hasSeconds(120L);
   }
 
   @Test
   void should_fail_when_duration_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> assertThat((Duration) null).hasSeconds(190L)).withMessage(actualIsNull());
+    // GIVEN
+    Duration duration = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(duration).hasSeconds(190L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_duration_does_not_have_matching_seconds() {
-    assertThatAssertionErrorIsThrownBy(() -> assertThat(Duration.ofSeconds(120L)).hasSeconds(758L))
-      .withMessage(shouldHaveSeconds(Duration.ofSeconds(120L), 120L, 758L).create());
+    // GIVEN
+    Duration duration = Duration.ofSeconds(120L);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(duration).hasSeconds(758L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code)
+      .withMessage(shouldHaveSeconds(duration, 120L, 758L).create());
   }
 
 }

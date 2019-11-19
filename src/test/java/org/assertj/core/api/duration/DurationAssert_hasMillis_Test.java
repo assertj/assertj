@@ -19,7 +19,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 
+import org.assertj.core.api.AbstractDurationAssert;
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,18 +33,33 @@ class DurationAssert_hasMillis_Test extends BaseTest {
 
   @Test
   void should_pass_if_duration_has_matching_millis() {
-    assertThat(Duration.ofMillis(32893L)).hasMillis(32893L);
+    // GIVEN
+    Duration duration = Duration.ofMillis(32893L);
+    // WHEN
+    AbstractDurationAssert<?> durationAssert = assertThat(duration);
+    // THEN
+    durationAssert.hasMillis(32893L);
   }
 
   @Test
   void should_fail_when_duration_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> assertThat((Duration) null).hasMillis(190L)).withMessage(actualIsNull());
+    // GIVEN
+    Duration duration = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(duration).hasMillis(190L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_duration_does_not_have_matching_millis() {
-    assertThatAssertionErrorIsThrownBy(() -> assertThat(Duration.ofMillis(5866L)).hasMillis(758L))
-      .withMessage(shouldHaveMillis(Duration.ofMillis(5866L), 5866L, 758L).create());
+    // GIVEN
+    Duration duration = Duration.ofMillis(5866L);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(duration).hasMillis(758L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code)
+      .withMessage(shouldHaveMillis(duration, 5866L, 758L).create());
   }
 
 }

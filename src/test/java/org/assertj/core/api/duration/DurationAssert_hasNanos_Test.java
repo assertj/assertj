@@ -19,7 +19,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 
+import org.assertj.core.api.AbstractDurationAssert;
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,18 +33,33 @@ class DurationAssert_hasNanos_Test extends BaseTest {
 
   @Test
   void should_pass_if_duration_has_matching_nanos() {
-    assertThat(Duration.ofNanos(145692L)).hasNanos(145692L);
+    // GIVEN
+    Duration duration = Duration.ofNanos(145692L);
+    // WHEN
+    AbstractDurationAssert<?> durationAssert = assertThat(duration);
+    // THEN
+    durationAssert.hasNanos(145692L);
   }
 
   @Test
   void should_fail_when_duration_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> assertThat((Duration) null).hasNanos(190L)).withMessage(actualIsNull());
+    // GIVEN
+    Duration duration = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(duration).hasNanos(190L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_duration_does_not_have_matching_nanos() {
-    assertThatAssertionErrorIsThrownBy(() -> assertThat(Duration.ofNanos(1892L)).hasNanos(190L))
-      .withMessage(shouldHaveNanos(Duration.ofNanos(1892L), 1892L, 190L).create());
+    // GIVEN
+    Duration duration = Duration.ofNanos(1892L);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(duration).hasNanos(190L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code)
+      .withMessage(shouldHaveNanos(duration, 1892L, 190L).create());
   }
 
 }

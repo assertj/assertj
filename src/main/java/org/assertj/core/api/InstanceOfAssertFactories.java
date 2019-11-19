@@ -446,11 +446,12 @@ public interface InstanceOfAssertFactories {
                                                                                                      Assertions::assertThat);
 
   /**
-   * {@link InstanceOfAssertFactory} for an {@link Duration}.
+   * {@link InstanceOfAssertFactory} for a {@link Duration}.
+   *
    * @since 3.15.0
    */
   InstanceOfAssertFactory<Duration, AbstractDurationAssert<?>> DURATION = new InstanceOfAssertFactory<>(Duration.class,
-                                                                                                     Assertions::assertThat);
+                                                                                                        Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicBoolean}.

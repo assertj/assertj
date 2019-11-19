@@ -32,127 +32,209 @@ class ShouldHaveDuration_create_test {
 
   @Test
   void should_create_error_message_for_nanos() {
+    // GIVEN
     Duration duration = Duration.ofNanos(1893);
-    String errorMessage = shouldHaveNanos(duration, 1893, 190).create();
+    long actualNanos = 1893;
+    long expectedNanos = 190;
+    // WHEN
+    String errorMessage = shouldHaveNanos(duration, actualNanos, expectedNanos).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT0.000001893S>%nto have 190L nanos but had 1893L"));
   }
 
   @Test
   void should_create_error_message_for_1_nano() {
+    // GIVEN
     Duration duration = Duration.ofNanos(1893);
-    String errorMessage = shouldHaveNanos(duration, 1893, 1).create();
+    long actualNanos = 1893;
+    long expectedNanos = 1;
+    // WHEN
+    String errorMessage = shouldHaveNanos(duration, actualNanos, expectedNanos).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT0.000001893S>%nto have 1L nano but had 1893L"));
   }
 
   @Test
   void should_create_error_message_for_negative_1_nano() {
+    // GIVEN
     Duration duration = Duration.ofNanos(1893);
-    String errorMessage = shouldHaveNanos(duration, 1893, -1).create();
+    long actualNanos = 1893;
+    long expectedNanos = -1;
+    // WHEN
+    String errorMessage = shouldHaveNanos(duration, actualNanos, expectedNanos).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT0.000001893S>%nto have -1L nano but had 1893L"));
   }
 
   @Test
   void should_create_error_message_for_millis() {
+    // GIVEN
     Duration duration = Duration.ofMillis(1893);
-    String errorMessage = shouldHaveMillis(duration, 1893, 190).create();
+    long actualMillis = 1893;
+    long expectedMillis = 190;
+    // WHEN
+    String errorMessage = shouldHaveMillis(duration, actualMillis, expectedMillis).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT1.893S>%nto have 190L millis but had 1893L"));
   }
 
   @Test
   void should_create_error_message_for_1_milli() {
+    // GIVEN
     Duration duration = Duration.ofMillis(1893);
-    String errorMessage = shouldHaveMillis(duration, 1893, 1).create();
+    long actualMillis = 1893;
+    long expectedMillis = 1;
+    // WHEN
+    String errorMessage = shouldHaveMillis(duration, actualMillis, expectedMillis).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT1.893S>%nto have 1L milli but had 1893L"));
   }
 
   @Test
   void should_create_error_message_for_negative_1_milli() {
+    // GIVEN
     Duration duration = Duration.ofMillis(1893);
-    String errorMessage = shouldHaveMillis(duration, 1893, -1).create();
+    long actualMillis = 1893;
+    long expectedMillis = -1;
+    // WHEN
+    String errorMessage = shouldHaveMillis(duration, actualMillis, expectedMillis).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT1.893S>%nto have -1L milli but had 1893L"));
   }
 
   @Test
   void should_create_error_message_for_seconds() {
+    // GIVEN
     Duration duration = Duration.ofSeconds(120);
-    String errorMessage = shouldHaveSeconds(duration, 120, 190).create();
+    long actualSeconds = 120;
+    long expectedSeconds = 190;
+    // WHEN
+    String errorMessage = shouldHaveSeconds(duration, actualSeconds, expectedSeconds).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT2M>%nto have 190L seconds but had 120L"));
   }
 
   @Test
   void should_create_error_message_for_1_second() {
+    // GIVEN
     Duration duration = Duration.ofSeconds(120);
-    String errorMessage = shouldHaveSeconds(duration, 120, 1).create();
+    long actualSeconds = 120;
+    long expectedSeconds = 1;
+    // WHEN
+    String errorMessage = shouldHaveSeconds(duration, actualSeconds, expectedSeconds).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT2M>%nto have 1L second but had 120L"));
   }
 
   @Test
   void should_create_error_message_for_negative_1_second() {
+    // GIVEN
     Duration duration = Duration.ofSeconds(120);
-    String errorMessage = shouldHaveSeconds(duration, 120, -1).create();
+    long actualSeconds = 120;
+    long expectedSeconds = -1;
+    // WHEN
+    String errorMessage = shouldHaveSeconds(duration, actualSeconds, expectedSeconds).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT2M>%nto have -1L second but had 120L"));
   }
   
   @Test
   void should_create_error_message_for_minutes() {
+    // GIVEN
     Duration duration = Duration.ofMinutes(65);
-    String errorMessage = shouldHaveMinutes(duration, 65, 190).create();
+    long actualMinutes = 65;
+    long expectedMinutes = 190;
+    // WHEN
+    String errorMessage = shouldHaveMinutes(duration, actualMinutes, expectedMinutes).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT1H5M>%nto have 190L minutes but had 65L"));
   }
 
   @Test
   void should_create_error_message_for_1_minute() {
     Duration duration = Duration.ofMinutes(65);
-    String errorMessage = shouldHaveMinutes(duration, 65, 1).create();
+    long actualMinutes = 65;
+    long expectedMinutes = 1;
+    // WHEN
+    String errorMessage = shouldHaveMinutes(duration, actualMinutes, expectedMinutes).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT1H5M>%nto have 1L minute but had 65L"));
   }
 
   @Test
   void should_create_error_message_for_negative_1_minute() {
     Duration duration = Duration.ofMinutes(65);
-    String errorMessage = shouldHaveMinutes(duration, 65, -1).create();
+    long actualMinutes = 65;
+    long expectedMinutes = -1;
+    // WHEN
+    String errorMessage = shouldHaveMinutes(duration, actualMinutes, expectedMinutes).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT1H5M>%nto have -1L minute but had 65L"));
   }
 
   @Test
   void should_create_error_message_for_hours() {
     Duration duration = Duration.ofMinutes(125);
-    String errorMessage = shouldHaveHours(duration, 2, 190).create();
+    long actualHours = 2;
+    long expectedHours = 190;
+    // WHEN
+    String errorMessage = shouldHaveHours(duration, actualHours, expectedHours).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT2H5M>%nto have 190L hours but had 2L"));
   }
 
   @Test
   void should_create_error_message_for_1_hour() {
     Duration duration = Duration.ofMinutes(125);
-    String errorMessage = shouldHaveHours(duration, 2, 1).create();
+    long actualHours = 2;
+    long expectedHours = 1;
+    // WHEN
+    String errorMessage = shouldHaveHours(duration, actualHours, expectedHours).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT2H5M>%nto have 1L hour but had 2L"));
   }
 
   @Test
   void should_create_error_message_for_negative_1_hour() {
     Duration duration = Duration.ofMinutes(125);
-    String errorMessage = shouldHaveHours(duration, 2, -1).create();
+    long actualHours = 2;
+    long expectedHours = -1;
+    // WHEN
+    String errorMessage = shouldHaveHours(duration, actualHours, expectedHours).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT2H5M>%nto have -1L hour but had 2L"));
   }
   
   @Test
   void should_create_error_message_for_days() {
     Duration duration = Duration.ofHours(50);
-    String errorMessage = shouldHaveDays(duration, 2, 190).create();
+    long actualDays = 2;
+    long expectedDays = 190;
+    // WHEN
+    String errorMessage = shouldHaveDays(duration, actualDays, expectedDays).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT50H>%nto have 190L days but had 2L"));
   }
 
   @Test
   void should_create_error_message_for_1_day() {
     Duration duration = Duration.ofHours(50);
-    String errorMessage = shouldHaveDays(duration, 2, 1).create();
+    long actualDays = 2;
+    long expectedDays = 1;
+    // WHEN
+    String errorMessage = shouldHaveDays(duration, actualDays, expectedDays).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT50H>%nto have 1L day but had 2L"));
   }
 
   @Test
   void should_create_error_message_for_negative_1_day() {
     Duration duration = Duration.ofHours(50);
-    String errorMessage = shouldHaveDays(duration, 2, -1).create();
+    long actualDays = 2;
+    long expectedDays = -1;
+    // WHEN
+    String errorMessage = shouldHaveDays(duration, actualDays, expectedDays).create();
+    // THEN
     assertThat(errorMessage).isEqualTo(format("%nExpecting Duration:%n <PT50H>%nto have -1L day but had 2L"));
   }
 

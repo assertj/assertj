@@ -19,7 +19,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 
+import org.assertj.core.api.AbstractDurationAssert;
 import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,18 +33,33 @@ class DurationAssert_hasHours_Test extends BaseTest {
 
   @Test
   void should_pass_if_duration_has_matching_hours() {
-    assertThat(Duration.ofHours(4L)).hasHours(4L);
+    // GIVEN
+    Duration duration = Duration.ofHours(4L);
+    // WHEN
+    AbstractDurationAssert<?> durationAssert = assertThat(duration);
+    // THEN
+    durationAssert.hasHours(4L);
   }
 
   @Test
   void should_fail_when_duration_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> assertThat((Duration) null).hasHours(5L)).withMessage(actualIsNull());
+    // GIVEN
+    Duration duration = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(duration).hasHours(5L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_duration_does_not_have_matching_hours() {
-    assertThatAssertionErrorIsThrownBy(() -> assertThat(Duration.ofHours(10L)).hasHours(15L))
-      .withMessage(shouldHaveHours(Duration.ofHours(10L), 10L, 15L).create());
+    // GIVEN
+    Duration duration = Duration.ofHours(10L);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(duration).hasHours(15L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code)
+      .withMessage(shouldHaveHours(duration, 10L, 15L).create());
   }
 
 }
