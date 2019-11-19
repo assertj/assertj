@@ -43,6 +43,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
+import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
@@ -91,6 +92,7 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -206,6 +208,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      Arguments.of(future, FUTURE),
                      Arguments.of(new ByteArrayInputStream("stream".getBytes()), INPUT_STREAM),
                      Arguments.of(Instant.now(), INSTANT),
+                     Arguments.of(Duration.ofMinutes(65), DURATION),
                      Arguments.of(new int[0], INT_ARRAY),
                      Arguments.of((IntPredicate) i -> i == 0, INT_PREDICATE),
                      Arguments.of(IntStream.empty(), INT_STREAM),

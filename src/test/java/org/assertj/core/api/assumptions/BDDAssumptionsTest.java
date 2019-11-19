@@ -28,6 +28,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -1380,6 +1381,19 @@ public class BDDAssumptionsTest {
     @Test
     public void should_ignore_test_when_assumption_fails() {
       expectAssumptionViolatedException(() -> given(new URL("http://assertj.org")).hasPort(80));
+    }
+  }
+
+  @Nested
+  public class BDDAssumptions_given_Duration_Test {
+    @Test
+    public void should_run_test_when_assumption_passes() {
+      thenCode(() -> given(Duration.ofHours(1)).isNotNull().isPositive());
+    }
+
+    @Test
+    public void should_ignore_test_when_assumption_fails() {
+      expectAssumptionViolatedException(() -> given(Duration.ofHours(1)).isNotNull().isNegative());
     }
   }
 }

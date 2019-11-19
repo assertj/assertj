@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -2368,6 +2369,17 @@ public final class BDDAssumptions {
    * @since 3.14.0
    */
   public static AbstractInstantAssert<?> given(Instant actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link Instant} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  public static AbstractDurationAssert<?> given(Duration actual) {
     return assumeThat(actual);
   }
 

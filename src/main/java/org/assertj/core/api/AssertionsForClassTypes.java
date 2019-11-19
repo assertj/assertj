@@ -23,6 +23,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -563,6 +564,17 @@ public class AssertionsForClassTypes {
    */
   public static AbstractInstantAssert<?> assertThat(Instant instant) {
     return new InstantAssert(instant);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
+   *
+   * @param duration the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  public static AbstractDurationAssert<?> assertThat(Duration duration) {
+    return new DurationAssert(duration);
   }
 
   /**

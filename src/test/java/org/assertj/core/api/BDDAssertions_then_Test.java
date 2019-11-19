@@ -27,6 +27,7 @@ import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -287,6 +288,11 @@ public class BDDAssertions_then_Test {
   public void then_Spliterator() {
     Spliterator<Integer> spliterator = Stream.of(1, 2).spliterator();
     then(spliterator).hasCharacteristics(Spliterator.SIZED);
+  }
+
+  @Test
+  public void then_Duration() {
+    then(Duration.ofHours(1)).isNotNull().isPositive();
   }
 
   @SuppressWarnings("static-access")

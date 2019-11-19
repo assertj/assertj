@@ -46,6 +46,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
+import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
@@ -117,6 +118,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -660,6 +662,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractInstantAssert<?> result = assertThat(value).asInstanceOf(INSTANT);
     // THEN
     result.isBeforeOrEqualTo(Instant.now());
+  }
+
+  @Test
+  void duration_factory_should_allow_duration_assertions() {
+    // GIVEN
+    Object value = Duration.ofHours(10);
+    // WHEN
+    AbstractDurationAssert<?> result = assertThat(value).asInstanceOf(DURATION);
+    // THEN
+    result.isPositive();
   }
 
   @Test

@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.Assumptions.assumeThatCode;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,237 +51,248 @@ public class Assumptions_assumeThat_with_various_java_8_types_Test {
 
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(
-        new AssumptionRunner<ThrowingCallable>(() -> {}) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThatCode(actual).isInstanceOf(NullPointerException.class);
-          }
+                     new AssumptionRunner<ThrowingCallable>(() -> {}) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThatCode(actual).isInstanceOf(NullPointerException.class);
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThatCode(actual).doesNotThrowAnyException();
-          }
-        },
-        new AssumptionRunner<Instant>(Instant.now()) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().isAfter(Instant.now());
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThatCode(actual).doesNotThrowAnyException();
+                       }
+                     },
+                     new AssumptionRunner<Instant>(Instant.now()) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isAfter(Instant.now());
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().isBefore(Instant.now().plusSeconds(100));
-          }
-        },
-        new AssumptionRunner<LocalDate>(LocalDate.now()) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().isAfter(LocalDate.now());
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isBefore(Instant.now().plusSeconds(100));
+                       }
+                     },
+                     new AssumptionRunner<LocalDate>(LocalDate.now()) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isAfter(LocalDate.now());
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().isBefore(LocalDate.now().plusDays(1));
-          }
-        },
-        new AssumptionRunner<LocalDateTime>(LocalDateTime.now()) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().isAfter(LocalDateTime.now());
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isBefore(LocalDate.now().plusDays(1));
+                       }
+                     },
+                     new AssumptionRunner<LocalDateTime>(LocalDateTime.now()) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isAfter(LocalDateTime.now());
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().isBefore(LocalDateTime.now().plusDays(1));
-          }
-        },
-        new AssumptionRunner<LocalTime>(LocalTime.now()) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().isAfter(LocalTime.now());
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isBefore(LocalDateTime.now().plusDays(1));
+                       }
+                     },
+                     new AssumptionRunner<LocalTime>(LocalTime.now()) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isAfter(LocalTime.now());
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().isBefore(LocalTime.now().plusSeconds(100));
-          }
-        },
-        new AssumptionRunner<OffsetDateTime>(OffsetDateTime.now()) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().isAfter(OffsetDateTime.now());
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isBefore(LocalTime.now().plusSeconds(100));
+                       }
+                     },
+                     new AssumptionRunner<OffsetDateTime>(OffsetDateTime.now()) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isAfter(OffsetDateTime.now());
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().isBefore(OffsetDateTime.now().plusSeconds(100));
-          }
-        },
-        new AssumptionRunner<OffsetTime>(OffsetTime.now()) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().isAfter(OffsetTime.now());
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isBefore(OffsetDateTime.now().plusSeconds(100));
+                       }
+                     },
+                     new AssumptionRunner<OffsetTime>(OffsetTime.now()) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isAfter(OffsetTime.now());
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().isBefore(OffsetTime.now().plusSeconds(100));
-          }
-        },
-        new AssumptionRunner<ZonedDateTime>(ZonedDateTime.now()) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().isAfter(ZonedDateTime.now());
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isBefore(OffsetTime.now().plusSeconds(100));
+                       }
+                     },
+                     new AssumptionRunner<ZonedDateTime>(ZonedDateTime.now()) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isAfter(ZonedDateTime.now());
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().isBefore(ZonedDateTime.now().plusSeconds(100));
-          }
-        },
-        new AssumptionRunner<Optional<String>>(Optional.of("test")) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().contains("other");
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isBefore(ZonedDateTime.now().plusSeconds(100));
+                       }
+                     },
+                     new AssumptionRunner<Optional<String>>(Optional.of("test")) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().contains("other");
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().contains("test");
-          }
-        },
-        new AssumptionRunner<OptionalDouble>(OptionalDouble.of(2.0)) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().hasValue(1.0);
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().contains("test");
+                       }
+                     },
+                     new AssumptionRunner<OptionalDouble>(OptionalDouble.of(2.0)) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().hasValue(1.0);
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().hasValue(2.0);
-          }
-        },
-        new AssumptionRunner<OptionalInt>(OptionalInt.of(2)) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().hasValue(1);
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().hasValue(2.0);
+                       }
+                     },
+                     new AssumptionRunner<OptionalInt>(OptionalInt.of(2)) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().hasValue(1);
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().hasValue(2);
-          }
-        },
-        new AssumptionRunner<OptionalLong>(OptionalLong.of(2L)) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().hasValue(1L);
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().hasValue(2);
+                       }
+                     },
+                     new AssumptionRunner<OptionalLong>(OptionalLong.of(2L)) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().hasValue(1L);
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().hasValue(2L);
-          }
-        },
-        new AssumptionRunner<CompletableFuture<String>>(completedFuture("test")) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().isCancelled();
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().hasValue(2L);
+                       }
+                     },
+                     new AssumptionRunner<CompletableFuture<String>>(completedFuture("test")) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isCancelled();
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().isCompleted();
-          }
-        },
-        new AssumptionRunner<Predicate<String>>(Predicate.isEqual("test")) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().accepts("other");
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isCompleted();
+                       }
+                     },
+                     new AssumptionRunner<Predicate<String>>(Predicate.isEqual("test")) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().accepts("other");
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().accepts("test");
-          }
-        },
-        new AssumptionRunner<DoublePredicate>(number -> number == 0) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().accepts(1.0);
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().accepts("test");
+                       }
+                     },
+                     new AssumptionRunner<DoublePredicate>(number -> number == 0) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().accepts(1.0);
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().accepts(0.0);
-          }
-        },
-        new AssumptionRunner<IntPredicate>(number -> number == 0) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().accepts(1);
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().accepts(0.0);
+                       }
+                     },
+                     new AssumptionRunner<IntPredicate>(number -> number == 0) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().accepts(1);
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().accepts(0);
-          }
-        },
-        new AssumptionRunner<LongPredicate>(number -> number == 0) {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(actual).isNotNull().accepts(1L);
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().accepts(0);
+                       }
+                     },
+                     new AssumptionRunner<LongPredicate>(number -> number == 0) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().accepts(1L);
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(actual).isNotNull().accepts(0L);
-          }
-        },
-        new AssumptionRunner<Stream<String>>() {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(Stream.of("test")).isNotNull().contains("other");
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().accepts(0L);
+                       }
+                     },
+                     new AssumptionRunner<Stream<String>>(Stream.of("test")) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().contains("other");
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(Stream.of("test")).isNotNull().contains("test");
-          }
-        },
-        new AssumptionRunner<DoubleStream>() {
-          @Override
-          public void runFailingAssumption() {
-            assumeThat(DoubleStream.of(0.0)).isNotNull().contains(1.0);
-          }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().contains("test");
+                       }
+                     },
+                     new AssumptionRunner<DoubleStream>(DoubleStream.of(0.0)) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().contains(1.0);
+                       }
 
-          @Override
-          public void runPassingAssumption() {
-            assumeThat(DoubleStream.of(0.0)).isNotNull().contains(0.0);
-          }
-        },
-        new AssumptionRunner<IntStream>() {
-              @Override
-              public void runFailingAssumption() {
-                assumeThat(IntStream.of(0)).isNotNull().contains(1);
-              }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().contains(0.0);
+                       }
+                     },
+                     new AssumptionRunner<IntStream>(IntStream.of(0)) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().contains(1);
+                       }
 
-              @Override
-              public void runPassingAssumption() {
-                assumeThat(IntStream.of(0)).isNotNull().contains(0);
-              }
-        },
-        new AssumptionRunner<LongStream>(LongStream.of(0)) {
-              @Override
-              public void runFailingAssumption() {
-                assumeThat(LongStream.of(0)).isNotNull().contains(1L);
-              }
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().contains(0);
+                       }
+                     },
+                     new AssumptionRunner<LongStream>(LongStream.of(0)) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().contains(1L);
+                       }
 
-              @Override
-              public void runPassingAssumption() {
-                assumeThat(LongStream.of(0)).isNotNull().contains(0L);
-              }
-        });
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().contains(0L);
+                       }
+                     },
+                     new AssumptionRunner<Duration>(Duration.ofHours(1)) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThat(actual).isNotNull().isNegative();
+                       }
+
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThat(actual).isNotNull().isPositive();
+                       }
+                     });
   }
 
   @ParameterizedTest

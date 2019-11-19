@@ -46,6 +46,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -97,6 +98,7 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
@@ -106,6 +108,7 @@ import org.opentest4j.MultipleFailuresError;
  *
  * @author Brian Laframboise
  */
+@DisplayName("Soft assertions")
 public class SoftAssertionsTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
@@ -315,12 +318,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
       softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
       softly.assertThat(URI.create("http://assertj.org:80").toURL()).hasNoPort();
+      softly.assertThat(Duration.ofHours(10)).hasHours(5);
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (MultipleFailuresError e) {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
-      assertThat(errors).hasSize(53);
+      assertThat(errors).hasSize(54);
       assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
       assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
       assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -418,6 +422,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                                  + "  <http://assertj.org:80>%n"
                                                  + "not to have a port but had:%n"
                                                  + "  <80>"));
+      assertThat(errors.get(53)).contains(format("%nExpecting Duration:%n"
+                                                 + " <PT10H>%n"
+                                                 + "to have 5L hours but had 10L"));
     }
   }
 
@@ -851,7 +858,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_propagate_AssertionError_from_nested_proxied_calls() {
+  void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(emptyList()).first();
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
@@ -870,8 +877,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat((Predicate<String>) null).accepts("a", "b", "c");
     // nested proxied call to isCompleted
     softly.assertThat(new CompletableFuture<String>()).isCompletedWithValue("done");
+    // nested proxied call to isEqualTo
+    softly.assertThat(Duration.ofDays(1)).isZero();
+    // nested proxied call to isLessThan
+    softly.assertThat(Duration.ofDays(1)).isNegative();
+    // nested proxied call to isGreaterThan
+    softly.assertThat(Duration.ofDays(-1)).isPositive();
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(9);
+    assertThat(softly.errorsCollected()).hasSize(12);
   }
 
   @Test

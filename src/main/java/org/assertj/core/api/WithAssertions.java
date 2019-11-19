@@ -24,6 +24,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -2201,6 +2202,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.7.0
    */
   default AbstractInstantAssert<?> assertThat(final Instant actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  default AbstractDurationAssert<?> assertThat(final Duration actual) {
     return Assertions.assertThat(actual);
   }
 
