@@ -41,16 +41,16 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
   void should_pass_if_optional_contains_required_type() {
     // GIVEN
     Optional<String> optional = Optional.of("something");
-    // THEN
-    then(optional).containsInstanceOf(String.class);
+    // WHEN
+    assertThat(optional).containsInstanceOf(String.class);
   }
 
   @Test
   void should_pass_if_optional_contains_required_type_subclass() {
     // GIVEN
     Optional<SubClass> optional = Optional.of(new SubClass());
-    // THEN
-    then(optional).containsInstanceOf(ParentClass.class);
+    // WHEN
+    assertThat(optional).containsInstanceOf(ParentClass.class);
   }
 
   @Test
