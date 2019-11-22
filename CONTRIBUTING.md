@@ -15,7 +15,7 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Successful assertion unit test method names should start with: `should_pass_...`.
 * Failing assertion unit test method names should start with: `should_fail_...`.
 
-* Put GIVEN WHEN THEN steps in each test (you can omit steps when not relevant), favoring `BDDAssertions.then` instead of `Assertions.assertThat` for assertions in the THEN step.
+* Put GIVEN WHEN THEN steps in each test, favoring `BDDAssertions.then` instead of `Assertions.assertThat` for assertions in the THEN step. Steps can be combined or omitted if a separate step does not provide much benefit to test readability, just ensure that the WHEN step (either single or combined) contains the test target.
 * Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError`  - see `OptionalAssert_containsInstanceOf_Test` as an example..
 * Use static import when it makes the code more readable.
 * If possible, add a (fun) code example in [assertj-examples](https://github.com/joel-costigliola/assertj-examples) and use it in the javadoc.
@@ -44,7 +44,7 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
   void should_pass_if_optional_contains_required_type() {
     // GIVEN
     Optional<String> optional = Optional.of("something");
-    // WHEN
+    // WHEN/THEN
     assertThat(optional).containsInstanceOf(String.class);
   }
 
