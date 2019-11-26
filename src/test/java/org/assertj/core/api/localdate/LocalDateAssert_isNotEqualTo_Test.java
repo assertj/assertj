@@ -12,38 +12,44 @@
  */
 package org.assertj.core.api.localdate;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.LocalDate;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * Only test String based assertion (tests with {@link LocalDate} are already defined in assertj-core)
  */
+@DisplayName("LocalDateAssert isNotEqualTo")
 public class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test
-  public void test_isNotEqualTo_assertion() {
-	// WHEN
-	assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusDays(1).toString());
-	// THEN
-	assertThatThrownBy(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString())).isInstanceOf(AssertionError.class);
+  public void should_pass_if_actual_is_not_equal_to_date_as_string_parameter() {
+    assertThat(REFERENCE).isNotEqualTo(AFTER.toString());
   }
 
   @Test
-  public void test_isNotEqualTo_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDate.of(2000, 1, 5)).isNotEqualTo(LocalDate.of(2000, 1, 5).toString()))
-                                                   .withMessage(format("%nExpecting:%n <2000-01-05>%nnot to be equal to:%n <2000-01-05>%n"));
+  public void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeEqual(REFERENCE, REFERENCE).create());
   }
 
   @Test
   public void should_fail_if_date_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDate.now()).isNotEqualTo((String) null))
+    // GIVEN
+    String otherLocalDateAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalDate.now()).isNotEqualTo(otherLocalDateAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalDate to compare actual with should not be null");
   }
 
