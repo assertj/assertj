@@ -14,12 +14,13 @@ package org.assertj.core.api.localdatetime;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.LocalDateTime;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,26 +29,31 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
+@DisplayName("LocalDateTimeAssert isEqualTo")
 public class LocalDateTimeAssert_isEqualTo_Test extends LocalDateTimeAssertBaseTest {
 
   @Test
-  public void test_isEqualTo_assertion() {
-    // WHEN
+  public void should_pass_if_actual_is_equal_to_dateTime_as_string_parameter() {
     assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
-    // THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusSeconds(1)
-                                                                      .toString())).isInstanceOf(AssertionError.class);
   }
 
   @Test
-  public void test_isEqualTo_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isEqualTo(LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString()))
-                                                   .withMessage(format("%nExpecting:%n <2000-01-05T03:00:05>%nto be equal to:%n <2012-01-01T03:03:03>%nbut was not."));
+  public void should_fail_if_actual_is_not_equal_to_dateTime_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isEqualTo(AFTER.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(format("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.",
+                                                                REFERENCE, AFTER));
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isEqualTo((String) null))
+    // GIVEN
+    String otherDateTimeAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalDateTime.now()).isEqualTo(otherDateTimeAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 

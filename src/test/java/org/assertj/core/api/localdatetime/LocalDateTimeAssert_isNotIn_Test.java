@@ -12,14 +12,16 @@
  */
 package org.assertj.core.api.localdatetime;
 
-import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.LocalDateTime;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,32 +30,41 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
+@DisplayName("LocalDateTimeAssert isNotIn")
 public class LocalDateTimeAssert_isNotIn_Test extends LocalDateTimeAssertBaseTest {
 
   @Test
-  public void test_isNotIn_assertion() {
-    // WHEN
-    assertThat(REFERENCE).isNotIn(REFERENCE.plusDays(1).toString(), REFERENCE.plusDays(2).toString());
-    // THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), REFERENCE.plusDays(1).toString())).isInstanceOf(AssertionError.class);
+  public void should_pass_if_actual_is_not_in_dateTimes_as_string_array_parameter() {
+    assertThat(REFERENCE).isNotIn(AFTER.toString(), BEFORE.toString());
   }
 
   @Test
-  public void test_isNotIn_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalDateTime.of(2000, 1, 5, 3, 0,
-                                                                                                 5)).isNotIn(LocalDateTime.of(2000, 1, 5, 3, 0, 5).toString(), LocalDateTime.of(2012, 1, 1, 3, 3, 3).toString()))
-                                                   .withMessage(format("%nExpecting:%n <2000-01-05T03:00:05>%nnot to be in:%n <[2000-01-05T03:00:05, 2012-01-01T03:03:03]>%n"));
+  public void should_fail_if_actual_is_in_dateTimes_as_string_array_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeIn(REFERENCE, asList(REFERENCE, AFTER)).create());
   }
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isNotIn((String[]) null))
+    // GIVEN
+    String[] otherDateTimesAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalDateTime.now()).isNotIn(otherDateTimesAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given LocalDateTime array should not be null");
   }
 
   @Test
   public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isNotIn(new String[0]))
+    // GIVEN
+    String[] otherDateTimesAsString = new String[0];
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalDateTime.now()).isNotIn(otherDateTimesAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given LocalDateTime array should not be empty");
   }
 
