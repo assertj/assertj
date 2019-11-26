@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static java.lang.String.format;
-import static java.time.OffsetDateTime.of;
-import static java.time.ZoneOffset.UTC;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.OffsetDateTime;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,37 +30,41 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
+@DisplayName("OffsetDateTimeAssert isIn")
 public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest {
 
   @Test
-  public void test_isIn_assertion() {
+  public void should_pass_if_actual_is_in_offsetDateTimes_as_string_array_parameter() {
+    assertThat(REFERENCE).isIn(REFERENCE.toString(), AFTER.toString());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_not_in_offsetDateTimes_as_string_array_parameter() {
     // WHEN
-    assertThat(REFERENCE).isIn(REFERENCE.toString(), REFERENCE.plusDays(1).toString());
+    ThrowingCallable code = () -> assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isIn(AFTER.toString(), REFERENCE.toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isIn(REFERENCE.plusDays(1).toString(),
-                                                        REFERENCE.plusDays(2).toString()))
-                                                                                          .isInstanceOf(AssertionError.class);
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeIn(REFERENCE_WITH_DIFFERENT_OFFSET, asList(AFTER, REFERENCE)).create());
   }
 
   @Test
-  public void test_isIn_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(of(2000, 1, 5, 3, 0, 5, 0,
-                                                                                   UTC)).isIn(of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
-                                                   .withMessage(format("%nExpecting:%n" +
-                                                                       " <2000-01-05T03:00:05Z>%n" +
-                                                                       "to be in:%n" +
-                                                                       " <[2012-01-01T03:03:03Z]>%n"));
-  }
-
-  @Test
-  public void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isIn((String[]) null))
+  public void should_fail_if_offsetDateTimes_as_string_array_parameter_is_null() {
+    // GIVEN
+    String[] otherOffsetDateTimesAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(OffsetDateTime.now()).isIn(otherOffsetDateTimesAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given OffsetDateTime array should not be null");
   }
 
   @Test
-  public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isIn(new String[0]))
+  public void should_fail_if_offsetDateTimes_as_string_array_parameter_is_empty() {
+    // GIVEN
+    String[] otherOffsetDateTimesAsString = new String[0];
+    // WHEN
+    ThrowingCallable code = () -> assertThat(OffsetDateTime.now()).isIn(otherOffsetDateTimesAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given OffsetDateTime array should not be empty");
   }
 

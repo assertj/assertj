@@ -30,16 +30,16 @@ class OffsetDateTimeAssert_isAtSameInstantAs_Test extends OffsetDateTimeAssertBa
 
   @Test
   void should_pass_if_at_the_same_instant() {
-    assertThat(REFERENCE).isAtSameInstantAs(SAME_INSTANT)
+    assertThat(REFERENCE).isAtSameInstantAs(REFERENCE_WITH_DIFFERENT_OFFSET)
                          .isAtSameInstantAs(REFERENCE);
   }
 
   @Test
   void should_fail_if_at_a_different_instant() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isAtSameInstantAs(DIFFERENT_INSTANT));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isAtSameInstantAs(AFTER_WITH_DIFFERENT_OFFSET));
     // THEN
-    assertThat(assertionError).hasMessage(shouldBeAtSameInstant(REFERENCE, DIFFERENT_INSTANT).create());
+    assertThat(assertionError).hasMessage(shouldBeAtSameInstant(REFERENCE, AFTER_WITH_DIFFERENT_OFFSET).create());
   }
 
   @Test

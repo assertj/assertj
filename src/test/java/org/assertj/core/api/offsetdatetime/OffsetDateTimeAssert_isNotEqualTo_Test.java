@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
-import static java.lang.String.format;
-import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.OffsetDateTime;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,31 +29,35 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
+@DisplayName("OffsetDateTimeAssert isNotEqualTo")
 public class OffsetDateTimeAssert_isNotEqualTo_Test extends OffsetDateTimeAssertBaseTest {
 
   @Test
-  public void test_isNotEqualTo_assertion() {
+  public void should_pass_if_actual_is_not_equal_to_offsetDateTime_as_string_parameter() {
+    assertThat(REFERENCE).isNotEqualTo(AFTER.toString());
+  }
+
+  @Test
+  public void should_pass_if_actual_is_at_same_instant_as_offsetDateTime_as_string_parameter_with_different_offset() {
+    assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isNotEqualTo(REFERENCE.toString());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equal_to_offsetDateTime_as_string_parameter() {
     // WHEN
-    assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusDays(1));
-    assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusDays(1).toString());
+    ThrowingCallable code = () -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString());
     // THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString())).isInstanceOf(AssertionError.class);
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeEqual(REFERENCE, REFERENCE).create());
   }
 
   @Test
-  public void test_isNotEqualTo_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      String offsetDateTimeAsString = OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString();
-      assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isNotEqualTo(offsetDateTimeAsString);
-    }).withMessage(format("%nExpecting:%n" +
-                          " <2000-01-05T03:00:05Z>%n" +
-                          "not to be equal to:%n" +
-                          " <2000-01-05T03:00:05Z>%n"));
-  }
-
-  @Test
-  public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetDateTime.now()).isNotEqualTo((String) null))
+  public void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
+    // GIVEN
+    String otherOffsetDateTimeAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(OffsetDateTime.now()).isNotEqualTo(otherOffsetDateTimeAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the OffsetDateTime to compare actual with should not be null");
   }
 
