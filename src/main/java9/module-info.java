@@ -36,19 +36,23 @@ module org.assertj.core {
   exports org.assertj.core.util.introspection;
   exports org.assertj.core.util.xml;
 
-  requires java.instrument;
+
+  requires static java.sql; // import java.sql.Timestamp; in Assertions.java for Javadoc-only
+  // requires static java.instrument;
   // required when printThreadDump is true
   requires static java.management;
   // used for pretty print XML
   requires static java.xml;
   // these lines are commented to avoid this compilation warning
   // Required filename-based automodules detected. Please don't publish this project to a public artifact repository!
-  // requires static jsr305;
-  // requires static hamcrest.core;
-  // requires static junit;
+  requires static jsr305;
+  requires static junit; // "junit" is the stable module name of JUnit 4 (4.13+)
   requires static org.junit.jupiter.api;
   // To throw AssertionFailedError which is IDE friendly
   requires static org.opentest4j;
+
+  requires static net.bytebuddy;
+  requires static org.hamcrest;
 
   // Services loaded by org.assertj.core.configuration.ConfigurationProvider
   uses org.assertj.core.configuration.Configuration;
