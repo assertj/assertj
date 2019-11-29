@@ -327,7 +327,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its {@code equals} method.
    * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the  field.
+   * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
