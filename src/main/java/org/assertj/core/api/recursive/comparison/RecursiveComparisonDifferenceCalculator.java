@@ -204,6 +204,12 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
+      if (dualValue.isEnum()) {
+        // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison
+        // this would make different field enum value to be considered the same!
+        if (dualValue.actual != dualValue.expected) comparisonState.addDifference(dualValue);
+        continue;
+      }
       // TODO move hasFieldTypesDifference check into each compareXXX
 
       if (dualValue.isExpectedFieldAnArray()) {

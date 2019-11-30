@@ -334,4 +334,39 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, missingFieldDifference);
   }
 
+  @Test
+  public void should_not_compare_enum_recursively() {
+    // GIVEN
+    Check actual = new Check(A.B);
+    Check expected = new Check(A.C);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference missingFieldDifference = diff("value", actual.value, expected.value);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, missingFieldDifference);
+  }
+
+  @Test
+  public void should_compare_enum_by_value() {
+    // GIVEN
+    Check actual = new Check(A.B);
+    Check expected = new Check(A.B);
+    // WHEN-THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
+  }
+
+  enum A {
+    B, C
+  }
+
+  static class Check {
+    public A value;
+
+    public Check(A value) {
+      this.value = value;
+    }
+
+  }
+
 }

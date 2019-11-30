@@ -133,4 +133,8 @@ final class DualValue {
   private static boolean isAnOrderedCollection(Object value) {
     return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES).anyMatch(type -> type.isInstance(value));
   }
+
+  public boolean isEnum() {
+    return expected.getClass().isEnum();
+  }
 }
