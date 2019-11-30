@@ -12,64 +12,85 @@
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
-import static java.time.LocalTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalTime;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("LocalTimeAssert isAfter")
 public class LocalTimeAssert_isAfter_Test extends LocalTimeAssertBaseTest {
 
   @Test
-  public void test_isAfter_assertion() {
-	// WHEN
-	assertThat(AFTER).isAfter(REFERENCE);
-	assertThat(AFTER).isAfter(REFERENCE.toString());
-	// THEN
-	verify_that_isAfter_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
-	verify_that_isAfter_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
+  public void should_pass_if_actual_is_after_localTime_parameter() {
+    assertThat(AFTER).isAfter(REFERENCE);
   }
 
   @Test
-  public void test_isAfter_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("03:00:05.123")).isAfter(parse("03:00:05.123456789")))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <03:00:05.123>%n" +
-                                                                       "to be strictly after:%n" +
-                                                                       "  <03:00:05.123456789>"));
+  public void should_pass_if_actual_is_after_localTime_parameter_as_string() {
+    assertThat(AFTER).isAfter(REFERENCE.toString());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equal_to_localTime_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isAfter(REFERENCE);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfter(REFERENCE, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equal_to_localTime_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isAfter(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfter(REFERENCE, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_before_localTime_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(BEFORE).isAfter(REFERENCE);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfter(BEFORE, REFERENCE).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      LocalTime actual = null;
-      assertThat(actual).isAfter(LocalTime.now());
-    }).withMessage(actualIsNull());
+    // GIVEN
+    LocalTime actual = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(actual).isAfter(LocalTime.now());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_timeTime_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isAfter((LocalTime) null))
+  public void should_fail_if_localTime_parameter_is_null() {
+    // GIVEN
+    LocalTime otherLocalTime = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalTime.now()).isAfter(otherLocalTime);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The LocalTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_timeTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isAfter((String) null))
+  public void should_fail_if_localTime_as_string_parameter_is_null() {
+    // GIVEN
+    String otherLocalTimeAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalTime.now()).isAfter(otherLocalTimeAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalTime to compare actual with should not be null");
-  }
-
-  private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(LocalTime timeToCheck,
-                                                                                    LocalTime reference) {
-    assertThatThrownBy(() -> assertThat(timeToCheck).isAfter(reference)).isInstanceOf(AssertionError.class);
-    assertThatThrownBy(() -> assertThat(timeToCheck).isAfter(reference.toString())).isInstanceOf(AssertionError.class);
   }
 
 }

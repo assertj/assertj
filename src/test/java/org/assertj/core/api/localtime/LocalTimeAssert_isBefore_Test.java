@@ -12,15 +12,16 @@
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalTime;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,54 +29,81 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
+@DisplayName("LocalTimeAssert isBefore")
 public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
 
   @Test
-  public void test_isBefore_assertion() {
-	// WHEN
-	assertThat(BEFORE).isBefore(REFERENCE);
-	// THEN
-	verify_that_isBefore_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
-	verify_that_isBefore_assertion_fails_and_throws_AssertionError(AFTER, REFERENCE);
+  public void should_pass_if_actual_is_before_localTime_parameter() {
+    assertThat(BEFORE).isBefore(REFERENCE);
   }
 
   @Test
-  public void test_isBefore_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalTime.of(3, 0,
-                                                                                             5)).isBefore(LocalTime.of(3,
-                                                                                                                       0,
-                                                                                                                       4)))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <03:00:05>%n" +
-                                                                       "to be strictly before:%n" +
-                                                                       "  <03:00:04>"));
+  public void should_pass_if_actual_is_before_localTime_as_string_parameter() {
+    assertThat(BEFORE).isBefore(REFERENCE.toString());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_after_localTime_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(AFTER).isBefore(REFERENCE);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeBefore(AFTER, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_after_localTime_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(AFTER).isBefore(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeBefore(AFTER, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equal_to_localTime_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isBefore(REFERENCE);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeBefore(REFERENCE, REFERENCE).create());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equal_to_localTime_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isBefore(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeBefore(REFERENCE, REFERENCE).create());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      LocalTime actual = null;
-      assertThat(actual).isBefore(LocalTime.now());
-    }).withMessage(actualIsNull());
+    // GIVEN
+    LocalTime actual = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(actual).isBefore(LocalTime.now());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_timeTime_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isBefore((LocalTime) null))
+  public void should_fail_if_localTime_parameter_is_null() {
+    // GIVEN
+    LocalTime otherLocalTime = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalTime.now()).isBefore(otherLocalTime);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The LocalTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_timeTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isBefore((String) null))
+  public void should_fail_if_localTime_as_string_parameter_is_null() {
+    // GIVEN
+    String otherLocalTimeAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalTime.now()).isBefore(otherLocalTimeAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalTime to compare actual with should not be null");
-  }
-
-  private static void verify_that_isBefore_assertion_fails_and_throws_AssertionError(LocalTime timeToTest,
-                                                                                     LocalTime reference) {
-    assertThatThrownBy(() -> assertThat(timeToTest).isBefore(reference)).isInstanceOf(AssertionError.class);
-    assertThatThrownBy(() -> assertThat(timeToTest).isBefore(reference.toString())).isInstanceOf(AssertionError.class);
   }
 
 }
