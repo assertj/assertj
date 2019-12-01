@@ -122,6 +122,7 @@ public class AssertionErrorCreator {
     return Optional.empty();
   }
 
+  @SuppressWarnings("unchecked")
   private static List<Throwable> extractFailuresOf(Object multipleFailuresError) {
     return (List<Throwable>) PropertyOrFieldSupport.EXTRACTION.getValueOf("failures", multipleFailuresError);
   }

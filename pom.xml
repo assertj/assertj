@@ -187,7 +187,8 @@ specific language governing permissions and limitations under the License.
 Copyright ${inceptionYear}-${currentYear} the original author or authors.
           </inlineHeader>
         </configuration>
-      </plugin><plugin>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>

@@ -42,7 +42,7 @@ public final class Closeables {
     try {
       c.close();
     } catch (Throwable t) {
-      logger.log(Level.WARNING, "Error ocurred while closing " + c, t);
+      logger.log(Level.WARNING, "Error occurred while closing " + c, t);
     }
   }
 
