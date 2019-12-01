@@ -3,9 +3,9 @@ install: true
 
 addons:
   sonarcloud:
-    organization: "default"
+    organization: "assertj"
     token:
-      secure: "jCe1bGGbx0kwEDy9PDcXBlX5YAkjbEX2moL93L8U+UwkmDRbilsSQQYKQtzgUJ4drUU8g0BJywndUBcR0DSF1dW9YjPGgazCrCbiSimXy3IFMwLI5kU2BnJXTHzcQDJDxWr4P5UttL1KsXi72dRTmeTa9XvXckTCkggAPsprTTA/aurYBuh5C8JbK3WKLwctEmC8RcYLg92cK9H09493h+Txk/jmRoS9wisXwPEbJu5+XspUOgBfrfGYMhKs+cJfaIJs7nRdb7nu65opb+SfgiFurYpKKQ1VJuJp9VAHlQ3Uu6XxItDq4Q0wSHI9an5QjzFuQNxsBORTvB6R99PZlgcAtV6jWRRUhn7QKh+7ibviBcKBCwUw+1j57cxIPXEu5CaG9KyCZQSzLpFCx7zk2mKsPatnHc8ucaDCxBRJnkT9ZfVg5V8ac4wqwqfzmoiNUpHQZ1V0pWHdH9iPChMW1+cYmCmxOMDscE5vx4E4aTKySFgfsZQRwDhMm1zm7WPiUNPy2rez5GAhNLKIGhBV3+6DFYdaitrNDet68uvthaRbrzOrhJ8WUAvW2qCnqPJ3FUecOoJCrTxpthIBjsA9EXFaly70DeINdTY6TM5Jyv8OzLTG3xYPlL6OgFoFPKG90pQLVvAgI4pSccERFOqcf57wuxymQWy2aHLjLMyeX+s="
+      secure: "XS4jwdTTe2gkiXN6ssWvu/EG1de4d7AEdfC1JqwIeXy2qHluxvIDGtqi0RCsNZp/l5H+o1p39hIwutERMCL6MVmY0JVBePJkey43FCXNR+FmNBKuWR8mMOTL7Tq2kqVIs+Mxi495vW168hq/cjLi56GkH42DHGJmkS1TOOgxb2sJMWPF5CBGRWrwcz5DqVpiKBOOnGIys+SXybjXLMOeIpCzx30q3dPofSdp3Cj+bN+cWzG5yL7+iLqoJbFwtIuwkb5aGWISyVLrusrhCGLlA68+5lEBqhSO/htRqzBtC8tcoSm1KbCSgOkD0VChOpygzuEY4QTqBY9ZTjl0S1OVY9wuY3MIwBq1z1uNQ5pBUUUxLlykD5D3+i765GfFFBsGaOIJARn2ImuVV0AWrjzVPPY85eHTqbTmxr1lm3azAK0FHwn7eATyDruX5pvEZrmFJegT3u6IIQNwfUfmXJ9E+Up+T0Rh4yzu6YRDXKfZ2Wn95niTFgro4NbZ0WJ3umP0fvGp6esVBWOgwVYIea1VNxbQ5uhtYUSvb7m55udSQLUVmVlcLUX4IZhUs3NqiFl/srXymS+IKzBMqqYJ06eWx4IcIlvpcpzP5NtOS1Jl/wkzWD02IdYnTqXYRi7JJTtoqUDtsbRuM5ZFTwPilfNNgUu53pVab27v7cZOs13lLDE="
     branches:
       - master
 
@@ -25,5 +25,4 @@ matrix:
 
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./mvnw clean verify javadoc:javadoc; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install javadoc:javadoc sonar:sonar -Dsonar.login=651ffb3dd32bdbb12acfc60dcb4a48a768609830; fi'
-
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install javadoc:javadoc sonar:sonar -Dsonar.projectKey=joel-costigliola_assertj-core; fi'
