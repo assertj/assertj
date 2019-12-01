@@ -14,7 +14,10 @@ package org.assertj.core.api.double_;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 
@@ -33,5 +36,21 @@ public class DoubleAssert_isGreaterThan_double_Test extends DoubleAssertBaseTest
   @Override
   protected void verify_internal_effects() {
     verify(doubles).assertGreaterThan(getInfo(assertions), getActual(assertions), 6d);
+  }
+
+  @Test
+  public void should_fail_with_double_negativeZero() {
+    // GIVEN
+    final double positiveZero = 0D;
+    final double negativeZero = -0D;
+    // WHEN
+    try {
+      assertThat(positiveZero).isGreaterThan(negativeZero);
+    } catch (AssertionError e) {
+      // THEN
+      assertThat(e).hasMessage(format("%nExpecting:%n <0.0f>%nto be greater than:%n <-0.0f> "));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

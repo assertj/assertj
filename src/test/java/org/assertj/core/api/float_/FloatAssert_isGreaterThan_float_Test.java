@@ -14,7 +14,10 @@ package org.assertj.core.api.float_;
 
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 
@@ -33,5 +36,21 @@ public class FloatAssert_isGreaterThan_float_Test extends FloatAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(floats).assertGreaterThan(getInfo(assertions), getActual(assertions), 6f);
+  }
+
+  @Test
+  public void should_fail_with_float_negativeZero() {
+    // GIVEN
+    final float positiveZero = 0f;
+    final float negativeZero = -0f;
+    // WHEN
+    try {
+      assertThat(positiveZero).isGreaterThan(negativeZero);
+    } catch (AssertionError e) {
+      // THEN
+      assertThat(e).hasMessage(format("%nExpecting:%n <0.0f>%nto be greater than:%n <-0.0f> "));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }
