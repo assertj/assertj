@@ -567,7 +567,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         <jdk>[11,)</jdk>
       </activation>
       <properties>
-        <sonar.skip>true</sonar.skip>
+        <sonar.skip>false</sonar.skip>
       </properties>
     </profile>
     <profile>
