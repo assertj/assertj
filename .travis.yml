@@ -25,4 +25,4 @@ matrix:
 
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./mvnw clean verify javadoc:javadoc; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent verify javadoc:javadoc org.jacoco:jacoco-maven-plugin:report sonar:sonar -Dsonar.projectKey=joel-costigliola_assertj-core; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./mvnw clean verify javadoc:javadoc sonar:sonar -Dsonar.projectKey=joel-costigliola_assertj-core; fi'
