@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
@@ -94,10 +95,15 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @SuppressWarnings("unchecked")
   public void iterableRemoves(Iterable<?> iterable, Object value) {
     if (iterable == null) return;
-    Iterator<?> iterator = iterable.iterator();
-    while (iterator.hasNext()) {
-      if (comparator.compare(iterator.next(), value) == 0) {
-        iterator.remove();
+    // Avoid O(N^2) complexity of serial removal from an iterator of collections like ArrayList
+    if (iterable instanceof Collection) {
+      ((Collection<?>) iterable).removeIf(o -> comparator.compare(o, value) == 0);
+    } else {
+      Iterator<?> iterator = iterable.iterator();
+      while (iterator.hasNext()) {
+        if (comparator.compare(iterator.next(), value) == 0) {
+          iterator.remove();
+        }
       }
     }
   }

@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -102,10 +103,15 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     if (iterable == null) {
       return;
     }
-    Iterator<?> iterator = iterable.iterator();
-    while (iterator.hasNext()) {
-      if (areEqual(iterator.next(), value)) {
-        iterator.remove();
+    // Avoid O(N^2) complexity of serial removal from an iterator of collections like ArrayList
+    if (iterable instanceof Collection) {
+      ((Collection<?>) iterable).removeIf(o -> areEqual(o, value));
+    } else {
+      Iterator<?> iterator = iterable.iterator();
+      while (iterator.hasNext()) {
+        if (areEqual(iterator.next(), value)) {
+          iterator.remove();
+        }
       }
     }
   }
