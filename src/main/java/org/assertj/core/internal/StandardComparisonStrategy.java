@@ -106,11 +106,12 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     // Avoid O(N^2) complexity of serial removal from an iterator of collections like ArrayList
     if (iterable instanceof Collection) {
       ((Collection<?>) iterable).removeIf(o -> areEqual(o, value));
-    }
-    Iterator<?> iterator = iterable.iterator();
-    while (iterator.hasNext()) {
-      if (areEqual(iterator.next(), value)) {
-        iterator.remove();
+    } else {
+      Iterator<?> iterator = iterable.iterator();
+      while (iterator.hasNext()) {
+        if (areEqual(iterator.next(), value)) {
+          iterator.remove();
+        }
       }
     }
   }
