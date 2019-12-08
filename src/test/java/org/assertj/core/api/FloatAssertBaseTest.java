@@ -14,20 +14,26 @@ package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
+import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Floats;
+import org.assertj.core.test.AlwaysEqualComparator;
 
 
 /**
  * Base class for {@link FloatAssert} tests.
- * 
+ *
  * @author Olivier Michallat
  */
 public abstract class FloatAssertBaseTest extends BaseTestTemplate<FloatAssert, Float> {
+
+  protected static final AlwaysEqualComparator<Float> ALWAY_EQUAL_FLOAT = new AlwaysEqualComparator<>();
+
   protected Floats floats;
+  protected Comparables comparables;
 
   @Override
   protected FloatAssert create_assertions() {
-    return new FloatAssert(new Float(6.0f));
+    return new FloatAssert(Float.valueOf(6.0f));
   }
 
   @Override
@@ -35,6 +41,8 @@ public abstract class FloatAssertBaseTest extends BaseTestTemplate<FloatAssert, 
     super.inject_internal_objects();
     floats = mock(Floats.class);
     assertions.floats = floats;
+    comparables = mock(Comparables.class);
+    assertions.comparables = comparables;
   }
 
   protected Floats getFloats(FloatAssert someAssertions) {
