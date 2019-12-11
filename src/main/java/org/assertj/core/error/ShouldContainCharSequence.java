@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 import java.util.Set;
 
 import org.assertj.core.internal.ComparisonStrategy;
@@ -37,6 +40,36 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence sequence) {
     return new ShouldContainCharSequence("%nExpecting:%n <%s>%nto contain:%n <%s> %s", actual, sequence,
                                    StandardComparisonStrategy.instance());
+  }
+
+  public static ErrorMessageFactory shouldContain(Throwable actual, CharSequence sequence) {
+    String format = "%n" +
+                    "Expecting:%n" +
+                    "  <%s>%n" +
+                    "to contain:%n" +
+                    "  <%s>%n" +
+                    "but did not.%n" +
+                    "%n" +
+                    "Throwable that failed the check:%n" +
+                    "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
+
+    return new ShouldContainCharSequence(format, actual.getMessage(), sequence, StandardComparisonStrategy.instance());
+  }
+
+  public static ErrorMessageFactory shouldContain(Throwable actual, CharSequence[] sequence,
+                                                  Set<? extends CharSequence> notFound) {
+    String format = "%n" +
+                    "Expecting:%n" +
+                    "  <%s>%n" +
+                    "to contain:%n" +
+                    "  <%s>%n" +
+                    "but could not find:%n" +
+                    "  <%s>%n" +
+                    "%n" +
+                    "Throwable that failed the check:%n" +
+                    "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
+
+    return new ShouldContainCharSequence(format, actual.getMessage(), sequence, notFound, StandardComparisonStrategy.instance());
   }
 
   /**

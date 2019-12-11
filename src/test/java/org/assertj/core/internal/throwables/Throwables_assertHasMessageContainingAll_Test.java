@@ -63,7 +63,7 @@ public class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBas
     // WHEN
     expectAssertionError(() -> throwables.assertHasMessageContainingAll(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual.getMessage(), content), actual.getMessage(), content);
+    verify(failures).failure(INFO, shouldContain(actual, content), actual, content);
   }
 
   @Test
@@ -73,8 +73,8 @@ public class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBas
     // WHEN
     expectAssertionError(() -> throwables.assertHasMessageContainingAll(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual.getMessage(), content, Collections.singleton("catchable")),
-                             actual.getMessage(), content);
+    verify(failures).failure(INFO, shouldContain(actual, content, Collections.singleton("catchable")),
+                             actual, content);
   }
 
   @Test

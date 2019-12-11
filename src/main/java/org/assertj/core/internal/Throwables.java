@@ -191,7 +191,7 @@ public class Throwables {
   public void assertHasMessageContaining(AssertionInfo info, Throwable actual, String description) {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().contains(description)) return;
-    throw failures.failure(info, shouldContain(actual.getMessage(), description));
+    throw failures.failure(info, shouldContain(actual, description));
   }
 
   /**
@@ -211,9 +211,9 @@ public class Throwables {
                                                .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty()) return;
     if (notFound.size() == 1 && values.length == 1) {
-      throw failures.failure(info, shouldContain(actualMessage, values[0]), actualMessage, values[0]);
+      throw failures.failure(info, shouldContain(actual, values[0]), actual, values[0]);
     }
-    throw failures.failure(info, shouldContain(actualMessage, values, notFound), actualMessage, values);
+    throw failures.failure(info, shouldContain(actual, values, notFound), actual, values);
   }
 
   /**

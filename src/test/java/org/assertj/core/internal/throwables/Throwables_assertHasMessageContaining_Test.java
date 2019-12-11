@@ -53,7 +53,7 @@ public class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTe
     // WHEN
     expectAssertionError(() -> throwables.assertHasMessageContaining(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual.getMessage(), content));
+    verify(failures).failure(INFO, shouldContain(actual, content));
   }
 
 }
