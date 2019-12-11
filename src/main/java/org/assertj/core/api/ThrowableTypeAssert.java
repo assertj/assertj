@@ -66,28 +66,6 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public ThrowableTypeAssert<T> as(String description, Object... args) {
-    return describedAs(description, args);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public ThrowableTypeAssert<T> as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public ThrowableTypeAssert<T> describedAs(String description, Object... args) {
-    this.description = new TextDescription(description, args);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
   public ThrowableTypeAssert<T> describedAs(Description description) {
     this.description = description;
     return this;

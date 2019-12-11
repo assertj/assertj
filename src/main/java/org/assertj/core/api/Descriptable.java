@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
 
 /**
  * An object that has a description.
@@ -49,7 +50,9 @@ public interface Descriptable<SELF> {
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(String, Object...)
    */
-  SELF as(String description, Object... args);
+  default SELF as(String description, Object... args) {
+	  return describedAs(description, args);
+  }
 
   /**
    * Sets the description of the assertion that is going to be called after. 
@@ -67,7 +70,9 @@ public interface Descriptable<SELF> {
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(Description)
    */
-  SELF as(Description description);
+  default SELF as(Description description) {
+	  return describedAs(description);
+  }
 
   /**
    * Sets the description of the assertion that is going to be called after. 
@@ -83,7 +88,9 @@ public interface Descriptable<SELF> {
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  SELF describedAs(String description, Object... args);
+  default SELF describedAs(String description, Object... args) {
+	  return describedAs(new TextDescription(description, args));
+  }
 
   /**
    * Sets the description of the assertion that is going to be called after. 
