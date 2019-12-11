@@ -46,10 +46,12 @@ class ShouldNotBeEmpty_create_Test {
   @Test
   void should_create_error_message_for_File() {
     // GIVEN
-    factory = shouldNotBeEmpty(new File("/test.txt"));
+	File f = new File("/test.txt");
+    factory = shouldNotBeEmpty(f);
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting file </test.txt> not to be empty"));
+    String expected = f.getAbsolutePath().replace("%", "%%");
+    then(message).isEqualTo(String.format("[Test] %nExpecting file <" + expected + "> not to be empty"));
   }
 }
