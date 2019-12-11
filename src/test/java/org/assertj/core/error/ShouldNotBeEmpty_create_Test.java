@@ -12,15 +12,16 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-
-import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
+
+import org.assertj.core.internal.TestDescription;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldNotBeEmpty#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -31,25 +32,24 @@ import java.io.File;
 @DisplayName("ShouldNotBeEmpty create")
 class ShouldNotBeEmpty_create_Test {
 
-  private ErrorMessageFactory factory;
-
   @Test
   void should_create_error_message() {
     // GIVEN
-    factory = shouldNotBeEmpty();
+    ErrorMessageFactory errorMessageFactory = shouldNotBeEmpty();
     // WHEN
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    String message = errorMessageFactory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting actual not to be empty"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual not to be empty"));
   }
 
   @Test
-  void should_create_error_message_for_File() {
+  void should_create_specific_error_message_for_File() {
     // GIVEN
-    factory = shouldNotBeEmpty(new File("/test.txt"));
+    File file = new File("/test.txt");
+    ErrorMessageFactory errorMessageFactory = shouldNotBeEmpty(file);
     // WHEN
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    String message = errorMessageFactory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting file </test.txt> not to be empty"));
+    then(message).isEqualTo(format("[Test] %nExpecting file <%s> not to be empty", file.getAbsolutePath()));
   }
 }

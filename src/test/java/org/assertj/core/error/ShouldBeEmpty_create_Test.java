@@ -36,20 +36,21 @@ class ShouldBeEmpty_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeEmpty(newArrayList("Luke", "Yoda"));
+    ErrorMessageFactory errorMessageFactory = shouldBeEmpty(newArrayList("Luke", "Yoda"));
     // WHEN
-    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    String message = errorMessageFactory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting empty but was:<[\"Luke\", \"Yoda\"]>"));
   }
 
   @Test
-  void should_create_error_message_for_File() {
+  void should_create_specific_error_message_for_File() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeEmpty(new File("/te%st.txt"));
+    File file = new File("/te%st.txt");
+    ErrorMessageFactory errorMessageFactory = shouldBeEmpty(file);
     // WHEN
-    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    String message = errorMessageFactory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting file </te%%st.txt> to be empty"));
+    then(message).isEqualTo(format("[Test] %nExpecting file <%s> to be empty", file.getAbsolutePath()));
   }
 }
