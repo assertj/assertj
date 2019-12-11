@@ -101,26 +101,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
 
   /** {@inheritDoc} */
   @Override
-  public Condition<T> describedAs(String newDescription, Object... args) {
-    return as(newDescription, args);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Condition<T> as(String newDescription, Object... args) {
-    description = new TextDescription(newDescription, args);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public Condition<T> describedAs(Description newDescription) {
-    return as(newDescription);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Condition<T> as(Description newDescription) {
     description = Description.emptyIfNull(newDescription);
     return this;
   }

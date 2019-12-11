@@ -13,12 +13,13 @@
 package org.assertj.core.api;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
 
 /**
  * An object that has a description.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Mikhail Mazursky
@@ -26,9 +27,9 @@ import org.assertj.core.description.Description;
 public interface Descriptable<SELF> {
 
   /**
-   * Sets the description of the assertion that is going to be called after. 
+   * Sets the description of the assertion that is going to be called after.
    * <p>
-   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
    * <p>
    * The description follows {@link String#format(String, Object...)} syntax.
@@ -42,60 +43,66 @@ public interface Descriptable<SELF> {
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage(&quot;[check Frodo's age] expected:&lt;[33]&gt; but was:&lt;[50]&gt;&quot;);
    * }</code></pre>
-   * 
+   *
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(String, Object...)
    */
-  SELF as(String description, Object... args);
+  default SELF as(String description, Object... args) {
+    return describedAs(description, args);
+  }
 
   /**
-   * Sets the description of the assertion that is going to be called after. 
+   * Sets the description of the assertion that is going to be called after.
    * <p>
-   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
    * <p>
    * This overloaded version of "describedAs" offers more flexibility than the one taking a {@code String} by allowing
    * users to pass their own implementation of a description. For example, a description that creates its value lazily,
    * only when an assertion failure occurs.
    * </p>
-   * 
+   *
    * @param description the new description to set.
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(Description)
    */
-  SELF as(Description description);
+  default SELF as(Description description) {
+    return describedAs(description);
+  }
 
   /**
-   * Sets the description of the assertion that is going to be called after. 
+   * Sets the description of the assertion that is going to be called after.
    * <p>
-   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
    * <p>
    * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a
    * href="http://groovy-lang.org/" target="_blank">Groovy</a>.
-   * 
+   *
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  SELF describedAs(String description, Object... args);
+  default SELF describedAs(String description, Object... args) {
+    return describedAs(new TextDescription(description, args));
+  }
 
   /**
-   * Sets the description of the assertion that is going to be called after. 
+   * Sets the description of the assertion that is going to be called after.
    * <p>
-   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks 
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
    * <p>
    * This overloaded version of "describedAs" offers more flexibility than the one taking a {@code String} by allowing
    * users to pass their own implementation of a description. For example, a description that creates its value lazily,
    * only when an assertion failure occurs.
    * </p>
-   * 
+   *
    * @param description the new description to set.
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.

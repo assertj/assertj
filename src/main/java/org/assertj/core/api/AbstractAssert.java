@@ -182,20 +182,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return false;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public SELF as(String description, Object... args) {
-    return describedAs(description, args);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public SELF as(Description description) {
-    return describedAs(description);
-  }
-
   /**
    * Use hexadecimal object representation instead of standard representation in error messages.
    * <p>
@@ -243,14 +229,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   protected SELF inBinary() {
     info.useBinaryRepresentation();
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public SELF describedAs(String description, Object... args) {
-    info.description(description, args);
     return myself;
   }
 
