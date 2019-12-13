@@ -28,7 +28,7 @@ class Classes_assertIsPackagePrivate_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    Class clazz = null;
+    Class<?> clazz = null;
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> classes.assertIsPackagePrivate(someInfo(), clazz));
     // THEN
@@ -38,7 +38,7 @@ class Classes_assertIsPackagePrivate_Test extends ClassesBaseTest {
   @Test
   void should_pass_if_actual_is_a_package_private_class() {
     // GIVEN
-    Class clazz = PackagePrivateClass.class;
+    Class<?> clazz = PackagePrivateClass.class;
     // WHEN
     classes.assertIsPackagePrivate(someInfo(), clazz);
   }
@@ -46,7 +46,7 @@ class Classes_assertIsPackagePrivate_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_actual_is_not_a_package_private_class() {
     // GIVEN
-    Class clazz = Object.class;
+    Class<?> clazz = Object.class;
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> classes.assertIsPackagePrivate(someInfo(), clazz));
     // THEN
