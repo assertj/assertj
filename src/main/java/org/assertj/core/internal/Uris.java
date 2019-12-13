@@ -97,8 +97,7 @@ public class Uris {
     if (!areEqual(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
   }
 
-  @VisibleForTesting
-  public static Map<String, List<String>> getParameters(String query) {
+  static Map<String, List<String>> getParameters(String query) {
     Map<String, List<String>> parameters = new LinkedHashMap<>();
 
     if (query != null && !query.isEmpty()) {
