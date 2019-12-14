@@ -119,7 +119,7 @@ class Assertions_assertThat_with_Throwable_Test {
     // GIVEN
     ThrowingCallable code = () -> assertThatThrownBy(raisingException("boom")).hasMessageContaining("%s", "bam");
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessageContainingAll("Expecting:",
+    assertThatAssertionErrorIsThrownBy(code).withMessageContainingAll("Expecting throwable message:",
                                                                       "<\"boom\">",
                                                                       "to contain",
                                                                       "<\"bam\">");

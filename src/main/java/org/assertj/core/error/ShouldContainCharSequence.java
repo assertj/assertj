@@ -44,7 +44,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldContain(Throwable actual, CharSequence sequence) {
     String format = "%n" +
-                    "Expecting:%n" +
+                    "Expecting throwable message:%n" +
                     "  <%s>%n" +
                     "to contain:%n" +
                     "  <%s>%n" +
@@ -59,7 +59,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContain(Throwable actual, CharSequence[] sequence,
                                                   Set<? extends CharSequence> notFound) {
     String format = "%n" +
-                    "Expecting:%n" +
+                    "Expecting throwable message:%n" +
                     "  <%s>%n" +
                     "to contain:%n" +
                     "  <%s>%n" +

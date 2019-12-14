@@ -12,7 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainCharSequence.*;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Throwables.getStackTrace;
 import static org.mockito.internal.util.collections.Sets.newSet;
@@ -25,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldContainCharSequence#shouldContain(Throwable, CharSequence[], Set)})}</code> and
- *  <code>{@link ShouldContainCharSequence#shouldContain(Throwable, CharSequence)})}</code>.
+ * <code>{@link ShouldContainCharSequence#shouldContain(Throwable, CharSequence)})}</code>.
  *
  * @author Benoit Dupont
  */
@@ -36,19 +37,19 @@ class ShouldContainThrowable_create_Test {
     // GIVEN
     RuntimeException actual = new RuntimeException("You know nothing %");
     // WHEN
-    String errorMessage = ShouldContainCharSequence.shouldContain(actual, "You know nothing % Jon Snow")
-                                                   .create(new TestDescription("TEST"));
+    String errorMessage = shouldContain(actual, "You know nothing % Jon Snow")
+      .create(new TestDescription("TEST"));
     // THEN
-    assertThat(errorMessage).isEqualTo("[TEST] %n" +
-                                       "Expecting:%n" +
-                                       "  <\"You know nothing %%\">%n" +
-                                       "to contain:%n" +
-                                       "  <\"You know nothing %% Jon Snow\">%n" +
-                                       "but did not.%n" +
-                                       "%n" +
-                                       "Throwable that failed the check:%n" +
-                                       "%n%s",
-                                       getStackTrace(actual));
+    then(errorMessage).isEqualTo("[TEST] %n" +
+        "Expecting throwable message:%n" +
+        "  <\"You know nothing %%\">%n" +
+        "to contain:%n" +
+        "  <\"You know nothing %% Jon Snow\">%n" +
+        "but did not.%n" +
+        "%n" +
+        "Throwable that failed the check:%n" +
+        "%n%s",
+      getStackTrace(actual));
   }
 
   @Test
@@ -56,20 +57,20 @@ class ShouldContainThrowable_create_Test {
     // GIVEN
     RuntimeException actual = new RuntimeException("You know nothing");
     // WHEN
-    String errorMessage = ShouldContainCharSequence.shouldContain(actual, array("You", "know", "nothing", "Jon", "Snow"),
-                                                                  newSet("Jon", "Snow"))
-                                                   .create(new TestDescription("TEST"));
+    String errorMessage = shouldContain(actual, array("You", "know", "nothing", "Jon", "Snow"),
+      newSet("Jon", "Snow"))
+      .create(new TestDescription("TEST"));
     // THEN
-    assertThat(errorMessage).isEqualTo("[TEST] %n" +
-                                       "Expecting:%n" +
-                                       "  <\"You know nothing\">%n" +
-                                       "to contain:%n" +
-                                       "  <[\"You\", \"know\", \"nothing\", \"Jon\", \"Snow\"]>%n" +
-                                       "but could not find:%n" +
-                                       "  <[\"Jon\", \"Snow\"]>%n" +
-                                       "%n" +
-                                       "Throwable that failed the check:%n" +
-                                       "%n%s",
-                                       getStackTrace(actual));
+    then(errorMessage).isEqualTo("[TEST] %n" +
+        "Expecting throwable message:%n" +
+        "  <\"You know nothing\">%n" +
+        "to contain:%n" +
+        "  <[\"You\", \"know\", \"nothing\", \"Jon\", \"Snow\"]>%n" +
+        "but could not find:%n" +
+        "  <[\"Jon\", \"Snow\"]>%n" +
+        "%n" +
+        "Throwable that failed the check:%n" +
+        "%n%s",
+      getStackTrace(actual));
   }
 }
