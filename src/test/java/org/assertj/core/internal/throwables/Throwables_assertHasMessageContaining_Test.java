@@ -31,23 +31,23 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Phillip Webb
  */
-public class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
 
   private static final AssertionInfo INFO = someInfo();
 
   @Test
-  public void should_pass_if_actual_has_message_containing_with_expected_description() {
+  void should_pass_if_actual_has_message_containing_with_expected_description() {
     throwables.assertHasMessageContaining(someInfo(), actual, "able");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageContaining(someInfo(), null, "Throwable"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_message_not_containing_with_expected_description() {
+  void should_fail_if_actual_has_message_not_containing_with_expected_description() {
     // GIVEN
     String content = "expected description part";
     // WHEN

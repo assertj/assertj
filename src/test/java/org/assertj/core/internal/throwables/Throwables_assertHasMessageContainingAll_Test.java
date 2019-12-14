@@ -34,22 +34,22 @@ import org.junit.jupiter.api.Test;
  *
  * @author Phillip Webb
  */
-public class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBaseTest {
 
   private static final AssertionInfo INFO = someInfo();
 
   @Test
-  public void should_pass_if_actual_has_message_containing_the_expected_string() {
+  void should_pass_if_actual_has_message_containing_the_expected_string() {
     throwables.assertHasMessageContainingAll(someInfo(), actual, "able");
   }
 
   @Test
-  public void should_pass_if_actual_has_message_containing_all_the_expected_strings() {
+  void should_pass_if_actual_has_message_containing_all_the_expected_strings() {
     throwables.assertHasMessageContainingAll(someInfo(), actual, "able", "message");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     ThrowingCallable code = () -> throwables.assertHasMessageContainingAll(INFO, null, "Throwable");
     // THEN
@@ -57,7 +57,7 @@ public class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBas
   }
 
   @Test
-  public void should_fail_if_actual_has_message_not_containing_all_the_expected_strings() {
+  void should_fail_if_actual_has_message_not_containing_all_the_expected_strings() {
     // GIVEN
     String content = "expected description part";
     // WHEN
@@ -67,7 +67,7 @@ public class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBas
   }
 
   @Test
-  public void should_fail_if_actual_has_message_not_containing_some_of_the_expected_strings() {
+  void should_fail_if_actual_has_message_not_containing_some_of_the_expected_strings() {
     // GIVEN
     String[] content = { "catchable", "message" };
     // WHEN
@@ -78,7 +78,7 @@ public class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBas
   }
 
   @Test
-  public void should_throw_error_if_expected_strings_are_null() {
+  void should_throw_error_if_expected_strings_are_null() {
     assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageContainingAll(INFO, actual, (String) null))
                                     .withMessage(charSequenceToLookForIsNull());
   }
