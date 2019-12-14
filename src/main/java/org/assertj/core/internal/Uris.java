@@ -134,7 +134,7 @@ public class Uris {
   public void assertHasParameter(AssertionInfo info, URI actual, String name) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
     if (!parameters.containsKey(name)) throw failures.failure(info, shouldHaveParameter(actual, name));
   }
 
@@ -142,7 +142,7 @@ public class Uris {
                                  String expectedParameterValue) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
 
     if (!parameters.containsKey(expectedParameterName))
       throw failures.failure(info, shouldHaveParameter(actual, expectedParameterName, expectedParameterValue));
@@ -155,14 +155,14 @@ public class Uris {
   public void assertHasNoParameters(AssertionInfo info, URI actual) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
     if (!parameters.isEmpty()) throw failures.failure(info, shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
   public void assertHasNoParameter(AssertionInfo info, URI actual, String name) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
     if (parameters.containsKey(name))
       throw failures.failure(info, shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
@@ -170,7 +170,7 @@ public class Uris {
   public void assertHasNoParameter(AssertionInfo info, URI actual, String name, String unwantedValue) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
 
     if (parameters.containsKey(name)) {
       List<String> values = parameters.get(name);
