@@ -12,25 +12,29 @@
  */
 package org.assertj.core.api.file;
 
-import static java.nio.charset.Charset.defaultCharset;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-
-import java.io.File;
-import java.nio.charset.Charset;
-
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 import org.assertj.core.util.TempFileUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
+import static java.nio.charset.Charset.defaultCharset;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.verify;
+
 /**
- * Tests for <code>{@link FileAssert#hasSameContentAs(java.io.File)}</code>.
- * 
+ * Tests for <code>{@link FileAssert#hasSameTextualContentAs(File)}</code>.
+ *
  * @author Yvonne Wang
+ * @author Nikolaos Georgiou
  */
-public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
+public class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest {
 
   private static File expected;
 
@@ -41,7 +45,7 @@ public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {
-    return assertions.hasSameContentAs(expected);
+    return assertions.hasSameTextualContentAs(expected);
   }
 
   @Override
@@ -51,17 +55,35 @@ public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
 
   @Test
   public void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
+    // GIVEN
     Charset turkishCharset = Charset.forName("windows-1254");
     File actual = TempFileUtil.createTempFileWithContent("Gerçek", turkishCharset);
     File expected = TempFileUtil.createTempFileWithContent("Gerçek", defaultCharset());
-    assertThat(actual).usingCharset(turkishCharset).hasSameContentAs(expected);
+    // WHEN/THEN
+    assertThat(actual).usingCharset(turkishCharset).hasSameTextualContentAs(expected);
+  }
+
+  @Test
+  public void should_fail_when_the_files_differ() throws Exception {
+    // GIVEN
+    Charset utf8 = StandardCharsets.UTF_8;
+    File actual = TempFileUtil.createTempFileWithContent("Hello world", utf8);
+    File expected = TempFileUtil.createTempFileWithContent("Hello, world!", defaultCharset());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> {
+      assertThat(actual).usingCharset(utf8).hasSameTextualContentAs(expected);
+    });
+    // THEN
+    then(assertionError).hasMessageContaining("do not have same content");
   }
 
   @Test
   public void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
+    // GIVEN
     Charset turkishCharset = Charset.forName("windows-1254");
     File actual = TempFileUtil.createTempFileWithContent("Gerçek", defaultCharset());
     File expected = TempFileUtil.createTempFileWithContent("Gerçek", turkishCharset);
-    assertThat(actual).hasSameContentAs(expected, turkishCharset);
+    // WHEN/THEN
+    assertThat(actual).hasSameTextualContentAs(expected, turkishCharset);
   }
 }
