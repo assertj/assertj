@@ -95,6 +95,8 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * @deprecated use {@link #hasSameTextualContentAs(Path)} instead
+   * <p>
    * Verifies that the content of the actual {@code Path} is the same as the given one (both paths must be a readable
    * files).
    * The charset to use when reading the actual path can be provided with {@link #usingCharset(Charset)} or
@@ -124,7 +126,43 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
    * @throws PathsException if an I/O error occurs.
    */
+  @Deprecated
   public SELF hasSameContentAs(Path expected) {
+    return hasSameTextualContentAs(expected);
+  }
+
+  /**
+   * Verifies that the content of the actual {@code Path} is the same as the given one (both paths must be a readable
+   * files).
+   * The charset to use when reading the actual path can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // use the default charset
+   * Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
+   * Path xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes("UTF-8"));
+   * Path xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes());
+   * Path xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes());
+   *
+   * // The following assertion succeeds (default charset is used):
+   * assertThat(xFile).hasSameTextualContentAs(xFileClone);
+   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
+   * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
+   *
+   * // The following assertion fails:
+   * assertThat(xFile).hasSameTextualContentAs(xFileFrench);</code></pre>
+   *
+   * @param expected the given {@code Path} to compare the actual {@code Path} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Path} is {@code null}.
+   * @throws AssertionError if the actual or given {@code Path} is not an existing readable file.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
+   * @throws PathsException if an I/O error occurs.
+   * @since 3.15
+   */
+  public SELF hasSameTextualContentAs(Path expected) {
     paths.assertHasSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
     return myself;
   }
@@ -134,7 +172,41 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * the charset used to read the actual path can be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> Path fileUTF8Charset = Files.write(Paths.get("actual"), Collections.singleton("Gerçek"), StandardCharsets.UTF_8);
+   * Charset turkishCharset = Charset.forName("windows-1254");
+   * Path fileTurkischCharset = Files.write(Paths.get("expected"), Collections.singleton("Gerçek"), turkishCharset);
    *
+   * // The following assertion succeeds:
+   * assertThat(fileUTF8Charset).usingCharset(StandardCharsets.UTF_8).hasSameTextualContentAs(fileTurkischCharset, turkishCharset);
+   *
+   * // The following assertion fails:
+   * assertThat(fileUTF8Charset).usingCharset(StandardCharsets.UTF_8).hasSameTextualContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
+   *
+   * @param expected the given {@code Path} to compare the actual {@code Path} to.
+   * @param expectedCharset the {@link Charset} used to read the content of the expected Path.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Path} is {@code null}.
+   * @throws AssertionError if the actual or given {@code Path} is not an existing readable file.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
+   * @throws PathsException if an I/O error occurs.
+   * @since 3.15
+   */
+  public SELF hasSameTextualContentAs(Path expected, Charset expectedCharset) {
+    paths.assertHasSameContentAs(info, actual, charset, expected, expectedCharset);
+    return myself;
+  }
+
+  /**
+   * @deprecated use {@link #hasSameTextualContentAs(Path, Charset)} instead
+   * <p>
+   * Verifies that the content of the actual {@code Path} is the same as the expected one, the expected {@code Path} being read with the given charset while
+   * the charset used to read the actual path can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * <p>
    * Examples:
    * <pre><code class="java"> Path fileUTF8Charset = Files.write(Paths.get("actual"), Collections.singleton("Gerçek"), StandardCharsets.UTF_8);
    * Charset turkishCharset = Charset.forName("windows-1254");
@@ -155,9 +227,9 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
    * @throws PathsException if an I/O error occurs.
    */
+  @Deprecated
   public SELF hasSameContentAs(Path expected, Charset expectedCharset) {
-    paths.assertHasSameContentAs(info, actual, charset, expected, expectedCharset);
-    return myself;
+    return hasSameTextualContentAs(expected, expectedCharset);
   }
 
   /**
@@ -180,16 +252,47 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * // The following assertion fails ... unless you are in Turkey ;-):
    * assertThat(xFileTurkish).hasBinaryContent("Gerçek Başka bir yerde mi".getBytes());</code></pre>
    *
-   * @param expected the expected binary content to compare the actual {@code File}'s content to.
+   * @param expected the expected binary content to compare the actual {@code Path}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is not an existing file.
    * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
+   * @throws AssertionError if the content of the actual {@code Path} is not equal to the given binary content.
    */
   public SELF hasBinaryContent(byte[] expected) {
     paths.assertHasBinaryContent(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the content of the actual {@code Path} is equal to the content of the given one, the comparison is done at the binary level.<br>
+   * For text files, use {@link #hasSameTextualContentAs(Path)} or {@link #hasSameTextualContentAs(Path, Charset)}.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // The first two paths have the same contents, the third does not
+   * Path aPath = Files.write(Paths.get("a-file.bin"), new byte[] { 42 });
+   * Path bPath = Files.write(Paths.get("b-file.bin"), new byte[] { 42 });
+   * Path cPath = Files.write(Paths.get("c-file.bin"), new byte[] { 24 });
+   *
+   * // The following assertion succeeds:
+   * assertThat(aPath).hasSameBinaryContentAs(bPath);
+   *
+   * // The following assertion fails:
+   * assertThat(aPath).hasSameBinaryContent(cPath);</code></pre>
+   *
+   * @param expected the given {@code Path} to compare the actual {@code Path} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Path} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code Path} is not an existing file.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is not an existing file.
+   * @throws UncheckedIOException if any I/O error occurs.
+   * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
+   * @since 3.15
+   */
+  public SELF hasSameBinaryContentAs(Path expected) {
+    paths.assertHasSameBinaryContentAs(info, actual, expected);
     return myself;
   }
 
@@ -262,13 +365,13 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * // The following assertion fails ... unless you are in Turkey ;-):
    * assertThat(xFileTurkish).hasContent("Gerçek Başka bir yerde mi");</code></pre>
    *
-   * @param expected the expected text content to compare the actual {@code File}'s content to.
+   * @param expected the expected text content to compare the actual {@code Path}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the actual {@code Path} is {@code null}.
    * @throws AssertionError if the actual {@code Path} is not a {@link Files#isReadable(Path) readable} file.
-   * @throws AssertionError if the content of the actual {@code File} is not equal to the given content.
+   * @throws AssertionError if the content of the actual {@code Path} is not equal to the given content.
    */
   public SELF hasContent(String expected) {
     paths.assertHasContent(info, actual, expected, charset);

@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 /**
  * Value class to hold the result of comparing two binary streams.
- * 
+ *
  * @author Olivier Michallat
  */
 public class BinaryDiffResult {
@@ -23,10 +23,10 @@ public class BinaryDiffResult {
   public final int offset;
   public final String expected;
   public final String actual;
-  
+
   /**
    * Builds a new instance.
-   * 
+   *
    * @param offset the offset at which the difference occurred.
    * @param expected the expected byte as an int in the range 0 to 255, or -1 for EOF.
    * @param actual the actual byte in the same format.
@@ -36,11 +36,15 @@ public class BinaryDiffResult {
     this.expected = describe(expected);
     this.actual = describe(actual);
   }
-  
+
   public boolean hasNoDiff() {
     return offset == EOF;
   }
-  
+
+  public boolean hasDiff() {
+    return !hasNoDiff();
+  }
+
   public static BinaryDiffResult noDiff() {
     return new BinaryDiffResult(EOF, 0, 0);
   }

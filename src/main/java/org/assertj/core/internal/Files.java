@@ -137,6 +137,29 @@ public class Files {
   }
 
   /**
+   * Asserts that the given files have the same binary content.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" file.
+   * @param expected the "expected" file.
+   * @throws NullPointerException if {@code expected} is {@code null}.
+   * @throws IllegalArgumentException if {@code expected} is not an existing file.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} is not an existing file.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError if the given files do not have same content.
+   */
+  public void assertSameBinaryContentAs(AssertionInfo info, File actual, File expected) {
+    verifyIsFile(expected);
+    assertIsFile(info, actual);
+    try {
+      BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
+      if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
+    } catch (IOException ioe) {
+      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
+    }
+  }
+
+  /**
    * Asserts that the given file has the given binary content.
    * @param info contains information about the assertion.
    * @param actual the "actual" file.

@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.nio.file.Files.readAllBytes;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
@@ -71,7 +72,8 @@ public class Paths {
 
   private static final String FAILED_TO_RESOLVE_ARGUMENT_REAL_PATH = "failed to resolve argument real path";
   private static final String FAILED_TO_RESOLVE_ACTUAL_REAL_PATH = "failed to resolve actual real path";
-  @VisibleForTesting
+  private static final String UNABLE_TO_COMPARE_PATH_CONTENTS = "Unable to compare contents of paths:<%s> and:<%s>";
+
   public static final String IOERROR_FORMAT = "I/O error attempting to process assertion for path: <%s>";
 
   private static final Paths INSTANCE = new Paths();
@@ -296,9 +298,24 @@ public class Paths {
     }
   }
 
+  public void assertHasSameBinaryContentAs(AssertionInfo info, Path actual, Path expected) {
+    checkNotNull(expected, "The given Path to compare actual content to should not be null");
+    assertIsReadable(info, actual);
+    checkArgument(nioFilesWrapper.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
+    checkArgument(nioFilesWrapper.isReadable(expected), "The given Path <%s> to compare actual content to should be readable",
+                  expected);
+    try {
+      BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected));
+      if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
+    } catch (IOException ioe) {
+      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_PATH_CONTENTS, actual, expected), ioe);
+    }
+  }
+
   public void assertHasSameContentAs(AssertionInfo info, Path actual, Charset actualCharset, Path expected,
                                      Charset expectedCharset) {
     checkNotNull(expected, "The given Path to compare actual content to should not be null");
+    checkArgument(nioFilesWrapper.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
     checkArgument(nioFilesWrapper.isReadable(expected), "The given Path <%s> to compare actual content to should be readable",
                   expected);
     assertIsReadable(info, actual);
@@ -307,7 +324,7 @@ public class Paths {
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to compare contents of paths:<%s> and:<%s>", actual, expected), e);
+      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_PATH_CONTENTS, actual, expected), e);
     }
   }
 
