@@ -193,7 +193,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
-    return object == null ? null : fallbackToStringOf(object);
+    return fallbackToStringOf(object);
   }
 
   @SuppressWarnings("unchecked")
