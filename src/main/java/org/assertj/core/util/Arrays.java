@@ -54,7 +54,6 @@ public class Arrays {
    */
   public static Object[] asObjectArray(Object array) {
     checkArgument(isArray(array), "Given object %s is not an array", array);
-    if (array == null) return null;
     int length = Array.getLength(array);
     Object[] objectArray = new Object[length];
     for (int i = 0; i < length; i++) {
