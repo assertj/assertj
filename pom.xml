@@ -37,7 +37,7 @@
     <bnd.version>4.3.1</bnd.version>
     <!-- Dependency versions overriding -->
     <junit-jupiter.version>5.5.2</junit-jupiter.version>
-    <mockito.version>3.2.0</mockito.version>
+    <mockito.version>3.2.4</mockito.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
   </properties>
