@@ -26,7 +26,7 @@ public class Paths_assertEndsWithRaw_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertEndsWithRaw(info, null, other))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertEndsWithRaw(info, null, other))
                                                    .withMessage(actualIsNull());
   }
 
@@ -38,21 +38,21 @@ public class Paths_assertEndsWithRaw_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_end_with_other() {
-	// This is the default, but let's make this explicit
-	when(actual.endsWith(other)).thenReturn(false);
+    // This is the default, but let's make this explicit
+    when(actual.endsWith(other)).thenReturn(false);
 
-	try {
-	  paths.assertEndsWithRaw(info, actual, other);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldEndWith(actual, other));
-	}
+    try {
+      paths.assertEndsWithRaw(info, actual, other);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldEndWith(actual, other));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_ends_with_other() {
-	when(actual.endsWith(other)).thenReturn(true);
+    when(actual.endsWith(other)).thenReturn(true);
 
-	paths.assertEndsWithRaw(info, actual, other);
+    paths.assertEndsWithRaw(info, actual, other);
   }
 }

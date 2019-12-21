@@ -85,7 +85,8 @@ public class MockPathsBaseTest extends PathsBaseTest {
   private DirectoryStream<Path> filterStream(Predicate<Path> filter, DirectoryStream<Path> source) throws IOException {
     DirectoryStream<Path> stream = mock(DirectoryStream.class);
     given(stream.iterator()).will(inv -> Iterators.filter(source.iterator(), filter::test));
-    given(stream.spliterator()).will(inv -> Spliterators.spliteratorUnknownSize(Iterators.filter(source.iterator(), filter::test), 0));
+    given(stream.spliterator()).will(inv -> Spliterators.spliteratorUnknownSize(Iterators.filter(source.iterator(), filter::test),
+                                                                                0));
     willAnswer(inv -> {
       source.close();
       return null;

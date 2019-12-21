@@ -77,7 +77,8 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), null, defaultCharset(), expected, defaultCharset()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), null, defaultCharset(),
+                                                                                               expected, defaultCharset()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -96,8 +97,8 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_pass_if_files_have_equal_content() {
-    unMockedFiles.assertSameContentAs(someInfo(), 
-                                      actual, defaultCharset(), 
+    unMockedFiles.assertSameContentAs(someInfo(),
+                                      actual, defaultCharset(),
                                       actual, defaultCharset());
   }
 

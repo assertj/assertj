@@ -25,25 +25,25 @@ public class Paths_assertExists_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertExists(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertExists(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_exist() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(false);
-	try {
-	  paths.assertExists(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExist(actual));
-	}
+    when(nioFilesWrapper.exists(actual)).thenReturn(false);
+    try {
+      paths.assertExists(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldExist(actual));
+    }
   }
 
   @Test
   public void should_pass_if_actual_exists() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	paths.assertExists(info, actual);
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    paths.assertExists(info, actual);
   }
 
 }

@@ -28,28 +28,28 @@ public class Paths_assertHasNoParentRaw_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasNoParentRaw(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasNoParentRaw(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_has_parent() {
-	final Path parent = mock(Path.class);
-	when(actual.getParent()).thenReturn(parent);
+    final Path parent = mock(Path.class);
+    when(actual.getParent()).thenReturn(parent);
 
-	try {
-	  paths.assertHasNoParentRaw(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveNoParent(actual));
-	}
+    try {
+      paths.assertHasNoParentRaw(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveNoParent(actual));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_has_no_parent() {
-	// This is the default, but let's make that clear
-	when(actual.getParent()).thenReturn(null);
+    // This is the default, but let's make that clear
+    when(actual.getParent()).thenReturn(null);
 
-	paths.assertHasNoParentRaw(info, actual);
+    paths.assertHasNoParentRaw(info, actual);
   }
 }

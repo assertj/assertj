@@ -35,14 +35,14 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 
   @BeforeEach
   public void init() {
-	super.init();
-	canonicalActual = mock(Path.class);
-	canonicalOther = mock(Path.class);
+    super.init();
+    canonicalActual = mock(Path.class);
+    canonicalOther = mock(Path.class);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWith(info, null, other))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWith(info, null, other))
                                                    .withMessage(actualIsNull());
   }
 
@@ -53,10 +53,9 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_throw_PathsException_if_actual_cannot_be_resolved() throws IOException
-  {
-	final IOException exception = new IOException();
-	when(actual.toRealPath()).thenThrow(exception);
+  public void should_throw_PathsException_if_actual_cannot_be_resolved() throws IOException {
+    final IOException exception = new IOException();
+    when(actual.toRealPath()).thenThrow(exception);
 
     assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertStartsWith(info, actual, other))
                                                    .withMessage("failed to resolve actual real path")
@@ -65,9 +64,9 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_throw_PathsException_if_other_cannot_be_resolved() throws IOException {
-	final IOException exception = new IOException();
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(other.toRealPath()).thenThrow(exception);
+    final IOException exception = new IOException();
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(other.toRealPath()).thenThrow(exception);
 
     assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertStartsWith(info, actual, other))
                                                    .withMessage("failed to resolve argument real path")
@@ -76,27 +75,27 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_start_with_other() throws IOException {
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(other.toRealPath()).thenReturn(canonicalOther);
-	// This is the default, but let's make this explicit
-	when(canonicalActual.startsWith(canonicalOther)).thenReturn(false);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(other.toRealPath()).thenReturn(canonicalOther);
+    // This is the default, but let's make this explicit
+    when(canonicalActual.startsWith(canonicalOther)).thenReturn(false);
 
-	try {
-	  paths.assertStartsWith(info, actual, other);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldStartWith(actual, other));
-	}
+    try {
+      paths.assertStartsWith(info, actual, other);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldStartWith(actual, other));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_starts_with_other() throws IOException {
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(other.toRealPath()).thenReturn(canonicalOther);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(other.toRealPath()).thenReturn(canonicalOther);
 
-	when(canonicalActual.startsWith(canonicalOther)).thenReturn(true);
+    when(canonicalActual.startsWith(canonicalOther)).thenReturn(true);
 
-	paths.assertStartsWith(info, actual, other);
+    paths.assertStartsWith(info, actual, other);
   }
 
 }

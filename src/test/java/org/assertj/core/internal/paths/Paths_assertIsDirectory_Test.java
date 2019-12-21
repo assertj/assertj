@@ -26,38 +26,38 @@ public class Paths_assertIsDirectory_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsDirectory(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsDirectory(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(false);
-	try {
-	  paths.assertIsDirectory(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExist(actual));
-	}
+    when(nioFilesWrapper.exists(actual)).thenReturn(false);
+    try {
+      paths.assertIsDirectory(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldExist(actual));
+    }
   }
 
   @Test
   public void should_fail_if_target_exists_but_is_not_a_directory() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isDirectory(actual)).thenReturn(false);
-	try {
-	  paths.assertIsDirectory(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeDirectory(actual));
-	}
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isDirectory(actual)).thenReturn(false);
+    try {
+      paths.assertIsDirectory(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeDirectory(actual));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_is_a_directory() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isDirectory(actual)).thenReturn(true);
-	paths.assertIsDirectory(info, actual);
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isDirectory(actual)).thenReturn(true);
+    paths.assertIsDirectory(info, actual);
   }
 
 }

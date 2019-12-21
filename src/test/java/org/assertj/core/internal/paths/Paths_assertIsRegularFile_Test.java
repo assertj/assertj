@@ -26,37 +26,37 @@ public class Paths_assertIsRegularFile_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsRegularFile(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsRegularFile(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(false);
-	try {
-	  paths.assertIsRegularFile(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExist(actual));
-	}
+    when(nioFilesWrapper.exists(actual)).thenReturn(false);
+    try {
+      paths.assertIsRegularFile(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldExist(actual));
+    }
   }
 
   @Test
   public void should_fail_if_target_exists_but_is_not_a_regular_file() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isRegularFile(actual)).thenReturn(false);
-	try {
-	  paths.assertIsRegularFile(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeRegularFile(actual));
-	}
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isRegularFile(actual)).thenReturn(false);
+    try {
+      paths.assertIsRegularFile(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeRegularFile(actual));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_is_an_existing_regular_file() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
-	paths.assertIsRegularFile(info, actual);
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
+    paths.assertIsRegularFile(info, actual);
   }
 }

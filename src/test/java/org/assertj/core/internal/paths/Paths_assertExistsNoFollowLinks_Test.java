@@ -27,25 +27,25 @@ public class Paths_assertExistsNoFollowLinks_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertExistsNoFollowLinks(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertExistsNoFollowLinks(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_does_not_exist() {
-	when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(false);
-	try {
-	  paths.assertExistsNoFollowLinks(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExistNoFollowLinks(actual));
-	}
+    when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(false);
+    try {
+      paths.assertExistsNoFollowLinks(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldExistNoFollowLinks(actual));
+    }
   }
 
   @Test
   public void should_pass_if_actual_exists() {
-	when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(true);
-	paths.assertExistsNoFollowLinks(info, actual);
+    when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(true);
+    paths.assertExistsNoFollowLinks(info, actual);
   }
 
 }

@@ -26,7 +26,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BinaryDiff#diff(java.io.File, byte[])}</code>.
  * 

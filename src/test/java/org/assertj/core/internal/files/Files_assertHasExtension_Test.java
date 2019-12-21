@@ -39,7 +39,8 @@ public class Files_assertHasExtension_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasExtension(someInfo(), null, expectedExtension))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasExtension(someInfo(), null,
+                                                                                              expectedExtension))
                                                    .withMessage(actualIsNull());
   }
 

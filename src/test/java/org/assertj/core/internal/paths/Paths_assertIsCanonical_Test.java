@@ -30,14 +30,14 @@ public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsCanonical(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsCanonical(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_PathsException_on_io_error() throws IOException {
-	final IOException exception = new IOException();
-	when(actual.toRealPath()).thenThrow(exception);
+    final IOException exception = new IOException();
+    when(actual.toRealPath()).thenThrow(exception);
 
     assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertIsCanonical(info, actual))
                                                    .withMessage("failed to resolve actual real path")
@@ -46,20 +46,20 @@ public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_real_path_differs_from_actual() throws IOException {
-	final Path other = mock(Path.class);
-	when(actual.toRealPath()).thenReturn(other);
+    final Path other = mock(Path.class);
+    when(actual.toRealPath()).thenReturn(other);
 
-	try {
-	  paths.assertIsCanonical(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeCanonicalPath(actual));
-	}
+    try {
+      paths.assertIsCanonical(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeCanonicalPath(actual));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_real_path_is_same_as_actual() throws IOException {
-	when(actual.toRealPath()).thenReturn(actual);
-	paths.assertIsCanonical(info, actual);
+    when(actual.toRealPath()).thenReturn(actual);
+    paths.assertIsCanonical(info, actual);
   }
 }

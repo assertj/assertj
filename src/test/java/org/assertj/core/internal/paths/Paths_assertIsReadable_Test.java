@@ -26,38 +26,38 @@ public class Paths_assertIsReadable_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsReadable(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsReadable(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-	try {
-	  when(nioFilesWrapper.exists(actual)).thenReturn(false);
-	  paths.assertIsReadable(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExist(actual));
-	}
+    try {
+      when(nioFilesWrapper.exists(actual)).thenReturn(false);
+      paths.assertIsReadable(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldExist(actual));
+    }
   }
 
   @Test
   public void should_fail_if_actual_exists_but_is_not_readable() {
-	try {
-	  when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	  when(nioFilesWrapper.isReadable(actual)).thenReturn(false);
-	  paths.assertIsReadable(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeReadable(actual));
-	}
+    try {
+      when(nioFilesWrapper.exists(actual)).thenReturn(true);
+      when(nioFilesWrapper.isReadable(actual)).thenReturn(false);
+      paths.assertIsReadable(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeReadable(actual));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_exist_and_is_readable() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
-	paths.assertIsReadable(info, actual);
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
+    paths.assertIsReadable(info, actual);
   }
 
 }

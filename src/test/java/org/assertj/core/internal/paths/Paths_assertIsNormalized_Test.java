@@ -28,26 +28,26 @@ public class Paths_assertIsNormalized_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsNormalized(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsNormalized(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_normalized() {
-	when(actual.normalize()).thenReturn(mock(Path.class));
+    when(actual.normalize()).thenReturn(mock(Path.class));
 
-	try {
-	  paths.assertIsNormalized(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeNormalized(actual));
-	}
+    try {
+      paths.assertIsNormalized(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeNormalized(actual));
+    }
   }
 
   @Test
   public void should_pass_if_actual_is_normalized() {
-	when(actual.normalize()).thenReturn(actual);
+    when(actual.normalize()).thenReturn(actual);
 
-	paths.assertIsNormalized(info, actual);
+    paths.assertIsNormalized(info, actual);
   }
 }

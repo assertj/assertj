@@ -37,7 +37,6 @@ import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Files#assertHasContent(AssertionInfo, File, String, Charset)}</code>.
  * 

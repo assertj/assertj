@@ -36,15 +36,15 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 
   @BeforeEach
   public void init() {
-	super.init();
-	canonicalActual = mock(Path.class);
-	expected = mock(Path.class);
-	canonicalExpected = mock(Path.class);
+    super.init();
+    canonicalActual = mock(Path.class);
+    expected = mock(Path.class);
+    canonicalExpected = mock(Path.class);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasParent(info, null, expected))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasParent(info, null, expected))
                                                    .withMessage(actualIsNull());
   }
 
@@ -66,10 +66,10 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_expected_parent_cannot_be_canonicalized() throws IOException {
-	final IOException exception = new IOException();
+    final IOException exception = new IOException();
 
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(expected.toRealPath()).thenThrow(exception);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(expected.toRealPath()).thenThrow(exception);
 
     assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertHasParent(info, actual, expected))
                                                    .withMessage("failed to resolve argument real path")
@@ -78,44 +78,44 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_has_no_parent() throws IOException {
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(expected.toRealPath()).thenReturn(canonicalExpected);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(expected.toRealPath()).thenReturn(canonicalExpected);
 
-	// This is the default, but...
-	when(canonicalActual.getParent()).thenReturn(null);
+    // This is the default, but...
+    when(canonicalActual.getParent()).thenReturn(null);
 
-	try {
-	  paths.assertHasParent(info, actual, expected);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveParent(actual, expected));
-	}
+    try {
+      paths.assertHasParent(info, actual, expected);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveParent(actual, expected));
+    }
   }
 
   @Test
   public void should_fail_if_actual_parent_is_not_expected_parent() throws IOException {
-	final Path actualParent = mock(Path.class);
+    final Path actualParent = mock(Path.class);
 
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(expected.toRealPath()).thenReturn(canonicalExpected);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(expected.toRealPath()).thenReturn(canonicalExpected);
 
-	when(canonicalActual.getParent()).thenReturn(actualParent);
+    when(canonicalActual.getParent()).thenReturn(actualParent);
 
-	try {
-	  paths.assertHasParent(info, actual, expected);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveParent(actual, actualParent, expected));
-	}
+    try {
+      paths.assertHasParent(info, actual, expected);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveParent(actual, actualParent, expected));
+    }
   }
 
   @Test
   public void should_succeed_if_canonical_actual_has_expected_parent() throws IOException {
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(expected.toRealPath()).thenReturn(canonicalExpected);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(expected.toRealPath()).thenReturn(canonicalExpected);
 
-	when(canonicalActual.getParent()).thenReturn(canonicalExpected);
+    when(canonicalActual.getParent()).thenReturn(canonicalExpected);
 
-	paths.assertHasParent(info, actual, expected);
+    paths.assertHasParent(info, actual, expected);
   }
 }

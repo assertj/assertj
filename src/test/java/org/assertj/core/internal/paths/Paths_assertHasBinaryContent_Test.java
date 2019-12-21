@@ -49,22 +49,22 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 
   @BeforeAll
   public static void setUpOnce() {
-	// Does not matter if the values binaryDiffer, the actual comparison is mocked in this test
-	path = new File("src/test/resources/actual_file.txt").toPath();
-	expected = new byte[] { 0, 1 };
+    // Does not matter if the values binaryDiffer, the actual comparison is mocked in this test
+    path = new File("src/test/resources/actual_file.txt").toPath();
+    expected = new byte[] { 0, 1 };
   }
 
   @BeforeEach
   public void init() {
-	mockPath = mock(Path.class);
+    mockPath = mock(Path.class);
   }
-  
+
   @Test
   public void should_pass_if_path_has_expected_text_content() throws IOException {
-	when(binaryDiff.diff(path, expected)).thenReturn(noDiff());
-	when(nioFilesWrapper.exists(path)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-	paths.assertHasBinaryContent(someInfo(), path, expected);
+    when(binaryDiff.diff(path, expected)).thenReturn(noDiff());
+    when(nioFilesWrapper.exists(path)).thenReturn(true);
+    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
+    paths.assertHasBinaryContent(someInfo(), path, expected);
   }
 
   @Test
@@ -75,43 +75,43 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasBinaryContent(someInfo(), null, expected))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasBinaryContent(someInfo(), null, expected))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_path_does_not_exist() {
-	AssertionInfo info = someInfo();
-	when(nioFilesWrapper.exists(mockPath)).thenReturn(false);
-	try {
-	  paths.assertHasBinaryContent(info, mockPath, expected);
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExist(mockPath));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionInfo info = someInfo();
+    when(nioFilesWrapper.exists(mockPath)).thenReturn(false);
+    try {
+      paths.assertHasBinaryContent(info, mockPath, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldExist(mockPath));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_actual_is_not_a_readable_file() {
-	AssertionInfo info = someInfo();
-	when(nioFilesWrapper.exists(mockPath)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(mockPath)).thenReturn(false);
-	try {
-	  paths.assertHasBinaryContent(info, mockPath, expected);
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeReadable(mockPath));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionInfo info = someInfo();
+    when(nioFilesWrapper.exists(mockPath)).thenReturn(true);
+    when(nioFilesWrapper.isReadable(mockPath)).thenReturn(false);
+    try {
+      paths.assertHasBinaryContent(info, mockPath, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeReadable(mockPath));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
-  
+
   @Test
   public void should_throw_error_wrapping_caught_IOException() throws IOException {
-	IOException cause = new IOException();
-	when(binaryDiff.diff(path, expected)).thenThrow(cause);
-	when(nioFilesWrapper.exists(path)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
+    IOException cause = new IOException();
+    when(binaryDiff.diff(path, expected)).thenThrow(cause);
+    when(nioFilesWrapper.exists(path)).thenReturn(true);
+    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasBinaryContent(someInfo(),
                                                                                                         path, expected))
@@ -120,17 +120,17 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 
   @Test
   public void should_fail_if_path_does_not_have_expected_binary_content() throws IOException {
-	BinaryDiffResult binaryDiffs = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
-	when(binaryDiff.diff(path, expected)).thenReturn(binaryDiffs);
-	when(nioFilesWrapper.exists(path)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-	AssertionInfo info = someInfo();
-	try {
-	  paths.assertHasBinaryContent(info, path, expected);
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveBinaryContent(path, binaryDiffs));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    BinaryDiffResult binaryDiffs = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
+    when(binaryDiff.diff(path, expected)).thenReturn(binaryDiffs);
+    when(nioFilesWrapper.exists(path)).thenReturn(true);
+    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
+    AssertionInfo info = someInfo();
+    try {
+      paths.assertHasBinaryContent(info, path, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveBinaryContent(path, binaryDiffs));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

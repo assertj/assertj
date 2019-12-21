@@ -53,34 +53,34 @@ public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_canonical_actual_does_not_end_with_normalized_other() throws IOException {
-	final Path canonicalActual = mock(Path.class);
-	final Path normalizedOther = mock(Path.class);
+    final Path canonicalActual = mock(Path.class);
+    final Path normalizedOther = mock(Path.class);
 
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(other.normalize()).thenReturn(normalizedOther);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(other.normalize()).thenReturn(normalizedOther);
 
-	// This is the default, but...
-	when(canonicalActual.endsWith(normalizedOther)).thenReturn(false);
+    // This is the default, but...
+    when(canonicalActual.endsWith(normalizedOther)).thenReturn(false);
 
-	try {
-	  paths.assertEndsWith(info, actual, other);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldEndWith(actual, other));
-	}
+    try {
+      paths.assertEndsWith(info, actual, other);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldEndWith(actual, other));
+    }
   }
 
   @Test
   public void should_succeed_if_canonical_actual_ends_with_normalized_other() throws IOException {
-	final Path canonicalActual = mock(Path.class);
-	final Path normalizedOther = mock(Path.class);
+    final Path canonicalActual = mock(Path.class);
+    final Path normalizedOther = mock(Path.class);
 
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(other.normalize()).thenReturn(normalizedOther);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(other.normalize()).thenReturn(normalizedOther);
 
-	// We want the canonical versions to be compared, not the arguments
-	when(canonicalActual.endsWith(normalizedOther)).thenReturn(true);
+    // We want the canonical versions to be compared, not the arguments
+    when(canonicalActual.endsWith(normalizedOther)).thenReturn(true);
 
-	paths.assertEndsWith(info, actual, other);
+    paths.assertEndsWith(info, actual, other);
   }
 }

@@ -33,7 +33,6 @@ import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Files#assertHasBinaryContent(org.assertj.core.api.AssertionInfo, File, byte[])}</code>.
  * 

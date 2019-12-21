@@ -33,13 +33,13 @@ public class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
   @Override
   @BeforeEach
   public void init() {
-	super.init();
-	expectedParent = mock(Path.class);
+    super.init();
+    expectedParent = mock(Path.class);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasParentRaw(info, null, expectedParent))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasParentRaw(info, null, expectedParent))
                                                    .withMessage(actualIsNull());
   }
 
@@ -51,34 +51,34 @@ public class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_has_no_parent() {
-	// This is the default, but...
-	when(actual.getParent()).thenReturn(null);
+    // This is the default, but...
+    when(actual.getParent()).thenReturn(null);
 
-	try {
-	  paths.assertHasParentRaw(info, actual, expectedParent);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveParent(actual, expectedParent));
-	}
+    try {
+      paths.assertHasParentRaw(info, actual, expectedParent);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveParent(actual, expectedParent));
+    }
   }
 
   @Test
   public void should_fail_if_actual_parent_is_not_expected_parent() {
-	final Path actualParent = mock(Path.class);
-	when(actual.getParent()).thenReturn(actualParent);
+    final Path actualParent = mock(Path.class);
+    when(actual.getParent()).thenReturn(actualParent);
 
-	try {
-	  paths.assertHasParentRaw(info, actual, expectedParent);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveParent(actual, actualParent, expectedParent));
-	}
+    try {
+      paths.assertHasParentRaw(info, actual, expectedParent);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveParent(actual, actualParent, expectedParent));
+    }
   }
 
   @Test
   public void should_succeed_if_parent_is_expected_parent() {
-	when(actual.getParent()).thenReturn(expectedParent);
+    when(actual.getParent()).thenReturn(expectedParent);
 
-	paths.assertHasParentRaw(info, actual, expectedParent);
+    paths.assertHasParentRaw(info, actual, expectedParent);
   }
 }

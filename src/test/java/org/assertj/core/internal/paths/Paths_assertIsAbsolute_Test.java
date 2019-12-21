@@ -25,26 +25,26 @@ public class Paths_assertIsAbsolute_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsAbsolute(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsAbsolute(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_absolute() {
-	// This is the default, but make it explicit
-	when(actual.isAbsolute()).thenReturn(false);
+    // This is the default, but make it explicit
+    when(actual.isAbsolute()).thenReturn(false);
 
-	try {
-	  paths.assertIsAbsolute(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeAbsolutePath(actual));
-	}
+    try {
+      paths.assertIsAbsolute(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeAbsolutePath(actual));
+    }
   }
 
   @Test
   public void should_pass_if_actual_is_absolute() {
-	when(actual.isAbsolute()).thenReturn(true);
-	paths.assertIsAbsolute(info, actual);
+    when(actual.isAbsolute()).thenReturn(true);
+    paths.assertIsAbsolute(info, actual);
   }
 }

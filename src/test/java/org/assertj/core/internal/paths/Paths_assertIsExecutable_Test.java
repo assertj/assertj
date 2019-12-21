@@ -26,38 +26,38 @@ public class Paths_assertIsExecutable_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsExecutable(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsExecutable(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-	try {
-	  when(nioFilesWrapper.exists(actual)).thenReturn(false);
-	  paths.assertIsExecutable(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExist(actual));
-	}
+    try {
+      when(nioFilesWrapper.exists(actual)).thenReturn(false);
+      paths.assertIsExecutable(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldExist(actual));
+    }
   }
 
   @Test
   public void should_fail_if_actual_exists_but_is_not_executable() {
-	try {
-	  when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	  when(nioFilesWrapper.isExecutable(actual)).thenReturn(false);
-	  paths.assertIsExecutable(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeExecutable(actual));
-	}
+    try {
+      when(nioFilesWrapper.exists(actual)).thenReturn(true);
+      when(nioFilesWrapper.isExecutable(actual)).thenReturn(false);
+      paths.assertIsExecutable(info, actual);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeExecutable(actual));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_exist_and_is_executable() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isExecutable(actual)).thenReturn(true);
-	paths.assertIsExecutable(info, actual);
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isExecutable(actual)).thenReturn(true);
+    paths.assertIsExecutable(info, actual);
   }
 
 }

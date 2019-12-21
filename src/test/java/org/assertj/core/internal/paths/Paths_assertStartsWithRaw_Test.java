@@ -26,7 +26,7 @@ public class Paths_assertStartsWithRaw_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWithRaw(info, null, other))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWithRaw(info, null, other))
                                                    .withMessage(actualIsNull());
   }
 
@@ -38,21 +38,21 @@ public class Paths_assertStartsWithRaw_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_does_not_start_with_other() {
-	// This is the default, but let's make this explicit
-	when(actual.startsWith(other)).thenReturn(false);
+    // This is the default, but let's make this explicit
+    when(actual.startsWith(other)).thenReturn(false);
 
-	try {
-	  paths.assertStartsWithRaw(info, actual, other);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldStartWith(actual, other));
-	}
+    try {
+      paths.assertStartsWithRaw(info, actual, other);
+      wasExpectingAssertionError();
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldStartWith(actual, other));
+    }
   }
 
   @Test
   public void should_succeed_if_actual_starts_with_other() {
-	when(actual.startsWith(other)).thenReturn(true);
+    when(actual.startsWith(other)).thenReturn(true);
 
-	paths.assertStartsWithRaw(info, actual, other);
+    paths.assertStartsWithRaw(info, actual, other);
   }
 }
