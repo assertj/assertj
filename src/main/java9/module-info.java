@@ -37,6 +37,7 @@ module org.assertj.core {
   exports org.assertj.core.util.xml;
 
   requires java.instrument;
+  requires java.logging;
   // required when printThreadDump is true
   requires static java.management;
   // used for pretty print XML
