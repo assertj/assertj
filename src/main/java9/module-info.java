@@ -36,8 +36,7 @@ module org.assertj.core {
   exports org.assertj.core.util.introspection;
   exports org.assertj.core.util.xml;
 
-  requires java.instrument;
-  requires java.logging;
+  requires static java.logging;
   // required when printThreadDump is true
   requires static java.management;
   // used for pretty print XML
@@ -47,6 +46,8 @@ module org.assertj.core {
   // requires static jsr305;
   // requires static hamcrest.core;
   // requires static junit;
+  requires static net.bytebuddy;
+  requires static org.hamcrest;
   requires static org.junit.jupiter.api;
   // To throw AssertionFailedError which is IDE friendly
   requires static org.opentest4j;
