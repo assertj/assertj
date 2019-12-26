@@ -27,7 +27,6 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -2647,7 +2646,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Verifies that the actual {@code Date} has the same time as the given date, useful to compare {@link Date} and
-   * {@link Timestamp}.
+   * {@code java.sql.Timestamp}.
    * <p>
    * Example:
    * <pre><code class='java'> Date date = new Date();

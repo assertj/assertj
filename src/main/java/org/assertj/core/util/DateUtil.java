@@ -19,7 +19,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -92,7 +91,7 @@ public class DateUtil {
   }
 
   /**
-   * {@link Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
+   * {@code java.sql.Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
    * <code>2003-04-26 03:01:02.999</code>
    * @return a {@code yyyy-MM-dd HH:mm:ss.SSS} {@link DateFormat}
    */
