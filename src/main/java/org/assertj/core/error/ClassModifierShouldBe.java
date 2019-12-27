@@ -12,6 +12,11 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static java.lang.reflect.Modifier.isPrivate;
+import static java.lang.reflect.Modifier.isProtected;
+import static java.lang.reflect.Modifier.isPublic;
+
 import java.lang.reflect.Modifier;
 
 /**
@@ -21,9 +26,11 @@ import java.lang.reflect.Modifier;
  */
 public class ClassModifierShouldBe extends BasicErrorMessageFactory {
 
+  private static final String PACKAGE_PRIVATE = "package-private";
+
   private ClassModifierShouldBe(Class<?> actual, boolean positive, String modifier) {
     super("%nExpecting:%n  <%s>%n" + (positive ? "to" : "not to") + " be a %s class but was %s.",
-          actual, modifier, Modifier.toString(actual.getModifiers()));
+          actual, modifier, modifiers(actual));
   }
 
   /**
@@ -73,7 +80,14 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBePackagePrivate(Class<?> actual) {
-    return new ClassModifierShouldBe(actual, true, "package-private");
+    return new ClassModifierShouldBe(actual, true, PACKAGE_PRIVATE);
+  }
+
+  private static String modifiers(Class<?> actual) {
+    int modifiers = actual.getModifiers();
+    boolean isPackagePrivate = !isPublic(modifiers) && !isProtected(modifiers) && !isPrivate(modifiers);
+    String modifiersDescription = Modifier.toString(modifiers);
+    return isPackagePrivate ? format("%s %s", PACKAGE_PRIVATE, modifiersDescription) : modifiersDescription;
   }
 
 }
