@@ -2065,7 +2065,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * Defaults date format are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@code java.sql.Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link java.sql.Timestamp} String representation support)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>

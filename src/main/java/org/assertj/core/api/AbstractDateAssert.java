@@ -2646,7 +2646,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Verifies that the actual {@code Date} has the same time as the given date, useful to compare {@link Date} and
-   * {@code java.sql.Timestamp}.
+   * {@link java.sql.Timestamp}.
    * <p>
    * Example:
    * <pre><code class='java'> Date date = new Date();

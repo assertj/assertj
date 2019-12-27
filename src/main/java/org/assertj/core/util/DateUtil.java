@@ -91,7 +91,7 @@ public class DateUtil {
   }
 
   /**
-   * {@code java.sql.Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
+   * {@link java.sql.Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
    * <code>2003-04-26 03:01:02.999</code>
    * @return a {@code yyyy-MM-dd HH:mm:ss.SSS} {@link DateFormat}
    */
