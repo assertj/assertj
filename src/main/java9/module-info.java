@@ -17,6 +17,7 @@ module org.assertj.core {
   exports org.assertj.core.api.exception;
   exports org.assertj.core.api.filter;
   exports org.assertj.core.api.iterable;
+  exports org.assertj.core.api.junit.jupiter;
   exports org.assertj.core.api.recursive.comparison;
   exports org.assertj.core.condition;
   exports org.assertj.core.configuration;
@@ -44,8 +45,8 @@ module org.assertj.core {
   // these lines are commented to avoid this compilation warning
   // Required filename-based automodules detected. Please don't publish this project to a public artifact repository!
   // requires static jsr305;
-  // requires static hamcrest.core;
   // requires static junit;
+
   requires static net.bytebuddy;
   requires static org.hamcrest;
   requires static org.junit.jupiter.api;
