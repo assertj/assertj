@@ -14,6 +14,7 @@ package org.assertj.core.api.double_;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
@@ -61,30 +62,26 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
   public void should_fail_with_non_zero() {
     // GIVEN
     final double notZero = 1.0;
-    try {
-      // WHEN
-      assertThat(notZero).isZero();
-    } catch (AssertionError e) {
-      // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <1.0>%nto be equal to:%n <0.0>%nbut was not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(notZero).isZero());
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n <1.0>%nto be equal to:%n <0.0>%nbut was not."));
   }
 
   @Test
   public void should_fail_with_Double_negative_zero() {
     // GIVEN
     final Double negativeZero = -0.0;
-    try {
-      // WHEN
-      assertThat(negativeZero).isZero();
-    } catch (AssertionError e) {
-      // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <-0.0>%nto be equal to:%n <0.0>%nbut was not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(negativeZero).isZero());
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n <-0.0>%nto be equal to:%n <0.0>%nbut was not."));
   }
 
 }
