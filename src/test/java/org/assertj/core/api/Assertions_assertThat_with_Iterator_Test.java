@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -108,13 +108,10 @@ public class Assertions_assertThat_with_Iterator_Test {
   @Test
   public void isNotExactlyInstanceOf_should_check_the_original_iterator() {
     assertThat(stringIterator).isNotExactlyInstanceOf(Iterator.class);
-    try {
-      assertThat(stringIterator).isNotExactlyInstanceOf(StringIterator.class);
-    } catch (AssertionError e) {
-      // ok
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> assertThat(stringIterator).isNotExactlyInstanceOf(StringIterator.class));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
   }
 
   @Test
