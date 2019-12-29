@@ -12,7 +12,9 @@
  */
 package org.assertj.core.internal.conditions;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotHave.shouldNotHave;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -50,12 +52,10 @@ public class Conditions_assertDoesNotHave_Test extends ConditionsBaseTest {
   public void should_fail_if_Condition_is_met() {
     condition.shouldMatch(true);
     AssertionInfo info = someInfo();
-    try {
-      conditions.assertDoesNotHave(info, actual, condition);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHave(actual, condition));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> conditions.assertDoesNotHave(info, actual, condition));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotHave(actual, condition));
   }
 }
