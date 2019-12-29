@@ -14,6 +14,7 @@ package org.assertj.core.api.float_;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatAssert;
@@ -50,45 +51,39 @@ public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
   public void should_fail_with_primitive_negative_zero() {
     // GIVEN
     final float negativeZero = -0.0f;
-    try {
-      // WHEN
-      assertThat(negativeZero).isNotZero();
-    } catch (AssertionError e) {
-      // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <-0.0f>%nnot to be equal to:%n <0.0>%n"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(negativeZero).isNotZero());
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n <-0.0f>%nnot to be equal to:%n <0.0>%n"));
   }
 
   @Test
   public void should_fail_with_primitive_positive_zero() {
     // GIVEN
     final float positiveZero = 0.0f;
-    try {
-      // WHEN
-      assertThat(positiveZero).isNotZero();
-    } catch (AssertionError e) {
-      // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0>%n"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(positiveZero).isNotZero());
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0>%n"));
   }
 
   @Test
   public void should_fail_with_Float_positive_zero() {
     // GIVEN
     final Float positiveZero = 0.0f;
-    try {
-      // WHEN
-      assertThat(positiveZero).isNotZero();
-    } catch (AssertionError e) {
-      // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(positiveZero).isNotZero());
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
   }
 
 }
