@@ -13,10 +13,11 @@
 package org.assertj.core.internal.booleans;
 
 import static java.lang.Boolean.TRUE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -50,12 +51,10 @@ public class Booleans_assertNotEqual_Test extends BooleansBaseTest {
   @Test
   public void should_fail_if_bytes_are_equal() {
     AssertionInfo info = someInfo();
-    try {
-      booleans.assertNotEqual(info, TRUE, true);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(TRUE, true));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> booleans.assertNotEqual(info, TRUE, true));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(TRUE, true));
   }
 }
