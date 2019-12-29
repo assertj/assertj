@@ -14,6 +14,7 @@ package org.assertj.core.api.atomic.referencearray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -157,43 +158,45 @@ public class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
 
   @Test
   public void failed_isEqualTo_assertion_using_field_by_field_element_comparator() {
+    // GIVEN
     Foo[] array1 = array(new Foo("id", 1));
     Foo[] array2 = array(new Foo("id", 2));
-    try {
-      assertThat(array1).usingFieldByFieldElementComparator().isEqualTo(array2);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n"
-                                      + " <[Foo(id=id, bar=1)]>%n"
-                                      + "to be equal to:%n"
-                                      + " <[Foo(id=id, bar=2)]>%n"
-                                      + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
-                                      + "Comparators used:%n"
-                                      + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
-                                      + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
-                                      + "but was not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(array1).usingFieldByFieldElementComparator().isEqualTo(array2));
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n"
+                          + " <[Foo(id=id, bar=1)]>%n"
+                          + "to be equal to:%n"
+                          + " <[Foo(id=id, bar=2)]>%n"
+                          + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
+                          + "Comparators used:%n"
+                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                          + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                          + "but was not."));
   }
 
   @Test
   public void failed_isIn_assertion_using_field_by_field_element_comparator() {
+    // GIVEN
     AtomicReferenceArray<Foo> array1 = atomicArrayOf(new Foo("id", 1));
     Foo[] array2 = array(new Foo("id", 2));
-    try {
-      assertThat(array1).usingFieldByFieldElementComparator().isIn(array2, array2);
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n"
-                                      + " <[Foo(id=id, bar=1)]>%n"
-                                      + "to be in:%n"
-                                      + " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n"
-                                      + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
-                                      + "Comparators used:%n"
-                                      + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
-                                      + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(array1).usingFieldByFieldElementComparator().isIn(array2, array2));
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n"
+                          + " <[Foo(id=id, bar=1)]>%n"
+                          + "to be in:%n"
+                          + " <[[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]>%n"
+                          + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
+                          + "Comparators used:%n"
+                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                          + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
   }
 
   @Test
