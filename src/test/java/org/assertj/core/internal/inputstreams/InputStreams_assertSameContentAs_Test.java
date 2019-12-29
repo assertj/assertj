@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.inputstreams;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.mock;
@@ -77,12 +78,10 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
     List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();
-    try {
-      inputStreams.assertSameContentAs(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameContent(actual, expected, diffs));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> inputStreams.assertSameContentAs(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveSameContent(actual, expected, diffs));
   }
 }
