@@ -44,7 +44,6 @@ module org.assertj.core {
   requires static java.xml;
   // these lines are commented to avoid this compilation warning
   // Required filename-based automodules detected. Please don't publish this project to a public artifact repository!
-  // requires static jsr305;
   // requires static junit;
 
   requires static net.bytebuddy;

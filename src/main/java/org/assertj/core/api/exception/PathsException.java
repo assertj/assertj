@@ -12,12 +12,10 @@
  */
 package org.assertj.core.api.exception;
 
-import org.assertj.core.annotations.Nullable;
-
 public final class PathsException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
-  public PathsException(final String message, @Nullable final Throwable cause) {
+  public PathsException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }
