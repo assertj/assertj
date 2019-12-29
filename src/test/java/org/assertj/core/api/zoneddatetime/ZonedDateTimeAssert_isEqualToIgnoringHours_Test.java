@@ -18,6 +18,7 @@ import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PA
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZoneId;
@@ -43,14 +44,14 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 5, 0, 0, 0, cestTimeZone));
     // new DateTime(2013, 6, 11, 1, 0, cestTimeZone) = DateTime(2013, 6, 10, 23, 0, DateTimeZone.UTC)
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 11, 1, 0, 0, 0, cestTimeZone));
-    try {
-      // DateTime(2013, 6, 10, 0, 0, cestTimeZone) = DateTime(2013, 6, 9, 22, 0, DateTimeZone.UTC)
-      assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n  <2013-06-10T00:00Z>%nto have same year, month and day as:%n  <2013-06-09T22:00Z>%nbut had not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // DateTime(2013, 6, 10, 0, 0, cestTimeZone) = DateTime(2013, 6, 9, 22, 0, DateTimeZone.UTC)
+    Throwable error = catchThrowable(() -> assertThat(utcDateTime)
+      .isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone)));
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n  <2013-06-10T00:00Z>%nto have same year, month and day as:%n  <2013-06-09T22:00Z>%nbut had not."));
   }
 
   @Test
