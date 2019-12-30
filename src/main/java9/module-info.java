@@ -28,7 +28,6 @@ module org.assertj.core {
   exports org.assertj.core.error.uri;
   exports org.assertj.core.extractor;
   exports org.assertj.core.groups;
-  exports org.assertj.core.internal;
   exports org.assertj.core.matcher;
   exports org.assertj.core.presentation;
   exports org.assertj.core.util;
