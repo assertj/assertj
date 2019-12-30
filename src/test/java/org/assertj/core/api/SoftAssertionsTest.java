@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,6 +38,7 @@ import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.Name.lastNameComparator;
 import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -64,6 +66,7 @@ import java.util.OptionalLong;
 import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -423,7 +426,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                                  + "not to have a port but had:%n"
                                                  + "  <80>"));
       assertThat(errors.get(53)).contains(format("%nExpecting Duration:%n"
-                                                 + " <PT10H>%n"
+                                                 + " <10H>%n"
                                                  + "to have 5L hours but had 10L"));
     }
   }
@@ -822,6 +825,33 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     assertThat(softly.errorsCollected()).hasSize(1);
     assertThat(softly.errorsCollected().get(0)).hasMessageContaining("cancelled");
+  }
+
+  @Test
+  public void should_not_collect_AssertionError_from_CompletableFuture_succeedsWithin() {
+    // GIVEN
+    CompletableFuture<String> future = new CompletableFuture<>();
+    future.cancel(false);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, MILLISECONDS));
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
+    assertThat(assertionError).hasMessageContaining("Cancelled");
+  }
+
+  @Test
+  public void should_only_collect_error_from_chained_assertions_performed_after_succeedsWithin() {
+    // GIVEN
+    CompletableFuture<String> completableFuture = completedFuture("done");
+    // WHEN
+    softly.assertThat(completableFuture)
+          .succeedsWithin(10, TimeUnit.MILLISECONDS)
+          .isEqualTo("not done")
+          .isEqualTo("not ok");
+    // THEN
+    assertThat(softly.errorsCollected()).hasSize(2);
+    assertThat(softly.errorsCollected().get(0)).hasMessageContaining("not done");
+    assertThat(softly.errorsCollected().get(1)).hasMessageContaining("not ok");
   }
 
   @Test

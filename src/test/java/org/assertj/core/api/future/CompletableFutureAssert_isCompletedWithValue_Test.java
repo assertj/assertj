@@ -73,8 +73,7 @@ public class CompletableFutureAssert_isCompletedWithValue_Test extends BaseTest 
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("done"));
     // THEN
-    assertThat(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
-                              .hasMessageContaining("Caused by: java.lang.RuntimeException")
+    assertThat(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException"))
                               .hasMessageEndingWith("to be completed.%n%s", WARNING);
 
   }

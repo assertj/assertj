@@ -87,8 +87,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test extends B
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
-                              .hasMessageContaining("Caused by: java.lang.RuntimeException")
+    assertThat(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException"))
                               .hasMessageEndingWith("to be completed.%n%s", WARNING);
 
   }

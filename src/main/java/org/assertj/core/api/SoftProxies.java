@@ -55,7 +55,8 @@ class SoftProxies {
                                                                                                                       .or(named("extractingByKeys"))
                                                                                                                       .or(named("extractingFromEntries"))
                                                                                                                       .or(named("get"))
-                                                                                                                      .or(named("asInstanceOf"));
+                                                                                                                      .or(named("asInstanceOf"))
+                                                                                                                      .or(named("succeedsWithin"));
 
   private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
                                                                                             .or(named("describedAs"))
@@ -78,7 +79,8 @@ class SoftProxies {
                                                                                             .or(named("withAssertionState"))
                                                                                             .or(named("withRepresentation"))
                                                                                             .or(named("withTypeComparators"))
-                                                                                            .or(named("withThreadDumpOnError"));
+                                                                                            .or(named("withThreadDumpOnError"))
+                                                                                            .or(named("succeedsWithin"));
 
   private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(new AuxiliaryType.NamingStrategy.SuffixingRandom("AssertJ$SoftProxies"))
                                                              .with(TypeValidation.DISABLED);

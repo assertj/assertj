@@ -12,6 +12,7 @@
  */
 package org.assertj.core.presentation;
 
+import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -38,8 +39,7 @@ public class StandardRepresentation_format_CompletableFuture_Test {
   public void should_format_failed_future() {
     CompletableFuture<Object> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException("some random error"));
-    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).startsWith(String.format("CompletableFuture[Failed: java.lang.RuntimeException: some random error]%n"))
-                                                          .contains("Caused by: java.lang.RuntimeException: some random error");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).startsWith(format("CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: some random error"));
   }
 
   @Test
@@ -55,7 +55,7 @@ public class StandardRepresentation_format_CompletableFuture_Test {
     future.complete(future);
     assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Completed: " + future + "]");
   }
-  
+
   @Test
   public void should_not_stack_overflow_when_formatting_future_with_reference_cycle() {
     CompletableFuture<CompletableFuture<?>> future1 = new CompletableFuture<>();

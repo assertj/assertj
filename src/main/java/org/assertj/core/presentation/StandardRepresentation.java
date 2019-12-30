@@ -26,6 +26,7 @@ import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -166,6 +167,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
+    if (object instanceof Duration) return toStringOf((Duration) object);
     if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
     if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
     if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
@@ -387,6 +389,10 @@ public class StandardRepresentation implements Representation {
   private String toStringOf(InsertDelta<?> insertDelta) {
     return String.format("Extra content at line %s:%n  %s%n", insertDelta.lineNumber(),
                          formatLines(insertDelta.getRevised().getLines()));
+  }
+
+  private String toStringOf(Duration duration) {
+    return duration.toString().substring(2);
   }
 
   private String formatLines(List<?> lines) {

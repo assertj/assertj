@@ -152,9 +152,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws AssertionError with a message corresponding to the given {@link BasicErrorMessageFactory}.
    */
   protected void throwAssertionError(ErrorMessageFactory errorMessageFactory) {
+    AssertionError failure = assertionError(errorMessageFactory);
+    throw failure;
+  }
+
+  protected AssertionError assertionError(ErrorMessageFactory errorMessageFactory) {
     AssertionError failure = Failures.instance().failure(info, errorMessageFactory);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(failure);
-    throw failure;
+    return failure;
   }
 
   private void removeCustomAssertRelatedElementsFromStackTraceIfNeeded(AssertionError assertionError) {
