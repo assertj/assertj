@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -52,13 +53,11 @@ public class Urls_assertHasPath_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://example.com/pages/");
     String expectedPath = "/news/";
-    try {
-      urls.assertHasPath(info, url, expectedPath);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHavePath(url, expectedPath));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasPath(info, url, expectedPath));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHavePath(url, expectedPath));
   }
 
   @Test
@@ -66,12 +65,10 @@ public class Urls_assertHasPath_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://example.com");
     String expectedPath = "/news";
-    try {
-      urls.assertHasPath(info, url, expectedPath);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHavePath(url, expectedPath));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasPath(info, url, expectedPath));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHavePath(url, expectedPath));
   }
 }

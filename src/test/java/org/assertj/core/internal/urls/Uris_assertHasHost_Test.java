@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -48,12 +49,10 @@ public class Uris_assertHasHost_Test extends UrisBaseTest {
     AssertionInfo info = someInfo();
     URI uri = URI.create("http://example.com/pages/");
     String expectedHost = "example.org";
-    try {
-      uris.assertHasHost(info, uri, expectedHost);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveHost(uri, expectedHost));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> uris.assertHasHost(info, uri, expectedHost));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveHost(uri, expectedHost));
   }
 }

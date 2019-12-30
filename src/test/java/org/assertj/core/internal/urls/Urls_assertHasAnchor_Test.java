@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -50,13 +51,11 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://example.com/index.html#print");
     String expectedAnchor = "foo";
-    try {
-      urls.assertHasAnchor(info, url, expectedAnchor);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
   }
 
   @Test
@@ -64,13 +63,11 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://example.com/index.html");
     String expectedAnchor = "print";
-    try {
-      urls.assertHasAnchor(info, url, expectedAnchor);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
   }
 
   @Test
@@ -78,13 +75,11 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://example.com/index.html#print");
     String expectedAnchor = null;
-    try {
-      urls.assertHasAnchor(info, url, expectedAnchor);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
   }
 
   @Test

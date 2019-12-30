@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -44,13 +45,11 @@ public class Urls_assertHasProtocol_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://example.com/pages/");
     String expectedProtocol = "ftp";
-    try {
-      urls.assertHasProtocol(info, url, expectedProtocol);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveProtocol(url, expectedProtocol));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasProtocol(info, url, expectedProtocol));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveProtocol(url, expectedProtocol));
   }
 
 }

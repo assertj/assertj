@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -38,14 +39,10 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList((String)null);
 
-    try {
-      uris.assertHasNoParameter(info, uri, name);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValues));
   }
 
   @Test
@@ -54,14 +51,10 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String name = "article";
     List<String> actualValue = newArrayList("10");
 
-    try {
-      uris.assertHasNoParameter(info, uri, name);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValue));
-      return;
-    }
+    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValue));
   }
 
   @Test
@@ -70,14 +63,10 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList(null, "10");
 
-    try {
-      uris.assertHasNoParameter(info, uri, name);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValues));
   }
 
   @Test
@@ -92,14 +81,10 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList((String)null);
 
-    try {
-      uris.assertHasNoParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValues));
   }
 
   @Test
@@ -129,14 +114,10 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String expectedValue = "10";
     List<String> actualValue = newArrayList("10");
 
-    try {
-      uris.assertHasNoParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValue));
-      return;
-    }
+    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValue));
   }
 
   @Test
@@ -148,27 +129,19 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   public void should_fail_if_uri_has_some_parameters() {
     URI uri = URI.create("http://assertj.org/news?article=10&locked=false");
 
-    try {
-      uris.assertHasNoParameters(info, uri);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameters(uri, newLinkedHashSet("article", "locked")));
-      return;
-    }
+    Throwable error = catchThrowable(() -> uris.assertHasNoParameters(info, uri));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameters(uri, newLinkedHashSet("article", "locked")));
   }
 
   @Test
   public void should_fail_if_uri_has_one_parameter() {
     URI uri = URI.create("http://assertj.org/news?article=10");
 
-    try {
-      uris.assertHasNoParameters(info, uri);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameters(uri, newLinkedHashSet("article")));
-      return;
-    }
+    Throwable error = catchThrowable(() -> uris.assertHasNoParameters(info, uri));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameters(uri, newLinkedHashSet("article")));
   }
 }

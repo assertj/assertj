@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -49,13 +50,11 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://test:pass@assertj.org/news");
     String expectedUserInfo = "test:ok";
-    try {
-      urls.assertHasUserInfo(info, url, expectedUserInfo);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
   }
 
   @Test
@@ -64,13 +63,11 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://assertj.org/news");
     String expectedUserInfo = "test:pass";
-    try {
-      urls.assertHasUserInfo(info, url, expectedUserInfo);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
   }
 
   @Test
@@ -78,13 +75,11 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
     AssertionInfo info = someInfo();
     URL url = new URL("http://test:pass@assertj.org");
     String expectedUserInfo = null;
-    try {
-      urls.assertHasUserInfo(info, url, expectedUserInfo);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
   }
 
 }
