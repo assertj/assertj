@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.throwables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -58,38 +59,32 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
   public void should_fail_if_actual_has_no_cause() {
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
-    try {
-      throwables.assertHasCauseExactlyInstanceOf(info, actual, expectedCauseType);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCauseExactlyInstance(actual, expectedCauseType));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }  
+
+    Throwable error = catchThrowable(() -> throwables.assertHasCauseExactlyInstanceOf(info, actual, expectedCauseType));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveCauseExactlyInstance(actual, expectedCauseType));
+  }
 
   @Test
   public void should_fail_if_cause_is_not_instance_of_expected_type() {
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
-    try {
-      throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
   }
 
   @Test
   public void should_fail_if_cause_is_not_exactly_instance_of_expected_type() {
     AssertionInfo info = someInfo();
     Class<RuntimeException> expectedCauseType = RuntimeException.class;
-    try {
-      throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
   }
 }
