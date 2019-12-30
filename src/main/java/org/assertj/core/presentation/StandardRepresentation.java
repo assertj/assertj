@@ -97,7 +97,6 @@ public class StandardRepresentation implements Representation {
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
 
-
   /**
    * It resets the static defaults for the standard representation.
    * <p>
@@ -311,7 +310,9 @@ public class StandardRepresentation implements Representation {
       Object joinResultRepresentation = joinResult instanceof CompletableFuture ? joinResult : toStringOf(joinResult);
       return concat(className, "[Completed: ", joinResultRepresentation, "]");
     } catch (CompletionException e) {
-      return concat(className, "[Failed: ", toStringOf(e.getCause()), "]", String.format("%n%s", getStackTrace(e)));
+      // get the stack trace of the cause (if any) to avoid polluting it with the exception from trying to join the future
+      String stackTrace = e.getCause() != null ? getStackTrace(e.getCause()) : getStackTrace(e);
+      return concat(className, "[Failed with the following stack trace:", String.format("%n%s", stackTrace), "]");
     } catch (CancellationException e) {
       return concat(className, "[Cancelled]");
     }

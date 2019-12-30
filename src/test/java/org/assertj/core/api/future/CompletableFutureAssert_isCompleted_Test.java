@@ -61,12 +61,11 @@ public class CompletableFutureAssert_isCompleted_Test extends BaseTest {
   public void should_fail_if_completable_future_has_failed() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
-    future.completeExceptionally(new RuntimeException());
+    future.completeExceptionally(new RuntimeException("boom!"));
     // WHEN
     ThrowingCallable code = () -> assertThat(future).isCompleted();
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
-                                            .withMessageContaining("Caused by: java.lang.RuntimeException")
+    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom!"))
                                             .withMessageEndingWith("to be completed.%n%s", WARNING);
   }
 
