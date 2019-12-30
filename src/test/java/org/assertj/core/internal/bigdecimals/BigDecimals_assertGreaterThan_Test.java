@@ -13,10 +13,11 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -51,37 +52,31 @@ public class BigDecimals_assertGreaterThan_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertGreaterThan(info, TEN, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(TEN, TEN));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertGreaterThan(info, TEN, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(TEN, TEN));
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_by_comparison() {
-	AssertionInfo info = someInfo();
-	try {
-	  numbers.assertGreaterThan(info, TEN, new BigDecimal("10.00"));
-	} catch (AssertionError e) {
+	  AssertionInfo info = someInfo();
+
+    Throwable error = catchThrowable(() -> numbers.assertGreaterThan(info, TEN, new BigDecimal("10.00")));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
 	  verify(failures).failure(info, shouldBeGreater(TEN, new BigDecimal("10.00")));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
   }
   
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertGreaterThan(info, ONE, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(ONE, TEN));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertGreaterThan(info, ONE, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(ONE, TEN));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -96,25 +91,21 @@ public class BigDecimals_assertGreaterThan_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(TEN.negate(), TEN, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(TEN.negate(), TEN, absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate());
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(ONE, TEN.negate(), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(ONE, TEN.negate(), absValueComparisonStrategy));
   }
 
 }

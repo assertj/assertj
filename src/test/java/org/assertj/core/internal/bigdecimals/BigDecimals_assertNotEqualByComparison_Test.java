@@ -13,10 +13,11 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -51,13 +52,11 @@ public class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBase
   @Test
   public void should_fail_if_big_decimals_are_equal_by_comparison() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE));
   }
 
   @Test
@@ -74,12 +73,10 @@ public class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBase
   @Test
   public void should_fail_if_big_decimals_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE));
   }
 }
