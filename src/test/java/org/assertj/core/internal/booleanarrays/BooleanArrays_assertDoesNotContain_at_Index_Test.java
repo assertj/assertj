@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someIndex;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -73,12 +74,10 @@ public class BooleanArrays_assertDoesNotContain_at_Index_Test extends BooleanArr
     AssertionInfo info = someInfo();
     boolean value = true;
     Index index = atIndex(0);
-    try {
-      arrays.assertDoesNotContain(info, actual, value, index);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainAtIndex(actual, value, index));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, value, index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainAtIndex(actual, value, index));
   }
 }
