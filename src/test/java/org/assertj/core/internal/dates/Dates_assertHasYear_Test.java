@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -40,13 +41,11 @@ public class Dates_assertHasYear_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_year() {
     AssertionInfo info = someInfo();
     int year = 2010;
-    try {
-      dates.assertHasYear(info, actual, year);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "year", year));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertHasYear(info, actual, year));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "year", year));
   }
 
   @Test
@@ -64,13 +63,11 @@ public class Dates_assertHasYear_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_year_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int year = 2010;
-    try {
-      datesWithCustomComparisonStrategy.assertHasYear(info, actual, year);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "year", year));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertHasYear(info, actual, year));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "year", year));
   }
 
   @Test

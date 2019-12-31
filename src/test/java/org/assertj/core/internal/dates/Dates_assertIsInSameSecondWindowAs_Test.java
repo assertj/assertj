@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSecondWindow;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -53,26 +54,22 @@ public class Dates_assertIsInSameSecondWindowAs_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_in_same_second_as_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:15:02");
-    try {
-      dates.assertIsInSameSecondWindowAs(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameSecondWindow(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsInSameSecondWindowAs(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInSameSecondWindow(actual, other));
   }
 
   @Test
   public void should_fail_if_actual_if_dates_time_difference_is_exactly_one_second() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:15:06");
-    try {
-      dates.assertIsInSameSecondWindowAs(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameSecondWindow(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsInSameSecondWindowAs(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInSameSecondWindow(actual, other));
   }
 
   @Test
@@ -91,13 +88,11 @@ public class Dates_assertIsInSameSecondWindowAs_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_in_same_second_as_given_date_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:15:02");
-    try {
-      datesWithCustomComparisonStrategy.assertIsInSameSecondWindowAs(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameSecondWindow(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInSameSecondWindowAs(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInSameSecondWindow(actual, other));
   }
 
   @Test

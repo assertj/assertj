@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -40,13 +41,11 @@ public class Dates_assertHasDayOfMonth_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_day_of_month() {
     AssertionInfo info = someInfo();
     int day_of_month = 5;
-    try {
-      dates.assertHasDayOfMonth(info, actual, day_of_month);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "day of month", day_of_month));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertHasDayOfMonth(info, actual, day_of_month));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "day of month", day_of_month));
   }
 
   @Test
@@ -64,13 +63,11 @@ public class Dates_assertHasDayOfMonth_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_day_of_month_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int day_of_month = 5;
-    try {
-      datesWithCustomComparisonStrategy.assertHasDayOfMonth(info, actual, day_of_month);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "day of month", day_of_month));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertHasDayOfMonth(info, actual, day_of_month));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "day of month", day_of_month));
   }
 
   @Test

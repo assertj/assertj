@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeInSameMinuteWindow.shouldBeInSameMinuteWindow;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -51,26 +52,22 @@ public class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_exactly_one_minute_away_from_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:16:00");
-    try {
-      dates.assertIsInSameMinuteWindowAs(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameMinuteWindow(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsInSameMinuteWindowAs(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInSameMinuteWindow(actual, other));
   }
 
   @Test
   public void should_fail_if_actual_is_not_in_same_minute_window_as_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:16:01");
-    try {
-      dates.assertIsInSameMinuteWindowAs(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameMinuteWindow(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsInSameMinuteWindowAs(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInSameMinuteWindow(actual, other));
   }
 
   @Test
@@ -90,13 +87,11 @@ public class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
     () {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:13:59");
-    try {
-      datesWithCustomComparisonStrategy.assertIsInSameMinuteWindowAs(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameMinuteWindow(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInSameMinuteWindowAs(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInSameMinuteWindow(actual, other));
   }
 
   @Test

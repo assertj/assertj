@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.DateUtil.*;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -40,14 +41,12 @@ public class Dates_assertIsToday_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_not_today() {
     AssertionInfo info = someInfo();
-    try {
-      actual = parseDate("2111-01-01");
-      dates.assertIsToday(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeToday(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = parseDate("2111-01-01");
+
+    Throwable error = catchThrowable(() -> dates.assertIsToday(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeToday(actual));
   }
 
   @Test
@@ -64,14 +63,12 @@ public class Dates_assertIsToday_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_not_today_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      actual = parseDate("2111-01-01");
-      datesWithCustomComparisonStrategy.assertIsToday(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeToday(actual, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = parseDate("2111-01-01");
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsToday(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeToday(actual, yearAndMonthComparisonStrategy));
   }
 
   @Test

@@ -13,10 +13,11 @@
 package org.assertj.core.internal.dates;
 
 import static java.util.Calendar.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -41,13 +42,11 @@ public class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_day_of_week() {
     AssertionInfo info = someInfo();
     int day_of_week = SUNDAY;
-    try {
-      dates.assertHasDayOfWeek(info, actual, day_of_week);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "day of week", day_of_week));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertHasDayOfWeek(info, actual, day_of_week));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "day of week", day_of_week));
   }
 
   @Test
@@ -65,13 +64,11 @@ public class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_day_of_week_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int day_of_week = SUNDAY;
-    try {
-      datesWithCustomComparisonStrategy.assertHasDayOfWeek(info, actual, day_of_week);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "day of week", day_of_week));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertHasDayOfWeek(info, actual, day_of_week));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "day of week", day_of_week));
   }
 
   @Test
