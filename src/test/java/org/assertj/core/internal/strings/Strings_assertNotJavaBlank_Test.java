@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
@@ -53,13 +54,10 @@ public class Strings_assertNotJavaBlank_Test extends StringsBaseTest {
   @ParameterizedTest
   @MethodSource("blank")
   public void should_fail_if_string_is_blank(String actual) {
-    try {
-      strings.assertNotJavaBlank(someInfo(), actual);
-    } catch (AssertionError expectedAssertionError) {
-      verifyFailureThrownWhenStringIsBank(someInfo(), actual);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> strings.assertNotJavaBlank(someInfo(), actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringIsBank(someInfo(), actual);
   }
 
   private void verifyFailureThrownWhenStringIsBank(AssertionInfo info, String actual) {
