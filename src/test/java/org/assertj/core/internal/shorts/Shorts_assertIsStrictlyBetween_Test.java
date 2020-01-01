@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.shorts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -65,37 +66,31 @@ public class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
-    try {
-        shorts.assertIsStrictlyBetween(info, ONE, ONE, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shorts.assertIsStrictlyBetween(info, ONE, ONE, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
-    try {
-      shorts.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shorts.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
   }
 
   @Test
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
-    try {
-        shorts.assertIsStrictlyBetween(info, ONE, TWO, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, false, false));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shorts.assertIsStrictlyBetween(info, ONE, TWO, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, false, false));
   }
 
   @Test

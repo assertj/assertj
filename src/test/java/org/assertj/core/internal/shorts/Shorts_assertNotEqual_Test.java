@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.shorts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -49,13 +50,11 @@ public class Shorts_assertNotEqual_Test extends ShortsBaseTest {
   @Test
   public void should_fail_if_shorts_are_equal() {
     AssertionInfo info = someInfo();
-    try {
-      shorts.assertNotEqual(info, (short) 6, (short) 6);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual((short) 6, (short) 6));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shorts.assertNotEqual(info, (short) 6, (short) 6));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual((short) 6, (short) 6));
   }
 
   @Test
@@ -72,12 +71,10 @@ public class Shorts_assertNotEqual_Test extends ShortsBaseTest {
   @Test
   public void should_fail_if_shorts_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      shortsWithAbsValueComparisonStrategy.assertNotEqual(info, (short) 6, (short) -6);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual((short) 6, (short) -6, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertNotEqual(info, (short) 6, (short) -6));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual((short) 6, (short) -6, absValueComparisonStrategy));
   }
 }
