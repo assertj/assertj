@@ -13,11 +13,11 @@
 package org.assertj.core.data;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * A positive percentage value.
@@ -36,7 +36,7 @@ public class Percentage {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withPercentage(double value) {
-    checkNotNull(value);
+    requireNonNull(value);
     checkArgument(value >= 0, "The percentage value <%s> should be greater than or equal to zero", value);
     return new Percentage(value);
   }

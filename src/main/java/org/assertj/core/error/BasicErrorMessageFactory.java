@@ -13,12 +13,12 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.quote;
 
 import java.util.Arrays;
@@ -48,7 +48,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
     private final String string;
 
     private UnquotedString(String string) {
-      this.string = checkNotNull(string, "string is mandatory");
+      this.string = requireNonNull(string, "string is mandatory");
     }
 
     @Override

@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldHaveLineCount.shouldHaveLinesCount;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -28,7 +29,6 @@ import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIs
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.util.IterableUtil.sizeOf;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.Map;
@@ -49,22 +49,22 @@ public final class CommonValidations {
   private CommonValidations() {}
 
   static void checkIndexValueIsValid(Index index, int maximum) {
-    checkNotNull(index, "Index should not be null");
+    requireNonNull(index, "Index should not be null");
     if (index.value <= maximum) return;
     String errorMessage = "Index should be between <0> and <%d> (inclusive) but was:%n <%d>";
     throw new IndexOutOfBoundsException(format(errorMessage, maximum, index.value));
   }
 
   static void checkOffsetIsNotNull(Offset<?> offset) {
-    checkNotNull(offset, "The given offset should not be null");
+    requireNonNull(offset, "The given offset should not be null");
   }
 
   static void checkPercentageIsNotNull(Percentage percentage) {
-    checkNotNull(percentage, "The given percentage should not be null");
+    requireNonNull(percentage, "The given percentage should not be null");
   }
 
   static void checkNumberIsNotNull(Number number) {
-    checkNotNull(number, "The given number should not be null");
+    requireNonNull(number, "The given number should not be null");
   }
 
   static void checkIsNotEmpty(Object[] values) {
@@ -113,7 +113,7 @@ public final class CommonValidations {
   }
 
   static void checkOtherIsNotNull(Object other, String otherType) {
-    checkNotNull(other, "The "+ otherType +" to compare actual size with should not be null");
+    requireNonNull(other, "The "+ otherType +" to compare actual size with should not be null");
   }
 
   static void checkSameSizes(AssertionInfo info, Object actual, Object other, int sizeOfActual, int sizeOfOther) {
@@ -164,7 +164,7 @@ public final class CommonValidations {
   }
 
   public static void checkTypeIsNotNull(Class<?> expectedType) {
-    checkNotNull(expectedType, "The given type should not be null");
+    requireNonNull(expectedType, "The given type should not be null");
   }
 
   public static void checkIterableIsNotNull(Iterable<?> set) {

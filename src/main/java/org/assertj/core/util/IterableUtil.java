@@ -13,9 +13,9 @@
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public final class IterableUtil {
    * @throws NullPointerException if given {@link Iterable} is null.
    */
   public static int sizeOf(Iterable<?> iterable) {
-    checkNotNull(iterable, "Iterable must not be null");
+    requireNonNull(iterable, "Iterable must not be null");
     if (iterable instanceof Collection) return ((Collection<?>) iterable).size();
     return Math.toIntExact(Streams.stream(iterable).count());
   }

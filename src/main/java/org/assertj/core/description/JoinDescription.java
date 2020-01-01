@@ -21,7 +21,6 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -67,7 +66,7 @@ public class JoinDescription extends Description {
   }
 
   private static Description checkNotNull(Description description) {
-    Preconditions.checkNotNull(description, "The descriptions should not contain null elements");
+    requireNonNull(description, "The descriptions should not contain null elements");
     return description;
   }
 

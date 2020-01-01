@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
@@ -77,8 +77,8 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    */
   public SELF isCloseTo(TEMPORAL other, TemporalOffset<? super TEMPORAL> offset) {
     Objects.instance().assertNotNull(info, actual);
-    checkNotNull(other, "The temporal object to compare actual with should not be null");
-    checkNotNull(offset, "The offset should not be null");
+    requireNonNull(other, "The temporal object to compare actual with should not be null");
+    requireNonNull(offset, "The offset should not be null");
     if (offset.isBeyondOffset(actual, other)) {
       throw Failures.instance().failure(info,
                                         shouldBeCloseTo(actual, other,
@@ -104,7 +104,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * @throws AssertionError if the actual {@code Temporal} is not close to the given for a provided offset.
    */
   public SELF isCloseTo(String otherAsString, TemporalOffset<? super TEMPORAL> offset) {
-    checkNotNull(otherAsString, "The String representing of the temporal object to compare actual with should not be null");
+    requireNonNull(otherAsString, "The String representing of the temporal object to compare actual with should not be null");
     return isCloseTo(parse(otherAsString), offset);
   }
 

@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -489,7 +489,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   @CheckReturnValue
   public SELF usingCharset(Charset charset) {
-    this.charset = checkNotNull(charset, "The charset should not be null");
+    this.charset = requireNonNull(charset, "The charset should not be null");
     return myself;
   }
 

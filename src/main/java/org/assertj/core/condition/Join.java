@@ -13,8 +13,8 @@
 package org.assertj.core.condition;
 
 import static java.util.Collections.unmodifiableCollection;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -69,7 +69,7 @@ public abstract class Join<T> extends Condition<T> {
   }
 
   private static <T> T checkNotNullConditions(T conditions) {
-    return checkNotNull(conditions, conditionsIsNull());
+    return requireNonNull(conditions, conditionsIsNull());
   }
 
   /**
@@ -83,7 +83,7 @@ public abstract class Join<T> extends Condition<T> {
   }
 
   private static <T> T notNull(T condition) {
-    return checkNotNull(condition, "The given conditions should not have null entries");
+    return requireNonNull(condition, "The given conditions should not have null entries");
   }
 
   /**

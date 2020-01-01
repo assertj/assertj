@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.util.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
@@ -42,6 +42,6 @@ public class Predicates {
    * @throws NullPointerException if the given {@code Predicate} is {@code null}.
    */
   public void assertIsNotNull(Predicate<?> predicate) {
-    checkNotNull(predicate, "The predicate to evaluate should not be null");
+    requireNonNull(predicate, "The predicate to evaluate should not be null");
   }
 }

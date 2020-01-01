@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -73,7 +74,6 @@ import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -699,7 +699,7 @@ public class Arrays {
   static <T> void assertIsSortedAccordingToComparator(AssertionInfo info, Failures failures, Object array,
                                                       Comparator<T> comparator) {
     assertNotNull(info, array);
-    checkNotNull(comparator, "The given comparator should not be null");
+    requireNonNull(comparator, "The given comparator should not be null");
     try {
       List<T> arrayAsList = asList(array);
       // empty arrays are considered sorted even if comparator can't be applied to <T>.

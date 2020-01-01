@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
@@ -36,7 +37,6 @@ import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmp
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.util.Objects.areEqual;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Throwables.getRootCause;
 
 import java.util.LinkedHashSet;
@@ -281,7 +281,7 @@ public class Throwables {
    * @throws NullPointerException if the regex is null
    */
   public void assertHasMessageMatching(AssertionInfo info, Throwable actual, String regex) {
-    checkNotNull(regex, "regex must not be null");
+    requireNonNull(regex, "regex must not be null");
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().matches(regex)) return;
     throw failures.failure(info, shouldHaveMessageMatchingRegex(actual, regex));
@@ -299,7 +299,7 @@ public class Throwables {
    * @throws NullPointerException if the regex is null
    */
   public void assertHasMessageFindingMatch(AssertionInfo info, Throwable actual, String regex) {
-    checkNotNull(regex, "regex must not be null");
+    requireNonNull(regex, "regex must not be null");
     assertNotNull(info, actual);
     Objects.instance().assertNotNull(info, actual.getMessage(), "exception message of actual");
     if (Pattern.compile(regex, Pattern.DOTALL).asPredicate().test(actual.getMessage())) return;
@@ -407,7 +407,7 @@ public class Throwables {
   public void assertHasSuppressedException(AssertionInfo info, Throwable actual,
                                            Throwable expectedSuppressedException) {
     assertNotNull(info, actual);
-    checkNotNull(expectedSuppressedException, "The expected suppressed exception should not be null");
+    requireNonNull(expectedSuppressedException, "The expected suppressed exception should not be null");
     Throwable[] suppressed = actual.getSuppressed();
     for (int i = 0; i < suppressed.length; i++) {
       if (compareThrowable(suppressed[i], expectedSuppressedException)) return;
@@ -439,13 +439,13 @@ public class Throwables {
       checkCharSequenceIsNotNull(values[0]);
     } else {
       for (int i = 0; i < values.length; i++) {
-        checkNotNull(values[i], "Expecting CharSequence elements not to be null but found one at index " + i);
+        requireNonNull(values[i], "Expecting CharSequence elements not to be null but found one at index " + i);
       }
     }
   }
 
   private static void checkCharSequenceIsNotNull(CharSequence sequence) {
-    checkNotNull(sequence, "The char sequence to look for should not be null");
+    requireNonNull(sequence, "The char sequence to look for should not be null");
   }
 
   private static boolean compareThrowable(Throwable actual, Throwable expected) {

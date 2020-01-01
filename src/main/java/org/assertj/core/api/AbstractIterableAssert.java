@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -71,7 +72,6 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
-import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -2932,7 +2932,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @CheckReturnValue
   public AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> size() {
-    Preconditions.checkNotNull(actual, "Can not perform assertions on the size of a null iterable.");
+    requireNonNull(actual, "Can not perform assertions on the size of a null iterable.");
     return new IterableSizeAssert(this, IterableUtil.sizeOf(actual));
   }
 

@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
+@Deprecated
 public class Preconditions_checkNotNull_GenericObject_String_Test {
   private final static String CUSTOM_MESSAGE = "Wow, that's an error dude ..";
 

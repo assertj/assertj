@@ -13,6 +13,7 @@
 package org.assertj.core.util;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 
 import org.assertj.core.api.filter.FilterOperator;
 
@@ -46,7 +47,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if the given {@code CharSequence} is empty.
    */
   public static CharSequence checkNotNullOrEmpty(CharSequence s, String message) {
-    checkNotNull(s, message);
+    requireNonNull(s, message);
     if (s.length() == 0) throwExceptionForBeingEmpty(message);
     return s;
   }
@@ -61,7 +62,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if the given array is empty.
    */
   public static <T> T[] checkNotNullOrEmpty(T[] array) {
-    T[] checked = checkNotNull(array);
+    T[] checked = requireNonNull(array);
     if (checked.length == 0) throwExceptionForBeingEmpty();
     return checked;
   }
@@ -73,7 +74,10 @@ public final class Preconditions {
    * @param reference the given object reference.
    * @return the non-{@code null} reference that was validated.
    * @throws NullPointerException if the given object reference is {@code null}.
+   * 
+   * @deprecated use {@link java.util.Objects#requireNonNull(Object)} instead.
    */
+  @Deprecated
   public static <T> T checkNotNull(T reference) {
     if (reference == null) throw new NullPointerException();
     return reference;
@@ -87,7 +91,10 @@ public final class Preconditions {
    * @param message error message in case of null reference.
    * @return the non-{@code null} reference that was validated.
    * @throws NullPointerException if the given object reference is {@code null}.
+   * 
+   * @deprecated use {@link java.util.Objects#requireNonNull(Object, String)} instead.
    */
+  @Deprecated
   public static <T> T checkNotNull(T reference, String message) {
     if (reference == null) throw new NullPointerException(message);
     return reference;

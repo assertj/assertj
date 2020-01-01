@@ -14,11 +14,11 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.Comparator;
 
@@ -348,8 +348,8 @@ public class Comparables {
   public <T extends Comparable<? super T>> void assertIsBetween(AssertionInfo info, T actual, T start, T end,
                                                                 boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
-    checkNotNull(start, "The start range to compare actual with should not be null");
-    checkNotNull(end, "The end range to compare actual with should not be null");
+    requireNonNull(start, "The start range to compare actual with should not be null");
+    requireNonNull(end, "The end range to compare actual with should not be null");
     checkBoundsValidity(start, end, inclusiveStart, inclusiveEnd);
     boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual) : isLessThan(start, actual);
     boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end) : isLessThan(actual, end);

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
@@ -35,7 +36,6 @@ import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclared
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
@@ -542,6 +542,6 @@ public class Classes {
    * @throws NullPointerException with an explicit message if the given class is null
    */
   private static void classParameterIsNotNull(Class<?> clazz) {
-    checkNotNull(clazz, "The class to compare actual with should not be null");
+    requireNonNull(clazz, "The class to compare actual with should not be null");
   }
 }

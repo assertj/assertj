@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -25,7 +26,6 @@ import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
 import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -2777,7 +2777,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @CheckReturnValue
   public SELF withDateFormat(String userCustomDateFormatPattern) {
-    checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
+    requireNonNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
     return withDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
   }
 
@@ -2860,7 +2860,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public static void registerCustomDateFormat(DateFormat userCustomDateFormat) {
     ConfigurationProvider.loadRegisteredConfiguration();
-    checkNotNull(userCustomDateFormat, DATE_FORMAT_SHOULD_NOT_BE_NULL);
+    requireNonNull(userCustomDateFormat, DATE_FORMAT_SHOULD_NOT_BE_NULL);
     userDateFormats.get().add(userCustomDateFormat);
   }
 
@@ -2906,7 +2906,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
    */
   public static void registerCustomDateFormat(String userCustomDateFormatPattern) {
-    checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
+    requireNonNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
     registerCustomDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
   }
 
