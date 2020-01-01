@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import static org.mockito.Mockito.verify;
@@ -47,13 +48,11 @@ public class Files_assertCanRead_Test extends FilesBaseTest {
   public void should_fail_if_can_not_read() {
     when(actual.canRead()).thenReturn(false);
     AssertionInfo info = someInfo();
-    try {
-      files.assertCanRead(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeReadable(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertCanRead(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeReadable(actual));
   }
 
   @Test

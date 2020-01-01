@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -67,13 +68,11 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   public void should_fail_if_actual_is_not_file() {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
-    try {
-      files.assertHasBinaryContent(info, notAFile, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeFile(notAFile));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertHasBinaryContent(info, notAFile, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeFile(notAFile));
   }
 
   @Test
@@ -98,12 +97,10 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     BinaryDiffResult diff = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
     when(binaryDiff.diff(actual, expected)).thenReturn(diff);
     AssertionInfo info = someInfo();
-    try {
-      files.assertHasBinaryContent(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveBinaryContent(actual, diff));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertHasBinaryContent(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveBinaryContent(actual, diff));
   }
 }

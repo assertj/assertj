@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,13 +74,11 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
   public void should_fail_if_actual_is_not_file() {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
-    try {
-      files.assertHasContent(info, notAFile, expected, charset);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeFile(notAFile));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertHasContent(info, notAFile, expected, charset));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeFile(notAFile));
   }
 
   @Test
@@ -103,12 +102,10 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
     List<Delta<String>> diffs = Lists.newArrayList(delta);
     when(diff.diff(actual, expected, charset)).thenReturn(diffs);
     AssertionInfo info = someInfo();
-    try {
-      files.assertHasContent(info, actual, expected, charset);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveContent(actual, charset, diffs));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertHasContent(info, actual, expected, charset));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveContent(actual, charset, diffs));
   }
 }

@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import static org.mockito.Mockito.verify;
@@ -46,13 +47,11 @@ public class Files_assertIsRelative_Test extends FilesBaseTest {
   public void should_fail_if_actual_is_not_relative_path() {
     when(actual.isAbsolute()).thenReturn(true);
     AssertionInfo info = someInfo();
-    try {
-      files.assertIsRelative(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeRelativePath(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertIsRelative(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeRelativePath(actual));
   }
 
   @Test
