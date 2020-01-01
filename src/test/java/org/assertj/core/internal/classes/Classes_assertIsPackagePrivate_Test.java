@@ -50,7 +50,7 @@ class Classes_assertIsPackagePrivate_Test extends ClassesBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> classes.assertIsPackagePrivate(someInfo(), clazz));
     // THEN
-    then(assertionError).hasMessage(shouldBePackagePrivate(Object.class).create());
+    then(assertionError).hasMessage(shouldBePackagePrivate(clazz).create());
   }
 
   static class PackagePrivateClass {
