@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -55,15 +56,13 @@ public class ObjectArrays_assertAreNot_Test extends ObjectArraysWithConditionBas
   public void should_fail_if_condition_is_met() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = array("Solo", "Leia", "Yoda");
-      arrays.assertAreNot(someInfo(), actual, jedi);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jedi);
-      verify(failures).failure(info, elementsShouldNotBe(actual, newArrayList("Yoda"), jedi));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = array("Solo", "Leia", "Yoda");
+
+    Throwable error = catchThrowable(() -> arrays.assertAreNot(someInfo(), actual, jedi));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jedi);
+    verify(failures).failure(info, elementsShouldNotBe(actual, newArrayList("Yoda"), jedi));
   }
 
 }

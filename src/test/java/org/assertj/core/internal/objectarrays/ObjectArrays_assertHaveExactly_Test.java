@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
@@ -55,30 +56,26 @@ public class ObjectArrays_assertHaveExactly_Test extends ObjectArraysWithConditi
   public void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = array("Yoda", "Solo", "Leia");
-      arrays.assertHaveExactly(someInfo(), actual, 2, jediPower);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jediPower);
-      verify(failures).failure(info, elementsShouldHaveExactly(actual, 2, jediPower));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = array("Yoda", "Solo", "Leia");
+
+    Throwable error = catchThrowable(() -> arrays.assertHaveExactly(someInfo(), actual, 2, jediPower));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jediPower);
+    verify(failures).failure(info, elementsShouldHaveExactly(actual, 2, jediPower));
   }
 
   @Test
   public void should_fail_if_condition_is_met_much() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = array("Yoda", "Luke", "Obiwan");
-      arrays.assertHaveExactly(someInfo(), actual, 2, jediPower);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jediPower);
-      verify(failures).failure(info, elementsShouldHaveExactly(actual, 2, jediPower));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = array("Yoda", "Luke", "Obiwan");
+
+    Throwable error = catchThrowable(() -> arrays.assertHaveExactly(someInfo(), actual, 2, jediPower));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jediPower);
+    verify(failures).failure(info, elementsShouldHaveExactly(actual, 2, jediPower));
   }
 
 }

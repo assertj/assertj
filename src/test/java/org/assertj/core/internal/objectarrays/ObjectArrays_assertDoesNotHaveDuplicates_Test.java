@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -62,13 +63,11 @@ public class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysB
   public void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda", "Luke", "Yoda");
-    try {
-      arrays.assertDoesNotHaveDuplicates(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda")));
   }
 
   @Test
@@ -91,13 +90,11 @@ public class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysB
   public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = array("LUKE", "Yoda", "Luke", "Yoda");
-    try {
-      arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda"), caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda"), caseInsensitiveStringComparisonStrategy));
   }
 }

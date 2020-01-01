@@ -12,7 +12,9 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldBeExactly.elementsShouldBeExactly;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -55,30 +57,26 @@ public class ObjectArrays_assertAreExactly_Test extends ObjectArraysWithConditio
   public void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = array("Yoda", "Solo", "Leia");
-      arrays.assertAreExactly(someInfo(), actual, 2, jedi);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jedi);
-      verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = array("Yoda", "Solo", "Leia");
+
+    Throwable error = catchThrowable(() -> arrays.assertAreExactly(someInfo(), actual, 2, jedi));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jedi);
+    verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
   }
 
   @Test
   public void should_fail_if_condition_is_met_much() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = array("Yoda", "Luke", "Obiwan");
-      arrays.assertAreExactly(someInfo(), actual, 2, jedi);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jedi);
-      verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = array("Yoda", "Luke", "Obiwan");
+
+    Throwable error = catchThrowable(() -> arrays.assertAreExactly(someInfo(), actual, 2, jedi));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jedi);
+    verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
   }
 
 }

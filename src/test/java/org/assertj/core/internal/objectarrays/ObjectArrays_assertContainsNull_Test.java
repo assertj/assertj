@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -67,13 +68,11 @@ public class ObjectArrays_assertContainsNull_Test extends ObjectArraysBaseTest {
   public void should_fail_if_actual_does_not_contain_null() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda");
-    try {
-      arrays.assertContainsNull(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainNull(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsNull(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainNull(actual));
   }
 
   @Test
@@ -103,12 +102,10 @@ public class ObjectArrays_assertContainsNull_Test extends ObjectArraysBaseTest {
   public void should_fail_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda");
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsNull(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainNull(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsNull(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainNull(actual));
   }
 }
