@@ -69,7 +69,6 @@ import static org.assertj.core.internal.CommonValidations.checkSizeLessThanOrEqu
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-import static org.assertj.core.internal.CommonValidations.iterableToLookForIsNull;
 import static org.assertj.core.internal.ErrorMessages.emptySequence;
 import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
@@ -1058,7 +1057,7 @@ public class Iterables {
    *           {@code Iterable}, in any order.
    */
   public void assertContainsAll(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
-    if (other == null) throw iterableToLookForIsNull();
+    checkIterableIsNotNull(other);
     assertNotNull(info, actual);
     Object[] values = newArrayList(other).toArray();
     assertIterableContainsGivenValues(actual, values, info);
