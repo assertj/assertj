@@ -13,8 +13,8 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
@@ -135,7 +135,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   }
 
   public void useRepresentation(Representation newRepresentation) {
-    checkNotNull(newRepresentation, "The representation to use should not be null.");
+    requireNonNull(newRepresentation, "The representation to use should not be null.");
     representation = newRepresentation;
   }
 

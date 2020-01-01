@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
@@ -43,7 +44,6 @@ import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -270,12 +270,12 @@ public class Paths {
 
   public void assertHasFileName(final AssertionInfo info, Path actual, String fileName) {
     assertNotNull(info, actual);
-    checkNotNull(fileName, "expected fileName should not be null");
+    requireNonNull(fileName, "expected fileName should not be null");
     if (!actual.getFileName().endsWith(fileName)) throw failures.failure(info, shouldHaveName(actual, fileName));
   }
 
   public void assertHasContent(final AssertionInfo info, Path actual, String expected, Charset charset) {
-    checkNotNull(expected, "The text to compare to should not be null");
+    requireNonNull(expected, "The text to compare to should not be null");
     assertIsReadable(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, expected, charset);
@@ -287,7 +287,7 @@ public class Paths {
   }
 
   public void assertHasBinaryContent(AssertionInfo info, Path actual, byte[] expected) {
-    checkNotNull(expected, "The binary content to compare to should not be null");
+    requireNonNull(expected, "The binary content to compare to should not be null");
     assertIsReadable(info, actual);
     try {
       BinaryDiffResult diffResult = binaryDiff.diff(actual, expected);
@@ -299,7 +299,7 @@ public class Paths {
   }
 
   public void assertHasSameBinaryContentAs(AssertionInfo info, Path actual, Path expected) {
-    checkNotNull(expected, "The given Path to compare actual content to should not be null");
+    requireNonNull(expected, "The given Path to compare actual content to should not be null");
     assertIsReadable(info, actual);
     checkArgument(nioFilesWrapper.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
     checkArgument(nioFilesWrapper.isReadable(expected), "The given Path <%s> to compare actual content to should be readable",
@@ -314,7 +314,7 @@ public class Paths {
 
   public void assertHasSameContentAs(AssertionInfo info, Path actual, Charset actualCharset, Path expected,
                                      Charset expectedCharset) {
-    checkNotNull(expected, "The given Path to compare actual content to should not be null");
+    requireNonNull(expected, "The given Path to compare actual content to should not be null");
     checkArgument(nioFilesWrapper.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
     checkArgument(nioFilesWrapper.isReadable(expected), "The given Path <%s> to compare actual content to should be readable",
                   expected);
@@ -329,8 +329,8 @@ public class Paths {
   }
 
   public void assertHasDigest(AssertionInfo info, Path actual, MessageDigest digest, byte[] expected) {
-    checkNotNull(digest, "The message digest algorithm should not be null");
-    checkNotNull(expected, "The binary representation of digest to compare to should not be null");
+    requireNonNull(digest, "The message digest algorithm should not be null");
+    requireNonNull(expected, "The binary representation of digest to compare to should not be null");
     assertIsRegularFile(info, actual);
     assertIsReadable(info, actual);
     try (InputStream actualStream = nioFilesWrapper.newInputStream(actual)) {
@@ -342,12 +342,12 @@ public class Paths {
   }
 
   public void assertHasDigest(AssertionInfo info, Path actual, MessageDigest digest, String expected) {
-    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, digest, Digests.fromHex(expected));
   }
 
   public void assertHasDigest(AssertionInfo info, Path actual, String algorithm, byte[] expected) {
-    checkNotNull(algorithm, "The message digest algorithm should not be null");
+    requireNonNull(algorithm, "The message digest algorithm should not be null");
     try {
       assertHasDigest(info, actual, MessageDigest.getInstance(algorithm), expected);
     } catch (NoSuchAlgorithmException e) {
@@ -356,28 +356,28 @@ public class Paths {
   }
 
   public void assertHasDigest(AssertionInfo info, Path actual, String algorithm, String expected) {
-    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
 
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
-    checkNotNull(filter, "The paths filter should not be null");
+    requireNonNull(filter, "The paths filter should not be null");
     assertIsDirectoryContaining(info, actual, filter, "the given filter");
   }
 
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
-    checkNotNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
-    checkNotNull(filter, "The paths filter should not be null");
+    requireNonNull(filter, "The paths filter should not be null");
     assertIsDirectoryNotContaining(info, actual, filter, "the given filter");
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
-    checkNotNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryNotContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
   }
@@ -442,15 +442,15 @@ public class Paths {
   }
 
   private static void checkExpectedParentPathIsNotNull(final Path expected) {
-    checkNotNull(expected, "expected parent path should not be null");
+    requireNonNull(expected, "expected parent path should not be null");
   }
 
   private static void assertExpectedStartPathIsNotNull(final Path start) {
-    checkNotNull(start, "the expected start path should not be null");
+    requireNonNull(start, "the expected start path should not be null");
   }
 
   private static void assertExpectedEndPathIsNotNull(final Path end) {
-    checkNotNull(end, "the expected end path should not be null");
+    requireNonNull(end, "the expected end path should not be null");
   }
 
 }

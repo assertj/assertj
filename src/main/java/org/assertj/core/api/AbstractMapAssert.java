@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.description.Description.mostRelevantDescription;
@@ -20,7 +21,6 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toCollection;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -1528,7 +1528,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
-    checkNotNull(actual, "Can not perform assertions on the size of a null map.");
+    requireNonNull(actual, "Can not perform assertions on the size of a null map.");
     return new MapSizeAssert(this, actual.size());
   }
 

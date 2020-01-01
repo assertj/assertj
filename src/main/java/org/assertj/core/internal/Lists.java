@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldBeAtIndex.shouldBeAtIndex;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
@@ -22,7 +23,6 @@ import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.Comparator;
 import java.util.List;
@@ -178,7 +178,7 @@ public class Lists {
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual, Comparator<?> comparator) {
     assertNotNull(info, actual);
-    checkNotNull(comparator, "The given comparator should not be null");
+    requireNonNull(comparator, "The given comparator should not be null");
     try {
       // Empty collections are considered sorted even if comparator can't be applied to their element type
       // We can't verify that point because of erasure type at runtime.
@@ -242,7 +242,7 @@ public class Lists {
 
   public <T> void satisfies(AssertionInfo info, List<? extends T> actual, Consumer<? super T> requirements, Index index) {
     assertNotNull(info, actual);
-    checkNotNull(requirements, "The Consumer expressing the assertions requirements must not be null");
+    requireNonNull(requirements, "The Consumer expressing the assertions requirements must not be null");
     checkIndexValueIsValid(index, actual.size() - 1);
     requirements.accept(actual.get(index.value));
   }

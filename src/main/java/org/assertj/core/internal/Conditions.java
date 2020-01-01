@@ -13,12 +13,12 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.error.ShouldHave.shouldHave;
 import static org.assertj.core.error.ShouldNotBe.shouldNotBe;
 import static org.assertj.core.error.ShouldNotHave.shouldNotHave;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -125,6 +125,6 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    */
   public void assertIsNotNull(Condition<?> condition, String format, Object... args) {
-    checkNotNull(condition, format(format, args));
+    requireNonNull(condition, format(format, args));
   }
 }

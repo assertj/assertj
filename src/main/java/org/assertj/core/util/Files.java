@@ -13,9 +13,9 @@
 package org.assertj.core.util;
 
 import static java.io.File.separator;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.append;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
@@ -255,7 +255,7 @@ public class Files {
    * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, Charset charset) {
-    checkNotNull(charset, "The charset should not be null");
+    requireNonNull(charset, "The charset should not be null");
     try {
       return new String(java.nio.file.Files.readAllBytes(file.toPath()), charset);
     } catch (IOException e) {
@@ -274,7 +274,7 @@ public class Files {
    * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, Charset charset) {
-    checkNotNull(charset, "The charset should not be null");
+    requireNonNull(charset, "The charset should not be null");
     try {
       return java.nio.file.Files.readAllLines(file.toPath(), charset);
     } catch (IOException e) {

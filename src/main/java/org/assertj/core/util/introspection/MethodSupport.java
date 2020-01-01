@@ -13,8 +13,8 @@
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 
 import java.lang.reflect.Method;
@@ -47,7 +47,7 @@ public class MethodSupport {
    *                                  any argument
    */
   public static Object methodResultFor(Object instance, String methodName) {
-    checkNotNull(instance, "Object instance can not be null!");
+    requireNonNull(instance, "Object instance can not be null!");
     checkNotNullOrEmpty(methodName, "Method name can not be empty!");
     Method method = findMethod(methodName, instance.getClass());
     return invokeMethod(instance, method);

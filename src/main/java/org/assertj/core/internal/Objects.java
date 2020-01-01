@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -48,7 +49,6 @@ import static org.assertj.core.internal.DeepDifference.determineDifferences;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.reflect.Field;
@@ -158,7 +158,7 @@ public class Objects {
     assertNotNull(info, actual);
     for (Class<?> type : types) {
       String format = "The given array of types:<%s> should not have null elements";
-      checkNotNull(type, format(format, info.representation().toStringOf(types)));
+      requireNonNull(type, format(format, info.representation().toStringOf(types)));
       if (type.isInstance(actual)) {
         return true;
       }
@@ -219,7 +219,7 @@ public class Objects {
 
   private boolean haveSameClass(Object actual, Object other, AssertionInfo info) {
     assertNotNull(info, actual);
-    checkNotNull(other, "The given object should not be null");
+    requireNonNull(other, "The given object should not be null");
     Class<?> actualClass = actual.getClass();
     Class<?> otherClass = other.getClass();
     return actualClass.equals(otherClass);
@@ -292,7 +292,7 @@ public class Objects {
 
   private boolean isOfOneOfGivenTypes(Object actual, Class<?>[] types, AssertionInfo info) {
     assertNotNull(info, actual);
-    checkNotNull(types, "The given types should not be null");
+    requireNonNull(types, "The given types should not be null");
     return isItemInArray(actual.getClass(), types);
   }
 
@@ -312,7 +312,7 @@ public class Objects {
   }
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
-    checkNotNull(types, "The given array of types should not be null");
+    requireNonNull(types, "The given array of types should not be null");
     checkArgument(types.length > 0, "The given array of types should not be empty");
   }
 
@@ -448,7 +448,7 @@ public class Objects {
   }
 
   private void checkArrayIsNotNull(Object[] values) {
-    checkNotNull(values, "The given array should not be null");
+    requireNonNull(values, "The given array should not be null");
   }
 
   /**
@@ -494,7 +494,7 @@ public class Objects {
   }
 
   private void checkNotNullIterable(Iterable<?> values) {
-    checkNotNull(values, "The given iterable should not be null");
+    requireNonNull(values, "The given iterable should not be null");
   }
 
   private boolean isActualIn(Object actual, Iterable<?> values) {
@@ -780,7 +780,7 @@ public class Objects {
    * @return the declared fields of given class and its superclasses.
    */
   public static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
-    checkNotNull(clazz, "expecting Class parameter not to be null");
+    requireNonNull(clazz, "expecting Class parameter not to be null");
     Set<Field> declaredFields = getDeclaredFieldsIgnoringSyntheticAndStatic(clazz);
     // get fields declared in superclass
     Class<?> superclazz = clazz.getSuperclass();
@@ -856,7 +856,7 @@ public class Objects {
    */
   public <A> void assertHasSameHashCodeAs(AssertionInfo info, A actual, Object other) {
     assertNotNull(info, actual);
-    checkNotNull(other, "The object used to compare actual's hash code with should not be null");
+    requireNonNull(other, "The object used to compare actual's hash code with should not be null");
     if (actual.hashCode() != other.hashCode()) throw failures.failure(info, shouldHaveSameHashCode(actual, other));
   }
 

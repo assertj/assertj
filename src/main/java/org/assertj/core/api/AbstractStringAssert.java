@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
-import static org.assertj.core.util.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Comparator;
 
@@ -308,7 +308,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.12.0
    */
   public SELF isEqualTo(String expectedStringTemplate, Object... args) {
-    checkNotNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
+    requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
     return super.isEqualTo(format(expectedStringTemplate, args));
   }
 

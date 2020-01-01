@@ -14,8 +14,8 @@ package org.assertj.core.data;
 
 import static java.lang.Math.abs;
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
@@ -37,7 +37,7 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public TemporalUnitOffset(long value, TemporalUnit unit) {
-    checkNotNull(unit);
+    requireNonNull(unit);
     checkThatValueIsPositive(value);
     this.value = value;
     this.unit = unit;

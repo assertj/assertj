@@ -12,8 +12,8 @@
  */
 package org.assertj.core.util;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.*;
 import java.net.URL;
@@ -56,7 +56,7 @@ public class URLs {
    * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, Charset charset) {
-    checkNotNull(charset, "The charset should not be null");
+    requireNonNull(charset, "The charset should not be null");
     try {
       return loadContents(url.openStream(), charset);
     } catch (IOException e) {
@@ -75,7 +75,7 @@ public class URLs {
    * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, Charset charset) {
-    checkNotNull(charset, "The charset should not be null");
+    requireNonNull(charset, "The charset should not be null");
     try {
       return loadLines(url.openStream(), charset);
     } catch (IOException e) {

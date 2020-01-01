@@ -15,7 +15,7 @@ package org.assertj.core.util.introspection;
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Locale.ENGLISH;
-import static org.assertj.core.util.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
@@ -48,7 +48,7 @@ public final class Introspection {
    */
   public static Method getPropertyGetter(String propertyName, Object target) {
     checkNotNullOrEmpty(propertyName);
-    checkNotNull(target);
+    requireNonNull(target);
     Method getter;
     try {
       getter = findGetter(propertyName, target);
