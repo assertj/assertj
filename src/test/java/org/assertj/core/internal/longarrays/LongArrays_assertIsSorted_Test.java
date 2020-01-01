@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.longarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.test.LongArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -66,13 +67,11 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
     actual = arrayOf(1L, 3L, 2L);
-    try {
-      arrays.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSorted(1, actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSorted(1, actual));
   }
 
   @Test
@@ -100,14 +99,12 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = arrayOf(1L, 3L, 2L);
-    try {
-      arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures)
-          .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures)
+        .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
   }
 
 }

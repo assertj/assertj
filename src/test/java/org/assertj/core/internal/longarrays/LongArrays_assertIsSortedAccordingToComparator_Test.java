@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.longarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.test.LongArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -77,13 +78,11 @@ public class LongArrays_assertIsSortedAccordingToComparator_Test extends LongArr
   public void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     AssertionInfo info = someInfo();
     actual = new long[] { 3L, 2L, 1L, 9L };
-    try {
-      arrays.assertIsSortedAccordingToComparator(info, actual, longDescendingOrderComparator);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, longDescendingOrderComparator));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual, longDescendingOrderComparator));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, longDescendingOrderComparator));
   }
 
 }
