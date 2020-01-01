@@ -15,15 +15,16 @@ package org.assertj.core.internal.doubles;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.ErrorMessages.offsetIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -94,37 +95,31 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
-    try {
-      doubles.assertIsCloseTo(info, ONE, TEN, within(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, within(ONE), TEN - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doubles.assertIsCloseTo(info, ONE, TEN, within(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE, TEN, within(ONE), TEN - ONE));
   }
 
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value_with_a_strict_offset() {
     AssertionInfo info = someInfo();
-    try {
-      doubles.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), TEN - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doubles.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), TEN - ONE));
   }
 
   @Test
   public void should_fail_if_difference_is_equal_to_the_given_strict_offset() {
     AssertionInfo info = someInfo();
-    try {
-      doubles.assertIsCloseTo(info, TWO, ONE, byLessThan(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(TWO, ONE, byLessThan(ONE), TWO - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doubles.assertIsCloseTo(info, TWO, ONE, byLessThan(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(TWO, ONE, byLessThan(ONE), TWO - ONE));
   }
 
   @Test
@@ -180,25 +175,21 @@ public class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      doublesWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Double(6d), new Double(8d), offset(1d));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset(1d), 2d));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Double(6d), new Double(8d), offset(1d)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(6d, 8d, offset(1d), 2d));
   }
 
   @Test
   public void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      doublesWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Double(6d), new Double(8d), byLessThan(1d));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, byLessThan(1d), 2d));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Double(6d), new Double(8d), byLessThan(1d)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(6d, 8d, byLessThan(1d), 2d));
   }
 
   @Test
