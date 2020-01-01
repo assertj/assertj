@@ -12,16 +12,17 @@
  */
 package org.assertj.core.internal.floatarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.FloatArrays.arrayOf;
 import static org.assertj.core.test.FloatArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -71,13 +72,11 @@ public class FloatArrays_assertDoesNotContain_Test extends FloatArraysBaseTest {
   public void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
     float[] expected = { 6f, 8f, 20f };
-    try {
-      arrays.assertDoesNotContain(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6f, 8f)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6f, 8f)));
   }
 
   @Test
@@ -116,13 +115,11 @@ public class FloatArrays_assertDoesNotContain_Test extends FloatArraysBaseTest {
   public void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     float[] expected = { 6f, -8f, 20f };
-    try {
-      arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6f, -8f),
-                                                      absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6f, -8f),
+                                                    absValueComparisonStrategy));
   }
 }
