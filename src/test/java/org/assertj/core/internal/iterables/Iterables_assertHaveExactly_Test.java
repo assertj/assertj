@@ -12,7 +12,9 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -55,15 +57,13 @@ public class Iterables_assertHaveExactly_Test extends IterablesWithConditionsBas
   public void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = newArrayList("Yoda", "Solo", "Leia");
-      iterables.assertHaveExactly(someInfo(), actual, 2, jediPower);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jediPower);
-      verify(failures).failure(info, elementsShouldHaveExactly(actual, 2, jediPower));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = newArrayList("Yoda", "Solo", "Leia");
+
+    Throwable error = catchThrowable(() -> iterables.assertHaveExactly(someInfo(), actual, 2, jediPower));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jediPower);
+    verify(failures).failure(info, elementsShouldHaveExactly(actual, 2, jediPower));
   }
 
   @Test

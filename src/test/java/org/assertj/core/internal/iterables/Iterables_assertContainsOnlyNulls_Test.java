@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -58,13 +59,11 @@ public class Iterables_assertContainsOnlyNulls_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
-    try {
-      iterables.assertContainsOnlyNulls(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyNulls(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsOnlyNulls(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainOnlyNulls(actual));
   }
 
   @Test
@@ -72,13 +71,11 @@ public class Iterables_assertContainsOnlyNulls_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     actual = newArrayList(null, null, "person");
     List<String> nonNulls = newArrayList("person");
-    try {
-      iterables.assertContainsOnlyNulls(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyNulls(actual, nonNulls));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsOnlyNulls(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainOnlyNulls(actual, nonNulls));
   }
 
   @Test
@@ -86,12 +83,10 @@ public class Iterables_assertContainsOnlyNulls_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     actual = newArrayList("person", "person2");
     List<String> nonNulls = newArrayList("person", "person2");
-    try {
-      iterables.assertContainsOnlyNulls(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyNulls(actual, nonNulls));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsOnlyNulls(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainOnlyNulls(actual, nonNulls));
   }
 }

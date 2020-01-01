@@ -12,13 +12,14 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -75,39 +76,33 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
   public void should_fail_if_subsequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-    try {
-      iterables.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_whole_subsequence() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "Han", "C-3PO" };
-    try {
-      iterables.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_subsequence_but_not_whole_subsequence() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "Luke", "Leia", "Han" };
-    try {
-      iterables.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
   }
 
   private void verifyFailureThrownWhenSubsequenceNotFound(AssertionInfo info, Object[] subsequence) {
@@ -151,26 +146,22 @@ public class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest 
   public void should_fail_if_actual_does_not_contain_whole_subsequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "Han", "C-3PO" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_subsequence_but_not_whole_subsequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "Luke", "Leia", "Han" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
   }
 
   @Test

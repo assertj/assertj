@@ -13,10 +13,11 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -51,13 +52,11 @@ public class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
-    try {
-      iterables.assertNotEmpty(info, emptyList());
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEmpty());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertNotEmpty(info, emptyList()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEmpty());
   }
 
   @Test
@@ -74,12 +73,10 @@ public class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, emptyList());
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEmpty());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, emptyList()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEmpty());
   }
 }

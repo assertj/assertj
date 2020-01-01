@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -59,13 +60,11 @@ public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
   public void should_fail_if_actual_contains_null() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", null);
-    try {
-      iterables.assertDoesNotContainNull(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainNull(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainNull(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainNull(actual));
   }
 
   @Test
@@ -89,12 +88,10 @@ public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
   public void should_fail_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", null);
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainNull(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainNull(actual));
   }
 }

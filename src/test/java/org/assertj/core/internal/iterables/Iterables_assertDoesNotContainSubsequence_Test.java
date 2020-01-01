@@ -12,15 +12,16 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -139,14 +140,12 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
 
   private void expectFailure(Iterables iterables, Iterable<String> sequence, Object[] subsequence, int index) {
     AssertionInfo info = someInfo();
-    try {
-      iterables.assertDoesNotContainSubsequence(info, sequence, subsequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSubsequence(actual, subsequence, iterables.getComparisonStrategy(),
-                                                                 index));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSubsequence(info, sequence, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSubsequence(actual, subsequence, iterables.getComparisonStrategy(),
+                                                               index));
   }
 
 }

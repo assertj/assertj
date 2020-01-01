@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -53,15 +54,13 @@ public class Iterables_assertHave_Test extends IterablesWithConditionsBaseTest {
   public void should_fail_if_condition_is_not_met() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = newArrayList("Yoda", "Luke", "Leia");
-      iterables.assertHave(someInfo(), actual, jediPower);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jediPower);
-      verify(failures).failure(info, elementsShouldHave(actual, newArrayList("Leia"), jediPower));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = newArrayList("Yoda", "Luke", "Leia");
+
+    Throwable error = catchThrowable(() -> iterables.assertHave(someInfo(), actual, jediPower));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jediPower);
+    verify(failures).failure(info, elementsShouldHave(actual, newArrayList("Leia"), jediPower));
   }
 
 }
