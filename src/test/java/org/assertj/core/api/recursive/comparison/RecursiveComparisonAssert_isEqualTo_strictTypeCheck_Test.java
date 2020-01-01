@@ -13,6 +13,8 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.comparison.Color.GREEN;
 
 import java.util.Date;
 
@@ -21,8 +23,10 @@ import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.internal.objects.data.PersonDto;
 import org.assertj.core.internal.objects.data.PersonDtoWithPersonNeighbour;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("RecursiveComparisonAssert isEqualTo in strictTypeChecking mode")
 public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -131,6 +135,29 @@ public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     ComparisonDifference valueDifference = diff("inner", withA.inner, withB.inner,
                                                 "the fields are considered different since the comparison enforces strict type check and org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test$B is not a subtype of org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test$A");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(withA, withB, valueDifference);
+  }
+
+  @Test
+  public void should_pass_when_enums_have_same_value_and_types() {
+    // GIVEN
+    Light actual = new Light(GREEN);
+    Light expected = new Light(GREEN);
+    // WHEN-THEN
+    then(actual).usingRecursiveComparison()
+                .withStrictTypeChecking()
+                .isEqualTo(expected);
+  }
+
+  @Test
+  public void should_fail_when_enums_have_same_value_but_different_types() {
+    // GIVEN
+    Light actual = new Light(GREEN);
+    LightDto expected = new LightDto(ColorDto.RED);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference difference = diff("color", GREEN, ColorDto.RED);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
   private static class Something {

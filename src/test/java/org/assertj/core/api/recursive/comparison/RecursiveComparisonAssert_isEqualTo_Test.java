@@ -14,6 +14,9 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.comparison.Color.BLUE;
+import static org.assertj.core.api.recursive.comparison.Color.GREEN;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
@@ -34,11 +37,13 @@ import org.assertj.core.internal.objects.data.FriendlyPerson;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Human;
 import org.assertj.core.internal.objects.data.Person;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@DisplayName("RecursiveComparisonAssert isEqualTo")
 public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
@@ -337,34 +342,43 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   @Test
   public void should_not_compare_enum_recursively() {
     // GIVEN
-    Check actual = new Check(A.B);
-    Check expected = new Check(A.C);
+    Light actual = new Light(GREEN);
+    Light expected = new Light(BLUE);
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    ComparisonDifference missingFieldDifference = diff("value", actual.value, expected.value);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, missingFieldDifference);
+    ComparisonDifference difference = diff("color", actual.color, expected.color);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
   @Test
-  public void should_compare_enum_by_value() {
+  public void should_compare_enum_by_value_only_when_strictTypeChecking_mode_is_disabled() {
     // GIVEN
-    Check actual = new Check(A.B);
-    Check expected = new Check(A.B);
+    Light actual = new Light(GREEN);
+    LightDto expected = new LightDto(ColorDto.GREEN);
     // WHEN-THEN
-    assertThat(actual).usingRecursiveComparison()
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .isEqualTo(expected);
   }
 
-  enum A {
-    B, C
+  @Test
+  public void should_fail_when_expected_is_an_enum_and_actual_is_not() {
+    // GIVEN
+    LightString actual = new LightString("GREEN");
+    Light expected = new Light(GREEN);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference difference = diff("color", "GREEN", GREEN,
+                                           "expected field is an enum but actual field is not (java.lang.String)");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
-  static class Check {
-    public A value;
+  static class LightString {
+    public String color;
 
-    public Check(A value) {
-      this.value = value;
+    public LightString(String value) {
+      this.color = value;
     }
 
   }

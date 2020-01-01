@@ -205,9 +205,7 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       if (dualValue.isEnum()) {
-        // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison
-        // this would make different field enum value to be considered the same!
-        if (dualValue.actual != dualValue.expected) comparisonState.addDifference(dualValue);
+        compareAsEnums(dualValue, comparisonState, recursiveComparisonConfiguration);
         continue;
       }
       // TODO move hasFieldTypesDifference check into each compareXXX
@@ -219,7 +217,8 @@ public class RecursiveComparisonDifferenceCalculator {
 
       // we compare ordered collections specifically as to be matching, each pair of elements at a given index must match.
       // concretely we compare: (col1[0] vs col2[0]), (col1[1] vs col2[1])...(col1[n] vs col2[n])
-      if (dualValue.isExpectedFieldAnOrderedCollection() && !recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue)) {
+      if (dualValue.isExpectedFieldAnOrderedCollection()
+          && !recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue)) {
         compareOrderedCollections(dualValue, comparisonState);
         continue;
       }
@@ -287,6 +286,27 @@ public class RecursiveComparisonDifferenceCalculator {
       }
     }
     return comparisonState.getDifferences();
+  }
+
+  // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison
+  // this would make different field enum value to be considered the same!
+  private static void compareAsEnums(final DualValue dualValue,
+                                     ComparisonState comparisonState,
+                                     RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode()) {
+      // we can use == for comparison which checks both actual and expected values and types are the same
+      if (dualValue.actual != dualValue.expected) comparisonState.addDifference(dualValue);
+      return;
+    }
+    if (!dualValue.isActualFieldAnEnum()) {
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an enum"));
+      return;
+    }
+    // both actual and expected are enums
+    Enum<?> actualEnum = (Enum<?>) dualValue.actual;
+    Enum<?> expectedEnum = (Enum<?>) dualValue.expected;
+    // we must only compare actual and expected enum by value but not by type
+    if (actualEnum.name() != expectedEnum.name()) comparisonState.addDifference(dualValue);
   }
 
   private static boolean hasCustomComparator(DualValue dualValue,
@@ -488,8 +508,6 @@ public class RecursiveComparisonDifferenceCalculator {
 
   private static void compareOptional(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualFieldAnOptional()) {
-      // at the moment we only allow comparing arrays with arrays but we might allow comparing to collections later on
-      // but only if we are not in strict type mode.
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an Optional"));
       return;
     }

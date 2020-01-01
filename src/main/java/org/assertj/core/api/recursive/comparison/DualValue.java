@@ -137,4 +137,8 @@ final class DualValue {
   public boolean isEnum() {
     return expected.getClass().isEnum();
   }
+
+  public boolean isActualFieldAnEnum() {
+    return actual.getClass().isEnum();
+  }
 }
