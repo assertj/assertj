@@ -168,18 +168,14 @@ public final class CommonValidations {
   }
 
   public static void checkIterableIsNotNull(Iterable<?> set) {
-    if (set == null) throw iterableToLookForIsNull();
-  }
-
-  static public NullPointerException iterableToLookForIsNull() {
-    return new NullPointerException("The iterable to look for should not be null");
+    requireNonNull(set, "The iterable to look for should not be null");
   }
 
   public static void checkSequenceIsNotNull(Object sequence) {
-    if (sequence == null) throw new NullPointerException(nullSequence());
+    requireNonNull(sequence, nullSequence());
   }
 
   public static void checkSubsequenceIsNotNull(Object subsequence) {
-    if (subsequence == null) throw new NullPointerException(nullSubsequence());
+    requireNonNull(subsequence, nullSubsequence());
   }
 }
