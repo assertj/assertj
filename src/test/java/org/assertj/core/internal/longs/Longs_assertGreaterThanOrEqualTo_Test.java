@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.longs;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -54,13 +55,11 @@ public class Longs_assertGreaterThanOrEqualTo_Test extends LongsBaseTest {
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      longs.assertGreaterThanOrEqualTo(info, 6L, 8L);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6L, 8L));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> longs.assertGreaterThanOrEqualTo(info, 6L, 8L));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreaterOrEqual(6L, 8L));
   }
 
   @Test
@@ -82,12 +81,10 @@ public class Longs_assertGreaterThanOrEqualTo_Test extends LongsBaseTest {
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      longsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, 6L, -8L);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6L, -8L, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, 6L, -8L));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreaterOrEqual(6L, -8L, absValueComparisonStrategy));
   }
 }

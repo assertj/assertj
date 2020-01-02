@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.longs;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -54,13 +55,11 @@ public class Longs_assertLessThanOrEqualTo_Test extends LongsBaseTest {
   @Test
   public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      longs.assertLessThanOrEqualTo(info, 8L, 6L);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLessOrEqual(8L, 6L));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> longs.assertLessThanOrEqualTo(info, 8L, 6L));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLessOrEqual(8L, 6L));
   }
 
   @Test
@@ -82,12 +81,10 @@ public class Longs_assertLessThanOrEqualTo_Test extends LongsBaseTest {
   @Test
   public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8L, 6L);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLessOrEqual(-8L, 6L, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8L, 6L));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLessOrEqual(-8L, 6L, absValueComparisonStrategy));
   }
 }

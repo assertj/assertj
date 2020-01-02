@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.longs;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import static org.mockito.Mockito.verify;
@@ -48,13 +49,11 @@ public class Longs_assertEqual_Test extends LongsBaseTest {
   @Test
   public void should_fail_if_longs_are_not_equal() {
     AssertionInfo info = someInfo();
-    try {
-      longs.assertEqual(info, 6L, 8L);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6L, 8L, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> longs.assertEqual(info, 6L, 8L));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(6L, 8L, info.representation()));
   }
 
   @Test
@@ -71,12 +70,10 @@ public class Longs_assertEqual_Test extends LongsBaseTest {
   @Test
   public void should_fail_if_longs_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      longsWithAbsValueComparisonStrategy.assertEqual(info, 6L, 8L);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6L, 8L, absValueComparisonStrategy, new StandardRepresentation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertEqual(info, 6L, 8L));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(6L, 8L, absValueComparisonStrategy, new StandardRepresentation()));
   }
 }
