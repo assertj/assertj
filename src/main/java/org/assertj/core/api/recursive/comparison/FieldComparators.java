@@ -24,13 +24,11 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
-import org.assertj.core.annotations.Beta;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
  * An internal holder of the comparators for fields described with {@link FieldLocation}.
  */
-@Beta
 public class FieldComparators {
 
   @VisibleForTesting

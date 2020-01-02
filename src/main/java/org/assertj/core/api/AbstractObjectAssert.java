@@ -27,7 +27,6 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
@@ -998,7 +997,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @return a new {@link RecursiveComparisonAssert} instance
    */
-  @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison() {
     return usingRecursiveComparison(new RecursiveComparisonConfiguration());
   }
@@ -1009,7 +1007,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
-  @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself)
                                                                                     .withTypeComparators(comparatorByType);

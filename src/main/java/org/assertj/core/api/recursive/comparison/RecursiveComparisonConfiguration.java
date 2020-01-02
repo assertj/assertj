@@ -29,13 +29,11 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 
-@Beta
 public class RecursiveComparisonConfiguration {
 
   public static final String INDENT_LEVEL_2 = "  -";
