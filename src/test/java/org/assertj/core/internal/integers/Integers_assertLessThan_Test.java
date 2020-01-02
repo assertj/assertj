@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.integers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -48,25 +49,21 @@ public class Integers_assertLessThan_Test extends IntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
-    try {
-      integers.assertLessThan(info, 6, 6);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(6, 6));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> integers.assertLessThan(info, 6, 6));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLess(6, 6));
   }
 
   @Test
   public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      integers.assertLessThan(info, 8, 6);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(8, 6));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> integers.assertLessThan(info, 8, 6));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLess(8, 6));
   }
 
   @Test
@@ -83,24 +80,20 @@ public class Integers_assertLessThan_Test extends IntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      integersWithAbsValueComparisonStrategy.assertLessThan(info, 6, -6);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(6, -6, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> integersWithAbsValueComparisonStrategy.assertLessThan(info, 6, -6));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLess(6, -6, absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      integersWithAbsValueComparisonStrategy.assertLessThan(info, -8, 6);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(-8, 6, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> integersWithAbsValueComparisonStrategy.assertLessThan(info, -8, 6));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLess(-8, 6, absValueComparisonStrategy));
   }
 }

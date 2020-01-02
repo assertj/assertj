@@ -12,15 +12,16 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.internal.ErrorMessages.emptySequence;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -92,26 +93,22 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   public void should_fail_if_actual_contains_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia" };
-    try {
-      iterables.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence, 1);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence, 1);
   }
 
   @Test
   public void should_fail_if_actual_and_sequence_are_equal() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan" };
-    try {
-      iterables.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence, 0);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence, 0);
   }
 
   @Test
@@ -119,13 +116,11 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
     AssertionInfo info = someInfo();
     actual = newArrayList("Yoda", "Luke", "Yoda", "Obi-Wan");
     Object[] sequence = { "Yoda", "Obi-Wan" };
-    try {
-      iterables.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence, 2);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence, 2);
   }
 
   @Test
@@ -133,13 +128,11 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
     AssertionInfo info = someInfo();
     actual = newArrayList("a", "-", "b", "-", "c");
     Object[] sequence = { "a", "-", "b", "-", "c" };
-    try {
-      iterables.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence, 0);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence, 0);
   }
   
   // ------------------------------------------------------------------------------------------------------------------
@@ -164,26 +157,22 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   public void should_fail_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "LUKe", "leia" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 1, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 1, comparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "YODA", "luke", "lEIA", "Obi-wan" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 0, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 0, comparisonStrategy));
   }
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object[] sequence, int index) {

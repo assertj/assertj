@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
 
 
@@ -32,25 +32,21 @@ public class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
   @Test
   public void fest_elements_should_be_removed_from_assertion_error_stack_trace() {
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(true);
-    try {
-      assertThat("Xavi").isEqualTo("Xabi");
-    } catch (AssertionError assertionError) {
-      assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isFalse();
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> assertThat("Xavi").isEqualTo("Xabi"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    assertThat(hasStackTraceElementRelatedToAssertJ(error)).isFalse();
   }
 
   @Test
   public void fest_elements_should_be_kept_in_assertion_error_stack_trace() {
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(false);
-    try {
-      assertThat("Messi").isEqualTo("Ronaldo");
-    } catch (AssertionError assertionError) {
-      assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isTrue();
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> assertThat("Messi").isEqualTo("Ronaldo"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    assertThat(hasStackTraceElementRelatedToAssertJ(error)).isTrue();
   }
 
 }

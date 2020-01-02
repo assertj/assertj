@@ -12,13 +12,14 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.assertj.core.internal.ErrorMessages.endDateToCompareActualWithIsNull;
 import static org.assertj.core.internal.ErrorMessages.startDateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -49,13 +50,11 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     Date end = parseDate("2011-09-30");
     boolean inclusiveStart = true;
     boolean inclusiveEnd = true;
-    try {
-      dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
   }
 
   @Test
@@ -66,13 +65,11 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     Date end = parseDate("2011-09-30");
     boolean inclusiveStart = true;
     boolean inclusiveEnd = false;
-    try {
-      dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
   }
 
   @Test
@@ -83,13 +80,11 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     Date end = parseDate("2011-09-30");
     boolean inclusiveStart = false;
     boolean inclusiveEnd = true;
-    try {
-      dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
   }
 
   @Test
@@ -150,14 +145,12 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     Date end = parseDate("2011-09-30");
     boolean inclusiveStart = true;
     boolean inclusiveEnd = true;
-    try {
-      datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
   }
 
   @Test
@@ -168,14 +161,12 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     Date end = parseDate("2011-10-01");
     boolean inclusiveStart = true;
     boolean inclusiveEnd = false;
-    try {
-      datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
   }
 
   @Test
@@ -186,14 +177,12 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     Date end = parseDate("2011-09-30"); // = 2011-09-15 according to comparison strategy
     boolean inclusiveStart = false;
     boolean inclusiveEnd = true;
-    try {
-      datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
   }
 
   @Test

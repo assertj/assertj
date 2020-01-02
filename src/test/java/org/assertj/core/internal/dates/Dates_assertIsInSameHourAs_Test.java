@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeInSameHour.shouldBeInSameHour;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -45,13 +46,11 @@ public class Dates_assertIsInSameHourAs_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_in_same_hour_as_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T04:01:02");
-    try {
-      dates.assertIsInSameHourAs(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameHour(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsInSameHourAs(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInSameHour(actual, other));
   }
 
   @Test
@@ -75,13 +74,11 @@ public class Dates_assertIsInSameHourAs_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_in_same_hour_as_given_date_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T04:01:02");
-    try {
-      datesWithCustomComparisonStrategy.assertIsInSameHourAs(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameHour(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInSameHourAs(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInSameHour(actual, other));
   }
 
   @Test

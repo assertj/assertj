@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.longarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.LongArrays.arrayOf;
 import static org.assertj.core.test.LongArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -78,28 +79,24 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     long[] expected = {6L, 8L, 20L};
-    try {
-      arrays.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList(20L), newArrayList(10L),
-          StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList(20L), newArrayList(10L),
+        StandardComparisonStrategy.instance()));
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     long[] expected = {6L, 8L};
-    try {
-      arrays.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(10L), StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(10L), StandardComparisonStrategy.instance()));
   }
 
   @Test
@@ -107,15 +104,13 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
     AssertionInfo info = someInfo();
     actual = arrayOf(1L, 2L, 3L);
     long[] expected = {1L, 2L};
-    try {
-      arrays.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(3L),
-              StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(3L),
+            StandardComparisonStrategy.instance()));
   }
 
   @Test
@@ -123,14 +118,12 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
     AssertionInfo info = someInfo();
     actual = arrayOf(1L, 2L);
     long[] expected = {1L, 2L, 3L};
-    try {
-      arrays.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, newArrayList(3L), emptyList(), StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, newArrayList(3L), emptyList(), StandardComparisonStrategy.instance()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -171,29 +164,25 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
   public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     long[] expected = {6L, -8L, 20L};
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, newArrayList(20L), newArrayList(10L),
-              absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, newArrayList(20L), newArrayList(10L),
+            absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     long[] expected = {6L, 8L};
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(10L), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(10L), absValueComparisonStrategy));
   }
 
   @Test
@@ -201,15 +190,13 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
     AssertionInfo info = someInfo();
     actual = arrayOf(1L, 2L, 3L);
     long[] expected = {1L, 2L};
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(3L),
-              absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(3L),
+            absValueComparisonStrategy));
   }
 
   @Test
@@ -217,14 +204,12 @@ public class LongArrays_assertContainsExactlyInAnyOrder_Test extends LongArraysB
     AssertionInfo info = someInfo();
     actual = arrayOf(1L, 2L);
     long[] expected = {1L, 2L, 3L};
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, newArrayList(3L), emptyList(), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, newArrayList(3L), emptyList(), absValueComparisonStrategy));
   }
 
 }

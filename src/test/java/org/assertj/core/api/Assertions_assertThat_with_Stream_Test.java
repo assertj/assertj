@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -96,13 +96,10 @@ public class Assertions_assertThat_with_Stream_Test {
   @Test
   public void isNotExactlyInstanceOf_should_check_the_original_stream() {
     assertThat(stringStream).isNotExactlyInstanceOf(Stream.class);
-    try {
-      assertThat(stringStream).isNotExactlyInstanceOf(StringStream.class);
-    } catch (AssertionError e) {
-      // ok
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> assertThat(stringStream).isNotExactlyInstanceOf(StringStream.class));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
   }
 
   @Test

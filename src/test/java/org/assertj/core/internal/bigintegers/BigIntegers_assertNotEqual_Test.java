@@ -14,10 +14,11 @@ package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -47,13 +48,11 @@ public class BigIntegers_assertNotEqual_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_big_integers_are_equal() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertNotEqual(info, ONE, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertNotEqual(info, ONE, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
   }
 
   @Test
@@ -70,12 +69,10 @@ public class BigIntegers_assertNotEqual_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_big_integers_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithComparatorComparisonStrategy.assertNotEqual(info, ONE, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, ONE, comparatorComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithComparatorComparisonStrategy.assertNotEqual(info, ONE, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE, ONE, comparatorComparisonStrategy));
   }
 }

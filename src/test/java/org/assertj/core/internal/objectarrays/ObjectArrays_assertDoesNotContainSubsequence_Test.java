@@ -17,13 +17,14 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -42,13 +43,11 @@ public class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArr
 
   private void expectFailure(ObjectArrays arrays, Object[] actual, Object[] subsequence, int index) {
     AssertionInfo info = someInfo();
-    try {
-      arrays.assertDoesNotContainSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSubsequence(actual, subsequence, arrays.getComparisonStrategy(), index));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContainSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSubsequence(actual, subsequence, arrays.getComparisonStrategy(), index));
   }
 
   @Test

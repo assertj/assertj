@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -63,11 +64,10 @@ public class Objects_assertDoesNotHaveNotSameClassAs_Test extends ObjectsBaseTes
   @Test
   public void should_fail_if_actual_has_same_type_as_other() {
     AssertionInfo info = someInfo();
-    try {
-      objects.assertDoesNotHaveSameClassAs(info, actual, new Person("Luke"));
-      failBecauseExpectedAssertionErrorWasNotThrown();
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldNotHaveSameClass(actual, new Person("Luke")));
-    }
+
+    Throwable error = catchThrowable(() -> objects.assertDoesNotHaveSameClassAs(info, actual, new Person("Luke")));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotHaveSameClass(actual, new Person("Luke")));
   }
 }

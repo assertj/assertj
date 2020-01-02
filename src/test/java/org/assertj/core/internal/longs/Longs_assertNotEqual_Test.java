@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.longs;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -49,13 +50,11 @@ public class Longs_assertNotEqual_Test extends LongsBaseTest {
   @Test
   public void should_fail_if_longs_are_equal() {
     AssertionInfo info = someInfo();
-    try {
-      longs.assertNotEqual(info, 6L, 6L);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(6L, 6L));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> longs.assertNotEqual(info, 6L, 6L));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(6L, 6L));
   }
 
   @Test
@@ -72,12 +71,10 @@ public class Longs_assertNotEqual_Test extends LongsBaseTest {
   @Test
   public void should_fail_if_longs_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      longsWithAbsValueComparisonStrategy.assertNotEqual(info, -6L, 6L);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(-6L, 6L, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertNotEqual(info, -6L, 6L));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(-6L, 6L, absValueComparisonStrategy));
   }
 }

@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.conditions;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -50,12 +51,10 @@ public class Conditions_assertIs_Test extends ConditionsBaseTest {
   public void should_fail_if_Condition_is_not_met() {
     condition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      conditions.assertIs(info, actual, condition);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBe(actual, condition));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> conditions.assertIs(info, actual, condition));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBe(actual, condition));
   }
 }

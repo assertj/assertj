@@ -13,10 +13,11 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -53,13 +54,11 @@ public class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_big_decimals_are_equal() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertNotEqual(info, ONE, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertNotEqual(info, ONE, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
   }
 
   @Test
@@ -76,12 +75,10 @@ public class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_big_decimals_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithComparatorComparisonStrategy.assertNotEqual(info, ONE_WITH_3_DECIMALS, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE, comparatorComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithComparatorComparisonStrategy.assertNotEqual(info, ONE_WITH_3_DECIMALS, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE, comparatorComparisonStrategy));
   }
 }

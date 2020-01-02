@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.BooleanArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -57,12 +58,10 @@ public class BooleanArrays_assertDoesNotHaveDuplicates_Test extends BooleanArray
   public void should_fail_if_actual_contains_duplicates() {
     actual = arrayOf(true, true, false);
     AssertionInfo info = someInfo();
-    try {
-      arrays.assertDoesNotHaveDuplicates(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(true)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(true)));
   }
 }

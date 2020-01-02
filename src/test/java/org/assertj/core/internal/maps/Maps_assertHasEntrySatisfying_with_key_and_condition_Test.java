@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.condition.Not.not;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -79,39 +80,33 @@ public class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends M
   public void should_fail_if_actual_does_not_contain_key() {
     AssertionInfo info = someInfo();
     String key = "id";
-    try {
-      maps.assertHasEntrySatisfying(info, actual, key, isDigits);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, isDigits));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
   }
 
   @Test
   public void should_fail_if_actual_contains_key_with_value_not_matching_condition() {
     AssertionInfo info = someInfo();
     String key = "name";
-    try {
-      maps.assertHasEntrySatisfying(info, actual, key, isDigits);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldBe(actual, actual.get(key), isDigits));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, isDigits));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, elementsShouldBe(actual, actual.get(key), isDigits));
   }
 
   @Test
   public void should_fail_if_actual_contains_null_key_with_value_not_matching_condition() {
     AssertionInfo info = someInfo();
     String key = null;
-    try {
-      maps.assertHasEntrySatisfying(info, actual, key, nonNull);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldBe(actual, actual.get(key), nonNull));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, nonNull));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, elementsShouldBe(actual, actual.get(key), nonNull));
   }
 
   @Test

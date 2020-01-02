@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import static org.mockito.Mockito.verify;
@@ -46,13 +47,11 @@ public class Files_assertExists_Test extends FilesBaseTest {
   public void should_fail_if_actual_does_not_exist() {
     when(actual.exists()).thenReturn(false);
     AssertionInfo info = someInfo();
-    try {
-      files.assertExists(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldExist(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertExists(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldExist(actual));
   }
 
   @Test

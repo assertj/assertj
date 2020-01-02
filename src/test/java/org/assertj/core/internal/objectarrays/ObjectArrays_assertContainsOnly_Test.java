@@ -12,13 +12,14 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -86,13 +87,11 @@ public class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
   public void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
-    try {
-      arrays.assertContainsOnly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsOnly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia")));
   }
 
   @Test
@@ -141,14 +140,12 @@ public class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "LUKE", "YOda", "Han" };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-                                                 caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
+                                               caseInsensitiveStringComparisonStrategy));
   }
 }

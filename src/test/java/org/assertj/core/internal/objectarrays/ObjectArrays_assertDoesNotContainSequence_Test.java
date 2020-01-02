@@ -17,13 +17,14 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -44,26 +45,22 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
   public void should_fail_if_actual_contains_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = array("Luke", "Leia");
-    try {
-      arrays.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 1));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 1));
   }
 
   @Test
   public void should_fail_if_actual_and_sequence_are_equal() {
     AssertionInfo info = someInfo();
     Object[] sequence = array("Yoda", "Luke", "Leia", "Obi-Wan");
-    try {
-      arrays.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 0));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 0));
   }
 
   @Test
@@ -72,13 +69,11 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
     actual = array("Yoda", "Luke", "Leia", "Yoda", "Luke", "Obi-Wan");
     // note that actual starts with {"Yoda", "Luke"} a partial sequence of {"Yoda", "Luke", "Obi-Wan"}
     Object[] sequence = array("Yoda", "Luke", "Obi-Wan");
-    try {
-      arrays.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 3));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 3));
   }
 
   @Test
@@ -160,27 +155,23 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
   public void should_fail_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = array("LUKE", "LeiA");
-    try {
-      arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 1,
-                                                              caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 1,
+                                                            caseInsensitiveStringComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = array("YOda", "LUKE", "LeiA", "Obi-WAn");
-    try {
-      arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 0,
-                                                              caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 0,
+                                                            caseInsensitiveStringComparisonStrategy));
   }
 }

@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -52,13 +53,11 @@ public class Doubles_assertGreaterThanOrEqualTo_Test extends DoublesBaseTest {
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      doubles.assertGreaterThanOrEqualTo(info, 6d, 8d);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6d, 8d));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doubles.assertGreaterThanOrEqualTo(info, 6d, 8d));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreaterOrEqual(6d, 8d));
   }
 
   @Test
@@ -80,12 +79,10 @@ public class Doubles_assertGreaterThanOrEqualTo_Test extends DoublesBaseTest {
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      doublesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, -6d, 8d);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(-6d, 8d, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, -6d, 8d));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreaterOrEqual(-6d, 8d, absValueComparisonStrategy));
   }
 }

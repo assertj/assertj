@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.comparables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -61,13 +62,11 @@ public class Comparables_assertNotEqualByComparison_Test extends ComparablesBase
   @Test
   public void should_fail_if_objects_are_equal() {
     AssertionInfo info = someInfo();
-    try {
-      comparables.assertNotEqualByComparison(info, "Yoda", "Yoda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual("Yoda", "Yoda"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> comparables.assertNotEqualByComparison(info, "Yoda", "Yoda"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual("Yoda", "Yoda"));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -91,12 +90,10 @@ public class Comparables_assertNotEqualByComparison_Test extends ComparablesBase
   @Test
   public void should_fail_if_objects_are_equal_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(info, new Person("Yoda"), new Person("Yoda"));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(new Person("Yoda"), new Person("Yoda")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(info, new Person("Yoda"), new Person("Yoda")));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(new Person("Yoda"), new Person("Yoda")));
   }
 }

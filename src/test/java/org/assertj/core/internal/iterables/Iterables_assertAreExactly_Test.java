@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldBeExactly.elementsShouldBeExactly;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -55,30 +56,26 @@ public class Iterables_assertAreExactly_Test extends IterablesWithConditionsBase
   public void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = newArrayList("Yoda", "Solo", "Leia");
-      iterables.assertAreExactly(someInfo(), actual, 2, jedi);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jedi);
-      verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = newArrayList("Yoda", "Solo", "Leia");
+
+    Throwable error = catchThrowable(() -> iterables.assertAreExactly(someInfo(), actual, 2, jedi));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jedi);
+    verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
   }
 
   @Test
   public void should_fail_if_condition_is_met_much() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = newArrayList("Yoda", "Luke", "Obiwan");
-      iterables.assertAreExactly(someInfo(), actual, 2, jedi);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jedi);
-      verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = newArrayList("Yoda", "Luke", "Obiwan");
+
+    Throwable error = catchThrowable(() -> iterables.assertAreExactly(someInfo(), actual, 2, jedi));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jedi);
+    verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
   }
 
 }

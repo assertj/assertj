@@ -12,13 +12,14 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.BooleanArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -74,13 +75,11 @@ public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBase
   public void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { true, true, true, false, false, false };
-    try {
-      arrays.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence);
   }
 
   @Test
@@ -94,13 +93,11 @@ public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBase
   public void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { true, true };
-    try {
-      arrays.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence);
   }
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, boolean[] sequence) {

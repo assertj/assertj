@@ -13,14 +13,15 @@
 package org.assertj.core.internal.longarrays;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.LongArrays.emptyArray;
 import static org.assertj.core.test.TestData.someIndex;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -73,13 +74,11 @@ public class LongArrays_assertContains_at_Index_Test extends LongArraysBaseTest 
     AssertionInfo info = someInfo();
     long value = 6;
     Index index = atIndex(1);
-    try {
-      arrays.assertContains(info, actual, value, index);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainAtIndex(actual, value, index, 8L));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContains(info, actual, value, index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainAtIndex(actual, value, index, 8L));
   }
 
   @Test
@@ -121,13 +120,11 @@ public class LongArrays_assertContains_at_Index_Test extends LongArraysBaseTest 
     AssertionInfo info = someInfo();
     long value = 6;
     Index index = atIndex(1);
-    try {
-      arraysWithCustomComparisonStrategy.assertContains(info, actual, value, index);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainAtIndex(actual, value, index, 8L, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual, value, index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainAtIndex(actual, value, index, 8L, absValueComparisonStrategy));
   }
 
   @Test

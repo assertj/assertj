@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -45,40 +46,33 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
   public void should_fail_if_predicate_is_not_met() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
-    try {
-      iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", PredicateDescription.GIVEN));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", PredicateDescription.GIVEN));
   }
 
   @Test
   public void should_fail_with_custom_description_if_predicate_is_not_met() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
-    try {
-      iterables.assertAllMatch(info, actual, predicate, new PredicateDescription("custom"));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", new PredicateDescription("custom")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertAllMatch(info, actual, predicate, new PredicateDescription("custom")));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", new PredicateDescription("custom")));
   }
 
   @Test
   public void should_report_all_items_that_do_not_match() {
     List<String> actual = newArrayList("123", "1234", "12345");
 
-    try {
-      iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3, PredicateDescription.GIVEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               elementsShouldMatch(actual, newArrayList("1234", "12345"), PredicateDescription.GIVEN));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3, PredicateDescription.GIVEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             elementsShouldMatch(actual, newArrayList("1234", "12345"), PredicateDescription.GIVEN));
   }
 
 }

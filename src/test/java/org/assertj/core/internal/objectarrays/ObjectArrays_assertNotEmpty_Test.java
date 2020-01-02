@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -46,13 +47,11 @@ public class ObjectArrays_assertNotEmpty_Test extends ObjectArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
-    try {
-      arrays.assertNotEmpty(info, emptyArray());
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEmpty());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertNotEmpty(info, emptyArray()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEmpty());
   }
 
   @Test

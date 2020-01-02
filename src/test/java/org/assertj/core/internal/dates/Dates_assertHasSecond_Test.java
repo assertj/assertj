@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -45,13 +46,11 @@ public class Dates_assertHasSecond_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_second() {
     AssertionInfo info = someInfo();
     int second = 5;
-    try {
-      dates.assertHasSecond(info, actual, second);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "second", second));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertHasSecond(info, actual, second));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "second", second));
   }
 
   @Test
@@ -69,13 +68,11 @@ public class Dates_assertHasSecond_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_second_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int second = 5;
-    try {
-      datesWithCustomComparisonStrategy.assertHasSecond(info, actual, second);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "second", second));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertHasSecond(info, actual, second));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "second", second));
   }
 
   @Test

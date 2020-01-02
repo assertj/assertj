@@ -12,13 +12,14 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -75,39 +76,33 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   public void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-    try {
-      iterables.assertStartsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertStartsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence);
   }
 
   @Test
   public void should_fail_if_actual_does_not_start_with_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
-    try {
-      iterables.assertStartsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertStartsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence);
   }
 
   @Test
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
-    try {
-      iterables.assertStartsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertStartsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence);
   }
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object[] sequence) {
@@ -165,26 +160,22 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   public void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldStartWith(actual, sequence, comparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "YODA", "luke", "Leia", "Obi-Wan", "Han" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldStartWith(actual, sequence, comparisonStrategy));
   }
 
   @Test

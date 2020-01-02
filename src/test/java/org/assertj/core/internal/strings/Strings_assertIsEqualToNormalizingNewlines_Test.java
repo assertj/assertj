@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.internal.StringsBaseTest;
@@ -48,13 +49,11 @@ public class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBase
   public void should_fail_if_newlines_are_different_in_both_strings() {
     String actual = "Lord of the Rings\r\n\r\nis cool";
     String expected = "Lord of the Rings\nis cool";
-    try {
-      strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected), actual, expected);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected), actual, expected);
   }
 
 }

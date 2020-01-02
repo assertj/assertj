@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -62,13 +63,11 @@ public class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_any_key_matching_the_given_condition() {
     AssertionInfo info = someInfo();
-    try {
-      maps.assertHasKeySatisfying(info, actual, isAge);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainKey(actual, isAge));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertHasKeySatisfying(info, actual, isAge));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainKey(actual, isAge));
   }
 
   @Test

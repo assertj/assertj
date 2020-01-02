@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveSameHashCode.shouldHaveSameHashCode;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -64,12 +65,11 @@ public class Objects_assertHasSameHashCodeAs_Test extends ObjectsBaseTest {
     AssertionInfo info = someInfo();
     // Jedi class hashCode is computed with the Jedi's name only
     Jedi luke = new Jedi("Luke", "green");
-    try {
-      objects.assertHasSameHashCodeAs(info, greenYoda, luke);
-      failBecauseExpectedAssertionErrorWasNotThrown();
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveSameHashCode(greenYoda, luke));
-    }
+
+    Throwable error = catchThrowable(() -> objects.assertHasSameHashCodeAs(info, greenYoda, luke));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveSameHashCode(greenYoda, luke));
   }
 
 }

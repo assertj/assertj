@@ -16,14 +16,15 @@ import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.NaN;
 import static java.lang.Float.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -83,27 +84,23 @@ public class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
   })
   public void should_fail_if_difference_is_equal_to_given_percentage(Float actual, Float other, Float percentage) {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
-                                                                      abs(actual - other)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
+                                                                    abs(actual - other)));
   }
 
   @Test
   public void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(ONE_HUNDRED));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
-                                                                      TEN - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(ONE_HUNDRED)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
+                                                                    TEN - ONE));
   }
 
   @Test

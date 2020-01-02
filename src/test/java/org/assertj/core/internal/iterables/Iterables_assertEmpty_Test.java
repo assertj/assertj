@@ -13,10 +13,11 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -52,13 +53,11 @@ public class Iterables_assertEmpty_Test extends IterablesBaseTest {
   public void should_fail_if_actual_has_elements() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
-    try {
-      iterables.assertEmpty(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEmpty(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertEmpty(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEmpty(actual));
   }
 
   @Test
@@ -76,12 +75,10 @@ public class Iterables_assertEmpty_Test extends IterablesBaseTest {
   public void should_fail_if_actual_has_elements_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertEmpty(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEmpty(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEmpty(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEmpty(actual));
   }
 }

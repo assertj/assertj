@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.floatarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.test.FloatArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
@@ -36,13 +37,11 @@ public class FloatArrays_assertNullOrEmpty_Test extends FloatArraysBaseTest {
   public void should_fail_if_array_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
     float[] actual = { 6f, 8f };
-    try {
-      arrays.assertNullOrEmpty(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeNullOrEmpty(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertNullOrEmpty(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeNullOrEmpty(actual));
   }
 
   @Test

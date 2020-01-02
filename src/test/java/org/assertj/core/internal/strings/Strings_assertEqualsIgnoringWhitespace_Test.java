@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
@@ -42,13 +43,11 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not() {
     AssertionInfo info = someInfo();
-    try {
-      strings.assertEqualsIgnoringWhitespace(info, null, "Luke");
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(info, null, "Luke");
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> strings.assertEqualsIgnoringWhitespace(info, null, "Luke"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(info, null, "Luke");
   }
 
   @Test
@@ -60,13 +59,11 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
   @Test
   public void should_fail_if_both_Strings_are_not_equal_ignoring_whitespace() {
     AssertionInfo info = someInfo();
-    try {
-      strings.assertEqualsIgnoringWhitespace(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(info, "Yoda", "Luke");
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> strings.assertEqualsIgnoringWhitespace(info, "Yoda", "Luke"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(info, "Yoda", "Luke");
   }
 
   @ParameterizedTest

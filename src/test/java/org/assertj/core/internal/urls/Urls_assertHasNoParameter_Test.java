@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -39,14 +40,10 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList((String)null);
 
-    try {
-      urls.assertHasNoParameter(info, url, name);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasNoParameter(info, url, name));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
   }
 
   @Test
@@ -55,14 +52,10 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList("10");
 
-    try {
-      urls.assertHasNoParameter(info, url, name);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasNoParameter(info, url, name));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
   }
 
   @Test
@@ -71,14 +64,10 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList(null, "10");
 
-    try {
-      urls.assertHasNoParameter(info, url, name);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasNoParameter(info, url, name));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(url, name, actualValues));
   }
 
   @Test
@@ -93,14 +82,10 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList((String)null);
 
-    try {
-      urls.assertHasNoParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, expectedValue, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasNoParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(url, name, expectedValue, actualValues));
   }
 
   @Test
@@ -130,14 +115,10 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList("10");
 
-    try {
-      urls.assertHasNoParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameter(url, name, expectedValue, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasNoParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameter(url, name, expectedValue, actualValues));
   }
 
   @Test
@@ -149,27 +130,19 @@ public class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
   public void should_fail_if_url_has_some_parameters() throws MalformedURLException {
     URL url = new URL("http://assertj.org/news?article=10&locked=false");
 
-    try {
-      urls.assertHasNoParameters(info, url);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameters(url, newLinkedHashSet("article", "locked")));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasNoParameters(info, url));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameters(url, newLinkedHashSet("article", "locked")));
   }
 
   @Test
   public void should_fail_if_url_has_one_parameter() throws MalformedURLException {
     URL url = new URL("http://assertj.org/news?article=10");
 
-    try {
-      urls.assertHasNoParameters(info, url);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveNoParameters(url, newLinkedHashSet("article")));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasNoParameters(info, url));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParameters(url, newLinkedHashSet("article")));
   }
 }

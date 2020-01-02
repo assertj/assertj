@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someIndex;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -75,13 +76,11 @@ public class ObjectArrays_assertDoesNotContain_at_Index_Test extends ObjectArray
   public void should_fail_if_actual_contains_value_at_index() {
     AssertionInfo info = someInfo();
     Index index = atIndex(0);
-    try {
-      arrays.assertDoesNotContain(info, actual, "Yoda", index);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainAtIndex(actual, "Yoda", index));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, "Yoda", index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainAtIndex(actual, "Yoda", index));
   }
 
   @Test
@@ -112,12 +111,10 @@ public class ObjectArrays_assertDoesNotContain_at_Index_Test extends ObjectArray
   public void should_fail_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Index index = atIndex(0);
-    try {
-      arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, "YOda", index);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainAtIndex(actual, "YOda", index, caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, "YOda", index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainAtIndex(actual, "YOda", index, caseInsensitiveStringComparisonStrategy));
   }
 }

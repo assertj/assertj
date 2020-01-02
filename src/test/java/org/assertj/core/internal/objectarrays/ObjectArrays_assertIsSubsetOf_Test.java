@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -94,13 +95,11 @@ public class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
     actual = array("Yoda");
     List<String> values = newArrayList("C-3PO", "Leila");
     List<String> extra = newArrayList("Yoda");
-    try {
-      arrays.assertIsSubsetOf(info, actual, values);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertIsSubsetOf(info, actual, values));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -131,13 +130,11 @@ public class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
     actual = array("Yoda", "Luke");
     List<String> values = newArrayList("yoda", "C-3PO");
     List<String> extra = newArrayList("Luke");
-    try {
-      arraysWithCustomComparisonStrategy.assertIsSubsetOf(info, actual, values);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra, caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertIsSubsetOf(info, actual, values));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra, caseInsensitiveStringComparisonStrategy));
   }
 
 }

@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -55,39 +56,33 @@ public class Iterables_assertEndsWithFirstAndRest_Test extends IterablesBaseTest
   public void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-    try {
-      iterables.assertEndsWith(info, actual, "Luke", sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, "Luke", sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertEndsWith(info, actual, "Luke", sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, "Luke", sequence);
   }
 
   @Test
   public void should_fail_if_actual_does_not_end_with_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
-    try {
-      iterables.assertEndsWith(info, actual, "Obi-Wan", sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, "Obi-Wan", sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertEndsWith(info, actual, "Obi-Wan", sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, "Obi-Wan", sequence);
   }
 
   @Test
   public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
-    try {
-      iterables.assertEndsWith(info, actual, "Luke", sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, "Luke", sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertEndsWith(info, actual, "Luke", sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, "Luke", sequence);
   }
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object first, Object[] sequence) {
@@ -108,42 +103,36 @@ public class Iterables_assertEndsWithFirstAndRest_Test extends IterablesBaseTest
   public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "LUKE", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Yoda", sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, prepend("Yoda", sequence),
-                                                   comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Yoda", sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, prepend("Yoda", sequence),
+                                                 comparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Yoda", sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, prepend("Yoda", sequence),
-                                                   comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Yoda", sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, prepend("Yoda", sequence),
+                                                 comparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Luke", sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, prepend("Luke", sequence),
-                                                   comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Luke", sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, prepend("Luke", sequence),
+                                                 comparisonStrategy));
   }
 
   @Test

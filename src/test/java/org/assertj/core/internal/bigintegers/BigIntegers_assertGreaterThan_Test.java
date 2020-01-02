@@ -14,10 +14,11 @@ package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -47,37 +48,31 @@ public class BigIntegers_assertGreaterThan_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertGreaterThan(info, TEN, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(TEN, TEN));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertGreaterThan(info, TEN, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(TEN, TEN));
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_by_comparison() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertGreaterThan(info, TEN, new BigInteger("10"));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(TEN, new BigInteger("10")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertGreaterThan(info, TEN, new BigInteger("10")));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(TEN, new BigInteger("10")));
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertGreaterThan(info, ONE, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(ONE, TEN));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertGreaterThan(info, ONE, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(ONE, TEN));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -92,25 +87,21 @@ public class BigIntegers_assertGreaterThan_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(TEN.negate(), TEN, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(TEN.negate(), TEN, absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate());
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(ONE, TEN.negate(), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater(ONE, TEN.negate(), absValueComparisonStrategy));
   }
 
 }

@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -45,13 +46,11 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
   @Test
   public void should_fail_if_objects_are_not_equal() {
     AssertionInfo info = someInfo();
-    try {
-      objects.assertEqual(info, "Luke", "Yoda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertEqual(info, "Luke", "Yoda"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", info.representation()));
   }
 
   @Test
@@ -73,33 +72,25 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
   @Test
   public void should_fail_if_objects_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      objectsWithCustomComparisonStrategy.assertEqual(info, "Luke", "Yoda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", customComparisonStrategy, STANDARD_REPRESENTATION));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objectsWithCustomComparisonStrategy.assertEqual(info, "Luke", "Yoda"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", customComparisonStrategy, STANDARD_REPRESENTATION));
   }
 
   @Test
   public void should_fail_with_my_exception_if_compared_with_null() {
-    try {
-      objects.assertEqual(someInfo(), new MyObject(), null);
-    } catch (MyObject.NullEqualsException e) {
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> objects.assertEqual(someInfo(), new MyObject(), null));
+
+    assertThat(error).isInstanceOf(MyObject.NullEqualsException.class);
   }
 
   @Test
   public void should_fail_with_my_exception_if_compared_with_other_object() {
-    try {
-      objects.assertEqual(someInfo(), new MyObject(), "Yoda");
-    } catch (MyObject.DifferentClassesException e) {
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> objects.assertEqual(someInfo(), new MyObject(), "Yoda"));
+
+    assertThat(error).isInstanceOf(MyObject.DifferentClassesException.class);
   }
 
   private static class MyObject {

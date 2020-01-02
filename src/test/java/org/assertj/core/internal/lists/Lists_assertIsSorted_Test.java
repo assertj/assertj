@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.lists;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.*;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -70,52 +71,44 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", "Leia");
-    try {
-      lists.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSorted(1, actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> lists.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSorted(1, actual));
   }
 
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", "Leia");
-    try {
-      listsWithCaseInsensitiveComparisonStrategy.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparisonStrategy.getComparator()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> listsWithCaseInsensitiveComparisonStrategy.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparisonStrategy.getComparator()));
   }
 
   @Test
   public void should_fail_if_actual_has_only_one_non_comparable_element() {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList(new Object());
-    try {
-      lists.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> lists.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
   }
 
   @Test
   public void should_fail_if_actual_has_some_non_comparable_elements() {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList("bar", new Object(), "foo");
-    try {
-      lists.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> lists.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
   }
 
   @Test
@@ -125,13 +118,11 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
     actual.add("bar");
     actual.add(new Integer(5));
     actual.add("foo");
-    try {
-      lists.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> lists.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
   }
 
 }

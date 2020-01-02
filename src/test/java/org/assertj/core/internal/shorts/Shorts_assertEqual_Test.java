@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.shorts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import static org.mockito.Mockito.verify;
@@ -48,13 +49,11 @@ public class Shorts_assertEqual_Test extends ShortsBaseTest {
   @Test
   public void should_fail_if_shorts_are_not_equal() {
     AssertionInfo info = someInfo();
-    try {
-      shorts.assertEqual(info, (short) 6, (short) 8);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shorts.assertEqual(info, (short) 6, (short) 8));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, info.representation()));
   }
 
   @Test
@@ -71,13 +70,11 @@ public class Shorts_assertEqual_Test extends ShortsBaseTest {
   @Test
   public void should_fail_if_shorts_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      shortsWithAbsValueComparisonStrategy.assertEqual(info, (short) 6, (short) 8);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy,
-          new StandardRepresentation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertEqual(info, (short) 6, (short) 8));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy,
+        new StandardRepresentation()));
   }
 }

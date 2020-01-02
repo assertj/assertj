@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.throwables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -64,41 +65,35 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
   public void should_fail_if_actual_has_no_suppressed_exception_and_expected_suppressed_exception_is_not_null() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new Throwable();
-    try {
-      throwables.assertHasSuppressedException(info, actual, expectedSuppressedException);
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, actual, expectedSuppressedException));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
   }
 
   @Test
   public void should_fail_if_suppressed_exception_is_not_instance_of_expected_type() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new NullPointerException(IAE_EXCEPTION_MESSAGE);
-    try {
-      throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException);
-    } catch (AssertionError err) {
-      verify(failures).failure(info,
-                               shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
   }
 
   @Test
   public void should_fail_if_suppressed_exception_has_not_the_expected_message() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new IllegalArgumentException(IAE_EXCEPTION_MESSAGE + "foo");
-    try {
-      throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException);
-    } catch (AssertionError err) {
-      verify(failures).failure(info,
-                               shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
   }
 
   @Test
@@ -106,27 +101,23 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new IllegalArgumentException("error cause");
     throwableSuppressedException = new Throwable(new IllegalArgumentException());
-    try {
-      throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException);
-    } catch (AssertionError err) {
-      verify(failures).failure(info,
-                               shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
   }
 
   @Test
   public void should_fail_if_suppressed_exception_has_different_type_and_message_to_expected_cause() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new NullPointerException("error cause");
-    try {
-      throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException);
-    } catch (AssertionError err) {
-      verify(failures).failure(info,
-                               shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
   }
 }

@@ -15,11 +15,12 @@ package org.assertj.core.internal.bigintegers;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -72,24 +73,20 @@ public class BigIntegers_assertIsBetween_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertIsBetween(info, ONE, new BigInteger("2"), TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, new BigInteger("2"), TEN, true, true));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertIsBetween(info, ONE, new BigInteger("2"), TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, new BigInteger("2"), TEN, true, true));
   }
 
   @Test
   public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertIsBetween(info, ONE, ZERO, ZERO);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, true, true));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertIsBetween(info, ONE, ZERO, ZERO));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, true, true));
   }
 }

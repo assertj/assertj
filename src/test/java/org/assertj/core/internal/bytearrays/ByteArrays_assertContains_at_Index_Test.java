@@ -13,13 +13,14 @@
 package org.assertj.core.internal.bytearrays;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.ByteArrays.emptyArray;
 import static org.assertj.core.test.TestData.*;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.*;
 
 
@@ -71,14 +72,12 @@ public class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest 
     AssertionInfo info = someInfo();
     byte value = 6;
     Index index = atIndex(1);
-    try {
-      arrays.assertContains(info, actual, value, index);
-    } catch (AssertionError e) {
-      byte found = 8;
-      verify(failures).failure(info, shouldContainAtIndex(actual, value, index, found));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContains(info, actual, value, index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    byte found = 8;
+    verify(failures).failure(info, shouldContainAtIndex(actual, value, index, found));
   }
 
   @Test
@@ -121,14 +120,12 @@ public class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest 
     AssertionInfo info = someInfo();
     byte value = 6;
     Index index = atIndex(1);
-    try {
-      arraysWithCustomComparisonStrategy.assertContains(info, actual, value, index);
-    } catch (AssertionError e) {
-      byte found = 8;
-      verify(failures).failure(info, shouldContainAtIndex(actual, value, index, found, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual, value, index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    byte found = 8;
+    verify(failures).failure(info, shouldContainAtIndex(actual, value, index, found, absValueComparisonStrategy));
   }
 
   @Test

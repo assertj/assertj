@@ -13,14 +13,15 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -77,13 +78,11 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
   public void should_fail_if_actual_contains_one_element_of_given_iterable() {
     AssertionInfo info = someInfo();
     List<String> list = newArrayList("Vador", "Yoda", "Han");
-    try {
-      iterables.assertDoesNotContainAnyElementsOf(info, actual, list);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainAnyElementsOf(info, actual, list));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -106,14 +105,12 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
   public void should_fail_if_actual_contains_one_element_of_given_iterable_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("LuKe", "YODA", "Han");
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"), comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"), comparisonStrategy));
   }
 
 }

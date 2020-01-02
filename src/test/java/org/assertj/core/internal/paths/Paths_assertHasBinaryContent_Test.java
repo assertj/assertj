@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.internal.BinaryDiffResult.noDiff;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -83,13 +84,11 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   public void should_fail_if_actual_path_does_not_exist() {
     AssertionInfo info = someInfo();
     when(nioFilesWrapper.exists(mockPath)).thenReturn(false);
-    try {
-      paths.assertHasBinaryContent(info, mockPath, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldExist(mockPath));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> paths.assertHasBinaryContent(info, mockPath, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldExist(mockPath));
   }
 
   @Test
@@ -97,13 +96,11 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     AssertionInfo info = someInfo();
     when(nioFilesWrapper.exists(mockPath)).thenReturn(true);
     when(nioFilesWrapper.isReadable(mockPath)).thenReturn(false);
-    try {
-      paths.assertHasBinaryContent(info, mockPath, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeReadable(mockPath));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> paths.assertHasBinaryContent(info, mockPath, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeReadable(mockPath));
   }
 
   @Test
@@ -125,12 +122,10 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     when(nioFilesWrapper.exists(path)).thenReturn(true);
     when(nioFilesWrapper.isReadable(path)).thenReturn(true);
     AssertionInfo info = someInfo();
-    try {
-      paths.assertHasBinaryContent(info, path, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveBinaryContent(path, binaryDiffs));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> paths.assertHasBinaryContent(info, path, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveBinaryContent(path, binaryDiffs));
   }
 }

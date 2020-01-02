@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.chararrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.*;
 import static org.assertj.core.test.CharArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -65,13 +66,11 @@ public class CharArrays_assertIsSorted_Test extends CharArraysBaseTest {
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'c', 'b');
-    try {
-      arrays.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSorted(1, actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSorted(1, actual));
   }
 
   @Test
@@ -99,14 +98,12 @@ public class CharArrays_assertIsSorted_Test extends CharArraysBaseTest {
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = arrayOf('A', 'c', 'b');
-    try {
-      arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures)
-          .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertIsSorted(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures)
+        .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
   }
 
 }

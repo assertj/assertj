@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.AnyElementShouldMatch.anyElementShouldMatch;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -40,26 +41,22 @@ public class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   public void should_fail_if_predicate_is_not_met_by_any_elements() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<String> startsWithM = s -> s.startsWith("M");
-    try {
-      iterables.assertAnyMatch(info, actual, startsWithM, PredicateDescription.GIVEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, anyElementShouldMatch(actual, PredicateDescription.GIVEN));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertAnyMatch(info, actual, startsWithM, PredicateDescription.GIVEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, anyElementShouldMatch(actual, PredicateDescription.GIVEN));
   }
 
   @Test
   public void should_fail_with_custom_description_if_predicate_is_met_by_no_element() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<String> startsWithM = s -> s.startsWith("M");
-    try {
-      iterables.assertAnyMatch(info, actual, startsWithM, new PredicateDescription("custom"));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, anyElementShouldMatch(actual, new PredicateDescription("custom")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertAnyMatch(info, actual, startsWithM, new PredicateDescription("custom")));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, anyElementShouldMatch(actual, new PredicateDescription("custom")));
   }
 
   @Test

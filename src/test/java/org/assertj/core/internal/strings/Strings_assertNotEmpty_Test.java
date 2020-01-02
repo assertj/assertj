@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -59,13 +60,11 @@ public class Strings_assertNotEmpty_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, "");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEmpty());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, ""));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEmpty());
   }
 
   @Test

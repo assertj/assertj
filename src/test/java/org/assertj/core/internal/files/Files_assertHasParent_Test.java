@@ -20,11 +20,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -58,26 +59,22 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
   public void should_fail_if_actual_has_no_parent() {
     AssertionInfo info = someInfo();
     File withoutParent = new File("without-parent");
-    try {
-      files.assertHasParent(info, withoutParent, expectedParent);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParent(withoutParent, expectedParent));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertHasParent(info, withoutParent, expectedParent));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParent(withoutParent, expectedParent));
   }
 
   @Test
   public void should_fail_if_actual_does_not_have_the_expected_parent() {
     AssertionInfo info = someInfo();
     File expectedParent = new File("./expected-parent");
-    try {
-      files.assertHasParent(info, actual, expectedParent);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParent(actual, expectedParent));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertHasParent(info, actual, expectedParent));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParent(actual, expectedParent));
   }
 
   @Test

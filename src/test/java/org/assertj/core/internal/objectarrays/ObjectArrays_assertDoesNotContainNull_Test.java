@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -63,13 +64,11 @@ public class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBase
   public void should_fail_if_actual_contains_null() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda", null);
-    try {
-      arrays.assertDoesNotContainNull(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainNull(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContainNull(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainNull(actual));
   }
 
   @Test
@@ -93,12 +92,10 @@ public class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBase
   public void should_fail_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda", null);
-    try {
-      arraysWithCustomComparisonStrategy.assertDoesNotContainNull(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainNull(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainNull(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContainNull(actual));
   }
 }

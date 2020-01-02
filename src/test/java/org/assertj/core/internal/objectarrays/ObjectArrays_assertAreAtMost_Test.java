@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldBeAtMost.elementsShouldBeAtMost;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
@@ -62,15 +63,13 @@ public class ObjectArrays_assertAreAtMost_Test extends ObjectArraysWithCondition
   public void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
-    try {
-      actual = array("Yoda", "Luke", "Obiwan");
-      arrays.assertAreAtMost(someInfo(), actual, 2, jedi);
-    } catch (AssertionError e) {
-      verify(conditions).assertIsNotNull(jedi);
-      verify(failures).failure(info, elementsShouldBeAtMost(actual, 2, jedi));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    actual = array("Yoda", "Luke", "Obiwan");
+
+    Throwable error = catchThrowable(() -> arrays.assertAreAtMost(someInfo(), actual, 2, jedi));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(conditions).assertIsNotNull(jedi);
+    verify(failures).failure(info, elementsShouldBeAtMost(actual, 2, jedi));
   }
 
 }

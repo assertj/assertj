@@ -14,12 +14,13 @@ package org.assertj.core.internal.lists;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.TestData.*;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.*;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -75,13 +76,11 @@ public class Lists_assertContains_Test extends ListsBaseTest {
   public void should_fail_if_actual_does_not_contain_value_at_index() {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
-    try {
-      lists.assertContains(info, actual, "Han", index);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainAtIndex(actual, "Han", index, "Luke"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> lists.assertContains(info, actual, "Han", index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainAtIndex(actual, "Han", index, "Luke"));
   }
 
   @Test
@@ -100,13 +99,11 @@ public class Lists_assertContains_Test extends ListsBaseTest {
   public void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
-    try {
-      listsWithCaseInsensitiveComparisonStrategy.assertContains(info, actual, "Han", index);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainAtIndex(actual, "Han", index, "Luke", comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> listsWithCaseInsensitiveComparisonStrategy.assertContains(info, actual, "Han", index));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainAtIndex(actual, "Han", index, "Luke", comparisonStrategy));
   }
 
 }

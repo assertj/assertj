@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.characters;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -49,13 +50,11 @@ public class Characters_assertLowerCase_Test extends CharactersBaseTest {
   @Test
   public void should_fail_if_actual_is_not_lowercase() {
     AssertionInfo info = someInfo();
-    try {
-      characters.assertLowerCase(info, 'A');
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLowerCase('A'));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> characters.assertLowerCase(info, 'A'));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLowerCase('A'));
   }
 
   @Test
@@ -72,12 +71,10 @@ public class Characters_assertLowerCase_Test extends CharactersBaseTest {
   @Test
   public void should_fail_if_actual_is_not_lowercase_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(info, 'A');
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLowerCase('A'));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(info, 'A'));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLowerCase('A'));
   }
 }
