@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.floats;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -47,13 +48,11 @@ public class Floats_assertNotEqual_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_floats_are_equal() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertNotEqual(info, 6f, 6f);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(6f, 6f));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertNotEqual(info, 6f, 6f));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(6f, 6f));
   }
 
   @Test
@@ -70,12 +69,10 @@ public class Floats_assertNotEqual_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_floats_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      floatsWithAbsValueComparisonStrategy.assertNotEqual(info, 6f, -6f);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(6f, -6f, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertNotEqual(info, 6f, -6f));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(6f, -6f, absValueComparisonStrategy));
   }
 }

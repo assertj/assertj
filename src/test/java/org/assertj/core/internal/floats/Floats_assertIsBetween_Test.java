@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.floats;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -71,24 +72,20 @@ public class Floats_assertIsBetween_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsBetween(info, ONE, TWO, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, true, true));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsBetween(info, ONE, TWO, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, true, true));
   }
 
   @Test
   public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsBetween(info, ONE, ZERO, ZERO);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, true, true));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsBetween(info, ONE, ZERO, ZERO));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, true, true));
   }
 }

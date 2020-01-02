@@ -16,13 +16,14 @@ import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.NaN;
 import static java.lang.Float.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -102,37 +103,31 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
   })
   public void should_fail_if_difference_is_equal_to_given_offset(Float actual, Float other, Float offset) {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), abs(actual - other)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), abs(actual - other)));
   }
   
   @Test
   public void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsNotCloseTo(info, ONE, TWO, within(TEN));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, TWO, within(TEN), TWO - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsNotCloseTo(info, ONE, TWO, within(TEN)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE, TWO, within(TEN), TWO - ONE));
   }
 
   @Test
   public void should_fail_if_actual_is_too_close_to_expected_value_with_strict_offset() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsNotCloseTo(info, ONE, TWO, byLessThan(TEN));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, TWO, byLessThan(TEN), TWO - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsNotCloseTo(info, ONE, TWO, byLessThan(TEN)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE, TWO, byLessThan(TEN), TWO - ONE));
   }
 
   @Test
