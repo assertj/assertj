@@ -14,12 +14,12 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -70,13 +70,11 @@ public class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
   public void should_fail_if_actual_does_not_contains_key() {
     AssertionInfo info = someInfo();
     String key = "id";
-    try {
-      maps.assertHasEntrySatisfying(info, actual, key, s -> assertThat(s).containsPattern(IS_DIGITS));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, s -> assertThat(s).containsPattern(IS_DIGITS)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
   }
 
   @Test

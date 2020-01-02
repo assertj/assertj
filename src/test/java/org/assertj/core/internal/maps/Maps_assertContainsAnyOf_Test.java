@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.internal.ErrorMessages.entryToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -85,12 +86,10 @@ public class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
   public void should_fail_if_actual_does_not_contain_any_of_the_given_entries() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Vador"), entry("job", "Jedi"));
-    try {
-      maps.assertContainsAnyOf(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainAnyOf(actual, expected));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertContainsAnyOf(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainAnyOf(actual, expected));
   }
 }

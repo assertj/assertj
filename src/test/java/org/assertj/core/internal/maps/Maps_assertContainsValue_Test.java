@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -67,12 +68,10 @@ public class Maps_assertContainsValue_Test extends MapsBaseTest {
   public void should_fail_if_actual_does_not_contain_value() {
     AssertionInfo info = someInfo();
     String value = "veryOld";
-    try {
-      maps.assertContainsValue(info, actual, value);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainValue(actual, value));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertContainsValue(info, actual, value));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainValue(actual, value));
   }
 }
