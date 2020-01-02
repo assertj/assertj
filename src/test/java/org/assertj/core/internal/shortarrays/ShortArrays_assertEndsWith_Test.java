@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.shortarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ShortArrays.arrayOf;
 import static org.assertj.core.test.ShortArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -69,39 +70,33 @@ public class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
   public void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     short[] sequence = { 6, 8, 10, 12, 20, 22 };
-    try {
-      arrays.assertEndsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, sequence));
   }
 
   @Test
   public void should_fail_if_actual_does_not_end_with_sequence() {
     AssertionInfo info = someInfo();
     short[] sequence = { 20, 22 };
-    try {
-      arrays.assertEndsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, sequence));
   }
 
   @Test
   public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
     short[] sequence = { 6, 20, 22 };
-    try {
-      arrays.assertEndsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, sequence));
   }
 
   @Test
@@ -136,39 +131,33 @@ public class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
   public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     short[] sequence = { 6, -8, 10, 12, 20, 22 };
-    try {
-      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     short[] sequence = { 20, 22 };
-    try {
-      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     short[] sequence = { 6, 20, 22 };
-    try {
-      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
   }
 
   @Test
