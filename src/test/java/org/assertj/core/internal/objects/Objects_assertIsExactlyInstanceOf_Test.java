@@ -12,11 +12,12 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -53,11 +54,10 @@ public class Objects_assertIsExactlyInstanceOf_Test extends ObjectsBaseTest {
   @Test
   public void should_fail_if_actual_is_not_exactly_instance_of_type() {
     AssertionInfo info = someInfo();
-    try {
-      objects.assertIsExactlyInstanceOf(info, "Yoda", Object.class);
-      failBecauseExpectedAssertionErrorWasNotThrown();
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeExactlyInstance("Yoda", Object.class));
-    }
+
+    Throwable error = catchThrowable(() -> objects.assertIsExactlyInstanceOf(info, "Yoda", Object.class));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeExactlyInstance("Yoda", Object.class));
   }
 }

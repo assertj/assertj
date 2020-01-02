@@ -13,11 +13,12 @@
 package org.assertj.core.internal.objects;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -118,20 +119,19 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    try {
-      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, noFieldComparators(),
-                                                      defaultTypeComparators(), "name", "lightSaberColor");
-    } catch (AssertionError err) {
-      List<Object> expected = newArrayList((Object) "Blue");
-      List<Object> rejected = newArrayList((Object) "Green");
-      verify(failures).failure(info, shouldBeEqualComparingOnlyGivenFields(actual,
-                                                                           newArrayList("lightSaberColor"),
-                                                                           rejected,
-                                                                           expected,
-                                                                           newArrayList("name", "lightSaberColor")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, noFieldComparators(),
+      defaultTypeComparators(), "name", "lightSaberColor"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+
+    List<Object> expected = newArrayList((Object) "Blue");
+    List<Object> rejected = newArrayList((Object) "Green");
+    verify(failures).failure(info, shouldBeEqualComparingOnlyGivenFields(actual,
+                                                                         newArrayList("lightSaberColor"),
+                                                                         rejected,
+                                                                         expected,
+                                                                         newArrayList("name", "lightSaberColor")));
   }
 
   @Test
@@ -139,20 +139,18 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
-    try {
-      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, noFieldComparators(),
-                                                      defaultTypeComparators(), "name", "lightSaberColor");
-    } catch (AssertionError err) {
-      List<Object> expected = newArrayList((Object) "Luke");
-      List<Object> rejected = newArrayList((Object) "Yoda");
-      verify(failures).failure(info, shouldBeEqualComparingOnlyGivenFields(actual,
-                                                                           newArrayList("name"),
-                                                                           rejected,
-                                                                           expected,
-                                                                           newArrayList("name", "lightSaberColor")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, noFieldComparators(),
+      defaultTypeComparators(), "name", "lightSaberColor"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    List<Object> expected = newArrayList((Object) "Luke");
+    List<Object> rejected = newArrayList((Object) "Yoda");
+    verify(failures).failure(info, shouldBeEqualComparingOnlyGivenFields(actual,
+                                                                         newArrayList("name"),
+                                                                         rejected,
+                                                                         expected,
+                                                                         newArrayList("name", "lightSaberColor")));
   }
 
   @Test
