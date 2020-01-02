@@ -19,9 +19,4 @@ package org.assertj.core.api;
  * A simple base class for test.
  */
 public class BaseTest {
-
-  public void failBecauseExpectedAssertionErrorWasNotThrown() {
-    Assertions.fail("Assertion error expected");
-  }
-
 }
