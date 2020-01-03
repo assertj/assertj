@@ -306,7 +306,7 @@ public class RecursiveComparisonDifferenceCalculator {
     Enum<?> actualEnum = (Enum<?>) dualValue.actual;
     Enum<?> expectedEnum = (Enum<?>) dualValue.expected;
     // we must only compare actual and expected enum by value but not by type
-    if (actualEnum.name() != expectedEnum.name()) comparisonState.addDifference(dualValue);
+    if (!actualEnum.name().equals(expectedEnum.name())) comparisonState.addDifference(dualValue);
   }
 
   private static boolean hasCustomComparator(DualValue dualValue,
