@@ -350,6 +350,45 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that the actual {@code Class} has the given class as direct superclass (as in {@link Class#getSuperclass()}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds as Object has no superclass:
+   * assertThat(Object.class).hasSuperclass(null);
+   *
+   * // this assertion succeeds as interfaces have no superclass:
+   * assertThat(Cloneable.class).hasSuperclass(null);
+   *
+   * // this assertion succeeds as primitive types have no superclass:
+   * assertThat(Integer.TYPE).hasSuperclass(null);
+   *
+   * // this assertion succeeds as void type has no superclass:
+   * assertThat(Void.TYPE).hasSuperclass(null);
+   *
+   * // this assertion succeeds:
+   * assertThat(Integer.class).hasSuperclass(Number.class);
+   *
+   * // this assertion succeeds as superclass for array classes is Object:
+   * assertThat(Integer[].class).hasSuperclass(Object.class);
+   *
+   * // this assertion fails as only direct superclass matches:
+   * assertThat(Integer.class).hasSuperclass(Object.class);
+   *
+   * // this assertion fails as interfaces are not superclasses:
+   * assertThat(Integer.class).hasSuperclass(Comparable.class);</code></pre>
+   *
+   * @param superclass the class which must be the direct superclass of actual.
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't have the given class as direct superclass.
+   * @since 3.15.0
+   */
+  public SELF hasSuperclass(Class<?> superclass) {
+    classes.assertHasSuperclass(info, actual, superclass);
+    return myself;
+  }
+
+  /**
    * @deprecated use {@link #hasPublicFields(String...)} instead.
    * @param fields the fields who must be in the class.
    * @return {@code this} assertions object
