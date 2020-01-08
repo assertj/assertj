@@ -3003,4 +3003,8 @@ public class Assertions implements InstanceOfAssertFactories {
     AbstractAssert.setCustomRepresentation(CONFIGURATION_PROVIDER.representation());
   }
 
+  public static Expectation expect(Runnable runnable) {
+    return new Expectation(runnable);
+  }
+
 }
