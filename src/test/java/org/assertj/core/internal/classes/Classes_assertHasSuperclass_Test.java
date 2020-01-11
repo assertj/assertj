@@ -12,20 +12,18 @@
  */
 package org.assertj.core.internal.classes;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-import java.util.stream.Stream;
 
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("Classes assertHasSuperclass")
@@ -42,6 +40,18 @@ class Classes_assertHasSuperclass_Test extends ClassesBaseTest {
   }
 
   @Test
+  void should_fail_if_null_class_is_given() {
+    // GIVEN
+    Class<?> actual = Integer.class;
+    Class<?> superclass = null;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> classes.assertHasSuperclass(someInfo(), actual, superclass));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("superclass").create());
+  }
+
+  @Test
   void should_pass_if_actual_has_given_class_as_direct_superclass() {
     // GIVEN
     Class<?> actual = Integer.class;
@@ -51,7 +61,6 @@ class Classes_assertHasSuperclass_Test extends ClassesBaseTest {
   }
 
   @ParameterizedTest
-  @NullSource
   @ValueSource(classes = { Object.class, Comparable.class, String.class })
   void should_fail_if_actual_has_not_given_class_as_direct_superclass(Class<?> superclass) {
     // GIVEN
@@ -68,27 +77,6 @@ class Classes_assertHasSuperclass_Test extends ClassesBaseTest {
     Class<?> actual = Integer[].class;
     // WHEN/THEN
     classes.assertHasSuperclass(someInfo(), actual, Object.class);
-  }
-
-  @ParameterizedTest
-  @MethodSource("nullSuperclassTypes")
-  void should_pass_if_actual_has_no_superclass_and_null_is_given(Class<?> actual) {
-    // WHEN/THEN
-    classes.assertHasSuperclass(someInfo(), actual, null);
-  }
-
-  private static Stream<Class<?>> nullSuperclassTypes() {
-    return Stream.of(Object.class,
-                     Cloneable.class, // any interface
-                     Boolean.TYPE,
-                     Byte.TYPE,
-                     Character.TYPE,
-                     Double.TYPE,
-                     Float.TYPE,
-                     Integer.TYPE,
-                     Long.TYPE,
-                     Short.TYPE,
-                     Void.TYPE);
   }
 
 }

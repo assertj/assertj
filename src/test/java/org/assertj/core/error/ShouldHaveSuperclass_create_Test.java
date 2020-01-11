@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 class ShouldHaveSuperclass_create_Test {
 
   @Test
-  void should_create_error_message() {
+  void should_create_error_message_if_actual_has_superclass() {
     // WHEN
     String message = shouldHaveSuperclass(String.class, Integer.class).create(new TestDescription("TEST"),
                                                                               STANDARD_REPRESENTATION);
@@ -44,6 +44,20 @@ class ShouldHaveSuperclass_create_Test {
                                    "  <java.lang.Integer>%n" +
                                    "but had:%n" +
                                    "  <java.lang.Object>"));
+  }
+
+  @Test
+  void should_create_error_message_if_actual_has_no_superclass() {
+    // WHEN
+    String message = shouldHaveSuperclass(Object.class, Integer.class).create(new TestDescription("TEST"),
+                                                                              STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting%n" +
+                                   "  <java.lang.Object>%n" +
+                                   "to have superclass:%n" +
+                                   "  <java.lang.Integer>%n" +
+                                   "but had none."));
   }
 
 }
