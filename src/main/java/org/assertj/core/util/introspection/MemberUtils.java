@@ -62,14 +62,4 @@ abstract class MemberUtils {
     static boolean isPackageAccess(int modifiers) {
         return (modifiers & ACCESS_TEST) == 0;
     }
-
-    /**
-     * Returns whether a Member is accessible.
-     * @param m Member to check
-     * @return true if <code>m</code> is accessible
-     */
-    static boolean isAccessible(Member m) {
-        return m != null && Modifier.isPublic(m.getModifiers()) && !m.isSynthetic();
-    }
-
  }

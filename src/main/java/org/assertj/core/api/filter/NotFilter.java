@@ -24,10 +24,6 @@ public class NotFilter extends FilterOperator<Object> {
     return new NotFilter(valueNotToMatch);
   }
 
-  boolean filter(Object propertyValueOfCurrentElement) {
-    return !areEqual(propertyValueOfCurrentElement, filterParameter);
-  }
-
   @Override
   public <E> Filters<E> applyOn(Filters<E> filters) {
     return filters.notEqualsTo(filterParameter);

@@ -86,10 +86,6 @@ final class DualValue {
     return isArray(actual);
   }
 
-  public boolean hasIterableValues() {
-    return actual instanceof Iterable && expected instanceof Iterable;
-  }
-
   public boolean isActualFieldAnOptional() {
     return actual instanceof Optional;
   }
