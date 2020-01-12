@@ -12,13 +12,17 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Maps.newHashMap;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -34,7 +38,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
-    extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+    extends RecursiveComparisonAssert_isEqualTo_BaseTest implements PersonData {
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
@@ -295,6 +299,22 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     // THEN
     List<FieldLocation> ignoredOverriddenEqualsFields = recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields();
     assertThat(ignoredOverriddenEqualsFields).containsExactly(fielLocation("foo"), fielLocation("bar"), fielLocation("baz"));
+  }
+
+  @ParameterizedTest(name = "actual {0} / expected {1}")
+  @MethodSource("container_values")
+  void should_pass_as_Person_overridden_equals_is_ignored(Object actual, Object expected) {
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringAllOverriddenEquals()
+                      .isEqualTo(expected);
+  }
+
+  static Stream<Arguments> container_values() {
+    // sheldon type is Person which overrides equals!
+    return Stream.of(Arguments.of(newHashSet(sheldon), newHashSet(sheldonDto)),
+                     Arguments.of(array(sheldon), array(sheldonDto)),
+                     Arguments.of(Optional.of(sheldon), Optional.of(sheldonDto)),
+                     Arguments.of(newHashMap("sheldon", sheldon), newHashMap("sheldon", sheldonDto)));
   }
 
 }

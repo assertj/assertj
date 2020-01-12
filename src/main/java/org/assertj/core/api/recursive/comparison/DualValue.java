@@ -137,4 +137,20 @@ final class DualValue {
   public boolean isActualFieldAnEnum() {
     return actual.getClass().isEnum();
   }
+
+  public boolean hasNoContainerValues() {
+    return !isContainer(actual) && !isContainer(expected);
+  }
+
+  public boolean hasNoNullValues() {
+    return actual != null && expected != null;
+  }
+
+  private static boolean isContainer(Object o) {
+    return o instanceof Iterable ||
+           o instanceof Map ||
+           o instanceof Optional ||
+           isArray(o);
+  }
+
 }

@@ -355,11 +355,20 @@ public class RecursiveComparisonConfiguration {
     return parentPath.isEmpty() ? name : format("%s.%s", parentPath, name);
   }
 
+  boolean hasCustomComparator(DualValue dualValue) {
+    String fieldName = dualValue.getConcatenatedPath();
+    if (hasComparatorForField(fieldName)) return true;
+    if (dualValue.actual == null && dualValue.expected == null) return false;
+    // best effort assuming actual and expected have the same type (not 100% true as we can compare object of differennt types)
+    Class<?> valueType = dualValue.actual != null ? dualValue.actual.getClass() : dualValue.expected.getClass();
+    return hasComparatorForType(valueType);
+  }
+
   boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
     if (dualValue.isJavaType()) return false; // we must compare basic types otherwise the recursive comparison loops infinitely!
     return ignoreAllOverriddenEquals
            || matchesAnIgnoredOverriddenEqualsField(dualValue)
-           || shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass());
+           || (dualValue.actual != null && shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass()));
   }
 
   @VisibleForTesting
