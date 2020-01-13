@@ -997,8 +997,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @return a new {@link RecursiveComparisonAssert} instance
    */
+  @Override
   public RecursiveComparisonAssert<?> usingRecursiveComparison() {
-    return usingRecursiveComparison(new RecursiveComparisonConfiguration());
+    // overridden for javadoc
+    return super.usingRecursiveComparison();
   }
 
   /**
@@ -1007,9 +1009,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
+  @Override
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself)
-                                                                                    .withTypeComparators(comparatorByType);
+    return super.usingRecursiveComparison(recursiveComparisonConfiguration).withTypeComparators(comparatorByType);
   }
 
   // override for proxyable friendly AbstractObjectAssert

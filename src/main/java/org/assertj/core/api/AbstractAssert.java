@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
@@ -816,6 +817,18 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     this.info.useRepresentation(assertInstance.info.representation());
     this.info.description(assertInstance.info.description());
     this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
+  }
+
+  // this method is meant to be ovverridden and made public in subclasses that want to expose it
+  // this would avoid duplicating this code in all subclasses
+  protected RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself);
+  }
+
+  // this method is meant to be ovverridden and made public in subclasses that want to expose it
+  // this would avoid duplicating this code in all subclasses
+  protected RecursiveComparisonAssert<?> usingRecursiveComparison() {
+    return usingRecursiveComparison(new RecursiveComparisonConfiguration());
   }
 
 }

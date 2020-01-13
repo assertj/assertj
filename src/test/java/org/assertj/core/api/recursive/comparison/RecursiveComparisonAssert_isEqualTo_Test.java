@@ -19,9 +19,7 @@ import static org.assertj.core.api.recursive.comparison.Color.BLUE;
 import static org.assertj.core.api.recursive.comparison.Color.GREEN;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
@@ -30,7 +28,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.FriendlyPerson;
@@ -76,48 +73,6 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
     verify(failures).failure(info, shouldBeEqual(actual, null, objects.getComparisonStrategy(), info.representation()));
-  }
-
-  @Test
-  public void should_honor_test_description() {
-    // GIVEN
-    Person actual = new Person("John");
-    actual.home.address.number = 1;
-    Person expected = new Person("John");
-    expected.home.address.number = 2;
-    // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).as("test description")
-                                                                        .usingRecursiveComparison()
-                                                                        .isEqualTo(expected));
-    // THEN
-    assertThat(error).hasMessageContaining("[test description]");
-  }
-
-  @Test
-  public void should_propagate_representation() {
-    // GIVEN
-    Person actual = new Person("John");
-    Person expected = new Person("John");
-    // WHEN
-    RecursiveComparisonAssert<?> assertion = assertThat(actual).withRepresentation(UNICODE_REPRESENTATION)
-                                                               .usingRecursiveComparison()
-                                                               .isEqualTo(expected);
-    // THEN
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-  }
-
-  @Test
-  public void should_propagate_overridden_error_message() {
-    // GIVEN
-    Person actual = new Person("John");
-    Person expected = new Person("John");
-    String errorMessage = "boom";
-    // WHEN
-    RecursiveComparisonAssert<?> assertion = assertThat(actual).overridingErrorMessage(errorMessage)
-                                                               .usingRecursiveComparison()
-                                                               .isEqualTo(expected);
-    // THEN
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo(errorMessage);
   }
 
   @Test
