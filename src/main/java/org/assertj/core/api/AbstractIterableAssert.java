@@ -1952,6 +1952,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * leonard.setName("Leonard Ofstater");
    * assertThat(doctors).usingRecursiveComparison()
    *                    .isEqualTo(people);
+   *
    * // assertion fails because howard is missing and leonard is not expected.
    * people = Arrays.asList(howard, sheldon, raj)
    * assertThat(doctors).usingRecursiveComparison()
