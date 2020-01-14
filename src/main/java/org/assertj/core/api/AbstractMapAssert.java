@@ -22,6 +22,7 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toCollection;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -1148,8 +1149,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @since 3.12.0
    */
+  @SuppressWarnings("unchecked")
   public SELF containsOnlyKeys(Iterable<? extends K> keys) {
-    maps.assertContainsOnlyKeys(info, actual, keys);
+    if (keys instanceof Path) {
+      // do not treat Path as an Iterable
+      K path = (K) keys;
+      maps.assertContainsOnlyKeys(info, actual, path);
+    } else {
+      maps.assertContainsOnlyKeys(info, actual, keys);
+    }
     return myself;
   }
 
