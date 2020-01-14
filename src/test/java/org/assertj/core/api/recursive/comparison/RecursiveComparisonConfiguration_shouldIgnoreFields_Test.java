@@ -18,9 +18,11 @@ import static org.assertj.core.api.recursive.comparison.DualValueUtil.randomPath
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -127,6 +129,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*name");
     recursiveComparisonConfiguration.ignoreFields("number");
+    recursiveComparisonConfiguration.ignoreFieldsForTypes(String.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
     // THEN
@@ -137,8 +140,46 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     return Stream.of(arguments(dualKeyWithPath("name")),
                      arguments(dualKeyWithPath("number")),
                      arguments(dualKeyWithPath("surname")),
-                     arguments(dualKeyWithPath("first", "name")));
+                     arguments(dualKeyWithPath("first", "name")),
+                     arguments(new DualValue(randomPath(), "actual", "expected")));
 
+  }
+
+  @Test
+  public void ignoring_fields_for_types_does_not_replace_previous_types() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreFieldsForTypes(UUID.class);
+    recursiveComparisonConfiguration.ignoreFieldsForTypes(ZonedDateTime.class, String.class);
+    // THEN
+    assertThat(recursiveComparisonConfiguration.getIgnoredFieldsForTypes())
+        .containsExactlyInAnyOrder(UUID.class, ZonedDateTime.class, String.class);
+  }
+
+  @ParameterizedTest(name = "{0} should be ignored with these ignored fields {1}")
+  @MethodSource("ignoringSpecifiedTypesSource")
+  public void should_ignore_fields_for_specified_types(DualValue dualKey, List<Class<?>> ignoredTypes) {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFieldsForTypes(ignoredTypes.toArray(new Class<?>[0]));
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
+    // THEN
+    assertThat(ignored).as("%s should be ignored with these ignored types %s", dualKey, ignoredTypes).isTrue();
+  }
+
+  private static Stream<Arguments> ignoringSpecifiedTypesSource() {
+    return Stream.of(arguments(new DualValue(randomPath(), "actual", "expected"), list(String.class)),
+                     arguments(new DualValue(randomPath(), UUID.randomUUID(), UUID.randomUUID()), list(String.class, UUID.class)));
+  }
+
+  @Test
+  public void should_return_false_if_the_field_type_is_not_ignored() {
+    // GIVEN
+    DualValue dualKey = new DualValue(randomPath(), "actual", "expected");
+    recursiveComparisonConfiguration.ignoreFieldsForTypes(UUID.class);
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
+    // THEN
+    assertThat(ignored).isFalse();
   }
 
   static DualValue dualKey(Object key1, Object key2) {

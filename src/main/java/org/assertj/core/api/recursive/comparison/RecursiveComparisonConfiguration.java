@@ -43,6 +43,7 @@ public class RecursiveComparisonConfiguration {
   private boolean ignoreAllActualNullFields = false;
   private Set<FieldLocation> ignoredFields = new LinkedHashSet<>();
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
+  private Set<Class<?>> ignoredFieldsForTypes = new LinkedHashSet<>();
 
   // overridden equals method to ignore section
   private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
@@ -133,12 +134,32 @@ public class RecursiveComparisonConfiguration {
   }
 
   /**
+   * Adds the given types to the list of the object under test fields to ignore in the recursive comparison.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFields(String...)} for examples.
+   *
+   * @param types the types of the object under test to ignore in the comparison.
+   */
+  public void ignoreFieldsForTypes(Class<?>... types) {
+    ignoredFieldsForTypes.addAll(list(types));
+  }
+
+  /**
    * Returns the list of the object under test fields to ignore in the recursive comparison.
    *
    * @return the list of the object under test fields to ignore in the recursive comparison.
    */
   public Set<FieldLocation> getIgnoredFields() {
     return ignoredFields;
+  }
+
+  /**
+   * Returns the set of the object under test field types to ignore in the recursive comparison.
+   *
+   * @return the set of the object under test field types to ignore in the recursive comparison.
+   */
+  public Set<Class<?>> getIgnoredFieldsForTypes() {
+    return ignoredFieldsForTypes;
   }
 
   /**
@@ -324,6 +345,7 @@ public class RecursiveComparisonConfiguration {
     describeIgnoreAllActualNullFields(description);
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
+    describeIgnoredFieldsForTypes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
     describeIgnoreCollectionOrder(description);
     describeIgnoredCollectionOrderInFields(description);
@@ -339,7 +361,8 @@ public class RecursiveComparisonConfiguration {
   boolean shouldIgnore(DualValue dualKey) {
     return matchesAnIgnoredNullField(dualKey)
            || matchesAnIgnoredField(dualKey)
-           || matchesAnIgnoredFieldRegex(dualKey);
+           || matchesAnIgnoredFieldRegex(dualKey)
+           || matchesAnIgnoredFieldType(dualKey);
   }
 
   Predicate<String> shouldKeepField(String parentConcatenatedPath) {
@@ -382,6 +405,11 @@ public class RecursiveComparisonConfiguration {
   private void describeIgnoredFields(StringBuilder description) {
     if (!ignoredFields.isEmpty())
       description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
+  }
+
+  private void describeIgnoredFieldsForTypes(StringBuilder description) {
+    if (!ignoredFieldsForTypes.isEmpty())
+      description.append(format("- the following types were ignored in the comparison: %s%n", describeIgnoredTypes()));
   }
 
   private void describeIgnoreAllActualNullFields(StringBuilder description) {
@@ -477,6 +505,10 @@ public class RecursiveComparisonConfiguration {
     return matchesAnIgnoredField(dualKey.concatenatedPath);
   }
 
+  private boolean matchesAnIgnoredFieldType(DualValue dualKey) {
+    return ignoredFieldsForTypes.contains(dualKey.actual.getClass());
+  }
+
   private boolean matchesAnIgnoredField(String fieldConcatenatedPath) {
     return ignoredFields.stream()
                         .anyMatch(fieldLocation -> fieldLocation.matches(fieldConcatenatedPath));
@@ -497,6 +529,13 @@ public class RecursiveComparisonConfiguration {
                                                   .map(FieldLocation::getFieldPath)
                                                   .collect(toList());
     return join(fieldsDescription).with(", ");
+  }
+
+  private String describeIgnoredTypes() {
+    List<String> typesDescription = ignoredFieldsForTypes.stream()
+                                                          .map(Class::getName)
+                                                          .collect(toList());
+    return join(typesDescription).with(", ");
   }
 
   private String describeIgnoredCollectionOrderInFields() {
