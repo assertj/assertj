@@ -202,300 +202,70 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.assertj.guava.api;
+package org.assertj.guava.internal.rangesets;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.guava.error.RangeShouldBeClosedInTheLowerBound.shouldHaveClosedLowerBound;
-import static org.assertj.guava.error.RangeShouldBeClosedInTheUpperBound.shouldHaveClosedUpperBound;
-import static org.assertj.guava.error.RangeShouldBeOpenedInTheLowerBound.shouldHaveOpenedLowerBound;
-import static org.assertj.guava.error.RangeShouldBeOpenedInTheUpperBound.shouldHaveOpenedUpperBound;
-import static org.assertj.guava.error.RangeShouldHaveLowerEndpointEqual.shouldHaveEqualLowerEndpoint;
-import static org.assertj.guava.error.RangeShouldHaveUpperEndpointEqual.shouldHaveEqualUpperEndpoint;
-import static org.assertj.guava.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
+import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.IterableUtil.iterable;
 
-import java.util.List;
+import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.guava.internal.RangeSetsBaseTest;
+import org.junit.jupiter.api.Test;
 
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
-import org.assertj.core.util.VisibleForTesting;
+class RangeSets_assertDoesNotContainAll_Test extends RangeSetsBaseTest {
 
-import com.google.common.collect.BoundType;
-import com.google.common.collect.Range;
-
-/**
- * Assertions for guava {@link com.google.common.collect.Range}.
- * <p>
- * To create an instance of this class, invoke <code>{@link
- * org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.Range)}</code>
- * <p>
- *
- * @param <T> the type of elements of the tested Range value
- * @author Marcin Kwaczyński
- */
-public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAssert<T>, Range<T>> {
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
-
-  protected RangeAssert(final Range<T> actual) {
-    super(actual, RangeAssert.class);
+  @Test
+  void should_pass_if_actual_does_not_contain_values() {
+    rangeSets.assertDoesNotContainAll(someInfo(), actual, iterable(-10, 12, 40));
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} contains the given values.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).contains(10, 11, 12);</code></pre>
-   *
-   * @param values the values to look for in actual {@link com.google.common.collect.Range}.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not contain the given values.
-   */
-  public RangeAssert<T> contains(@SuppressWarnings("unchecked") final T... values) {
-    Objects.instance().assertNotNull(info, actual);
-    throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
-
-    // if both actual and values are empty, then assertion passes.
-    if (values.length == 0 && actual.isEmpty()) return myself;
-    throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
-
-    final List<T> valuesNotFound = newArrayList();
-    for (final T value : values) {
-      if (!actual.contains(value)) {
-        valuesNotFound.add(value);
-      }
-    }
-    if (!valuesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContain(actual, values, valuesNotFound));
-    }
-
-    return myself;
+  @Test
+  void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
+    rangeSets.assertDoesNotContainAll(someInfo(), actual, iterable(-10, -10, 12, 12));
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} does not contain the given values.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).doesNotContain(13);</code></pre>
-   *
-   * @param values the values that should not be present in actual {@link com.google.common.collect.Range}.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} contains the given values.
-   */
-  public RangeAssert<T> doesNotContain(@SuppressWarnings("unchecked") final T... values) {
-    Objects.instance().assertNotNull(info, actual);
-
-    final List<T> valuesFound = newArrayList();
-    for (final T value : values) {
-      if (actual.contains(value)) {
-        valuesFound.add(value);
-      }
-    }
-    if (!valuesFound.isEmpty()) {
-      throw failures.failure(info, shouldNotContain(actual, values, valuesFound));
-    }
-
-    return myself;
+  @Test
+  void should_throw_error_if_array_of_values_to_look_for_is_empty() {
+    assertThatIllegalArgumentException().isThrownBy(() -> rangeSets.assertDoesNotContainAll(someInfo(), actual, iterable()))
+                                        .withMessage(iterableValuesToLookForIsEmpty());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower bound is closed.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasClosedLowerBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} lower bound is opened.
-   */
-  public RangeAssert<T> hasClosedLowerBound() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.lowerBoundType() != BoundType.CLOSED) {
-      throw failures.failure(info, shouldHaveClosedLowerBound(actual));
-    }
-
-    return myself;
+  @Test
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> rangeSets.assertDoesNotContainAll(someInfo(), actual, null))
+                                        .withMessage(iterableValuesToLookForIsNull());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper bound is closed.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasClosedUpperBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} upper bound is opened.
-   */
-  public RangeAssert<T> hasClosedUpperBound() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.upperBoundType() != BoundType.CLOSED) {
-      throw failures.failure(info, shouldHaveClosedUpperBound(actual));
-    }
-
-    return myself;
+  @Test
+  void should_fail_if_actual_is_null() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> rangeSets.assertDoesNotContainAll(someInfo(), null,
+                                                                                                       iterable(1)))
+                                                   .withMessage(actualIsNull());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower endpoint is equal to the given value.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasLowerEndpointEqualTo(10);</code></pre>
-   *
-   * @param value {@link com.google.common.collect.Range} expected lower bound value.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not have lower endpoint equal to
-   *           the given values.
-   */
-  public RangeAssert<T> hasLowerEndpointEqualTo(final T value) throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
+  @Test
+  void should_fail_if_actual_contains_all_values() {
+    Iterable<Integer> expected = iterable(5, 10, 32);
 
-    if (!actual.lowerEndpoint().equals(value)) {
-      throw failures.failure(info, shouldHaveEqualLowerEndpoint(actual, value));
-    }
+    ErrorMessageFactory expectedMessage = shouldNotContain(actual, expected, expected);
 
-    return myself;
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> rangeSets.assertDoesNotContainAll(someInfo(), actual,
+                                                                                                       expected))
+                                                   .withMessage(expectedMessage.create());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower bound is opened.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(1, 2);
-   *
-   * assertThat(range).hasOpenedLowerBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} lower bound is closed.
-   */
-  public RangeAssert<T> hasOpenedLowerBound() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
+  @Test
+  void should_fail_if_actual_contains_any_values() {
+    Iterable<Integer> expected = iterable(5, 12, 32, 45);
 
-    if (actual.lowerBoundType() != BoundType.OPEN) {
-      throw failures.failure(info, shouldHaveOpenedLowerBound(actual));
-    }
+    ErrorMessageFactory expectedMessage = shouldNotContain(actual, expected, iterable(5, 32));
 
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper bound is opened.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(10, 12);
-   *
-   * assertThat(range).hasOpenedUpperBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} upper bound is closed.
-   */
-  public RangeAssert<T> hasOpenedUpperBound() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.upperBoundType() != BoundType.OPEN) {
-      throw failures.failure(info, shouldHaveOpenedUpperBound(actual));
-    }
-
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper endpoint is equal to the given value.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(10, 12);
-   *
-   * assertThat(range).hasUpperEndpointEqualTo(12);</code></pre>
-   *
-   * @param value {@link com.google.common.collect.Range} expected upper bound value.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not have upper endpoint equal to
-   *           the given values.
-   */
-  public RangeAssert<T> hasUpperEndpointEqualTo(final T value) throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (!actual.upperEndpoint().equals(value)) {
-      throw failures.failure(info, shouldHaveEqualUpperEndpoint(actual, value));
-    }
-
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} is empty.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closedOpen(0, 0);
-   *
-   * assertThat(range).isEmpty();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is not empty.
-   */
-  public RangeAssert<T> isEmpty() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (!actual.isEmpty()) {
-      throw failures.failure(info, shouldBeEmpty(actual));
-    }
-
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} is not empty.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(0, 0);
-   *
-   * assertThat(range).isNotEmpty();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is empty.
-   */
-  public RangeAssert<T> isNotEmpty() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.isEmpty()) {
-      throw failures.failure(info, shouldNotBeEmpty());
-    }
-
-    return myself;
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> rangeSets.assertDoesNotContainAll(someInfo(), actual,
+                                                                                                       expected))
+                                                   .withMessage(expectedMessage.create());
   }
 }

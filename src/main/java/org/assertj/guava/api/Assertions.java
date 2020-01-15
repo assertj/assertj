@@ -211,6 +211,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
+import com.google.common.collect.RangeSet;
 import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
@@ -224,6 +225,7 @@ import com.google.common.io.ByteSource;
  * @author Joel Costigliola
  * @author Marcin Kwaczyński
  * @author Max Daniline
+ * @author Ilya Koshaleu
  */
 public class Assertions implements InstanceOfAssertFactories {
 
@@ -245,6 +247,10 @@ public class Assertions implements InstanceOfAssertFactories {
 
   public static <K extends Comparable<K>, V> RangeMapAssert<K, V> assertThat(final RangeMap<K, V> actual) {
     return new RangeMapAssert<>(actual);
+  }
+
+  public static <T extends Comparable<T>> RangeSetAssert<T> assertThat(final RangeSet<T> actual) {
+    return new RangeSetAssert<>(actual);
   }
 
   public static <R, C, V> TableAssert<R, C, V> assertThat(Table<R, C, V> actual) {

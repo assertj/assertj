@@ -239,6 +239,8 @@ public class Assertions_sync_with_InstanceOfAssertFactories_Test {
       RangeAssert.class,
       // There can be no RangeMap field factory with a base type.
       RangeMapAssert.class,
+      // There can be no RangeSet field factory with a base type.
+      RangeSetAssert.class,
   };
 
   private static final Class<?>[] METHOD_FACTORIES_IGNORED_TYPES = {

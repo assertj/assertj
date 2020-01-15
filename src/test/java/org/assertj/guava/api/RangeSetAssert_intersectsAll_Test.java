@@ -204,298 +204,157 @@
  */
 package org.assertj.guava.api;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.guava.error.RangeShouldBeClosedInTheLowerBound.shouldHaveClosedLowerBound;
-import static org.assertj.guava.error.RangeShouldBeClosedInTheUpperBound.shouldHaveClosedUpperBound;
-import static org.assertj.guava.error.RangeShouldBeOpenedInTheLowerBound.shouldHaveOpenedLowerBound;
-import static org.assertj.guava.error.RangeShouldBeOpenedInTheUpperBound.shouldHaveOpenedUpperBound;
-import static org.assertj.guava.error.RangeShouldHaveLowerEndpointEqual.shouldHaveEqualLowerEndpoint;
-import static org.assertj.guava.error.RangeShouldHaveUpperEndpointEqual.shouldHaveEqualUpperEndpoint;
-import static org.assertj.guava.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
+import static com.google.common.collect.ImmutableRangeSet.of;
+import static com.google.common.collect.Range.closed;
+import static com.google.common.collect.Range.closedOpen;
+import static com.google.common.collect.Range.open;
+import static com.google.common.collect.TreeRangeSet.create;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.error.RangeSetShouldIntersect.shouldIntersect;
+import static org.assertj.guava.internal.ErrorMessages.rangeSetValuesToLookForIsEmpty;
+import static org.assertj.guava.internal.ErrorMessages.rangeSetValuesToLookForIsNull;
 
 import java.util.List;
 
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
-import org.assertj.core.util.VisibleForTesting;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import com.google.common.collect.BoundType;
+import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
+import com.google.common.collect.RangeSet;
 
 /**
- * Assertions for guava {@link com.google.common.collect.Range}.
- * <p>
- * To create an instance of this class, invoke <code>{@link
- * org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.Range)}</code>
- * <p>
+ * Tests for <code>{@link RangeSetAssert#intersectsAll(RangeSet)}</code> and
+ * <code>{@link RangeSetAssert#intersectsAll(Iterable)}</code>.
  *
- * @param <T> the type of elements of the tested Range value
- * @author Marcin Kwaczyński
+ * @author Ilya Koshaleu
  */
-public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAssert<T>, Range<T>> {
+@DisplayName("RangeSetAssert intersectsAll")
+class RangeSetAssert_intersectsAll_Test {
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
-
-  protected RangeAssert(final Range<T> actual) {
-    super(actual, RangeAssert.class);
+  @Test
+  void should_fail_if_the_given_set_if_null() {
+    // GIVEN
+    RangeSet<Integer> actual = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(actual).intersectsAll(emptySet()));
+    // THEN
+    assertThat(throwable).isInstanceOf(AssertionError.class)
+                         .hasMessage(actualIsNull());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} contains the given values.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).contains(10, 11, 12);</code></pre>
-   *
-   * @param values the values to look for in actual {@link com.google.common.collect.Range}.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not contain the given values.
-   */
-  public RangeAssert<T> contains(@SuppressWarnings("unchecked") final T... values) {
-    Objects.instance().assertNotNull(info, actual);
-    throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
-
-    // if both actual and values are empty, then assertion passes.
-    if (values.length == 0 && actual.isEmpty()) return myself;
-    throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
-
-    final List<T> valuesNotFound = newArrayList();
-    for (final T value : values) {
-      if (!actual.contains(value)) {
-        valuesNotFound.add(value);
-      }
-    }
-    if (!valuesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContain(actual, values, valuesNotFound));
-    }
-
-    return myself;
+  @Test
+  void should_fail_if_range_set_is_null() {
+    // GIVEN
+    RangeSet<Integer> actual = create();
+    RangeSet<Integer> expected = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(actual).intersectsAll(expected));
+    // THEN
+    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
+                         .hasMessage(rangeSetValuesToLookForIsNull());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} does not contain the given values.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).doesNotContain(13);</code></pre>
-   *
-   * @param values the values that should not be present in actual {@link com.google.common.collect.Range}.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} contains the given values.
-   */
-  public RangeAssert<T> doesNotContain(@SuppressWarnings("unchecked") final T... values) {
-    Objects.instance().assertNotNull(info, actual);
-
-    final List<T> valuesFound = newArrayList();
-    for (final T value : values) {
-      if (actual.contains(value)) {
-        valuesFound.add(value);
-      }
-    }
-    if (!valuesFound.isEmpty()) {
-      throw failures.failure(info, shouldNotContain(actual, values, valuesFound));
-    }
-
-    return myself;
+  @Test
+  void should_fail_if_range_is_null() {
+    // GIVEN
+    RangeSet<Integer> actual = create();
+    Iterable<Range<Integer>> expected = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(actual).intersectsAll(expected));
+    // THEN
+    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
+                         .hasMessage(iterableValuesToLookForIsNull());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower bound is closed.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasClosedLowerBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} lower bound is opened.
-   */
-  public RangeAssert<T> hasClosedLowerBound() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.lowerBoundType() != BoundType.CLOSED) {
-      throw failures.failure(info, shouldHaveClosedLowerBound(actual));
-    }
-
-    return myself;
+  @Test
+  void should_pass_if_both_expected_range_and_actual_are_empty() {
+    // GIVEN
+    RangeSet<Integer> actual = create();
+    // THEN
+    assertThat(actual).intersectsAll(emptySet());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper bound is closed.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasClosedUpperBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} upper bound is opened.
-   */
-  public RangeAssert<T> hasClosedUpperBound() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.upperBoundType() != BoundType.CLOSED) {
-      throw failures.failure(info, shouldHaveClosedUpperBound(actual));
-    }
-
-    return myself;
+  @Test
+  void should_pass_if_both_expected_range_set_and_actual_are_empty() {
+    // GIVEN
+    RangeSet<Integer> actual = create();
+    // THEN
+    assertThat(actual).intersectsAll(of());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower endpoint is equal to the given value.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasLowerEndpointEqualTo(10);</code></pre>
-   *
-   * @param value {@link com.google.common.collect.Range} expected lower bound value.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not have lower endpoint equal to
-   *           the given values.
-   */
-  public RangeAssert<T> hasLowerEndpointEqualTo(final T value) throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (!actual.lowerEndpoint().equals(value)) {
-      throw failures.failure(info, shouldHaveEqualLowerEndpoint(actual, value));
-    }
-
-    return myself;
+  @Test
+  void should_fail_if_expected_range_is_empty() {
+    // GIVEN
+    RangeSet<Integer> actual = of(closed(0, 1));
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(actual).intersectsAll(emptySet()));
+    // THEN
+    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
+                         .hasMessage(iterableValuesToLookForIsEmpty());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower bound is opened.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(1, 2);
-   *
-   * assertThat(range).hasOpenedLowerBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} lower bound is closed.
-   */
-  public RangeAssert<T> hasOpenedLowerBound() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.lowerBoundType() != BoundType.OPEN) {
-      throw failures.failure(info, shouldHaveOpenedLowerBound(actual));
-    }
-
-    return myself;
+  @Test
+  void should_fail_if_expected_range_set_is_empty() {
+    // GIVEN
+    RangeSet<Integer> actual = of(closed(0, 1));
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(actual).intersectsAll(of()));
+    // THEN
+    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
+                         .hasMessage(rangeSetValuesToLookForIsEmpty());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper bound is opened.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(10, 12);
-   *
-   * assertThat(range).hasOpenedUpperBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} upper bound is closed.
-   */
-  public RangeAssert<T> hasOpenedUpperBound() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.upperBoundType() != BoundType.OPEN) {
-      throw failures.failure(info, shouldHaveOpenedUpperBound(actual));
-    }
-
-    return myself;
+  @Test
+  void should_pass_if_the_given_set_intersects_range() {
+    // GIVEN
+    RangeSet<Integer> actual = of(closed(0, 100));
+    // THEN
+    assertThat(actual).intersectsAll(asList(closed(10, 15), open(30, 45)));
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper endpoint is equal to the given value.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(10, 12);
-   *
-   * assertThat(range).hasUpperEndpointEqualTo(12);</code></pre>
-   *
-   * @param value {@link com.google.common.collect.Range} expected upper bound value.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not have upper endpoint equal to
-   *           the given values.
-   */
-  public RangeAssert<T> hasUpperEndpointEqualTo(final T value) throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (!actual.upperEndpoint().equals(value)) {
-      throw failures.failure(info, shouldHaveEqualUpperEndpoint(actual, value));
-    }
-
-    return myself;
+  @Test
+  void should_pass_if_the_given_set_intersects_range_set() {
+    // GIVEN
+    RangeSet<Integer> actual = of(closed(0, 100));
+    // THEN
+    assertThat(actual).intersectsAll(of(closed(50, 200)));
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} is empty.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closedOpen(0, 0);
-   *
-   * assertThat(range).isEmpty();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is not empty.
-   */
-  public RangeAssert<T> isEmpty() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (!actual.isEmpty()) {
-      throw failures.failure(info, shouldBeEmpty(actual));
-    }
-
-    return myself;
+  @Test
+  void should_fail_if_the_given_set_does_not_intersect_range_set() {
+    // GIVEN
+    RangeSet<Integer> actual = of(closed(0, 100));
+    RangeSet<Integer> expected = ImmutableRangeSet.<Integer> builder()
+                                                  .add(closed(101, 120))
+                                                  .add(closedOpen(-100, 0)).build();
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(actual).intersectsAll(expected));
+    // THEN
+    assertThat(throwable).isInstanceOf(AssertionError.class)
+                         .hasMessage(shouldIntersect(actual, expected, asList(closedOpen(-100, 0),
+                                                                              closed(101, 120))).create());
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} is not empty.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(0, 0);
-   *
-   * assertThat(range).isNotEmpty();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is empty.
-   */
-  public RangeAssert<T> isNotEmpty() throws AssertionError {
-    Objects.instance().assertNotNull(info, actual);
-
-    if (actual.isEmpty()) {
-      throw failures.failure(info, shouldNotBeEmpty());
-    }
-
-    return myself;
+  @Test
+  void should_fail_if_the_given_set_does_not_intersect_range() {
+    // GIVEN
+    RangeSet<Integer> actual = of(closed(0, 100));
+    List<Range<Integer>> expected = asList(closed(50, 75),
+                                           open(105, 120),
+                                           closedOpen(-100, 0));
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(actual).intersectsAll(expected));
+    // THEN
+    assertThat(throwable).isInstanceOf(AssertionError.class)
+                         .hasMessage(shouldIntersect(actual, expected, asList(open(105, 120),
+                                                                              closedOpen(-100, 0))).create());
   }
 }

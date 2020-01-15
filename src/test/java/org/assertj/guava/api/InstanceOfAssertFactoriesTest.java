@@ -216,6 +216,7 @@ import static org.assertj.guava.api.InstanceOfAssertFactories.multiset;
 import static org.assertj.guava.api.InstanceOfAssertFactories.optional;
 import static org.assertj.guava.api.InstanceOfAssertFactories.range;
 import static org.assertj.guava.api.InstanceOfAssertFactories.rangeMap;
+import static org.assertj.guava.api.InstanceOfAssertFactories.rangeSet;
 import static org.assertj.guava.api.InstanceOfAssertFactories.table;
 
 import java.io.IOException;
@@ -226,6 +227,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.ImmutableRangeMap;
+import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Range;
 import com.google.common.io.ByteSource;
@@ -304,6 +306,16 @@ public class InstanceOfAssertFactoriesTest {
     RangeMapAssert<Integer, String> result = assertThat(value).asInstanceOf(rangeMap(Integer.class, String.class));
     // THEN
     result.contains(entry(0, "value"));
+  }
+
+  @Test
+  public void range_set_factory_should_allow_range_set_assertions() {
+    // GIVEN
+    Object value = ImmutableRangeSet.of(Range.closed(0, 1));
+    // WHEN
+    RangeSetAssert<Integer> result = assertThat(value).asInstanceOf(rangeSet(Integer.class));
+    // THEN
+    result.contains(0);
   }
 
   @Test
