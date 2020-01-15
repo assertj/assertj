@@ -551,9 +551,9 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
       </build>
     </profile>
     <profile>
-      <id>java11+</id>
+      <id>sonar-config</id>
       <activation>
-        <jdk>[11,)</jdk>
+        <jdk>[11,13]</jdk>
       </activation>
       <properties>
         <sonar.skip>false</sonar.skip>
