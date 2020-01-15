@@ -60,9 +60,9 @@
     <maven.compiler.source>8</maven.compiler.source>
     <additionalparam>-Xdoclint:none</additionalparam>
     <!-- Dependency versions -->
-    <junit.version>4.12</junit.version>
-    <junit-jupiter.version>5.5.1</junit-jupiter.version>
-    <mockito.version>3.0.0</mockito.version>
+    <junit.version>4.13</junit.version>
+    <junit-jupiter.version>5.5.2</junit-jupiter.version>
+    <mockito.version>3.2.4</mockito.version>
     <!-- Plugin versions -->
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
