@@ -352,20 +352,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} has the given class as direct superclass (as in {@link Class#getSuperclass()}).
    * <p>
+   * The {@code superclass} should always be not {@code null}, use {@link #hasNoSuperclass()} to verify the absence of
+   * the superclass.
+   * <p>
    * Example:
-   * <pre><code class='java'> // this assertion succeeds as Object has no superclass:
-   * assertThat(Object.class).hasSuperclass(null);
-   *
-   * // this assertion succeeds as interfaces have no superclass:
-   * assertThat(Cloneable.class).hasSuperclass(null);
-   *
-   * // this assertion succeeds as primitive types have no superclass:
-   * assertThat(Integer.TYPE).hasSuperclass(null);
-   *
-   * // this assertion succeeds as void type has no superclass:
-   * assertThat(Void.TYPE).hasSuperclass(null);
-   *
-   * // this assertion succeeds:
+   * <pre><code class='java'> // this assertion succeeds:
    * assertThat(Integer.class).hasSuperclass(Number.class);
    *
    * // this assertion succeeds as superclass for array classes is Object:
@@ -379,12 +370,45 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @param superclass the class which must be the direct superclass of actual.
    * @return {@code this} assertions object
+   * @throws NullPointerException if {@code superclass} is {@code null}.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't have the given class as direct superclass.
    * @since 3.15.0
+   * @see #hasNoSuperclass()
    */
   public SELF hasSuperclass(Class<?> superclass) {
     classes.assertHasSuperclass(info, actual, superclass);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has no superclass (as in {@link Class#getSuperclass()}, when {@code null}
+   * is returned).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds as Object has no superclass:
+   * assertThat(Object.class).hasNoSuperclass();
+   *
+   * // this assertion succeeds as interfaces have no superclass:
+   * assertThat(Cloneable.class).hasNoSuperclass();
+   *
+   * // this assertion succeeds as primitive types have no superclass:
+   * assertThat(Integer.TYPE).hasNoSuperclass();
+   *
+   * // this assertion succeeds as void type has no superclass:
+   * assertThat(Void.TYPE).hasNoSuperclass();
+   *
+   * // this assertion fails as Integer has Number as superclass:
+   * assertThat(Integer.class).hasSuperclass(Number.class);</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} has a superclass.
+   * @since 3.15.0
+   * @see #hasSuperclass(Class)
+   */
+  public SELF hasNoSuperclass() {
+    classes.assertHasNoSuperclass(info, actual);
     return myself;
   }
 

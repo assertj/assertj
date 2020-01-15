@@ -25,9 +25,14 @@ public class ShouldHaveSuperclass extends BasicErrorMessageFactory {
                                                                                        .add("  <%s>")
                                                                                        .add("to have superclass:")
                                                                                        .add("  <%s>")
-                                                                                       .add("but had:")
-                                                                                       .add("  <%s>")
                                                                                        .toString();
+
+  private static final String BUT_HAD_NONE = new StringJoiner("%n", "%n", "").add("but had none.")
+                                                                             .toString();
+
+  private static final String BUT_HAD = new StringJoiner("%n", "%n", "").add("but had:")
+                                                                        .add("  <%s>")
+                                                                        .toString();
 
   /**
    * Creates a new <code>{@link ShouldHaveSuperclass}</code>.
@@ -37,11 +42,19 @@ public class ShouldHaveSuperclass extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveSuperclass(Class<?> actual, Class<?> superclass) {
-    return new ShouldHaveSuperclass(actual, superclass);
+    Class<?> actualSuperclass = actual.getSuperclass();
+    if (actualSuperclass == null) {
+      return new ShouldHaveSuperclass(actual, superclass);
+    }
+    return new ShouldHaveSuperclass(actual, superclass, actualSuperclass);
   }
 
-  private ShouldHaveSuperclass(Class<?> actual, Class<?> superclass) {
-    super(SHOULD_HAVE_SUPERCLASS, actual, superclass, actual.getSuperclass());
+  private ShouldHaveSuperclass(Class<?> actual, Class<?> expectedSuperclass) {
+    super(SHOULD_HAVE_SUPERCLASS + BUT_HAD_NONE, actual, expectedSuperclass);
+  }
+
+  private ShouldHaveSuperclass(Class<?> actual, Class<?> expectedSuperclass, Class<?> actualSuperclass) {
+    super(SHOULD_HAVE_SUPERCLASS + BUT_HAD, actual, expectedSuperclass, actualSuperclass);
   }
 
 }
