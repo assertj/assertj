@@ -36,20 +36,14 @@ module org.assertj.core {
   exports org.assertj.core.util.introspection;
   exports org.assertj.core.util.xml;
 
-  requires static java.logging;
-  // required when printThreadDump is true
+  requires static java.logging; // required when printThreadDump is true
   requires static java.management;
-  // used for pretty print XML
-  requires static java.xml;
-  // these lines are commented to avoid this compilation warning
-  // Required filename-based automodules detected. Please don't publish this project to a public artifact repository!
-  // requires static junit;
-
+  requires static java.xml; // used for XML pretty print
+  requires static junit;
   requires static net.bytebuddy;
   requires static org.hamcrest;
   requires static org.junit.jupiter.api;
-  // To throw AssertionFailedError which is IDE friendly
-  requires static org.opentest4j;
+  requires static org.opentest4j; // to throw AssertionFailedError which is IDE friendly
 
   // Services loaded by org.assertj.core.configuration.ConfigurationProvider
   uses org.assertj.core.configuration.Configuration;
