@@ -12,12 +12,12 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,21 +31,18 @@ import org.junit.jupiter.api.Test;
  */
 public class ShouldBeEqualIgnoringWhitespace_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldBeEqualIgnoringWhitespace(" my\tfoo bar ", " myfoo bar ");
-  }
-
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                  "Expecting:%n" +
-                                  "  <\" my\tfoo bar \">%n" +
-                                  "to be equal to:%n" +
-                                  "  <\" myfoo bar \">%n" +
-                                  "ignoring whitespace differences"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeEqualIgnoringWhitespace(" my\tfoo bar ", " myfoo bar ");
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\" my\tfoo bar \">%n" +
+                                   "to be equal to:%n" +
+                                   "  <\" myfoo bar \">%n" +
+                                   "ignoring whitespace differences"));
   }
 }

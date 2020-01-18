@@ -21,11 +21,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalDouble;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class OptionalDoubleAssert_hasValue_Test extends BaseTest {
+public class OptionalDoubleAssert_hasValue_Test {
 
   @Test
   public void should_fail_when_optionalDouble_is_null() {

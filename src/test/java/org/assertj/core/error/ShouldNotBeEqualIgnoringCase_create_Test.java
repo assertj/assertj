@@ -13,11 +13,10 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,21 +28,18 @@ import org.junit.jupiter.api.Test;
  */
 public class ShouldNotBeEqualIgnoringCase_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldNotBeEqualIgnoringCase("Yoda", "Luke");
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotBeEqualIgnoringCase("Yoda", "Luke");
+    // WHEN
     String message = factory.create(new TestDescription("Test"));
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <\"Yoda\">%n" +
-                                         "not to be equal to:%n" +
-                                         "  <\"Luke\">%n" +
-                                         "ignoring case considerations"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\"Yoda\">%n" +
+                                   "not to be equal to:%n" +
+                                   "  <\"Luke\">%n" +
+                                   "ignoring case considerations"));
   }
 }

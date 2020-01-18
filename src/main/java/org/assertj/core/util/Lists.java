@@ -46,7 +46,12 @@ public final class Lists {
 
   @SafeVarargs
   public static <T> List<T> list(T... elements) {
-    return newArrayList(elements);
+    if (elements == null) {
+      return null;
+    }
+    ArrayList<T> list = newArrayList();
+    java.util.Collections.addAll(list, elements);
+    return list;
   }
 
   /**

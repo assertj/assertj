@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -39,11 +38,11 @@ public class ShouldBeBefore_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // WHEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <2019-01-01T00:00:00.000>%n" +
-                                         "to be strictly before:%n" +
-                                         "  <2012-01-01T00:00:00.000>%n"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <2019-01-01T00:00:00.000>%n" +
+                                   "to be strictly before:%n" +
+                                   "  <2012-01-01T00:00:00.000>%n"));
   }
 
   @Test

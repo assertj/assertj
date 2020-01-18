@@ -12,7 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.assertj.core.util.Arrays.array;
 
@@ -20,46 +21,45 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
  * <code>{@link ShouldNotBeIn#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
- * 
+ *
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
 public class ShouldNotBeIn_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-	factory = shouldNotBeIn("Luke", array("Luke", "Leia"));
-  }
-
   @Test
   public void should_create_error_message() {
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n"
-	                              + "Expecting:%n"
-	                              + " <\"Luke\">%n"
-	                              + "not to be in:%n"
-	                              + " <[\"Luke\", \"Leia\"]>%n"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotBeIn("Luke", array("Luke", "Leia"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting:%n"
+                                   + " <\"Luke\">%n"
+                                   + "not to be in:%n"
+                                   + " <[\"Luke\", \"Leia\"]>%n"));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-	factory = shouldNotBeIn("Luke", array("Luke", "Leia"),
-	                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n"
-	                              + "Expecting:%n"
-	                              + " <\"Luke\">%n"
-	                              + "not to be in:%n"
-	                              + " <[\"Luke\", \"Leia\"]>%n"
-	                              + "when comparing values using CaseInsensitiveStringComparator"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotBeIn("Luke", array("Luke", "Leia"),
+                                                new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting:%n"
+                                   + " <\"Luke\">%n"
+                                   + "not to be in:%n"
+                                   + " <[\"Luke\", \"Leia\"]>%n"
+                                   + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

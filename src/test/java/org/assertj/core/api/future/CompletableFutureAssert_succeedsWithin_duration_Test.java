@@ -27,7 +27,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
 import org.assertj.core.api.AbstractCompletableFutureAssert;
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * since the former call the latter.
  */
 @DisplayName("CompletableFutureAssert succeedsWithin(Duration)")
-public class CompletableFutureAssert_succeedsWithin_duration_Test extends BaseTest {
+public class CompletableFutureAssert_succeedsWithin_duration_Test {
 
   @Test
   public void should_allow_assertion_on_future_result_when_completed_normally() {

@@ -22,10 +22,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OffsetTimeAssert_isEqualToIgnoringTimezone_Test extends BaseTest {
+public class OffsetTimeAssert_isEqualToIgnoringTimezone_Test {
 
   private final OffsetTime actual = OffsetTime.of(12, 0, 0, 0, ZoneOffset.MAX);
 

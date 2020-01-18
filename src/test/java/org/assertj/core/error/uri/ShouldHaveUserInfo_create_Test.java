@@ -13,7 +13,7 @@
 package org.assertj.core.error.uri;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 
 import java.net.URI;
@@ -26,54 +26,62 @@ public class ShouldHaveUserInfo_create_Test {
 
   @Test
   public void should_create_error_message_for_uri_has_user_info() {
+    // GIVEN
     URI uri = URI.create("http://test:pass@assertj.org/news");
+    // WHEN
     String error = shouldHaveUserInfo(uri, "test:success").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting user info of%n" +
-                                       "  <http://test:pass@assertj.org/news>%n" +
-                                       "to be:%n" +
-                                       "  <\"test:success\">%n" +
-                                       "but was:%n" +
-                                       "  <\"test:pass\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting user info of%n" +
+                                 "  <http://test:pass@assertj.org/news>%n" +
+                                 "to be:%n" +
+                                 "  <\"test:success\">%n" +
+                                 "but was:%n" +
+                                 "  <\"test:pass\">"));
   }
 
   @Test
   public void should_create_error_message_for_uri_has_no_user_info() {
+    // GIVEN
     URI uri = URI.create("http://test:pass@assertj.org/news");
+    // WHEN
     String error = shouldHaveUserInfo(uri, null).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
-                                       "  <http://test:pass@assertj.org/news>%n" +
-                                       "not to have user info but had:%n" +
-                                       "  <\"test:pass\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting:%n" +
+                                 "  <http://test:pass@assertj.org/news>%n" +
+                                 "not to have user info but had:%n" +
+                                 "  <\"test:pass\">"));
   }
 
   @Test
   public void should_create_error_message_for_url_has_user_info() throws Exception {
+    // GIVEN
     URL url = new URL("http://test:pass@assertj.org/news");
+    // WHEN
     String error = shouldHaveUserInfo(url, "test:success").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting user info of%n" +
-                                       "  <http://test:pass@assertj.org/news>%n" +
-                                       "to be:%n" +
-                                       "  <\"test:success\">%n" +
-                                       "but was:%n" +
-                                       "  <\"test:pass\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting user info of%n" +
+                                 "  <http://test:pass@assertj.org/news>%n" +
+                                 "to be:%n" +
+                                 "  <\"test:success\">%n" +
+                                 "but was:%n" +
+                                 "  <\"test:pass\">"));
   }
 
   @Test
   public void should_create_error_message_for_url_has_no_user_info() throws Exception {
+    // GIVEN
     URL url = new URL("http://test:pass@assertj.org/news");
+    // WHEN
     String error = shouldHaveUserInfo(url, null).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
-                                       "  <http://test:pass@assertj.org/news>%n" +
-                                       "not to have user info but had:%n" +
-                                       "  <\"test:pass\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting:%n" +
+                                 "  <http://test:pass@assertj.org/news>%n" +
+                                 "not to have user info but had:%n" +
+                                 "  <\"test:pass\">"));
   }
 
 }

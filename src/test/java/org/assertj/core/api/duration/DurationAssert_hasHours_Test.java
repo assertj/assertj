@@ -19,7 +19,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 
-import org.assertj.core.api.BaseTest;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * @author Filip Hrisafov
  */
 @DisplayName("DurationAssert hasHours")
-class DurationAssert_hasHours_Test extends BaseTest {
+class DurationAssert_hasHours_Test {
 
   @Test
   void should_pass_if_duration_has_matching_hours() {

@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 
 import org.assertj.core.description.TextDescription;
@@ -29,8 +29,8 @@ public class ShouldContainOnlyWhitespaces_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting string to contain only whitespaces but was:%n" +
-                                         "  <\"abc\">"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting string to contain only whitespaces but was:%n" +
+                                   "  <\"abc\">"));
   }
 }

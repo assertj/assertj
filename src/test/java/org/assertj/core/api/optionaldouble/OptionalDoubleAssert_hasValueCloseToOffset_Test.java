@@ -22,11 +22,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalDouble;
 
-import org.assertj.core.api.BaseTest;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 
-public class OptionalDoubleAssert_hasValueCloseToOffset_Test extends BaseTest {
+public class OptionalDoubleAssert_hasValueCloseToOffset_Test {
 
   @Test
   public void should_fail_when_optionaldouble_is_null() {

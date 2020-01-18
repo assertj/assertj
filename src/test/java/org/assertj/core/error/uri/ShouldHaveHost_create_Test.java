@@ -13,7 +13,7 @@
 package org.assertj.core.error.uri;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 
 import java.net.URI;
@@ -26,28 +26,30 @@ public class ShouldHaveHost_create_Test {
 
   @Test
   public void should_create_error_message_for_uri() {
+    // WHEN
     String error = shouldHaveHost(URI.create("http://assertj.org/news"), "foo.org").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting host of%n" +
-                                       "  <http://assertj.org/news>%n" +
-                                       "to be:%n" +
-                                       "  <\"foo.org\">%n" +
-                                       "but was:%n" +
-                                       "  <\"assertj.org\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting host of%n" +
+                                 "  <http://assertj.org/news>%n" +
+                                 "to be:%n" +
+                                 "  <\"foo.org\">%n" +
+                                 "but was:%n" +
+                                 "  <\"assertj.org\">"));
   }
 
   @Test
   public void should_create_error_message_for_url() throws Exception {
+    // WHEN
     String error = shouldHaveHost(new URL("http://assertj.org/news"), "foo.org").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting host of%n" +
-                                       "  <http://assertj.org/news>%n" +
-                                       "to be:%n" +
-                                       "  <\"foo.org\">%n" +
-                                       "but was:%n" +
-                                       "  <\"assertj.org\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting host of%n" +
+                                 "  <http://assertj.org/news>%n" +
+                                 "to be:%n" +
+                                 "  <\"foo.org\">%n" +
+                                 "but was:%n" +
+                                 "  <\"assertj.org\">"));
   }
 
 }

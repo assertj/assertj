@@ -15,8 +15,6 @@ package org.assertj.core.api.zoneddatetime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-import org.assertj.core.api.BaseTest;
-
 
 /**
  * Base test class for {@link org.assertj.core.api.ZonedDateTimeAssert} tests.
@@ -25,7 +23,7 @@ import org.assertj.core.api.BaseTest;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssertBaseTest extends BaseTest {
+public class ZonedDateTimeAssertBaseTest {
 
   public static final ZonedDateTime REFERENCE = ZonedDateTime.of(2000, 12, 14, 0, 0, 0, 1, ZoneOffset.UTC);
   public static final ZonedDateTime BEFORE = ZonedDateTime.of(2000, 12, 14, 0, 0, 0, 0, ZoneOffset.UTC);

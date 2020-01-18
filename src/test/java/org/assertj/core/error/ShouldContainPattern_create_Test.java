@@ -13,28 +13,23 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 public class ShouldContainPattern_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldContainPattern("Frodo", ".*Orc.*");
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainPattern("Frodo", ".*Orc.*");
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %nExpecting:%n  \"Frodo\"%nto contain pattern:%n  \".*Orc.*\""));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Frodo\"%nto contain pattern:%n  \".*Orc.*\""));
   }
 
 }

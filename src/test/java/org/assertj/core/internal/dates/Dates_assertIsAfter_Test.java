@@ -29,10 +29,9 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsAfter(AssertionInfo, java.util.Date, java.util.Date)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 public class Dates_assertIsAfter_Test extends DatesBaseTest {
@@ -72,7 +71,8 @@ public class Dates_assertIsAfter_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsAfter(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsAfter(someInfo(), null,
+                                                                                         parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -105,15 +105,15 @@ public class Dates_assertIsAfter_Test extends DatesBaseTest {
 
   @Test
   public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(),
-                                                                                                                           actual,
-                                                                                                                           null))
-                                                         .withMessage(dateToCompareActualWithIsNull());
+    assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(), actual, null))
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(),
+                                                                                                                     null,
+                                                                                                                     parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 

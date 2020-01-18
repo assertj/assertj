@@ -21,12 +21,11 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Optional;
 
-import org.assertj.core.api.BaseTest;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_hasValueSatisfying_Condition_Test extends BaseTest {
+public class OptionalAssert_hasValueSatisfying_Condition_Test {
 
   private Condition<String> passingCondition = new TestCondition<>(true);
   private Condition<String> notPassingCondition = new TestCondition<>();

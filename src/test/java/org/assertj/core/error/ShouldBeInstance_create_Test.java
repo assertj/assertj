@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull;
 import static org.assertj.core.util.Throwables.getStackTrace;
@@ -22,59 +22,61 @@ import java.io.File;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeInstance#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 public class ShouldBeInstance_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldBeInstance("Yoda", File.class);
-  }
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeInstance("Yoda", File.class);
+    // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <\"Yoda\">%n" +
-                                         "to be an instance of:%n" +
-                                         "  <java.io.File>%n" +
-                                         "but was instance of:%n" +
-                                         "  <java.lang.String>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\"Yoda\">%n" +
+                                   "to be an instance of:%n" +
+                                   "  <java.io.File>%n" +
+                                   "but was instance of:%n" +
+                                   "  <java.lang.String>"));
   }
 
   @Test
   public void should_create_error_message_with_stack_trace_for_throwable() {
+    // GIVEN
     IllegalArgumentException throwable = new IllegalArgumentException("Not a file");
+    // WHEN
     String message = shouldBeInstance(throwable, File.class).create();
-
-    assertThat(message).isEqualTo(format("%nExpecting:%n" +
-                                         "  <java.lang.IllegalArgumentException: Not a file>%n" +
-                                         "to be an instance of:%n" +
-                                         "  <java.io.File>%n" +
-                                         "but was:%n" +
-                                         "  <\"%s\">",
-                                         getStackTrace(throwable)));
+    // THEN
+    then(message).isEqualTo(format("%nExpecting:%n" +
+                                   "  <java.lang.IllegalArgumentException: Not a file>%n" +
+                                   "to be an instance of:%n" +
+                                   "  <java.io.File>%n" +
+                                   "but was:%n" +
+                                   "  <\"%s\">",
+                                   getStackTrace(throwable)));
   }
 
   @Test
   public void should_create_shouldBeInstanceButWasNull_error_message() {
-    factory = shouldBeInstanceButWasNull("other", File.class);
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeInstanceButWasNull("other", File.class);
+    // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting object:%n" +
-                                         "  \"other\"%n" +
-                                         "to be an instance of:%n" +
-                                         "  <java.io.File>%n" +
-                                         "but was null"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting object:%n" +
+                                   "  \"other\"%n" +
+                                   "to be an instance of:%n" +
+                                   "  <java.io.File>%n" +
+                                   "but was null"));
   }
 }

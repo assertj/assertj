@@ -12,16 +12,16 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.data.Index.atIndex;
+import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.TestCondition;
-import org.assertj.core.data.Index;
-import org.assertj.core.description.*;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for <code>{@link ShouldHaveAtIndex#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -30,11 +30,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class ShouldHaveAtIndex_create_Test {
 
-  @Test public void should_create_error_message() {
-    ErrorMessageFactory factory = shouldHaveAtIndex(newArrayList("Yoda", "Luke"), new TestCondition<String>("red lightsaber"), Index.atIndex(1), "Luke");
+  @Test
+  public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveAtIndex(list("Yoda", "Luke"), new TestCondition<>("red lightsaber"), atIndex(1),
+                                                    "Luke");
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Luke\">%nat index <1> to have:%n <red lightsaber>%nin:%n" +
-            " <[\"Yoda\", \"Luke\"]>%n"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Luke\">%nat index <1> to have:%n <red lightsaber>%nin:%n <[\"Yoda\", \"Luke\"]>%n"));
   }
 }

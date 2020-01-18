@@ -13,30 +13,33 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeUpperCase#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class ShouldBeUpperCase_create_Test {
 
   @Test
   public void should_create_error_message_for_character() {
-    String message = shouldBeUpperCase('a').create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %nExpecting <'a'> to be uppercase"));
+    // WHEN
+    String message = shouldBeUpperCase('a').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting <'a'> to be uppercase"));
   }
 
   @Test
   public void should_create_error_message_for_string() {
+    // WHEN
     String message = shouldBeUpperCase("abc").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
-    assertThat(message).isEqualTo(format("[Test] %nExpecting <\"abc\"> to be uppercase"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting <\"abc\"> to be uppercase"));
   }
 }

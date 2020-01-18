@@ -13,49 +13,48 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ShouldContainsAnyOf_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldContainAnyOf(newArrayList("Yoda", "Han", "Han"), newArrayList("Vador", "Leia"));
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainAnyOf(list("Yoda", "Han", "Han"), list("Vador", "Leia"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <[\"Yoda\", \"Han\", \"Han\"]>%n" +
-                                         "to contain at least one of the following elements:%n" +
-                                         "  <[\"Vador\", \"Leia\"]>%n" +
-                                         "but none were found "));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <[\"Yoda\", \"Han\", \"Han\"]>%n" +
+                                   "to contain at least one of the following elements:%n" +
+                                   "  <[\"Vador\", \"Leia\"]>%n" +
+                                   "but none were found "));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldContainAnyOf(newArrayList("Yoda", "Han", "Han"), newArrayList("Vador", "Leia"),
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainAnyOf(list("Yoda", "Han", "Han"), list("Vador", "Leia"),
                                                      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <[\"Yoda\", \"Han\", \"Han\"]>%n" +
-                                         "to contain at least one of the following elements:%n" +
-                                         "  <[\"Vador\", \"Leia\"]>%n" +
-                                         "but none were found " +
-                                         "when comparing values using CaseInsensitiveStringComparator"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <[\"Yoda\", \"Han\", \"Han\"]>%n" +
+                                   "to contain at least one of the following elements:%n" +
+                                   "  <[\"Vador\", \"Leia\"]>%n" +
+                                   "but none were found " +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

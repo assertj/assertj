@@ -12,17 +12,17 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 public class ShouldContainsStringOnlyOnce_create_Test {
 
@@ -37,38 +37,40 @@ public class ShouldContainsStringOnlyOnce_create_Test {
 
   @Test
   public void should_create_error_message_when_string_to_search_appears_several_times() {
+    // WHEN
     String message = factoryWithSeveralOccurrences.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"motif\">%nto appear only once in:%n <\"aaamotifmotifaabbbmotifaaa\">%nbut it appeared 3 times "
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"motif\">%nto appear only once in:%n <\"aaamotifmotifaabbbmotifaaa\">%nbut it appeared 3 times "));
   }
 
   @Test
   public void should_create_error_message_when_string_to_search_does_not_appear() {
+    // WHEN
     String message = factoryWithNoOccurrence.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"motif\">%nto appear only once in:%n <\"aaamodifmoifaabbbmotfaaa\">%nbut it did not appear "
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"motif\">%nto appear only once in:%n <\"aaamodifmoifaabbbmotfaaa\">%nbut it did not appear "));
   }
 
   @Test
   public void should_create_error_message_when_string_to_search_does_not_appear_with_custom_comparison_strategy() {
+    // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyOnce("aaamoDifmoifaabbbmotfaaa", "MOtif", 0,
-        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamoDifmoifaabbbmotfaaa\">%nbut it did not appear when comparing values using CaseInsensitiveStringComparator"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamoDifmoifaabbbmotfaaa\">%nbut it did not appear when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
   public void should_create_error_message_when_string_to_search_appears_several_times_with_custom_comparison_strategy() {
+    // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyOnce("aaamotIFmoTifaabbbmotifaaa", "MOtif", 3,
-        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamotIFmoTifaabbbmotifaaa\">%nbut it appeared 3 times when comparing values using CaseInsensitiveStringComparator"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamotIFmoTifaabbbmotifaaa\">%nbut it appeared 3 times when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

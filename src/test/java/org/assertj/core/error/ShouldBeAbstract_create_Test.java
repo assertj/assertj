@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -29,9 +29,9 @@ public class ShouldBeAbstract_create_Test {
     // WHEN
     String message = errorMessageFactory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <java.lang.String>%n" +
-                                         "to be abstract"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <java.lang.String>%n" +
+                                   "to be abstract"));
   }
 }

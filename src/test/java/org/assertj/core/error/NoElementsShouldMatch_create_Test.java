@@ -12,15 +12,15 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
+import static org.assertj.core.util.Lists.list;
+
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
-
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
-import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * @author Filip Hrisafov
@@ -29,27 +29,32 @@ public class NoElementsShouldMatch_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = noElementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda",
+    // GIVEN
+    ErrorMessageFactory factory = noElementsShouldMatch(list("Luke", "Yoda"), "Yoda",
                                                         PredicateDescription.GIVEN);
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting no elements of:%n" +
-                                         "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to match given predicate but this element did:%n" +
-                                         "  <\"Yoda\">"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting no elements of:%n" +
+                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "to match given predicate but this element did:%n" +
+                                   "  <\"Yoda\">"));
   }
 
   @Test
   public void should_create_error_message_with_custom_description() {
-    ErrorMessageFactory factory = noElementsShouldMatch(newArrayList("Luke", "Yoda"), "Yoda",
+    // GIVEN
+    ErrorMessageFactory factory = noElementsShouldMatch(list("Luke", "Yoda"), "Yoda",
                                                         new PredicateDescription("custom"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting no elements of:%n" +
-                                         "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to match 'custom' predicate but this element did:%n" +
-                                         "  <\"Yoda\">"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting no elements of:%n" +
+                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "to match 'custom' predicate but this element did:%n" +
+                                   "  <\"Yoda\">"));
   }
-
 
 }

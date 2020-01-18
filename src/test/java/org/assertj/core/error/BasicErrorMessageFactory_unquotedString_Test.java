@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.BasicErrorMessageFactory.unquotedString;
 
 import org.junit.jupiter.api.Test;
@@ -24,6 +24,6 @@ public class BasicErrorMessageFactory_unquotedString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertThat(unquotedString("some value")).hasToString("some value");
+    then(unquotedString("some value")).hasToString("some value");
   }
 }

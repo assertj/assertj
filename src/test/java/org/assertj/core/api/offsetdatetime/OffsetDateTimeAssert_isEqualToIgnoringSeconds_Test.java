@@ -22,10 +22,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OffsetDateTimeAssert_isEqualToIgnoringSeconds_Test extends BaseTest {
+public class OffsetDateTimeAssert_isEqualToIgnoringSeconds_Test {
 
   private final OffsetDateTime refOffsetDateTime = OffsetDateTime.of(2000, 1, 1, 23, 51, 0, 0, UTC);
 

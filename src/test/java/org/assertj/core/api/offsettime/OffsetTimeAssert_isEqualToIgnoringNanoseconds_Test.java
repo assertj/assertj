@@ -22,10 +22,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest {
+public class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test {
 
   private final OffsetTime refOffsetTime = OffsetTime.of(0, 0, 1, 0, ZoneOffset.UTC);
 

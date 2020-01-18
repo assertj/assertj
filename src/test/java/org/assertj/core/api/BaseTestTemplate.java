@@ -48,7 +48,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Olivier Michallat
  */
-public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> extends BaseTest {
+public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
   protected S assertions;
   protected Objects objects;
   protected Conditions conditions;

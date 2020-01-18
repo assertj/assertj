@@ -12,33 +12,28 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeSame#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class ShouldBeSame_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldBeSame("Yoda", "Luke");
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeSame("Yoda", "Luke");
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Luke\">%nand actual:%n <\"Yoda\">%nto refer to the same object"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Luke\">%nand actual:%n <\"Yoda\">%nto refer to the same object"));
   }
 }

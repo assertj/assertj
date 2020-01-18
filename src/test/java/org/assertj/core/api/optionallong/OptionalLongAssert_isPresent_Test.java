@@ -19,10 +19,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalLong;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OptionalLongAssert_isPresent_Test extends BaseTest {
+public class OptionalLongAssert_isPresent_Test {
 
   @Test
   public void should_pass_when_OptionalLong_is_present() {

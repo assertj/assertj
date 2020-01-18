@@ -12,12 +12,12 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,21 +29,18 @@ import org.junit.jupiter.api.Test;
  */
 public class ShouldNotBeEqualNormalizingWhitespace_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldNotBeEqualNormalizingWhitespace(" my\tfoo bar ", " my  foo bar ");
-  }
-
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                                "Expecting:%n" +
-                                                "  <\" my\tfoo bar \">%n" +
-                                                "not to be equal to:%n" +
-                                                "  <\" my  foo bar \">%n" +
-                                                "after whitespace differences are normalized"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotBeEqualNormalizingWhitespace(" my\tfoo bar ", " my  foo bar ");
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\" my\tfoo bar \">%n" +
+                                   "not to be equal to:%n" +
+                                   "  <\" my  foo bar \">%n" +
+                                   "after whitespace differences are normalized"));
   }
 }

@@ -12,25 +12,28 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldStartWithPath.PATH_SHOULD_START_WITH;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 
 import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 public final class ShouldStartWithPath_create_Test {
 
   @Test
   public void should_create_error_message() {
-	final Path actual = mock(Path.class);
-	final Path other = mock(Path.class);
-	String actualMessage = shouldStartWith(actual, other).create(new TestDescription("Test"),
-	                                                             new StandardRepresentation());
-	assertThat(actualMessage).isEqualTo(String.format("[Test] " + PATH_SHOULD_START_WITH, actual, other));
+    // GIVEN
+    final Path actual = mock(Path.class);
+    final Path other = mock(Path.class);
+    // WHEN
+    String actualMessage = shouldStartWith(actual, other).create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(actualMessage).isEqualTo(format("[Test] " + PATH_SHOULD_START_WITH, actual, other));
   }
 }

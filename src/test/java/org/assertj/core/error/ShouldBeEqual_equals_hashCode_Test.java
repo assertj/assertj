@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
@@ -50,7 +50,7 @@ public class ShouldBeEqual_equals_hashCode_Test {
   @Test
   public void should_have_transitive_equals() {
     assertEqualsIsTransitive(factory, shouldBeEqual("Yoda", "Luke", new StandardRepresentation()),
-        shouldBeEqual("Yoda", "Luke", new StandardRepresentation()));
+                             shouldBeEqual("Yoda", "Luke", new StandardRepresentation()));
   }
 
   @Test
@@ -60,21 +60,21 @@ public class ShouldBeEqual_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
-    assertThat(factory.equals("Yoda")).isFalse();
+    then(factory.equals("Yoda")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
-    assertThat(factory.equals(null)).isFalse();
+    then(factory.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_IsNotEqual_with_different_actual() {
-    assertThat(factory.equals(shouldBeEqual("Leia", "Luke", new StandardRepresentation()))).isFalse();
+    then(factory.equals(shouldBeEqual("Leia", "Luke", new StandardRepresentation()))).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_IsNotEqual_with_different_expected() {
-    assertThat(factory.equals(shouldBeEqual("Yoda", "Leia", new StandardRepresentation()))).isFalse();
+    then(factory.equals(shouldBeEqual("Yoda", "Leia", new StandardRepresentation()))).isFalse();
   }
 }

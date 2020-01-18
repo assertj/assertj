@@ -12,17 +12,16 @@
  */
 package org.assertj.core.api.optional;
 
-import org.assertj.core.api.BaseTest;
-import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class OptionalAssert_isNotEmpty_Test extends BaseTest {
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+
+public class OptionalAssert_isNotEmpty_Test {
 
   @Test
   public void should_pass_when_optional_is_present() {

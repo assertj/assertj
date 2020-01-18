@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -40,11 +39,11 @@ public class ShouldBeAfter_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <2011-01-01T00:00:00.000>%n" +
-                                         "to be strictly after:%n" +
-                                         "  <2012-01-01T00:00:00.000>%n"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <2011-01-01T00:00:00.000>%n" +
+                                   "to be strictly after:%n" +
+                                   "  <2012-01-01T00:00:00.000>%n"));
   }
 
   @Test

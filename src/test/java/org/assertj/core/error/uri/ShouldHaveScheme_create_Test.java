@@ -13,7 +13,7 @@
 package org.assertj.core.error.uri;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
 
 import java.net.URI;
@@ -25,15 +25,16 @@ public class ShouldHaveScheme_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // WHEN
     String error = shouldHaveScheme(URI.create("http://assertj.org/"), "ftp").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting scheme of%n" +
-                                       "  <http://assertj.org/>%n" +
-                                       "to be:%n" +
-                                       "  <\"ftp\">%n" +
-                                       "but was:%n" +
-                                       "  <\"http\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting scheme of%n" +
+                                 "  <http://assertj.org/>%n" +
+                                 "to be:%n" +
+                                 "  <\"ftp\">%n" +
+                                 "but was:%n" +
+                                 "  <\"http\">"));
   }
 
 }

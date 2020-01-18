@@ -13,38 +13,42 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 public class ShouldNotAccept_create_Test {
 
   @Test
   public void should_create_error_message_with_default_predicate_description() {
+    // GIVEN
     ErrorMessageFactory factory = shouldNotAccept(color -> color.equals("red"), "Yoda", PredicateDescription.GIVEN);
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message)
-      .isEqualTo(format("[Test] %nExpecting:%n  <given predicate>%nnot to accept <\"Yoda\"> but it did."));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  <given predicate>%nnot to accept <\"Yoda\"> but it did."));
   }
 
   @Test
   public void should_create_error_message_with_predicate_description() {
+    // GIVEN
     ErrorMessageFactory factory = shouldNotAccept((String color) -> color.equals("red"), "Yoda",
                                                   new PredicateDescription("red light saber"));
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(
-      format("[Test] %nExpecting:%n  <'red light saber' predicate>%nnot to accept <\"Yoda\"> but it did."));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  <'red light saber' predicate>%nnot to accept <\"Yoda\"> but it did."));
   }
 
   @Test
   public void should_fail_if_predicate_description_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> shouldNotAccept(color -> color.equals("red"), "Yoda", null))
-                                    .withMessage("The predicate description must not be null");
+    thenNullPointerException().isThrownBy(() -> shouldNotAccept(color -> color.equals("red"), "Yoda", null))
+                              .withMessage("The predicate description must not be null");
   }
 
 }

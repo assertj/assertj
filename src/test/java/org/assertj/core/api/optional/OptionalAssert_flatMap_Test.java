@@ -12,17 +12,16 @@
  */
 package org.assertj.core.api.optional;
 
-import org.assertj.core.api.BaseTest;
-import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-import java.util.function.Function;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class OptionalAssert_flatMap_Test extends BaseTest {
+import java.util.Optional;
+import java.util.function.Function;
+
+import org.junit.jupiter.api.Test;
+
+public class OptionalAssert_flatMap_Test {
 
   private static final Function<String, Optional<String>> UPPER_CASE_OPTIONAL_STRING = s -> (s == null)
       ? Optional.empty() : Optional.of(s.toUpperCase());

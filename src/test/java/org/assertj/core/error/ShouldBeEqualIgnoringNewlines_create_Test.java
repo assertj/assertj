@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -29,11 +29,11 @@ public class ShouldBeEqualIgnoringNewlines_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <\"foo\">%n" +
-                                         "to be equal to:%n" +
-                                         "  <\"bar\">%n" +
-                                         "ignoring newlines (\\n, \\r\\n)."));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\"foo\">%n" +
+                                   "to be equal to:%n" +
+                                   "  <\"bar\">%n" +
+                                   "ignoring newlines (\\n, \\r\\n)."));
   }
 }

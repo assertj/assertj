@@ -13,7 +13,7 @@
 package org.assertj.core.error.future;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldBeCompletedExceptionally.shouldHaveCompletedExceptionally;
 import static org.assertj.core.error.future.Warning.WARNING;
 
@@ -26,12 +26,13 @@ public class ShouldHaveCompletedExceptionally_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // WHEN
     String error = shouldHaveCompletedExceptionally(new CompletableFuture<>()).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting%n" +
-                                       "  <CompletableFuture[Incomplete]>%n" +
-                                       "to be completed exceptionally.%n%s", WARNING));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting%n" +
+                                 "  <CompletableFuture[Incomplete]>%n" +
+                                 "to be completed exceptionally.%n%s", WARNING));
   }
 
 }

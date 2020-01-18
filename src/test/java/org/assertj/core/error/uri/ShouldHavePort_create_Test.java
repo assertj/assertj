@@ -13,7 +13,7 @@
 package org.assertj.core.error.uri;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
 
 import java.net.URI;
@@ -26,51 +26,57 @@ public class ShouldHavePort_create_Test {
 
   @Test
   public void should_create_error_message_for_uri() {
+    // WHEN
     String error = shouldHavePort(URI.create("http://assertj.org:8080/news"), 8888).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting port of%n" +
-                                       "  <http://assertj.org:8080/news>%n" +
-                                       "to be:%n" +
-                                       "  <8888>%n" +
-                                       "but was:%n" +
-                                       "  <8080>"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting port of%n" +
+                                 "  <http://assertj.org:8080/news>%n" +
+                                 "to be:%n" +
+                                 "  <8888>%n" +
+                                 "but was:%n" +
+                                 "  <8080>"));
   }
 
   @Test
   public void should_create_error_message_for_uri_has_no_port() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org:8080/news");
+    // WHEN
     String error = shouldHavePort(uri, -1).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
-                                       "  <http://assertj.org:8080/news>%n" +
-                                       "not to have a port but had:%n" +
-                                       "  <8080>"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting:%n" +
+                                 "  <http://assertj.org:8080/news>%n" +
+                                 "not to have a port but had:%n" +
+                                 "  <8080>"));
   }
 
   @Test
   public void should_create_error_message_for_url() throws Exception {
+    // WHEN
     String error = shouldHavePort(new URL("http://assertj.org:8080/news"), 8888).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting port of%n" +
-                                       "  <http://assertj.org:8080/news>%n" +
-                                       "to be:%n" +
-                                       "  <8888>%n" +
-                                       "but was:%n" +
-                                       "  <8080>"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting port of%n" +
+                                 "  <http://assertj.org:8080/news>%n" +
+                                 "to be:%n" +
+                                 "  <8888>%n" +
+                                 "but was:%n" +
+                                 "  <8080>"));
   }
 
   @Test
   public void should_create_error_message_for_url_has_no_port() throws Exception {
+    // GIVEN
     URL url = new URL("http://assertj.org:8080/news");
+    // WHEN
     String error = shouldHavePort(url, -1).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
-                                       "  <http://assertj.org:8080/news>%n" +
-                                       "not to have a port but had:%n" +
-                                       "  <8080>"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting:%n" +
+                                 "  <http://assertj.org:8080/news>%n" +
+                                 "not to have a port but had:%n" +
+                                 "  <8080>"));
   }
 }

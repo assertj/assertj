@@ -12,38 +12,35 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
  * <code>{@link ShouldBeSorted#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldHaveComparableElementsAccordingToComparator_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-	factory = shouldHaveComparableElementsAccordingToGivenComparator(array("b", "c", "a"),
-	                                                                 new CaseInsensitiveStringComparator());
-  }
-
   @Test
   public void should_create_error_message() {
-	String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %nsome elements are not mutually comparable according to CaseInsensitiveStringComparator comparator in group:%n"
-	                                  + "<[\"b\", \"c\", \"a\"]>"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveComparableElementsAccordingToGivenComparator(array("b", "c", "a"),
+                                                                                         new CaseInsensitiveStringComparator());
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nsome elements are not mutually comparable according to CaseInsensitiveStringComparator comparator in group:%n"
+                                   + "<[\"b\", \"c\", \"a\"]>"));
 
   }
 }

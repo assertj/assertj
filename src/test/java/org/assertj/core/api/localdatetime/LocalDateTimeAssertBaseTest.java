@@ -15,7 +15,6 @@ package org.assertj.core.api.localdatetime;
 import java.time.LocalDateTime;
 
 import org.assertj.core.api.AbstractLocalDateTimeAssert;
-import org.assertj.core.api.BaseTest;
 
 
 /**
@@ -25,7 +24,7 @@ import org.assertj.core.api.BaseTest;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class LocalDateTimeAssertBaseTest extends BaseTest {
+public class LocalDateTimeAssertBaseTest {
 
   public static final LocalDateTime REFERENCE = LocalDateTime.of(2000, 12, 14, 0, 0);
   public static final LocalDateTime BEFORE = LocalDateTime.of(2000, 12, 13, 23, 59, 59, 999);

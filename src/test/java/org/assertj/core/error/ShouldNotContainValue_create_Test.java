@@ -12,7 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.test.Maps.mapOf;
@@ -27,14 +28,17 @@ public class ShouldNotContainValue_create_Test {
 
   @Test
   public void should_create_error_message() {
-	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-	ErrorMessageFactory factory = shouldNotContainValue(map, "green");
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n" +
-	                              "Expecting:%n" +
-	                              "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
-	                              "not to contain value:%n" +
-	                              "  <\"green\">"));
+    // GIVEN
+    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+    ErrorMessageFactory factory = shouldNotContainValue(map, "green");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "not to contain value:%n" +
+                                   "  <\"green\">"));
   }
 
 }

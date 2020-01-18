@@ -12,7 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
 
 import java.util.List;
@@ -29,30 +30,36 @@ public class ShouldHaveOnlyElementsOfType_create_Test {
 
   @Test
   public void should_create_error_message_for_iterable() {
-	List<Object> list = Lists.newArrayList("Yoda", 5L);
-	ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(list, String.class, Long.class);
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n"
-	                              + "Expecting:%n"
-	                              + "  <[\"Yoda\", 5L]>%n"
-	                              + "to only have elements of type:%n"
-	                              + "  <java.lang.String>%n"
-	                              + "but found:%n"
-	                              + "  <java.lang.Long>"));
+    // GIVEN
+    List<Object> list = Lists.list("Yoda", 5L);
+    ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(list, String.class, Long.class);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting:%n"
+                                   + "  <[\"Yoda\", 5L]>%n"
+                                   + "to only have elements of type:%n"
+                                   + "  <java.lang.String>%n"
+                                   + "but found:%n"
+                                   + "  <java.lang.Long>"));
   }
 
   @Test
   public void should_create_error_message_for_array() {
-	Object[] array = new Object[] { "Yoda", 5L };
-	ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(array, String.class, Long.class);
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n"
-	                              + "Expecting:%n"
-	                              + "  <[\"Yoda\", 5L]>%n"
-	                              + "to only have elements of type:%n"
-	                              + "  <java.lang.String>%n"
-	                              + "but found:%n"
-	                              + "  <java.lang.Long>"));
+    // GIVEN
+    Object[] array = new Object[] { "Yoda", 5L };
+    ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(array, String.class, Long.class);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting:%n"
+                                   + "  <[\"Yoda\", 5L]>%n"
+                                   + "to only have elements of type:%n"
+                                   + "  <java.lang.String>%n"
+                                   + "but found:%n"
+                                   + "  <java.lang.Long>"));
   }
 
 }

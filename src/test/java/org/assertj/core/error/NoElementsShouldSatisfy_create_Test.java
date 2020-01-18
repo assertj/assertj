@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
@@ -30,11 +30,11 @@ public class NoElementsShouldSatisfy_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting no elements of:%n" +
-                                         "  <[\"Luke\", \"Leia\", \"Yoda\"]>%n" +
-                                         "to satisfy the given assertions requirements but these elements did:%n" +
-                                         "  <[\"Luke\", \"Leia\"]>"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting no elements of:%n" +
+                                   "  <[\"Luke\", \"Leia\", \"Yoda\"]>%n" +
+                                   "to satisfy the given assertions requirements but these elements did:%n" +
+                                   "  <[\"Luke\", \"Leia\"]>"));
   }
 
   @Test
@@ -44,10 +44,10 @@ public class NoElementsShouldSatisfy_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting no elements of:%n" +
-                                         "  <[\"Luke\", \"Leia%%s\", \"Yoda\"]>%n" +
-                                         "to satisfy the given assertions requirements but these elements did:%n" +
-                                         "  <[\"Luke\", \"Leia%%s\"]>"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting no elements of:%n" +
+                                   "  <[\"Luke\", \"Leia%%s\", \"Yoda\"]>%n" +
+                                   "to satisfy the given assertions requirements but these elements did:%n" +
+                                   "  <[\"Luke\", \"Leia%%s\"]>"));
   }
 }

@@ -12,9 +12,10 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
-import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -33,33 +34,38 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
 
   @Test
   public void should_create_error_message_with_all_fields_differences() {
-    factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Luke", "blue"), newArrayList("name", "lightSaberColor"),
-                                                    newArrayList((Object) "Luke", "blue"),
-                                                    newArrayList((Object) "Yoda", "green"), newArrayList("name",
-                                                                                                         "lightSaberColor"));
+    // GIVEN
+    factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Luke", "blue"), list("name", "lightSaberColor"),
+                                                    list((Object) "Luke", "blue"), list((Object) "Yoda", "green"),
+                                                    list("name", "lightSaberColor"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                  "Expecting values:%n" +
-                                  "  <[\"Yoda\", \"green\"]>%n" +
-                                  "in fields:%n" +
-                                  "  <[\"name\", \"lightSaberColor\"]>%n" +
-                                  "but were:%n" +
-                                  "  <[\"Luke\", \"blue\"]>%n" +
-                                  "in <Luke the Jedi>.%n" +
-                                  "Comparison was performed on fields:%n" +
-                                  "  <[\"name\", \"lightSaberColor\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting values:%n" +
+                                   "  <[\"Yoda\", \"green\"]>%n" +
+                                   "in fields:%n" +
+                                   "  <[\"name\", \"lightSaberColor\"]>%n" +
+                                   "but were:%n" +
+                                   "  <[\"Luke\", \"blue\"]>%n" +
+                                   "in <Luke the Jedi>.%n" +
+                                   "Comparison was performed on fields:%n" +
+                                   "  <[\"name\", \"lightSaberColor\"]>"));
   }
 
   @Test
   public void should_create_error_message_with_single_field_difference() {
-    factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Yoda", "green"), newArrayList("lightSaberColor"),
-                                                    newArrayList((Object) "green"), newArrayList((Object) "blue"),
-                                                    newArrayList("lightSaberColor"));
+    // GIVEN
+    factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Yoda", "green"), list("lightSaberColor"),
+                                                    list((Object) "green"), list((Object) "blue"),
+                                                    list("lightSaberColor"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %nExpecting value <\"blue\">" +
-                                  " in field <\"lightSaberColor\">" +
-                                  " but was <\"green\">" +
-                                  " in <Yoda the Jedi>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting value <\"blue\">" +
+                                   " in field <\"lightSaberColor\">" +
+                                   " but was <\"green\">" +
+                                   " in <Yoda the Jedi>"));
   }
 
 }

@@ -12,51 +12,51 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.AbsValueComparator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
  * <code>{@link ShouldBeLess#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 public class ShouldBeLess_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-	factory = shouldBeLess(8, 6);
-  }
-
   @Test
   public void should_create_error_message() {
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n" +
-	                              "Expecting:%n" +
-	                              " <8>%n" +
-	                              "to be less than:%n" +
-	                              " <6> "));
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeLess(8, 6);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <8>%n" +
+                                   "to be less than:%n" +
+                                   " <6> "));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-	factory = shouldBeLess(8, 6, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n" +
-	                              "Expecting:%n" +
-	                              " <8>%n" +
-	                              "to be less than:%n" +
-	                              " <6> when comparing values using AbsValueComparator"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeLess(8, 6, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <8>%n" +
+                                   "to be less than:%n" +
+                                   " <6> when comparing values using AbsValueComparator"));
   }
 }

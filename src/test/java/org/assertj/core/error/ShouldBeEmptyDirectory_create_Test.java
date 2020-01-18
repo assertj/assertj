@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
@@ -40,11 +40,11 @@ public class ShouldBeEmptyDirectory_create_Test {
     // WHEN
     String message = shouldBeEmptyDirectory(directory, directoryContent).create(DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo("[Test] %nExpecting:%n" +
-                                  "  </root>%n" +
-                                  "to be an empty directory but it contained:%n" +
-                                  "  [/bin/file1, /bin/file2]",
-                                  directory, directoryContent);
+    then(message).isEqualTo("[Test] %nExpecting:%n" +
+                            "  </root>%n" +
+                            "to be an empty directory but it contained:%n" +
+                            "  [/bin/file1, /bin/file2]",
+                            directory, directoryContent);
   }
 
   @Test
@@ -56,11 +56,11 @@ public class ShouldBeEmptyDirectory_create_Test {
     // WHEN
     String message = shouldBeEmptyDirectory(directory, directoryContent).create(DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo("[Test] %nExpecting:%n" +
-                                  "  <%s>%n" +
-                                  "to be an empty directory but it contained:%n" +
-                                  "  %s",
-                                  directory, directoryContent);
+    then(message).isEqualTo("[Test] %nExpecting:%n" +
+                            "  <%s>%n" +
+                            "to be an empty directory but it contained:%n" +
+                            "  %s",
+                            directory, directoryContent);
   }
 
   private static Path mockPath(String pathToString) {

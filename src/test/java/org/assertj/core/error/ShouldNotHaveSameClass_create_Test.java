@@ -12,34 +12,28 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
-
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldNotHaveSameClass#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Nicolas François
  */
 public class ShouldNotHaveSameClass_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldNotHaveSameClass("Yoda", "Luke");
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotHaveSameClass("Yoda", "Luke");
+    // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Yoda\">%nnot to have not the same class as:%n <\"Luke\"> (java.lang.String)"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nnot to have not the same class as:%n <\"Luke\"> (java.lang.String)"));
   }
 }

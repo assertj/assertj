@@ -13,7 +13,7 @@
 package org.assertj.core.error.uri;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 
 import java.net.URI;
@@ -26,30 +26,34 @@ public class ShouldHaveAuthority_create_Test {
 
   @Test
   public void should_create_error_message_for_uri() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org:8080/news");
+    // WHEN
     String error = shouldHaveAuthority(uri, "foo.org").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting authority of%n" +
-                                       "  <http://assertj.org:8080/news>%n" +
-                                       "to be:%n" +
-                                       "  <\"foo.org\">%n" +
-                                       "but was:%n" +
-                                       "  <\"assertj.org:8080\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting authority of%n" +
+                                 "  <http://assertj.org:8080/news>%n" +
+                                 "to be:%n" +
+                                 "  <\"foo.org\">%n" +
+                                 "but was:%n" +
+                                 "  <\"assertj.org:8080\">"));
   }
 
   @Test
   public void should_create_error_message_for_url() throws Exception {
+    // GIVEN
     URL url = new URL("http://assertj.org:8080/news");
+    // WHEN
     String error = shouldHaveAuthority(url, "foo.org").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting authority of%n" +
-                                       "  <http://assertj.org:8080/news>%n" +
-                                       "to be:%n" +
-                                       "  <\"foo.org\">%n" +
-                                       "but was:%n" +
-                                       "  <\"assertj.org:8080\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting authority of%n" +
+                                 "  <http://assertj.org:8080/news>%n" +
+                                 "to be:%n" +
+                                 "  <\"foo.org\">%n" +
+                                 "but was:%n" +
+                                 "  <\"assertj.org:8080\">"));
   }
 
 }

@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.ElementsShouldSatisfy.unsatisfiedRequirement;
@@ -46,12 +46,12 @@ public class ElementsShouldSatisfy_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), info.representation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting all elements of:%n" +
-                                         "  <[\"Leia\", \"Luke\", \"Yoda\"]>%n" +
-                                         "to satisfy given requirements, but these elements did not:%n%n" +
-                                         "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                         "  <\"Luke\"> error: Luke mistake."));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting all elements of:%n" +
+                                   "  <[\"Leia\", \"Luke\", \"Yoda\"]>%n" +
+                                   "to satisfy given requirements, but these elements did not:%n%n" +
+                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
+                                   "  <\"Luke\"> error: Luke mistake."));
   }
 
   @Test
@@ -63,12 +63,12 @@ public class ElementsShouldSatisfy_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), info.representation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting all elements of:%n" +
-                                         "  <[\"Leia%%s\", \"Luke\", \"Yoda\"]>%n" +
-                                         "to satisfy given requirements, but these elements did not:%n%n" +
-                                         "  <\"Leia%%s\"> error: Leia mistake.%n%n" +
-                                         "  <\"Luke\"> error: Luke mistake."));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting all elements of:%n" +
+                                   "  <[\"Leia%%s\", \"Luke\", \"Yoda\"]>%n" +
+                                   "to satisfy given requirements, but these elements did not:%n%n" +
+                                   "  <\"Leia%%s\"> error: Leia mistake.%n%n" +
+                                   "  <\"Luke\"> error: Luke mistake."));
   }
 
   @Test
@@ -80,12 +80,12 @@ public class ElementsShouldSatisfy_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), info.representation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting any element of:%n" +
-                                         "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to satisfy the given assertions requirements but none did:%n%n" +
-                                         "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                         "  <\"Luke\"> error: Luke mistake."));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting any element of:%n" +
+                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "to satisfy the given assertions requirements but none did:%n%n" +
+                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
+                                   "  <\"Luke\"> error: Luke mistake."));
   }
 
   @Test
@@ -97,11 +97,11 @@ public class ElementsShouldSatisfy_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), info.representation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting any element of:%n" +
-                                         "  <[\"Lu%%dke\", \"Yoda\"]>%n" +
-                                         "to satisfy the given assertions requirements but none did:%n%n" +
-                                         "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                         "  <\"Luke\"> error: Luke mistake."));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting any element of:%n" +
+                                   "  <[\"Lu%%dke\", \"Yoda\"]>%n" +
+                                   "to satisfy the given assertions requirements but none did:%n%n" +
+                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
+                                   "  <\"Luke\"> error: Luke mistake."));
   }
 }

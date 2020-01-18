@@ -19,13 +19,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.assertj.core.api.BaseTest;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("CompletableFutureAssert isNotCancelled")
-public class CompletableFutureAssert_isNotCancelled_Test extends BaseTest {
+public class CompletableFutureAssert_isNotCancelled_Test {
 
   @Test
   public void should_pass_if_completable_future_is_cancelled() {

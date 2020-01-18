@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameDay.shouldBeInSameDay;
 import static org.assertj.core.util.DateUtil.parse;
 
@@ -24,20 +24,23 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeInSameDay#create(Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldBeInSameDay_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     ErrorMessageFactory factory = shouldBeInSameDay(parse("2010-01-01"), parse("2010-01-25"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         " <2010-01-01T00:00:00.000>%n" +
-                                         "to be on same year, month and day as:%n" +
-                                         " <2010-01-25T00:00:00.000>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <2010-01-01T00:00:00.000>%n" +
+                                   "to be on same year, month and day as:%n" +
+                                   " <2010-01-25T00:00:00.000>"));
   }
 
 }

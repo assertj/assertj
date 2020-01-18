@@ -12,10 +12,11 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
-import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -25,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldContainAtIndex#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -33,21 +34,23 @@ public class ShouldContainAtIndex_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = shouldContainAtIndex(newArrayList("Yoda", "Luke"), "Leia", atIndex(1), "Luke");
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke");
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Leia\">%nat index <1> but found:%n <\"Luke\">%nin:%n <[\"Yoda\", \"Luke\"]>%n"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Leia\">%nat index <1> but found:%n <\"Luke\">%nin:%n <[\"Yoda\", \"Luke\"]>%n"));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldContainAtIndex(newArrayList("Yoda", "Luke"), "Leia", atIndex(1), "Luke",
-        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke",
+                                                       new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Leia\">%nat index <1> but found:%n <\"Luke\">%nin:%n <[\"Yoda\", \"Luke\"]>%n"
-            + "when comparing values using CaseInsensitiveStringComparator"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Leia\">%nat index <1> but found:%n <\"Luke\">%nin:%n <[\"Yoda\", \"Luke\"]>%n"
+                                   + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

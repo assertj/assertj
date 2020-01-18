@@ -21,10 +21,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalTime;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class LocalTimeAssert_isEqualToIgnoringSeconds_Test extends BaseTest {
+public class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
 
   private final LocalTime refLocalTime = LocalTime.of(23, 51, 0, 0);
 

@@ -12,40 +12,33 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
-import static org.assertj.core.util.Lists.newArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link ElementsShouldBeAtLeast#create(Description)}</code>.
- * 
+ *
  * @author Nicolas François
  * @author Joel Costigliola
  */
 public class ElementsShouldBeAtLeast_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = elementsShouldBeAtLeast(newArrayList("Yoda", "Solo", "Leia"), 2, new TestCondition<String>("a Jedi"));
-  }
-
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting elements:%n<[\"Yoda\", \"Solo\", \"Leia\"]>%n to be at least 2 times <a Jedi>"
-    ));
+    // GIVEN
+    ErrorMessageFactory factory = elementsShouldBeAtLeast(list("Yoda", "Solo", "Leia"), 2, new TestCondition<>("a Jedi"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Yoda\", \"Solo\", \"Leia\"]>%n to be at least 2 times <a Jedi>"));
   }
 
 }

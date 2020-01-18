@@ -12,21 +12,21 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ShouldStartWith#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -36,23 +36,26 @@ public class ShouldStartWith_create_Test {
 
   @BeforeEach
   public void setUp() {
-    factory = shouldStartWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"));
+    factory = shouldStartWith(list("Yoda", "Luke"), list("Han", "Leia"));
   }
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto start with:%n <[\"Han\", \"Leia\"]>%n"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto start with:%n <[\"Han\", \"Leia\"]>%n"));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldStartWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"), new ComparatorBasedComparisonStrategy(
-        CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto start with:%n <[\"Han\", \"Leia\"]>%n"
-            + "when comparing values using CaseInsensitiveStringComparator"));
+    // GIVEN
+    factory = shouldStartWith(list("Yoda", "Luke"), list("Han", "Leia"),
+                              new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto start with:%n <[\"Han\", \"Leia\"]>%n"
+                                   + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

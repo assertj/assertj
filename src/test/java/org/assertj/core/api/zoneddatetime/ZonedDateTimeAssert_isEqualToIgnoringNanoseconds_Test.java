@@ -22,10 +22,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZonedDateTime;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest {
+public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
 
   private final ZonedDateTime refDatetime = ZonedDateTime.of(2000, 1, 1, 0, 0, 1, 0, UTC);
 

@@ -22,11 +22,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZonedDateTime;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
 
-public class ZonedDateTimeAssert_isEqualToIgnoringMinutes_Test extends BaseTest {
+public class ZonedDateTimeAssert_isEqualToIgnoringMinutes_Test {
 
   private final ZonedDateTime refDatetime = ZonedDateTime.of(2000, 1, 1, 23, 0, 0, 0, UTC);
 

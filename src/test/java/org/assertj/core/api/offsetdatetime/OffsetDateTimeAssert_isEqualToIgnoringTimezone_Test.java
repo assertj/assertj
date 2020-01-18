@@ -24,10 +24,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test extends BaseTest {
+public class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
   private final OffsetDateTime actual = of(2000, 1, 5, 12, 0, 0, 0, MAX);
 
   @Test

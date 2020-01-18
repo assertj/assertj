@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
 
@@ -36,7 +36,7 @@ class ShouldBeEmpty_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory errorMessageFactory = shouldBeEmpty(newArrayList("Luke", "Yoda"));
+    ErrorMessageFactory errorMessageFactory = shouldBeEmpty(list("Luke", "Yoda"));
     // WHEN
     String message = errorMessageFactory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

@@ -50,7 +50,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class AbstractTemporalAssert_isCloseTo_Test extends BaseTest {
+public class AbstractTemporalAssert_isCloseTo_Test {
 
   private static AbstractTemporalAssert<?, ?>[] nullAsserts = {
       assertThat((Instant) null),

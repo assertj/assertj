@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeExhausted.shouldBeExhausted;
 
 import org.assertj.core.internal.TestDescription;
@@ -23,10 +23,11 @@ public class ShouldBeExhausted_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // WHEN
     String error = shouldBeExhausted().create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting the iterator under test to be exhausted but it contained at least another value."));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting the iterator under test to be exhausted but it contained at least another value."));
   }
 
 }

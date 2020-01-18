@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
@@ -42,15 +42,15 @@ public class ShouldHaveSameSizeAs_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Actual and expected should have same size but actual size is:%n" +
-                                         " <2>%n" +
-                                         "while expected size is:%n" +
-                                         " <4>%n" +
-                                         "Actual was:%n" +
-                                         " ['a', 'b']%n" +
-                                         "Expected was:%n" +
-                                         " ['a', 'b', 'c', 'd']"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Actual and expected should have same size but actual size is:%n" +
+                                   " <2>%n" +
+                                   "while expected size is:%n" +
+                                   " <4>%n" +
+                                   "Actual was:%n" +
+                                   " ['a', 'b']%n" +
+                                   "Expected was:%n" +
+                                   " ['a', 'b', 'c', 'd']"));
   }
 
   @Test
@@ -58,14 +58,14 @@ public class ShouldHaveSameSizeAs_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Actual and expected should have same size but actual size is:%n" +
-                                         " <2>%n" +
-                                         "while expected size is:%n" +
-                                         " <4>%n" +
-                                         "Actual was:%n" +
-                                         " ['0x0061', '0x0062']%n" +
-                                         "Expected was:%n" +
-                                         " ['0x0061', '0x0062', '0x0063', '0x0064']"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Actual and expected should have same size but actual size is:%n" +
+                                   " <2>%n" +
+                                   "while expected size is:%n" +
+                                   " <4>%n" +
+                                   "Actual was:%n" +
+                                   " ['0x0061', '0x0062']%n" +
+                                   "Expected was:%n" +
+                                   " ['0x0061', '0x0062', '0x0063', '0x0064']"));
   }
 }

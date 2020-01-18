@@ -12,7 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -26,29 +27,35 @@ public class ShouldHaveFields_create_Test {
 
   @Test
   public void should_create_error_message_for_fields() {
-    ErrorMessageFactory factory = shouldHaveFields(Person.class, newLinkedHashSet("name", "address"), newLinkedHashSet("address"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveFields(Person.class, newLinkedHashSet("name", "address"),
+                                                   newLinkedHashSet("address"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-                                  "[Test] %n"
-                                      + "Expecting%n"
-                                      + "  <org.assertj.core.test.Person>%n"
-                                                + "to have the following public accessible fields:%n"
-                                      + "  <[\"name\", \"address\"]>%n"
-                                      + "but it doesn't have:%n"
-                                      + "  <[\"address\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting%n"
+                                   + "  <org.assertj.core.test.Person>%n"
+                                   + "to have the following public accessible fields:%n"
+                                   + "  <[\"name\", \"address\"]>%n"
+                                   + "but it doesn't have:%n"
+                                   + "  <[\"address\"]>"));
   }
-  
+
   @Test
   public void should_create_error_message_for_declared_fields() {
-    ErrorMessageFactory factory = shouldHaveDeclaredFields(Person.class, newLinkedHashSet("name", "address"), newLinkedHashSet("address"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveDeclaredFields(Person.class, newLinkedHashSet("name", "address"),
+                                                           newLinkedHashSet("address"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-                                  "[Test] %n"
-                                      + "Expecting%n"
-                                      + "  <org.assertj.core.test.Person>%n"
-                                                + "to have the following declared fields:%n"
-                                      + "  <[\"name\", \"address\"]>%n"
-                                      + "but it doesn't have:%n"
-                                      + "  <[\"address\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting%n"
+                                   + "  <org.assertj.core.test.Person>%n"
+                                   + "to have the following declared fields:%n"
+                                   + "  <[\"name\", \"address\"]>%n"
+                                   + "but it doesn't have:%n"
+                                   + "  <[\"address\"]>"));
   }
 }

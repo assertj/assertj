@@ -12,13 +12,11 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
@@ -30,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for
  * <code>{@link BasicErrorMessageFactory#create(Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Yvonne Wang
  */
 public class BasicErrorMessageFactory_create_Test {
@@ -47,28 +45,39 @@ public class BasicErrorMessageFactory_create_Test {
 
   @Test
   public void should_implement_toString() {
+    // GIVEN
     Description description = new TestDescription("Test");
     Representation representation = new StandardRepresentation();
     String formattedMessage = "[Test] Hello Yoda";
-    when(formatter.format(description, representation, "Hello %s", "Yoda")).thenReturn(formattedMessage);
-    assertThat(factory.create(description, representation)).isEqualTo(formattedMessage);
+    given(formatter.format(description, representation, "Hello %s", "Yoda")).willReturn(formattedMessage);
+    // WHEN
+    String message = factory.create(description, representation);
+    // THEN
+    then(message).isEqualTo(formattedMessage);
   }
 
   @Test
   public void should_create_error_with_configured_representation() {
+    // GIVEN
     Description description = new TestDescription("Test");
     String formattedMessage = "[Test] Hello Yoda";
-    when(formatter.format(eq(description), same(CONFIGURATION_PROVIDER.representation()), eq("Hello %s"), eq("Yoda")))
-      .thenReturn(formattedMessage);
-    assertThat(factory.create(description)).isEqualTo(formattedMessage);
+    given(formatter.format(description, CONFIGURATION_PROVIDER.representation(), "Hello %s",
+                           "Yoda")).willReturn(formattedMessage);
+    // WHEN
+    String message = factory.create(description);
+    // THEN
+    then(message).isEqualTo(formattedMessage);
   }
 
   @Test
   public void should_create_error_with_empty_description_and_configured_representation() {
     Description description = emptyDescription();
     String formattedMessage = "[] Hello Yoda";
-    when(formatter.format(eq(description), same(CONFIGURATION_PROVIDER.representation()), eq("Hello %s"), eq("Yoda")))
-      .thenReturn(formattedMessage);
-    assertThat(factory.create()).isEqualTo(formattedMessage);
+    given(formatter.format(description, CONFIGURATION_PROVIDER.representation(), "Hello %s",
+                           "Yoda")).willReturn(formattedMessage);
+    // WHEN
+    String message = factory.create(description);
+    // THEN
+    then(message).isEqualTo(formattedMessage);
   }
 }

@@ -13,28 +13,24 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeMarked.shouldBeMarked;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ShouldBeMarkedCase_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldBeMarked(new AtomicMarkableReference<>("actual", false));
-  }
-
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %nExpecting <AtomicMarkableReference[marked=false, reference=\"actual\"]> to be a marked but was not"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeMarked(new AtomicMarkableReference<>("actual", false));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting <AtomicMarkableReference[marked=false, reference=\"actual\"]> to be a marked but was not"));
   }
 }

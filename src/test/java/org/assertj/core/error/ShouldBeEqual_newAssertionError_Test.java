@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.BDDMockito.given;
@@ -56,12 +56,12 @@ public class ShouldBeEqual_newAssertionError_Test {
     // WHEN
     AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
-    assertThat(error).isInstanceOf(AssertionFailedError.class)
-                     .hasMessage(format("[Jedi] %nExpecting:%n" +
-                                        " <\"Luke\">%n" +
-                                        "to be equal to:%n" +
-                                        " <\"Yoda\">%n" +
-                                        "but was not."));
+    then(error).isInstanceOf(AssertionFailedError.class)
+               .hasMessage(format("[Jedi] %nExpecting:%n" +
+                                  " <\"Luke\">%n" +
+                                  "to be equal to:%n" +
+                                  " <\"Yoda\">%n" +
+                                  "but was not."));
   }
 
   public static Stream<String> parameters() {

@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -22,20 +22,24 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeLowerCase#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class ShouldBeLowerCase_create_Test {
 
   @Test
   public void should_create_error_message_for_character() {
+    // WHEN
     String message = shouldBeLowerCase('A').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
-    assertThat(message).isEqualTo(format("[Test] %nExpecting <'A'> to be a lowercase"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting <'A'> to be a lowercase"));
   }
 
   @Test
   public void should_create_error_message_for_string() {
+    // WHEN
     String message = shouldBeLowerCase("ABC").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
-    assertThat(message).isEqualTo(format("[Test] %nExpecting <\"ABC\"> to be a lowercase"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting <\"ABC\"> to be a lowercase"));
   }
 }

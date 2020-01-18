@@ -15,7 +15,6 @@ package org.assertj.core.api.localdate;
 import java.time.LocalDate;
 
 import org.assertj.core.api.AbstractLocalDateAssert;
-import org.assertj.core.api.BaseTest;
 
 
 /**
@@ -23,7 +22,7 @@ import org.assertj.core.api.BaseTest;
  * Base test class for {@link AbstractLocalDateAssert} tests.
  * 
  */
-public class LocalDateAssertBaseTest extends BaseTest {
+public class LocalDateAssertBaseTest {
 
   public static final LocalDate BEFORE = LocalDate.now().minusDays(1);
   public static final LocalDate REFERENCE = LocalDate.now();

@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.util.Lists.list;
@@ -43,33 +43,38 @@ public class ShouldNotContain_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     ErrorMessageFactory factory = shouldNotContain(list("Yoda"), list("Luke", "Yoda"),
                                                    newLinkedHashSet("Yoda"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         " <[\"Yoda\"]>%n" +
-                                         "not to contain%n" +
-                                         " <[\"Luke\", \"Yoda\"]>%n" +
-                                         "but found%n" +
-                                         " <[\"Yoda\"]>%n"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   " <[\"Yoda\"]>%n" +
+                                   "not to contain%n" +
+                                   " <[\"Luke\", \"Yoda\"]>%n" +
+                                   "but found%n" +
+                                   " <[\"Yoda\"]>%n"));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
+    // GIVEN
     ErrorMessageFactory factory = shouldNotContain(list("Yoda"),
                                                    list("Luke", "Yoda"),
                                                    newLinkedHashSet("Yoda"),
-                                                   new ComparatorBasedComparisonStrategy(
-                                                                                         CaseInsensitiveStringComparator.instance));
+                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         " <[\"Yoda\"]>%n" +
-                                         "not to contain%n" +
-                                         " <[\"Luke\", \"Yoda\"]>%n" +
-                                         "but found%n <[\"Yoda\"]>%n" +
-                                         "when comparing values using CaseInsensitiveStringComparator"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   " <[\"Yoda\"]>%n" +
+                                   "not to contain%n" +
+                                   " <[\"Luke\", \"Yoda\"]>%n" +
+                                   "but found%n <[\"Yoda\"]>%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -81,11 +86,11 @@ public class ShouldNotContain_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting directory:%n" +
-                                         "  <root>%n" +
-                                         "not to contain any files matching glob:**.java but found some:%n" +
-                                         "  [foo.txt, bar.txt]"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting directory:%n" +
+                                   "  <root>%n" +
+                                   "not to contain any files matching glob:**.java but found some:%n" +
+                                   "  [foo.txt, bar.txt]"));
   }
 
   @Test
@@ -97,11 +102,11 @@ public class ShouldNotContain_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting directory:%n" +
-                                         "  <root>%n" +
-                                         "not to contain any files matching glob:**.java but found some:%n" +
-                                         "  [foo.txt, bar.txt]"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting directory:%n" +
+                                   "  <root>%n" +
+                                   "not to contain any files matching glob:**.java but found some:%n" +
+                                   "  [foo.txt, bar.txt]"));
   }
 
 }

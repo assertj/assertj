@@ -13,8 +13,8 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenCode;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,14 +38,14 @@ public class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertionErrorCreator.tryThrowingMultipleFailuresError(errors));
     // THEN
-    assertThat(thrown).isInstanceOf(MultipleFailuresError.class)
-                      .hasMessage(format("%nMultiple Failures (2 failures)%n" +
-                                         "-- failure 1 --%n" +
-                                         "error1%n" +
-                                         "-- failure 2 --%n" +
-                                         "error2"));
+    then(thrown).isInstanceOf(MultipleFailuresError.class)
+                .hasMessage(format("%nMultiple Failures (2 failures)%n" +
+                                   "-- failure 1 --%n" +
+                                   "error1%n" +
+                                   "-- failure 2 --%n" +
+                                   "error2"));
     MultipleFailuresError assertionFailedError = (MultipleFailuresError) thrown;
-    assertThat(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
+    then(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
   }
 
   @Test
@@ -56,6 +56,6 @@ public class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
     assertionErrorCreator.constructorInvoker = constructorInvoker;
     // THEN
-    assertThatCode(() -> assertionErrorCreator.tryThrowingMultipleFailuresError(errors)).doesNotThrowAnyException();
+    thenCode(() -> assertionErrorCreator.tryThrowingMultipleFailuresError(errors)).doesNotThrowAnyException();
   }
 }

@@ -15,12 +15,11 @@ package org.assertj.core.api.localtime;
 import java.time.LocalTime;
 
 import org.assertj.core.api.AbstractLocalTimeAssert;
-import org.assertj.core.api.BaseTest;
 
 /**
  * Base test class for {@link AbstractLocalTimeAssert} tests.
  */
-public class LocalTimeAssertBaseTest extends BaseTest {
+public class LocalTimeAssertBaseTest {
 
   public static final LocalTime REFERENCE = LocalTime.of(0, 0, 0, 1);
   public static final LocalTime BEFORE = LocalTime.of(0, 0, 0, 0);

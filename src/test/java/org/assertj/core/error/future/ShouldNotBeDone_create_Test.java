@@ -13,7 +13,7 @@
 package org.assertj.core.error.future;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
 import static org.assertj.core.error.future.Warning.WARNING;
 
@@ -26,13 +26,14 @@ public class ShouldNotBeDone_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // WHEN
     String error = shouldNotBeDone(CompletableFuture.completedFuture("done")).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting%n" +
-                                       "  <CompletableFuture[Completed: \"done\"]>%n" +
-                                       "not to be done.%n%s",
-                                       WARNING));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting%n" +
+                                 "  <CompletableFuture[Completed: \"done\"]>%n" +
+                                 "not to be done.%n%s",
+                                 WARNING));
   }
 
 }

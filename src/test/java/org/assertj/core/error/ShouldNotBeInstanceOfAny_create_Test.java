@@ -13,49 +13,47 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldBeInstanceOfAny#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class ShouldNotBeInstanceOfAny_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    Class<?>[] types = { String.class, Object.class };
-    factory = shouldNotBeInstanceOfAny("Yoda", types);
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    Class<?>[] types = { String.class, Object.class };
+    ErrorMessageFactory factory = shouldNotBeInstanceOfAny("Yoda", types);
+    // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         " <\"Yoda\">%n" +
-                                         "not to be an instance of any of these types:%n" +
-                                         " <[java.lang.String, java.lang.Object]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <\"Yoda\">%n" +
+                                   "not to be an instance of any of these types:%n" +
+                                   " <[java.lang.String, java.lang.Object]>"));
   }
 
   @Test
   public void should_create_error_message_with_stack_trace_for_throwable() {
+    // GIVEN
     IllegalArgumentException throwable = new IllegalArgumentException();
     Class<?>[] types = { NullPointerException.class, IllegalArgumentException.class };
+    // WHEN
     String message = shouldNotBeInstanceOfAny(throwable, types).create();
-
-    assertThat(message).isEqualTo(format("%nExpecting:%n" +
-                                         " <\"" + getStackTrace(throwable) + "\">%n" +
-                                         "not to be an instance of any of these types:%n" +
-                                         " <[java.lang.NullPointerException, java.lang.IllegalArgumentException]>"));
+    // THEN
+    then(message).isEqualTo(format("%nExpecting:%n" +
+                                   " <\"" + getStackTrace(throwable) + "\">%n" +
+                                   "not to be an instance of any of these types:%n" +
+                                   " <[java.lang.NullPointerException, java.lang.IllegalArgumentException]>"));
   }
 }

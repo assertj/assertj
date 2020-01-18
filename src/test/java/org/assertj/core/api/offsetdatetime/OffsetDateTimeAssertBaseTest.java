@@ -15,15 +15,13 @@ package org.assertj.core.api.offsetdatetime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import org.assertj.core.api.BaseTest;
-
 /**
  * Base test class for {@link org.assertj.core.api.AbstractOffsetDateTimeAssert} tests.
  *
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class OffsetDateTimeAssertBaseTest extends BaseTest {
+public class OffsetDateTimeAssertBaseTest {
 
   public static final OffsetDateTime REFERENCE = OffsetDateTime.of(2000, 12, 14, 0, 0, 0, 0, ZoneOffset.UTC);
   public static final OffsetDateTime BEFORE = OffsetDateTime.of(2000, 12, 13, 23, 59, 59, 999, ZoneOffset.UTC);

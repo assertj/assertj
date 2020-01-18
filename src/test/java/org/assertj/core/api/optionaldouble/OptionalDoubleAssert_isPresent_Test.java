@@ -19,10 +19,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalDouble;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OptionalDoubleAssert_isPresent_Test extends BaseTest {
+public class OptionalDoubleAssert_isPresent_Test {
 
   @Test
   public void should_pass_when_optionaldouble_is_present() {

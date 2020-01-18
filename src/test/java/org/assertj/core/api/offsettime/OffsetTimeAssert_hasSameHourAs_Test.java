@@ -22,10 +22,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OffsetTimeAssert_hasSameHourAs_Test extends BaseTest {
+public class OffsetTimeAssert_hasSameHourAs_Test {
 
   private final OffsetTime refOffsetTime = OffsetTime.of(23, 0, 0, 0, ZoneOffset.UTC);
 

@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -39,13 +39,13 @@ public class AssertionErrorCreator_multipleAssertionsError_Test {
     // WHEN
     AssertionError assertionError = assertionErrorCreator.multipleAssertionsError(description, errors);
     // THEN
-    assertThat(assertionError).isInstanceOf(MultipleFailuresError.class)
-                              .hasMessageContainingAll("[description]",
-                                                       "(2 failures)",
-                                                       "error1",
-                                                       "error2");
+    then(assertionError).isInstanceOf(MultipleFailuresError.class)
+                        .hasMessageContainingAll("[description]",
+                                                 "(2 failures)",
+                                                 "error1",
+                                                 "error2");
     MultipleFailuresError assertionFailedError = (MultipleFailuresError) assertionError;
-    assertThat(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
+    then(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
   }
 
   @Test
@@ -59,10 +59,10 @@ public class AssertionErrorCreator_multipleAssertionsError_Test {
     // WHEN
     AssertionError assertionError = assertionErrorCreator.multipleAssertionsError(description, errors);
     // THEN
-    assertThat(assertionError).isNotInstanceOf(MultipleFailuresError.class)
-                              .hasMessage(format("[description] %n"
-                                                 + "The following 2 assertions failed:%n"
-                                                 + "1) error1%n"
-                                                 + "2) error2%n"));
+    then(assertionError).isNotInstanceOf(MultipleFailuresError.class)
+                        .hasMessage(format("[description] %n"
+                                           + "The following 2 assertions failed:%n"
+                                           + "1) error1%n"
+                                           + "2) error2%n"));
   }
 }

@@ -12,74 +12,63 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.nio.file.Path;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoParent.FILE_HAS_PARENT;
 import static org.assertj.core.error.ShouldHaveNoParent.PATH_HAS_PARENT;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
+import java.nio.file.Path;
+
+import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 /**
  * Tests for {@link ShouldHaveNoParent#shouldHaveNoParent(File)} and {@link ShouldHaveNoParent#shouldHaveNoParent(Path)}
- * 
+ *
  * @author Jean-Christophe Gay
  * @author Francis Galiegue
  */
-public class ShouldHaveNoParent_create_Test
-{
+public class ShouldHaveNoParent_create_Test {
 
   private TestDescription description;
   private Representation representation;
 
-  private ErrorMessageFactory factory;
-  private String actualMessage;
-  private String expectedMessage;
-
   @BeforeEach
-  public void setup()
-  {
-	description = new TestDescription("Test");
-	representation = new StandardRepresentation();
+  public void setup() {
+    description = new TestDescription("Test");
+    representation = new StandardRepresentation();
   }
 
   @Test
-  public void should_create_error_message_when_file_has_a_parent()
-  {
-	final File file = mock(File.class);
-	final FakeFile parent = new FakeFile("unexpected.parent");
-	when(file.getParentFile()).thenReturn(parent);
-	String fileAbsolutePath = "/path/to/file";
-	when(file.getAbsolutePath()).thenReturn(fileAbsolutePath);
-
-	factory = shouldHaveNoParent(file);
-	actualMessage = factory.create(description, representation);
-
-	expectedMessage = String.format("[Test] " + FILE_HAS_PARENT, fileAbsolutePath, parent);
-
-	assertThat(actualMessage).isEqualTo(expectedMessage);
+  public void should_create_error_message_when_file_has_a_parent() {
+    // GIVEN
+    final File file = mock(File.class);
+    final FakeFile parent = new FakeFile("unexpected.parent");
+    when(file.getParentFile()).thenReturn(parent);
+    String fileAbsolutePath = "/path/to/file";
+    when(file.getAbsolutePath()).thenReturn(fileAbsolutePath);
+    // WHEN
+    String actualMessage = shouldHaveNoParent(file).create(description, representation);
+    // THEN
+    then(actualMessage).isEqualTo(format("[Test] " + FILE_HAS_PARENT, fileAbsolutePath, parent));
   }
 
   @Test
-  public void should_create_error_message_when_path_has_a_parent()
-  {
-	final Path path = mock(Path.class);
-	final Path parent = mock(Path.class);
-	when(path.getParent()).thenReturn(parent);
-
-	factory = shouldHaveNoParent(path);
-	actualMessage = factory.create(description, representation);
-
-	expectedMessage = String.format("[Test] " + PATH_HAS_PARENT, path, parent);
-
-	assertThat(actualMessage).isEqualTo(expectedMessage);
+  public void should_create_error_message_when_path_has_a_parent() {
+    // GIVEN
+    final Path path = mock(Path.class);
+    final Path parent = mock(Path.class);
+    when(path.getParent()).thenReturn(parent);
+    // WHEN
+    String actualMessage = shouldHaveNoParent(path).create(description, representation);
+    // THEN
+    then(actualMessage).isEqualTo(format("[Test] " + PATH_HAS_PARENT, path, parent));
   }
 }

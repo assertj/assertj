@@ -12,35 +12,29 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
-import static org.assertj.core.util.Lists.newArrayList;
-
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldNotBeOfClassIn#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Nicolas François
  */
 public class ShouldNotBeOfClassIn_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldNotBeOfClassIn("Yoda", newArrayList(Long.class, String.class));
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotBeOfClassIn("Yoda", list(Long.class, String.class));
+    // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Yoda\">%nnot to be of any type in:%n <[java.lang.Long, java.lang.String]>%nbut was of type:<java.lang.String>"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nnot to be of any type in:%n <[java.lang.Long, java.lang.String]>%nbut was of type:<java.lang.String>"));
   }
 }

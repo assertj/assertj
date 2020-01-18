@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 
 import java.util.Optional;
@@ -23,29 +23,37 @@ import java.util.OptionalLong;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalShouldBePresent_create_Test {
+public class Optional_ShouldBePresent_create_Test {
 
   @Test
   public void should_create_error_message_with_optional() {
+    // WHEN
     String errorMessage = shouldBePresent(Optional.empty()).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain a value but it was empty."));
+    // THEN
+    then(errorMessage).isEqualTo(format("%nExpecting Optional to contain a value but it was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionaldouble() {
+    // WHEN
     String errorMessage = shouldBePresent(OptionalDouble.empty()).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalDouble to contain a value but it was empty."));
+    // THEN
+    then(errorMessage).isEqualTo(format("%nExpecting OptionalDouble to contain a value but it was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionalint() {
+    // WHEN
     String errorMessage = shouldBePresent(OptionalInt.empty()).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalInt to contain a value but it was empty."));
+    // THEN
+    then(errorMessage).isEqualTo(format("%nExpecting OptionalInt to contain a value but it was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionallong() {
+    // WHEN
     String errorMessage = shouldBePresent(OptionalLong.empty()).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalLong to contain a value but it was empty."));
+    // THEN
+    then(errorMessage).isEqualTo(format("%nExpecting OptionalLong to contain a value but it was empty."));
   }
 }

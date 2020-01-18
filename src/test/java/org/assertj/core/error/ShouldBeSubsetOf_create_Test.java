@@ -12,47 +12,46 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
  * <code>{@link ShouldBeSubsetOf#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
- * 
+ *
  * @author Maciej Jaskowski
  */
 public class ShouldBeSubsetOf_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-	factory = shouldBeSubsetOf(newArrayList("Yoda", "Luke"), newArrayList("Han", "Luke"), newArrayList("Yoda"));
-  }
-
   @Test
   public void should_create_error_message() {
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %nExpecting :%n <[\"Yoda\", \"Luke\"]>%nto be subset of%n <[\"Han\", \"Luke\"]>%nbut found these extra elements:%n <[\"Yoda\"]>"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeSubsetOf(list("Yoda", "Luke"), list("Han", "Luke"), list("Yoda"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting :%n <[\"Yoda\", \"Luke\"]>%nto be subset of%n <[\"Han\", \"Luke\"]>%nbut found these extra elements:%n <[\"Yoda\"]>"));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-	ErrorMessageFactory factory = shouldBeSubsetOf(newArrayList("Yoda", "Luke"),
-	                                               newArrayList("Han", "Luke"),
-	                                               newArrayList("Yoda"),
-	                                               new ComparatorBasedComparisonStrategy(
-	                                                                                     CaseInsensitiveStringComparator.instance));
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %nExpecting when comparing values using CaseInsensitiveStringComparator:%n <[\"Yoda\", \"Luke\"]>%nto be subset of%n <[\"Han\", \"Luke\"]>%nbut found these extra elements:%n <[\"Yoda\"]>"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeSubsetOf(list("Yoda", "Luke"),
+                                                   list("Han", "Luke"),
+                                                   list("Yoda"),
+                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting when comparing values using CaseInsensitiveStringComparator:%n <[\"Yoda\", \"Luke\"]>%nto be subset of%n <[\"Han\", \"Luke\"]>%nbut found these extra elements:%n <[\"Yoda\"]>"));
   }
 }

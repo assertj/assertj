@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
@@ -29,16 +29,16 @@ public class ShouldHaveMessageMatchingRegex_create_Test {
     // WHEN
     String errorMessage = shouldHaveMessageMatchingRegex(actual, regex).create(new TestDescription("TEST"));
     // THEN
-    assertThat(errorMessage).isEqualTo("[TEST] %n" +
-                                       "Expecting message:%n" +
-                                       "  <\"error %%s message\">%n" +
-                                       "to match regex:%n" +
-                                       "  <\"regex\">%n" +
-                                       "but did not.%n" +
-                                       "%n" +
-                                       "Throwable that failed the check:%n" +
-                                       "%n%s",
-                                       getStackTrace(actual));
+    then(errorMessage).isEqualTo("[TEST] %n" +
+                                 "Expecting message:%n" +
+                                 "  <\"error %%s message\">%n" +
+                                 "to match regex:%n" +
+                                 "  <\"regex\">%n" +
+                                 "but did not.%n" +
+                                 "%n" +
+                                 "Throwable that failed the check:%n" +
+                                 "%n%s",
+                                 getStackTrace(actual));
   }
 
 }

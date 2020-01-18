@@ -12,14 +12,14 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ConstructorInvoker#newInstance(String, Class[], Object[])}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class ConstructorInvoker_newInstance_Test {
@@ -33,8 +33,10 @@ public class ConstructorInvoker_newInstance_Test {
 
   @Test
   public void should_create_Object_using_reflection() throws Exception {
+    // WHEN
     Object o = invoker.newInstance("java.lang.Exception", new Class<?>[] { String.class }, new Object[] { "Hi" });
-    assertThat(o).isInstanceOf(Exception.class);
-    assertThat((Exception) o).hasMessage("Hi");
+    // THEN
+    then(o).isInstanceOf(Exception.class);
+    then((Exception) o).hasMessage("Hi");
   }
 }

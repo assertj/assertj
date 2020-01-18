@@ -21,10 +21,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.Comparator;
 import java.util.Optional;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_contains_usingValueComparator_Test extends BaseTest {
+public class OptionalAssert_contains_usingValueComparator_Test {
 
   private static Comparator<Foo> FOO_COMPARATOR = (o1, o2) -> o1.getValue().toLowerCase()
                                                         .compareTo(o2.getValue().toLowerCase());

@@ -12,18 +12,19 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
+
+import java.io.File;
+
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
-
 /**
  * Tests for <code>{@link ShouldHaveExtension#shouldHaveExtension(java.io.File, String, String)}</code>
- * 
+ *
  * @author Jean-Christophe Gay
  */
 public class ShouldHaveExtension_create_Test {
@@ -34,27 +35,27 @@ public class ShouldHaveExtension_create_Test {
 
   @Test
   public void should_create_error_message() {
-    assertThat(createMessage("png")).isEqualTo(String.format("[TEST] %n" +
-                                                             "Expecting%n" +
-                                                             "  <" + actual + ">%n" +
-                                                             "to have extension:%n" +
-                                                             "  <\"" + expectedExtension            + "\">%n" +
-                                                             "but had:%n" +
-                                                             "  <\"png\">."));
+    then(createMessage("png")).isEqualTo(format("[TEST] %n" +
+                                                "Expecting%n" +
+                                                "  <" + actual + ">%n" +
+                                                "to have extension:%n" +
+                                                "  <\"" + expectedExtension + "\">%n" +
+                                                "but had:%n" +
+                                                "  <\"png\">."));
   }
 
   @Test
   public void should_create_error_message_when_actual_does_not_have_extension() {
-    assertThat(createMessage(null)).isEqualTo(String.format("[TEST] %n" +
-                                                            "Expecting%n" +
-                                                            "  <" + actual + ">%n" +
-                                                            "to have extension:%n" +
-                                                            "  <\"" + expectedExtension + "\">%n" +
-                                                            "but had no extension."));
+    then(createMessage(null)).isEqualTo(format("[TEST] %n" +
+                                               "Expecting%n" +
+                                               "  <" + actual + ">%n" +
+                                               "to have extension:%n" +
+                                               "  <\"" + expectedExtension + "\">%n" +
+                                               "but had no extension."));
   }
 
   private String createMessage(String actualExtension) {
     return shouldHaveExtension(actual, actualExtension, expectedExtension).create(new TestDescription("TEST"),
-        new StandardRepresentation());
+                                                                                  new StandardRepresentation());
   }
 }

@@ -13,26 +13,27 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRegularFile.SHOULD_BE_REGULAR_FILE;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 
 import java.nio.file.Path;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 public class ShouldBeRegularFile_create_Test {
-  
+
   @Test
   public void should_create_error_message() {
+    // GIVEN
     final Path actual = mock(Path.class);
-
     ErrorMessageFactory factory = shouldBeRegularFile(actual);
-    String actualMessage = factory.create(new TextDescription("Test"), new StandardRepresentation());
-
-    assertThat(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_REGULAR_FILE, actual));
+    // WHEN
+    String actualMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_REGULAR_FILE, actual));
   }
 }

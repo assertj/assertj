@@ -12,26 +12,28 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWithPath.PATH_SHOULD_END_WITH;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 
 import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 public final class ShouldEndWithPath_create_Test {
 
   @Test
   public void should_create_error_message() {
-	final Path actual = mock(Path.class);
-	final Path other = mock(Path.class);
-	String actualMessage = shouldEndWith(actual, other).create(new TestDescription("Test"),
-	                                                           new StandardRepresentation());
-	assertThat(actualMessage).isEqualTo(String.format("[Test] " + PATH_SHOULD_END_WITH, actual, other));
+    // GIVEN
+    final Path actual = mock(Path.class);
+    final Path other = mock(Path.class);
+    // WHEN
+    String actualMessage = shouldEndWith(actual, other).create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(actualMessage).isEqualTo(String.format("[Test] " + PATH_SHOULD_END_WITH, actual, other));
   }
 
 }

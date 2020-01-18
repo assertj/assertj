@@ -13,19 +13,19 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.Collections.emptySet;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.Player;
-import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,105 +36,122 @@ import org.junit.jupiter.api.Test;
  */
 public class ShouldOnlyHaveFields_create_Test {
 
-  private static final LinkedHashSet<String> EMPTY_STRING_SET = Sets.<String> newLinkedHashSet();
+  private static final Set<String> EMPTY_STRING_SET = emptySet();
 
   @Test
   public void should_create_error_message_for_fields() {
+    // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveFields(Player.class,
-                                                          newLinkedHashSet("name", "team"),
-                                                          newLinkedHashSet("nickname"),
-                                                          newLinkedHashSet("address"));
+                                                       newLinkedHashSet("name", "team"),
+                                                       newLinkedHashSet("nickname"),
+                                                       newLinkedHashSet("address"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Player>%n" +
-                                         "to only have the following public accessible fields:%n" +
-                                         "  <[\"name\", \"team\"]>%n" +
-                                         "fields not found:%n" +
-                                         "  <[\"nickname\"]>%n" +
-                                         "and fields not expected:%n" +
-                                         "  <[\"address\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Player>%n" +
+                                   "to only have the following public accessible fields:%n" +
+                                   "  <[\"name\", \"team\"]>%n" +
+                                   "fields not found:%n" +
+                                   "  <[\"nickname\"]>%n" +
+                                   "and fields not expected:%n" +
+                                   "  <[\"address\"]>"));
   }
 
   @Test
   public void should_not_display_unexpected_fields_when_there_are_none_for_fields() {
     ErrorMessageFactory factory = shouldOnlyHaveFields(Player.class,
-                                                          newLinkedHashSet("name", "team"),
-                                                          newLinkedHashSet("nickname"),
-                                                          EMPTY_STRING_SET);
+                                                       newLinkedHashSet("name", "team"),
+                                                       newLinkedHashSet("nickname"),
+                                                       EMPTY_STRING_SET);
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Player>%n" +
-                                         "to only have the following public accessible fields:%n" +
-                                         "  <[\"name\", \"team\"]>%n" +
-                                         "but could not find the following fields:%n" +
-                                         "  <[\"nickname\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Player>%n" +
+                                   "to only have the following public accessible fields:%n" +
+                                   "  <[\"name\", \"team\"]>%n" +
+                                   "but could not find the following fields:%n" +
+                                   "  <[\"nickname\"]>"));
   }
 
   @Test
   public void should_not_display_fields_not_found_when_there_are_none_for_fields() {
+    // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveFields(Player.class,
-                                                          newLinkedHashSet("name", "team"),
-                                                          EMPTY_STRING_SET,
-                                                          newLinkedHashSet("address"));
+                                                       newLinkedHashSet("name", "team"),
+                                                       EMPTY_STRING_SET,
+                                                       newLinkedHashSet("address"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Player>%n" +
-                                         "to only have the following public accessible fields:%n" +
-                                         "  <[\"name\", \"team\"]>%n" +
-                                         "but the following fields were unexpected:%n" +
-                                         "  <[\"address\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Player>%n" +
+                                   "to only have the following public accessible fields:%n" +
+                                   "  <[\"name\", \"team\"]>%n" +
+                                   "but the following fields were unexpected:%n" +
+                                   "  <[\"address\"]>"));
   }
 
   @Test
   public void should_create_error_message_for_declared_fields() {
+    // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveDeclaredFields(Player.class,
-                                                                  newLinkedHashSet("name", "team"),
-                                                                  newLinkedHashSet("nickname"),
-                                                                  newLinkedHashSet("address"));
+                                                               newLinkedHashSet("name", "team"),
+                                                               newLinkedHashSet("nickname"),
+                                                               newLinkedHashSet("address"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Player>%n" +
-                                         "to only have the following declared fields:%n" +
-                                         "  <[\"name\", \"team\"]>%n" +
-                                         "fields not found:%n" +
-                                         "  <[\"nickname\"]>%n" +
-                                         "and fields not expected:%n" +
-                                         "  <[\"address\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Player>%n" +
+                                   "to only have the following declared fields:%n" +
+                                   "  <[\"name\", \"team\"]>%n" +
+                                   "fields not found:%n" +
+                                   "  <[\"nickname\"]>%n" +
+                                   "and fields not expected:%n" +
+                                   "  <[\"address\"]>"));
   }
 
   @Test
   public void should_not_display_unexpected_fields_when_there_are_none_for_declared_fields() {
+    // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveDeclaredFields(Player.class,
-                                                                  newLinkedHashSet("name", "team"),
-                                                                  newLinkedHashSet("nickname"),
-                                                                  EMPTY_STRING_SET);
+                                                               newLinkedHashSet("name", "team"),
+                                                               newLinkedHashSet("nickname"),
+                                                               EMPTY_STRING_SET);
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Player>%n" +
-                                         "to only have the following declared fields:%n" +
-                                         "  <[\"name\", \"team\"]>%n" +
-                                         "but could not find the following fields:%n" +
-                                         "  <[\"nickname\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Player>%n" +
+                                   "to only have the following declared fields:%n" +
+                                   "  <[\"name\", \"team\"]>%n" +
+                                   "but could not find the following fields:%n" +
+                                   "  <[\"nickname\"]>"));
   }
 
   @Test
   public void should_not_display_fields_not_found_when_there_are_none_for_declared_fields() {
+    // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveDeclaredFields(Player.class,
-                                                                  newLinkedHashSet("name", "team"),
-                                                                  EMPTY_STRING_SET,
-                                                                  newLinkedHashSet("address"));
+                                                               newLinkedHashSet("name", "team"),
+                                                               EMPTY_STRING_SET,
+                                                               newLinkedHashSet("address"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                                "Expecting%n" +
-                                                "  <org.assertj.core.test.Player>%n" +
-                                                "to only have the following declared fields:%n" +
-                                                "  <[\"name\", \"team\"]>%n" +
-                                                "but the following fields were unexpected:%n" +
-                                                "  <[\"address\"]>"));
+    // THEN
+    then(message).isEqualTo(String.format("[Test] %n" +
+                                          "Expecting%n" +
+                                          "  <org.assertj.core.test.Player>%n" +
+                                          "to only have the following declared fields:%n" +
+                                          "  <[\"name\", \"team\"]>%n" +
+                                          "but the following fields were unexpected:%n" +
+                                          "  <[\"address\"]>"));
   }
 }

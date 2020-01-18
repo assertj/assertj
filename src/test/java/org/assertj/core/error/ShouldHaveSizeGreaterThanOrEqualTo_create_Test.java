@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHaveSizeGreaterThanOrEqualTo;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -44,10 +44,10 @@ class ShouldHaveSizeGreaterThanOrEqualTo_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n"
-                                         + "Expecting size of:%n"
-                                         + "  <\"ab\">%n"
-                                         + "to be greater than or equal to 4 but was 2"));
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting size of:%n"
+                                   + "  <\"ab\">%n"
+                                   + "to be greater than or equal to 4 but was 2"));
   }
 
   @Test
@@ -55,9 +55,9 @@ class ShouldHaveSizeGreaterThanOrEqualTo_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n"
-                                         + "Expecting size of:%n"
-                                         + "  <\"['0x0061', '0x0062']\">%n"
-                                         + "to be greater than or equal to 4 but was 2"));
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting size of:%n"
+                                   + "  <\"['0x0061', '0x0062']\">%n"
+                                   + "to be greater than or equal to 4 but was 2"));
   }
 }

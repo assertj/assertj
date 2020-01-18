@@ -22,11 +22,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Optional;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class OptionalAssert_contains_Test extends BaseTest {
+public class OptionalAssert_contains_Test {
 
   @Test
   public void should_fail_when_optional_is_null() {

@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAtSameInstant.shouldBeAtSameInstant;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -35,14 +35,14 @@ class ShouldBeAtSameInstant_create_Test {
     // WHEN
     String message = shouldBeAtSameInstant(actual, other).create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <2000-12-14T00:00Z>%n" +
-                                         "to be at the same instant as:%n" +
-                                         "  <2000-12-14T00:00-03:00>%n" +
-                                         "but actual instance was%n" +
-                                         "  <2000-12-14T00:00:00Z>%n" +
-                                         "and expected instant was:%n" +
-                                         "  <2000-12-14T03:00:00Z>"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <2000-12-14T00:00Z>%n" +
+                                   "to be at the same instant as:%n" +
+                                   "  <2000-12-14T00:00-03:00>%n" +
+                                   "but actual instance was%n" +
+                                   "  <2000-12-14T00:00:00Z>%n" +
+                                   "and expected instant was:%n" +
+                                   "  <2000-12-14T03:00:00Z>"));
   }
 }

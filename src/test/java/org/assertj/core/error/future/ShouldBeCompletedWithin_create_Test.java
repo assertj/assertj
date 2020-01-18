@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error.future;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldBeCompletedWithin.shouldBeCompletedWithin;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
@@ -34,13 +34,13 @@ public class ShouldBeCompletedWithin_create_Test {
     // WHEN
     String error = shouldBeCompletedWithin(actual, duration, exception).create(new TestDescription("TEST"));
     // THEN
-    assertThat(error).isEqualTo("[TEST] %n" +
-                                "Expecting%n" +
-                                "  <CompletableFuture[Incomplete]>%n" +
-                                "to be completed within 1M10.001S.%n" +
-                                "%n" +
-                                "exception caught while trying to get the future result: %s",
-                                getStackTrace(exception));
+    then(error).isEqualTo("[TEST] %n" +
+                          "Expecting%n" +
+                          "  <CompletableFuture[Incomplete]>%n" +
+                          "to be completed within 1M10.001S.%n" +
+                          "%n" +
+                          "exception caught while trying to get the future result: %s",
+                          getStackTrace(exception));
   }
 
   @Test
@@ -51,13 +51,13 @@ public class ShouldBeCompletedWithin_create_Test {
     // WHEN
     String error = shouldBeCompletedWithin(actual, 100, TimeUnit.MILLISECONDS, exception).create(new TestDescription("TEST"));
     // THEN
-    assertThat(error).isEqualTo("[TEST] %n" +
-                                "Expecting%n" +
-                                "  <CompletableFuture[Incomplete]>%n" +
-                                "to be completed within 100L Millis.%n" +
-                                "%n" +
-                                "exception caught while trying to get the future result: %s",
-                                getStackTrace(exception));
+    then(error).isEqualTo("[TEST] %n" +
+                          "Expecting%n" +
+                          "  <CompletableFuture[Incomplete]>%n" +
+                          "to be completed within 100L Millis.%n" +
+                          "%n" +
+                          "exception caught while trying to get the future result: %s",
+                          getStackTrace(exception));
   }
 
 }

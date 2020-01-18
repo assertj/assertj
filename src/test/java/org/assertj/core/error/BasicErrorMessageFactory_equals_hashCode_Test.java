@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
@@ -60,21 +60,21 @@ public class BasicErrorMessageFactory_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
-    assertThat(factory.equals("Yoda")).isFalse();
+    then(factory.equals("Yoda")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
-    assertThat(factory.equals(null)).isFalse();
+    then(factory.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_BasicErrorMessage_with_different_format() {
-    assertThat(factory.equals(new BasicErrorMessageFactory("How are you, %s?", "Yoda"))).isFalse();
+    then(factory.equals(new BasicErrorMessageFactory("How are you, %s?", "Yoda"))).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_BasicErrorMessage_with_different_arguments() {
-    assertThat(factory.equals(new BasicErrorMessageFactory("Hello %s", "Luke"))).isFalse();
+    then(factory.equals(new BasicErrorMessageFactory("Hello %s", "Luke"))).isFalse();
   }
 }

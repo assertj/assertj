@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSymbolicLink.SHOULD_BE_SYMBOLIC_LINK;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
 import static org.mockito.Mockito.mock;
@@ -27,9 +27,11 @@ public class ShouldBeSymbolicLink_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     final Path actual = mock(Path.class);
+    // WHEN
     String actualMessage = shouldBeSymbolicLink(actual).create(new TextDescription("Test"));
-
-	assertThat(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_SYMBOLIC_LINK, actual));
+    // THEN
+    then(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_SYMBOLIC_LINK, actual));
   }
 }

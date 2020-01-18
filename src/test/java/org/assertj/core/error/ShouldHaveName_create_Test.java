@@ -12,38 +12,36 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
+import org.assertj.core.internal.TestDescription;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.error.ShouldHaveName#shouldHaveName(java.io.File, String)}</code>
- * 
+ *
  * @author Jean-Christophe Gay
  */
 public class ShouldHaveName_create_Test {
 
-  private final String expectedName = "java";
-
-  private File actual = new FakeFile("somewhere/actual-file".replace("/", File.separator));
-
   @Test
   public void should_create_error_message() {
-    assertThat(createMessage()).isEqualTo(String.format("[TEST] %n" +
-                                                        "Expecting%n" +
-                                                        "  <" + actual + ">%n" +
-                                                        "to have name:%n" +
-                                                        "  <\"" + expectedName + "\">%n" +
-                                                        "but had:%n" +
-                                                        "  <\"actual-file\">"));
+    // GIVEN
+    File actual = new FakeFile("somewhere/actual-file".replace("/", File.separator));
+    // WHEN
+    String message = shouldHaveName(actual, "java").create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(String.format("[TEST] %n" +
+                                          "Expecting%n" +
+                                          "  <" + actual + ">%n" +
+                                          "to have name:%n" +
+                                          "  <\"java\">%n" +
+                                          "but had:%n" +
+                                          "  <\"actual-file\">"));
   }
 
-  private String createMessage() {
-    return shouldHaveName(actual, expectedName).create(new TestDescription("TEST"), new StandardRepresentation());
-  }
 }

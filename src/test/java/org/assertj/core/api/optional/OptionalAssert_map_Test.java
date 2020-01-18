@@ -12,16 +12,15 @@
  */
 package org.assertj.core.api.optional;
 
-import org.assertj.core.api.BaseTest;
-import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class OptionalAssert_map_Test extends BaseTest {
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+
+public class OptionalAssert_map_Test {
 
   @Test
   public void should_fail_when_optional_is_null() {

@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
@@ -46,11 +46,11 @@ public class ShouldHaveDigest_create_Test {
     // WHEN
     String message = shouldHaveDigest(actual, diff).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n" +
-                                         "Expecting File " + actual + " MD5 digest to be:%n" +
-                                         "  <\"" + diff.getExpected() + "\">%n" +
-                                         "but was:%n" +
-                                         "  <\"" + diff.getActual() + "\">"));
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting File " + actual + " MD5 digest to be:%n" +
+                                   "  <\"" + diff.getExpected() + "\">%n" +
+                                   "but was:%n" +
+                                   "  <\"" + diff.getActual() + "\">"));
   }
 
   @Test
@@ -60,11 +60,11 @@ public class ShouldHaveDigest_create_Test {
     // WHEN
     String message = shouldHaveDigest(actual, diff).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n" +
-                                         "Expecting Path " + actual + " MD5 digest to be:%n" +
-                                         "  <\"" + diff.getExpected() + "\">%n" +
-                                         "but was:%n" +
-                                         "  <\"" + diff.getActual() + "\">"));
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting Path " + actual + " MD5 digest to be:%n" +
+                                   "  <\"" + diff.getExpected() + "\">%n" +
+                                   "but was:%n" +
+                                   "  <\"" + diff.getActual() + "\">"));
   }
 
   @Test
@@ -74,11 +74,11 @@ public class ShouldHaveDigest_create_Test {
     // WHEN
     String message = shouldHaveDigest(actual, diff).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n" +
-                                         "Expecting InputStream " + actual + " MD5 digest to be:%n" +
-                                         "  <\"" + diff.getExpected() + "\">%n" +
-                                         "but was:%n" +
-                                         "  <\"" + diff.getActual() + "\">"));
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting InputStream " + actual + " MD5 digest to be:%n" +
+                                   "  <\"" + diff.getExpected() + "\">%n" +
+                                   "but was:%n" +
+                                   "  <\"" + diff.getActual() + "\">"));
   }
 
 }

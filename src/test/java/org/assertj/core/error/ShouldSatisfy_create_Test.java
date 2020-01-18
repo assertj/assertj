@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -30,10 +30,10 @@ public class ShouldSatisfy_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n"
-                                         + "Expecting:%n"
-                                         + "  <\"Yoda\">%n"
-                                         + "to satisfy:%n"
-                                         + "  <green lightsaber bearer>"));
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting:%n"
+                                   + "  <\"Yoda\">%n"
+                                   + "to satisfy:%n"
+                                   + "  <green lightsaber bearer>"));
   }
 }

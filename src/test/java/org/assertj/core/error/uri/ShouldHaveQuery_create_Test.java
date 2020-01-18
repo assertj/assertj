@@ -13,7 +13,7 @@
 package org.assertj.core.error.uri;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
 
 import java.net.URI;
@@ -26,53 +26,61 @@ public class ShouldHaveQuery_create_Test {
 
   @Test
   public void should_create_error_message_for_uri_has_query() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
+    // WHEN
     String error = shouldHaveQuery(uri, "type=final").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting query of%n" +
-                                       "  <http://assertj.org/news?type=beta>%n" +
-                                       "to be:%n" +
-                                       "  <\"type=final\">%n" +
-                                       "but was:%n" +
-                                       "  <\"type=beta\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting query of%n" +
+                                 "  <http://assertj.org/news?type=beta>%n" +
+                                 "to be:%n" +
+                                 "  <\"type=final\">%n" +
+                                 "but was:%n" +
+                                 "  <\"type=beta\">"));
   }
 
   @Test
   public void should_create_error_message_for_url_has_query() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
+    // WHEN
     String error = shouldHaveQuery(uri, "type=final").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting query of%n" +
-                                       "  <http://assertj.org/news?type=beta>%n" +
-                                       "to be:%n" +
-                                       "  <\"type=final\">%n" +
-                                       "but was:%n" +
-                                       "  <\"type=beta\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting query of%n" +
+                                 "  <http://assertj.org/news?type=beta>%n" +
+                                 "to be:%n" +
+                                 "  <\"type=final\">%n" +
+                                 "but was:%n" +
+                                 "  <\"type=beta\">"));
   }
 
   @Test
   public void should_create_error_message_for_uri_has_no_query() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
+    // WHEN
     String error = shouldHaveQuery(uri, null).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
-                                       "  <http://assertj.org/news?type=beta>%n" +
-                                       "not to have a query but had:%n" +
-                                       "  <\"type=beta\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting:%n" +
+                                 "  <http://assertj.org/news?type=beta>%n" +
+                                 "not to have a query but had:%n" +
+                                 "  <\"type=beta\">"));
   }
 
   @Test
   public void should_create_error_message_for_url_has_no_query() throws Exception {
+    // GIVEN
     URL url = new URL("http://assertj.org/news?type=beta");
+    // WHEN
     String error = shouldHaveQuery(url, null).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
-                                       "  <http://assertj.org/news?type=beta>%n" +
-                                       "not to have a query but had:%n" +
-                                       "  <\"type=beta\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting:%n" +
+                                 "  <http://assertj.org/news?type=beta>%n" +
+                                 "not to have a query but had:%n" +
+                                 "  <\"type=beta\">"));
   }
 }

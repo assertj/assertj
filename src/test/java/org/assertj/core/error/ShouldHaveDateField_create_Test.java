@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.DateUtil.parse;
 
@@ -23,18 +23,20 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-
 public class ShouldHaveDateField_create_Test {
 
   @Test
   public void should_create_error_message_for_fields() {
+    // GIVEN
     Date date = parse("2015-12-31");
     ErrorMessageFactory factory = shouldHaveDateField(date, "month", 10);
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <2015-12-31T00:00:00.000>%n" +
-                                         "to be on \"month\" <10>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <2015-12-31T00:00:00.000>%n" +
+                                   "to be on \"month\" <10>"));
   }
 
 }

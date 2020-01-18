@@ -13,32 +13,35 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.withinPercentage;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseToPercentage.shouldHaveValueCloseToPercentage;
 
 import java.util.OptionalDouble;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalDoubleShouldHaveValueCloseToPercentage_create_Test {
+public class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
 
   @Test
   public void should_create_error_message_when_optionaldouble_is_empty() {
+    // WHEN
     String errorMessage = shouldHaveValueCloseToPercentage(10.0).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting an OptionalDouble with value:%n" +
-      "  <10.0>%n" +
-      "but was empty."));
+    // THEN
+    then(errorMessage).isEqualTo(format("%nExpecting an OptionalDouble with value:%n" +
+                                        "  <10.0>%n" +
+                                        "but was empty."));
   }
 
   @Test
   public void should_create_error_message_when_optionaldouble_value_is_not_close_enough_to_expected_value() {
+    // WHEN
     String errorMessage = shouldHaveValueCloseToPercentage(OptionalDouble.of(20), 10, withinPercentage(2), 3).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting:%n  <OptionalDouble[20.0]>%n" +
-      "to be close to:%n" +
-      "  <10.0>%n" +
-      "by less than 2%% but difference was 30.0%%.%n" +
-      "(a difference of exactly 2%% being considered valid)"));
+    // THEN
+    then(errorMessage).isEqualTo(format("%nExpecting:%n  <OptionalDouble[20.0]>%n" +
+                                        "to be close to:%n" +
+                                        "  <10.0>%n" +
+                                        "by less than 2%% but difference was 30.0%%.%n" +
+                                        "(a difference of exactly 2%% being considered valid)"));
   }
 }
-

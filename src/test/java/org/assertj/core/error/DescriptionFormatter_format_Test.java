@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.stream.Stream;
 
@@ -40,13 +40,13 @@ public class DescriptionFormatter_format_Test {
 
   @Test
   public void should_format_description_if_value_is_not_empty_or_null() {
-    assertThat(formatter.format(new TestDescription("Leia"))).isEqualTo("[Leia] ");
+    then(formatter.format(new TestDescription("Leia"))).isEqualTo("[Leia] ");
   }
 
   @ParameterizedTest
   @MethodSource("descriptionGeneratorDataProvider")
   public void should_return_empty_String(TestDescription testDescription) {
-    assertThat(formatter.format(testDescription)).isEmpty();
+    then(formatter.format(testDescription)).isEmpty();
   }
 
   public static Stream<TestDescription> descriptionGeneratorDataProvider() {

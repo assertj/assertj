@@ -12,39 +12,33 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
-import static org.assertj.core.util.Lists.newArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link ElementsShouldNotBe#create(Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Nicolas François
  */
 public class ElementsShouldNotBe_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = elementsShouldNotBe(newArrayList("Darth Vader", "Leia", "Yoda"), newArrayList("Yoda"), new TestCondition<String>("not a Jedi"));
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = elementsShouldNotBe(list("Darth Vader", "Leia", "Yoda"), list("Yoda"),
+                                                      new TestCondition<>("not a Jedi"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting elements:%n<[\"Yoda\"]>%n of %n<[\"Darth Vader\", \"Leia\", \"Yoda\"]>%n not to be <not a Jedi>"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Yoda\"]>%n of %n<[\"Darth Vader\", \"Leia\", \"Yoda\"]>%n not to be <not a Jedi>"));
   }
 
 }

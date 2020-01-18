@@ -27,14 +27,13 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalDouble;
 
-import org.assertj.core.api.BaseTest;
 import org.assertj.core.api.ThrowableAssertAlternative;
 import org.assertj.core.data.Percentage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class OptionalDoubleAssert_hasValueCloseToPercentage_Test extends BaseTest {
+public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
 
   @Test
   public void should_fail_when_actual_is_null() {

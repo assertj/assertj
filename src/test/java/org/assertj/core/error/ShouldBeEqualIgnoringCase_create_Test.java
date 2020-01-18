@@ -12,36 +12,30 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link ShouldBeEqualIgnoringCase#create(Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 public class ShouldBeEqualIgnoringCase_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldBeEqual("Yoda", "Luke");
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeEqual("Yoda", "Luke");
+    // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <\"Yoda\">%nto be equal to:%n <\"Luke\">%nignoring case considerations"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nto be equal to:%n <\"Luke\">%nignoring case considerations"));
   }
 }

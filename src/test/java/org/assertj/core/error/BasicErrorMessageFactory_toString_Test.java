@@ -12,27 +12,23 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link BasicErrorMessageFactory#toString()}</code>.
- * 
+ *
  * @author Yvonne Wang
  */
 public class BasicErrorMessageFactory_toString_Test {
 
-  private BasicErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = new BasicErrorMessageFactory("Hello %s", "Yoda");
-  }
 
   @Test
   public void should_implement_toString() {
-    assertThat(factory).hasToString("BasicErrorMessageFactory[format='Hello %s', arguments=[\"Yoda\"]]");
+    // WHEN
+    BasicErrorMessageFactory factory = new BasicErrorMessageFactory("Hello %s", "Yoda");
+    // THEN
+    then(factory).hasToString("BasicErrorMessageFactory[format='Hello %s', arguments=[\"Yoda\"]]");
   }
 }
