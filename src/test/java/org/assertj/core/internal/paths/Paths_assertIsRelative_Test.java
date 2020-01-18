@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,12 +35,10 @@ public class Paths_assertIsRelative_Test extends MockPathsBaseTest {
     // This is the default, but make it explicit
     when(actual.isAbsolute()).thenReturn(true);
 
-    try {
-      paths.assertIsRelative(info, actual);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeRelativePath(actual));
-    }
+    Throwable error = catchThrowable(() -> paths.assertIsRelative(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeRelativePath(actual));
   }
 
   @Test

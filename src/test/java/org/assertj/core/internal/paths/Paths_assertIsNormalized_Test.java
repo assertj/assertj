@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -36,12 +37,10 @@ public class Paths_assertIsNormalized_Test extends MockPathsBaseTest {
   public void should_fail_if_actual_is_not_normalized() {
     when(actual.normalize()).thenReturn(mock(Path.class));
 
-    try {
-      paths.assertIsNormalized(info, actual);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeNormalized(actual));
-    }
+    Throwable error = catchThrowable(() -> paths.assertIsNormalized(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeNormalized(actual));
   }
 
   @Test

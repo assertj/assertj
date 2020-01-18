@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,12 +35,11 @@ public class Paths_assertExistsNoFollowLinks_Test extends MockPathsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_exist() {
     when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(false);
-    try {
-      paths.assertExistsNoFollowLinks(info, actual);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldExistNoFollowLinks(actual));
-    }
+
+    Throwable error = catchThrowable(() -> paths.assertExistsNoFollowLinks(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldExistNoFollowLinks(actual));
   }
 
   @Test

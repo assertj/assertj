@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,25 +33,23 @@ public class Paths_assertIsExecutable_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-    try {
-      when(nioFilesWrapper.exists(actual)).thenReturn(false);
-      paths.assertIsExecutable(info, actual);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldExist(actual));
-    }
+    when(nioFilesWrapper.exists(actual)).thenReturn(false);
+
+    Throwable error = catchThrowable(() -> paths.assertIsExecutable(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldExist(actual));
   }
 
   @Test
   public void should_fail_if_actual_exists_but_is_not_executable() {
-    try {
-      when(nioFilesWrapper.exists(actual)).thenReturn(true);
-      when(nioFilesWrapper.isExecutable(actual)).thenReturn(false);
-      paths.assertIsExecutable(info, actual);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeExecutable(actual));
-    }
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isExecutable(actual)).thenReturn(false);
+
+    Throwable error = catchThrowable(() -> paths.assertIsExecutable(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeExecutable(actual));
   }
 
   @Test
