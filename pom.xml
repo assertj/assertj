@@ -417,7 +417,7 @@
           <properties>
             <!-- Values to be substituted in template -->
             <inceptionYear>2012</inceptionYear>
-            <currentYear>2019</currentYear>
+            <currentYear>2020</currentYear>
           </properties>
           <strictCheck>true</strictCheck>
           <includes>
