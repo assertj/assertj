@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.LinkedHashSet;
@@ -39,13 +40,17 @@ final class DualValue {
 
 
   DualValue(List<String> path, Object actual, Object expected) {
-    this.path = path;
+    this.path = newArrayList(path);
     this.concatenatedPath = join(path).with(".");
     this.actual = actual;
     this.expected = expected;
     int h1 = actual != null ? actual.hashCode() : 0;
     int h2 = expected != null ? expected.hashCode() : 0;
     hashCode = h1 + h2;
+  }
+
+  DualValue(List<String> parentPath, String fieldName, Object actual, Object expected) {
+    this(fiedlPath(parentPath, fieldName), actual, expected);
   }
 
   @Override
@@ -71,6 +76,11 @@ final class DualValue {
 
   public String getConcatenatedPath() {
     return concatenatedPath;
+  }
+
+  public String getFieldName() {
+    if (path.isEmpty()) return "";
+    return path.get(path.size() - 1);
   }
 
   public boolean isJavaType() {
@@ -151,6 +161,12 @@ final class DualValue {
            o instanceof Map ||
            o instanceof Optional ||
            isArray(o);
+  }
+
+  private static List<String> fiedlPath(List<String> parentPath, String fieldName) {
+    List<String> fieldPath = newArrayList(parentPath);
+    fieldPath.add(fieldName);
+    return fieldPath;
   }
 
 }

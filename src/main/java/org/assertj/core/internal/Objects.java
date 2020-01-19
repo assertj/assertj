@@ -18,6 +18,7 @@ import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
@@ -789,6 +790,12 @@ public class Objects {
       superclazz = superclazz.getSuperclass();
     }
     return declaredFields;
+  }
+
+  public static Set<String> getFieldsNames(Class<?> clazz) {
+    return getDeclaredFieldsIncludingInherited(clazz).stream()
+                                                     .map(Field::getName)
+                                                     .collect(toSet());
   }
 
   /**
