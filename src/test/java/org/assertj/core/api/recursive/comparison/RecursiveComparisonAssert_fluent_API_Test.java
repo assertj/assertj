@@ -51,7 +51,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     assertThat(recursiveComparisonConfiguration.comparatorByFields()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoreAllActualNullFields()).isFalse();
     assertThat(recursiveComparisonConfiguration.getIgnoredFields()).isEmpty();
-    assertThat(recursiveComparisonConfiguration.getIgnoredFieldsForTypes()).isEmpty();
+    assertThat(recursiveComparisonConfiguration.getIgnoredTypes()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredFieldsRegexes()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForTypes()).isEmpty();

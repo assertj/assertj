@@ -146,16 +146,16 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void ignoring_fields_for_types_does_not_replace_previous_types() {
+  public void ignoring_fields_for_types_does_not_replace_previous_ignored_types() {
     // WHEN
     recursiveComparisonConfiguration.ignoreFieldsForTypes(UUID.class);
     recursiveComparisonConfiguration.ignoreFieldsForTypes(ZonedDateTime.class, String.class);
     // THEN
-    assertThat(recursiveComparisonConfiguration.getIgnoredFieldsForTypes())
+    assertThat(recursiveComparisonConfiguration.getIgnoredTypes())
         .containsExactlyInAnyOrder(UUID.class, ZonedDateTime.class, String.class);
   }
 
-  @ParameterizedTest(name = "{0} should be ignored with these ignored fields {1}")
+  @ParameterizedTest(name = "{0} should be ignored with these ignored types {1}")
   @MethodSource("ignoringSpecifiedTypesSource")
   public void should_ignore_fields_for_specified_types(DualValue dualKey, List<Class<?>> ignoredTypes) {
     // GIVEN
@@ -163,7 +163,8 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
     // THEN
-    assertThat(ignored).as("%s should be ignored with these ignored types %s", dualKey, ignoredTypes).isTrue();
+    assertThat(ignored).as("%s should be ignored with these ignored types %s", dualKey, ignoredTypes)
+                       .isTrue();
   }
 
   private static Stream<Arguments> ignoringSpecifiedTypesSource() {
@@ -176,6 +177,17 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     // GIVEN
     DualValue dualKey = new DualValue(randomPath(), "actual", "expected");
     recursiveComparisonConfiguration.ignoreFieldsForTypes(UUID.class);
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
+    // THEN
+    assertThat(ignored).isFalse();
+  }
+
+  @Test
+  public void should_not_ignore_actual_null_fields_for_specified_types() {
+    // GIVEN
+    DualValue dualKey = new DualValue(randomPath(), null, "expected");
+    recursiveComparisonConfiguration.ignoreFieldsForTypes(String.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualKey);
     // THEN

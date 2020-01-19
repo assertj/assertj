@@ -43,7 +43,7 @@ public class RecursiveComparisonConfiguration {
   private boolean ignoreAllActualNullFields = false;
   private Set<FieldLocation> ignoredFields = new LinkedHashSet<>();
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
-  private Set<Class<?>> ignoredFieldsForTypes = new LinkedHashSet<>();
+  private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
 
   // overridden equals method to ignore section
   private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
@@ -141,7 +141,7 @@ public class RecursiveComparisonConfiguration {
    * @param types the types of the object under test to ignore in the comparison.
    */
   public void ignoreFieldsForTypes(Class<?>... types) {
-    ignoredFieldsForTypes.addAll(list(types));
+    ignoredTypes.addAll(list(types));
   }
 
   /**
@@ -158,8 +158,8 @@ public class RecursiveComparisonConfiguration {
    *
    * @return the set of the object under test field types to ignore in the recursive comparison.
    */
-  public Set<Class<?>> getIgnoredFieldsForTypes() {
-    return ignoredFieldsForTypes;
+  public Set<Class<?>> getIgnoredTypes() {
+    return ignoredTypes;
   }
 
   /**
@@ -408,7 +408,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeIgnoredFieldsForTypes(StringBuilder description) {
-    if (!ignoredFieldsForTypes.isEmpty())
+    if (!ignoredTypes.isEmpty())
       description.append(format("- the following types were ignored in the comparison: %s%n", describeIgnoredTypes()));
   }
 
@@ -506,7 +506,10 @@ public class RecursiveComparisonConfiguration {
   }
 
   private boolean matchesAnIgnoredFieldType(DualValue dualKey) {
-    return ignoredFieldsForTypes.contains(dualKey.actual.getClass());
+    if (dualKey.actual == null) {
+      return false;
+    }
+    return ignoredTypes.contains(dualKey.actual.getClass());
   }
 
   private boolean matchesAnIgnoredField(String fieldConcatenatedPath) {
@@ -532,7 +535,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   private String describeIgnoredTypes() {
-    List<String> typesDescription = ignoredFieldsForTypes.stream()
+    List<String> typesDescription = ignoredTypes.stream()
                                                           .map(Class::getName)
                                                           .collect(toList());
     return join(typesDescription).with(", ");
