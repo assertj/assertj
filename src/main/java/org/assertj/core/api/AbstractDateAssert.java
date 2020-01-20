@@ -138,7 +138,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -186,7 +186,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -267,7 +267,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -345,7 +345,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -422,7 +422,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -496,7 +496,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -544,7 +544,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
@@ -596,7 +596,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    * <p>
    * Method signature could not be <code>isIn(Collection&lt;String&gt;)</code> because it would be same signature as
    * <code>isIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.
@@ -647,7 +647,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
@@ -699,7 +699,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    * Method signature could not be <code>isNotIn(Collection&lt;String&gt;)</code> because it would be same signature as
    * <code>isNotIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.
    *
@@ -772,7 +772,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -874,7 +874,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -928,7 +928,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1002,7 +1002,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1104,7 +1104,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1158,7 +1158,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1232,7 +1232,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
@@ -1319,7 +1319,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param start the period start, expected not to be null.
    * @param end the period end, expected not to be null.
@@ -1407,7 +1407,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
@@ -1487,7 +1487,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
@@ -1924,7 +1924,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1992,7 +1992,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2059,7 +2059,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2139,7 +2139,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2218,7 +2218,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2298,7 +2298,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2379,7 +2379,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2463,7 +2463,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String.
    * @return this assertion object.
@@ -2542,7 +2542,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    * @param dateAsString the given Date represented as String.
    * @return this assertion object.
    */
@@ -2612,7 +2612,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @param deltaInMilliseconds the delta used for date comparison, expressed in milliseconds
@@ -2712,7 +2712,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given {@code Date} represented as {@code String} in default or custom date format.
    * @return this assertion object.
@@ -2938,7 +2938,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitely specify the date format to use so that the default ones are bypassed.
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    */
   public static void useDefaultDateFormatsOnly() {
     userDateFormats.get().clear();
