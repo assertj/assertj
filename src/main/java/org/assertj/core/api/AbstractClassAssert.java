@@ -362,11 +362,14 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion succeeds as superclass for array classes is Object:
    * assertThat(Integer[].class).hasSuperclass(Object.class);
    *
+   * // this assertion fails:
+   * assertThat(String.class).hasSuperclass(Number.class);
+   *
    * // this assertion fails as only direct superclass matches:
-   * assertThat(Integer.class).hasSuperclass(Object.class);
+   * assertThat(String.class).hasSuperclass(Object.class);
    *
    * // this assertion fails as interfaces are not superclasses:
-   * assertThat(Integer.class).hasSuperclass(Comparable.class);</code></pre>
+   * assertThat(String.class).hasSuperclass(Comparable.class);</code></pre>
    *
    * @param superclass the class which must be the direct superclass of actual.
    * @return {@code this} assertions object
