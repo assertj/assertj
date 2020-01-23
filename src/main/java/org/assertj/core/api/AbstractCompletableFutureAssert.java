@@ -347,7 +347,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <pre><code class='java'> CompletableFuture&lt;String&gt; future = CompletableFuture.completedFuture("ook!");
    * Duration timeout = Duration.ofMillis(100);
    *
-   * // assertions succeeds
+   * // assertion succeeds
    * assertThat(future).succeedsWithin(timeout)
    *                   .isEqualTo("ook!");
    *
@@ -385,7 +385,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * Examples:
    * <pre><code class='java'> CompletableFuture&lt;String&gt; future = CompletableFuture.completedFuture("ook!");
    *
-   * // assertions succeeds
+   * // assertion succeeds
    * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS)
    *                   .isEqualTo("ook!");
    *
@@ -424,7 +424,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <pre><code class='java'> CompletableFuture&lt;String&gt; future = CompletableFuture.completedFuture("ook!");
    * Duration timeout = Duration.ofMillis(100);
    *
-   * // assertions succeeds
+   * // assertion succeeds
    * // using asInstanceOf is recommanded to get assertions for the future result's type
    * assertThat(future).succeedsWithin(timeout, InstanceOfAssertFactories.STRING)
    *                   .contains("ok");
@@ -460,7 +460,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * Examples:
    * <pre><code class='java'> CompletableFuture&lt;String&gt; future = CompletableFuture.completedFuture("ook!");
    *
-   * // assertions succeeds
+   * // assertion succeeds
    * // using asInstanceOf is recommanded to get assertions for the future result's type
    * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS, InstanceOfAssertFactories.STRING)
    *                   .contains("ok");
