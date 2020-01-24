@@ -1868,7 +1868,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Person sheldon = new Person("Sheldon Cooper", true);
    * Person leonard = new Person("Leonard Hofstadter", true);
    * Person raj = new Person("Raj Koothrappali", true);
-   * Person howard = new Person("Howard Wolowitz", false);
    *
    * Map&lt;String, Doctor&gt; doctors = mapOf(entry(drSheldon.name, drSheldon),
    *                                           entry(drLeonard.name, drLeonard),
