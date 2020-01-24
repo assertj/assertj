@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,12 +42,10 @@ public class Paths_assertStartsWithRaw_Test extends MockPathsBaseTest {
     // This is the default, but let's make this explicit
     when(actual.startsWith(other)).thenReturn(false);
 
-    try {
-      paths.assertStartsWithRaw(info, actual, other);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, other));
-    }
+    Throwable error = catchThrowable(() -> paths.assertStartsWithRaw(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldStartWith(actual, other));
   }
 
   @Test

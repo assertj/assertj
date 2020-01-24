@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -49,12 +50,10 @@ public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
     final Path other = mock(Path.class);
     when(actual.toRealPath()).thenReturn(other);
 
-    try {
-      paths.assertIsCanonical(info, actual);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeCanonicalPath(actual));
-    }
+    Throwable error = catchThrowable(() -> paths.assertIsCanonical(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeCanonicalPath(actual));
   }
 
   @Test

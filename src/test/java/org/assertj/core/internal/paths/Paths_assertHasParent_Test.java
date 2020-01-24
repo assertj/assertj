@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -84,12 +85,10 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
     // This is the default, but...
     when(canonicalActual.getParent()).thenReturn(null);
 
-    try {
-      paths.assertHasParent(info, actual, expected);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParent(actual, expected));
-    }
+    Throwable error = catchThrowable(() -> paths.assertHasParent(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParent(actual, expected));
   }
 
   @Test
@@ -101,12 +100,10 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
 
     when(canonicalActual.getParent()).thenReturn(actualParent);
 
-    try {
-      paths.assertHasParent(info, actual, expected);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParent(actual, actualParent, expected));
-    }
+    Throwable error = catchThrowable(() -> paths.assertHasParent(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParent(actual, actualParent, expected));
   }
 
   @Test

@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,12 +35,11 @@ public class Paths_assertNotExists_Test extends MockPathsBaseTest {
   @Test
   public void should_fail_if_actual_exists() {
     when(nioFilesWrapper.notExists(actual)).thenReturn(false);
-    try {
-      paths.assertDoesNotExist(info, actual);
-      wasExpectingAssertionError();
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotExist(actual));
-    }
+
+    Throwable error = catchThrowable(() -> paths.assertDoesNotExist(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotExist(actual));
   }
 
   @Test
