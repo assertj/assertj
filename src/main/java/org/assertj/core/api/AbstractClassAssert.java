@@ -402,7 +402,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(Void.TYPE).hasNoSuperclass();
    *
    * // this assertion fails as Integer has Number as superclass:
-   * assertThat(Integer.class).hasNoSuperclass(Number.class);</code></pre>
+   * assertThat(Integer.class).hasNoSuperclass();</code></pre>
    *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
