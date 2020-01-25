@@ -12,16 +12,6 @@
  */
 package org.assertj.core.internal.files;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Arrays.array;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
 import org.assertj.core.internal.Diff;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.TextFileWriter;
@@ -29,6 +19,16 @@ import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Arrays.array;
 
 /**
  * Tests for <code>{@link Diff#diff(File, String, java.nio.charset.Charset)}</code>.
@@ -59,7 +59,7 @@ public class Diff_diff_File_String_Test {
     String[] content = array("line0", "line1");
     writer.write(actual, content);
     String expected = String.format("line0%nline1");
-    List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).isEmpty();
   }
 
@@ -67,7 +67,7 @@ public class Diff_diff_File_String_Test {
   public void should_return_diffs_if_file_and_string_do_not_have_equal_content() throws IOException {
     writer.write(actual, StandardCharsets.UTF_8, "Touché");
     String expected = "Touché";
-    List<Delta<String>> diffs = diff.diff(actual, expected, StandardCharsets.ISO_8859_1);
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected, StandardCharsets.ISO_8859_1);
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Changed content at line 1:%n"
                                                 + "expecting:%n"
@@ -80,7 +80,7 @@ public class Diff_diff_File_String_Test {
   public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0");
     String expected = String.format("line_0%nline_1");
-    List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Missing content at line 2:%n"
                                                 + "  [\"line_1\"]%n"));
@@ -90,7 +90,7 @@ public class Diff_diff_File_String_Test {
   public void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0", "line_1");
     String expected = "line_0";
-    List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Extra content at line 2:%n"
                                                 + "  [\"line_1\"]%n"));

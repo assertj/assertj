@@ -12,6 +12,22 @@
  */
 package org.assertj.core.internal.paths;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Paths;
+import org.assertj.core.internal.PathsBaseTest;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -25,22 +41,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Paths;
-import org.assertj.core.internal.PathsBaseTest;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Paths#assertHasContent(AssertionInfo, Path, String, Charset)}</code>.
@@ -126,7 +126,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   @Test
   public void should_fail_if_path_does_not_have_expected_text_content() throws IOException {
     @SuppressWarnings("unchecked")
-    List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
+    List<Delta<CharSequence>> diffs = newArrayList((Delta<CharSequence>) mock(Delta.class));
     when(diff.diff(path, expected, charset)).thenReturn(diffs);
     when(nioFilesWrapper.exists(path)).thenReturn(true);
     when(nioFilesWrapper.isReadable(path)).thenReturn(true);

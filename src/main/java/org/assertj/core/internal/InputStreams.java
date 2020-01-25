@@ -12,11 +12,9 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
-import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
-import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
-import static org.assertj.core.internal.Digests.digestDiff;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,9 +22,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.diff.Delta;
+import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.internal.Digests.digestDiff;
 
 /**
  * Reusable assertions for <code>{@link InputStream}</code>s.
@@ -68,7 +68,7 @@ public class InputStreams {
     requireNonNull(expected, "The InputStream to compare to should not be null");
     assertNotNull(info, actual);
     try {
-      List<Delta<String>> diffs = diff.diff(actual, expected);
+      List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
@@ -93,7 +93,7 @@ public class InputStreams {
     assertNotNull(info, actual);
 
     try {
-      List<Delta<String>> diffs = diff.diff(actual, expected);
+      List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {

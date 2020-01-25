@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal;
 
-import static java.nio.file.Files.newBufferedReader;
-import static java.util.Collections.unmodifiableList;
-import static org.assertj.core.util.Closeables.closeQuietly;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
+import org.assertj.core.util.diff.DiffUtils;
+import org.assertj.core.util.diff.Patch;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,10 +28,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.diff.Delta;
-import org.assertj.core.util.diff.DiffUtils;
-import org.assertj.core.util.diff.Patch;
+import static java.nio.file.Files.newBufferedReader;
+import static java.util.Collections.unmodifiableList;
+import static org.assertj.core.util.Closeables.closeQuietly;
 
 
 /**
@@ -48,32 +48,32 @@ import org.assertj.core.util.diff.Patch;
 public class Diff {
 
   @VisibleForTesting
-  public List<Delta<String>> diff(InputStream actual, InputStream expected) throws IOException {
+  public List<Delta<CharSequence>> diff(InputStream actual, InputStream expected) throws IOException {
     return diff(readerFor(actual), readerFor(expected));
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(InputStream actual, String expected) throws IOException {
+  public List<Delta<CharSequence>> diff(InputStream actual, String expected) throws IOException {
     return diff(readerFor(actual), readerFor(expected));
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(File actual, Charset actualCharset, File expected, Charset expectedCharset) throws IOException {
+  public List<Delta<CharSequence>> diff(File actual, Charset actualCharset, File expected, Charset expectedCharset) throws IOException {
     return diff(actual.toPath(), actualCharset, expected.toPath(), expectedCharset);
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(Path actual, Charset actualCharset, Path expected, Charset expectedCharset) throws IOException {
+  public List<Delta<CharSequence>> diff(Path actual, Charset actualCharset, Path expected, Charset expectedCharset) throws IOException {
     return diff(newBufferedReader(actual, actualCharset), newBufferedReader(expected, expectedCharset));
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(File actual, String expected, Charset charset) throws IOException {
+  public List<Delta<CharSequence>> diff(File actual, String expected, Charset charset) throws IOException {
     return diff(actual.toPath(), expected, charset);
   }
 
   @VisibleForTesting
-  public List<Delta<String>> diff(Path actual, String expected, Charset charset) throws IOException {
+  public List<Delta<CharSequence>> diff(Path actual, String expected, Charset charset) throws IOException {
     return diff(newBufferedReader(actual, charset), readerFor(expected));
   }
 
@@ -85,21 +85,21 @@ public class Diff {
     return new BufferedReader(new StringReader(string));
   }
 
-  private List<Delta<String>> diff(BufferedReader actual, BufferedReader expected) throws IOException {
+  private List<Delta<CharSequence>> diff(BufferedReader actual, BufferedReader expected) throws IOException {
     try {
-      List<String> actualLines = linesFromBufferedReader(actual);
-      List<String> expectedLines = linesFromBufferedReader(expected);
+      List<CharSequence> actualLines = linesFromBufferedReader(actual);
+      List<CharSequence> expectedLines = linesFromBufferedReader(expected);
       
-      Patch<String> patch = DiffUtils.diff(expectedLines, actualLines);
+      Patch<CharSequence> patch = DiffUtils.diff(expectedLines, actualLines);
       return unmodifiableList(patch.getDeltas());
     } finally {
       closeQuietly(actual, expected);
     }
   }
 
-  private List<String> linesFromBufferedReader(BufferedReader reader) throws IOException {
+  private List<CharSequence> linesFromBufferedReader(BufferedReader reader) throws IOException {
     String line;
-    List<String> lines = new ArrayList<>();
+    List<CharSequence> lines = new ArrayList<>();
     while ((line = reader.readLine()) != null) {
       lines.add(line);
     }

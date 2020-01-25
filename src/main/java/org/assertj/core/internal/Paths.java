@@ -12,6 +12,24 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.exception.PathsException;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.file.DirectoryStream;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.function.Predicate;
+
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
@@ -44,24 +62,6 @@ import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 import static org.assertj.core.util.Preconditions.checkArgument;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
-import java.nio.charset.Charset;
-import java.nio.file.DirectoryStream;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.function.Predicate;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.exception.PathsException;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.diff.Delta;
 
 /**
  * Core assertion class for {@link Path} assertions
@@ -278,7 +278,7 @@ public class Paths {
     requireNonNull(expected, "The text to compare to should not be null");
     assertIsReadable(info, actual);
     try {
-      List<Delta<String>> diffs = diff.diff(actual, expected, charset);
+      List<Delta<CharSequence>> diffs = diff.diff(actual, expected, charset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
@@ -320,7 +320,7 @@ public class Paths {
                   expected);
     assertIsReadable(info, actual);
     try {
-      List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
+      List<Delta<CharSequence>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
