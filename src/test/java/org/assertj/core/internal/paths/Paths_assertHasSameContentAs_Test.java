@@ -12,6 +12,18 @@
  */
 package org.assertj.core.internal.paths;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Paths;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.util.List;
+
 import static java.nio.charset.Charset.defaultCharset;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
@@ -27,18 +39,6 @@ import static org.assertj.core.util.TempFileUtil.createTempPathWithContent;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.util.List;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Paths;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Paths#assertHasSameContentAs(AssertionInfo, Path, Charset, Path, Charset)}</code>.
@@ -152,7 +152,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   @Test
   public void should_fail_if_actual_and_given_path_does_not_have_the_same_content() throws IOException {
     // GIVEN
-    List<Delta<String>> diffs = list((Delta<String>) mock(Delta.class));
+    List<Delta<CharSequence>> diffs = list((Delta<CharSequence>) mock(Delta.class));
     given(diff.diff(actual, CHARSET, expected, CHARSET)).willReturn(diffs);
     AssertionInfo info = someInfo();
     // WHEN
