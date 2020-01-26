@@ -12,7 +12,8 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Arrays.*;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.isNullOrEmpty;
 
 import java.lang.reflect.Array;
 
@@ -35,10 +36,7 @@ public final class Objects {
    * @return {@code true} if the given objects are equal or if both objects are {@code null}.
    */
   public static boolean areEqual(Object o1, Object o2) {
-    if (o1 == null) {
-      return o2 == null;
-    }
-    if (o1.equals(o2)) {
+    if (java.util.Objects.equals(o1, o2)) {
       return true;
     }
     return areEqualArrays(o1, o2);
@@ -91,7 +89,9 @@ public final class Objects {
    */
   public static int hashCodeFor(Object o) {
     if (o == null) return 0;
-    return isArray(o) && !o.getClass().getComponentType().isPrimitive() ? java.util.Arrays.deepHashCode((Object[]) o) : o.hashCode() ;
+    return isArray(o) && !o.getClass().getComponentType().isPrimitive()
+        ? java.util.Arrays.deepHashCode((Object[]) o)
+        : o.hashCode();
   }
 
   /**

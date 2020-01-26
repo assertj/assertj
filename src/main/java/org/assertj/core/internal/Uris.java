@@ -24,7 +24,6 @@ import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
 import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.internal.Comparables.assertNotNull;
-import static org.assertj.core.util.Objects.areEqual;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -58,12 +58,12 @@ public class Uris {
 
   public void assertHasScheme(final AssertionInfo info, final URI actual, final String scheme) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getScheme(), scheme)) throw failures.failure(info, shouldHaveScheme(actual, scheme));
+    if (!Objects.equals(actual.getScheme(), scheme)) throw failures.failure(info, shouldHaveScheme(actual, scheme));
   }
 
   public void assertHasPath(AssertionInfo info, URI actual, String path) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
+    if (!Objects.equals(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
   }
 
   public void assertHasPort(AssertionInfo info, URI actual, Integer expected) {
@@ -73,28 +73,28 @@ public class Uris {
 
   public void assertHasHost(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
+    if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
   }
 
   public void assertHasAuthority(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getAuthority(), expected))
+    if (!Objects.equals(actual.getAuthority(), expected))
       throw failures.failure(info, shouldHaveAuthority(actual, expected));
   }
 
   public void assertHasFragment(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getFragment(), expected)) throw failures.failure(info, shouldHaveFragment(actual, expected));
+    if (!Objects.equals(actual.getFragment(), expected)) throw failures.failure(info, shouldHaveFragment(actual, expected));
   }
 
   public void assertHasQuery(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
+    if (!Objects.equals(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
   }
 
   public void assertHasUserInfo(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
+    if (!Objects.equals(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
   }
 
   static Map<String, List<String>> getParameters(String query) {

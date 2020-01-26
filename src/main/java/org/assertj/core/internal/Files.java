@@ -40,7 +40,6 @@ import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.internal.Digests.digestDiff;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.File;
@@ -369,7 +368,7 @@ public class Files {
     assertNotNull(info, actual);
     try {
       if (actual.getParentFile() != null
-          && areEqual(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
+          && java.util.Objects.equals(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
         return;
     } catch (IOException e) {
       throw new UncheckedIOException(String.format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);

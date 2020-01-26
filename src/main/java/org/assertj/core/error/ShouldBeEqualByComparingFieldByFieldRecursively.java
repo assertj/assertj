@@ -18,12 +18,12 @@ import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.Objects;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorMessageFactory {
 
@@ -77,7 +77,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
     String actualFieldValue = representation.toStringOf(difference.getActual());
     String otherFieldValue = representation.toStringOf(difference.getOther());
 
-    boolean sameRepresentation = Objects.areEqual(actualFieldValue, otherFieldValue);
+    boolean sameRepresentation = Objects.equals(actualFieldValue, otherFieldValue);
 
     String actualFieldValueRepresentation = sameRepresentation
         ? representation.unambiguousToStringOf(difference.getActual())

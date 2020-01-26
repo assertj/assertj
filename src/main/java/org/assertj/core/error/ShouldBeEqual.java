@@ -17,6 +17,8 @@ import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 
+import java.util.Objects;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
@@ -134,7 +136,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   private boolean actualAndExpectedHaveSameStringRepresentation() {
-    return areEqual(representation.toStringOf(actual), representation.toStringOf(expected));
+    return Objects.equals(representation.toStringOf(actual), representation.toStringOf(expected));
   }
 
   /**

@@ -21,10 +21,11 @@ import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
 
+import java.util.Objects;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
-import org.assertj.core.util.Objects;
 
 /**
  * Base class of reusable assertions for numbers.
@@ -267,7 +268,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   }
 
   protected boolean areEqual(final NUMBER value, final NUMBER other) {
-    return Objects.areEqual(value, other);
+    return Objects.equals(value, other);
   }
 
 }
