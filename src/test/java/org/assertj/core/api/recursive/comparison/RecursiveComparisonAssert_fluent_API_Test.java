@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.assertj.core.groups.Tuple;
@@ -117,6 +118,19 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     // THEN
     assertThat(configuration.getIgnoredFieldsRegexes()).extracting(Pattern::pattern)
                                                        .containsExactly(regex1, regex2);
+  }
+
+  @Test
+  public void should_allow_to_ignore_fields_for_types() {
+    // GIVEN
+    Class<?> type1 = UUID.class;
+    Class<?> type2 = String.class;
+    // WHEN
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .ignoringFieldsForTypes(type1, type2)
+                                                                       .getRecursiveComparisonConfiguration();
+    // THEN
+    assertThat(configuration.getIgnoredTypes()).containsExactly(type1, type2);
   }
 
   @Test

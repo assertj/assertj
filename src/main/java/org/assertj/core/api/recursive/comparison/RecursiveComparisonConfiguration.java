@@ -136,7 +136,7 @@ public class RecursiveComparisonConfiguration {
   /**
    * Adds the given types to the list of the object under test fields to ignore in the recursive comparison.
    * <p>
-   * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFields(String...)} for examples.
+   * See {@link RecursiveComparisonAssert#ignoringFieldsForTypes(Class...)} for examples.
    *
    * @param types the types of the object under test to ignore in the comparison.
    */

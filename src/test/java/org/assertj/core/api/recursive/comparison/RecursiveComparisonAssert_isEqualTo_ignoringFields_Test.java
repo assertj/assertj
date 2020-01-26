@@ -21,9 +21,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
-import org.assertj.core.internal.objects.data.Giant;
-import org.assertj.core.internal.objects.data.Human;
-import org.assertj.core.internal.objects.data.Person;
+import org.assertj.core.internal.objects.data.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -297,6 +295,82 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
                                                                expected.neighbour.dateOfBirth);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               dateOfBirthDifference, neighbourdateOfBirthDifference);
+  }
+
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored types={3}")
+  @MethodSource("recursivelyEqualObjectsIgnoringGivenTypes")
+  public void should_pass_when_fields_has_given_types_are_ignored(Object actual,
+                                                                  Object expected,
+                                                                  String testDescription,
+                                                                  List<Class<?>> ignoredTypes) {
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringFieldsForTypes(ignoredTypes.toArray(new Class<?>[0]))
+                      .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> recursivelyEqualObjectsIgnoringGivenTypes() {
+    Person person1 = new Person("John");
+    person1.home.address.number = 1;
+
+    Person person2 = new Person("Jack");
+    person2.home.address.number = 1;
+
+    Person person3 = new Person("John");
+    person3.dateOfBirth = new Date(123);
+
+    Human person4 = new Human();
+    person4.name = "Jack";
+    person4.dateOfBirth = new Date(456);
+
+    Person person5 = new Person();
+    person5.home.address.number = 1;
+
+    Person person6 = new Person();
+    person6.home.address.number = 2;
+
+    Person person7 = new Person("John");
+    person7.neighbour = new Person("Jack");
+    person7.neighbour.home.address.number = 123;
+
+    Person person8 = new Person("John");
+    person8.neighbour = new Person("Jim");
+    person8.neighbour.home.address.number = 456;
+
+    return Stream.of(arguments(person1, person2, "same data and type, except for one ignored type", list(String.class)),
+                     arguments(person3, person4, "same data, different type, except for several ignored types", list(String.class, Date.class)),
+                     arguments(person5, person6, "same data except for one subfield of an ignored type", list(Address.class)),
+                     arguments(person7, person8, "same data except for several subfields of ignored types, including a primitive type", list(Integer.class, String.class)));
+  }
+
+  @Test
+  public void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored_for_types() {
+    // GIVEN
+    Person actual = new Person("John");
+    actual.home.address = null;
+    actual.neighbour = new Person("Jack");
+    actual.neighbour.home.address.number = 123;
+    actual.neighbour.neighbour = new Person("James");
+    actual.neighbour.neighbour.dateOfBirth = new Date(123);
+
+    Person expected = new Person("Jack");
+    expected.home.address.number = 2;
+    expected.neighbour = new Person("Jim");
+    expected.neighbour.home.address.number = 456;
+    expected.neighbour.neighbour = new Person("James");
+    expected.neighbour.neighbour.dateOfBirth = new Date(456);
+
+    recursiveComparisonConfiguration.ignoreFieldsForTypes(String.class, Address.class);
+
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+
+    // THEN
+    ComparisonDifference addressDifference = diff("home.address", actual.home.address, expected.home.address);
+    ComparisonDifference neighbourDateOfBirthDifference = diff("neighbour.neighbour.dateOfBirth",
+                                                               actual.neighbour.neighbour.dateOfBirth,
+                                                               expected.neighbour.neighbour.dateOfBirth);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
+                                                              addressDifference, neighbourDateOfBirthDifference);
   }
 
   private static String[] arrayOf(List<String> list) {

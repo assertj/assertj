@@ -303,6 +303,51 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Makes the recursive comparison to ignore the object under test fields with the given types
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock1 = new Person("Sherlock", 1.80);
+   * sherlock1.home.address.street = "Baker Street";
+   * sherlock1.home.address.number = 221;
+   *
+   * Person sherlock2 = new Person("Sherlock", 1.75);
+   * sherlock2.home.address.street = null;
+   * sherlock2.home.address.number = 221;
+   *
+   * // assertion succeeds as height with Double type and home.address with Address type are ignored in the comparison
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .ignoringFieldsForTypes(Double.class, Address.class)
+   *                     .isEqualTo(noName);
+   *
+   * // assertion fails as home.address with Address type differ and is not ignored.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .ignoringFieldsForTypes(Double.class)
+   *                     .isEqualTo(noName);</code></pre>
+   *
+   * @param typesToIgnore the types of the object fields under test to ignore in the comparison.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF ignoringFieldsForTypes(Class<?>... typesToIgnore) {
+    recursiveComparisonConfiguration.ignoreFieldsForTypes(typesToIgnore);
+    return myself;
+  }
+  /**
    * By default the recursive comparison uses overridden {@code equals} methods to compare fields,
    * this method allows to  compare recursively all fields <b>except fields with java types</b> (at some point we need to compare something!).
    * <p>
