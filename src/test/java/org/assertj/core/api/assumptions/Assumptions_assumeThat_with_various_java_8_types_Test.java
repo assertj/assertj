@@ -47,8 +47,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class Assumptions_assumeThat_with_various_java_8_types_Test {
 
-  // TODO fails for time =23.59.59 as adding 100 will give an inferior time
-
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(
                      new AssumptionRunner<ThrowingCallable>(() -> {}) {
@@ -98,12 +96,12 @@ public class Assumptions_assumeThat_with_various_java_8_types_Test {
                      new AssumptionRunner<LocalTime>(LocalTime.now()) {
                        @Override
                        public void runFailingAssumption() {
-                         assumeThat(actual).isNotNull().isAfter(LocalTime.now());
+                         assumeThat(actual).isNotNull().isAfter(LocalTime.MAX);
                        }
 
                        @Override
                        public void runPassingAssumption() {
-                         assumeThat(actual).isNotNull().isBefore(LocalTime.now().plusSeconds(100));
+                         assumeThat(actual).isNotNull().isBefore(LocalTime.MAX);
                        }
                      },
                      new AssumptionRunner<OffsetDateTime>(OffsetDateTime.now()) {
@@ -298,12 +296,13 @@ public class Assumptions_assumeThat_with_various_java_8_types_Test {
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
   public void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumptionRunner.runFailingAssumption());
+    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(assumptionRunner::runFailingAssumption);
   }
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
   public void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
-    assertThatCode(() -> assumptionRunner.runPassingAssumption()).doesNotThrowAnyException();
+    assertThatCode(assumptionRunner::runPassingAssumption).doesNotThrowAnyException();
   }
+
 }
