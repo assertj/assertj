@@ -15,7 +15,6 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static java.lang.String.join;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Objects.areEqual;
 
 import java.util.Collections;
 import java.util.List;
@@ -91,7 +90,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     String actualRepresentation = representation.toStringOf(actual);
     String expectedRepresentation = representation.toStringOf(expected);
 
-    boolean sameRepresentation = areEqual(actualRepresentation, expectedRepresentation);
+    boolean sameRepresentation = Objects.equals(actualRepresentation, expectedRepresentation);
     String unambiguousActualRepresentation = sameRepresentation
         ? representation.unambiguousToStringOf(actual)
         : actualRepresentation;

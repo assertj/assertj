@@ -12,10 +12,11 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Throwables.getStackTrace;
+
+import java.util.Objects;
 
 public class ShouldHaveRootCause extends BasicErrorMessageFactory {
 
@@ -33,10 +34,10 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
     // actualCause has no cause
     if (actualCause == null) return new ShouldHaveRootCause(actual, expectedCause);
     // same message => different type
-    if (areEqual(actualCause.getMessage(), expectedCause.getMessage()))
+    if (Objects.equals(actualCause.getMessage(), expectedCause.getMessage()))
       return new ShouldHaveRootCause(actual, actualCause, expectedCause.getClass());
     // same type => different message
-    if (areEqual(actualCause.getClass(), expectedCause.getClass()))
+    if (Objects.equals(actualCause.getClass(), expectedCause.getClass()))
       return new ShouldHaveRootCause(actual, actualCause, expectedCause.getMessage());
     return new ShouldHaveRootCause(actual, actualCause, expectedCause);
   }

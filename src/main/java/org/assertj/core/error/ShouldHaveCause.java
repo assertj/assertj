@@ -12,8 +12,9 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
+
+import java.util.Objects;
 
 public class ShouldHaveCause extends BasicErrorMessageFactory {
 
@@ -22,10 +23,10 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
     // actualCause has no cause
     if (actualCause == null) return new ShouldHaveCause(expectedCause);
     // same message => different type
-    if (areEqual(actualCause.getMessage(), expectedCause.getMessage()))
+    if (Objects.equals(actualCause.getMessage(), expectedCause.getMessage()))
       return new ShouldHaveCause(actualCause, expectedCause.getClass());
     // same type => different message
-    if (areEqual(actualCause.getClass(), expectedCause.getClass()))
+    if (Objects.equals(actualCause.getClass(), expectedCause.getClass()))
       return new ShouldHaveCause(actualCause, expectedCause.getMessage());
     return new ShouldHaveCause(actualCause, expectedCause);
   }

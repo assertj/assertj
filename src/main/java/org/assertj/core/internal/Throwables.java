@@ -36,7 +36,6 @@ import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Throwables.getRootCause;
 
 import java.util.LinkedHashSet;
@@ -84,7 +83,7 @@ public class Throwables {
    */
   public void assertHasMessage(AssertionInfo info, Throwable actual, String expectedMessage) {
     assertNotNull(info, actual);
-    if (areEqual(actual.getMessage(), expectedMessage)) return;
+    if (java.util.Objects.equals(actual.getMessage(), expectedMessage)) return;
     throw failures.failure(info, shouldHaveMessage(actual, expectedMessage), actual.getMessage(), expectedMessage);
   }
 
@@ -129,7 +128,7 @@ public class Throwables {
       assertHasNoCause(info, actual);
       return;
     }
-    if (actualRootCause == null) throw failures.failure(info, shouldHaveRootCause(actual,null, expectedRootCause));
+    if (actualRootCause == null) throw failures.failure(info, shouldHaveRootCause(actual, null, expectedRootCause));
     if (!compareThrowable(actualRootCause, expectedRootCause))
       throw failures.failure(info, shouldHaveRootCause(actual, actualRootCause, expectedRootCause));
   }
@@ -145,8 +144,9 @@ public class Throwables {
     assertNotNull(info, actual);
     Throwable rootCause = getRootCause(actual);
     if (null == rootCause) throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage));
-    if (areEqual(rootCause.getMessage(), expectedMessage)) return;
-    throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage), rootCause.getMessage(), expectedMessage);
+    if (java.util.Objects.equals(rootCause.getMessage(), expectedMessage)) return;
+    throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage), rootCause.getMessage(),
+                           expectedMessage);
   }
 
   /**
@@ -409,8 +409,8 @@ public class Throwables {
     assertNotNull(info, actual);
     requireNonNull(expectedSuppressedException, "The expected suppressed exception should not be null");
     Throwable[] suppressed = actual.getSuppressed();
-    for (int i = 0; i < suppressed.length; i++) {
-      if (compareThrowable(suppressed[i], expectedSuppressedException)) return;
+    for (Throwable throwable : suppressed) {
+      if (compareThrowable(throwable, expectedSuppressedException)) return;
     }
     throw failures.failure(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
   }
@@ -449,7 +449,7 @@ public class Throwables {
   }
 
   private static boolean compareThrowable(Throwable actual, Throwable expected) {
-    return areEqual(actual.getMessage(), expected.getMessage())
-           && areEqual(actual.getClass(), expected.getClass());
+    return java.util.Objects.equals(actual.getMessage(), expected.getMessage())
+           && java.util.Objects.equals(actual.getClass(), expected.getClass());
   }
 }
