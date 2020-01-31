@@ -1,21 +1,21 @@
-name: CI
+name: Cross-Version
 
 on: [push, pull_request]
 
 jobs:
 
-  test_os:
-    name: OS ${{ matrix.os }}
+  test_java:
+    name: Java ${{ matrix.java }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+        java: [13, 14-ea, 15-ea]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: ${{ matrix.java }}
       - name: Test
         run: ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
