@@ -1,24 +1,15 @@
 package org.assertj.core.architecture;
 
-import com.tngtech.archunit.base.DescribedPredicate;
-import com.tngtech.archunit.core.domain.AccessTarget;
-import com.tngtech.archunit.core.domain.JavaMember;
-import com.tngtech.archunit.core.domain.properties.HasName.AndFullName;
+import com.tngtech.archunit.core.importer.ImportOption.DoNotIncludeTests;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-import java.net.URL;
-import java.util.Optional;
-import java.util.function.Predicate;
-
-import static com.tngtech.archunit.base.DescribedPredicate.alwaysTrue;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import static com.tngtech.archunit.library.freeze.FreezingArchRule.freeze;
 import static org.assertj.core.architecture.ArchitectureTest.ROOT_PACKAGE;
 
-@AnalyzeClasses(packages = ROOT_PACKAGE)
+@AnalyzeClasses(packages = ROOT_PACKAGE, importOptions = DoNotIncludeTests.class)
 public class ArchitectureTest {
   static final String ROOT_PACKAGE = "org.assertj.core.";
 
@@ -40,7 +31,7 @@ public class ArchitectureTest {
 
   //@formatter:off
   @ArchTest
-  private static final ArchRule layerRule = layeredArchitecture()
+  private static final ArchRule layerRule = freeze(layeredArchitecture()
     .layer(ANNOTATIONS_LAYER).definedBy(ROOT_PACKAGE + ANNOTATIONS_LAYER)
     .layer(API_LAYER).definedBy(API_PACKAGE)
     .layer(CONDITION_LAYER).definedBy(ROOT_PACKAGE + CONDITION_LAYER)
@@ -50,11 +41,10 @@ public class ArchitectureTest {
     .layer(ERROR_LAYER).definedBy(ROOT_PACKAGE + ERROR_LAYER)
     .layer(EXTRACTOR_LAYER).definedBy(ROOT_PACKAGE + EXTRACTOR_LAYER)
     .layer(GROUPS_LAYER).definedBy(ROOT_PACKAGE + GROUPS_LAYER)
-    .layer(INTERNAL_LAYER).definedBy(ROOT_PACKAGE + INTERNAL_LAYER + ".(*)..")
+    .layer(INTERNAL_LAYER).definedBy(ROOT_PACKAGE + INTERNAL_LAYER + "..")
     .layer(MATCHER_LAYER).definedBy(ROOT_PACKAGE + MATCHER_LAYER)
     .layer(PRESENTATION_LAYER).definedBy(ROOT_PACKAGE + PRESENTATION_LAYER)
     .layer(UTIL_LAYER).definedBy(ROOT_PACKAGE + UTIL_LAYER)
-    .ignoreDependency(isTest(), alwaysTrue())
 
     .whereLayer(INTERNAL_LAYER).mayOnlyBeAccessedByLayers(
       ANNOTATIONS_LAYER,
@@ -67,43 +57,7 @@ public class ArchitectureTest {
       EXTRACTOR_LAYER,
       GROUPS_LAYER,
       MATCHER_LAYER,
-      PRESENTATION_LAYER);
+      PRESENTATION_LAYER));
       // UTIL_LAYER can't access INTERNAL_LAYER
   //@formatter:on
-
-  private static DescribedPredicate<AndFullName> isTest() {
-    return new DescribedPredicate<AndFullName>("is test") {
-
-      @Override
-      public boolean apply(AndFullName fullName) {
-        return isTestPredicate().test(fullName);
-      }
-    };
-  }
-
-  private static Predicate<AndFullName> isTestPredicate() {
-    return fullName -> getFile(getOwner(fullName)).map(f -> f.contains("target/test-classes")).orElse(false);
-  }
-
-  private static Optional<String> getFile(AndFullName fullName) {
-    String urlStr = '/' + fullName.getFullName().replace(".", "/") + ".class";
-    URL url = ArchitectureTest.class.getResource(urlStr);
-    return (url != null) && (url.getFile() != null) ? of(url.getFile()) : empty();
-  }
-
-  private static AndFullName getOwner(AndFullName fullName) {
-    // find the owner JavaClass
-    if (fullName instanceof JavaMember) {
-      // it's a well-known member (field, constructor, method, static initializer)
-      fullName = ((JavaMember) fullName).getOwner();
-    } else if (fullName instanceof AccessTarget) {
-      // The target (field, constructor, method) can't be precisely defined from bytecode.
-      // That could, for example, be the case for multiple inheritance. (see AccessTarget javadoc for further details)
-      fullName = ((AccessTarget) fullName).getOwner();
-    }
-    // else fullName is a JavaClass
-
-    // here fullName is always a JavaClass, but it's better to depend on the interface AndFullName
-    return fullName;
-  }
 }
