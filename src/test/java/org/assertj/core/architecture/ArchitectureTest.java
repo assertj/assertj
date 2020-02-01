@@ -1,22 +1,23 @@
 package org.assertj.core.architecture;
 
 import com.tngtech.archunit.base.DescribedPredicate;
+import com.tngtech.archunit.core.domain.AccessTarget;
 import com.tngtech.archunit.core.domain.JavaMember;
 import com.tngtech.archunit.core.domain.properties.HasName.AndFullName;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
-import com.tngtech.archunit.junit.ArchUnitRunner;
 import com.tngtech.archunit.lang.ArchRule;
-import org.junit.runner.RunWith;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import static com.tngtech.archunit.base.DescribedPredicate.alwaysTrue;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.assertj.core.architecture.ArchitectureTest.ROOT_PACKAGE;
 
-@RunWith(ArchUnitRunner.class)
 @AnalyzeClasses(packages = ROOT_PACKAGE)
 public class ArchitectureTest {
   static final String ROOT_PACKAGE = "org.assertj.core.";
@@ -53,7 +54,7 @@ public class ArchitectureTest {
     .layer(MATCHER_LAYER).definedBy(ROOT_PACKAGE + MATCHER_LAYER)
     .layer(PRESENTATION_LAYER).definedBy(ROOT_PACKAGE + PRESENTATION_LAYER)
     .layer(UTIL_LAYER).definedBy(ROOT_PACKAGE + UTIL_LAYER)
-    .ignoreDependency(belongToTestClassDirectory(), alwaysTrue())
+    .ignoreDependency(isTest(), alwaysTrue())
 
     .whereLayer(INTERNAL_LAYER).mayOnlyBeAccessedByLayers(
       ANNOTATIONS_LAYER,
@@ -66,28 +67,43 @@ public class ArchitectureTest {
       EXTRACTOR_LAYER,
       GROUPS_LAYER,
       MATCHER_LAYER,
-      PRESENTATION_LAYER,
-      UTIL_LAYER);
+      PRESENTATION_LAYER);
+      // UTIL_LAYER can't access INTERNAL_LAYER
   //@formatter:on
 
-  private static DescribedPredicate<AndFullName> belongToTestClassDirectory() {
-    return new DescribedPredicate<AndFullName>("belong to the test class directory") {
+  private static DescribedPredicate<AndFullName> isTest() {
+    return new DescribedPredicate<AndFullName>("is test") {
 
       @Override
-      public boolean apply(AndFullName input) {
-        return areInTestClassDirectoryPredicate().test(input);
+      public boolean apply(AndFullName fullName) {
+        return isTestPredicate().test(fullName);
       }
     };
   }
 
-  private static Predicate<AndFullName> areInTestClassDirectoryPredicate() {
-    return input -> {
-      if (input instanceof JavaMember) {
-        input = ((JavaMember) input).getOwner();
-      }
-      String urlStr = '/' + input.getFullName().replace(".", "/") + ".class";
-      URL url = ArchitectureTest.class.getResource(urlStr);
-      return (url != null) && (url.getFile() != null) && url.getFile().contains("target/test-classes");
-    };
+  private static Predicate<AndFullName> isTestPredicate() {
+    return fullName -> getFile(getOwner(fullName)).map(f -> f.contains("target/test-classes")).orElse(false);
+  }
+
+  private static Optional<String> getFile(AndFullName fullName) {
+    String urlStr = '/' + fullName.getFullName().replace(".", "/") + ".class";
+    URL url = ArchitectureTest.class.getResource(urlStr);
+    return (url != null) && (url.getFile() != null) ? of(url.getFile()) : empty();
+  }
+
+  private static AndFullName getOwner(AndFullName fullName) {
+    // find the owner JavaClass
+    if (fullName instanceof JavaMember) {
+      // it's a well-known member (field, constructor, method, static initializer)
+      fullName = ((JavaMember) fullName).getOwner();
+    } else if (fullName instanceof AccessTarget) {
+      // The target (field, constructor, method) can't be precisely defined from bytecode.
+      // That could, for example, be the case for multiple inheritance. (see AccessTarget javadoc for further details)
+      fullName = ((AccessTarget) fullName).getOwner();
+    }
+    // else fullName is a JavaClass
+
+    // here fullName is always a JavaClass, but it's better to depend on the interface AndFullName
+    return fullName;
   }
 }

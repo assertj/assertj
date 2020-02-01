@@ -163,7 +163,7 @@
     </dependency>
     <dependency>
       <groupId>com.tngtech.archunit</groupId>
-      <artifactId>archunit-junit4</artifactId>
+      <artifactId>archunit-junit5</artifactId>
       <version>0.13.0</version>
       <scope>test</scope>
     </dependency>
