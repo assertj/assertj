@@ -2,6 +2,7 @@
 
 [![Travis build Status (master)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=master)](https://travis-ci.org/joel-costigliola/assertj-core)
 [![Github CI status](https://github.com/joel-costigliola/assertj-core/workflows/CI/badge.svg)](https://github.com/joel-costigliola/assertj-core/actions?query=workflow%3ACI) 
+[![Github Cross-Version status](https://github.com/joel-costigliola/assertj-core/workflows/Cross-Version/badge.svg)](https://github.com/joel-costigliola/assertj-core/actions?query=workflow%3ACross-Version) 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
 [![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=joel-costigliola_assertj-core&metric=alert_status)](https://sonarcloud.io/dashboard?id=joel-costigliola_assertj-core)
