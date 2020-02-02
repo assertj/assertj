@@ -12,12 +12,13 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPrivate;
 import static java.lang.reflect.Modifier.isProtected;
 import static java.lang.reflect.Modifier.isPublic;
+import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import java.lang.reflect.Modifier;
+import java.util.StringJoiner;
 
 /**
  * Error message factory for an assertion which checks that a class has (or has not) a specific modifier.
@@ -87,7 +88,16 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
     int modifiers = actual.getModifiers();
     boolean isPackagePrivate = !isPublic(modifiers) && !isProtected(modifiers) && !isPrivate(modifiers);
     String modifiersDescription = Modifier.toString(modifiers);
-    return isPackagePrivate ? format("%s %s", PACKAGE_PRIVATE, modifiersDescription) : modifiersDescription;
+    StringJoiner sj = new StringJoiner(" ");
+
+    if (isPackagePrivate) {
+      sj.add(PACKAGE_PRIVATE);
+    }
+    if (!modifiersDescription.isEmpty()) {
+      sj.add(modifiersDescription);
+    }
+
+    return sj.toString();
   }
 
 }
