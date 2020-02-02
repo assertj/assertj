@@ -153,8 +153,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws AssertionError with a message corresponding to the given {@link BasicErrorMessageFactory}.
    */
   protected void throwAssertionError(ErrorMessageFactory errorMessageFactory) {
-    AssertionError failure = assertionError(errorMessageFactory);
-    throw failure;
+    throw assertionError(errorMessageFactory);
   }
 
   protected AssertionError assertionError(ErrorMessageFactory errorMessageFactory) {
@@ -819,13 +818,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
   }
 
-  // this method is meant to be ovverridden and made public in subclasses that want to expose it
+  // this method is meant to be overridden and made public in subclasses that want to expose it
   // this would avoid duplicating this code in all subclasses
   protected RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself);
   }
 
-  // this method is meant to be ovverridden and made public in subclasses that want to expose it
+  // this method is meant to be overridden and made public in subclasses that want to expose it
   // this would avoid duplicating this code in all subclasses
   protected RecursiveComparisonAssert<?> usingRecursiveComparison() {
     return usingRecursiveComparison(new RecursiveComparisonConfiguration());
