@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
-import java.util.List;
-
 import org.assertj.core.error.AssertionErrorCreator;
+
+import java.util.List;
 
 /**
  * <p>
@@ -102,7 +102,7 @@ import org.assertj.core.error.AssertionErrorCreator;
  *
  * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
-public class BDDSoftAssertions extends AbstractBDDSoftAssertions {
+public class BDDSoftAssertions extends AbstractBDDSoftAssertions implements ISoftAssertions {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 

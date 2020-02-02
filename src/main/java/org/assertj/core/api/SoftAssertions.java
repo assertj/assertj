@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import org.assertj.core.error.AssertionErrorCreator;
 import org.opentest4j.MultipleFailuresError;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * <p>
@@ -152,7 +152,7 @@ import org.opentest4j.MultipleFailuresError;
  *
  * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
-public class SoftAssertions extends AbstractStandardSoftAssertions {
+public class SoftAssertions extends AbstractStandardSoftAssertions implements ISoftAssertions {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
@@ -164,6 +164,13 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
   public void assertAll() {
     List<Throwable> errors = errorsCollected();
     if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
+  }
+
+  /**
+   * Clears the list of soft assertions collected errors.
+   */
+  public void clearErrorsCollected() {
+    proxies.clearErrorsCollected();
   }
 
   /**

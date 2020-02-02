@@ -12,11 +12,6 @@
  */
 package org.assertj.core.api.junit.jupiter;
 
-import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
-import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD;
-
-import java.util.Arrays;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -29,6 +24,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD;
 
 /**
  * Integration tests for {@link SoftAssertionsExtension} with {@link SoftAssertions}.
@@ -60,7 +59,29 @@ class SoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExten
 		return TestInstancePerClassNestedExample.class;
 	}
 
-	// -------------------------------------------------------------------------
+	@Override
+	protected Class<?> getTestInstancePerMethodConstructorTestCase() {
+		return TestInstancePerMethodConstructorExample.class;
+	}
+
+	@Override
+	protected Class<?> getTestInstancePerClassConstructorTestCase() {
+		return TestInstancePerClassConstructorExample.class;
+	}
+
+	@Override
+	protected Class<?> getTestInstancePerMethodNestedConstructorTestCase() {
+		return TestInstancePerMethodNestedConstructorExample.class;
+	}
+
+	@Override
+	protected Class<?> getTestInstancePerClassNestedConstructorTestCase() {
+		return TestInstancePerClassNestedConstructorExample.class;
+	}
+
+  // -------------------------------------------------------------------------
+  // -------------------- injection of method parameters --------------------
+  // -------------------------------------------------------------------------
 
 	@ExtendWith(SoftAssertionsExtension.class)
 	@TestMethodOrder(OrderAnnotation.class)
@@ -78,7 +99,7 @@ class SoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExten
 		@Order(2)
 		void allAssertionsShouldPass(SoftAssertions softly) {
 			softly.assertThat(1).isEqualTo(1);
-			softly.assertThat(Arrays.asList(1, 2)).containsOnly(1, 2);
+			softly.assertThat(asList(1, 2)).containsOnly(1, 2);
 		}
 
 		@ParameterizedTest
@@ -96,7 +117,7 @@ class SoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExten
 	}
 
 	@TestInstance(PER_CLASS)
-	@Disabled
+	@Disabled("Executed via the JUnit Platform Test Kit")
 	static class TestInstancePerClassExample extends AbstractSoftAssertionsExample {
 	}
 
@@ -120,4 +141,88 @@ class SoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExten
 		}
 	}
 
+  // -------------------------------------------------------------------------
+  // ------------------ injection of constructor parameters ------------------
+  // -------------------------------------------------------------------------
+
+  @ExtendWith(SoftAssertionsExtension.class)
+  @TestMethodOrder(OrderAnnotation.class)
+  private static abstract class AbstractSoftAssertionsConstructorExample {
+    private final SoftAssertions softly;
+
+    protected AbstractSoftAssertionsConstructorExample(SoftAssertions softly) {
+      this.softly = softly;
+    }
+
+    @Test
+    @Order(1)
+    void multipleFailures() {
+      softly.assertThat(1).isEqualTo(0);
+      softly.assertThat(2).isEqualTo(2);
+      softly.assertThat(3).isEqualTo(4);
+    }
+
+    @Test
+    @Order(2)
+    void allAssertionsShouldPass() {
+      softly.assertThat(1).isEqualTo(1);
+      softly.assertThat(asList(1, 2)).containsOnly(1, 2);
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "1, 1, 2", "1, 2, 3" })
+    @Order(3)
+    void parameterizedTest(int a, int b, int sum) {
+      softly.assertThat(a + b).as("sum").isEqualTo(sum);
+      softly.assertThat(a).as("operand 1 is equal to operand 2").isEqualTo(b);
+    }
+  }
+
+  @TestInstance(PER_METHOD)
+  @Disabled("Executed via the JUnit Platform Test Kit")
+  static class TestInstancePerMethodConstructorExample extends AbstractSoftAssertionsConstructorExample {
+    protected TestInstancePerMethodConstructorExample(SoftAssertions softly) {
+      super(softly);
+    }
+  }
+
+  @TestInstance(PER_CLASS)
+  @Disabled("Executed via the JUnit Platform Test Kit")
+  static class TestInstancePerClassConstructorExample extends AbstractSoftAssertionsConstructorExample {
+    protected TestInstancePerClassConstructorExample(SoftAssertions softly) {
+      super(softly);
+    }
+  }
+
+  @TestInstance(PER_METHOD)
+  @Disabled("Executed via the JUnit Platform Test Kit")
+  static class TestInstancePerMethodNestedConstructorExample extends AbstractSoftAssertionsConstructorExample {
+    protected TestInstancePerMethodNestedConstructorExample(SoftAssertions softly) {
+      super(softly);
+    }
+
+    @Nested
+    @Disabled("Executed via the JUnit Platform Test Kit")
+    class InnerExample extends AbstractSoftAssertionsConstructorExample {
+      protected InnerExample(SoftAssertions softly) {
+        super(softly);
+      }
+    }
+  }
+
+  @TestInstance(PER_CLASS)
+  @Disabled("Executed via the JUnit Platform Test Kit")
+  static class TestInstancePerClassNestedConstructorExample extends AbstractSoftAssertionsConstructorExample {
+    protected TestInstancePerClassNestedConstructorExample(SoftAssertions softly) {
+      super(softly);
+    }
+
+    @Nested
+    @Disabled("Executed via the JUnit Platform Test Kit")
+    class InnerExample extends AbstractSoftAssertionsConstructorExample {
+      protected InnerExample(SoftAssertions softly) {
+        super(softly);
+      }
+    }
+  }
 }

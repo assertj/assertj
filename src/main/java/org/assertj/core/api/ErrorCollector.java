@@ -12,19 +12,19 @@
  */
 package org.assertj.core.api;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Callable;
-
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.StubValue;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.SuperMethod;
 import net.bytebuddy.implementation.bind.annotation.This;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 /** Collects error messages of all AssertionErrors thrown by the proxied method. */
 public class ErrorCollector {
@@ -85,6 +85,10 @@ public class ErrorCollector {
 
   public List<Throwable> errors() {
     return Collections.unmodifiableList(errors);
+  }
+
+  public void clearErrors() {
+    errors.clear();
   }
 
   public boolean wasSuccess() {

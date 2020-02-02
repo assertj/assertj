@@ -12,18 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static net.bytebuddy.matcher.ElementMatchers.any;
-import static net.bytebuddy.matcher.ElementMatchers.isPublic;
-import static net.bytebuddy.matcher.ElementMatchers.named;
-import static net.bytebuddy.matcher.ElementMatchers.not;
-import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
@@ -37,6 +25,16 @@ import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.matcher.ElementMatcher.Junction;
 import net.bytebuddy.matcher.ElementMatchers;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.named;
+import static net.bytebuddy.matcher.ElementMatchers.not;
+import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
 
 class SoftProxies {
 
@@ -103,6 +101,10 @@ class SoftProxies {
 
   List<Throwable> errorsCollected() {
     return collector.errors();
+  }
+
+  void clearErrorsCollected() {
+    collector.clearErrors();
   }
 
   // TODO V extends AbstractAssert ?
@@ -189,5 +191,4 @@ class SoftProxies {
   private static Junction<MethodDescription> methodsNamed(String name) {
     return ElementMatchers.named(name);
   }
-
 }

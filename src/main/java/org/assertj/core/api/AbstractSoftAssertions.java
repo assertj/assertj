@@ -12,13 +12,13 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
+import org.assertj.core.internal.Failures;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import org.assertj.core.internal.Failures;
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 
 public class AbstractSoftAssertions implements InstanceOfAssertFactories {
 
@@ -126,6 +126,13 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    */
   public List<Throwable> errorsCollected() {
     return decorateErrorsCollected(proxies.errorsCollected());
+  }
+
+  /**
+   * Clears the list of soft assertions collected errors.
+   */
+  public void clearErrorsCollected() {
+    proxies.clearErrorsCollected();
   }
 
   /**

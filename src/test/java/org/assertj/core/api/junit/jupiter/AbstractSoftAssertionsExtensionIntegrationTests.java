@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api.junit.jupiter;
 
+import org.assertj.core.error.AssertJMultipleFailuresError;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.testkit.engine.EngineTestKit;
+
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 import static org.junit.platform.testkit.engine.EventConditions.event;
 import static org.junit.platform.testkit.engine.EventConditions.finishedWithFailure;
 import static org.junit.platform.testkit.engine.EventConditions.test;
 import static org.junit.platform.testkit.engine.TestExecutionResultConditions.instanceOf;
 import static org.junit.platform.testkit.engine.TestExecutionResultConditions.message;
-
-import org.assertj.core.error.AssertJMultipleFailuresError;
-import org.junit.jupiter.api.Test;
-import org.junit.platform.testkit.engine.EngineTestKit;
 
 /**
  * Abstract base class for integration tests involving the {@link SoftAssertionsExtension}.
@@ -32,7 +32,6 @@ import org.junit.platform.testkit.engine.EngineTestKit;
  * @see BDDSoftAssertionsExtensionIntegrationTest
  */
 abstract class AbstractSoftAssertionsExtensionIntegrationTests {
-
   @Test
   final void test_instance_per_method() {
     assertExecutionResults(getTestInstancePerMethodTestCase(), false);
@@ -53,6 +52,26 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
     assertExecutionResults(getTestInstancePerClassNestedTestCase(), true);
   }
 
+  @Test
+  final void test_instance_per_method_constructor() {
+    assertExecutionResults(getTestInstancePerMethodConstructorTestCase(), false);
+  }
+
+  @Test
+  final void test_instance_per_class_constructor() {
+    assertExecutionResults(getTestInstancePerClassConstructorTestCase(), false);
+  }
+
+  @Test
+  final void test_instance_per_method_with_nested_tests_constructor() {
+    assertExecutionResults(getTestInstancePerMethodNestedConstructorTestCase(), true);
+  }
+
+  @Test
+  final void test_instance_per_class_with_nested_tests_constructor() {
+    assertExecutionResults(getTestInstancePerClassNestedConstructorTestCase(), true);
+  }
+
   protected abstract Class<?> getTestInstancePerMethodTestCase();
 
   protected abstract Class<?> getTestInstancePerClassTestCase();
@@ -60,6 +79,14 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
   protected abstract Class<?> getTestInstancePerMethodNestedTestCase();
 
   protected abstract Class<?> getTestInstancePerClassNestedTestCase();
+
+  protected abstract Class<?> getTestInstancePerMethodConstructorTestCase();
+
+  protected abstract Class<?> getTestInstancePerClassConstructorTestCase();
+
+  protected abstract Class<?> getTestInstancePerMethodNestedConstructorTestCase();
+
+  protected abstract Class<?> getTestInstancePerClassNestedConstructorTestCase();
 
   private void assertExecutionResults(Class<?> testClass, boolean nested) {
     EngineTestKit.engine("junit-jupiter")
@@ -79,5 +106,4 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
                                                                            message(msg -> msg.contains("Multiple Failures (1 failure)")))));
                  // @formatter:on
   }
-
 }

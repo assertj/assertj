@@ -12,14 +12,6 @@
  */
 package org.assertj.core.api.junit.jupiter;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-
-import java.lang.reflect.Executable;
-import java.lang.reflect.Parameter;
-
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +20,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
+
+import java.lang.reflect.Executable;
+import java.lang.reflect.Parameter;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 /**
  * Unit tests for {@link SoftAssertionsExtension}.
@@ -84,17 +84,16 @@ class SoftAssertionsExtensionUnitTest {
   }
 
   @Test
-  void does_not_support_constructor() throws Exception {
+  void supports_constructor() throws Exception {
     // GIVEN
     Executable executable = TestCase.class.getDeclaredConstructor(SoftAssertions.class);
     Parameter parameter = executable.getParameters()[0];
     given(parameterContext.getParameter()).willReturn(parameter);
     given(parameterContext.getDeclaringExecutable()).willReturn(executable);
     // WHEN
-    Throwable exception = catchThrowable(() -> extension.supportsParameter(parameterContext, extensionContext));
+    boolean supportsParameter = extension.supportsParameter(parameterContext, extensionContext);
     // THEN
-    assertThat(exception).isInstanceOf(ParameterResolutionException.class)
-                         .hasMessageStartingWith("Configuration error: cannot resolve SoftAssertions or BDDSoftAssertions for");
+    assertThat(supportsParameter).isTrue();
   }
 
   @Test
