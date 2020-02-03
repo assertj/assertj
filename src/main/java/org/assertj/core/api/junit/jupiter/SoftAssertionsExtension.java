@@ -56,9 +56,9 @@ import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
  *
  * <pre><code class='java'> {@literal @}ExtendWith(SoftAssertionsExtension.class)
  * class ExampleTestCase {
- *    private final SoftAssertionsExtension softly;
+ *    private final SoftAssertions softly;
  *
- *    ExampleTestCase(SoftAssertionsExtension softly) {
+ *    ExampleTestCase(SoftAssertions softly) {
  *      this.softly = softly;
  *    }
  *
