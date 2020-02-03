@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api.filter;
 
-import static org.assertj.core.util.Objects.areEqual;
-
 public class NotFilter extends FilterOperator<Object> {
 
   private NotFilter(Object filterParameter) {
