@@ -23,7 +23,7 @@ jobs:
   sonar:
     name: Sonar code analysis
     runs-on: ubuntu-latest
-    if: github.repository == 'joel-costigliola/assertj-core' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.repository == 'joel-costigliola/assertj-core' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java
