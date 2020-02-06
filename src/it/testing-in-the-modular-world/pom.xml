@@ -38,6 +38,10 @@
             <additionalOptions>
               <additionalOption>--show-version</additionalOption>
               <additionalOption>--show-module-resolution</additionalOption>
+              <additionalOption>--add-modules</additionalOption>
+              <additionalOption>java.instrument</additionalOption>
+              <additionalOption>--add-reads</additionalOption>
+              <additionalOption>org.assertj.core=java.instrument</additionalOption>
             </additionalOptions>
           </javaOptions>
         </configuration>
