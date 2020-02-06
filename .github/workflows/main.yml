@@ -18,7 +18,7 @@ jobs:
         with:
           java-version: 11
       - name: Test
-        run: ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+        run: ./mvnw -V --no-transfer-progress -P run-its clean verify javadoc:javadoc
 
   sonar:
     name: Sonar code analysis
