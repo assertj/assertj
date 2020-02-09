@@ -12,18 +12,18 @@
  */
 package org.assertj.core.api.file;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.TempFileUtil.createTempFileWithContent;
-import static org.mockito.Mockito.verify;
-
-import java.io.File;
-import java.nio.charset.Charset;
-
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.TURKISH_CHARSET;
+import static org.assertj.core.util.TempFileUtil.createTempFileWithContent;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link FileAssert#hasSameTextualContentAs(File)}</code>.
@@ -54,21 +54,18 @@ public class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest 
   @Test
   public void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
     // GIVEN
-    Charset turkishCharset = Charset.forName("windows-1254");
-    File actual = createTempFileWithContent("Gerçek", turkishCharset);
+    File actual = createTempFileWithContent("Gerçek", TURKISH_CHARSET);
     File expected = createTempFileWithContent("Gerçek", defaultCharset);
     // WHEN/THEN
-    then(actual).usingCharset(turkishCharset)
-                .hasSameTextualContentAs(expected);
+    then(actual).usingCharset(TURKISH_CHARSET).hasSameTextualContentAs(expected);
   }
 
   @Test
   public void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
     // GIVEN
-    Charset turkishCharset = Charset.forName("windows-1254");
     File actual = createTempFileWithContent("Gerçek", defaultCharset);
-    File expected = createTempFileWithContent("Gerçek", turkishCharset);
+    File expected = createTempFileWithContent("Gerçek", TURKISH_CHARSET);
     // WHEN/THEN
-    then(actual).hasSameTextualContentAs(expected, turkishCharset);
+    then(actual).hasSameTextualContentAs(expected, TURKISH_CHARSET);
   }
 }

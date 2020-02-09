@@ -12,12 +12,14 @@
  */
 package org.assertj.core.api;
 
-import static org.mockito.Mockito.mock;
+import org.assertj.core.internal.Files;
 
 import java.io.File;
 import java.nio.charset.Charset;
 
-import org.assertj.core.internal.Files;
+import static java.nio.charset.Charset.defaultCharset;
+import static org.assertj.core.util.AssertionsUtil.getOtherCharset;
+import static org.mockito.Mockito.mock;
 
 
 /**
@@ -41,10 +43,8 @@ public abstract class FileAssertBaseTest extends BaseTestTemplate<FileAssert, Fi
     files = mock(Files.class);
     assertions.files = files;
 
-    defaultCharset = Charset.defaultCharset();
-    for (Charset charset : Charset.availableCharsets().values()) {
-      if (!charset.equals(defaultCharset)) otherCharset = charset;
-    }
+    defaultCharset = defaultCharset();
+    otherCharset = getOtherCharset(defaultCharset);
   }
 
   protected Files getFiles(FileAssert someAssertions) {

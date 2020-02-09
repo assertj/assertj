@@ -12,19 +12,19 @@
  */
 package org.assertj.core.api.path;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.TempFileUtil.createTempPathWithContent;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.nio.file.Path;
+
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.TURKISH_CHARSET;
+import static org.assertj.core.util.TempFileUtil.createTempPathWithContent;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @DisplayName("PathAssert hasSameTextualContentAs")
 public class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest {
@@ -49,21 +49,18 @@ public class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest 
   @Test
   public void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
     // GIVEN
-    Charset turkishCharset = Charset.forName("windows-1254");
-    Path actual = createTempPathWithContent("Gerçek", turkishCharset);
+    Path actual = createTempPathWithContent("Gerçek", TURKISH_CHARSET);
     Path expected = createTempPathWithContent("Gerçek", defaultCharset);
     // WHEN/THEN
-    then(actual).usingCharset(turkishCharset)
-                .hasSameTextualContentAs(expected);
+    then(actual).usingCharset(TURKISH_CHARSET).hasSameTextualContentAs(expected);
   }
 
   @Test
   public void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
     // GIVEN
-    Charset turkishCharset = Charset.forName("windows-1254");
     Path actual = createTempPathWithContent("Gerçek", defaultCharset);
-    Path expected = createTempPathWithContent("Gerçek", turkishCharset);
+    Path expected = createTempPathWithContent("Gerçek", TURKISH_CHARSET);
     // WHEN/THEN
-    then(actual).hasSameTextualContentAs(expected, turkishCharset);
+    then(actual).hasSameTextualContentAs(expected, TURKISH_CHARSET);
   }
 }
