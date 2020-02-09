@@ -80,13 +80,13 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * <p>
    * Although {@code 0.0f == -0.0f} (primitives), {@code Float(-0.0f)} is not zero as {@code Float.floatToIntBits(0.0f) == Float.floatToIntBits(-0.0f)} is false.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass
    * assertThat(0.0f).isZero();
    * assertThat(-0.0f).isZero();
    *
    * // assertions will fail
-   * assertThat(new Float(-0.0)).isZero();
+   * assertThat(new Float(-0.0f)).isZero();
    * assertThat(3.142f).isZero();</code></pre>
    *
    * @return this assertion object.
@@ -106,8 +106,8 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   }
 
   private void assertIsPrimitiveNonZero() {
-    if (actual.floatValue() != 0.0) return;
-    throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0));
+    if (actual.floatValue() != 0.0f) return;
+    throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0f));
   }
 
   /**
@@ -115,7 +115,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * <p>
    * Although {@code 0.0f == -0.0f} (primitives), {@code Float(-0.0f)} is not zero as {@code Float.floatToIntBits(0.0f) == Float.floatToIntBits(-0.0f)} is false.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass
    * assertThat(3.142f).isNotZero();
    * assertThat(new Float(-0.0f)).isNotZero();
@@ -178,7 +178,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * Unless a specific comparator has been set (with {@link #usingComparator(Comparator) usingComparator}) the equality is performed
    * with {@code ==} which is slightly different from {@link Float#equals(Object)} - notably {@code 0.0f == -0.0f}.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(1.0f).isEqualTo(1.0f);
    * assertThat(1f).isEqualTo(1.0f);
@@ -208,7 +208,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the actual value is equal to the given one using {@link Float#equals(Object)} semantics where 0.0f is not equal to -0.0f.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertion will pass:
    * assertThat(1.0f).isEqualTo(Float.valueOf(1.0f));
    *
@@ -281,7 +281,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Float)} implies a <b>strict</b> comparison,
    * use {@link Assertions#within(Float)} to get the old behavior.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions succeed
    * assertThat(8.1f).isNotCloseTo(8.0f, byLessThan(0.01f));
    * assertThat(8.1f).isNotCloseTo(8.0f, within(0.01f));
@@ -363,7 +363,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Float)} implies a <b>strict</b> comparison,
    * use {@link Assertions#within(Float)} to get the old behavior.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions succeed
    * assertThat(8.1f).isNotCloseTo(8.0f, byLessThan(0.01f));
    * assertThat(8.1f).isNotCloseTo(8.0f, within(0.01f));
@@ -577,14 +577,25 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the actual value is not equal to the given one.
    * <p>
-   * Example:
+   * Unless a specific comparator has been set (with {@link #usingComparator(Comparator) usingComparator}) the equality is performed
+   * with {@code !=} which is slightly different from {@link Float#equals(Object)} - notably:
+   * <ul>
+   * <li>{@code Float.NaN != Float.NaN} but {@code Float.valueOf(Float.NaN).equals(Float.NaN) == true}</li>
+   * <li>{@code 0.0f == -0.0f} but {@code Float.valueOf(0.0f).equals(-0.0f) == false}</li>
+   * </ul>
+   * <p>
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(0.0f).isNotEqualTo(1.0f);
    * assertThat(-1.0f).isNotEqualTo(1.0f);
+   * assertThat(Float.NaN).isNotEqualTo(Float.NaN);
    *
    * // assertions will fail:
    * assertThat(1.0f).isNotEqualTo(1.0f);
-   * assertThat(1f).isNotEqualTo(1.0f);</code></pre>
+   * assertThat(1f).isNotEqualTo(1.0f);
+   * assertThat(0.0f).isNotEqualTo(-0.0f);</code></pre>
+   * <p>
+   * Note that this assertion behaves slightly differently from {@link #isNotEqualTo(Float)}.
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -592,14 +603,49 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is equal to the given one.
    */
   public SELF isNotEqualTo(float other) {
+    if (noCustomComparatorSet()) {
+      // use primitive comparison since the parameter is a primitive.
+      if (other != actual.doubleValue()) return myself;
+      throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));
+    }
     floats.assertNotEqual(info, actual, other);
     return myself;
   }
 
   /**
+   * Verifies that the actual value is not equal to the given {@link Float} using {@link Float#equals(Object)} semantics where
+   * <ul>
+   * <li>{@code Float.valueOf(Float.NaN).equals(Float.NaN) == true} but {@code Float.NaN != Float.NaN}</li>
+   * <li>{@code Float.valueOf(0.0f).equals(-0.0f) == false} but {@code 0.0f == -0.0f}</li>
+   * </ul>
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions will pass:
+   * assertThat(0.0f).isNotEqualTo(Float.valueOf(1.0));
+   * assertThat(-1.0).isNotEqualTo(Float.valueOf(1.0));
+   * assertThat(0.0f).isNotEqualTo(Float.valueOf(-0.0f));
+   *
+   * // assertions will fail:
+   * assertThat(1.0).isNotEqualTo(Float.valueOf(1.0));
+   * assertThat(0.0f).isNotEqualTo(Float.valueOf(0.0f));
+   * assertThat(Float.NaN).isNotEqualTo(Float.valueOf(Float.NaN));</code></pre>
+   * <p>
+   * Note that this assertion behaves slightly differently from {@link #isNotEqualTo(float)}.
+   *
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to the given one.
+   */
+  public SELF isNotEqualTo(Float other) {
+    // overloaded for javadoc
+    return super.isNotEqualTo(other);
+  }
+
+  /**
    * Verifies that the actual value is less than the given one.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(1.0f).isLessThan(2.0f);
    * assertThat(1.0f).isLessThan(1.01f);
@@ -624,7 +670,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * Unless a specific comparator has been set (with {@link #usingComparator(Comparator) usingComparator})
    * this assertion will use {@code <=} semantics where notably {@code 0.0} == {@code -0.0}.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(-1.0f).isLessThanOrEqualTo(1.0f);
    * assertThat(1.0f).isLessThanOrEqualTo(1.0f);
@@ -655,7 +701,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the actual value is less than or equal to the given one using {@link Float#compareTo(Float)} semantics where notably {@code -0.0} is <b>strictly</b> less than {@code 0.0}.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(-1.0f).isLessThanOrEqualTo(Float.valueOf(1.0f));
    * assertThat(1.0f).isLessThanOrEqualTo(Float.valueOf(1.0f));
@@ -682,7 +728,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the actual value is greater than the given one.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(2.0f).isGreaterThan(1.0f);
    * assertThat(2.0f).isGreaterThan(1.99f);
@@ -707,7 +753,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * Unless a specific comparator has been set (with {@link #usingComparator(Comparator) usingComparator})
    * this assertion will use {@code >=} semantics where notably {@code 0.0f} == {@code -0.0f}.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(2.0f).isGreaterThanOrEqualTo(1.0f);
    * assertThat(1.0f).isGreaterThanOrEqualTo(1.0f);
@@ -736,7 +782,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the actual value is greater than or equal to the given one using {@link Float#compareTo(Float)} semantics where notably {@code 0.0f} is <b>strictly</b> greater than {@code -0.0f}.
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(2.0f).isGreaterThanOrEqualTo(Float.valueOf(1.0f));
    * assertThat(1.0f).isGreaterThanOrEqualTo(Float.valueOf(1.0f));
@@ -764,7 +810,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * Verifies that the actual value is in [start, end] range (start included, end included).
    *
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertions will pass
    * assertThat(1f).isBetween(-1f, 2f);
    * assertThat(1f).isBetween(1f, 2f);
@@ -783,7 +829,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
    *
    * <p>
-   * Example:
+   * Examples:
    * <pre><code class='java'> // assertion will pass
    * assertThat(1f).isStrictlyBetween(-1f, 2f);
    *

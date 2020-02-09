@@ -21,10 +21,9 @@ import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link FloatAssert#isNotZero()}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
@@ -57,7 +56,7 @@ public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("%nExpecting:%n <-0.0f>%nnot to be equal to:%n <0.0>%n"));
+                     .hasMessage(format("%nExpecting:%n <-0.0f>%nnot to be equal to:%n <0.0f>%n"));
   }
 
   @Test
@@ -70,7 +69,7 @@ public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0>%n"));
+                     .hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
   }
 
   @Test
@@ -83,7 +82,7 @@ public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
+                     .hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
   }
 
 }

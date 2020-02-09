@@ -12,26 +12,71 @@
  */
 package org.assertj.core.api.float_;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.test.AlwaysDifferentComparator.ALWAY_DIFFERENT;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
+import java.util.Comparator;
+
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
-
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for <code>{@link FloatAssert#isNotEqualTo(float)}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class FloatAssert_isNotEqualTo_float_Test extends FloatAssertBaseTest {
 
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
   protected FloatAssert invoke_api_method() {
+    // trick to simulate a custom comparator
+    given(floats.getComparator()).willReturn((Comparator) ALWAY_EQUAL_FLOAT);
     return assertions.isNotEqualTo(8f);
   }
 
   @Override
   protected void verify_internal_effects() {
+    verify(floats).getComparator();
     verify(floats).assertNotEqual(getInfo(assertions), getActual(assertions), 8f);
+    verifyNoMoreInteractions(floats);
+  }
+
+  @ParameterizedTest
+  @CsvSource({ "1.0f, -1.0f", "NaN, NaN" })
+  public void should_pass_using_primitive_comparison(float actual, float expected) {
+    assertThat(actual).isNotEqualTo(expected);
+  }
+
+  @Test
+  public void should_honor_user_specified_comparator() {
+    // GIVEN
+    final float one = 1.0f;
+    // THEN
+    assertThat(one).usingComparator(ALWAY_DIFFERENT)
+                   .isNotEqualTo(one);
+  }
+
+  @Test
+  public void should_fail_if_floats_are_equal() {
+    // GIVEN
+    float actual = 0.0f;
+    float expected = -0.0f;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessage(format("%nExpecting:%n" +
+                                           " <0.0f>%n" +
+                                           "not to be equal to:%n" +
+                                           " <-0.0f>%n"));
   }
 }

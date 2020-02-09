@@ -13,23 +13,22 @@
 package org.assertj.core.api.double_;
 
 import static org.assertj.core.data.Offset.offset;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-import static org.mockito.Mockito.verify;
-
 
 /**
  * Tests for <code>{@link DoubleAssert#isEqualTo(Double, Offset)}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class DoubleAssert_isEqualTo_with_offset_Test extends DoubleAssertBaseTest {
 
   private final Offset<Double> offset = offset(5d);
-  private final Double expected = new Double(8d);
+  private final Double expected = 8d;
 
   @Override
   protected DoubleAssert invoke_api_method() {
