@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.util.IllegalFormatException;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
 
@@ -314,7 +315,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *           .isThrownBy(codeThrowing(new Exception("boom")))
    *           .withMessageNotContaining("boom");</code></pre>
    *
-   * @param content the content expected to not be contained in the actual {@code Throwables}'s message.
+   * @param content the content expected to not be contained in the actual {@code Throwable}'s message.
    * @return this assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} contains the given content.
@@ -343,7 +344,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *           .isThrownBy(codeThrowing(new Exception("boom")))
    *           .withMessageNotContainingAny("bam", "boom");</code></pre>
    *
-   * @param values the contents expected to not be contained in the actual {@code Throwables}'s message.
+   * @param values the contents expected to not be contained in the actual {@code Throwable}'s message.
    * @return this assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} contains any of the given values.
