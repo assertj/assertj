@@ -42,6 +42,10 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
     return new ShouldHaveRootCause(actual, actualCause, expectedCause);
   }
 
+  public static ErrorMessageFactory shouldHaveRootCause(Throwable actualCause) {
+    return new BasicErrorMessageFactory("expecting %s to have a root cause but it did not", actualCause);
+  }
+
   private ShouldHaveRootCause(Throwable actual, Throwable actualCause, Throwable expectedCause) {
     super("%n" +
           "Expecting a root cause with type:%n" +

@@ -159,6 +159,30 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Verifies that the actual {@code Throwable} has a cause.
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
+   */
+  public SELF hasCause() {
+    throwables.assertHasCause(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Throwable} has a root cause.
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
+   */
+  public SELF hasRootCause() {
+    throwables.assertHasRootCause(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} starts with the given description.
    * <p>
    * Examples:
