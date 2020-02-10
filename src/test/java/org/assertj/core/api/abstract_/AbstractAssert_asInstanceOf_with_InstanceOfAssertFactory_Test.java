@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractAssert;
@@ -24,18 +23,18 @@ import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.AbstractLongAssert;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
-import org.assertj.core.presentation.UnicodeRepresentation;
+import org.assertj.core.api.NavigationMethodBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * Tests for <code>{@link AbstractAssert#asInstanceOf(InstanceOfAssertFactory)}</code>.
  *
  * @author Stefano Cordio
  */
-@ExtendWith(MockitoExtension.class)
-class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test extends AbstractAssertBaseTest {
+@DisplayName("AbstractAssert asInstanceOf(InstanceOfAssertFactory)")
+class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends AbstractAssertBaseTest
+    implements NavigationMethodBaseTest<ConcreteAssert> {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -53,6 +52,16 @@ class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test extends Abst
     // Test disabled since asInstanceOf does not return this.
   }
 
+  @Override
+  public ConcreteAssert getAssertion() {
+    return assertions;
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ConcreteAssert assertion) {
+    return assertion.asInstanceOf(LONG);
+  }
+
   @Test
   void should_throw_npe_if_no_factory_is_given() {
     // WHEN
@@ -68,20 +77,6 @@ class AbstractAssert_asInstanceOf_with_instanceOfAssertFactory_Test extends Abst
     AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
     // THEN
     then(result).isInstanceOf(AbstractLongAssert.class);
-  }
-
-  @Test
-  void should_keep_existing_assertion_state() {
-    // GIVEN
-    assertions.as("description")
-              .withFailMessage("error message")
-              .withRepresentation(UNICODE_REPRESENTATION);
-    // WHEN
-    AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
-    // THEN
-    then(result).hasFieldOrPropertyWithValue("objects", objects)
-                .extracting(AbstractAssert::getWritableAssertionInfo)
-                .isEqualToComparingFieldByField(getInfo(assertions));
   }
 
 }

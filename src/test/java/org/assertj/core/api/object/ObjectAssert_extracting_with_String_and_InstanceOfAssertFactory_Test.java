@@ -19,9 +19,6 @@ import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
@@ -31,14 +28,13 @@ import java.util.Comparator;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractBigDecimalAssert;
 import org.assertj.core.api.AbstractLongAssert;
-import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +45,8 @@ import org.junit.jupiter.api.Test;
  * @author Stefano Cordio
  */
 @DisplayName("ObjectAssert extracting(String, InstanceOfAssertFactory)")
-class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
+class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
+    implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
   private Employee luke;
 
@@ -64,7 +61,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
     Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("id", null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());;
+                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
   }
 
   @Test
@@ -110,27 +107,6 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_keep_existing_assertion_state() {
-    // GIVEN
-    AbstractObjectAssert<?, Employee> assertion = assertThat(luke).as("description")
-                                                                  .withFailMessage("error message")
-                                                                  .withRepresentation(UNICODE_REPRESENTATION)
-                                                                  .usingComparator(ALWAY_EQUALS)
-                                                                  .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
-                                                                  .usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
-    // WHEN
-    AbstractStringAssert<?> result = assertion.extracting("name.first", STRING);
-    // THEN
-    then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
-                .extracting(AbstractAssert::getWritableAssertionInfo)
-                .isEqualToComparingFieldByField(assertion.info);
-  }
-
-  private static Object extractObjectField(AbstractAssert<?, ?> assertion) {
-    return PropertyOrFieldSupport.EXTRACTION.getValueOf("objects", assertion);
-  }
-
-  @Test
   void should_allow_to_specify_type_comparator_after_using_extracting_with_single_parameter_on_object() {
     // GIVEN
     Person obiwan = new Person("Obi-Wan");
@@ -145,6 +121,16 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test {
                                                            .usingComparator(heightComparator);
     // THEN
     result.isEqualTo(new BigDecimal("1.82"));
+  }
+
+  @Override
+  public ObjectAssert<Employee> getAssertion() {
+    return assertThat(luke);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ObjectAssert<Employee> assertion) {
+    return assertion.extracting("name.first", STRING);
   }
 
   @SuppressWarnings("unused")
