@@ -1,30 +1,46 @@
 package org.assertj.core.api;
 
-import org.assertj.core.util.AssertionsUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 @DisplayName("ThrowableAssertAlternative havingRootCause")
 class ThrowableAssertAlternative_havingRootCause_Test {
 
   @Test
   void should_return_root_cause_if_throwable_has_cause() {
-    Throwable throwable = new Throwable("top level message", new Throwable("cause message", new Throwable("root message")));
-    new ThrowableAssertAlternative<>(throwable)
-      .havingRootCause()
-      .withMessage("root message");
+    Throwable rootCause = new Throwable("root message");
+    Throwable throwable = new Throwable("top level message", new Throwable("cause message", rootCause));
+
+    assertThat(new ThrowableAssertAlternative<>(throwable)
+                 .havingRootCause().actual)
+      .isSameAs(rootCause);
   }
 
   @Test
   void should_fail_if_throwable_has_no_root_cause() {
+    //GIVEN
+    Throwable throwable = new Throwable("top level message");
+    ThrowableAssertAlternative<Throwable> taa = new ThrowableAssertAlternative<>(throwable);
     //WHEN
-    ThrowableAssert.ThrowingCallable code = () -> {
-      Throwable throwable = new Throwable("top level message");
-      new ThrowableAssertAlternative<>(throwable)
-        .havingRootCause();
-    };
+    AssertionError error = expectAssertionError(taa::havingRootCause);
     //THEN
-    AssertionsUtil.assertThatAssertionErrorIsThrownBy(code).withMessage("expecting java.lang.Throwable: top level message to have a root cause but it did not");
+    assertThat(error).hasMessage(shouldHaveRootCause(throwable).create());
+  }
+
+  @Test
+  void should_fail_if_throwable_is_null() {
+    //GIVEN
+    Throwable throwable = null;
+    ThrowableAssertAlternative<Throwable> taa = new ThrowableAssertAlternative<>(throwable);
+    //WHEN
+    AssertionError error = expectAssertionError(taa::havingRootCause);
+    //THEN
+    assertThat(error).hasMessage(shouldNotBeNull().create());
   }
 
 }

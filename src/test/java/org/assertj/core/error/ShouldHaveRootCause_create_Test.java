@@ -175,4 +175,14 @@ public class ShouldHaveRootCause_create_Test {
                                    "%n%s",
                                    getStackTrace(actual)));
   }
+
+  @Test
+  void should_create_error_message_for_actual_cause() {
+    //GIVEN
+    Throwable actual = new RuntimeException();
+    //WHEN
+    String message = shouldHaveRootCause(actual).create();
+    //THEN
+    then(message).isEqualTo("expecting java.lang.RuntimeException to have a root cause but it did not");
+  }
 }
