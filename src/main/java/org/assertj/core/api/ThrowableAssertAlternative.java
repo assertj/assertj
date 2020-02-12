@@ -657,9 +657,8 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * @throws AssertionError if the actual {@code Throwable} has no cause.
    */
   public ThrowableAssertAlternative<?> havingCause() {
-    delegate.hasCause();
-    Throwable cause = delegate.actual.getCause();
-    return new ThrowableAssertAlternative<>(cause);
+    AbstractThrowableAssert<?,?> causeAssert = delegate.getCause();
+    return new ThrowableAssertAlternative<>(causeAssert.actual);
   }
 
   /**
@@ -671,7 +670,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * @throws AssertionError if the actual {@code Throwable} has no root cause.
    */
   public ThrowableAssertAlternative<?> havingRootCause() {
-    delegate.hasRootCause();
-    return new ThrowableAssertAlternative<>(Throwables.getRootCause(delegate.actual));
+    AbstractThrowableAssert<?, ?> rootCauseAssert = delegate.getRootCause();
+    return new ThrowableAssertAlternative<>(rootCauseAssert.actual);
   }
 }

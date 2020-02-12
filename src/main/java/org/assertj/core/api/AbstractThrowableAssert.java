@@ -171,6 +171,18 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Returns a new assertion object that uses the cause of the current Throwable as the actual Throwable
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
+   */
+  public AbstractThrowableAssert<?,?> getCause() {
+    hasCause();
+    return new ThrowableAssert(actual.getCause());
+  }
+
+  /**
    * Verifies that the actual {@code Throwable} has a root cause.
    *
    * @return this assertion object.
@@ -180,6 +192,18 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public SELF hasRootCause() {
     throwables.assertHasRootCause(info, actual);
     return myself;
+  }
+
+  /**
+   * Returns a new assertion object that uses the root cause of the current Throwable as the actual Throwable
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
+   */
+  public AbstractThrowableAssert<?,?> getRootCause() {
+    hasRootCause();
+    return new ThrowableAssert(org.assertj.core.util.Throwables.getRootCause(actual));
   }
 
   /**
