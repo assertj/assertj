@@ -13,7 +13,7 @@
 package org.assertj.core.annotations;
 
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.api.extention.SoftlyExtension;
+import org.assertj.core.extention.SoftlyExtension;
 
 import java.lang.annotation.*;
 

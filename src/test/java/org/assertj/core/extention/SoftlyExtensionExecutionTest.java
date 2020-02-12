@@ -10,12 +10,13 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api.extention;
+package org.assertj.core.extention;
 
 import org.assertj.core.annotations.Softly;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.extention.SoftlyExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

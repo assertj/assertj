@@ -10,12 +10,12 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api.extention;
+package org.assertj.core.extention;
 
 import org.assertj.core.annotations.Softly;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.extention.SoftlyExtension;
+import org.assertj.core.extention.SoftlyExtension;
 import org.assertj.core.error.ShouldNotContainNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 
 @ExtendWith(SoftlyExtension.class)
 @DisplayName("SoftlyExtension hasInstance")
-class SoftlyExtensionTest {
+class SoftlyExtensionInstanceTest {
 
   private SoftAssertions softlyNotAnnotated1;
   private SoftAssertions softlyNotAnnotated2;

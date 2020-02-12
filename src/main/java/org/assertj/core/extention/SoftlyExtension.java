@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api.extention;
+package org.assertj.core.extention;
 
 import org.assertj.core.annotations.Softly;
 import org.assertj.core.api.SoftAssertions;
@@ -35,6 +35,9 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
  * before each test method execution.
  * {@link SoftAssertions#assertAll()} executes after each test
  * method only when {@link Softly#assertAfter()} return {@code true}
+ * By default {@code assertAfter()} is {@code true} to make sure
+ * global verification still happens even when {@code softly.assertAll()}
+ * is not called
  *</p>
  *
  * <p>
