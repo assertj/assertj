@@ -15,6 +15,7 @@ package org.assertj.core.api.throwable;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert;
@@ -44,4 +45,15 @@ public class ThrowableAssert_hasCause_Test extends ThrowableAssertBaseTest {
                                                                        "but type was:%n" +
                                                                        "  <\"java.lang.IllegalStateException\">."));
   }
+
+  @Test
+  void should_fail_if_actual_has_no_cause() {
+    // GIVEN
+    Throwable throwable = new Throwable();
+    // WHEN
+    AssertionError error = expectAssertionError(()-> assertThat(throwable).hasCause());
+    // THEN
+    assertThat(error).hasMessage("expecting java.lang.Throwable to have a cause but it did not");
+  }
+
 }

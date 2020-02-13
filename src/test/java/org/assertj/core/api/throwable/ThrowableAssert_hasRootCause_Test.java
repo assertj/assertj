@@ -57,4 +57,14 @@ public class ThrowableAssert_hasRootCause_Test extends ThrowableAssertBaseTest {
                                          + "%n%s",
                                          getStackTrace(throwable)));
   }
+
+  @Test
+  void should_fail_if_actual_has_no_root_cause() {
+    // GIVEN
+    Throwable throwable = new Throwable();
+    // WHEN
+    AssertionError error = expectAssertionError(()-> assertThat(throwable).hasRootCause());
+    // THEN
+    assertThat(error).hasMessage("expecting java.lang.Throwable to have a root cause but it did not");
+  }
 }
