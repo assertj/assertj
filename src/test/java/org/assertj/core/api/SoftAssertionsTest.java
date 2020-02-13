@@ -2169,15 +2169,16 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  void throwable_soft_assertions_should_work_with_navigation_methods() {
+  void throwable_soft_assertions_should_work_with_navigation_method_get_cause() {
+    // GIVEN
     IllegalArgumentException cause = new IllegalArgumentException("cause message");
     Throwable throwable = new Throwable("top level", cause);
-
+    // WHEN
     softly.assertThat(throwable)
           .hasMessage("not top level message")
           .getCause()
           .hasMessage("not cause message");
-
+    // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(2);
     assertThat(errorsCollected.get(0)).hasMessageContaining("Expecting message to be:\n" +
@@ -2188,5 +2189,29 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                                               "  <\"not cause message\">\n" +
                                                               "but was:\n" +
                                                               "  <\"cause message\">");
+  }
+
+  @Test
+  void throwable_soft_assertions_should_work_with_navigation_method_get_root_cause() {
+    // GIVEN
+    NullPointerException rootCause = new NullPointerException("root cause message");
+    IllegalArgumentException cause = new IllegalArgumentException("cause message", rootCause);
+    Throwable throwable = new Throwable("top level", cause);
+    // WHEN
+    softly.assertThat(throwable)
+          .hasMessage("not top level message")
+          .getRootCause()
+          .hasMessage("not root cause message");
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("Expecting message to be:\n" +
+                                                              "  <\"not top level message\">\n" +
+                                                              "but was:\n" +
+                                                              "  <\"top level\">");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("Expecting message to be:\n" +
+                                                              "  <\"not root cause message\">\n" +
+                                                              "but was:\n" +
+                                                              "  <\"root cause message\">");
   }
 }
