@@ -82,4 +82,15 @@ public class FloatAssert_isEqualTo_float_Test extends FloatAssertBaseTest {
                                            " <7.0f>%n" +
                                            "but was not."));
   }
+
+  @Test
+  public void should_fail_with_clear_error_message_when_both_floats_are_NaN() {
+    // GIVEN
+    float actual = Float.NaN;
+    float expected = Float.NaN;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessage(format("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)"));
+  }
 }

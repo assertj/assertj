@@ -199,6 +199,11 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
       if (expected == actual.floatValue()) return myself;
+      // at this point we know that the assertion failed, if actual and expected are Float.NaN first we want
+      // to give a clear error message (we need to use equals to check that as Float.NaN != Float.NaN)
+      if (Float.valueOf(expected).equals(Float.NaN) && actual.equals(Float.NaN))
+        throw new AssertionError("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)");
+      // standard error message
       throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
     }
     floats.assertEqual(info, actual, expected);

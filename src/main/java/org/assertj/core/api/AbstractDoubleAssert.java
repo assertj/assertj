@@ -465,6 +465,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
       if (expected == actual.doubleValue()) return myself;
+      // At this point we know that the assertion failed, if actual and expected are Double.NaN we want to
+      // give a clear error message (we need to use equals to check that as Double.NaN != Double.NaN)
+      if (Double.valueOf(expected).equals(Double.NaN) && actual.equals(Double.NaN))
+        throw new AssertionError("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)");
+      // standard error message
       throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
     }
     // doubles.assertEqual honors the custom comparator
