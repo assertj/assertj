@@ -80,10 +80,10 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_with_my_exception_if_compared_with_null() {
+  public void should_fail_if_compared_with_null() {
     Throwable error = catchThrowable(() -> objects.assertEqual(someInfo(), new MyObject(), null));
 
-    assertThat(error).isInstanceOf(MyObject.NullEqualsException.class);
+    assertThat(error).isInstanceOf(AssertionError.class);
   }
 
   @Test

@@ -23,6 +23,8 @@ import java.util.List;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 public class Tuple_Test {
 
   @Test
@@ -77,6 +79,14 @@ public class Tuple_Test {
                     .contains(tuple("1".getBytes(), "Foo"))
                     .contains(tuple("2".getBytes(), "Bar"))
                     .contains(tuple("3".getBytes(), "Baz"));
+  }
+
+  @Test
+  void should_honor_equals_contract() {
+    // WHEN/THEN
+    EqualsVerifier.forClass(Tuple.class)
+                  .withNonnullFields("values")
+                  .verify();
   }
 
   @SuppressWarnings("unused")

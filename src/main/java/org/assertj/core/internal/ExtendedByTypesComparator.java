@@ -17,6 +17,7 @@ import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQ
 import static org.assertj.core.util.Objects.areEqual;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Compares objects using passed or standard default comparator extended with comparators by type.
@@ -32,7 +33,7 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
          new Comparator<Object>() {
            @Override
            public int compare(Object actual, Object other) {
-             return areEqual(actual, other) ? 0 : NOT_EQUAL;
+             return Objects.deepEquals(actual, other) ? 0 : NOT_EQUAL;
            }
 
            @Override
