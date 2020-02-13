@@ -12,79 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.concurrent.CompletableFuture.completedFuture;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.as;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.entry;
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.api.Assertions.in;
-import static org.assertj.core.api.Assertions.not;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
-import static org.assertj.core.api.InstanceOfAssertFactories.type;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.assertj.core.data.TolkienCharacter.Race.ELF;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
-import static org.assertj.core.data.TolkienCharacter.Race.MAN;
-import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.Name.lastNameComparator;
-import static org.assertj.core.test.Name.name;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.DateUtil.parseDatetime;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.math.BigDecimal;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.OffsetTime;
-import java.time.ZoneOffset;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicIntegerArray;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicLongArray;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.atomic.AtomicReferenceArray;
-import java.util.function.Consumer;
-import java.util.function.DoublePredicate;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.LongPredicate;
-import java.util.function.Predicate;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
@@ -105,6 +32,48 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.*;
+import java.util.function.*;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.assertj.core.data.TolkienCharacter.Race.*;
+import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.test.Name.lastNameComparator;
+import static org.assertj.core.test.Name.name;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.DateUtil.parseDatetime;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
@@ -2199,4 +2168,25 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(2)).hasMessageContaining("Expecting actual not to be null");
   }
 
+  @Test
+  void throwable_soft_assertions_should_work_with_navigation_methods() {
+    IllegalArgumentException cause = new IllegalArgumentException("cause message");
+    Throwable throwable = new Throwable("top level", cause);
+
+    softly.assertThat(throwable)
+          .hasMessage("not top level message")
+          .getCause()
+          .hasMessage("not cause message");
+
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("Expecting message to be:\n" +
+                                                              "  <\"not top level message\">\n" +
+                                                              "but was:\n" +
+                                                              "  <\"top level\">");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("Expecting message to be:\n" +
+                                                              "  <\"not cause message\">\n" +
+                                                              "but was:\n" +
+                                                              "  <\"cause message\">");
+  }
 }
