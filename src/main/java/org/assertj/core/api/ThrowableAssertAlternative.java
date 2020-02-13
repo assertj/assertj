@@ -16,6 +16,7 @@ import java.util.IllegalFormatException;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Throwables;
 
 /**
  * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named
@@ -645,5 +646,31 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
   public ThrowableAssertAlternative<T> describedAs(Description description) {
     delegate.describedAs(description);
     return super.describedAs(description);
+  }
+
+  /**
+   * Checks if the actual {@link Throwable} has a cause and returns a new assertion object where the
+   * cause becomes the actual Throwable in order to further assert properties of the cause {@link Throwable}
+   *
+   * @return a new assertion object with the cause of the current actual becoming the new actual
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   */
+  public ThrowableAssertAlternative<?> havingCause() {
+    AbstractThrowableAssert<?,?> causeAssert = delegate.getCause();
+    return new ThrowableAssertAlternative<>(causeAssert.actual);
+  }
+
+  /**
+   * Checks if the actual {@link Throwable} has a root cause and returns a new assertion object where the
+   * root cause becomes the actual Throwable in order to further assert properties of the cause {@link Throwable}
+   *
+   * @return a new assertion object with the root cause of the current actual becoming the new actual
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no root cause.
+   */
+  public ThrowableAssertAlternative<?> havingRootCause() {
+    AbstractThrowableAssert<?, ?> rootCauseAssert = delegate.getRootCause();
+    return new ThrowableAssertAlternative<>(rootCauseAssert.actual);
   }
 }

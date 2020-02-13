@@ -159,6 +159,47 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Returns a new assertion object that uses the cause of the current Throwable as the actual Throwable under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable cause =  new IllegalArgumentException("wrong amount 123");
+   * Throwable exception = new Exception("boom!", cause);
+   *
+   * // typical use:
+   * assertThat(throwableWithMessage).getCause()
+   *                                 .hasMessageStartingWith("wrong amount");</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
+   */
+  public AbstractThrowableAssert<?,?> getCause() {
+    throwables.assertHasCause(info, actual);
+    return new ThrowableAssert(actual.getCause());
+  }
+
+  /**
+   * Returns a new assertion object that uses the root cause of the current Throwable as the actual Throwable under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable rootCause =  new JdbcException("invalid query");
+   * Throwable cause =  new RuntimeException(rootCause);
+   * Throwable exception = new Exception("boom!", cause);
+   *
+   * // typical use:
+   * assertThat(throwableWithMessage).getRootCause()
+   *                                 .hasMessageStartingWith("invalid");</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
+   */
+  public AbstractThrowableAssert<?,?> getRootCause() {
+    throwables.assertHasRootCause(info, actual);
+    return new ThrowableAssert(org.assertj.core.util.Throwables.getRootCause(actual));
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} starts with the given description.
    * <p>
    * Examples:
@@ -723,4 +764,5 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public void doesNotThrowAnyException() {
     if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
   }
+
 }

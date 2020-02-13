@@ -165,6 +165,36 @@ public class Throwables {
   }
 
   /**
+   * Asserts that the actual {@code Throwable} has a cause.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
+   */
+  public void assertHasCause(AssertionInfo info, Throwable actual) {
+    assertNotNull(info, actual);
+    Throwable actualCause = actual.getCause();
+    if (actualCause != null) return;
+    throw failures.failure(info, shouldHaveCause(actual));
+  }
+
+  /**
+   * Asserts that the actual {@code Throwable} has a root cause.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
+   */
+  public void assertHasRootCause(AssertionInfo info, Throwable actual) {
+    assertNotNull(info, actual);
+    Throwable rootCause = getRootCause(actual);
+    if (rootCause != null) return;
+    throw failures.failure(info, shouldHaveRootCause(actual));
+  }
+
+  /**
    * Asserts that the message of the actual {@code Throwable} starts with the given description.
    *
    * @param info contains information about the assertion.

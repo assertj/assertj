@@ -56,6 +56,8 @@ class SoftProxies {
                                                                                                                       .or(named("extractingByKeys"))
                                                                                                                       .or(named("extractingFromEntries"))
                                                                                                                       .or(named("get"))
+                                                                                                                      .or(named("getCause"))
+                                                                                                                      .or(named("getRootCause"))
                                                                                                                       .or(named("asInstanceOf"))
                                                                                                                       .or(named("succeedsWithin"));
 

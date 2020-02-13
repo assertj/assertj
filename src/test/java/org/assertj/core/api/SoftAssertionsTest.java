@@ -2199,4 +2199,38 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(2)).hasMessageContaining("Expecting actual not to be null");
   }
 
+  @Test
+  void throwable_soft_assertions_should_work_with_navigation_method_get_cause() {
+    // GIVEN
+    IllegalArgumentException cause = new IllegalArgumentException("cause message");
+    Throwable throwable = new Throwable("top level", cause);
+    // WHEN
+    softly.assertThat(throwable)
+          .hasMessage("not top level message")
+          .getCause()
+          .hasMessage("not cause message");
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("not top level message");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("not cause message");
+  }
+
+  @Test
+  void throwable_soft_assertions_should_work_with_navigation_method_get_root_cause() {
+    // GIVEN
+    NullPointerException rootCause = new NullPointerException("root cause message");
+    IllegalArgumentException cause = new IllegalArgumentException("cause message", rootCause);
+    Throwable throwable = new Throwable("top level", cause);
+    // WHEN
+    softly.assertThat(throwable)
+          .hasMessage("not top level message")
+          .getRootCause()
+          .hasMessage("not root cause message");
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("not top level message");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("not root cause message");
+  }
 }
