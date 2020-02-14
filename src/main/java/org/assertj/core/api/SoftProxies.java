@@ -32,6 +32,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.isPublic;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
