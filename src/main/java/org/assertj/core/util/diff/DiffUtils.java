@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.assertj.core.util.diff.myers.Equalizer;
 import org.assertj.core.util.diff.myers.MyersDiff;
 
 /**
@@ -45,8 +46,22 @@ public class DiffUtils {
    * @return The patch describing the difference between the original and
    *         revised sequences. Never {@code null}.
    */
-  public static <T> Patch<T> diff(List<T> original, List<T> revised) {
-    return DiffUtils.diff(original, revised, new MyersDiff<T>());
+  public static <T extends CharSequence> Patch<T> diff(List<T> original, List<T> revised) {
+    // TODO restore more generic version of T
+    Equalizer<T> equalizer = (orig, rev) -> {
+      if (orig.length() != rev.length()) {
+        return false;
+      }
+      boolean sameContent = true;
+      for (int i = 0; i < orig.length(); i++) {
+        if (orig.charAt(i) != rev.charAt(i)) {
+          sameContent = false;
+          break;
+        }
+      }
+      return sameContent;
+    };
+    return DiffUtils.diff(original, revised, new MyersDiff<T>(equalizer));
   }
 
   /**

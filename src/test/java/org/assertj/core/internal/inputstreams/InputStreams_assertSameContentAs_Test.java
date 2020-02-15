@@ -12,18 +12,6 @@
  */
 package org.assertj.core.internal.inputstreams;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.InputStreams;
-import org.assertj.core.internal.InputStreamsBaseTest;
-import org.assertj.core.internal.InputStreamsException;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -31,11 +19,24 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newTemporaryFile;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.InputStreams;
+import org.assertj.core.internal.InputStreamsBaseTest;
+import org.assertj.core.internal.InputStreamsException;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link InputStreams#assertSameContentAs(AssertionInfo, InputStream, InputStream)}</code>.
@@ -58,6 +59,8 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
 
   @Test
   public void should_pass_if_inputstreams_have_equal_content() throws IOException {
+    actual = new FileInputStream(newTemporaryFile());
+    expected = new FileInputStream(newTemporaryFile());
     when(diff.diff(actual, expected)).thenReturn(new ArrayList<>());
     inputStreams.assertSameContentAs(someInfo(), actual, expected);
   }
@@ -65,6 +68,8 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
   @Test
   public void should_throw_error_wrapping_caught_IOException() throws IOException {
     IOException cause = new IOException();
+    actual = new FileInputStream(newTemporaryFile());
+    expected = new FileInputStream(newTemporaryFile());
     when(diff.diff(actual, expected)).thenThrow(cause);
 
     assertThatExceptionOfType(InputStreamsException.class).isThrownBy(() -> inputStreams.assertSameContentAs(someInfo(),
@@ -76,6 +81,8 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
   @Test
   public void should_fail_if_inputstreams_do_not_have_equal_content() throws IOException {
     List<Delta<CharSequence>> diffs = newArrayList((Delta<CharSequence>) mock(Delta.class));
+    actual = new FileInputStream(newTemporaryFile());
+    expected = new FileInputStream(newTemporaryFile());
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();
 

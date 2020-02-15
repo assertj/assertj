@@ -12,9 +12,11 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.diff.Delta;
+import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.internal.Digests.digestDiff;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,11 +24,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
-import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
-import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
-import static org.assertj.core.internal.Digests.digestDiff;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
 
 /**
  * Reusable assertions for <code>{@link InputStream}</code>s.
@@ -46,12 +46,14 @@ public class InputStreams {
   }
 
   @VisibleForTesting
+  public
   Diff diff = new Diff();
   @VisibleForTesting
+  public
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  InputStreams() {}
+  public InputStreams() {}
 
   /**
    * Asserts that the given InputStreams have same content.

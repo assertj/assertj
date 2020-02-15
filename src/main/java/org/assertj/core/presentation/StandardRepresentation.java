@@ -14,6 +14,7 @@ package org.assertj.core.presentation;
 
 import static java.lang.Integer.toHexString;
 import static java.lang.reflect.Array.getLength;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 import static org.assertj.core.util.Arrays.isObjectArray;
@@ -180,6 +181,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Number) return toStringOf((Number) object);
     if (object instanceof File) return toStringOf((File) object);
     if (object instanceof String) return toStringOf((String) object);
+    if ((object instanceof CharSequence) && !(object instanceof StringBuilder)) return toStringOf((CharSequence) object);
     if (object instanceof Character) return toStringOf((Character) object);
     if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
     if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
@@ -268,6 +270,10 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(Class<?> c) {
     return c.getCanonicalName();
+  }
+
+  protected String toStringOf(CharSequence s) {
+    return toStringOf(s.chars().mapToObj(i -> Character.toString((char) i)).collect(joining()));
   }
 
   protected String toStringOf(String s) {

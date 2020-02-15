@@ -12,25 +12,23 @@
  */
 package org.assertj.core.internal;
 
+import static java.nio.charset.Charset.defaultCharset;
+import static java.util.Collections.unmodifiableList;
+import static org.assertj.core.util.Closeables.closeQuietly;
+import static org.assertj.core.util.diff.stream.StreamViews.createStreamView;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.util.List;
+
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 import org.assertj.core.util.diff.DiffUtils;
 import org.assertj.core.util.diff.Patch;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.nio.file.Files.newBufferedReader;
-import static java.util.Collections.unmodifiableList;
-import static org.assertj.core.util.Closeables.closeQuietly;
+import org.assertj.core.util.diff.stream.StreamView;
 
 
 /**
@@ -46,15 +44,16 @@ import static org.assertj.core.util.Closeables.closeQuietly;
  */
 @VisibleForTesting
 public class Diff {
+  public static final int MAX_CHAR_BUFFER_SIZE = 4096;
 
   @VisibleForTesting
   public List<Delta<CharSequence>> diff(InputStream actual, InputStream expected) throws IOException {
-    return diff(readerFor(actual), readerFor(expected));
+    return diff(createStreamView(actual, defaultCharset()), createStreamView(expected, defaultCharset()));
   }
 
   @VisibleForTesting
   public List<Delta<CharSequence>> diff(InputStream actual, String expected) throws IOException {
-    return diff(readerFor(actual), readerFor(expected));
+    return diff(createStreamView(actual, defaultCharset()), createStreamView(expected));
   }
 
   @VisibleForTesting
@@ -64,7 +63,7 @@ public class Diff {
 
   @VisibleForTesting
   public List<Delta<CharSequence>> diff(Path actual, Charset actualCharset, Path expected, Charset expectedCharset) throws IOException {
-    return diff(newBufferedReader(actual, actualCharset), newBufferedReader(expected, expectedCharset));
+    return diff(createStreamView(actual, actualCharset), createStreamView(expected, expectedCharset));
   }
 
   @VisibleForTesting
@@ -74,35 +73,19 @@ public class Diff {
 
   @VisibleForTesting
   public List<Delta<CharSequence>> diff(Path actual, String expected, Charset charset) throws IOException {
-    return diff(newBufferedReader(actual, charset), readerFor(expected));
+    return diff(createStreamView(actual, charset), createStreamView(expected));
   }
 
-  private BufferedReader readerFor(InputStream stream) {
-    return new BufferedReader(new InputStreamReader(stream, Charset.defaultCharset()));
-  }
-
-  private BufferedReader readerFor(String string) {
-    return new BufferedReader(new StringReader(string));
-  }
-
-  private List<Delta<CharSequence>> diff(BufferedReader actual, BufferedReader expected) throws IOException {
+  @VisibleForTesting
+  private List<Delta<CharSequence>> diff(StreamView actual, StreamView expected) throws IOException {
     try {
-      List<CharSequence> actualLines = linesFromBufferedReader(actual);
-      List<CharSequence> expectedLines = linesFromBufferedReader(expected);
-      
+      List<CharSequence> actualLines = actual.lines();
+      List<CharSequence> expectedLines = expected.lines();
+
       Patch<CharSequence> patch = DiffUtils.diff(expectedLines, actualLines);
       return unmodifiableList(patch.getDeltas());
     } finally {
       closeQuietly(actual, expected);
     }
-  }
-
-  private List<CharSequence> linesFromBufferedReader(BufferedReader reader) throws IOException {
-    String line;
-    List<CharSequence> lines = new ArrayList<>();
-    while ((line = reader.readLine()) != null) {
-      lines.add(line);
-    }
-    return lines;
   }
 }

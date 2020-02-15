@@ -64,7 +64,7 @@ public class DiffTest {
 
   @Test
   public void testDiff_EmptyList() {
-    Patch<Object> patch = DiffUtils.diff(emptyList(), emptyList());
+    Patch<CharSequence> patch = DiffUtils.diff(emptyList(), emptyList());
 
     assertThat(patch.getDeltas().size()).isEqualTo(0);
   }
