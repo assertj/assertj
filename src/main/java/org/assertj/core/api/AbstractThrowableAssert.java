@@ -319,7 +319,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * // assertion will fail:
    * assertThat(throwableWithMessage).hasMessageNotContainingAny("foo", "amount");</code></pre>
    *
-   * @param values the contents expected to not be contained in the actual {@code Throwables}'s message.
+   * @param values the contents expected to not be contained in the actual {@code Throwable}'s message.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} contains any of the given values.

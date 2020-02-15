@@ -9,13 +9,34 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macOS-latest, windows-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
           java-version: 11
       - name: Test
         run: ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+
+  sonar:
+    name: Sonar code analysis
+    runs-on: ubuntu-latest
+    if: github.repository == 'joel-costigliola/assertj-core' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Test with Sonar
+        run: >
+          ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+          org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.organization=assertj
+          -Dsonar.projectKey=joel-costigliola_assertj-core
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

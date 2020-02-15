@@ -237,7 +237,7 @@ public class Throwables {
    *
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
-   * @param values the contents expected to not be contained in the actual {@code Throwables}'s message.
+   * @param values the contents expected to not be contained in the actual {@code Throwable}'s message.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
    */

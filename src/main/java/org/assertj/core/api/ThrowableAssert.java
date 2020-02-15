@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
-import java.util.concurrent.Callable;
-
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
+
+import java.util.concurrent.Callable;
 
 /**
  * Assertion methods for {@link Throwable}s.

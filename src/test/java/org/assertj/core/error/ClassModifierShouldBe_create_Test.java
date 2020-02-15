@@ -28,7 +28,7 @@ class ClassModifierShouldBe_create_Test {
   @Test
   void should_create_error_message_for_is_final() {
     // GIVEN
-    Class<Object> nonFinalClass = Object.class;
+    Class<?> nonFinalClass = Object.class;
     // WHEN
     String error = shouldBeFinal(nonFinalClass).create(new TestDescription("TEST"));
     // THEN
@@ -41,7 +41,7 @@ class ClassModifierShouldBe_create_Test {
   @Test
   void should_create_error_message_for_is_not_final() {
     // GIVEN
-    Class<String> finalClass = String.class;
+    Class<?> finalClass = String.class;
     // WHEN
     String error = shouldNotBeFinal(finalClass).create(new TestDescription("TEST"));
     // THEN
@@ -52,20 +52,35 @@ class ClassModifierShouldBe_create_Test {
   }
 
   @Test
-  void should_create_clear_error_message_when_actual_is_package_private() {
+  void should_create_clear_error_message_when_actual_is_package_private_enum() {
     // GIVEN
-    Class<PackagePrivate> packagePrivateClass = PackagePrivate.class;
+    Class<?> packagePrivateEnum = PackagePrivateEnum.class;
+    // WHEN
+    String error = shouldBePublic(packagePrivateEnum).create(new TestDescription("TEST"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting:%n" +
+                                 "  <org.assertj.core.error.ClassModifierShouldBe_create_Test.PackagePrivateEnum>%n" +
+                                 "to be a \"public\" class but was \"package-private static final\"."));
+  }
+
+  @Test
+  void should_create_clear_error_message_when_actual_is_only_package_private() {
+    // GIVEN
+    Class<?> packagePrivateClass = PackagePrivateClass.class;
     // WHEN
     String error = shouldBePublic(packagePrivateClass).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting:%n" +
-                                 "  <org.assertj.core.error.ClassModifierShouldBe_create_Test.PackagePrivate>%n" +
-                                 "to be a \"public\" class but was \"package-private static final\"."));
+                                 "  <org.assertj.core.error.ClassModifierShouldBe_create_Test.PackagePrivateClass>%n" +
+                                 "to be a \"public\" class but was \"package-private\"."));
   }
 
-  enum PackagePrivate {
-    MONITOR
+  enum PackagePrivateEnum {
+  }
+
+  class PackagePrivateClass {
   }
 
 }

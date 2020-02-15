@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.isPublic;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
@@ -168,10 +169,10 @@ class SoftProxies {
                      .defineField(ProxifyMethodChangingTheObjectUnderTest.FIELD_NAME,
                                   ProxifyMethodChangingTheObjectUnderTest.class,
                                   Visibility.PRIVATE)
-                     .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
+                     .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST.and(isPublic()))
                      .intercept(PROXIFY_METHOD_CHANGING_THE_OBJECT_UNDER_TEST)
                      .defineField(ErrorCollector.FIELD_NAME, ErrorCollector.class, Visibility.PRIVATE)
-                     .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
+                     .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST.and(isPublic())))
                                   .and(not(METHODS_NOT_TO_PROXY)))
                      .intercept(ERROR_COLLECTOR)
                      .implement(AssertJProxySetup.class)
