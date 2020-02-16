@@ -13,17 +13,18 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("AbstractAssert usingRecuriveComparison")
-public class AbstractAssert_usingRecuriveComparison_Test {
+@DisplayName("AbstractAssert usingRecursiveComparison")
+class AbstractAssert_usingRecursiveComparison_Test {
 
   @Test
-  public void should_honor_test_description() {
+  void should_honor_test_description() {
     // GIVEN
     AbstractAssert<?, ?> assertion = assertThat("foo");
     // WHEN
@@ -31,22 +32,22 @@ public class AbstractAssert_usingRecuriveComparison_Test {
                                                                .usingRecursiveComparison()
                                                                .isEqualTo("bar"));
     // THEN
-    assertThat(error).hasMessageContaining("[test description]");
+    then(error).hasMessageContaining("[test description]");
   }
 
   @Test
-  public void should_honor_representation() {
+  void should_honor_representation() {
     // GIVEN
     AbstractAssert<?, ?> assertion = assertThat("foo");
     // WHEN
     RecursiveComparisonAssert<?> recursiveAssertion = assertion.withRepresentation(UNICODE_REPRESENTATION)
                                                                .usingRecursiveComparison();
     // THEN
-    assertThat(recursiveAssertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(recursiveAssertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
   }
 
   @Test
-  public void should_honor_overridden_error_message() {
+  void should_honor_overridden_error_message() {
     // GIVEN
     AbstractAssert<?, ?> assertion = assertThat("foo");
     String errorMessage = "boom";
@@ -54,7 +55,7 @@ public class AbstractAssert_usingRecuriveComparison_Test {
     RecursiveComparisonAssert<?> recursiveAssertion = assertion.overridingErrorMessage(errorMessage)
                                                                .usingRecursiveComparison();
     // THEN
-    assertThat(recursiveAssertion.info.overridingErrorMessage()).isEqualTo(errorMessage);
+    then(recursiveAssertion.info.overridingErrorMessage()).isEqualTo(errorMessage);
   }
 
 }
