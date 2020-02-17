@@ -22,6 +22,7 @@ import java.lang.annotation.*;
  * Signifies that a {@link SoftAssertions} field in test
  * class should be managed by {@link SoftlyExtension}
  *
+ * @author Arthur Mita
  * @see SoftlyExtension
  */
 @Target({ElementType.FIELD})

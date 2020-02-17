@@ -43,6 +43,7 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
  * <p>
  * Inspired by Mockito @Captor annotation.
  * </p>
+ * @author Arthur Mita
  **/
 public class SoftlyExtension implements TestInstancePostProcessor, BeforeTestExecutionCallback, AfterTestExecutionCallback {
 
