@@ -24,7 +24,6 @@ import java.util.regex.PatternSyntaxException;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

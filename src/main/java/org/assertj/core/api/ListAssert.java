@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

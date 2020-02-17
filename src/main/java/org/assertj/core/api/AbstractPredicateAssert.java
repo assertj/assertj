@@ -20,7 +20,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.Iterables;
-import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

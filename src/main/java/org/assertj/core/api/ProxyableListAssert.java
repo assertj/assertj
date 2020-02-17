@@ -26,7 +26,6 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
