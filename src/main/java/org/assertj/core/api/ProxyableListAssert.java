@@ -221,7 +221,7 @@ public class ProxyableListAssert<ELEMENT> extends
     }
 
     private List<ELEMENT> initList() {
-      if (list == null) list = Lists.newArrayList(stream.iterator());
+      if (list == null) list = newArrayList(stream.iterator());
       return list;
     }
 

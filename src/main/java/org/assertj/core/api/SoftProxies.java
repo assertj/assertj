@@ -189,7 +189,7 @@ class SoftProxies {
   }
 
   private static Junction<MethodDescription> methodsNamed(String name) {
-    return ElementMatchers.named(name);
+    return named(name);
   }
 
 }

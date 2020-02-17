@@ -226,7 +226,7 @@ public class ListAssert<ELEMENT> extends
 
     private List<ELEMENT> initList() {
       if (list == null) {
-        list = Lists.newArrayList(stream.iterator());
+        list = newArrayList(stream.iterator());
         stream.close();
       }
       return list;

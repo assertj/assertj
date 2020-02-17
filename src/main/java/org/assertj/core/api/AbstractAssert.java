@@ -166,9 +166,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     if (!Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace()) return;
     if (isAssertjAssertClass()) return;
 
-    StackTraceElement[] newStackTrace = Arrays.stream(assertionError.getStackTrace())
-                                              .filter(element -> !isElementOfCustomAssert(element))
-                                              .toArray(StackTraceElement[]::new);
+    StackTraceElement[] newStackTrace = stream(assertionError.getStackTrace())
+                                       .filter(element -> !isElementOfCustomAssert(element))
+                                       .toArray(StackTraceElement[]::new);
     assertionError.setStackTrace(newStackTrace);
   }
 

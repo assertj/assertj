@@ -1440,7 +1440,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.apply(element)))
-                                      .collect(Collectors.toList());
+                                      .collect(toList());
     return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
@@ -1484,7 +1484,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.apply(element)))
-                                      .collect(Collectors.toList());
+                                      .collect(toList());
     return newListAssertInstanceForMethodsChangingElementType(result);
   }
 

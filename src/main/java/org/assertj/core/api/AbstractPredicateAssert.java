@@ -112,7 +112,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    */
   public SELF acceptsAll(Iterable<? extends T> iterable) {
     isNotNull();
-    iterables.assertAllMatch(info, iterable, actual, PredicateDescription.GIVEN);
+    iterables.assertAllMatch(info, iterable, actual, GIVEN);
     return myself;
   }
 
@@ -134,7 +134,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    */
   public SELF rejectsAll(Iterable<? extends T> iterable) {
     isNotNull();
-    iterables.assertNoneMatch(info, iterable, actual, PredicateDescription.GIVEN);
+    iterables.assertNoneMatch(info, iterable, actual, GIVEN);
     return myself;
   }
 }

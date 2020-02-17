@@ -40,7 +40,7 @@ public final class Lists {
       return null;
     }
     ArrayList<T> list = newArrayList();
-    java.util.Collections.addAll(list, elements);
+    Collections.addAll(list, elements);
     return list;
   }
 
@@ -50,7 +50,7 @@ public final class Lists {
       return null;
     }
     ArrayList<T> list = newArrayList();
-    java.util.Collections.addAll(list, elements);
+    Collections.addAll(list, elements);
     return list;
   }
 

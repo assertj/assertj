@@ -2414,7 +2414,7 @@ public class AtomicReferenceArrayAssert<T>
   private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Function<? super T, C> extractor) {
     List<U> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), extractor).stream()
                                                 .flatMap(Collection::stream).collect(toList());
-    return new ObjectArrayAssert<>(IterableUtil.toArray(result));
+    return new ObjectArrayAssert<>(toArray(result));
   }
 
   /**
