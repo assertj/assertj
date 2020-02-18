@@ -15,7 +15,6 @@ package org.assertj.core.error;
 import static java.lang.reflect.Modifier.isPrivate;
 import static java.lang.reflect.Modifier.isProtected;
 import static java.lang.reflect.Modifier.isPublic;
-import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import java.lang.reflect.Modifier;
 import java.util.StringJoiner;

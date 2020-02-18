@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
-import static org.assertj.core.util.Objects.areEqual;
 
 import java.util.Comparator;
 import java.util.Objects;
