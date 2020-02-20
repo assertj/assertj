@@ -654,6 +654,8 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * @return a new assertion object with the cause of the current actual becoming the new actual
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has no cause.
+   *
+   * @since 3.16.0
    */
   public ThrowableAssertAlternative<?> havingCause() {
     AbstractThrowableAssert<?,?> causeAssert = delegate.getCause();
@@ -667,9 +669,12 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    * @return a new assertion object with the root cause of the current actual becoming the new actual
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has no root cause.
+   *
+   * @since 3.16.0
    */
   public ThrowableAssertAlternative<?> havingRootCause() {
     AbstractThrowableAssert<?, ?> rootCauseAssert = delegate.getRootCause();
     return new ThrowableAssertAlternative<>(rootCauseAssert.actual);
   }
+
 }

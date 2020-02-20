@@ -172,6 +172,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @return a new assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} does not have a cause.
+   *
+   * @since 3.16.0
    */
   public AbstractThrowableAssert<?,?> getCause() {
     throwables.assertHasCause(info, actual);
@@ -193,6 +195,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @return a new assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
+   *
+   * @since 3.16.0
    */
   public AbstractThrowableAssert<?,?> getRootCause() {
     throwables.assertHasRootCause(info, actual);
