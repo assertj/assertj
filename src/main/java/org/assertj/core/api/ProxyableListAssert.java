@@ -26,7 +26,6 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -221,7 +220,7 @@ public class ProxyableListAssert<ELEMENT> extends
     }
 
     private List<ELEMENT> initList() {
-      if (list == null) list = Lists.newArrayList(stream.iterator());
+      if (list == null) list = newArrayList(stream.iterator());
       return list;
     }
 

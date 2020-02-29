@@ -63,7 +63,6 @@ import org.assertj.core.internal.RecursiveFieldByFieldComparator;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -2414,7 +2413,7 @@ public class AtomicReferenceArrayAssert<T>
   private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Function<? super T, C> extractor) {
     List<U> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), extractor).stream()
                                                 .flatMap(Collection::stream).collect(toList());
-    return new ObjectArrayAssert<>(IterableUtil.toArray(result));
+    return new ObjectArrayAssert<>(toArray(result));
   }
 
   /**

@@ -74,7 +74,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * @since 2.6.0 / 3.6.0
    */
   public void fail(String failureMessage, Object... args) {
-    AssertionError error = Failures.instance().failure(String.format(failureMessage, args));
+    AssertionError error = Failures.instance().failure(format(failureMessage, args));
     proxies.collectError(error);
   }
 

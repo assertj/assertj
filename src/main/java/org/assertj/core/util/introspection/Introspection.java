@@ -52,7 +52,7 @@ public final class Introspection {
     Method getter;
     try {
       getter = findGetter(propertyName, target);
-      if (Modifier.isPublic(getter.getModifiers())) {
+      if (isPublic(getter.getModifiers())) {
         // force access for static class with public getter
         getter.setAccessible(true);
       }

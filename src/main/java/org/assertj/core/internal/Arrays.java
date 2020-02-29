@@ -773,7 +773,7 @@ public class Arrays {
 
   private static int sizeOf(Object array) {
     if (array instanceof Object[]) return ((Object[]) array).length;
-    return Array.getLength(array);
+    return getLength(array);
   }
 
   private static void failIfEmptySinceActualIsNotEmpty(Object values) {

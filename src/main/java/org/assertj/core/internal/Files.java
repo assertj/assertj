@@ -177,7 +177,7 @@ public class Files {
       if (result.hasNoDiff()) return;
       throw failures.failure(info, shouldHaveBinaryContent(actual, result));
     } catch (IOException e) {
-      String msg = String.format("Unable to verify binary contents of file:<%s>", actual);
+      String msg = format("Unable to verify binary contents of file:<%s>", actual);
       throw new UncheckedIOException(msg, e);
     }
   }
@@ -216,7 +216,7 @@ public class Files {
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
-      String msg = String.format("Unable to verify text contents of file:<%s>", actual);
+      String msg = format("Unable to verify text contents of file:<%s>", actual);
       throw new UncheckedIOException(msg, e);
     }
   }
@@ -371,7 +371,7 @@ public class Files {
           && java.util.Objects.equals(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
         return;
     } catch (IOException e) {
-      throw new UncheckedIOException(String.format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
+      throw new UncheckedIOException(format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
     }
     throw failures.failure(info, shouldHaveParent(actual, expected));
   }

@@ -24,7 +24,6 @@ import java.util.regex.PatternSyntaxException;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -737,7 +736,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the given {@code CharSequence} does not contain the given sequence of values in the given order without any other charvalues between them.
    */
   public SELF containsSequence(Iterable<? extends CharSequence> values) {
-    strings.assertContainsSequence(info, actual, IterableUtil.toArray(values, CharSequence.class));
+    strings.assertContainsSequence(info, actual, toArray(values, CharSequence.class));
     return myself;
   }
 
@@ -795,7 +794,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values in the given order.
    */
   public SELF containsSubsequence(Iterable<? extends CharSequence> values) {
-    strings.assertContainsSubsequence(info, actual, IterableUtil.toArray(values, CharSequence.class));
+    strings.assertContainsSubsequence(info, actual, toArray(values, CharSequence.class));
     return myself;
   }
 
@@ -863,7 +862,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} contains any of the given values.
    */
   public SELF doesNotContain(Iterable<? extends CharSequence> values) {
-    strings.assertDoesNotContain(info, actual, IterableUtil.toArray(values, CharSequence.class));
+    strings.assertDoesNotContain(info, actual, toArray(values, CharSequence.class));
     return myself;
   }
 

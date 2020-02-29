@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -226,7 +225,7 @@ public class ListAssert<ELEMENT> extends
 
     private List<ELEMENT> initList() {
       if (list == null) {
-        list = Lists.newArrayList(stream.iterator());
+        list = newArrayList(stream.iterator());
         stream.close();
       }
       return list;

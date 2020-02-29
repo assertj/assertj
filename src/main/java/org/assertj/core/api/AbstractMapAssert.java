@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.assertj.core.annotations.Beta;
@@ -1573,7 +1572,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Object... keys) {
     isNotNull();
-    List<Object> extractedValues = Stream.of(keys).map(actual::get).collect(Collectors.toList());
+    List<Object> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).as(description);
@@ -1609,7 +1608,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeys(@SuppressWarnings("unchecked") K... keys) {
     isNotNull();
-    List<V> extractedValues = Stream.of(keys).map(actual::get).collect(Collectors.toList());
+    List<V> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
