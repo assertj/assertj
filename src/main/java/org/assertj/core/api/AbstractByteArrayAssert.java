@@ -768,7 +768,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                              or values are the same but the order is not.
    */
   public SELF containsExactly(byte... values) {
-    objects.assertEqual(info, actual, values);
+    arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 
