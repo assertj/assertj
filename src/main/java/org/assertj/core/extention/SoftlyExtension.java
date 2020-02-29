@@ -16,89 +16,97 @@ import org.assertj.core.annotations.Softly;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 
 /**
- * <p>Injects an instance of {@link SoftAssertions} to any Field of type
+ * <p>
+ * Injects an instance of {@link SoftAssertions} to any Field of type
  * {@code SoftAssertions} that has the annotation {@link Softly}
- * before each test method execution.
- * {@link SoftAssertions#assertAll()} executes after each test
- * method only when {@link Softly#assertAfter()} return {@code true}
- * By default {@code assertAfter()} is {@code true} to make sure
- * global verification still happens even when {@code softly.assertAll()}
- * is not called
- *</p>
- *
+ * before each test method execution and invokes
+ * {@link SoftAssertions#assertAll()} after the test method
+ * </p>
+ * <p>
+ * This extension will throw a {@link Failures#failure(String)}
+ * when more that one filed is annotated with{@code @Softly}.
+ * </p>
+ * <p>
+ * A nested test class can provide a {@code SoftAssertions}
+ * field when it extends {@code this} extension or can inherit
+ * the parent's {@code Soft assertions field}</p>
  * <p>
  * Inspired by Mockito @Captor annotation.
  * </p>
+ *
  * @author Arthur Mita
  **/
-public class SoftlyExtension implements TestInstancePostProcessor, BeforeTestExecutionCallback, AfterTestExecutionCallback {
+public class SoftlyExtension implements TestInstancePostProcessor, BeforeEachCallback, AfterTestExecutionCallback {
 
   private static final Logger LOGGER = Logger.getLogger(SoftlyExtension.class.getName());
-  private static final Namespace ASSERT_J = Namespace.create("org.assertj.core");
+  private static final Namespace ASSERTJ_CORE = Namespace.create("org.assertj.core");
   private static final String TEST_INSTANCE = "testInstance";
-  private final List<Field> fields = new ArrayList<>();
+  private final Set<SoftAssertions> softlies = new HashSet<>();
 
   private Failures failures = Failures.instance();
 
-
   @Override
   public void postProcessTestInstance(Object testInstance, ExtensionContext extensionContext) throws Exception {
-    extensionContext.getStore(ASSERT_J).put(TEST_INSTANCE, testInstance);
+    extensionContext.getStore(ASSERTJ_CORE).put(TEST_INSTANCE, testInstance);
   }
 
   @Override
-  public void beforeTestExecution(ExtensionContext extensionContext) throws Exception {
-    Object testInstance = extensionContext.getStore(ASSERT_J).get(TEST_INSTANCE);
-    LOGGER.log(Level.INFO,
-      "\n==========================================================" +
-        "\nGetting Getting SoftAssertion Field annotated with @Softly" +
-        "\n==========================================================");
+  public void beforeEach(ExtensionContext extensionContext) throws Exception {
+    Optional<ExtensionContext> currentContext = Optional.of(extensionContext);
 
-    List<Field> softlyFields = AnnotationSupport.findAnnotatedFields(testInstance.getClass(), Softly.class);
+    while (currentContext.isPresent()) {
+      ExtensionContext context = currentContext.get();
+      Object testInstance = context.getStore(ASSERTJ_CORE).remove(TEST_INSTANCE);
 
-    if (softlyFields.isEmpty()) {
+      if (testInstance != null) {
+
+        List<Field> softlyFields = AnnotationSupport.findAnnotatedFields(testInstance.getClass(), Softly.class);
+
+        if (!softlyFields.isEmpty()) {
+
+          if (softlyFields.size() > 1) {
+            throw failures.failure("Only one field of type " + SoftAssertions.class.getName() + " can have the annotation @Softly");
+          }
+
+          Field softlyField = softlyFields.get(0);
+          if (softlyField.getType() != SoftAssertions.class) {
+            throw failures.failure("@Softly field must be of the type " + SoftAssertions.class.getName());
+          }
+          softlyField.setAccessible(true);
+          softlyField.set(testInstance, new SoftAssertions());
+
+          this.softlies.add((SoftAssertions) softlyField.get(testInstance));
+        }
+      }
+      currentContext = context.getParent();
+    }
+
+    if (this.softlies.isEmpty()) {
       LOGGER.log(Level.WARNING,
         "\n======================================" +
           "\nNo instance of soft assertions detected" +
           "\n======================================");
-      return;
-    }
-
-    for (Field field : softlyFields) {
-      if (field.getType() != SoftAssertions.class) {
-        throw failures.failure("@Softly field must be of the type " + SoftAssertions.class.getName());
-      }
-      field.setAccessible(true);
-      field.set(testInstance, new SoftAssertions());
-
-      fields.add(field);
     }
   }
 
   @Override
   public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
-    Object testInstance = extensionContext.getStore(ASSERT_J).get(TEST_INSTANCE);
-    for (Field softlyField : fields) {
-      SoftAssertions softly = (SoftAssertions) softlyField.get(testInstance);
-      Softly softlyAnnotation = softlyField.getAnnotation(Softly.class);
-
-      if (softlyAnnotation.assertAfter()) {
-        softly.assertAll();
-      }
-    }
+    this.softlies.forEach(SoftAssertions::assertAll);
   }
 }

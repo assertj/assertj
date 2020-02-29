@@ -29,11 +29,4 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Softly {
-  /**
-   * Whether to call {@link SoftAssertions#assertAll()} after
-   * each test method
-   *
-   * @return true if behaviour is desired
-   */
-  boolean assertAfter() default true;
 }

@@ -15,14 +15,11 @@ package org.assertj.core.extention;
 import org.assertj.core.annotations.Softly;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.extention.SoftlyExtension;
-import org.assertj.core.error.ShouldNotContainNull;
+import org.assertj.core.error.ShouldNotBeNull;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
@@ -31,43 +28,44 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 @DisplayName("SoftlyExtension hasInstance")
 class SoftlyExtensionInstanceTest {
 
-  private SoftAssertions softlyNotAnnotated1;
-  private SoftAssertions softlyNotAnnotated2;
+  private SoftAssertions softlyNotAnnotated;
 
   @Softly
-  private SoftAssertions softlyAnnotated1;
-
-  @Softly
-  private SoftAssertions softlyAnnotated2;
-
+  private SoftAssertions softly;
 
   @Test
   void should_pass_if_not_null() {
-    //GIVEN
-    List<SoftAssertions> softAssertions = new ArrayList<SoftAssertions>() {{
-      add(softlyAnnotated1);
-      add(softlyAnnotated2);
-    }};
-
-    //WHEN/THEN
-    assertThat(softAssertions).doesNotContainNull();
+    //GIVEN/WHEN/THEN
+    assertThat(softly).isNotNull();
   }
 
   @Test
   void should_fail_if_null() {
-    //GIVEN
-    List<SoftAssertions> softAssertions = new ArrayList<SoftAssertions>() {{
-      add(softlyNotAnnotated1);
-      add(softlyNotAnnotated2);
-    }};
-
-    //WHEN
-    ThrowingCallable code = () -> assertThat(softAssertions).doesNotContainNull();
+    //GIVEN/WHEN
+    ThrowingCallable code = () -> assertThat(softlyNotAnnotated).isNotNull();
 
     //THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(ShouldNotContainNull.shouldNotContainNull(softAssertions).create());
-
+    assertThatAssertionErrorIsThrownBy(code).withMessage(ShouldNotBeNull.shouldNotBeNull().create());
   }
 
+  @Nested
+  @ExtendWith(SoftlyExtension.class)
+  @DisplayName("SoftlyExtension Nested Should hasInstance")
+  class SoftlyNestedMethodLifecycle {
 
+    @Softly
+    private SoftAssertions softlyInner;
+
+    @Test
+    void should_pass_if_inner_field_has_instance() {
+      //GIVEN/WHEN/THEN
+      assertThat(softlyInner).isNotNull();
+    }
+
+    @Test
+    void should_pass_if_parent_field_has_instance() {
+      //GIVEN/WHEN/THEN
+      assertThat(softly).isNotNull();
+    }
+  }
 }
