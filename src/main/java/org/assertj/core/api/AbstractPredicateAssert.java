@@ -14,8 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldAccept.shouldAccept;
 import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
-import static org.assertj.core.presentation.PredicateDescription.GIVEN;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import java.util.function.Predicate;
 
@@ -61,9 +60,8 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
   public SELF accepts(@SuppressWarnings("unchecked") T... values) {
     isNotNull();
     if (values.length == 1) {
-      if (!actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], GIVEN));
-    }
-    else iterables.assertAllMatch(info, newArrayList(values), actual, GIVEN);
+      if (!actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], PredicateDescription.GIVEN));
+    } else iterables.assertAllMatch(info, list(values), actual, PredicateDescription.GIVEN);
     return myself;
   }
 
@@ -88,9 +86,8 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
   public SELF rejects(@SuppressWarnings("unchecked") T... values) {
     isNotNull();
     if (values.length == 1) {
-      if (actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], GIVEN));
-    }
-    else iterables.assertNoneMatch(info, newArrayList(values), actual, GIVEN);
+      if (actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], PredicateDescription.GIVEN));
+    } else iterables.assertNoneMatch(info, list(values), actual, PredicateDescription.GIVEN);
     return myself;
   }
 
