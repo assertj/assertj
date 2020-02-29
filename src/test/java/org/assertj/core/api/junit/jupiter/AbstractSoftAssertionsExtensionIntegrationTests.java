@@ -39,17 +39,17 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
   }
 
   @Test
-  final void test_instance_per_class() {
+  void test_instance_per_class() {
     assertExecutionResults(getTestInstancePerClassTestCase(), false);
   }
 
   @Test
-  final void test_instance_per_method_with_nested_tests() {
+  void test_instance_per_method_with_nested_tests() {
     assertExecutionResults(getTestInstancePerMethodNestedTestCase(), true);
   }
 
   @Test
-  final void test_instance_per_class_with_nested_tests() {
+  void test_instance_per_class_with_nested_tests() {
     assertExecutionResults(getTestInstancePerClassNestedTestCase(), true);
   }
 
@@ -77,7 +77,7 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
                                                  event(test("parameterizedTest"),
                                                        finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class),
                                                                            message(msg -> msg.contains("Multiple Failures (1 failure)")))));
-    // @format:on
+                 // @format:on
   }
 
 }
