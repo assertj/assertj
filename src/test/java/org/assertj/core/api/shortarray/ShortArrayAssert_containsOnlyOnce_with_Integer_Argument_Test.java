@@ -17,12 +17,14 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssert;
+import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#containsOnlyOnce(int...)}</code>.
  * 
  * @author Dan Avila
  */
+@DisplayName("ShortArrayAssert containsOnlyOnce (ints)")
 public class ShortArrayAssert_containsOnlyOnce_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
 
   @Override

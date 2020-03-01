@@ -18,12 +18,14 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
 import org.assertj.core.data.Index;
+import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#contains(int, Index)}</code>.
  * 
  * @author Dan Avila
  */
+@DisplayName("ShortArrayAssert contains (int, @index)")
 public class ShortArrayAssert_contains_at_Index_with_Integer_Argument_Test extends ShortArrayAssertBaseTest {
 
   private final Index index = someIndex();

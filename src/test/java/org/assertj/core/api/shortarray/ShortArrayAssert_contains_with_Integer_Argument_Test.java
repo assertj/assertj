@@ -17,12 +17,14 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssert;
+import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#contains(int...)}</code>.
  * 
  * @author Dan Avila
  */
+@DisplayName("ShortArrayAssert contains (ints)")
 public class ShortArrayAssert_contains_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
 
   @Override

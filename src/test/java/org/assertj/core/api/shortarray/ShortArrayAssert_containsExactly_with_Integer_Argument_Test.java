@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.util.AbsValueComparator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Dan Avila
  */
+@DisplayName("ShortArrayAssert containsExactly (ints)")
 public class ShortArrayAssert_containsExactly_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
 
   @Override
