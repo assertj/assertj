@@ -25,6 +25,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuation.ShouldBeEqualNormalizingPunctuation;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
@@ -681,6 +682,31 @@ public class Strings {
       }
     }
     return result.toString().trim();
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are equal, after the punctuations of both strings
+   * has been normalized.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
+   * @since 2.8.0 / 3.8.0
+   */
+  public void assertEqualsNormalizingWPunctuation(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (!areEqualNormalizingPunctuation(actual, expected))
+      throw failures.failure(info, ShouldBeEqualNormalizingPunctuation(actual, expected), actual, expected);
+  }
+
+  private boolean areEqualNormalizingPunctuation(CharSequence actual, CharSequence expected) {
+    if (actual == null) return expected == null;
+    checkCharSequenceIsNotNull(expected);
+    return normalizePunctuation(actual).equals(normalizePunctuation(expected));
+  }
+
+  private String normalizePunctuation(CharSequence toNormalize) {
+    return normalizeWhitespace(toNormalize.toString().replaceAll("\\p{Punct}", ""));
   }
 
   /**

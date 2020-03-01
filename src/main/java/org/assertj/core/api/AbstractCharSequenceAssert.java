@@ -1360,6 +1360,42 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} is equal to the given one, after the punctuations
+   * of both strings has been normalized.<br>
+   * To be exact, the following rules are applied:
+   * <ul>
+   * <li>all punctuations of actual and expected strings are ignored and whitespaces are normalized</li>
+   * <li>!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</li>
+   * </ul>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat("Game'of'Thrones").isEqualToNormalizingPunctuation("GameofThrones")
+   * assertThat("Game of Throne's").isEqualToNormalizingPunctuation("Game of Thrones")
+   * assertThat(":Game of Thrones:").isEqualToNormalizingPunctuation("Game of Thrones")
+   * assertThat(":Game-of-Thrones:").isEqualToNormalizingPunctuation("Game of Thrones")
+   * assertThat("Game of Thrones?").isEqualToNormalizingPunctuation("Game of Thrones")
+   * assertThat("Game of Thrones!!!").isEqualToNormalizingPunctuation("Game of Thrones")
+   * assertThat("Game of  {{(!)}}    Thrones!!!").isEqualToNormalizingPunctuation("Game of Thrones")
+   * assertThat("{(Game)-(of)-(Thrones)!!!}").isEqualToNormalizingPunctuation("GameofThrones");
+   *
+   * // assertions will fail
+   * assertThat("Game-of-Thrones").isEqualToNormalizingPunctuation("Game of Thrones");
+   * assertThat("{Game:of:Thrones}").isEqualToNormalizingPunctuation("Game of Thrones");
+   * assertThat("{(Game)-(of)-(Thrones)!!!}").isEqualToNormalizingPunctuation("Game of Thrones");</code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
+   *           after punctuations has been normalized.
+   * @since 2.8.0 / 3.8.0
+   */
+  public SELF isEqualToNormalizingPunctuation(CharSequence expected) {
+    strings.assertEqualsNormalizingWPunctuation(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} is a substring of the given one (opposite assertion of {@link #contains(CharSequence...) contains(CharSequence cs)}.
    * <p>
    * Example :
