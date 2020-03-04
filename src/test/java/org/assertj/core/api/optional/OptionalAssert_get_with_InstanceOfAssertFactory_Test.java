@@ -19,8 +19,6 @@ import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -29,8 +27,8 @@ import java.util.Optional;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.OptionalAssert;
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @author Stefano Cordio
  */
 @DisplayName("OptionalAssert get(InstanceOfAssertFactory)")
-class OptionalAssert_get_with_InstanceOfAssertFactory_Test {
+class OptionalAssert_get_with_InstanceOfAssertFactory_Test implements NavigationMethodBaseTest<OptionalAssert<String>> {
 
   private final Optional<String> optional = Optional.of("Frodo");
 
@@ -89,23 +87,14 @@ class OptionalAssert_get_with_InstanceOfAssertFactory_Test {
     then(assertionError).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
   }
 
-  @Test
-  void should_keep_existing_assertion_state() {
-    // GIVEN
-    OptionalAssert<String> assertion = assertThat(optional).as("description")
-                                                           .withFailMessage("error message")
-                                                           .withRepresentation(UNICODE_REPRESENTATION)
-                                                           .usingComparator(ALWAY_EQUALS);
-    // WHEN
-    AbstractStringAssert<?> result = assertion.get(STRING);
-    // THEN
-    then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
-                .extracting(AbstractAssert::getWritableAssertionInfo)
-                .isEqualToComparingFieldByField(assertion.info);
+  @Override
+  public OptionalAssert<String> getAssertion() {
+    return assertThat(optional);
   }
 
-  private static Object extractObjectField(AbstractAssert<?, ?> assertion) {
-    return PropertyOrFieldSupport.EXTRACTION.getValueOf("objects", assertion);
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(OptionalAssert<String> assertion) {
+    return assertion.get(STRING);
   }
 
 }

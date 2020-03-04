@@ -666,7 +666,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    return internalExtracting(propertyOrField);
+    return super.extracting(propertyOrField, this::newObjectAssert);
   }
 
   /**
@@ -712,14 +712,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return internalExtracting(propertyOrField).asInstanceOf(assertFactory);
-  }
-
-  private AbstractObjectAssert<?, ?> internalExtracting(String propertyOrField) {
-    Object value = byName(propertyOrField).apply(actual);
-    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
-    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return newObjectAssert(value).withAssertionState(myself).as(description);
+    return super.extracting(propertyOrField, this::newObjectAssert).asInstanceOf(assertFactory);
   }
 
   /**
@@ -744,8 +737,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param extractors the extractor functions to extract values from the Object under test.
    * @return a new assertion object whose object under test is the list containing the extracted values
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(@SuppressWarnings("unchecked") Function<? super ACTUAL, ?>... extractors) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors").create());
     List<Object> values = Stream.of(extractors)
                                 .map(extractor -> extractor.apply(actual))
@@ -784,7 +778,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
-    return internalExtracting(extractor);
+    return super.extracting(extractor, this::newObjectAssert);
   }
 
   /**
@@ -822,13 +816,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
                                                                     InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return internalExtracting(extractor).asInstanceOf(assertFactory);
-  }
-
-  private <T> AbstractObjectAssert<?, T> internalExtracting(Function<? super ACTUAL, T> extractor) {
-    requireNonNull(extractor, shouldNotBeNull("extractor").create());
-    T extractedValue = extractor.apply(actual);
-    return newObjectAssert(extractedValue).withAssertionState(myself);
+    return super.extracting(extractor, this::newObjectAssert).asInstanceOf(assertFactory);
   }
 
   /**

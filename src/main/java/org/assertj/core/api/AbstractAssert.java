@@ -15,15 +15,20 @@ package org.assertj.core.api;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -828,6 +833,62 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // this would avoid duplicating this code in all subclasses
   protected RecursiveComparisonAssert<?> usingRecursiveComparison() {
     return usingRecursiveComparison(new RecursiveComparisonConfiguration());
+  }
+
+  /**
+   * Extracts the value of given field/property from the object under test and creates a new assertion object using the
+   * given assert factory.
+   * <p>
+   * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
+   * <p>
+   * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
+   * corresponding to actual.getAddress().getStreet().getNumber()
+   * <p>
+   * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
+   *
+   * @param <ASSERT>        the type of the resulting {@code Assert}
+   * @param propertyOrField the property/field to extract from the initial object under test
+   * @param assertFactory   the factory for the creation of the new {@code Assert}
+   * @return the new {@code Assert} instance
+   * 
+   * @since 3.16.0
+   * @see AbstractObjectAssert#extracting(String)
+   * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  protected <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
+                                                                    AssertFactory<Object, ASSERT> assertFactory) {
+    requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField").create());
+    requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    Object value = byName(propertyOrField).apply(actual);
+    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
+    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+    return (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
+  }
+
+  /**
+   * Uses the given {@link Function} to extract a value from the object under test and creates a new assertion object
+   * using the given assert factory.
+   * 
+   * @param <T>           the expected extracted value type
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param extractor     the extractor function used to extract the value from the object under test
+   * @param assertFactory the factory for the creation of the new {@code Assert}
+   * @return the new {@code Assert} instance
+   * 
+   * @since 3.16.0
+   * @see AbstractObjectAssert#extracting(Function)
+   * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  protected <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, ? extends T> extractor,
+                                                                       AssertFactory<T, ASSERT> assertFactory) {
+    requireNonNull(extractor, shouldNotBeNull("extractor").create());
+    requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    T extractedValue = extractor.apply(actual);
+    return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
   }
 
 }

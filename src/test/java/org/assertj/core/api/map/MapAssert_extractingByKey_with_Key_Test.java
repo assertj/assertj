@@ -14,9 +14,6 @@ package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -26,7 +23,7 @@ import java.util.Map;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.MapAssert;
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +34,7 @@ import org.junit.jupiter.api.Test;
  * @author Stefano Cordio
  */
 @DisplayName("MapAssert extractingByKey(KEY)")
-class MapAssert_extractingByKey_with_Key_Test {
+class MapAssert_extractingByKey_with_Key_Test implements NavigationMethodBaseTest<MapAssert<Object, Object>> {
 
   private static final Object NAME = "name";
   private Map<Object, Object> map;
@@ -92,25 +89,14 @@ class MapAssert_extractingByKey_with_Key_Test {
     then(error).hasMessageContaining("[check name]");
   }
 
-  @Test
-  void should_keep_existing_assertion_state() {
-    // GIVEN
-    MapAssert<Object, Object> assertion = assertThat(map).as("description")
-                                                         .withFailMessage("error message")
-                                                         .withRepresentation(UNICODE_REPRESENTATION)
-                                                         .usingComparator(ALWAY_EQUALS)
-                                                         .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
-                                                         .usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
-    // WHEN
-    AbstractObjectAssert<?, Object> result = assertion.extractingByKey(NAME);
-    // THEN
-    then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
-                .extracting(AbstractAssert::getWritableAssertionInfo)
-                .isEqualToComparingFieldByField(assertion.info);
+  @Override
+  public MapAssert<Object, Object> getAssertion() {
+    return assertThat(map);
   }
 
-  private static Object extractObjectField(AbstractAssert<?, ?> assertion) {
-    return PropertyOrFieldSupport.EXTRACTION.getValueOf("objects", assertion);
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(MapAssert<Object, Object> assertion) {
+    return assertion.extractingByKey(NAME);
   }
 
 }
