@@ -1365,7 +1365,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * To be exact, the following rules are applied:
    * <ul>
    * <li>all punctuations of actual and expected strings are ignored and whitespaces are normalized</li>
-   * <li>!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</li>
+   * <li>Punctuation: One of !&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</li>
    * </ul>
    * <p>
    * Example :
