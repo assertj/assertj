@@ -20,14 +20,11 @@ import java.util.function.Function;
  * @author Mateusz Haligowski
  *
  */
-public class ToStringExtractor implements Function<Object, String> {
+class ToStringExtractor implements Function<Object, String> {
+
   @Override
   public String apply(Object input) {
     return input.toString();
-  }
-  
-  ToStringExtractor() {
-    
   }
 
 }

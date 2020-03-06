@@ -21,32 +21,32 @@ import java.util.function.Function;
 
 import org.assertj.core.groups.Tuple;
 
-public class ByNameMultipleExtractor<T> implements Function<T, Tuple>{
+class ByNameMultipleExtractor implements Function<Object, Tuple> {
 
   private final String[] fieldsOrProperties;
 
-  public ByNameMultipleExtractor(String... fieldsOrProperties) {
+  ByNameMultipleExtractor(String... fieldsOrProperties) {
     this.fieldsOrProperties = fieldsOrProperties;
   }
 
   @Override
-  public Tuple apply(T input) {
+  public Tuple apply(Object input) {
     checkArgument(fieldsOrProperties != null, "The names of the fields/properties to read should not be null");
     checkArgument(fieldsOrProperties.length > 0, "The names of the fields/properties to read should not be empty");
     checkArgument(input != null, "The object to extract fields/properties from should not be null");
 
-    List<Function<T, Object>> extractors = buildExtractors();
+    List<Function<Object, Object>> extractors = buildExtractors();
     List<Object> values = extractValues(input, extractors);
-    
+
     return new Tuple(values.toArray());
   }
 
-  private List<Object> extractValues(T input, List<Function<T, Object>> singleExtractors) {
-    return singleExtractors.stream().map(extractor -> extractor.apply(input)).collect(toList());
+  private List<Function<Object, Object>> buildExtractors() {
+    return Arrays.stream(fieldsOrProperties).map(ByNameSingleExtractor::new).collect(toList());
   }
 
-  private List<Function<T, Object>> buildExtractors() {
-    return Arrays.stream(fieldsOrProperties).map(ByNameSingleExtractor<T>::new).collect(toList());
+  private List<Object> extractValues(Object input, List<Function<Object, Object>> singleExtractors) {
+    return singleExtractors.stream().map(extractor -> extractor.apply(input)).collect(toList());
   }
 
 }

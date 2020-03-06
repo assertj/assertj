@@ -14,20 +14,18 @@ package org.assertj.core.extractor;
 
 import java.util.function.Function;
 
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
-class ByNameSingleExtractor<T> implements Function<T, Object> {
+class ByNameSingleExtractor implements Function<Object, Object> {
 
   private final String propertyOrFieldName;
 
-  @VisibleForTesting
   ByNameSingleExtractor(String propertyOrFieldName) {
     this.propertyOrFieldName = propertyOrFieldName;
   }
 
   @Override
-  public Object apply(T input) {
+  public Object apply(Object input) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(propertyOrFieldName, input);
   }
 

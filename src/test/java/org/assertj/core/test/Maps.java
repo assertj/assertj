@@ -17,11 +17,11 @@ import java.util.TreeMap;
 
 import org.assertj.core.data.MapEntry;
 
-
 /**
  * @author Alex Ruiz
  */
 public final class Maps {
+
   @SafeVarargs
   public static <K, V> LinkedHashMap<K, V> mapOf(MapEntry<K, V>... entries) {
     LinkedHashMap<K, V> map = new LinkedHashMap<>();
@@ -30,6 +30,7 @@ public final class Maps {
     }
     return map;
   }
+
   @SafeVarargs
   public static <K extends Comparable<? super K>, V> TreeMap<K, V> treeMapOf(MapEntry<K, V>... entries) {
     TreeMap<K, V> map = new TreeMap<>();
@@ -40,4 +41,5 @@ public final class Maps {
   }
 
   private Maps() {}
+
 }

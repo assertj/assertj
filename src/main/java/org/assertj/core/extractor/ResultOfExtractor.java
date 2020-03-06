@@ -23,10 +23,10 @@ import org.assertj.core.util.introspection.MethodSupport;
  * @author Michał Piotrkowski
  * @author Mateusz Haligowski
  */
-class ResultOfExtractor<F> implements Function<F, Object> {
+class ResultOfExtractor implements Function<Object, Object> {
 
   private final String methodName;
-  
+
   ResultOfExtractor(String methodName) {
     this.methodName = methodName;
   }
@@ -35,7 +35,7 @@ class ResultOfExtractor<F> implements Function<F, Object> {
    * Behavior is described in {@link MethodSupport#methodResultFor(Object, String)}
    */
   @Override
-  public Object apply(F input) {
+  public Object apply(Object input) {
     return MethodSupport.methodResultFor(input, methodName);
   }
 
