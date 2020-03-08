@@ -14,7 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.recursive.comparison.DualValueUtil.dualKeyWithPath;
+import static org.assertj.core.api.recursive.comparison.DualValueUtil.dualValueWithPath;
 import static org.assertj.core.api.recursive.comparison.DualValueUtil.randomPath;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -104,10 +104,10 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   private static Stream<Arguments> ignoringSpecifiedFieldsSource() {
-    return Stream.of(arguments(dualKeyWithPath("name"), list("name")),
-                     arguments(dualKeyWithPath("name"), list("foo", "name", "foo")),
-                     arguments(dualKeyWithPath("name", "first"), list("name.first")),
-                     arguments(dualKeyWithPath("father", "name", "first"), list("father", "name.first", "father.name.first")));
+    return Stream.of(arguments(dualValueWithPath("name"), list("name")),
+                     arguments(dualValueWithPath("name"), list("foo", "name", "foo")),
+                     arguments(dualValueWithPath("name", "first"), list("name.first")),
+                     arguments(dualValueWithPath("father", "name", "first"), list("father", "name.first", "father.name.first")));
 
   }
 
@@ -133,12 +133,12 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   private static Stream<Arguments> ignoringRegexSpecifiedFieldsSource() {
-    return Stream.of(arguments(dualKeyWithPath("name"), list(".*name")),
-                     arguments(dualKeyWithPath("name"), list("foo", "n.m.", "foo")),
-                     arguments(dualKeyWithPath("name", "first"), list("name\\.first")),
-                     arguments(dualKeyWithPath("name", "first"), list(".*first")),
-                     arguments(dualKeyWithPath("name", "first"), list("name.*")),
-                     arguments(dualKeyWithPath("father", "name", "first"),
+    return Stream.of(arguments(dualValueWithPath("name"), list(".*name")),
+                     arguments(dualValueWithPath("name"), list("foo", "n.m.", "foo")),
+                     arguments(dualValueWithPath("name", "first"), list("name\\.first")),
+                     arguments(dualValueWithPath("name", "first"), list(".*first")),
+                     arguments(dualValueWithPath("name", "first"), list("name.*")),
+                     arguments(dualValueWithPath("father", "name", "first"),
                                list("father", "name.first", "father\\.name\\.first")));
 
   }
@@ -157,10 +157,10 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   private static Stream<Arguments> ignoringFieldsSource() {
-    return Stream.of(arguments(dualKeyWithPath("name")),
-                     arguments(dualKeyWithPath("number")),
-                     arguments(dualKeyWithPath("surname")),
-                     arguments(dualKeyWithPath("first", "name")),
+    return Stream.of(arguments(dualValueWithPath("name")),
+                     arguments(dualValueWithPath("number")),
+                     arguments(dualValueWithPath("surname")),
+                     arguments(dualValueWithPath("first", "name")),
                      arguments(new DualValue(randomPath(), "actual", "expected")));
 
   }

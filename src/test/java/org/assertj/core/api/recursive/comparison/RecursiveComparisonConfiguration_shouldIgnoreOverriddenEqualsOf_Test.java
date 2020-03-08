@@ -43,10 +43,10 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
   @Test
   public void should_ignore_all_overridden_equals_for_non_java_types() {
     // GIVEN
-    DualValue dualKey = new DualValue(list("foo"), new Person(), new Person());
+    DualValue dualValue = new DualValue(list("foo"), new Person(), new Person());
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
-    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualKey);
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
     // THEN
     assertThat(ignored).as("All overridden equals should be ignored")
                        .isTrue();
@@ -56,10 +56,10 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
   @MethodSource("ignoringAllOverriddenEqualsExceptBasicTypes")
   public void should_ignore_all_overridden_equals_except_java_types(Object value) {
     // GIVEN
-    DualValue dualKey = new DualValue(list("foo"), value, value);
+    DualValue dualValue = new DualValue(list("foo"), value, value);
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
-    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualKey);
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
     // THEN
     assertThat(ignored).as("overridden equals should not be ignored for %s", value.getClass())
                        .isFalse();
@@ -106,24 +106,24 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored for these fields {1}")
   @MethodSource("ignoringOverriddenEqualsForFieldsSource")
-  public void should_ignore_overridden_equals_by_fields(DualValue dualKey, String[] fields) {
+  public void should_ignore_overridden_equals_by_fields(DualValue dualValue, String[] fields) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields);
     // WHEN
-    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualKey);
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
     // THEN
-    assertThat(ignored).as("%s overridden equals should be ignored for these fields %s", dualKey, fields)
+    assertThat(ignored).as("%s overridden equals should be ignored for these fields %s", dualValue, fields)
                        .isTrue();
   }
 
   private static Stream<Arguments> ignoringOverriddenEqualsForFieldsSource() {
-    return Stream.of(arguments(dualKeyWithPath("name"), array("name")),
-                     arguments(dualKeyWithPath("name"), array("foo", "name", "foo")),
-                     arguments(dualKeyWithPath("name", "first"), array("name.first")),
-                     arguments(dualKeyWithPath("father", "name", "first"), array("father", "name.first", "father.name.first")));
+    return Stream.of(arguments(dualValueWithPath("name"), array("name")),
+                     arguments(dualValueWithPath("name"), array("foo", "name", "foo")),
+                     arguments(dualValueWithPath("name", "first"), array("name.first")),
+                     arguments(dualValueWithPath("father", "name", "first"), array("father", "name.first", "father.name.first")));
   }
 
-  private static DualValue dualKeyWithPath(String... pathElements) {
+  private static DualValue dualValueWithPath(String... pathElements) {
     return new DualValue(list(pathElements), new Person(), new Person());
   }
 

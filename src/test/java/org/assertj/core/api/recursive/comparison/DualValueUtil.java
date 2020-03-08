@@ -21,7 +21,7 @@ import org.apache.commons.lang3.RandomUtils;
 
 public class DualValueUtil {
 
-  static DualValue dualKeyWithPath(String... pathElements) {
+  static DualValue dualValueWithPath(String... pathElements) {
     return new DualValue(list(pathElements), new Object(), new Object());
   }
 
