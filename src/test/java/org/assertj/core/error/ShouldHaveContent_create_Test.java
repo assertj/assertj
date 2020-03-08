@@ -12,6 +12,13 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.util.Lists;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -19,13 +26,6 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.util.List;
-
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.util.Lists;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.Test;
 
 public class ShouldHaveContent_create_Test {
 
@@ -35,9 +35,9 @@ public class ShouldHaveContent_create_Test {
   public void should_create_error_message() {
     // GIVEN
     final FakeFile file = new FakeFile("xyz");
-    Delta<String> delta = mock(Delta.class);
+    Delta<CharSequence> delta = mock(Delta.class);
     when(delta.toString()).thenReturn(DIFF);
-    List<Delta<String>> diffs = Lists.list(delta);
+    List<Delta<CharSequence>> diffs = Lists.list(delta);
     ErrorMessageFactory factory = shouldHaveContent(file, defaultCharset(), diffs);
     // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());

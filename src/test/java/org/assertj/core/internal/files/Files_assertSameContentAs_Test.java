@@ -12,6 +12,23 @@
  */
 package org.assertj.core.internal.files;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.BinaryDiffResult;
+import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.Files;
+import org.assertj.core.util.Lists;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
@@ -26,23 +43,6 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.BinaryDiffResult;
-import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.Files;
-import org.assertj.core.util.Lists;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Files#assertSameContentAs(org.assertj.core.api.AssertionInfo, java.io.File, java.nio.charset.Charset, java.io.File,  java.nio.charset.Charset)}</code>.
@@ -115,7 +115,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_files_do_not_have_equal_content() throws IOException {
-    List<Delta<String>> diffs = Lists.newArrayList(delta);
+    List<Delta<CharSequence>> diffs = Lists.newArrayList(delta);
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenReturn(diffs);
     when(binaryDiff.diff(actual, readAllBytes(expected.toPath()))).thenReturn(new BinaryDiffResult(1, -1, -1));
     AssertionInfo info = someInfo();

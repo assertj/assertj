@@ -12,13 +12,9 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -31,9 +27,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.BeforeEach;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 /**
  * Base class for testing <code>{@link Files}</code>, set up diff and failures attributes (which is why it is in
@@ -50,7 +50,7 @@ public class FilesBaseTest {
   protected Files files;
   protected Files unMockedFiles;
   protected Diff diff;
-  protected Delta<String> delta;
+  protected Delta<CharSequence> delta;
   protected BinaryDiff binaryDiff;
   protected NioFilesWrapper nioFilesWrapper;
 

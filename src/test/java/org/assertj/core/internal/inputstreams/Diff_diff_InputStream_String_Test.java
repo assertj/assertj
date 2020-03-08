@@ -12,18 +12,18 @@
  */
 package org.assertj.core.internal.inputstreams;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.internal.inputstreams.Diff_diff_InputStream_Test.stream;
+import org.assertj.core.internal.Diff;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.assertj.core.internal.Diff;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.internal.inputstreams.Diff_diff_InputStream_Test.stream;
 
 public class Diff_diff_InputStream_String_Test {
 
@@ -43,7 +43,7 @@ public class Diff_diff_InputStream_String_Test {
     actual = stream("base", "line0", "line1");
     expected = joinLines("base", "line0", "line1");
     // WHEN
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).isEmpty();
   }
@@ -54,7 +54,7 @@ public class Diff_diff_InputStream_String_Test {
     actual = stream("base", "line_0", "line_1");
     expected = joinLines("base", "line0", "line1");
     // WHEN
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(1)
                      .first().hasToString(format("Changed content at line 2:%n"
@@ -72,7 +72,7 @@ public class Diff_diff_InputStream_String_Test {
     actual = stream("base", "line_0", "line1", "line_2");
     expected = joinLines("base", "line0", "line1", "line2");
     // WHEN
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(2);
     assertThat(diffs.get(0)).hasToString(format("Changed content at line 2:%n"
@@ -93,7 +93,7 @@ public class Diff_diff_InputStream_String_Test {
     actual = stream("base", "line_0");
     expected = joinLines("base", "line_0", "line_1");
     // WHEN
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Missing content at line 3:%n"
@@ -106,7 +106,7 @@ public class Diff_diff_InputStream_String_Test {
     actual = stream("base", "line_0", "line_1");
     expected = joinLines("base", "line_0");
     // WHEN
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Extra content at line 3:%n"
@@ -119,7 +119,7 @@ public class Diff_diff_InputStream_String_Test {
     actual = stream("", "line_0", "line_1", "line_2");
     expected = joinLines("line_0", "line_1", "line_2");
     // WHEN
-    List<Delta<String>> diffs = diff.diff(actual, expected);
+    List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Extra content at line 1:%n"

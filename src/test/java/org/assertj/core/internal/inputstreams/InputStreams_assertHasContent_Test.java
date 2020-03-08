@@ -12,6 +12,17 @@
  */
 package org.assertj.core.internal.inputstreams;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.InputStreams;
+import org.assertj.core.internal.InputStreamsBaseTest;
+import org.assertj.core.internal.InputStreamsException;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -24,17 +35,6 @@ import static org.assertj.core.util.Lists.list;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.InputStreams;
-import org.assertj.core.internal.InputStreamsBaseTest;
-import org.assertj.core.internal.InputStreamsException;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link InputStreams#assertHasContent(AssertionInfo, InputStream, String)}</code>.
@@ -78,7 +78,7 @@ public class InputStreams_assertHasContent_Test extends InputStreamsBaseTest {
   @Test
   public void should_fail_if_inputstream_and_string_do_not_have_equal_content() throws IOException {
     // GIVEN
-    List<Delta<String>> diffs = list((Delta<String>) mock(Delta.class));
+    List<Delta<CharSequence>> diffs = list((Delta<CharSequence>) mock(Delta.class));
     given(diff.diff(actual, expectedString)).willReturn(diffs);
     AssertionInfo info = someInfo();
     // WHEN

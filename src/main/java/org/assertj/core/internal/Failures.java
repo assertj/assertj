@@ -83,7 +83,7 @@ public class Failures {
   }
 
   @VisibleForTesting
-  Failures() {}
+  public Failures() {}
 
   /**
    * Creates a <code>{@link AssertionError}</code> following this pattern:

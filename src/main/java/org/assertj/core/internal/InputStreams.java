@@ -46,12 +46,14 @@ public class InputStreams {
   }
 
   @VisibleForTesting
+  public
   Diff diff = new Diff();
   @VisibleForTesting
+  public
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  InputStreams() {}
+  public InputStreams() {}
 
   /**
    * Asserts that the given InputStreams have same content.
@@ -68,7 +70,7 @@ public class InputStreams {
     requireNonNull(expected, "The InputStream to compare to should not be null");
     assertNotNull(info, actual);
     try {
-      List<Delta<String>> diffs = diff.diff(actual, expected);
+      List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
@@ -93,7 +95,7 @@ public class InputStreams {
     assertNotNull(info, actual);
 
     try {
-      List<Delta<String>> diffs = diff.diff(actual, expected);
+      List<Delta<CharSequence>> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {

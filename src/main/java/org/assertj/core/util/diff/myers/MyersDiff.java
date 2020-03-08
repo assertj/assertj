@@ -12,10 +12,10 @@
  */
 package org.assertj.core.util.diff.myers;
 
+import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkState;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.util.diff.ChangeDelta;
@@ -47,8 +47,14 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * Constructs an instance of the Myers differencing algorithm.
    */
   public MyersDiff() {
-    /**	Default equalizer. */
-    equalizer = (original, revised) -> original.equals(revised);
+    this(Object::equals); // Default equalizer
+  }
+
+  /**
+   * Constructs an instance of the Myers differencing algorithm with a custom {@link Equalizer}.
+   */
+  public MyersDiff(Equalizer<T> equalizer) {
+    this.equalizer = equalizer;
   }
 
   /**
@@ -191,6 +197,6 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
   
    */
   private List<T> copyOfRange(final List<T> original, final int fromIndex, final int to) {
-    return new ArrayList<>(original.subList(fromIndex, to));
+    return unmodifiableList(original.subList(fromIndex, to));
   }
 }
