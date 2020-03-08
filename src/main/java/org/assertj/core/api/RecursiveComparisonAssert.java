@@ -208,6 +208,51 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Makes the recursive comparison to ignore all <b>expected null fields</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person noName = new Person(null, 1.80);
+   * noName.home.address.street = null;
+   * noName.home.address.number = 221;
+   *
+   * // assertion succeeds as name and home.address.street fields are ignored in the comparison
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .ignoringExpectedNullFields()
+   *                     .isEqualTo(noName);
+   *
+   * // assertion fails as name and home.address.street fields are populated for sherlock but not noName.
+   * assertThat(noName).usingRecursiveComparison()
+   *                   .ignoringExpectedNullFields()
+   *                   .isEqualTo(sherlock);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF ignoringExpectedNullFields() {
+    recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    return myself;
+  }
+
+  /**
    * Makes the recursive comparison to ignore the given object under test fields. Nested fields can be specified like this: {@code home.address.street}.
    * <p>
    * Example:

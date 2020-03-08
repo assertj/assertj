@@ -55,7 +55,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @ParameterizedTest(name = "{0} should be ignored")
-  @MethodSource("ignoringNullFieldsSource")
+  @MethodSource("ignoringNullActualFieldsSource")
   public void should_ignore_actual_null_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
@@ -65,11 +65,30 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored", dualValue).isTrue();
   }
 
-  private static Stream<Arguments> ignoringNullFieldsSource() {
+  private static Stream<Arguments> ignoringNullActualFieldsSource() {
     return Stream.of(arguments(dualValue(null, "John")),
                      arguments(dualValue(null, 123)),
                      arguments(dualValue(null, (Object) null)),
                      arguments(dualValue(null, new Date())));
+
+  }
+
+  @ParameterizedTest(name = "{0} should be ignored")
+  @MethodSource("ignoringNullExpectedFieldsSource")
+  public void should_ignore_expected_null_fields(DualValue dualValue) {
+    // GIVEN
+    recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
+    // THEN
+    assertThat(ignored).as("%s should be ignored", dualValue).isTrue();
+  }
+
+  private static Stream<Arguments> ignoringNullExpectedFieldsSource() {
+    return Stream.of(arguments(dualValue("John", null)),
+                     arguments(dualValue(123, null)),
+                     arguments(dualValue(null, (Object) null)),
+                     arguments(dualValue(new Date(), null)));
 
   }
 

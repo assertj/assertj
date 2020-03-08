@@ -32,35 +32,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
-  @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
-  @MethodSource("recursivelyEqualObjectsIgnoringNullValues")
-  public void should_pass_for_objects_with_the_same_data_when_all_null_fields_are_ignored(Object actual,
-                                                                                          Object expected,
-                                                                                          String testDescription) {
+  @MethodSource("recursivelyEqualObjectsIgnoringActualNullValues")
+  public void should_pass_when_actual_null_fields_are_ignored(Object actual, Object expected,
+                                                              @SuppressWarnings("unused") String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringActualNullFields()
                       .isEqualTo(expected);
   }
 
-  @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_all_null_fields_are_ignored() {
-    // GIVEN
-    Person actual = new Person(null);
-    actual.home.address.number = 1;
-    actual.dateOfBirth = null;
-    actual.neighbour = null;
-    Person expected = new Person("John");
-    expected.home.address.number = 2;
-    recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
-    // WHEN
-    compareRecursivelyFailsAsExpected(actual, expected);
-    // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
-  }
-
-  private static Stream<Arguments> recursivelyEqualObjectsIgnoringNullValues() {
+  private static Stream<Arguments> recursivelyEqualObjectsIgnoringActualNullValues() {
     Person person1 = new Person(null);
     person1.home.address.number = 1;
 
@@ -108,6 +89,42 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
                      arguments(person6, person7, "same data, actual has only non null name"),
                      arguments(person6, person8, "same data, actual has only non null name"),
                      arguments(person7, person8, "same data, actual has null fields deep in its graph"));
+  }
+
+  @Test
+  public void should_fail_when_actual_differs_from_expected_even_when_all_null_actual_fields_are_ignored() {
+    // GIVEN
+    Person actual = new Person(null);
+    actual.home.address.number = 1;
+    actual.dateOfBirth = null;
+    actual.neighbour = null;
+    Person expected = new Person("John");
+    expected.home.address.number = 2;
+    recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
+  }
+
+  @Test
+  public void should_fail_when_actual_differs_from_expected_even_when_all_null_expected_fields_are_ignored() {
+    // GIVEN
+    Person actual = new Person("John");
+    actual.home.address.number = 1;
+    actual.dateOfBirth = new Date();
+    actual.neighbour = new Person("Jack");
+    Person expected = new Person(null);
+    expected.home.address.number = 2;
+    expected.dateOfBirth = null;
+    expected.neighbour = null;
+    recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
   @SuppressWarnings("unused")
@@ -302,10 +319,10 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored types={3}")
   @MethodSource("recursivelyEqualObjectsIgnoringGivenTypes")
-  public void should_pass_when_fields_has_given_types_are_ignored(Object actual,
-                                                                  Object expected,
-                                                                  @SuppressWarnings("unused") String testDescription,
-                                                                  List<Class<?>> ignoredTypes) {
+  public void should_pass_when_fields_with_given_types_are_ignored(Object actual,
+                                                                   Object expected,
+                                                                   @SuppressWarnings("unused") String testDescription,
+                                                                   List<Class<?>> ignoredTypes) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringFieldsOfTypes(ignoredTypes.toArray(new Class<?>[0]))
                       .isEqualTo(expected);
@@ -377,6 +394,33 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
                                                                expected.neighbour.neighbour.dateOfBirth);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               addressDifference, neighbourDateOfBirthDifference);
+  }
+
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
+  @MethodSource("recursivelyEqualObjectsIgnoringExpectedNullFields")
+  public void should_pass_when_expected_null_fields_are_ignored(Object actual, Object expected,
+                                                                @SuppressWarnings("unused") String testDescription) {
+
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringExpectedNullFields()
+                      .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> recursivelyEqualObjectsIgnoringExpectedNullFields() {
+    Person person1 = new Person("John");
+    person1.home.address.number = 1;
+
+    Person person2 = new Person(null);
+
+    Person person3 = new Person("John");
+    person3.home.address = null;
+
+    Person person4 = new Person(null);
+    person3.home.address = null;
+
+    return Stream.of(arguments(person1, person2, "first level expected null field"),
+                     arguments(person1, person3, "nested expected null field"),
+                     arguments(person1, person4, "multiple expected null fields"));
   }
 
   private static String[] arrayOf(List<String> list) {

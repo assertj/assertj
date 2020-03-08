@@ -41,13 +41,23 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_that_null_fields_are_ignored() {
+  public void should_show_that_actual_null_fields_are_ignored() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     assertThat(multiLineDescription).contains(format("- all actual null fields were ignored in the comparison%n"));
+  }
+
+  @Test
+  public void should_show_that_expected_null_fields_are_ignored() {
+    // GIVEN
+    recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).contains(format("- all expected null fields were ignored in the comparison%n"));
   }
 
   @Test
@@ -237,6 +247,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   public void should_show_a_complete_multiline_description() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
+    recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
@@ -256,6 +267,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // @format:off
     assertThat(multiLineDescription).isEqualTo(format(
                "- all actual null fields were ignored in the comparison%n" +
+               "- all expected null fields were ignored in the comparison%n" +
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +

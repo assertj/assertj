@@ -45,6 +45,7 @@ public class RecursiveComparisonConfiguration {
 
   // fields to ignore section
   private boolean ignoreAllActualNullFields = false;
+  private boolean ignoreAllExpectedNullFields = false;
   private Set<FieldLocation> ignoredFields = new LinkedHashSet<>();
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
   private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
@@ -110,6 +111,17 @@ public class RecursiveComparisonConfiguration {
    */
   public void setIgnoreAllActualNullFields(boolean ignoreAllActualNullFields) {
     this.ignoreAllActualNullFields = ignoreAllActualNullFields;
+  }
+
+  /**
+   * Sets whether expected null fields are ignored in the recursive comparison.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringExpectedNullFields()} for code examples.
+   *
+   * @param ignoreAllExpectedNullFields whether to ignore expected null fields in the recursive comparison
+   */
+  public void setIgnoreAllExpectedNullFields(boolean ignoreAllExpectedNullFields) {
+    this.ignoreAllExpectedNullFields = ignoreAllExpectedNullFields;
   }
 
   /**
@@ -363,6 +375,7 @@ public class RecursiveComparisonConfiguration {
   public String multiLineDescription(Representation representation) {
     StringBuilder description = new StringBuilder();
     describeIgnoreAllActualNullFields(description);
+    describeIgnoreAllExpectedNullFields(description);
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
     describeIgnoredFieldsForTypes(description);
@@ -380,7 +393,7 @@ public class RecursiveComparisonConfiguration {
     String concatenatedPath = dualValue.concatenatedPath;
     return matchesAnIgnoredField(concatenatedPath)
            || matchesAnIgnoredFieldRegex(concatenatedPath)
-           || shouldIgnoreNotEvalutingFieldName(dualValue);
+           || shouldIgnoreNotEvaluatingFieldName(dualValue);
   }
 
   Set<String> getNonIgnoredActualFieldNames(DualValue dualValue) {
@@ -388,13 +401,13 @@ public class RecursiveComparisonConfiguration {
     // we are doing the same as shouldIgnore(DualValue dualKey) but in two steps for performance reasons:
     // - we filter first ignored field by names that don't need building DualValues
     // - then we filter field DualValues with the remaining criteria (shouldIgnoreNotEvalutingFieldName)
-    // DualValuea are built introspecting fields which is expensive.
+    // DualValues are built introspecting fields which is expensive.
     return actualFieldsNames.stream()
                             // evaluate field name ignoring criteria
                             .filter(fieldName -> !shouldIgnore(dualValue.path, fieldName))
                             .map(fieldName -> dualValueForField(dualValue, fieldName))
                             // evaluate field value ignoring criteria
-                            .filter(fieldDualValue -> !shouldIgnoreNotEvalutingFieldName(fieldDualValue))
+                            .filter(fieldDualValue -> !shouldIgnoreNotEvaluatingFieldName(fieldDualValue))
                             // back to field name
                             .map(DualValue::getFieldName)
                             .filter(fieldName -> !fieldName.isEmpty())
@@ -403,7 +416,7 @@ public class RecursiveComparisonConfiguration {
 
   // non public stuff
 
-  private boolean shouldIgnoreNotEvalutingFieldName(DualValue dualKey) {
+  private boolean shouldIgnoreNotEvaluatingFieldName(DualValue dualKey) {
     return matchesAnIgnoredNullField(dualKey) || matchesAnIgnoredFieldType(dualKey);
   }
 
@@ -475,6 +488,10 @@ public class RecursiveComparisonConfiguration {
 
   private void describeIgnoreAllActualNullFields(StringBuilder description) {
     if (ignoreAllActualNullFields) description.append(format("- all actual null fields were ignored in the comparison%n"));
+  }
+
+  private void describeIgnoreAllExpectedNullFields(StringBuilder description) {
+    if (ignoreAllExpectedNullFields) description.append(format("- all expected null fields were ignored in the comparison%n"));
   }
 
   private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
@@ -550,7 +567,8 @@ public class RecursiveComparisonConfiguration {
   }
 
   private boolean matchesAnIgnoredNullField(DualValue dualValue) {
-    return ignoreAllActualNullFields && dualValue.actual == null;
+    return (ignoreAllActualNullFields && dualValue.actual == null)
+           || (ignoreAllExpectedNullFields && dualValue.expected == null);
   }
 
   private boolean matchesAnIgnoredFieldRegex(String fieldConcatenatedPath) {

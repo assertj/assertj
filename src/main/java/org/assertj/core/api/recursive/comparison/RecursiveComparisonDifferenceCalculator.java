@@ -251,9 +251,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Class<?> actualFieldValueClass = actualFieldValue.getClass();
       if (!recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue)
           && hasOverriddenEquals(actualFieldValueClass)) {
-        if (!actualFieldValue.equals(expectedFieldValue)) {
-          comparisonState.addDifference(dualValue);
-        }
+        if (!actualFieldValue.equals(expectedFieldValue)) comparisonState.addDifference(dualValue);
         continue;
       }
 
@@ -326,7 +324,6 @@ public class RecursiveComparisonDifferenceCalculator {
       // at the moment we only allow comparing arrays with arrays but we might allow comparing to collections later on
       // but only if we are not in strict type mode.
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an array"));
-
       return;
     }
     // both values in dualValue are arrays
