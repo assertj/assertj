@@ -25,6 +25,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
+import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhitespace.shouldBeEqualNormalizingPunctuationAndWhitespace;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
@@ -94,6 +95,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class Strings {
 
   private static final Strings INSTANCE = new Strings();
+  private static final String PUNCTUATION_REGEX = "\\p{Punct}";
   private final ComparisonStrategy comparisonStrategy;
   @VisibleForTesting
   Failures failures = Failures.instance();
@@ -533,7 +535,7 @@ public class Strings {
     throw failures.failure(info, shouldNotContain(actual, values, found, comparisonStrategy));
   }
 
-  private void checkCharSequenceIsNotNull(CharSequence sequence) {
+  private static void checkCharSequenceIsNotNull(CharSequence sequence) {
     requireNonNull(sequence, "The char sequence to look for should not be null");
   }
 
@@ -667,7 +669,7 @@ public class Strings {
     return normalizeWhitespace(actual).equals(normalizeWhitespace(expected));
   }
 
-  private String normalizeWhitespace(CharSequence toNormalize) {
+  private static String normalizeWhitespace(CharSequence toNormalize) {
     final StringBuilder result = new StringBuilder(toNormalize.length());
     boolean lastWasSpace = true;
     for (int i = 0; i < toNormalize.length(); i++) {
@@ -681,6 +683,31 @@ public class Strings {
       }
     }
     return result.toString().trim();
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are equal, after the punctuation of both strings
+   * have been normalized.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
+   * @since 3.16.0
+   */
+  public void assertEqualsNormalizingPunctuationAndWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (!areEqualNormalizingPunctuationAndWhitespace(actual, expected))
+      throw failures.failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), actual, expected);
+  }
+
+  private static boolean areEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
+    if (actual == null) return expected == null;
+    checkCharSequenceIsNotNull(expected);
+    return normalizeWhitespaceAndPunctuation(actual).equals(normalizeWhitespaceAndPunctuation(expected));
+  }
+
+  private static String normalizeWhitespaceAndPunctuation(CharSequence toNormalize) {
+    return normalizeWhitespace(toNormalize.toString().replaceAll(PUNCTUATION_REGEX, ""));
   }
 
   /**

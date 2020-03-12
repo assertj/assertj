@@ -1360,6 +1360,43 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} is equal to the given one, after the punctuation
+   * of both strings have been normalized.
+   * <p>
+   * To be exact, the following rules are applied:
+   * <ul>
+   * <li>All punctuation of actual and expected strings are ignored and whitespaces are normalized</li>
+   * <li>Punctuation is any of the following character <b>{@code !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~}</b></li>
+   * </ul>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat("Game'of'Thrones").isEqualToNormalizingPunctuationAndWhitespace("GameofThrones")
+   * assertThat("Game of Throne's").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat(":Game of Thrones:").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat(":Game-of-Thrones:").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat("Game of Thrones?").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat("Game of Thrones!!!").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat("Game of  {{(!)}}    Thrones!!!").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat("{(Game)-(of)-(Thrones)!!!}").isEqualToNormalizingPunctuationAndWhitespace("GameofThrones");
+   *
+   * // assertions will fail
+   * assertThat("Game-of-Thrones").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones");
+   * assertThat("{Game:of:Thrones}").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones");
+   * assertThat("{(Game)-(of)-(Thrones)!!!}").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones");</code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
+   *           after punctuation have been normalized.
+   * @since 3.16.0
+   */
+  public SELF isEqualToNormalizingPunctuationAndWhitespace(CharSequence expected) {
+    strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} is a substring of the given one (opposite assertion of {@link #contains(CharSequence...) contains(CharSequence cs)}.
    * <p>
    * Example :
