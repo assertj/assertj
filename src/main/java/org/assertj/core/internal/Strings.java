@@ -25,7 +25,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
-import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuation.ShouldBeEqualNormalizingPunctuation;
+import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuation.shouldBeEqualNormalizingPunctuation;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
@@ -95,6 +95,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class Strings {
 
   private static final Strings INSTANCE = new Strings();
+  private static final String PUNCTUATION_REGEX = "\\p{Punct}";
   private final ComparisonStrategy comparisonStrategy;
   @VisibleForTesting
   Failures failures = Failures.instance();
@@ -685,18 +686,18 @@ public class Strings {
   }
 
   /**
-   * Verifies that two {@code CharSequence}s are equal, after the punctuations of both strings
-   * has been normalized.
+   * Verifies that two {@code CharSequence}s are equal, after the punctuation of both strings
+   * have been normalized.
    *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param expected the expected {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence}s are not equal.
-   * @since 2.8.0 / 3.8.0
+   * @since 3.16.0
    */
-  public void assertEqualsNormalizingWPunctuation(AssertionInfo info, CharSequence actual, CharSequence expected) {
+  public void assertEqualsNormalizingPunctuation(AssertionInfo info, CharSequence actual, CharSequence expected) {
     if (!areEqualNormalizingPunctuation(actual, expected))
-      throw failures.failure(info, ShouldBeEqualNormalizingPunctuation(actual, expected), actual, expected);
+      throw failures.failure(info, shouldBeEqualNormalizingPunctuation(actual, expected), actual, expected);
   }
 
   private boolean areEqualNormalizingPunctuation(CharSequence actual, CharSequence expected) {
@@ -706,7 +707,7 @@ public class Strings {
   }
 
   private String normalizePunctuation(CharSequence toNormalize) {
-    return normalizeWhitespace(toNormalize.toString().replaceAll("\\p{Punct}", ""));
+    return normalizeWhitespace(toNormalize.toString().replaceAll(PUNCTUATION_REGEX, ""));
   }
 
   /**

@@ -1360,12 +1360,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is equal to the given one, after the punctuations
-   * of both strings has been normalized.<br>
+   * Verifies that the actual {@code CharSequence} is equal to the given one, after the punctuation
+   * of both strings have been normalized.<br>
    * To be exact, the following rules are applied:
    * <ul>
-   * <li>all punctuations of actual and expected strings are ignored and whitespaces are normalized</li>
-   * <li>Punctuation: One of !&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</li>
+   * <li>all punctuation of actual and expected strings are ignored and whitespaces are normalized</li>
+   * <li>Punctuation: One of {@code !&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~}</li>
    * </ul>
    * <p>
    * Example :
@@ -1387,11 +1387,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
-   *           after punctuations has been normalized.
-   * @since 2.8.0 / 3.8.0
+   *           after punctuation have been normalized.
+   * @since 3.16.0
    */
   public SELF isEqualToNormalizingPunctuation(CharSequence expected) {
-    strings.assertEqualsNormalizingWPunctuation(info, actual, expected);
+    strings.assertEqualsNormalizingPunctuation(info, actual, expected);
     return myself;
   }
 

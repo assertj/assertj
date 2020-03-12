@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal,
- * after the punctuations of both strings has been normalized, failed.
+ * after the punctuation of both strings have been normalized, failed.
  *
  * Created by harisha talanki on 2/29/20
  */
@@ -26,7 +26,7 @@ public class ShouldBeEqualNormalizingPunctuation extends BasicErrorMessageFactor
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory ShouldBeEqualNormalizingPunctuation(CharSequence actual, CharSequence expected) {
+  public static ErrorMessageFactory shouldBeEqualNormalizingPunctuation(CharSequence actual, CharSequence expected) {
     return new ShouldBeEqualNormalizingPunctuation(actual, expected);
   }
 
