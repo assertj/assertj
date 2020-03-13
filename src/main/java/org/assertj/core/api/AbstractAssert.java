@@ -742,6 +742,45 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return satisfiesAnyOfAssertionsGroups(assertions1, assertions2, assertions3);
   }
 
+  /**
+   * Verifies that the actual object under test satisfies at least one of the given assertions group expressed as {@link Consumer}s.
+   * <p>
+   * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
+   * <p>
+   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from
+   * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
+   * Describing the assertion is supported (for example with {@link #as(String, Object...)}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter smaug = new TolkienCharacter("Smaug", DRAGON);
+   *
+   * Consumer&lt;TolkienCharacter&gt; isHobbit = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
+   * Consumer&lt;TolkienCharacter&gt; isElf = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
+   * Consumer&lt;TolkienCharacter&gt; isOrc = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(ORC);
+   * Consumer&lt;TolkienCharacter&gt; isDragon = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(DRAGON);
+   *
+   * // assertion succeeds:
+   * assertThat(smaug).satisfiesAnyOf(isElf, isHobbit, isOrc, isDragon);
+   *
+   * // assertion fails:
+   * TolkienCharacter boromir = new TolkienCharacter("Boromir", MAN);
+   * assertThat(boromir).satisfiesAnyOf(isHobbit, isElf, isOrc, isDragon);</code></pre>
+   *
+   * @param assertions1 the first group of assertions to run against the object under test - must not be null.
+   * @param assertions2 the second group of assertions to run against the object under test - must not be null.
+   * @param assertions3 the third group of assertions to run against the object under test - must not be null.
+   * @param assertions4 the third group of assertions to run against the object under test - must not be null.
+   * @return this assertion object.
+   *
+   * @throws IllegalArgumentException if any given assertions group is null
+   * @since 3.16.0
+   */
+  // Does not take a Consumer<ACTUAL>... to avoid to use @SafeVarargs to suppress the generic array type safety warning.
+  // @SafeVarargs requires methods to be final which breaks the proxying mechanism used by soft assertions and assumptions
+  public SELF satisfiesAnyOf(Consumer<ACTUAL> assertions1, Consumer<ACTUAL> assertions2, Consumer<ACTUAL> assertions3, Consumer<ACTUAL> assertions4) {
+    return satisfiesAnyOfAssertionsGroups(assertions1, assertions2, assertions3, assertions4);
+  }
+
   // can be final as it is not proxied
   @SafeVarargs
   private final SELF satisfiesAnyOfAssertionsGroups(Consumer<ACTUAL>... assertionsGroups) throws AssertionError {

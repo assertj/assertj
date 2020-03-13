@@ -14,6 +14,7 @@ package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.data.TolkienCharacter.Race.DRAGON;
 import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -37,9 +38,11 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
 
   private TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
   private TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
+  private TolkienCharacter smaug = TolkienCharacter.of("Smaug", 171, DRAGON);
   private Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
   private Consumer<TolkienCharacter> isElf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
   private Consumer<TolkienCharacter> isDwarf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DWARF);
+  private Consumer<TolkienCharacter> isDragon = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DRAGON);
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -70,6 +73,8 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     assertThat(frodo).satisfiesAnyOf(isHobbit, isElf);
     assertThat(legolas).satisfiesAnyOf(isHobbit, isElf, isDwarf)
                        .satisfiesAnyOf(isHobbit, isElf);
+    assertThat(smaug).satisfiesAnyOf(isHobbit, isElf, isDwarf, isDragon)
+                     .satisfiesAnyOf(isHobbit, isDwarf, isDragon);
   }
 
   @Test
@@ -78,7 +83,7 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     Consumer<TolkienCharacter> namesStartsWithF = tolkienCharacter -> assertThat(tolkienCharacter.getName()).startsWith("F");
     // THEN
     assertThat(frodo).satisfiesAnyOf(isHobbit, namesStartsWithF)
-                     .satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit);
+                     .satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit, isDragon);
   }
 
   @Test

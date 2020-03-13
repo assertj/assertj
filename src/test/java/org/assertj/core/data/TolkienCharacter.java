@@ -20,7 +20,7 @@ public class TolkienCharacter {
   }
 
   public enum Race {
-    HOBBIT, MAIA, ELF, DWARF, MAN
+    HOBBIT, MAIA, ELF, DWARF, MAN, DRAGON
   }
 
   public final String name;
