@@ -42,11 +42,11 @@ public class ByteArrayAssert_containsExactly_Test extends ByteArrayAssertBaseTes
   public void invoke_api_like_user() {
     assertThat(new byte[] { 1, 2, 3 }).containsExactly((byte) 1, (byte) 2, (byte) 3);
   }
-  
+
   @Test
   public void should_honor_the_given_element_comparator() {
     byte[] actual = new byte[] { 1, 2, 3, 4 };
-    assertThat(actual).usingElementComparator(new AbsValueComparator<Byte>()).containsExactly((byte) -1, (byte) 2, (byte) 3,
-                                                                                              (byte) -4);
+    assertThat(actual).usingElementComparator(new AbsValueComparator<Byte>())
+                      .containsExactly((byte) -1, (byte) 2, (byte) 3, (byte) -4);
   }
 }

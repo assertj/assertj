@@ -1,7 +1,7 @@
 package org.assertj.core.api.shortarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.assertj.core.api.AbstractShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
@@ -18,10 +18,14 @@ public abstract class ShortArrayAssertNullTest extends ShortArrayAssertBaseTest 
 
   @Test
   public void should_throw_exception_on_null_argument() {
-    assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> {
-      int[] content = null;
-      invoke_api_with_null_value(assertThat(new short[] {}), content);
-    }).withMessage("The array of values to look for should not be null");
+
+    // GIVEN
+    int[] nullContent = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> invoke_api_with_null_value(assertThat(new short[] {}), nullContent),
+                                                    NullPointerException.class);
+    // THEN
+    assertThat(npe).hasMessage("The array of values to look for should not be null");
   }
 
   protected abstract void invoke_api_with_null_value(AbstractShortArrayAssert<?> emptyAssert, int[] nullArray);

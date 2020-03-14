@@ -217,7 +217,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF contains(int... values) {
     arrays.assertContains(info, actual, toShortArray(values));
@@ -270,7 +270,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF containsOnly(int... values) {
     arrays.assertContainsOnly(info, actual, toShortArray(values));
@@ -321,7 +321,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF containsOnlyOnce(int... values) {
     arrays.assertContainsOnlyOnce(info, actual, toShortArray(values));
@@ -366,7 +366,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF containsSequence(int... sequence) {
     arrays.assertContainsSequence(info, actual, toShortArray(sequence));
@@ -411,7 +411,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given subsequence.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF containsSubsequence(int... subsequence) {
     arrays.assertContainsSubsequence(info, actual, toShortArray(subsequence));
@@ -464,7 +464,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF contains(int value, Index index) {
     arrays.assertContains(info, actual, toShort(value), index);
@@ -509,7 +509,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF doesNotContain(int... values) {
     arrays.assertDoesNotContain(info, actual, toShortArray(values));
@@ -558,7 +558,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws AssertionError if the actual array is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF doesNotContain(int value, Index index) {
     arrays.assertDoesNotContain(info, actual, toShort(value), index);
@@ -626,7 +626,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF startsWith(int... sequence) {
     arrays.assertStartsWith(info, actual, toShortArray(sequence));
@@ -675,7 +675,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
-   * @since 3.13.3    
+   * @since 3.16.0
    */
   public SELF endsWith(int... sequence) {
     arrays.assertEndsWith(info, actual, toShortArray(sequence));
@@ -756,7 +756,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF containsExactly(int... values) {
     arrays.assertContainsExactly(info, actual, toShortArray(values));
@@ -808,7 +808,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF containsExactlyInAnyOrder(int... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, toShortArray(values));
@@ -868,14 +868,14 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if the array under test does not contain any of the given {@code values}.
-   * @since 3.13.3
+   * @since 3.16.0
    */
   public SELF containsAnyOf(int... values) {
     arrays.assertContainsAnyOf(info, actual, toShortArray(values));
     return myself;
   }
 
-  private short[] toShortArray(int[] ints) {
+  private static short[] toShortArray(int[] ints) {
     if (ints == null) {
       return null;
     }
@@ -886,7 +886,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
     return shorts;
   }
 
-  private short toShort(int value) {
+  private static short toShort(int value) {
     return (short) value;
   }
 }
