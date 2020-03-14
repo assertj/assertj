@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.mockito.Mockito.mock;
@@ -33,20 +33,20 @@ public class ShouldHaveContent_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     final FakeFile file = new FakeFile("xyz");
-
-    @SuppressWarnings("unchecked")
     Delta<String> delta = mock(Delta.class);
     when(delta.toString()).thenReturn(DIFF);
-    List<Delta<String>> diffs = Lists.newArrayList(delta);
-
+    List<Delta<String>> diffs = Lists.list(delta);
     ErrorMessageFactory factory = shouldHaveContent(file, defaultCharset(), diffs);
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n"
-                                         + "File:%n"
-                                         + "  <xyz>%n"
-                                         + "read with charset <%s> does not have the expected content:%n%n"
-                                         + DIFF,
-                                         defaultCharset().name()));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "File:%n"
+                                   + "  <xyz>%n"
+                                   + "read with charset <%s> does not have the expected content:%n%n"
+                                   + DIFF,
+                                   defaultCharset().name()));
   }
 }

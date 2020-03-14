@@ -8,32 +8,32 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.urls;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.internal.Uris.getParameters;
-
-public class Uris_getParameters_Test {
+class Uris_getParameters_Test extends UrisBaseTest {
 
   @Test
-  public void should_return_empty_for_empty_query() {
+  void should_return_empty_for_empty_query() {
     assertThat(getParameters("")).isEmpty();
   }
 
   @Test
-  public void should_return_empty_for_null_query() {
+  void should_return_empty_for_null_query() {
     assertThat(getParameters(null)).isEmpty();
   }
 
   @Test
-  public void should_accept_parameter_with_no_value() {
+  void should_accept_parameter_with_no_value() {
     Map<String, List<String>> parameters = getParameters("foo");
 
     assertThat(parameters).containsKey("foo");
@@ -42,7 +42,7 @@ public class Uris_getParameters_Test {
   }
 
   @Test
-  public void should_accept_parameter_with_value() {
+  void should_accept_parameter_with_value() {
     Map<String, List<String>> parameters = getParameters("foo=bar");
 
     assertThat(parameters).containsKey("foo");
@@ -50,17 +50,17 @@ public class Uris_getParameters_Test {
   }
 
   @Test
-  public void should_decode_name() {
+  void should_decode_name() {
     assertThat(getParameters("foo%3Dbar=baz")).containsKey("foo=bar");
   }
 
   @Test
-  public void should_decode_value() {
+  void should_decode_value() {
     assertThat(getParameters("foo=bar%3Dbaz").get("foo")).contains("bar=baz");
   }
 
   @Test
-  public void should_accept_duplicate_names() {
+  void should_accept_duplicate_names() {
     Map<String, List<String>> parameters = getParameters("foo&foo=bar");
 
     assertThat(parameters).containsKey("foo");
@@ -68,7 +68,7 @@ public class Uris_getParameters_Test {
   }
 
   @Test
-  public void should_accept_duplicate_values() {
+  void should_accept_duplicate_values() {
     Map<String, List<String>> parameters = getParameters("foo=bar&foo=bar");
 
     assertThat(parameters).containsKey("foo");

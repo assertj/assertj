@@ -8,14 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.AnyElementShouldMatch.anyElementShouldMatch;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
@@ -27,28 +27,28 @@ public class AnyElementsShouldMatch_create_Test {
   @Test
   public void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = anyElementShouldMatch(newArrayList("Luke", "Yoda"),
+    ErrorMessageFactory factory = anyElementShouldMatch(list("Luke", "Yoda"),
                                                         new PredicateDescription("Yoda violates some restrictions"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting any elements of:%n" +
-                                         "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to match 'Yoda violates some restrictions' predicate but none did."));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting any elements of:%n" +
+                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "to match 'Yoda violates some restrictions' predicate but none did."));
   }
 
   @Test
   public void should_create_error_message_given() {
     // GIVEN
-    ErrorMessageFactory factory = anyElementShouldMatch(newArrayList("Luke", "Yoda"), PredicateDescription.GIVEN);
+    ErrorMessageFactory factory = anyElementShouldMatch(list("Luke", "Yoda"), PredicateDescription.GIVEN);
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting any elements of:%n" +
-                                         "  <[\"Luke\", \"Yoda\"]>%n" +
-                                         "to match given predicate but none did."));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting any elements of:%n" +
+                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "to match given predicate but none did."));
   }
 
 }

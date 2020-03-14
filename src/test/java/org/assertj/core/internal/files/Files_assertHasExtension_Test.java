@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,7 +40,8 @@ public class Files_assertHasExtension_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_error_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasExtension(someInfo(), null, expectedExtension))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasExtension(someInfo(), null,
+                                                                                              expectedExtension))
                                                    .withMessage(actualIsNull());
   }
 
@@ -53,13 +55,11 @@ public class Files_assertHasExtension_Test extends FilesBaseTest {
   public void should_throw_error_if_actual_is_not_a_file() {
     AssertionInfo info = someInfo();
     when(actual.isFile()).thenReturn(false);
-    try {
-      files.assertHasExtension(info, actual, expectedExtension);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeFile(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertHasExtension(info, actual, expectedExtension));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeFile(actual));
   }
 
   @Test
@@ -67,13 +67,11 @@ public class Files_assertHasExtension_Test extends FilesBaseTest {
     AssertionInfo info = someInfo();
     when(actual.isFile()).thenReturn(true);
     when(actual.getName()).thenReturn("file.png");
-    try {
-      files.assertHasExtension(info, actual, expectedExtension);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveExtension(actual, "png", expectedExtension));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertHasExtension(info, actual, expectedExtension));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveExtension(actual, "png", expectedExtension));
   }
 
   @Test

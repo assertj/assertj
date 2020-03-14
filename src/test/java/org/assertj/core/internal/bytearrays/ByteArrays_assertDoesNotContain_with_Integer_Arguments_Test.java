@@ -8,19 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ByteArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -69,13 +70,11 @@ public class ByteArrays_assertDoesNotContain_with_Integer_Arguments_Test extends
   @Test
   public void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
-    try {
-      arrays.assertDoesNotContain(info, actual, IntArrays.arrayOf(6, 8, 20));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, arrayOf(6, 8, 20), newLinkedHashSet((byte) 6, (byte) 8)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, IntArrays.arrayOf(6, 8, 20)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContain(actual, arrayOf(6, 8, 20), newLinkedHashSet((byte) 6, (byte) 8)));
   }
 
   @Test
@@ -113,12 +112,10 @@ public class ByteArrays_assertDoesNotContain_with_Integer_Arguments_Test extends
   @Test
   public void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, IntArrays.arrayOf(6, -8, 20));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 6, (byte) -8), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, IntArrays.arrayOf(6, -8, 20)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotContain(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 6, (byte) -8), absValueComparisonStrategy));
   }
 }

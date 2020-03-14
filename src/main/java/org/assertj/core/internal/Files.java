@@ -8,15 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -32,14 +34,13 @@ import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.internal.Digests.digestDiff;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -135,6 +136,29 @@ public class Files {
   }
 
   /**
+   * Asserts that the given files have the same binary content.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" file.
+   * @param expected the "expected" file.
+   * @throws NullPointerException if {@code expected} is {@code null}.
+   * @throws IllegalArgumentException if {@code expected} is not an existing file.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} is not an existing file.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError if the given files do not have same content.
+   */
+  public void assertSameBinaryContentAs(AssertionInfo info, File actual, File expected) {
+    verifyIsFile(expected);
+    assertIsFile(info, actual);
+    try {
+      BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
+      if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
+    } catch (IOException ioe) {
+      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
+    }
+  }
+
+  /**
    * Asserts that the given file has the given binary content.
    * @param info contains information about the assertion.
    * @param actual the "actual" file.
@@ -146,16 +170,30 @@ public class Files {
    * @throws AssertionError if the file does not have the binary content.
    */
   public void assertHasBinaryContent(AssertionInfo info, File actual, byte[] expected) {
-    checkNotNull(expected, "The binary content to compare to should not be null");
+    requireNonNull(expected, "The binary content to compare to should not be null");
     assertIsFile(info, actual);
     try {
       BinaryDiffResult result = binaryDiff.diff(actual, expected);
       if (result.hasNoDiff()) return;
       throw failures.failure(info, shouldHaveBinaryContent(actual, result));
     } catch (IOException e) {
-      String msg = String.format("Unable to verify binary contents of file:<%s>", actual);
+      String msg = format("Unable to verify binary contents of file:<%s>", actual);
       throw new UncheckedIOException(msg, e);
     }
+  }
+
+  /**
+   * Asserts that the given file has the given size in bytes.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" file.
+   * @param expectedSizeInBytes the "expected" file size.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} is not an existing file.
+   */
+  public void assertHasSizeInBytes(AssertionInfo info, File actual, long expectedSizeInBytes) {
+    assertIsFile(info, actual);
+    if (expectedSizeInBytes == actual.length()) return;
+    throw failures.failure(info, shouldHaveSize(actual, expectedSizeInBytes));
   }
 
   /**
@@ -171,14 +209,14 @@ public class Files {
    * @throws AssertionError if the file does not have the text content.
    */
   public void assertHasContent(AssertionInfo info, File actual, String expected, Charset charset) {
-    checkNotNull(expected, "The text to compare to should not be null");
+    requireNonNull(expected, "The text to compare to should not be null");
     assertIsFile(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, expected, charset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
-      String msg = String.format("Unable to verify text contents of file:<%s>", actual);
+      String msg = format("Unable to verify text contents of file:<%s>", actual);
       throw new UncheckedIOException(msg, e);
     }
   }
@@ -260,16 +298,44 @@ public class Files {
   }
 
   /**
-  * Asserts that the given file can be modified by the application.
-  * @param info contains information about the assertion.
-  * @param actual the given file.
-  * @throws AssertionError if the given file is {@code null}.
-  * @throws AssertionError if the given file can not be modified.
-  */
+   * Asserts that the given file can be modified by the application.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file can not be modified.
+   */
   public void assertCanWrite(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canWrite()) return;
     throw failures.failure(info, shouldBeWritable(actual));
+  }
+
+  /**
+   * Asserts that the given {@code File} is empty (i.e. size is equal to zero bytes).
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given {@code File} is {@code null}.
+   * @throws AssertionError if the given {@code File} does not exist.
+   * @throws AssertionError if the given {@code File} is not empty.
+   */
+  public void assertIsEmptyFile(AssertionInfo info, File actual) {
+    assertIsFile(info, actual);
+    if (actual.length() == 0) return;
+    throw failures.failure(info, shouldBeEmpty(actual));
+  }
+
+  /**
+   * Asserts that the given {@code File} is not empty (i.e. size is greater than zero bytes).
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given {@code File} is {@code null}.
+   * @throws AssertionError if the given {@code File} does not exist.
+   * @throws AssertionError if the given {@code File} is empty.
+   */
+  public void assertIsNotEmptyFile(AssertionInfo info, File actual) {
+    assertIsFile(info, actual);
+    if (actual.length() > 0) return;
+    throw failures.failure(info, shouldNotBeEmpty(actual));
   }
 
   /**
@@ -298,14 +364,14 @@ public class Files {
    * @throws AssertionError if the given {@code File} parent is not equal to the expected one.
    */
   public void assertHasParent(AssertionInfo info, File actual, File expected) {
-    checkNotNull(expected, "The expected parent file should not be null.");
+    requireNonNull(expected, "The expected parent file should not be null.");
     assertNotNull(info, actual);
     try {
       if (actual.getParentFile() != null
-          && areEqual(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
+          && java.util.Objects.equals(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
         return;
     } catch (IOException e) {
-      throw new UncheckedIOException(String.format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
+      throw new UncheckedIOException(format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
     }
     throw failures.failure(info, shouldHaveParent(actual, expected));
   }
@@ -322,7 +388,7 @@ public class Files {
    * @throws AssertionError if the actual {@code File} does not have the expected extension.
    */
   public void assertHasExtension(AssertionInfo info, File actual, String expected) {
-    checkNotNull(expected, "The expected extension should not be null.");
+    requireNonNull(expected, "The expected extension should not be null.");
     assertIsFile(info, actual);
     String actualExtension = getFileExtension(actual);
     if (expected.equals(actualExtension)) return;
@@ -341,7 +407,7 @@ public class Files {
    */
   public void assertHasName(AssertionInfo info, File actual, String expected) {
     assertNotNull(info, actual);
-    checkNotNull(expected, "The expected name should not be null.");
+    requireNonNull(expected, "The expected name should not be null.");
     if (expected.equals(actual.getName())) return;
     throw failures.failure(info, shouldHaveName(actual, expected));
   }
@@ -361,8 +427,8 @@ public class Files {
   }
 
   public void assertHasDigest(AssertionInfo info, File actual, MessageDigest digest, byte[] expected) {
-    checkNotNull(digest, "The message digest algorithm should not be null");
-    checkNotNull(expected, "The binary representation of digest to compare to should not be null");
+    requireNonNull(digest, "The message digest algorithm should not be null");
+    requireNonNull(expected, "The binary representation of digest to compare to should not be null");
     assertExists(info, actual);
     assertIsFile(info, actual);
     assertCanRead(info, actual);
@@ -375,12 +441,12 @@ public class Files {
   }
 
   public void assertHasDigest(AssertionInfo info, File actual, MessageDigest digest, String expected) {
-    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, digest, Digests.fromHex(expected));
   }
 
   public void assertHasDigest(AssertionInfo info, File actual, String algorithm, byte[] expected) {
-    checkNotNull(algorithm, "The message digest algorithm should not be null");
+    requireNonNull(algorithm, "The message digest algorithm should not be null");
     try {
       assertHasDigest(info, actual, MessageDigest.getInstance(algorithm), expected);
     } catch (NoSuchAlgorithmException e) {
@@ -389,7 +455,7 @@ public class Files {
   }
 
   public void assertHasDigest(AssertionInfo info, File actual, String algorithm, String expected) {
-    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
 
@@ -404,23 +470,23 @@ public class Files {
   }
 
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter) {
-    checkNotNull(filter, "The files filter should not be null");
+    requireNonNull(filter, "The files filter should not be null");
     assertIsDirectoryContaining(info, actual, filter, "the given filter");
   }
 
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
-    checkNotNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
     Predicate<File> pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryContaining(info, actual, pathMatcher, format("the '%s' pattern", syntaxAndPattern));
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter) {
-    checkNotNull(filter, "The files filter should not be null");
+    requireNonNull(filter, "The files filter should not be null");
     assertIsDirectoryNotContaining(info, actual, filter, "the given filter");
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
-    checkNotNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
     Predicate<File> pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryNotContaining(info, actual, pathMatcher, format("the '%s' pattern", syntaxAndPattern));
   }
@@ -436,7 +502,7 @@ public class Files {
   private List<File> filterDirectory(AssertionInfo info, File actual, Predicate<File> filter) {
     assertIsDirectory(info, actual);
     File[] items = actual.listFiles(filter::test);
-    checkNotNull(items, "Directory listing should not be null");
+    requireNonNull(items, "Directory listing should not be null");
     return list(items);
   }
 
@@ -480,7 +546,7 @@ public class Files {
   }
 
   private void verifyIsFile(File expected) {
-    checkNotNull(expected, "The file to compare to should not be null");
+    requireNonNull(expected, "The file to compare to should not be null");
     checkArgument(expected.isFile(), "Expected file:<'%s'> should be an existing file", expected);
   }
 

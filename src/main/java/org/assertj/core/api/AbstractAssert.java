@@ -8,24 +8,30 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
@@ -61,8 +67,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   private static final String ORG_ASSERTJ = "org.assert";
 
-  @VisibleForTesting
-  Objects objects = Objects.instance();
+  protected Objects objects = Objects.instance();
 
   @VisibleForTesting
   Conditions conditions = Conditions.instance();
@@ -153,9 +158,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws AssertionError with a message corresponding to the given {@link BasicErrorMessageFactory}.
    */
   protected void throwAssertionError(ErrorMessageFactory errorMessageFactory) {
+    throw assertionError(errorMessageFactory);
+  }
+
+  protected AssertionError assertionError(ErrorMessageFactory errorMessageFactory) {
     AssertionError failure = Failures.instance().failure(info, errorMessageFactory);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(failure);
-    throw failure;
+    return failure;
   }
 
   private void removeCustomAssertRelatedElementsFromStackTraceIfNeeded(AssertionError assertionError) {
@@ -181,20 +190,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       currentAssertClass = currentAssertClass.getSuperclass();
     }
     return false;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public SELF as(String description, Object... args) {
-    return describedAs(description, args);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public SELF as(Description description) {
-    return describedAs(description);
   }
 
   /**
@@ -244,14 +239,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   protected SELF inBinary() {
     info.useBinaryRepresentation();
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public SELF describedAs(String description, Object... args) {
-    info.description(description, args);
     return myself;
   }
 
@@ -755,6 +742,45 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return satisfiesAnyOfAssertionsGroups(assertions1, assertions2, assertions3);
   }
 
+  /**
+   * Verifies that the actual object under test satisfies at least one of the given assertions group expressed as {@link Consumer}s.
+   * <p>
+   * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
+   * <p>
+   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from
+   * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
+   * Describing the assertion is supported (for example with {@link #as(String, Object...)}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter smaug = new TolkienCharacter("Smaug", DRAGON);
+   *
+   * Consumer&lt;TolkienCharacter&gt; isHobbit = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
+   * Consumer&lt;TolkienCharacter&gt; isElf = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
+   * Consumer&lt;TolkienCharacter&gt; isOrc = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(ORC);
+   * Consumer&lt;TolkienCharacter&gt; isDragon = tolkienCharacter -&gt; assertThat(tolkienCharacter.getRace()).isEqualTo(DRAGON);
+   *
+   * // assertion succeeds:
+   * assertThat(smaug).satisfiesAnyOf(isElf, isHobbit, isOrc, isDragon);
+   *
+   * // assertion fails:
+   * TolkienCharacter boromir = new TolkienCharacter("Boromir", MAN);
+   * assertThat(boromir).satisfiesAnyOf(isHobbit, isElf, isOrc, isDragon);</code></pre>
+   *
+   * @param assertions1 the first group of assertions to run against the object under test - must not be null.
+   * @param assertions2 the second group of assertions to run against the object under test - must not be null.
+   * @param assertions3 the third group of assertions to run against the object under test - must not be null.
+   * @param assertions4 the third group of assertions to run against the object under test - must not be null.
+   * @return this assertion object.
+   *
+   * @throws IllegalArgumentException if any given assertions group is null
+   * @since 3.16.0
+   */
+  // Does not take a Consumer<ACTUAL>... to avoid to use @SafeVarargs to suppress the generic array type safety warning.
+  // @SafeVarargs requires methods to be final which breaks the proxying mechanism used by soft assertions and assumptions
+  public SELF satisfiesAnyOf(Consumer<ACTUAL> assertions1, Consumer<ACTUAL> assertions2, Consumer<ACTUAL> assertions3, Consumer<ACTUAL> assertions4) {
+    return satisfiesAnyOfAssertionsGroups(assertions1, assertions2, assertions3, assertions4);
+  }
+
   // can be final as it is not proxied
   @SafeVarargs
   private final SELF satisfiesAnyOfAssertionsGroups(Consumer<ACTUAL>... assertionsGroups) throws AssertionError {
@@ -834,6 +860,74 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     this.info.useRepresentation(assertInstance.info.representation());
     this.info.description(assertInstance.info.description());
     this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
+  }
+
+  // this method is meant to be overridden and made public in subclasses that want to expose it
+  // this would avoid duplicating this code in all subclasses
+  protected RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself);
+  }
+
+  // this method is meant to be overridden and made public in subclasses that want to expose it
+  // this would avoid duplicating this code in all subclasses
+  protected RecursiveComparisonAssert<?> usingRecursiveComparison() {
+    return usingRecursiveComparison(new RecursiveComparisonConfiguration());
+  }
+
+  /**
+   * Extracts the value of given field/property from the object under test and creates a new assertion object using the
+   * given assert factory.
+   * <p>
+   * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
+   * <p>
+   * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
+   * corresponding to actual.getAddress().getStreet().getNumber()
+   * <p>
+   * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
+   *
+   * @param <ASSERT>        the type of the resulting {@code Assert}
+   * @param propertyOrField the property/field to extract from the initial object under test
+   * @param assertFactory   the factory for the creation of the new {@code Assert}
+   * @return the new {@code Assert} instance
+   * 
+   * @since 3.16.0
+   * @see AbstractObjectAssert#extracting(String)
+   * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  protected <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
+                                                                    AssertFactory<Object, ASSERT> assertFactory) {
+    requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField").create());
+    requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    Object value = byName(propertyOrField).apply(actual);
+    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
+    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+    return (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
+  }
+
+  /**
+   * Uses the given {@link Function} to extract a value from the object under test and creates a new assertion object
+   * using the given assert factory.
+   * 
+   * @param <T>           the expected extracted value type
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param extractor     the extractor function used to extract the value from the object under test
+   * @param assertFactory the factory for the creation of the new {@code Assert}
+   * @return the new {@code Assert} instance
+   * 
+   * @since 3.16.0
+   * @see AbstractObjectAssert#extracting(Function)
+   * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
+   */
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  protected <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, ? extends T> extractor,
+                                                                       AssertFactory<T, ASSERT> assertFactory) {
+    requireNonNull(extractor, shouldNotBeNull("extractor").create());
+    requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    T extractedValue = extractor.apply(actual);
+    return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
   }
 
 }

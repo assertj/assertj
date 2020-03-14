@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
@@ -58,13 +59,10 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
   @ParameterizedTest
   @MethodSource("equalIgnoringWhitespaceGenerator")
   public void should_fail_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
-    try {
-      strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreEqualIgnoringWhitespace(someInfo(), actual, expected);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringsAreEqualIgnoringWhitespace(someInfo(), actual, expected);
   }
 
   public static Stream<Arguments> equalIgnoringWhitespaceGenerator() {

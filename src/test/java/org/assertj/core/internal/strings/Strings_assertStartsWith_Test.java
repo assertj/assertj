@@ -8,15 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -37,13 +38,11 @@ public class Strings_assertStartsWith_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_start_with_prefix() {
     AssertionInfo info = someInfo();
-    try {
-      strings.assertStartsWith(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith("Yoda", "Luke"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> strings.assertStartsWith(info, "Yoda", "Luke"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldStartWith("Yoda", "Luke"));
   }
 
   @Test
@@ -76,13 +75,11 @@ public class Strings_assertStartsWith_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_start_with_prefix_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, "Yoda", "Luke");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith("Yoda", "Luke", comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, "Yoda", "Luke"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldStartWith("Yoda", "Luke", comparisonStrategy));
   }
 
 }

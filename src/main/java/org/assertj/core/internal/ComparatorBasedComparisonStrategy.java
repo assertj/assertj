@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
@@ -22,7 +23,7 @@ import java.util.TreeSet;
 
 /**
  * Implements {@link ComparisonStrategy} contract with a comparison strategy based on a {@link Comparator}.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrategy {
@@ -39,7 +40,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   /**
    * Creates a new <code>{@link ComparatorBasedComparisonStrategy}</code> specifying the comparison strategy with given
    * comparator.
-   * 
+   *
    * @param comparator the comparison strategy to use.
    */
   public ComparatorBasedComparisonStrategy(@SuppressWarnings("rawtypes") Comparator comparator) {
@@ -61,9 +62,19 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   }
 
   /**
+   * Creates a new <code>{@link ComparatorBasedComparisonStrategy}</code> specifying the comparison strategy with given
+   * {@link DescribableComparator}.
+   *
+   * @param comparator the comparator to use in the comparison strategy.
+   */
+  public ComparatorBasedComparisonStrategy(DescribableComparator<?> comparator) {
+    this(comparator, comparator.description());
+  }
+
+  /**
    * Returns true if given {@link Iterable} contains given value according to {@link #comparator}, false otherwise.<br>
    * If given {@link Iterable} is null or empty, return false.
-   * 
+   *
    * @param iterable the {@link Iterable} to search value in
    * @param value the object to look for in given {@link Iterable}
    * @return true if given {@link Iterable} contains given value according to {@link #comparator}, false otherwise.
@@ -86,7 +97,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    * Look for given value in given {@link Iterable} according to the {@link Comparator}, if value is found it is removed
    * from it.<br>
    * Does nothing if given {@link Iterable} is null (meaning no exception thrown).
-   * 
+   *
    * @param iterable the {@link Iterable} we want remove value from
    * @param value object to remove from given {@link Iterable}
    */
@@ -94,10 +105,15 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @SuppressWarnings("unchecked")
   public void iterableRemoves(Iterable<?> iterable, Object value) {
     if (iterable == null) return;
-    Iterator<?> iterator = iterable.iterator();
-    while (iterator.hasNext()) {
-      if (comparator.compare(iterator.next(), value) == 0) {
-        iterator.remove();
+    // Avoid O(N^2) complexity of serial removal from an iterator of collections like ArrayList
+    if (iterable instanceof Collection) {
+      ((Collection<?>) iterable).removeIf(o -> comparator.compare(o, value) == 0);
+    } else {
+      Iterator<?> iterator = iterable.iterator();
+      while (iterator.hasNext()) {
+        if (comparator.compare(iterator.next(), value) == 0) {
+          iterator.remove();
+        }
       }
     }
   }
@@ -118,7 +134,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   /**
    * Returns true if actual and other are equal according to {@link #comparator}, false otherwise.<br>
    * Handles the cases where one of the parameter is null so that internal {@link #comparator} does not have too.
-   * 
+   *
    * @param actual the object to compare to other
    * @param other the object to compare to actual
    * @return true if actual and other are equal according to {@link #comparator}, false otherwise.
@@ -133,7 +149,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   /**
    * Returns any duplicate elements from the given {@link Iterable} according to {@link #comparator}.
-   * 
+   *
    * @param iterable the given {@link Iterable} we want to extract duplicate elements.
    * @return an {@link Iterable} containing the duplicate elements of the given one. If no duplicates are found, an
    *         empty {@link Iterable} is returned.

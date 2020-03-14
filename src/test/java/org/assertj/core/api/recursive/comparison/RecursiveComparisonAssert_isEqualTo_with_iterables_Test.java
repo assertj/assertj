@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -19,19 +19,51 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.recursive.comparison.Author.authorsTreeSet;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Maps.newHashMap;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
+import org.assertj.core.internal.objects.data.PersonDto;
+import org.assertj.core.test.Person;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+public class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest
+    implements PersonData {
+
+  @ParameterizedTest(name = "actual {0} / expected {1}")
+  @MethodSource("container_values")
+  public void should_fail_as_Person_overridden_equals_should_be_honored(Object actual, Object expected,
+                                                                        ComparisonDifference difference) {
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
+  }
+
+  static Stream<Arguments> container_values() {
+    // sheldon type is Person which overrides equals!
+    Iterable<Person> actualAsIterable = newHashSet(sheldon);
+    Iterable<PersonDto> expectAsIterable = newHashSet(sheldonDto);
+    Person[] actualAsArray = array(sheldon);
+    PersonDto[] expectedAsArray = array(sheldonDto);
+    Optional<Person> actualAsOptional = Optional.of(sheldon);
+    Optional<PersonDto> expectedAsOptional = Optional.of(sheldonDto);
+    Map<String, PersonDto> expectedAsMap = newHashMap("sheldon", sheldonDto);
+    Map<String, Person> actualAsMap = newHashMap("sheldon", sheldon);
+    return Stream.of(Arguments.of(actualAsIterable, expectAsIterable, diff("", actualAsIterable, expectAsIterable)),
+                     Arguments.of(actualAsArray, expectedAsArray, diff("", sheldon, sheldonDto)),
+                     Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto)),
+                     Arguments.of(actualAsMap, expectedAsMap, diff("", sheldon, sheldonDto)));
+  }
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")
   @MethodSource("matchingCollections")
@@ -79,7 +111,7 @@ public class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends Rec
                      Arguments.of(authorsTreeSet(georgeMartin, pratchett), newHashSet(pratchett, georgeMartin)));
   }
 
-  @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
+  @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3} / value 2 {4}")
   @MethodSource("differentCollections")
   public void should_fail_when_comparing_different_collection_fields(Collection<Author> authors1, Collection<Author> authors2,
                                                                      String path, Object value1, Object value2, String desc) {

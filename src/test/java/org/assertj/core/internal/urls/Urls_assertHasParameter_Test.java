@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -31,14 +32,10 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news");
     String name = "article";
 
-    try {
-      urls.assertHasParameter(info, url, name);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParameter(url, name));
   }
 
   @Test
@@ -57,14 +54,10 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String name = "article";
     String expectedValue = null;
 
-    try {
-      urls.assertHasParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue));
   }
 
   @Test
@@ -79,14 +72,10 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList("11");
 
-    try {
-      urls.assertHasParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
   }
 
   @Test
@@ -96,14 +85,10 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList("11", "12");
 
-    try {
-      urls.assertHasParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
   }
 
   @Test
@@ -112,14 +97,10 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String name = "article";
     String expectedValue = "10";
 
-    try {
-      urls.assertHasParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue));
   }
 
   @Test
@@ -129,14 +110,10 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList((String)null);
 
-    try {
-      urls.assertHasParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
   }
 
   @Test
@@ -146,14 +123,10 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList(null, null);
 
-    try {
-      urls.assertHasParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
   }
 
   @Test
@@ -163,14 +136,10 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList("11");
 
-    try {
-      urls.assertHasParameter(info, url, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
-      return;
-    }
+    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
 
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
   }
 
   @Test

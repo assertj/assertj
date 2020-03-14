@@ -8,47 +8,60 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.localdatetime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
+import org.assertj.core.api.LocalDateTimeAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * Only test String based assertion (tests with {@link LocalDateTime} are already defined in assertj-core)
- * 
+ *
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class LocalDateTimeAssert_isNotEqualTo_Test extends LocalDateTimeAssertBaseTest {
+@DisplayName("LocalDateTimeAssert isNotEqualTo")
+public class LocalDateTimeAssert_isNotEqualTo_Test extends AbstractLocalDateTimeAssertBaseTest {
 
-  @Test
-  public void test_isNotEqualTo_assertion() {
-    // WHEN
-    assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusDays(1).toString());
-    // THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString())).isInstanceOf(AssertionError.class);
+  @Override
+  protected LocalDateTimeAssert invoke_api_method() {
+    return assertions.isNotEqualTo(NOW)
+                     .isNotEqualTo(YESTERDAY.toString())
+                     .isNotEqualTo((LocalDateTime) null);
   }
 
-  @Test
-  public void test_isNotEqualTo_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isNotEqualTo(LocalDateTime.of(2000, 1, 5, 3, 0, 5).toString());
-    }).withMessage(format("%nExpecting:%n <2000-01-05T03:00:05>%nnot to be equal to:%n <2000-01-05T03:00:05>%n"));
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertNotEqual(getInfo(assertions), getActual(assertions), NOW);
+    verify(comparables).assertNotEqual(getInfo(assertions), getActual(assertions), YESTERDAY);
+    verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions), null);
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isNotEqualTo((String) null))
+    // GIVEN
+    String otherDateTimeAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(NOW).isNotEqualTo(otherDateTimeAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
+  @Test
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isNotEqualTo("not a LocalDateTime")).isInstanceOf(DateTimeParseException.class);
+  }
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -208,7 +208,52 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Makes the recursive comparison to ignore the given the object under test fields. Nested fields can be specified like this: {@code home.address.street}.
+   * Makes the recursive comparison to ignore all <b>expected null fields</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person noName = new Person(null, 1.80);
+   * noName.home.address.street = null;
+   * noName.home.address.number = 221;
+   *
+   * // assertion succeeds as name and home.address.street fields are ignored in the comparison
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .ignoringExpectedNullFields()
+   *                     .isEqualTo(noName);
+   *
+   * // assertion fails as name and home.address.street fields are populated for sherlock but not noName.
+   * assertThat(noName).usingRecursiveComparison()
+   *                   .ignoringExpectedNullFields()
+   *                   .isEqualTo(sherlock);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF ignoringExpectedNullFields() {
+    recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore the given object under test fields. Nested fields can be specified like this: {@code home.address.street}.
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {
@@ -299,6 +344,54 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public SELF ignoringFieldsMatchingRegexes(String... regexes) {
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regexes);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore the object under test fields of the given types.
+   * The fields are ignored if their types <b>exactly match one of the ignored types</b>, for example if a field is a subtype of an ignored type it is not ignored.
+   * <p>
+   * If some object under test fields are null it is not possible to evaluate their types unless in {@link #withStrictTypeChecking() strictTypeChecking mode},
+   * in that case the corresponding expected field's type is evaluated instead but if strictTypeChecking mode is disabled then null fields are not ignored.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person sherlock2 = new Person("Sherlock", 1.90);
+   * sherlock2.home.address.street = "Butcher Street";
+   * sherlock2.home.address.number = 221;
+   *
+   * // assertion succeeds as we ignore Address and height
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .ignoringFieldsOfTypes(double.class, Address.class)
+   *                     .isEqualTo(sherlock2);
+   *
+   * // now this assertion fails as expected since the home.address.street fields and height differ
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isEqualTo(sherlock2);</code></pre>
+   *
+   * @param typesToIgnore the types we want to ignore in the object under test fields.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  public RecursiveComparisonAssert<?> ignoringFieldsOfTypes(Class<?>... typesToIgnore) {
+    recursiveComparisonConfiguration.ignoreFieldsOfTypes(typesToIgnore);
     return myself;
   }
 

@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
@@ -168,6 +170,17 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
   }
 
   /**
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  public DurationAssert assertThat(Duration actual) {
+    return proxy(DurationAssert.class, Duration.class, actual);
+  }
+
+  /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
    * @param actual the actual value.
@@ -297,4 +310,14 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
     return proxy(ProxyableListAssert.class, IntStream.class, actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual {@link Spliterator} value.
+   * @return the created assertion object.
+   */
+  public <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
+    return proxy(SpliteratorAssert.class, Spliterator.class, actual);
+  }
 }

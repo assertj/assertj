@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 module org.assertj.core {
   // AssertJ Core's package API
@@ -17,6 +17,7 @@ module org.assertj.core {
   exports org.assertj.core.api.exception;
   exports org.assertj.core.api.filter;
   exports org.assertj.core.api.iterable;
+  exports org.assertj.core.api.junit.jupiter;
   exports org.assertj.core.api.recursive.comparison;
   exports org.assertj.core.condition;
   exports org.assertj.core.configuration;
@@ -27,7 +28,6 @@ module org.assertj.core {
   exports org.assertj.core.error.uri;
   exports org.assertj.core.extractor;
   exports org.assertj.core.groups;
-  exports org.assertj.core.internal;
   exports org.assertj.core.matcher;
   exports org.assertj.core.presentation;
   exports org.assertj.core.util;
@@ -36,19 +36,14 @@ module org.assertj.core {
   exports org.assertj.core.util.introspection;
   exports org.assertj.core.util.xml;
 
-  requires java.instrument;
-  // required when printThreadDump is true
+  requires static java.logging; // required when printThreadDump is true
   requires static java.management;
-  // used for pretty print XML
-  requires static java.xml;
-  // these lines are commented to avoid this compilation warning
-  // Required filename-based automodules detected. Please don't publish this project to a public artifact repository!
-  // requires static jsr305;
-  // requires static hamcrest.core;
-  // requires static junit;
+  requires static java.xml; // used for XML pretty print
+  requires static junit;
+  requires static net.bytebuddy;
+  requires static org.hamcrest;
   requires static org.junit.jupiter.api;
-  // To throw AssertionFailedError which is IDE friendly
-  requires static org.opentest4j;
+  requires static org.opentest4j; // to throw AssertionFailedError which is IDE friendly
 
   // Services loaded by org.assertj.core.configuration.ConfigurationProvider
   uses org.assertj.core.configuration.Configuration;

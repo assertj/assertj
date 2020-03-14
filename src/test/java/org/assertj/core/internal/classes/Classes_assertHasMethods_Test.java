@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.classes;
 
@@ -18,8 +18,12 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newTreeSet;
+
+import java.math.BigDecimal;
+import java.util.SortedSet;
 
 import org.assertj.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Strings;
@@ -46,20 +50,25 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
 
   @Test
   public void should_fail_if_no_methods_are_expected_and_methods_are_available() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasMethods(someInfo(), actual))
-                                                   .withMessage(format(shouldNotHaveMethods(actual, false,
-                                                                                            newTreeSet("publicMethod",
-                                                                                                       "protectedMethod",
-                                                                                                       "privateMethod",
-                                                                                                       "finalize",
-                                                                                                       "wait", "equals",
-                                                                                                       "toString",
-                                                                                                       "hashCode",
-                                                                                                       "getClass",
-                                                                                                       "clone",
-                                                                                                       "registerNatives",
-                                                                                                       "notify",
-                                                                                                       "notifyAll")).create()));
+    SortedSet<String> expectedMethods = newTreeSet("publicMethod",
+                                                 "protectedMethod",
+                                                 "privateMethod",
+                                                 "finalize",
+                                                 "wait",
+                                                 "equals",
+                                                 "toString",
+                                                 "hashCode",
+                                                 "getClass",
+                                                 "clone",
+                                                 "notify",
+                                                 "notifyAll");
+    if (isJavaVersionBefore14()) {
+      expectedMethods.add("registerNatives");
+    }
+    assertThatAssertionErrorIsThrownBy(() -> classes.assertHasMethods(someInfo(), actual))
+                                                                                          .withMessage(format(shouldNotHaveMethods(actual,
+                                                                                                                                   false,
+                                                                                                                                   expectedMethods).create()));
   }
 
   @Test
@@ -83,5 +92,10 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
                                                    .withMessage(format(shouldHaveMethods(actual, false,
                                                                                          newTreeSet(expected),
                                                                                          newTreeSet("missingMethod")).create()));
+  }
+
+  private static boolean isJavaVersionBefore14() {
+    BigDecimal javaVersion = new BigDecimal(System.getProperty("java.specification.version"));
+    return javaVersion.compareTo(new BigDecimal("14")) < 0;
   }
 }

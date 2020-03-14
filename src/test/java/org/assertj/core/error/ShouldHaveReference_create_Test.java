@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
 
@@ -35,13 +35,13 @@ public class ShouldHaveReference_create_Test {
     String message = shouldHaveReference(actual, actual.getReference(), "bar").create(TEST_DESCRIPTION,
                                                                                       CONFIGURATION_PROVIDER.representation());
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n" +
-                                         "Expecting%n" +
-                                         "  <AtomicMarkableReference[marked=true, reference=\"foo\"]>%n" +
-                                         "to have reference:%n" +
-                                         "  <\"bar\">%n" +
-                                         "but had:%n" +
-                                         "  <\"foo\">"));
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting%n" +
+                                   "  <AtomicMarkableReference[marked=true, reference=\"foo\"]>%n" +
+                                   "to have reference:%n" +
+                                   "  <\"bar\">%n" +
+                                   "but had:%n" +
+                                   "  <\"foo\">"));
   }
 
   @Test
@@ -52,13 +52,13 @@ public class ShouldHaveReference_create_Test {
     String message = shouldHaveReference(actual, actual.getReference(), "bar").create(TEST_DESCRIPTION,
                                                                                       CONFIGURATION_PROVIDER.representation());
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n" +
-                                         "Expecting%n" +
-                                         "  <AtomicStampedReference[stamp=123, reference=\"foo\"]>%n" +
-                                         "to have reference:%n" +
-                                         "  <\"bar\">%n" +
-                                         "but had:%n" +
-                                         "  <\"foo\">"));
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting%n" +
+                                   "  <AtomicStampedReference[stamp=123, reference=\"foo\"]>%n" +
+                                   "to have reference:%n" +
+                                   "  <\"bar\">%n" +
+                                   "but had:%n" +
+                                   "  <\"foo\">"));
   }
 
 }

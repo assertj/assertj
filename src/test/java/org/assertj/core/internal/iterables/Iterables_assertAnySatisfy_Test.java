@@ -8,17 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.ElementsShouldSatisfy.unsatisfiedRequirement;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
@@ -78,48 +78,43 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_no_elements_satisfy_the_assertions_requirements() {
-    try {
-      iterables.<String> assertAnySatisfy(someInfo(), actual, s -> {
-        assertThat(s).hasSize(4);
-        assertThat(s).contains("W");
-      });
-    } catch (AssertionError e) {
-      List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = list(unsatisfiedRequirement("Luke", format("%n" +
-                                                                                                             "Expecting:%n" +
-                                                                                                             " <\"Luke\">%n" +
-                                                                                                             "to contain:%n" +
-                                                                                                             " <\"W\"> ")),
-                                                                       unsatisfiedRequirement("Leia", format("%n" +
-                                                                                                             "Expecting:%n" +
-                                                                                                             " <\"Leia\">%n" +
-                                                                                                             "to contain:%n" +
-                                                                                                             " <\"W\"> ")),
-                                                                       unsatisfiedRequirement("Yoda", format("%n" +
-                                                                                                             "Expecting:%n" +
-                                                                                                             " <\"Yoda\">%n" +
-                                                                                                             "to contain:%n" +
-                                                                                                             " <\"W\"> ")),
-                                                                       unsatisfiedRequirement("Obiwan", format("%n" +
-                                                                                                               "Expected size:<4> but was:<6> in:%n"
-                                                                                                               +
-                                                                                                               "<\"Obiwan\">")));
+    Throwable error = catchThrowable(() -> iterables.<String> assertAnySatisfy(someInfo(), actual, s -> {
+      assertThat(s).hasSize(4);
+      assertThat(s).contains("W");
+    }));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = list(unsatisfiedRequirement("Luke", format("%n" +
+                                                                                                           "Expecting:%n" +
+                                                                                                           " <\"Luke\">%n" +
+                                                                                                           "to contain:%n" +
+                                                                                                           " <\"W\"> ")),
+                                                                     unsatisfiedRequirement("Leia", format("%n" +
+                                                                                                           "Expecting:%n" +
+                                                                                                           " <\"Leia\">%n" +
+                                                                                                           "to contain:%n" +
+                                                                                                           " <\"W\"> ")),
+                                                                     unsatisfiedRequirement("Yoda", format("%n" +
+                                                                                                           "Expecting:%n" +
+                                                                                                           " <\"Yoda\">%n" +
+                                                                                                           "to contain:%n" +
+                                                                                                           " <\"W\"> ")),
+                                                                     unsatisfiedRequirement("Obiwan", format("%n" +
+                                                                                                             "Expected size:<4> but was:<6> in:%n"
+                                                                                                             +
+                                                                                                             "<\"Obiwan\">")));
       verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_the_iterable_under_test_is_empty_whatever_the_assertions_requirements_are() {
     actual.clear();
-    try {
-      iterables.<String> assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue());
-    } catch (AssertionError e) {
-      List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = emptyList();
-      verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.<String> assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = emptyList();
+    verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
   }
 
   @Test

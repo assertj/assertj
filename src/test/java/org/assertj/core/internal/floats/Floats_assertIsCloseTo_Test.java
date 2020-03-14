@@ -8,22 +8,23 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.floats;
 
 import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.NaN;
 import static java.lang.Float.POSITIVE_INFINITY;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.ErrorMessages.offsetIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -94,37 +95,31 @@ public class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsCloseTo(info, ONE, TEN, within(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, within(ONE), TEN - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsCloseTo(info, ONE, TEN, within(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE, TEN, within(ONE), TEN - ONE));
   }
 
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value_with_a_strict_offset() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), TEN - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), TEN - ONE));
   }
 
   @Test
   public void should_fail_if_difference_is_equal_to_the_given_strict_offset() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertIsCloseTo(info, TWO, ONE, byLessThan(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(TWO, ONE, byLessThan(ONE), TWO - ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertIsCloseTo(info, TWO, ONE, byLessThan(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(TWO, ONE, byLessThan(ONE), TWO - ONE));
   }
 
   @Test
@@ -180,25 +175,21 @@ public class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      floatsWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Float(6f), new Float(8f), offset(1f));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset(1f), 2f));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Float(6f), new Float(8f), offset(1f)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(6f, 8f, offset(1f), 2f));
   }
 
   @Test
   public void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      floatsWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Float(6f), new Float(8f), byLessThan(1f));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, 8f, byLessThan(1f), 2f));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Float(6f), new Float(8f), byLessThan(1f)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(6f, 8f, byLessThan(1f), 2f));
   }
 
   @Test

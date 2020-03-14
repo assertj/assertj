@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Hexadecimals.byteToHexString;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +32,7 @@ public final class Digests {
   }
 
   public static String toHex(byte[] digest) {
-    checkNotNull(digest, "The digest should not be null");
+    requireNonNull(digest, "The digest should not be null");
     StringBuilder hex = new StringBuilder(digest.length * 2);
     for (byte b : digest) {
       hex.append(byteToHexString(b));
@@ -41,7 +41,7 @@ public final class Digests {
   }
 
   public static byte[] fromHex(String digest) {
-    checkNotNull(digest, "The digest should not be null");
+    requireNonNull(digest, "The digest should not be null");
     byte[] bytes = new byte[digest.length() / 2];
     for (int i = 0; i < bytes.length; i++) {
       bytes[i] = Integer.valueOf(digest.substring(i * 2, (i + 1) * 2), 16).byteValue();
@@ -50,9 +50,9 @@ public final class Digests {
   }
 
   public static DigestDiff digestDiff(InputStream stream, MessageDigest messageDigest, byte[] expected) throws IOException {
-    checkNotNull(stream, "The stream should not be null");
-    checkNotNull(messageDigest, "The digest should not be null");
-    checkNotNull(expected, "The expected should not be null");
+    requireNonNull(stream, "The stream should not be null");
+    requireNonNull(messageDigest, "The digest should not be null");
+    requireNonNull(expected, "The expected should not be null");
     messageDigest.reset();
     byte[] buffer = new byte[BUFFER_SIZE];
     int len;

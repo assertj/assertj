@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
@@ -34,96 +34,117 @@ public class ShouldHaveMethods_create_Test {
 
   @Test
   public void should_create_error_message_for_methods() {
+    // GIVEN
     ErrorMessageFactory factory = shouldHaveMethods(Person.class, false,
                                                     newTreeSet("getName", "getAddress"),
                                                     newTreeSet("getAddress"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Person>%n" +
-                                         "to have methods:%n" +
-                                         "  <[\"getAddress\", \"getName\"]>%n" +
-                                         "but could not find:%n" +
-                                         "  <[\"getAddress\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Person>%n" +
+                                   "to have methods:%n" +
+                                   "  <[\"getAddress\", \"getName\"]>%n" +
+                                   "but could not find:%n" +
+                                   "  <[\"getAddress\"]>"));
   }
 
   @Test
   public void should_create_error_message_for_declared_methods() {
+    // GIVEN
     ErrorMessageFactory factory = shouldHaveMethods(Person.class, true,
                                                     newTreeSet("getName", "getAddress"),
                                                     newTreeSet("getAddress"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Person>%n" +
-                                         "to have declared methods:%n" +
-                                         "  <[\"getAddress\", \"getName\"]>%n" +
-                                         "but could not find:%n" +
-                                         "  <[\"getAddress\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Person>%n" +
+                                   "to have declared methods:%n" +
+                                   "  <[\"getAddress\", \"getName\"]>%n" +
+                                   "but could not find:%n" +
+                                   "  <[\"getAddress\"]>"));
   }
 
   @Test
   public void should_create_error_message_for_shouldNotHave_PublicDeclared_Methods() {
+    // GIVEN
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class,
                                                        Modifier.toString(Modifier.PUBLIC), true,
                                                        newTreeSet("getName"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Person>%n" +
-                                         "not to have any declared public methods but it has the following:%n" +
-                                         "  <[\"getName\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Person>%n" +
+                                   "not to have any declared public methods but it has the following:%n" +
+                                   "  <[\"getName\"]>"));
   }
 
   @Test
   public void should_create_error_message_for_shouldNotHave_Public_Methods() {
+    // GIVEN
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class,
                                                        Modifier.toString(Modifier.PUBLIC), false,
                                                        newTreeSet("getName"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Person>%n" +
-                                         "not to have any public methods but it has the following:%n" +
-                                         "  <[\"getName\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Person>%n" +
+                                   "not to have any public methods but it has the following:%n" +
+                                   "  <[\"getName\"]>"));
   }
 
   @Test
   public void should_create_error_message_for_shouldNotHave_Declared_Methods() {
+    // GIVEN
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class, true, newTreeSet("getName"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Person>%n" +
-                                         "not to have any declared methods but it has the following:%n" +
-                                         "  <[\"getName\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Person>%n" +
+                                   "not to have any declared methods but it has the following:%n" +
+                                   "  <[\"getName\"]>"));
   }
 
   @Test
   public void should_create_error_message_for_shouldNotHaveMethods() {
+    // GIVEN
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class, false, newTreeSet("getName"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Person>%n" +
-                                         "not to have any methods but it has the following:%n" +
-                                         "  <[\"getName\"]>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Person>%n" +
+                                   "not to have any methods but it has the following:%n" +
+                                   "  <[\"getName\"]>"));
   }
 
   @Test
   public void should_create_error_message_for_shouldHaveMethods_with_non_matching_modifier() {
+    // GIVEN
     ErrorMessageFactory factory = shouldHaveMethods(Person.class, false,
                                                     newTreeSet("finalize"),
                                                     Modifier.toString(Modifier.PUBLIC),
                                                     mapOf(entry("finalize", Modifier.toString(Modifier.PROTECTED))));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <org.assertj.core.test.Person>%n" +
-                                         "to have public methods:%n" +
-                                         "  <[\"finalize\"]>%n" +
-                                         "but the following are not public:%n" +
-                                         "  <{\"finalize\"=\"protected\"}>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <org.assertj.core.test.Person>%n" +
+                                   "to have public methods:%n" +
+                                   "  <[\"finalize\"]>%n" +
+                                   "but the following are not public:%n" +
+                                   "  <{\"finalize\"=\"protected\"}>"));
   }
 
 }

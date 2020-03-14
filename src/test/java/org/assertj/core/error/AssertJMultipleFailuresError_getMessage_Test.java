@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
@@ -30,7 +30,7 @@ public class AssertJMultipleFailuresError_getMessage_Test {
     // WHEN
     String message = error.getMessage();
     // THEN
-    assertThat(message).startsWith(format("%n%s", description));
+    then(message).startsWith(format("%n%s", description));
   }
 
   @Test
@@ -48,63 +48,63 @@ public class AssertJMultipleFailuresError_getMessage_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> softly.assertAll());
     // THEN
-    assertThat(error).hasMessage(format("%nMultiple Failures (10 failures)%n" +
-                                        "-- failure 1 --%n" +
-                                        "Expecting empty but was:<[\"\"]>%n" +
-                                        "-- failure 2 --%n" +
-                                        "[isEmpty list] %n" +
-                                        "Expecting empty but was:<[\"a\", \"b\", \"c\"]>%n" +
-                                        "-- failure 3 --%n" +
-                                        "Expecting empty but was:<\"abc\">%n" +
-                                        "-- failure 4 --%n" +
-                                        "[isEmpty string] %n" +
-                                        "Expecting empty but was:<\"abc\">%n" +
-                                        "-- failure 5 --%n" +
-                                        "Expecting:%n" +
-                                        " <\"abc\">%n" +
-                                        "to be equal to:%n" +
-                                        " <\"bcd\">%n" +
-                                        "but was not.%n" +
-                                        "-- failure 6 --%n" +
-                                        "[isEqualTo] %n" +
-                                        "Expecting:%n" +
-                                        " <\"abc\">%n" +
-                                        "to be equal to:%n" +
-                                        " <\"bcd\">%n" +
-                                        "but was not.%n" +
-                                        "-- failure 7 --%n" +
-                                        "[contains] %n" +
-                                        "Expecting:%n" +
-                                        " <[\"a\", \"b\", \"c\"]>%n" +
-                                        "to contain:%n" +
-                                        " <[\"e\"]>%n" +
-                                        "but could not find:%n" +
-                                        " <[\"e\"]>%n" +
-                                        "%n" +
-                                        "-- failure 8 --%n" +
-                                        "[contains] %n" +
-                                        "Expecting%n" +
-                                        " <[\"a\", \"b\", \"c\"]>%n" +
-                                        "not to contain%n" +
-                                        " <[\"a\"]>%n" +
-                                        "but found%n" +
-                                        " <[\"a\"]>%n" +
-                                        "%n" +
-                                        "-- failure 9 --%n" +
-                                        "Expecting:%n" +
-                                        " <[\"a\", \"b\", \"c\"]>%n" +
-                                        "to contain:%n" +
-                                        " <[\"e\"]>%n" +
-                                        "but could not find:%n" +
-                                        " <[\"e\"]>%n" +
-                                        "%n" +
-                                        "-- failure 10 --%n" +
-                                        "Expecting%n" +
-                                        " <[\"a\", \"b\", \"c\"]>%n" +
-                                        "not to contain%n" +
-                                        " <[\"a\"]>%n" +
-                                        "but found%n" +
-                                        " <[\"a\"]>%n"));
+    then(error).hasMessage(format("%nMultiple Failures (10 failures)%n" +
+                                  "-- failure 1 --%n" +
+                                  "Expecting empty but was:<[\"\"]>%n" +
+                                  "-- failure 2 --%n" +
+                                  "[isEmpty list] %n" +
+                                  "Expecting empty but was:<[\"a\", \"b\", \"c\"]>%n" +
+                                  "-- failure 3 --%n" +
+                                  "Expecting empty but was:<\"abc\">%n" +
+                                  "-- failure 4 --%n" +
+                                  "[isEmpty string] %n" +
+                                  "Expecting empty but was:<\"abc\">%n" +
+                                  "-- failure 5 --%n" +
+                                  "Expecting:%n" +
+                                  " <\"abc\">%n" +
+                                  "to be equal to:%n" +
+                                  " <\"bcd\">%n" +
+                                  "but was not.%n" +
+                                  "-- failure 6 --%n" +
+                                  "[isEqualTo] %n" +
+                                  "Expecting:%n" +
+                                  " <\"abc\">%n" +
+                                  "to be equal to:%n" +
+                                  " <\"bcd\">%n" +
+                                  "but was not.%n" +
+                                  "-- failure 7 --%n" +
+                                  "[contains] %n" +
+                                  "Expecting:%n" +
+                                  " <[\"a\", \"b\", \"c\"]>%n" +
+                                  "to contain:%n" +
+                                  " <[\"e\"]>%n" +
+                                  "but could not find:%n" +
+                                  " <[\"e\"]>%n" +
+                                  "%n" +
+                                  "-- failure 8 --%n" +
+                                  "[contains] %n" +
+                                  "Expecting%n" +
+                                  " <[\"a\", \"b\", \"c\"]>%n" +
+                                  "not to contain%n" +
+                                  " <[\"a\"]>%n" +
+                                  "but found%n" +
+                                  " <[\"a\"]>%n" +
+                                  "%n" +
+                                  "-- failure 9 --%n" +
+                                  "Expecting:%n" +
+                                  " <[\"a\", \"b\", \"c\"]>%n" +
+                                  "to contain:%n" +
+                                  " <[\"e\"]>%n" +
+                                  "but could not find:%n" +
+                                  " <[\"e\"]>%n" +
+                                  "%n" +
+                                  "-- failure 10 --%n" +
+                                  "Expecting%n" +
+                                  " <[\"a\", \"b\", \"c\"]>%n" +
+                                  "not to contain%n" +
+                                  " <[\"a\"]>%n" +
+                                  "but found%n" +
+                                  " <[\"a\"]>%n"));
   }
 
 }

@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -47,13 +48,11 @@ public class Doubles_assertEqual_Test extends DoublesBaseTest {
   @Test
   public void should_fail_if_doubles_are_not_equal() {
     AssertionInfo info = someInfo();
-    try {
-      doubles.assertEqual(info, 6d, 8d);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doubles.assertEqual(info, 6d, 8d));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(6d, 8d, info.representation()));
   }
 
   @Test
@@ -70,13 +69,11 @@ public class Doubles_assertEqual_Test extends DoublesBaseTest {
   @Test
   public void should_fail_if_doubles_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, 8d);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, absValueComparisonStrategy,
-          new StandardRepresentation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, 8d));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(6d, 8d, absValueComparisonStrategy,
+        new StandardRepresentation()));
   }
 }

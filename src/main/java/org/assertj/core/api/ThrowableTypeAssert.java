@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
-import org.assertj.core.description.TextDescription;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -61,28 +60,6 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
     @SuppressWarnings("unchecked")
     T c = (T) throwable;
     return new ThrowableAssertAlternative<>(c).as(description);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public ThrowableTypeAssert<T> as(String description, Object... args) {
-    return describedAs(description, args);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public ThrowableTypeAssert<T> as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @CheckReturnValue
-  public ThrowableTypeAssert<T> describedAs(String description, Object... args) {
-    this.description = new TextDescription(description, args);
-    return this;
   }
 
   /** {@inheritDoc} */

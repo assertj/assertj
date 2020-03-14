@@ -8,31 +8,32 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNormalized.SHOULD_BE_NORMALIZED;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 
 import java.nio.file.Path;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 public class ShouldBeNormalized_create_Test {
-  
+
   @Test
   public void should_create_error_message() {
-	final Path actual = mock(Path.class);
-
-	ErrorMessageFactory factory = shouldBeNormalized(actual);
-	String actualMessage = factory.create(new TextDescription("Test"), new StandardRepresentation());
-
-	assertThat(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_NORMALIZED, actual));
+    // GIVEN
+    final Path actual = mock(Path.class);
+    ErrorMessageFactory factory = shouldBeNormalized(actual);
+    // WHEN
+    String actualMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_NORMALIZED, actual));
   }
 }

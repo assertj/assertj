@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.BasicErrorMessageFactory.unquotedString;
 
 import org.junit.jupiter.api.Test;
@@ -24,6 +24,6 @@ public class BasicErrorMessageFactory_unquotedString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertThat(unquotedString("some value")).hasToString("some value");
+    then(unquotedString("some value")).hasToString("some value");
   }
 }

@@ -8,16 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptyList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.List;
@@ -54,7 +54,6 @@ public class Arrays {
    */
   public static Object[] asObjectArray(Object array) {
     checkArgument(isArray(array), "Given object %s is not an array", array);
-    if (array == null) return null;
     int length = Array.getLength(array);
     Object[] objectArray = new Object[length];
     for (int i = 0; i < length; i++) {
@@ -169,7 +168,7 @@ public class Arrays {
    * @throws NullPointerException if the given array is {@code null}.
    */
   public static <T> boolean hasOnlyNullElements(T[] array) {
-    checkNotNull(array);
+    requireNonNull(array);
     if (isEmpty(array)) return false;
     for (T o : array) {
       if (o != null) return false;

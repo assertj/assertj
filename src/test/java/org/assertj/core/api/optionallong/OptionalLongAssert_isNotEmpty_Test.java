@@ -8,21 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.optionallong;
-
-import org.assertj.core.api.BaseTest;
-import org.junit.jupiter.api.Test;
-
-import java.util.OptionalLong;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class OptionalLongAssert_isNotEmpty_Test extends BaseTest {
+import java.util.OptionalLong;
+
+import org.junit.jupiter.api.Test;
+
+public class OptionalLongAssert_isNotEmpty_Test {
 
   @Test
   public void should_pass_when_OptionalLong_is_present() {

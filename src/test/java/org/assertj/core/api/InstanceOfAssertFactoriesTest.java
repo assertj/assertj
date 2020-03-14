@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -46,6 +46,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
+import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
@@ -77,6 +78,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.SPLITERATOR;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
@@ -116,6 +118,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -129,6 +132,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -661,6 +665,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void duration_factory_should_allow_duration_assertions() {
+    // GIVEN
+    Object value = Duration.ofHours(10);
+    // WHEN
+    AbstractDurationAssert<?> result = assertThat(value).asInstanceOf(DURATION);
+    // THEN
+    result.isPositive();
+  }
+
+  @Test
   void atomic_boolean_factory_should_allow_atomic_boolean_assertions() {
     // GIVEN
     Object value = new AtomicBoolean();
@@ -1019,6 +1033,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractPathAssert<?> result = assertThat(value).asInstanceOf(PATH);
     // THEN
     result.doesNotExist();
+  }
+
+  @Test
+  void spliterator_factory_should_allow_spliterator_assertions() {
+    // GIVEN
+    Object value = Stream.of(1, 2).spliterator();
+    // WHEN
+    SpliteratorAssert<Object> result = assertThat(value).asInstanceOf(SPLITERATOR);
+    // THEN
+    result.hasCharacteristics(Spliterator.SIZED);
   }
 
   @Test

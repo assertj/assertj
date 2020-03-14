@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -26,6 +26,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,6 +42,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -1056,6 +1058,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of {@link DurationAssert} assumption.
+   *
+   * @param actual the Duration to test
+   * @return the created assumption for assertion object.
+   * @since 3.15.0
+   */
+  public static AbstractDurationAssert<?> assumeThat(Duration actual) {
+    return asAssumption(DurationAssert.class, Duration.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link Stream}.
    *
    * @param <ELEMENT> the type of elements.
@@ -1102,6 +1115,18 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assumeThat(IntStream actual) {
     return asAssumption(ProxyableListAssert.class, IntStream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> assumption from the given {@link Spliterator}.
+   *
+   * @param <ELEMENT> the type of the elements
+   * @param actual the Spliterator to test
+   * @return the created assumption for assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  public static <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> assumeThat(Spliterator<ELEMENT> actual) {
+    return asAssumption(SpliteratorAssert.class, Spliterator.class, actual);
   }
 
   // private methods

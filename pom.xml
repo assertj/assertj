@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
-  <version>3.13.3-SNAPSHOT</version>
-  <packaging>bundle</packaging>
+  <version>3.15.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.2.6</version>
+    <version>2.2.7</version>
     <relativePath />
   </parent>
   <mailingLists>
@@ -33,10 +33,14 @@
 
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <byte-buddy.version>1.10.1</byte-buddy.version>
+    <byte-buddy.version>1.10.8</byte-buddy.version>
+    <bnd.version>5.0.0</bnd.version>
     <!-- Dependency versions overriding -->
-    <junit-jupiter.version>5.5.2</junit-jupiter.version>
-    <mockito.version>3.0.0</mockito.version>
+    <junit.version>4.13</junit.version>
+    <junit-jupiter.version>5.6.0</junit-jupiter.version>
+    <mockito.version>3.3.3</mockito.version>
+    <!-- Plugin versions overriding -->
+    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -54,7 +58,7 @@
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest</artifactId>
-        <version>2.1</version>
+        <version>2.2</version>
       </dependency>
       <dependency>
         <groupId>org.opentest4j</groupId>
@@ -70,6 +74,16 @@
       <artifactId>junit</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
+      <exclusions>
+        <!--
+        This has to be excluded because it's subjecting the code to the
+        incorrect version of certain hamcrest packages.
+        -->
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -106,14 +120,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <!--JSR-305 only used for non-required meta-annotations -->
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>3.0.2</version>
-      <scope>provided</scope>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest</artifactId>
       <scope>provided</scope>
@@ -146,7 +152,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>28.1-jre</version>
+      <version>28.2-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -155,28 +161,16 @@
       <version>3.9</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>nl.jqno.equalsverifier</groupId>
+      <artifactId>equalsverifier</artifactId>
+      <version>3.1.12</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <configuration>
-          <!-- TODO this header should go to the parent POM -->
-          <inlineHeader>
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
-the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
-an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
-specific language governing permissions and limitations under the License.
-
-Copyright ${inceptionYear}-${currentYear} the original author or authors.
-          </inlineHeader>
-        </configuration>
-      </plugin><plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
@@ -193,10 +187,11 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
                   </includes>
                   <excludes>
                     <exclude>org.assertj:assertj-core</exclude>
+                    <exclude>org.hamcrest:hamcrest-core</exclude>
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence/>
+                <dependencyConvergence />
               </rules>
             </configuration>
           </execution>
@@ -211,17 +206,6 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Multi-Release>true</Multi-Release>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
       <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -232,8 +216,9 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.2.2</version>
         <executions>
+          <!-- STEP 2: execute maven shade to rename bytebuddy -->
           <execution>
             <phase>package</phase>
             <goals>
@@ -264,6 +249,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
+          <!-- STEP 3: unpack the shaded classes back into the build dir -->
           <execution>
             <id>unpack-shade</id>
             <phase>package</phase>
@@ -284,34 +270,94 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>4.2.1</version>
-        <extensions>true</extensions>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
         <executions>
+          <!-- STEP 4: analyze & collect OSGi metadata -->
           <execution>
             <id>bundle-after-unpack-shaded</id>
             <phase>package</phase>
             <goals>
-              <goal>bundle</goal>
+              <goal>bnd-process</goal>
             </goals>
             <configuration>
-              <instructions>
-                <Export-Package>org.assertj.core.*</Export-Package>
-                <!-- Don't import what assertj-core exports but import everything else. Also need to explicitly import packages
-                  that are dynamically loaded using Class.forName() (org.junit, org.opentest4j and org.testng are needed by the assumptions
-                  engine). -->
-                <Import-Package>
-                  !org.assertj.core.*,
-                  org.junit;resolution:="optional",
-                  org.opentest4j;resolution:="optional",
-                  org.testng;resolution:="optional",
-                  *
-                </Import-Package>
-                <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
-                <_removeheaders>Bnd-LastModified</_removeheaders>
-              </instructions>
-              <niceManifest>true</niceManifest>
+              <bnd><![CDATA[
+                Import-Package:\
+                  !org.assertj.core.*,\
+                  *;resolution:="optional"
+                Multi-Release: true
+                -exportcontents: \
+                  !org.assertj.core.internal.*,\
+                  org.assertj.core.*
+                -noclassforname: true
+                -removeheaders: Bnd-LastModified,Private-Package
+                -fixupmessages: \
+                  "Classes found in the wrong directory...";is:=ignore
+              ]]></bnd>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version><!--$NO-MVN-MAN-VER$-->
+        <executions>
+          <!-- STEP 5: detach the primary artifact so we can re-execute maven-jar-plugin -->
+          <execution>
+            <id>remove-primary-artifact</id>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <script language="beanshell">
+                  project.getReference("maven.project").getArtifact().setFile(null);
+                </script>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.beanshell</groupId>
+            <artifactId>bsh</artifactId>
+            <version>2.0b5</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <!-- STEP 1: create the initial JAR during prepare-package phase -->
+            <id>default-jar</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestEntries>
+                  <Multi-Release>true</Multi-Release>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- STEP 6: finally jar including shading and OSGi metadata -->
+            <id>final-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+              </archive>
             </configuration>
           </execution>
         </executions>
@@ -395,6 +441,28 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         ]]></footer>
         </configuration>
       </plugin>
+      <plugin>
+        <!-- Verify that additional OSGi package imports didn't sneak in. -->
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-resolver-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
+        <executions>
+          <execution>
+            <id>verify-osgi-metadata</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>resolve</goal>
+            </goals>
+            <configuration>
+              <bndruns>
+                <bndrun>verify.bndrun</bndrun>
+              </bndruns>
+              <failOnChanges>false</failOnChanges>
+              <reportOptional>false</reportOptional>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -438,12 +506,6 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
       <activation>
         <jdk>[9,)</jdk>
       </activation>
-      <properties>
-        <!-- allow tests to access private fields/methods of java.base classes via reflection -->
-        <argLine>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED
-          --add-opens
-          java.base/java.io=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED</argLine>
-      </properties>
       <build>
         <pluginManagement>
           <plugins>
@@ -482,7 +544,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         <jdk>[11,)</jdk>
       </activation>
       <properties>
-        <sonar.skip>true</sonar.skip>
+        <sonar.skip>false</sonar.skip>
       </properties>
     </profile>
     <profile>

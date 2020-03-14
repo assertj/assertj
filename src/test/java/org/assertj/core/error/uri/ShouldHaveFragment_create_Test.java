@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error.uri;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
 
 import java.net.URI;
@@ -25,27 +25,31 @@ public class ShouldHaveFragment_create_Test {
 
   @Test
   public void should_create_error_message_for_has_fragment() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news#print");
+    // WHEN
     String error = shouldHaveFragment(uri, "foo").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting fragment of%n" +
-                                       "  <http://assertj.org/news#print>%n" +
-                                       "to be:%n" +
-                                       "  <\"foo\">%n" +
-                                       "but was:%n" +
-                                       "  <\"print\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting fragment of%n" +
+                                 "  <http://assertj.org/news#print>%n" +
+                                 "to be:%n" +
+                                 "  <\"foo\">%n" +
+                                 "but was:%n" +
+                                 "  <\"print\">"));
   }
 
   @Test
   public void should_create_error_message_for_has_no_fragment() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news#print");
+    // WHEN
     String error = shouldHaveFragment(uri, null).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting URI:%n" +
-                                       "  <http://assertj.org/news#print>%n" +
-                                       "not to have a fragment but had:%n" +
-                                       "  <\"print\">"));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting URI:%n" +
+                                 "  <http://assertj.org/news#print>%n" +
+                                 "not to have a fragment but had:%n" +
+                                 "  <\"print\">"));
   }
 }

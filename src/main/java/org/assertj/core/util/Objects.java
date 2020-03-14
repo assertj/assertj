@@ -8,13 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Arrays.*;
-
-import java.lang.reflect.Array;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.isNullOrEmpty;
 
 /**
  * Utility methods related to objects.
@@ -28,41 +27,42 @@ public final class Objects {
   public static final int HASH_CODE_PRIME = 31;
 
   /**
-   * Returns {@code true} if the given objects are equal or if both objects are {@code null}.
+   * Returns {@code true} if the arguments are deeply equal to each other, {@code false} otherwise.
+   * <p>
+   * Two {@code null} values are deeply equal. If both arguments are arrays, the algorithm in
+   * {@link java.util.Arrays#deepEquals} is used to determine equality.
+   * Otherwise, equality is determined by using the {@link Object#equals} method of the first argument.
    *
-   * @param o1 one of the objects to compare.
-   * @param o2 one of the objects to compare.
-   * @return {@code true} if the given objects are equal or if both objects are {@code null}.
+   * @param o1 an object.
+   * @param o2 an object to be compared with {@code o1} for deep equality.
+   * @return {@code true} if the arguments are deeply equal to each other, {@code false} otherwise.
+   * 
+   * @deprecated Use {@link java.util.Objects#deepEquals(Object, Object)} instead.
    */
+  @Deprecated
   public static boolean areEqual(Object o1, Object o2) {
-    if (o1 == null) {
-      return o2 == null;
-    }
-    if (o1.equals(o2)) {
-      return true;
-    }
-    return areEqualArrays(o1, o2);
+    return java.util.Objects.deepEquals(o1, o2);
   }
 
+  /**
+   * Returns {@code true} if the arguments are arrays and deeply equal to each other, {@code false} otherwise.
+   * <p>
+   * Once verified that the arguments are arrays, the algorithm in {@link java.util.Arrays#deepEquals} is used
+   * to determine equality.
+   *
+   * @param o1 an object.
+   * @param o2 an object to be compared with {@code o1} for deep equality.
+   * @return {@code true} if the arguments are arrays and deeply equal to each other, {@code false} otherwise.
+   *
+   * @deprecated Use either {@link java.util.Objects#deepEquals(Object, Object)} or
+   *             {@link java.util.Arrays#deepEquals(Object[], Object[])}.
+   */
+  @Deprecated
   public static boolean areEqualArrays(Object o1, Object o2) {
     if (!isArray(o1) || !isArray(o2)) {
       return false;
     }
-    if (o1 == o2) {
-      return true;
-    }
-    int size = Array.getLength(o1);
-    if (Array.getLength(o2) != size) {
-      return false;
-    }
-    for (int i = 0; i < size; i++) {
-      Object e1 = Array.get(o1, i);
-      Object e2 = Array.get(o2, i);
-      if (!areEqual(e1, e2)) {
-        return false;
-      }
-    }
-    return true;
+    return java.util.Objects.deepEquals(o1, o2);
   }
 
   /**
@@ -91,7 +91,9 @@ public final class Objects {
    */
   public static int hashCodeFor(Object o) {
     if (o == null) return 0;
-    return isArray(o) && !o.getClass().getComponentType().isPrimitive() ? java.util.Arrays.deepHashCode((Object[]) o) : o.hashCode() ;
+    return isArray(o) && !o.getClass().getComponentType().isPrimitive()
+        ? java.util.Arrays.deepHashCode((Object[]) o)
+        : o.hashCode();
   }
 
   /**

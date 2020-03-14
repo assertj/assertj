@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.LinkedHashSet;
@@ -39,13 +40,17 @@ final class DualValue {
 
 
   DualValue(List<String> path, Object actual, Object expected) {
-    this.path = path;
+    this.path = newArrayList(path);
     this.concatenatedPath = join(path).with(".");
     this.actual = actual;
     this.expected = expected;
     int h1 = actual != null ? actual.hashCode() : 0;
     int h2 = expected != null ? expected.hashCode() : 0;
     hashCode = h1 + h2;
+  }
+
+  DualValue(List<String> parentPath, String fieldName, Object actual, Object expected) {
+    this(fiedlPath(parentPath, fieldName), actual, expected);
   }
 
   @Override
@@ -73,6 +78,11 @@ final class DualValue {
     return concatenatedPath;
   }
 
+  public String getFieldName() {
+    if (path.isEmpty()) return "";
+    return path.get(path.size() - 1);
+  }
+
   public boolean isJavaType() {
     if (actual == null) return false;
     return actual.getClass().getName().startsWith("java.");
@@ -84,10 +94,6 @@ final class DualValue {
 
   public boolean isActualFieldAnArray() {
     return isArray(actual);
-  }
-
-  public boolean hasIterableValues() {
-    return actual instanceof Iterable && expected instanceof Iterable;
   }
 
   public boolean isActualFieldAnOptional() {
@@ -133,4 +139,34 @@ final class DualValue {
   private static boolean isAnOrderedCollection(Object value) {
     return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES).anyMatch(type -> type.isInstance(value));
   }
+
+  public boolean isEnum() {
+    return expected.getClass().isEnum();
+  }
+
+  public boolean isActualFieldAnEnum() {
+    return actual.getClass().isEnum();
+  }
+
+  public boolean hasNoContainerValues() {
+    return !isContainer(actual) && !isContainer(expected);
+  }
+
+  public boolean hasNoNullValues() {
+    return actual != null && expected != null;
+  }
+
+  private static boolean isContainer(Object o) {
+    return o instanceof Iterable ||
+           o instanceof Map ||
+           o instanceof Optional ||
+           isArray(o);
+  }
+
+  private static List<String> fiedlPath(List<String> parentPath, String fieldName) {
+    List<String> fieldPath = newArrayList(parentPath);
+    fieldPath.add(fieldName);
+    return fieldPath;
+  }
+
 }

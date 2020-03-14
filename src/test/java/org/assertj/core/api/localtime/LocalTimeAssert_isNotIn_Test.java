@@ -8,18 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.LocalTime;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,39 +30,41 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
+@DisplayName("LocalTimeAssert isNotIn")
 public class LocalTimeAssert_isNotIn_Test extends LocalTimeAssertBaseTest {
 
   @Test
-  public void test_isNotIn_assertion() {
-	// WHEN
-	assertThat(REFERENCE).isNotIn(REFERENCE.plusHours(1).toString(), REFERENCE.plusHours(2).toString());
-	// THEN
-    assertThatThrownBy(() -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(),
-                                                           REFERENCE.plusHours(1).toString()))
-                                                                                              .isInstanceOf(AssertionError.class);
+  public void should_pass_if_actual_is_not_in_localTimes_as_string_array_parameter() {
+    assertThat(REFERENCE).isNotIn(AFTER.toString(), BEFORE.toString());
   }
 
   @Test
-  public void test_isNotIn_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(LocalTime.of(3, 0,
-                                                                                             5)).isNotIn("03:00:05",
-                                                                                                         "03:03:03"))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       " <03:00:05>%n" +
-                                                                       "not to be in:%n" +
-                                                                       " <[03:00:05, 03:03:03]>%n"));
+  public void should_fail_if_actual_is_in_localTimes_as_string_array_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeIn(REFERENCE, asList(REFERENCE, AFTER)).create());
   }
 
   @Test
-  public void should_fail_if_timeTimes_as_string_array_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isNotIn((String[]) null))
+  public void should_fail_if_localTimes_as_string_array_parameter_is_null() {
+    // GIVEN
+    String[] otherLocalTimesAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalTime.now()).isNotIn(otherLocalTimesAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given LocalTime array should not be null");
   }
 
   @Test
-  public void should_fail_if_timeTimes_as_string_array_parameter_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalTime.now()).isNotIn(new String[0]))
+  public void should_fail_if_localTimes_as_string_array_parameter_is_empty() {
+    // GIVEN
+    String[] otherLocalTimesAsString = new String[0];
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalTime.now()).isNotIn(otherLocalTimesAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given LocalTime array should not be empty");
   }
 

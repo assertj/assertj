@@ -8,20 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.readAllBytes;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -77,7 +78,8 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), null, defaultCharset(), expected, defaultCharset()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), null, defaultCharset(),
+                                                                                               expected, defaultCharset()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -85,19 +87,17 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   public void should_fail_if_actual_is_not_file() {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
-    try {
-      files.assertSameContentAs(info, notAFile, defaultCharset(), expected, defaultCharset());
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeFile(notAFile));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertSameContentAs(info, notAFile, defaultCharset(), expected, defaultCharset()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeFile(notAFile));
   }
 
   @Test
   public void should_pass_if_files_have_equal_content() {
-    unMockedFiles.assertSameContentAs(someInfo(), 
-                                      actual, defaultCharset(), 
+    unMockedFiles.assertSameContentAs(someInfo(),
+                                      actual, defaultCharset(),
                                       actual, defaultCharset());
   }
 
@@ -119,13 +119,11 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenReturn(diffs);
     when(binaryDiff.diff(actual, readAllBytes(expected.toPath()))).thenReturn(new BinaryDiffResult(1, -1, -1));
     AssertionInfo info = someInfo();
-    try {
-      files.assertSameContentAs(info, actual, defaultCharset(), expected, defaultCharset());
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameContent(actual, expected, diffs));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> files.assertSameContentAs(info, actual, defaultCharset(), expected, defaultCharset()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveSameContent(actual, expected, diffs));
   }
 
   @Test

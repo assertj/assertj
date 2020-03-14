@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 
 import org.assertj.core.description.TextDescription;
@@ -27,26 +27,32 @@ public class ShouldBeSubstringOf_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     ErrorMessageFactory factory = shouldBeSubstring("bcd", "abcdef", StandardComparisonStrategy.instance());
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <\"bcd\">%n" +
-                                         "to be a substring of:%n" +
-                                         "  <\"abcdef\">%n"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\"bcd\">%n" +
+                                   "to be a substring of:%n" +
+                                   "  <\"abcdef\">%n"));
   }
 
   @Test
   public void should_create_error_message_with_comparison_strategy() {
+    // GIVEN
     ErrorMessageFactory factory = shouldBeSubstring("bcd", "abcdef",
                                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <\"bcd\">%n" +
-                                         "to be a substring of:%n" +
-                                         "  <\"abcdef\">%n" +
-                                         "when comparing values using CaseInsensitiveStringComparator"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\"bcd\">%n" +
+                                   "to be a substring of:%n" +
+                                   "  <\"abcdef\">%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

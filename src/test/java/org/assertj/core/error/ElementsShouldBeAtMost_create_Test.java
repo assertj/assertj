@@ -8,42 +8,35 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldBeAtMost.elementsShouldBeAtMost;
-import static org.assertj.core.util.Lists.newArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link ElementsShouldBeAtMost#create(Description)}</code>.
- * 
+ *
  * @author Nicolas François
  */
 public class ElementsShouldBeAtMost_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = elementsShouldBeAtMost(newArrayList("Yoda", "Luke", "Obiwan"), 2, new TestCondition<String>("a Jedi"));
-  }
-
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting elements:%n<[\"Yoda\", \"Luke\", \"Obiwan\"]>%n to be at most 2 times <a Jedi>"
-    ));
+    // GIVEN
+    ErrorMessageFactory factory = elementsShouldBeAtMost(list("Yoda", "Luke", "Obiwan"), 2, new TestCondition<>("a Jedi"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Yoda\", \"Luke\", \"Obiwan\"]>%n to be at most 2 times <a Jedi>"));
   }
 
 }

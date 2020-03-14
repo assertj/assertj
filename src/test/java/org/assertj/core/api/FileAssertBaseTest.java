@@ -8,10 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static java.nio.charset.Charset.defaultCharset;
+import static org.assertj.core.util.AssertionsUtil.getDifferentCharsetFrom;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
@@ -19,10 +21,9 @@ import java.nio.charset.Charset;
 
 import org.assertj.core.internal.Files;
 
-
 /**
  * Base class for {@link FileAssert} tests.
- * 
+ *
  * @author Olivier Michallat
  */
 public abstract class FileAssertBaseTest extends BaseTestTemplate<FileAssert, File> {
@@ -41,10 +42,8 @@ public abstract class FileAssertBaseTest extends BaseTestTemplate<FileAssert, Fi
     files = mock(Files.class);
     assertions.files = files;
 
-    defaultCharset = Charset.defaultCharset();
-    for (Charset charset : Charset.availableCharsets().values()) {
-      if (!charset.equals(defaultCharset)) otherCharset = charset;
-    }
+    defaultCharset = defaultCharset();
+    otherCharset = getDifferentCharsetFrom(defaultCharset);
   }
 
   protected Files getFiles(FileAssert someAssertions) {

@@ -8,21 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.Test;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
+import org.assertj.core.description.TextDescription;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.error.ShouldHaveSameHourAs}</code>
@@ -31,20 +31,24 @@ import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
  */
 public class ShouldHaveSameHourAs_create_Test {
 
-    private ErrorMessageFactory factory;
+  @Test
+  public void should_create_error_message_localtime() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveSameHourAs(LocalTime.of(12, 0), LocalTime.of(13, 0));
+    // WHEN
+    String errorMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(errorMessage).isEqualTo(format("[Test] %nExpecting:%n  <12:00>%nto have same hour as:%n  <13:00>%nbut had not."));
+  }
 
-    @Test
-    public void should_create_error_message_localtime() {
-        factory = shouldHaveSameHourAs(LocalTime.of(12, 0), LocalTime.of(13, 0));
-        assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation()))
-            .isEqualTo(format("[Test] %nExpecting:%n  <12:00>%nto have same hour as:%n  <13:00>%nbut had not."));
-    }
-
-    @Test
-    public void should_create_error_message_offset() {
-        factory = shouldHaveSameHourAs(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC),
-                                       OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
-        assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation()))
-            .isEqualTo(format("[Test] %nExpecting:%n  <12:00Z>%nto have same hour as:%n  <13:00Z>%nbut had not."));
-    }
+  @Test
+  public void should_create_error_message_offset() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveSameHourAs(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC),
+                                                       OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
+    // WHEN
+    String errorMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(errorMessage).isEqualTo(format("[Test] %nExpecting:%n  <12:00Z>%nto have same hour as:%n  <13:00Z>%nbut had not."));
+  }
 }

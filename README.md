@@ -1,16 +1,18 @@
 # AssertJ - Fluent assertions for java
 
-[![Build Status (master)](https://travis-ci.org/joel-costigliola/assertj-core.svg?branch=master)](https://travis-ci.org/joel-costigliola/assertj-core)
+[![Github CI status](https://github.com/joel-costigliola/assertj-core/workflows/CI/badge.svg)](https://github.com/joel-costigliola/assertj-core/actions?query=workflow%3ACI) 
+[![Github Cross-Version status](https://github.com/joel-costigliola/assertj-core/workflows/Cross-Version/badge.svg)](https://github.com/joel-costigliola/assertj-core/actions?query=workflow%3ACross-Version) 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
 [![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=joel-costigliola_assertj-core&metric=alert_status)](https://sonarcloud.io/dashboard?id=joel-costigliola_assertj-core)
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (with JUnit, TestNG or any other test framework).
 
 * [AssertJ's goals](#goals)
 * [Quick start](#quickstart)
 * [Latest News](#news)
-* [Features highlight](http://joel-costigliola.github.io/assertj/assertj-core-features-highlight.html) (still in the old site but soon available in the [new site](https://assertj.github.io/doc/#overview))
-* [Assertions for custom types](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html) (still in the old site but soon available in the [new site](https://assertj.github.io/doc/#overview))
+* [Features highlight](http://joel-costigliola.github.io/assertj/assertj-core-features-highlight.html) (still in the old site but will soon be available in the [new site](https://assertj.github.io/doc/#overview))
+* [Assertions for custom types](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html) (still in the old site but will soon be available in the [new site](https://assertj.github.io/doc/#overview))
 * [Replacing JUnit assertions with AssertJ Assertions](#junit-to-assertj-assertions)
 * [Contributing](#contributing)
 
@@ -26,7 +28,7 @@ The idea is that disposal assertions should be specific to the type of the objec
 a `Map`? Use Map-specific assertions to easily check the contents of the map.
 
 AssertJ is composed of several modules:
-* A core module (this one) to provide assertions for JDK types (`String`, `Iterable`, `Stream`, `Path`, `File`, `Map`...) - see [AssertJ Core documentation](https://assertj.github.io/doc/#assertj-core-assertions-guide) and [javadoc](http://joel-costigliola.github.io/assertj/core-8/api/index.html).
+* A core module (this one) to provide assertions for JDK types (`String`, `Iterable`, `Stream`, `Path`, `File`, `Map`...) - see [AssertJ Core documentation](https://assertj.github.io/doc/#assertj-core-assertions-guide) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-core/latest/index.html).
 * A **[Guava module](https://github.com/joel-costigliola/assertj-guava#readme)** to provide assertions for Guava types (`Multimap`, `Optional`...) - see [AssertJ Guava documentation](http://joel-costigliola.github.io/assertj/assertj-guava.html) and  [javadoc](http://joel-costigliola.github.io/assertj/guava/api/index.html).
 * A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (`DateTime`, `LocalDateTime`) - see [AssertJ Joda Time documentation](http://joel-costigliola.github.io/assertj/assertj-joda-time.html) and  [javadoc](http://joel-costigliola.github.io/assertj/jodatime/api/index.html).
 * A **[Neo4J module](https://github.com/joel-costigliola/assertj-neo4j#readme)** to provide assertions for Neo4J types (`Path`, `Node`, `Relationship`...) - see [AssertJ Neo4J documentation](http://joel-costigliola.github.io/assertj/assertj-neo4j.html) and [javadoc](http://joel-costigliola.github.io/assertj/neo4j/api/index.html).

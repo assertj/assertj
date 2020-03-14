@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -24,7 +24,6 @@ import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
 import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.internal.Comparables.assertNotNull;
-import static org.assertj.core.util.Objects.areEqual;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -58,12 +58,12 @@ public class Uris {
 
   public void assertHasScheme(final AssertionInfo info, final URI actual, final String scheme) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getScheme(), scheme)) throw failures.failure(info, shouldHaveScheme(actual, scheme));
+    if (!Objects.equals(actual.getScheme(), scheme)) throw failures.failure(info, shouldHaveScheme(actual, scheme));
   }
 
   public void assertHasPath(AssertionInfo info, URI actual, String path) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
+    if (!Objects.equals(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
   }
 
   public void assertHasPort(AssertionInfo info, URI actual, Integer expected) {
@@ -73,32 +73,31 @@ public class Uris {
 
   public void assertHasHost(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
+    if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
   }
 
   public void assertHasAuthority(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getAuthority(), expected))
+    if (!Objects.equals(actual.getAuthority(), expected))
       throw failures.failure(info, shouldHaveAuthority(actual, expected));
   }
 
   public void assertHasFragment(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getFragment(), expected)) throw failures.failure(info, shouldHaveFragment(actual, expected));
+    if (!Objects.equals(actual.getFragment(), expected)) throw failures.failure(info, shouldHaveFragment(actual, expected));
   }
 
   public void assertHasQuery(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
+    if (!Objects.equals(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
   }
 
   public void assertHasUserInfo(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    if (!areEqual(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
+    if (!Objects.equals(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
   }
 
-  @VisibleForTesting
-  public static Map<String, List<String>> getParameters(String query) {
+  static Map<String, List<String>> getParameters(String query) {
     Map<String, List<String>> parameters = new LinkedHashMap<>();
 
     if (query != null && !query.isEmpty()) {
@@ -135,7 +134,7 @@ public class Uris {
   public void assertHasParameter(AssertionInfo info, URI actual, String name) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
     if (!parameters.containsKey(name)) throw failures.failure(info, shouldHaveParameter(actual, name));
   }
 
@@ -143,7 +142,7 @@ public class Uris {
                                  String expectedParameterValue) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
 
     if (!parameters.containsKey(expectedParameterName))
       throw failures.failure(info, shouldHaveParameter(actual, expectedParameterName, expectedParameterValue));
@@ -156,14 +155,14 @@ public class Uris {
   public void assertHasNoParameters(AssertionInfo info, URI actual) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
     if (!parameters.isEmpty()) throw failures.failure(info, shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
   public void assertHasNoParameter(AssertionInfo info, URI actual, String name) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
     if (parameters.containsKey(name))
       throw failures.failure(info, shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
@@ -171,7 +170,7 @@ public class Uris {
   public void assertHasNoParameter(AssertionInfo info, URI actual, String name, String unwantedValue) {
     assertNotNull(info, actual);
 
-    Map<String, List<String>> parameters = getParameters(actual.getQuery());
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
 
     if (parameters.containsKey(name)) {
       List<String> values = parameters.get(name);

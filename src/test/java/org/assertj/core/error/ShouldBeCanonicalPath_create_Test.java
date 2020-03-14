@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCanonicalPath.SHOULD_BE_CANONICAL;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.mockito.Mockito.mock;
@@ -25,14 +25,15 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 public class ShouldBeCanonicalPath_create_Test {
-  
+
   @Test
   public void should_create_error_message() {
-	final Path actual = mock(Path.class);
-	ErrorMessageFactory factory = shouldBeCanonicalPath(actual);
-	
-	String actualMessage = factory.create(new TextDescription("Test"), new StandardRepresentation());
-
-	assertThat(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_CANONICAL, actual));
+    // GIVEN
+    final Path actual = mock(Path.class);
+    ErrorMessageFactory factory = shouldBeCanonicalPath(actual);
+    // WHEN
+    String actualMessage = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_CANONICAL, actual));
   }
 }

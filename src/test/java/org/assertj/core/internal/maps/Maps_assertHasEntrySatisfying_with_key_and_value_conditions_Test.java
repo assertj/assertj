@@ -8,15 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -84,37 +85,31 @@ public class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test ex
   @Test
   public void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_key_condition() {
     AssertionInfo info = someInfo();
-    try {
-      maps.assertHasEntrySatisfyingConditions(info, actual, isAge, isGreen);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainEntry(actual, isAge, isGreen));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isAge, isGreen));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainEntry(actual, isAge, isGreen));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_value_condition() {
     AssertionInfo info = someInfo();
-    try {
-      maps.assertHasEntrySatisfyingConditions(info, actual, isColor, isBlack);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainEntry(actual, isColor, isBlack));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isColor, isBlack));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainEntry(actual, isColor, isBlack));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_any_entry_matching_both_given_key_and_value_conditions() {
     AssertionInfo info = someInfo();
-    try {
-      maps.assertHasEntrySatisfyingConditions(info, actual, isAge, isBlack);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainEntry(actual, isAge, isBlack));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isAge, isBlack));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainEntry(actual, isAge, isBlack));
   }
 
   @Test

@@ -8,17 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -77,39 +78,33 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
   public void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-    try {
-      iterables.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence);
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_whole_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
-    try {
-      iterables.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence);
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_sequence_but_not_whole_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Han" };
-    try {
-      iterables.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSequenceNotFound(info, sequence);
   }
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object[] sequence) {
@@ -146,26 +141,22 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
   public void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_sequence_but_not_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Han" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
   @Test

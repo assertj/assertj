@@ -8,16 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -95,17 +95,15 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
-    try {
-      objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), defaultTypeComparators());
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
-                                                                        newArrayList("lightSaberColor"),
-                                                                        newArrayList((Object) null),
-                                                                        newArrayList((Object) "Green"),
-                                                                        newArrayList("strangeNotReadablePrivateField")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
+                                                                      newArrayList("lightSaberColor"),
+                                                                      newArrayList((Object) null),
+                                                                      newArrayList((Object) "Green"),
+                                                                      newArrayList("strangeNotReadablePrivateField")));
   }
 
   @Test
@@ -113,17 +111,15 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Soda", "Green");
-    try {
-      objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), defaultTypeComparators());
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
-                                                                        newArrayList("name"),
-                                                                        newArrayList((Object) "Yoda"),
-                                                                        newArrayList((Object) "Soda"),
-                                                                        newArrayList("strangeNotReadablePrivateField")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
+                                                                      newArrayList("name"),
+                                                                      newArrayList((Object) "Yoda"),
+                                                                      newArrayList((Object) "Soda"),
+                                                                      newArrayList("strangeNotReadablePrivateField")));
   }
 
   @Test

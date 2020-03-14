@@ -8,36 +8,30 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link ShouldBeSorted#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldHaveComparableElements_create_Test {
-
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldHaveMutuallyComparableElements(new Object[] { "b", new Integer(5), "a" });
-  }
-
   @Test
   public void should_create_error_message() {
-    assertThat(factory.create(new TestDescription("Test"), new StandardRepresentation()))
-        .isEqualTo(String.format("[Test] %nsome elements are not mutually comparable in group:%n<[\"b\", 5, \"a\"]>"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveMutuallyComparableElements(new Object[] { "b", Integer.valueOf(5), "a" });
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(String.format("[Test] %nsome elements are not mutually comparable in group:%n<[\"b\", 5, \"a\"]>"));
   }
 }

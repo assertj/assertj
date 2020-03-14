@@ -8,15 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -68,23 +69,21 @@ public class Objects_assertIsOfClassIn_Test extends ObjectsBaseTest {
   public void should_fail_if_actual_is_not_of_class_in_types() {
     AssertionInfo info = someInfo();
     Class<?>[] types = new Class[] { File.class, String.class };
-    try {
-      objects.assertIsOfAnyClassIn(info, actual, types);
-      failBecauseExpectedAssertionErrorWasNotThrown();
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeOfClassIn(actual, types));
-    }
+
+    Throwable error = catchThrowable(() -> objects.assertIsOfAnyClassIn(info, actual, types));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeOfClassIn(actual, types));
   }
 
   @Test
   public void should_fail_if_actual_is_not_of_class_in_empty_types() {
     AssertionInfo info = someInfo();
     Class<?>[] types = new Class[] {};
-    try {
-      objects.assertIsOfAnyClassIn(info, actual, types);
-      failBecauseExpectedAssertionErrorWasNotThrown();
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeOfClassIn(actual, types));
-    }
+
+    Throwable error = catchThrowable(() -> objects.assertIsOfAnyClassIn(info, actual, types));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeOfClassIn(actual, types));
   }
 }

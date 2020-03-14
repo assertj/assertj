@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error.future;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
 import static org.assertj.core.error.future.Warning.WARNING;
 
@@ -32,8 +32,7 @@ public class ShouldNotHaveFailed_create_Test {
     // WHEN
     String error = shouldNotHaveFailed(future).create(new TestDescription("TEST"));
     // THEN
-    assertThat(error).startsWith(format("[TEST] %nExpecting%n  <CompletableFuture[Failed: java.lang.RuntimeException]%n"))
-                     .contains("Caused by: java.lang.RuntimeException")
-                     .endsWith(format("to not have failed.%n%s", WARNING));
+    then(error).startsWith(format("[TEST] %nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException"))
+               .endsWith(format("to not have failed.%n%s", WARNING));
   }
 }

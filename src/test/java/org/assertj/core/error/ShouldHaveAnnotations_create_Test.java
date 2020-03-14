@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 
 import java.lang.annotation.Annotation;
@@ -20,36 +20,33 @@ import java.lang.annotation.Annotation;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Lists;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
  * <code>{@link ShouldHaveAnnotations#shouldHaveAnnotations(Class, java.util.Collection, java.util.Collection)}}</code>
- * 
+ *
  * @author William Delanoue
  */
 public class ShouldHaveAnnotations_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldHaveAnnotations(ShouldHaveAnnotations_create_Test.class,
-                                   Lists.<Class<? extends Annotation>> newArrayList(Override.class, Deprecated.class),
-                                   Lists.<Class<? extends Annotation>> newArrayList(SuppressWarnings.class));
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveAnnotations(ShouldHaveAnnotations_create_Test.class,
+                                                        Lists.<Class<? extends Annotation>> list(Override.class,
+                                                                                                 Deprecated.class),
+                                                        Lists.<Class<? extends Annotation>> list(SuppressWarnings.class));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-                                  "[Test] %n"
-                                      + "Expecting%n"
-                                      + "  <org.assertj.core.error.ShouldHaveAnnotations_create_Test>%n"
-                                      + "to have annotations:%n"
-                                      + "  <[java.lang.Override, java.lang.Deprecated]>%n"
-                                      + "but the following annotations were not found:%n"
-                                      + "  <[java.lang.SuppressWarnings]>"));
+    // THEN
+    then(message).isEqualTo(String.format(
+                                          "[Test] %n"
+                                          + "Expecting%n"
+                                          + "  <org.assertj.core.error.ShouldHaveAnnotations_create_Test>%n"
+                                          + "to have annotations:%n"
+                                          + "  <[java.lang.Override, java.lang.Deprecated]>%n"
+                                          + "but the following annotations were not found:%n"
+                                          + "  <[java.lang.SuppressWarnings]>"));
   }
 }

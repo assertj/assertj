@@ -8,12 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
 import static org.assertj.core.util.Preconditions.checkArgument;
+
+import java.util.Map;
 
 import org.assertj.core.util.VisibleForTesting;
 
@@ -54,25 +56,34 @@ public class PropertyOrFieldSupport {
       // extract next sub-property/field value until reaching the last sub-property/field
       return getValueOf(nextNameFrom(propertyOrFieldName), propertyOrFieldValue);
     }
+
     return getSimpleValue(propertyOrFieldName, input);
   }
 
-  public Object getSimpleValue(String propertyOrFieldName, Object input) {
-    // first try to get given property values from objects, then try fields
+  public Object getSimpleValue(String name, Object input) {
+    // try to get name as a property, then try as a field, then try as a map key
     try {
-      return propertySupport.propertyValueOf(propertyOrFieldName, Object.class, input);
+      return propertySupport.propertyValueOf(name, Object.class, input);
     } catch (IntrospectionError propertyIntrospectionError) {
-      // no luck with properties, let's try fields
+      // no luck as a property, let's try as a field
       try {
-        return fieldSupport.fieldValue(propertyOrFieldName, Object.class, input);
+        return fieldSupport.fieldValue(name, Object.class, input);
       } catch (IntrospectionError fieldIntrospectionError) {
-        // no field nor property found with given name, it is considered as an error
+        // neither field nor property found with given name
+
+        // if the input object is a map, try name as a map key
+        if (input instanceof Map) {
+          Map<?, ?> map = (Map<?, ?>) input;
+          return map.get(name);
+        }
+
+        // no value found with given name, it is considered as an error
         String message = format("%nCan't find any field or property with name '%s'.%n" +
                                 "Error when introspecting properties was :%n" +
                                 "- %s %n" +
                                 "Error when introspecting fields was :%n" +
                                 "- %s",
-                                propertyOrFieldName, propertyIntrospectionError.getMessage(),
+                                name, propertyIntrospectionError.getMessage(),
                                 fieldIntrospectionError.getMessage());
         throw new IntrospectionError(message, fieldIntrospectionError);
       }

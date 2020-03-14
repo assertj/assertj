@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -37,14 +37,14 @@ public class AssertionErrorCreator_multipleSoftAssertionsError_Test {
     // WHEN
     AssertionError assertionError = assertionErrorCreator.multipleSoftAssertionsError(errors);
     // THEN
-    assertThat(assertionError).isInstanceOf(AssertJMultipleFailuresError.class)
-                              .hasMessage(format("%nMultiple Failures (2 failures)%n" +
-                                                 "-- failure 1 --%n" +
-                                                 "error1%n" +
-                                                 "-- failure 2 --%n" +
-                                                 "error2"));
+    then(assertionError).isInstanceOf(AssertJMultipleFailuresError.class)
+                        .hasMessage(format("%nMultiple Failures (2 failures)%n" +
+                                           "-- failure 1 --%n" +
+                                           "error1%n" +
+                                           "-- failure 2 --%n" +
+                                           "error2"));
     MultipleFailuresError assertionFailedError = (MultipleFailuresError) assertionError;
-    assertThat(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
+    then(assertionFailedError.getFailures()).containsExactlyElementsOf(errors);
   }
 
   @Test
@@ -57,11 +57,11 @@ public class AssertionErrorCreator_multipleSoftAssertionsError_Test {
     // WHEN
     AssertionError assertionError = assertionErrorCreator.multipleSoftAssertionsError(errors);
     // THEN
-    assertThat(assertionError).isNotInstanceOf(MultipleFailuresError.class)
-                              .isInstanceOf(SoftAssertionError.class)
-                              .hasMessage(format("%n"
-                                                 + "The following 2 assertions failed:%n"
-                                                 + "1) error1%n"
-                                                 + "2) error2%n"));
+    then(assertionError).isNotInstanceOf(MultipleFailuresError.class)
+                        .isInstanceOf(SoftAssertionError.class)
+                        .hasMessage(format("%n"
+                                           + "The following 2 assertions failed:%n"
+                                           + "1) error1%n"
+                                           + "2) error2%n"));
   }
 }

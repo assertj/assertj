@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -28,10 +29,9 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsAfter(AssertionInfo, java.util.Date, java.util.Date)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 public class Dates_assertIsAfter_Test extends DatesBaseTest {
@@ -45,26 +45,22 @@ public class Dates_assertIsAfter_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_strictly_after_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2022-01-01");
-    try {
-      dates.assertIsAfter(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeAfter(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsAfter(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeAfter(actual, other));
   }
 
   @Test
   public void should_fail_if_actual_is_equals_to_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2011-01-15");
-    try {
-      dates.assertIsAfter(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeAfter(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsAfter(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeAfter(actual, other));
   }
 
   @Test
@@ -75,7 +71,8 @@ public class Dates_assertIsAfter_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsAfter(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsAfter(someInfo(), null,
+                                                                                         parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -88,39 +85,35 @@ public class Dates_assertIsAfter_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_strictly_after_given_date_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2022-01-01");
-    try {
-      datesWithCustomComparisonStrategy.assertIsAfter(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeAfter(actual, other, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsAfter(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeAfter(actual, other, yearAndMonthComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_is_equals_to_given_date_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2011-01-31");
-    try {
-      datesWithCustomComparisonStrategy.assertIsAfter(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeAfter(actual, other, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsAfter(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeAfter(actual, other, yearAndMonthComparisonStrategy));
   }
 
   @Test
   public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(),
-                                                                                                                           actual,
-                                                                                                                           null))
-                                                         .withMessage(dateToCompareActualWithIsNull());
+    assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(), actual, null))
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfter(someInfo(),
+                                                                                                                     null,
+                                                                                                                     parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 

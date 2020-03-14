@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error.future;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.Warning.WARNING;
 
@@ -26,16 +26,17 @@ public class ShouldNotBeCancelled_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     CompletableFuture<Object> future = new CompletableFuture<>();
     future.cancel(true);
-
+    // WHEN
     String error = shouldNotBeCancelled(future).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting%n" +
-                                       "  <CompletableFuture[Cancelled]>%n" +
-                                       "not to be cancelled.%n%s",
-                                       WARNING));
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting%n" +
+                                 "  <CompletableFuture[Cancelled]>%n" +
+                                 "not to be cancelled.%n%s",
+                                 WARNING));
   }
 
 }

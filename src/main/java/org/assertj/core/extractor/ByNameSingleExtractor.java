@@ -8,39 +8,24 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.extractor;
 
-import static org.assertj.core.util.Preconditions.checkArgument;
-
-import java.util.Map;
 import java.util.function.Function;
 
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
-class ByNameSingleExtractor<T> implements Function<T, Object> {
+class ByNameSingleExtractor implements Function<Object, Object> {
 
   private final String propertyOrFieldName;
 
-  @VisibleForTesting
   ByNameSingleExtractor(String propertyOrFieldName) {
     this.propertyOrFieldName = propertyOrFieldName;
   }
 
   @Override
-  public Object apply(T input) {
-    checkArgument(propertyOrFieldName != null, "The name of the field/property to read should not be null");
-    checkArgument(propertyOrFieldName.length() > 0, "The name of the field/property to read should not be empty");
-    checkArgument(input != null, "The object to extract field/property from should not be null");
-
-    // if input is a map, use propertyOrFieldName as a key
-    if (input instanceof Map) {
-      Map<?, ?> map = (Map<?, ?>) input;
-      return map.get(propertyOrFieldName);
-    }
-
+  public Object apply(Object input) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(propertyOrFieldName, input);
   }
 

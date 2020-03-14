@@ -8,18 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bytes;
 
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -67,13 +68,11 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
   })
   public void should_fail_if_actual_is_too_close_to_the_other_value(byte actual, byte other, byte offset) {
     AssertionInfo info = someInfo();
-    try {
-      bytes.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (byte) abs(actual - other)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> bytes.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (byte) abs(actual - other)));
   }
 
   @ParameterizedTest
@@ -85,13 +84,11 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
   public void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(byte actual, byte other,
                                                                                        byte offset) {
     AssertionInfo info = someInfo();
-    try {
-      bytes.assertIsNotCloseTo(info, actual, other, byLessThan(offset));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (byte) abs(actual - other)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> bytes.assertIsNotCloseTo(info, actual, other, byLessThan(offset)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (byte) abs(actual - other)));
   }
 
   @ParameterizedTest
@@ -102,13 +99,11 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
   })
   public void should_fail_if_difference_is_equal_to_given_offset(byte actual, byte other, byte offset) {
     AssertionInfo info = someInfo();
-    try {
-      bytes.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), (byte) abs(actual - other)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> bytes.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), (byte) abs(actual - other)));
   }
 
   @Test

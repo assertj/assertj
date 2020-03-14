@@ -8,14 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.localdate;
 
 import java.time.LocalDate;
 
 import org.assertj.core.api.AbstractLocalDateAssert;
-import org.assertj.core.api.BaseTest;
 
 
 /**
@@ -23,7 +22,7 @@ import org.assertj.core.api.BaseTest;
  * Base test class for {@link AbstractLocalDateAssert} tests.
  * 
  */
-public class LocalDateAssertBaseTest extends BaseTest {
+public class LocalDateAssertBaseTest {
 
   public static final LocalDate BEFORE = LocalDate.now().minusDays(1);
   public static final LocalDate REFERENCE = LocalDate.now();

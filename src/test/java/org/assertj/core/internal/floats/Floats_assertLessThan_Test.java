@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.floats;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -47,25 +48,21 @@ public class Floats_assertLessThan_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertLessThan(info, 6f, 6f);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(6f, 6f));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertLessThan(info, 6f, 6f));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLess(6f, 6f));
   }
 
   @Test
   public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertLessThan(info, 8f, 6f);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(8f, 6f));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertLessThan(info, 8f, 6f));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLess(8f, 6f));
   }
 
   @Test
@@ -82,24 +79,20 @@ public class Floats_assertLessThan_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      floatsWithAbsValueComparisonStrategy.assertLessThan(info, 6f, -6f);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(6f, -6f, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertLessThan(info, 6f, -6f));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLess(6f, -6f, absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      floatsWithAbsValueComparisonStrategy.assertLessThan(info, -8f, 6f);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(-8f, 6f, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertLessThan(info, -8f, 6f));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeLess(-8f, 6f, absValueComparisonStrategy));
   }
 }

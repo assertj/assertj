@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -25,6 +25,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.assertj.core.annotations.Beta;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Failures;
@@ -59,7 +61,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * <pre><code class='java'> assertThat(Optional.of("something")).isPresent();</code></pre>
    *
    * Assertion will fail :
-   * <pre><code class='java'> assertThat(Optional.empty()).isPresent();</code></pre> 
+   * <pre><code class='java'> assertThat(Optional.empty()).isPresent();</code></pre>
    *
    * @return this assertion object.
    */
@@ -144,7 +146,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * containing object, as further requirement(s) for the value.
    * <p>
    * Assertions will pass :
-   * <pre><code class='java'> // one requirement 
+   * <pre><code class='java'> // one requirement
    * assertThat(Optional.of(10)).hasValueSatisfying(i -&gt; { assertThat(i).isGreaterThan(9); });
    *
    * // multiple requirements
@@ -159,7 +161,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    *     assertThat(s).isEqualTo("something else");
    *   });
    *
-   * // fail because optional is empty, there is no value to perform assertion on  
+   * // fail because optional is empty, there is no value to perform assertion on
    * assertThat(Optional.empty()).hasValueSatisfying(o -&gt; {});</code></pre>
    *
    * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
@@ -175,14 +177,14 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * Verifies that the actual {@link Optional} contains a value which satisfies the given {@link Condition}.
    * <p>
    * Examples:
-   * <pre><code class='java'> Condition&lt;TolkienCharacter&gt; isAnElf = new Condition&lt;&gt;(character -&gt; character.getRace() == ELF, "an elf"); 
-   * 
+   * <pre><code class='java'> Condition&lt;TolkienCharacter&gt; isAnElf = new Condition&lt;&gt;(character -&gt; character.getRace() == ELF, "an elf");
+   *
    * TolkienCharacter legolas = new TolkienCharacter("Legolas", 1000, ELF);
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * 
+   *
    * // assertion succeeds
    * assertThat(Optional.of(legolas)).hasValueSatisfying(isAnElf);
-   *                                     
+   *
    * // assertion fails
    * assertThat(Optional.of(frodo)).hasValueSatisfying(isAnElf);</code></pre>
    *
@@ -331,7 +333,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * assertThat(Optional.of("something")).containsSame("something else");
    * assertThat(Optional.of(20)).containsSame(10);
    *
-   * // equal but not the same: 
+   * // equal but not the same:
    * assertThat(Optional.of(new String("something"))).containsSame(new String("something"));
    * assertThat(Optional.of(new Integer(10))).containsSame(new Integer(10));</code></pre>
    *
@@ -350,20 +352,20 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the flatMap call.
    * <p>
    * Examples:
-   * <pre><code class='java'> Function&lt;String, Optional&lt;String&gt;&gt; UPPER_CASE_OPTIONAL_STRING = 
+   * <pre><code class='java'> Function&lt;String, Optional&lt;String&gt;&gt; UPPER_CASE_OPTIONAL_STRING =
    *       s -&gt; s == null ? Optional.empty() : Optional.of(s.toUpperCase());
-   * 
+   *
    * // assertions succeed
    * assertThat(Optional.of("something")).contains("something")
    *                                     .flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                     .contains("SOMETHING");
-   *                                     
+   *
    * assertThat(Optional.&lt;String&gt;empty()).flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                     .isEmpty();
-   *                                     
+   *
    * assertThat(Optional.&lt;String&gt;ofNullable(null)).flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                              .isEmpty();
-   *                                     
+   *
    * // assertion fails
    * assertThat(Optional.of("something")).flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                     .contains("something");</code></pre>
@@ -384,14 +386,14 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * Call {@link Optional#map(Function) map} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the map call.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions succeed 
+   * <pre><code class='java'> // assertions succeed
    * assertThat(Optional.&lt;String&gt;empty()).map(String::length)
    *                                     .isEmpty();
-   * 
+   *
    * assertThat(Optional.of("42")).contains("42")
    *                              .map(String::length)
    *                              .contains(2);
-   *                              
+   *
    * // assertion fails
    * assertThat(Optional.of("42")).map(String::length)
    *                              .contains(3);</code></pre>
@@ -409,10 +411,10 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
-   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an Object assertion 
+   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an Object assertion
    * that allows chaining (object) assertions on the optional value.
    * <p>
-   * Note that it is only possible to return Object assertions after calling this method due to java generics limitations.  
+   * Note that it is only possible to return Object assertions after calling this method due to java generics limitations.
    * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -428,11 +430,112 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @throws AssertionError if the actual {@link Optional} is null.
    * @throws AssertionError if the actual {@link Optional} is empty.
    * @since 3.9.0
+   * @see #get(InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, VALUE> get() {
+    return internalGet();
+  }
+
+  /**
+   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an new assertion instance
+   * to chain assertions on the optional value.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * assertion more readable.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(Optional.of("frodo")).get(as(InstanceOfAssertFactories.STRING)).startsWith("fro");
+   *
+   * // assertion does not succeed because frodo is not an Integer
+   * assertThat(Optional.of("frodo")).get(as(InstanceOfAssertFactories.INTEGER)).isZero();</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the Optional
+   * @throws NullPointerException if the given factory is {@code null}
+   * @throws AssertionError if the actual {@link Optional} is null
+   * @throws AssertionError if the actual {@link Optional} is empty
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT get(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalGet().asInstanceOf(assertFactory);
+  }
+
+  /**
+   * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert},
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   boolean hasPhd;
+   * }
+   *
+   * public class Doctor {
+   *  String name;
+   *  boolean hasPhd;
+   * }
+   *
+   * Doctor drSheldon = new Doctor("Sheldon Cooper", true);
+   * Person sheldon = new Person("Sheldon Cooper", true);
+   *
+   * Optional&lt;Doctor&gt; doctor = Optional.of(drSheldon);
+   * Optional&lt;Person&gt; person = Optional.of(sheldon);
+   *
+   * // assertion succeeds as both maps contains equivalent items.
+   * assertThat(doctor).usingRecursiveComparison()
+   *                   .isEqualTo(person);
+   *
+   * // assertion fails because leonard names are different.
+   * drSheldon.setName("Sheldon Kooper");
+   * assertThat(doctor).usingRecursiveComparison()
+   *                   .isEqualTo(person);</code></pre>
+   *
+   * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
+   * <p>
+   * The default recursive comparison behavior is {@link RecursiveComparisonConfiguration configured} as follows:
+   * <ul>
+   *   <li> different types of iterable can be compared by default as in the example, this can be turned off by calling {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking}.</li>
+   *   <li>overridden equals methods are used in the comparison (unless stated otherwise - see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals">https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals</a>)</li>
+   *   <li>the following types are compared with these comparators:
+   *     <ul>
+   *       <li>{@code java.lang.Double}: {@code DoubleComparator} with precision of 1.0E-15</li>
+   *       <li>{@code java.lang.Float}: {@code FloatComparator }with precision of 1.0E-6</li>
+   *       <li>any comparators previously registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} </li>
+   *     </ul>
+   *   </li>
+   * </ul>
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance
+   * @see RecursiveComparisonConfiguration RecursiveComparisonConfiguration
+   */
+  @Override
+  @Beta
+  public RecursiveComparisonAssert<?> usingRecursiveComparison() {
+    // overridden for javadoc and to make this method public
+    return super.usingRecursiveComparison();
+  }
+
+  /**
+   * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   */
+  @Override
+  public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    // overridden for javadoc and to make this method public
+    return super.usingRecursiveComparison(recursiveComparisonConfiguration);
+  }
+
+  private AbstractObjectAssert<?, VALUE> internalGet() {
     isPresent();
-    return assertThat(actual.get());
+    return assertThat(actual.get()).withAssertionState(myself);
   }
 
   private void checkNotNull(Object expectedValue) {

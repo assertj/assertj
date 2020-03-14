@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.test;
 
-import java.util.Comparator;
+import org.assertj.core.internal.DescribableComparator;
 
-public class NeverEqualComparator<T> implements Comparator<T> {
+public class NeverEqualComparator<T> extends DescribableComparator<T> {
 
   public static final NeverEqualComparator<Object> NEVER_EQUALS = new NeverEqualComparator<>();
   public static final NeverEqualComparator<String> NEVER_EQUALS_STRING = new NeverEqualComparator<>();
@@ -25,7 +25,7 @@ public class NeverEqualComparator<T> implements Comparator<T> {
   }
 
   @Override
-  public String toString() {
+  public String description() {
     return NeverEqualComparator.class.getName();
   }
 }

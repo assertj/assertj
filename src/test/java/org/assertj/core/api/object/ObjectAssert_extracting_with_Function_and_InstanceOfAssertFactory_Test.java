@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.object;
 
@@ -18,9 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
-import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.function.Function;
@@ -28,14 +26,14 @@ import java.util.function.Function;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractIntegerAssert;
-import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -43,11 +41,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
-class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
+@DisplayName("ObjectAssert extracting(Function, InstanceOfAssertFactory)")
+class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test
+    implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
   private Employee luke;
 
-  private static final Function<Employee, String> firstName = employee -> employee.getName().getFirst();
+  private static final Function<Employee, String> FIRST_NAME = employee -> employee.getName().getFirst();
 
   @BeforeEach
   void setUp() {
@@ -59,9 +59,9 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
     // GIVEN
     Function<Employee, String> extractor = null;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(luke).extracting(extractor, STRING));
+    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting(extractor, STRING));
     // THEN
-    then(error).isInstanceOf(NullPointerException.class);
+    then(thrown).isInstanceOf(NullPointerException.class);
   }
 
   @Test
@@ -69,27 +69,28 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(luke).extracting(Employee::getName, null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class);
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
   }
 
   @Test
-  void should_allow_type_narrowed_assertions_on_value_extracted_with_lambda() {
+  void should_pass_allowing_type_narrowed_assertions_on_value_extracted_with_lambda() {
     // WHEN
-    AbstractStringAssert<?> result = assertThat(luke).extracting(firstName, STRING);
+    AbstractStringAssert<?> result = assertThat(luke).extracting(FIRST_NAME, STRING);
     // THEN
     result.startsWith("Lu");
   }
 
   @Test
-  void should_allow_parent_type_narrowed_assertions_on_value_extracted_with_parent_type_factory() {
+  void should_pass_allowing_parent_type_narrowed_assertions_on_value_extracted_with_parent_type_factory() {
     // WHEN
-    AbstractCharSequenceAssert<?, ?> result = assertThat(luke).extracting(firstName, CHAR_SEQUENCE);
+    AbstractCharSequenceAssert<?, ?> result = assertThat(luke).extracting(FIRST_NAME, CHAR_SEQUENCE);
     // THEN
     result.startsWith("Lu");
   }
 
   @Test
-  void should_allow_type_narrowed_assertions_on_value_extracted_with_method_reference() {
+  void should_pass_allowing_type_narrowed_assertions_on_value_extracted_with_method_reference() {
     // WHEN
     AbstractIntegerAssert<?> result = assertThat(luke).extracting(Employee::getAge, INTEGER);
     // THEN
@@ -97,9 +98,9 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_allow_actual_type_narrowed_assertions_on_value_extracted_as_an_object() {
+  void should_pass_allowing_actual_type_narrowed_assertions_on_value_extracted_as_an_object() {
     // GIVEN
-    final Function<Employee, Object> ageAsObject = Employee::getAge;
+    Function<Employee, Object> ageAsObject = Employee::getAge;
     // WHEN
     AbstractIntegerAssert<?> result = assertThat(luke).extracting(ageAsObject, INTEGER);
     // THEN
@@ -107,7 +108,7 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
   }
 
   @Test
-  void should_fail_when_the_wrong_factory_type_is_used() {
+  void should_fail_if_the_extracted_value_is_not_an_instance_of_the_assert_factory_type() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(luke).extracting(Employee::getAge, STRING));
     // THEN
@@ -127,35 +128,14 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test {
     then(error).isSameAs(explosion);
   }
 
-  @Test
-  void should_honor_registered_comparator() {
-    // GIVEN
-    ObjectAssert<Employee> assertion = assertThat(luke).usingComparator(ALWAY_EQUALS);
-    // WHEN
-    AbstractStringAssert<?> result = assertion.extracting(firstName, STRING);
-    // THEN
-    result.isEqualTo("YODA");
+  @Override
+  public ObjectAssert<Employee> getAssertion() {
+    return assertThat(luke);
   }
 
-  @Test
-  void should_keep_existing_assertion_state() {
-    // GIVEN
-    AbstractObjectAssert<?, Employee> assertion = assertThat(luke).as("description")
-                                                                  .withFailMessage("error message")
-                                                                  .withRepresentation(UNICODE_REPRESENTATION)
-                                                                  .usingComparator(ALWAY_EQUALS)
-                                                                  .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
-                                                                  .usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
-    // WHEN
-    AbstractStringAssert<?> result = assertion.extracting(firstName, STRING);
-    // THEN
-    then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
-                .extracting(AbstractAssert::getWritableAssertionInfo)
-                .isEqualToComparingFieldByField(assertion.info);
-  }
-
-  private static Object extractObjectField(AbstractAssert<?, ?> assertion) {
-    return PropertyOrFieldSupport.EXTRACTION.getValueOf("objects", assertion);
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ObjectAssert<Employee> assertion) {
+    return assertion.extracting(Employee::getAge, INTEGER);
   }
 
 }

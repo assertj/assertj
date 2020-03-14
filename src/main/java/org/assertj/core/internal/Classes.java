@@ -8,12 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
@@ -30,11 +32,13 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
+import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
+import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
@@ -207,6 +211,22 @@ public class Classes {
   }
 
   /**
+   * Verifies that the actual {@code Class} is package-private.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not package-private.
+   */
+  public void assertIsPackagePrivate(AssertionInfo info, Class<?> actual) {
+    assertNotNull(info, actual);
+    final int modifiers = actual.getModifiers();
+    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
+      throw failures.failure(info, shouldBePackagePrivate(actual));
+    }
+  }
+
+  /**
    * Verifies that the actual {@code Class} is not final.
    *
    * @param info contains information about the assertion.
@@ -239,6 +259,40 @@ public class Classes {
     }
 
     if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given class as direct {@code superclass}.
+   *
+   * @param info       contains information about the assertion.
+   * @param actual     the "actual" {@code Class}.
+   * @param superclass the direct superclass, which should not be null.
+   * @throws NullPointerException if {@code superclass} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} does not have the expected superclass.
+   */
+  public void assertHasSuperclass(AssertionInfo info, Class<?> actual, Class<?> superclass) {
+    assertNotNull(info, actual);
+    requireNonNull(superclass, shouldNotBeNull("superclass").create());
+    Class<?> actualSuperclass = actual.getSuperclass();
+    if (actualSuperclass == null || !actualSuperclass.equals(superclass)) {
+      throw failures.failure(info, shouldHaveSuperclass(actual, superclass));
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has no superclass.
+   *
+   * @param info       contains information about the assertion.
+   * @param actual     the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} has a superclass.
+   */
+  public void assertHasNoSuperclass(AssertionInfo info, Class<?> actual) {
+    assertNotNull(info, actual);
+    if (actual.getSuperclass() != null) {
+      throw failures.failure(info, shouldHaveNoSuperclass(actual));
+    }
   }
 
   /**
@@ -525,6 +579,6 @@ public class Classes {
    * @throws NullPointerException with an explicit message if the given class is null
    */
   private static void classParameterIsNotNull(Class<?> clazz) {
-    checkNotNull(clazz, "The class to compare actual with should not be null");
+    requireNonNull(clazz, "The class to compare actual with should not be null");
   }
 }

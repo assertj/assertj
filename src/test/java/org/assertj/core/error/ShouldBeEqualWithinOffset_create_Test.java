@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
@@ -37,13 +37,13 @@ public class ShouldBeEqualWithinOffset_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <8.0f>%n" +
-                                         "to be close to:%n" +
-                                         "  <6.0f>%n" +
-                                         "by less than <1.0f> but difference was <2.0f>.%n" +
-                                         "(a difference of exactly <1.0f> being considered valid)"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <8.0f>%n" +
+                                   "to be close to:%n" +
+                                   "  <6.0f>%n" +
+                                   "by less than <1.0f> but difference was <2.0f>.%n" +
+                                   "(a difference of exactly <1.0f> being considered valid)"));
   }
 
   @Test
@@ -53,12 +53,12 @@ public class ShouldBeEqualWithinOffset_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <8.0f>%n" +
-                                         "to be close to:%n" +
-                                         "  <6.0f>%n" +
-                                         "by less than <1.0f> but difference was <2.0f>.%n" +
-                                         "(a difference of exactly <1.0f> being considered invalid)"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <8.0f>%n" +
+                                   "to be close to:%n" +
+                                   "  <6.0f>%n" +
+                                   "by less than <1.0f> but difference was <2.0f>.%n" +
+                                   "(a difference of exactly <1.0f> being considered invalid)"));
   }
 }

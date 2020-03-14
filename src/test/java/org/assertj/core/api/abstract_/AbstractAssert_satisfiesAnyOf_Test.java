@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.data.TolkienCharacter.Race.DRAGON;
 import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -28,6 +28,7 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
@@ -37,9 +38,11 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
 
   private TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
   private TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
+  private TolkienCharacter smaug = TolkienCharacter.of("Smaug", 171, DRAGON);
   private Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
   private Consumer<TolkienCharacter> isElf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
   private Consumer<TolkienCharacter> isDwarf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DWARF);
+  private Consumer<TolkienCharacter> isDragon = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DRAGON);
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -70,6 +73,8 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     assertThat(frodo).satisfiesAnyOf(isHobbit, isElf);
     assertThat(legolas).satisfiesAnyOf(isHobbit, isElf, isDwarf)
                        .satisfiesAnyOf(isHobbit, isElf);
+    assertThat(smaug).satisfiesAnyOf(isHobbit, isElf, isDwarf, isDragon)
+                     .satisfiesAnyOf(isHobbit, isDwarf, isDragon);
   }
 
   @Test
@@ -78,7 +83,7 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     Consumer<TolkienCharacter> namesStartsWithF = tolkienCharacter -> assertThat(tolkienCharacter.getName()).startsWith("F");
     // THEN
     assertThat(frodo).satisfiesAnyOf(isHobbit, namesStartsWithF)
-                     .satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit);
+                     .satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit, isDragon);
   }
 
   @Test
@@ -102,23 +107,23 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     // GIVEN
     Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
+    ThrowingCallable failingAssertionCode = () -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ);
     // THEN
-    Throwable thrown = catchThrowable(() -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ));
+    AssertionError assertionError = expectAssertionError(failingAssertionCode);
     // THEN
-    assertThat(thrown).isInstanceOf(AssertionError.class)
-                      .hasMessageContaining("String checks");
+    assertThat(assertionError).hasMessageContaining("String checks");
   }
 
   @Test
   public void should_not_honor_overriding_error_message() {
     // GIVEN
-    Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
+    Consumer<String> isEmpty = string -> assertThat(string).overridingErrorMessage("fail empty").isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
+    ThrowingCallable failingAssertionCode = () -> assertThat("abc").satisfiesAnyOf(isEmpty, endsWithZ);
     // THEN
-    Throwable thrown = catchThrowable(() -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ));
+    AssertionError assertionError = expectAssertionError(failingAssertionCode);
     // THEN
-    assertThat(thrown).isInstanceOf(AssertionError.class)
-                      .hasMessageContaining("String checks");
+    assertThat(assertionError).hasMessageContaining("fail empty");
   }
 
 }

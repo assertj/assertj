@@ -8,15 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -88,51 +89,42 @@ public class Strings_assertNotEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_both_Strings_are_null_whatever_custom_comparison_strategy_is() {
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertNotEqualsIgnoringCase(someInfo(), null, null);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreNotEqual(someInfo(), null, null);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEqualsIgnoringCase(someInfo(), null, null));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringsAreNotEqual(someInfo(), null, null);
   }
 
   @Test
   public void should_fail_if_both_Strings_are_the_same_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     String s = "Yoda";
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertNotEqualsIgnoringCase(info, s, s);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreNotEqual(info, s, s);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEqualsIgnoringCase(info, s, s));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringsAreNotEqual(info, s, s);
   }
 
   @Test
   public void should_fail_if_both_Strings_are_equal_but_not_same_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertNotEqualsIgnoringCase(info, "Yoda",
-                                                                               new String(
-                                                                                          arrayOf('Y', 'o', 'd', 'a')));
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreNotEqual(info, "Yoda", "Yoda");
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEqualsIgnoringCase(info, "Yoda",
+      new String(arrayOf('Y', 'o', 'd', 'a')))
+    );
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringsAreNotEqual(info, "Yoda", "Yoda");
   }
 
   @Test
   public void should_fail_if_both_Strings_are_equal_ignoring_case_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertNotEqualsIgnoringCase(info, "Yoda", "YODA");
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenStringsAreNotEqual(info, "Yoda", "YODA");
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEqualsIgnoringCase(info, "Yoda", "YODA"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringsAreNotEqual(info, "Yoda", "YODA");
   }
 }

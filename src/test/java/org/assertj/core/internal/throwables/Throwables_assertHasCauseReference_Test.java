@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.throwables;
 
@@ -68,7 +68,6 @@ public class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest 
     verify(failures).failure(INFO, shouldHaveCauseReference(cause, expected));
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> failingData() {
     return Stream.of(Arguments.of(null, new Throwable(), "no actual cause"),
                      Arguments.of(new Throwable(), new Throwable(), "same type different instance"),

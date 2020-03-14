@@ -8,18 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ByteArrays.arrayOf;
 import static org.assertj.core.test.ByteArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -79,29 +80,25 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysB
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     byte[] expected = {6, 8, 20};
-    try {
-      arrays.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected,
-          newArrayList((byte) 20), newArrayList((byte) 10), StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected,
+        newArrayList((byte) 20), newArrayList((byte) 10), StandardComparisonStrategy.instance()));
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     byte[] expected = {6, 8};
-    try {
-      arrays.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((byte) 10),
-              StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((byte) 10),
+            StandardComparisonStrategy.instance()));
   }
 
   @Test
@@ -109,15 +106,13 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysB
     AssertionInfo info = someInfo();
     actual = arrayOf(6, 8, 8);
     byte[] expected = {6, 8};
-    try {
-      arrays.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((byte) 8),
-              StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((byte) 8),
+            StandardComparisonStrategy.instance()));
   }
 
   @Test
@@ -125,14 +120,12 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysB
     AssertionInfo info = someInfo();
     actual = arrayOf(6, 8);
     byte[] expected = {6, 8, 8};
-    try {
-      arrays.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, newArrayList((byte) 8), emptyList(), StandardComparisonStrategy.instance()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, newArrayList((byte) 8), emptyList(), StandardComparisonStrategy.instance()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -173,27 +166,23 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysB
   public void should_fail_if_actual_does_not_contain_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     byte[] expected = {6, -8, 20};
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList((byte) 20),
-          newArrayList((byte) 10), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList((byte) 20),
+        newArrayList((byte) 10), absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     byte[] expected = {6, 8};
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((byte) 10), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((byte) 10), absValueComparisonStrategy));
   }
 
   @Test
@@ -201,14 +190,12 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysB
     AssertionInfo info = someInfo();
     actual = arrayOf(6, 8, 8);
     byte[] expected = {6, 8};
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((byte) 8), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((byte) 8), absValueComparisonStrategy));
   }
 
   @Test
@@ -216,14 +203,12 @@ public class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysB
     AssertionInfo info = someInfo();
     actual = arrayOf(6, 8);
     byte[] expected = {6, 8, 8};
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainExactlyInAnyOrder(actual, expected, newArrayList((byte) 8), emptyList(), absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainExactlyInAnyOrder(actual, expected, newArrayList((byte) 8), emptyList(), absValueComparisonStrategy));
   }
 
 }

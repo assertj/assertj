@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 
 import static org.mockito.Mockito.verify;
@@ -38,13 +39,11 @@ public class BooleanArrays_assertNullOrEmpty_Test extends BooleanArraysBaseTest 
   public void should_fail_if_array_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
     boolean[] actual = { true, false };
-    try {
-      arrays.assertNullOrEmpty(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeNullOrEmpty(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertNullOrEmpty(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeNullOrEmpty(actual));
   }
 
   @Test

@@ -8,17 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.floatarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.*;
 import static org.assertj.core.test.FloatArrays.*;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import static org.mockito.Mockito.verify;
@@ -68,39 +69,33 @@ public class FloatArrays_assertContainsSequence_Test extends FloatArraysBaseTest
   public void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, 8f, 10f, 12f, 20f, 22f };
-    try {
-      arrays.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequence));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSequence(actual, sequence));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_whole_sequence() {
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, 20f };
-    try {
-      arrays.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequence));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSequence(actual, sequence));
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, 20f, 22f };
-    try {
-      arrays.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequence));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSequence(actual, sequence));
   }
 
   @Test
@@ -136,39 +131,33 @@ public class FloatArrays_assertContainsSequence_Test extends FloatArraysBaseTest
   public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, -8f, 10f, 12f, 20f, 22f };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, 20f };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, 20f, 22f };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
   }
 
   @Test

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,11 +18,11 @@ import org.assertj.core.internal.Classes;
 
 /**
  * Base class for all implementations of assertions for {@link Class}es.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * 
+ *
  * @author William Delanoue
  * @author Mikhail Mazursky
  */
@@ -41,13 +41,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Example:
    * <pre><code class='java'> class Jedi {}
    * class HumanJedi extends Jedi {}
-   * 
+   *
    * // this assertion succeeds:
    * assertThat(Jedi.class).isAssignableFrom(HumanJedi.class);
-   * 
+   *
    * // this assertion fails:
    * assertThat(HumanJedi.class).isAssignableFrom(Jedi.class);</code></pre>
-   * 
+   *
    * @see Class#isAssignableFrom(Class)
    * @param others {@code Class} who can be assignable from.
    * @return {@code this} assertions object
@@ -66,13 +66,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Example:
    * <pre><code class='java'> interface Jedi {}
    * class HumanJedi implements Jedi {}
-   * 
+   *
    * // this assertion succeeds:
    * assertThat(HumanJedi.class).isNotInterface();
-   * 
+   *
    * // this assertion fails:
    * assertThat(Jedi.class).isNotInterface();</code></pre>
-   * 
+   *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
@@ -88,13 +88,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Example:
    * <pre><code class='java'> interface Jedi {}
    * class HumanJedi implements Jedi {}
-   * 
+   *
    * // this assertion succeeds:
    * assertThat(Jedi.class).isInterface();
-   * 
+   *
    * // this assertion fails:
    * assertThat(HumanJedi.class).isInterface();</code></pre>
-   * 
+   *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
@@ -132,15 +132,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> public @interface Jedi {}
-   * 
+   *
    * // these assertions succeed:
    * assertThat(Jedi.class).isAnnotation();
    * assertThat(Override.class).isAnnotation();
    * assertThat(Deprecated.class).isAnnotation();
-   * 
+   *
    * // this assertion fails:
    * assertThat(String.class).isAnnotation();</code></pre>
-   * 
+   *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an annotation.
@@ -155,15 +155,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> public @interface Jedi {}
-   * 
+   *
    * // this assertion succeeds:
    * assertThat(String.class).isNotAnnotation();
-   * 
+   *
    * // these assertions fail:
    * assertThat(Jedi.class).isNotAnnotation();
    * assertThat(Override.class).isNotAnnotation();
    * assertThat(Deprecated.class).isNotAnnotation();</code></pre>
-   * 
+   *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is an annotation.
@@ -264,30 +264,54 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that the actual {@code Class} is package-private (has no modifier).
+   * <p>
+   * Example:
+   * <pre><code class='java'> class MyClass { }
+   *
+   * // this assertion succeeds:
+   * assertThat(MyClass.class).isPackagePrivate();
+   *
+   * // these assertions fail:
+   * assertThat(String.class).isPackagePrivate();
+   * assertThat(Math.class).isPackagePrivate();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not package-private.
+   *
+   * @since 3.15.0
+   */
+  public SELF isPackagePrivate() {
+    classes.assertIsPackagePrivate(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
    * <p>
    * Example:
    * <pre><code class='java'> &#64;Target(ElementType.TYPE)
    * &#64;Retention(RetentionPolicy.RUNTIME)
    * private static @interface Force { }
-   * 
+   *
    * &#64;Target(ElementType.TYPE)
    * &#64;Retention(RetentionPolicy.RUNTIME)
    * private static @interface Hero { }
-   * 
+   *
    * &#64;Target(ElementType.TYPE)
    * &#64;Retention(RetentionPolicy.RUNTIME)
    * private static @interface DarkSide { }
-   * 
+   *
    * &#64;Hero &#64;Force
    * class Jedi implements Jedi {}
-   * 
+   *
    * // this assertion succeeds:
    * assertThat(Jedi.class).containsAnnotations(Force.class, Hero.class);
-   * 
+   *
    * // this assertion fails:
    * assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);</code></pre>
-   * 
+   *
    * @param annotations annotations who must be attached to the class
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -307,13 +331,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * private static @interface Force { }
    * &#64;Force
    * class Jedi implements Jedi {}
-   * 
+   *
    * // this assertion succeeds:
    * assertThat(Jedi.class).containsAnnotation(Force.class);
-   * 
+   *
    * // this assertion fails:
    * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
-   * 
+   *
    * @param annotation annotations who must be attached to the class
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -322,6 +346,72 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   @SuppressWarnings("unchecked")
   public SELF hasAnnotation(Class<? extends Annotation> annotation) {
     classes.assertContainsAnnotations(info, actual, annotation);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given class as direct superclass (as in {@link Class#getSuperclass()}).
+   * <p>
+   * The {@code superclass} should always be not {@code null}, use {@link #hasNoSuperclass()} to verify the absence of
+   * the superclass.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds:
+   * assertThat(Integer.class).hasSuperclass(Number.class);
+   *
+   * // this assertion succeeds as superclass for array classes is Object:
+   * assertThat(Integer[].class).hasSuperclass(Object.class);
+   *
+   * // this assertion fails:
+   * assertThat(String.class).hasSuperclass(Number.class);
+   *
+   * // this assertion fails as only direct superclass matches:
+   * assertThat(String.class).hasSuperclass(Object.class);
+   *
+   * // this assertion fails as interfaces are not superclasses:
+   * assertThat(String.class).hasSuperclass(Comparable.class);</code></pre>
+   *
+   * @param superclass the class which must be the direct superclass of actual.
+   * @return {@code this} assertions object
+   * @throws NullPointerException if {@code superclass} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't have the given class as direct superclass.
+   * @since 3.15.0
+   * @see #hasNoSuperclass()
+   */
+  public SELF hasSuperclass(Class<?> superclass) {
+    classes.assertHasSuperclass(info, actual, superclass);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has no superclass (as in {@link Class#getSuperclass()}, when {@code null}
+   * is returned).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds as Object has no superclass:
+   * assertThat(Object.class).hasNoSuperclass();
+   *
+   * // this assertion succeeds as interfaces have no superclass:
+   * assertThat(Cloneable.class).hasNoSuperclass();
+   *
+   * // this assertion succeeds as primitive types have no superclass:
+   * assertThat(Integer.TYPE).hasNoSuperclass();
+   *
+   * // this assertion succeeds as void type has no superclass:
+   * assertThat(Void.TYPE).hasNoSuperclass();
+   *
+   * // this assertion fails as Integer has Number as superclass:
+   * assertThat(Integer.class).hasNoSuperclass();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} has a superclass.
+   * @since 3.15.0
+   * @see #hasSuperclass(Class)
+   */
+  public SELF hasNoSuperclass() {
+    classes.assertHasNoSuperclass(info, actual);
     return myself;
   }
 
@@ -345,10 +435,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *     String fieldThree;
    *     private String fieldFour;
    * }
-   * 
+   *
    * // this assertion succeeds:
    * assertThat(MyClass.class).hasPublicFields("fieldOne");
-   * 
+   *
    * // these assertions fail:
    * assertThat(MyClass.class).hasPublicFields("fieldTwo");
    * assertThat(MyClass.class).hasPublicFields("fieldThree");
@@ -356,7 +446,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPublicFields("unknownField");</code></pre>
    * <p>
    * The assertion succeeds if no given fields are passed and the actual {@code Class} has no accessible public fields.
-   * 
+   *
    * @see Class#getField(String)
    * @param fields the fields who must be in the class.
    * @return {@code this} assertions object
@@ -369,7 +459,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} <b>only</b> has the given accessible public 
+   * Verifies that the actual {@code Class} <b>only</b> has the given accessible public
    * fields (as in {@link Class#getFields()}) and nothing more <b>in any order</b>.
    * <p>
    * Example:
@@ -409,15 +499,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *     public String fieldOne;
    *     private String fieldTwo;
    * }
-   * 
+   *
    * // this assertion succeeds:
    * assertThat(MyClass.class).hasDeclaredFields("fieldOne", "fieldTwo");
-   * 
+   *
    * // this assertion fails:
    * assertThat(MyClass.class).hasDeclaredFields("fieldThree");</code></pre>
    * <p>
    * The assertion succeeds if no given fields are passed and the actual {@code Class} has no declared fields.
-   * 
+   *
    * @see Class#getDeclaredField(String)
    * @param fields the fields who must be declared in the class.
    * @return {@code this} assertions object
@@ -430,7 +520,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} <b>only</b> has the given declared {@code fields} and nothing more <b>in any order</b> 
+   * Verifies that the actual {@code Class} <b>only</b> has the given declared {@code fields} and nothing more <b>in any order</b>
    * (as in {@link Class#getDeclaredFields()}).
    * <p>
    * Example:

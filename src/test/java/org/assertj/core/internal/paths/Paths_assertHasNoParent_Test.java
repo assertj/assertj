@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -30,7 +31,7 @@ public class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasNoParent(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasNoParent(info, null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -46,26 +47,24 @@ public class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_has_parent() throws IOException {
-	final Path canonicalActual = mock(Path.class);
-	final Path parent = mock(Path.class);
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(canonicalActual.getParent()).thenReturn(parent);
+    final Path canonicalActual = mock(Path.class);
+    final Path parent = mock(Path.class);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(canonicalActual.getParent()).thenReturn(parent);
 
-	try {
-	  paths.assertHasNoParent(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveNoParent(actual));
-	}
+    Throwable error = catchThrowable(() -> paths.assertHasNoParent(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveNoParent(actual));
   }
 
   @Test
   public void should_succeed_if_actual_has_no_parent() throws IOException {
-	final Path canonicalActual = mock(Path.class);
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	// This is the default, but let's make that clear
-	when(canonicalActual.getParent()).thenReturn(null);
+    final Path canonicalActual = mock(Path.class);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    // This is the default, but let's make that clear
+    when(canonicalActual.getParent()).thenReturn(null);
 
-	paths.assertHasNoParent(info, actual);
+    paths.assertHasNoParent(info, actual);
   }
 }

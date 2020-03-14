@@ -8,24 +8,35 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
+
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} matches given regular
  * expression.
- * 
+ *
  * @author Libor Ondrusek
  */
 public class ShouldHaveMessageMatchingRegex extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveMessageMatchingRegex(Throwable actual, CharSequence regex) {
-    return new ShouldHaveMessageMatchingRegex("%nExpecting message:%n  <%s>%nto match regex:%n  <%s>%nbut did not.",
-                                              actual.getMessage(), regex);
+    return new ShouldHaveMessageMatchingRegex(actual, regex);
   }
 
-  private ShouldHaveMessageMatchingRegex(String format, CharSequence actual, CharSequence regex) {
-    super(format, actual, regex);
+  private ShouldHaveMessageMatchingRegex(Throwable actual, CharSequence regex) {
+    super("%n" +
+          "Expecting message:%n" +
+          "  <%s>%n" +
+          "to match regex:%n" +
+          "  <%s>%n" +
+          "but did not.%n" +
+          "%n" +
+          "Throwable that failed the check:%n" +
+          "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting
+          actual.getMessage(), regex);
   }
 }

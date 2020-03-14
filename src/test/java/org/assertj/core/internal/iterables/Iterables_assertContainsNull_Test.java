@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -65,13 +66,11 @@ public class Iterables_assertContainsNull_Test extends IterablesBaseTest {
   public void should_fail_if_actual_does_not_contain_null() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda");
-    try {
-      iterables.assertContainsNull(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainNull(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsNull(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainNull(actual));
   }
 
   @Test
@@ -101,12 +100,10 @@ public class Iterables_assertContainsNull_Test extends IterablesBaseTest {
   public void should_fail_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda");
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertContainsNull(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainNull(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsNull(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainNull(actual));
   }
 }

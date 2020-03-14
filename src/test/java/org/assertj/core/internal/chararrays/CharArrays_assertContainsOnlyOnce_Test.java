@@ -8,18 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.chararrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.CharArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -51,14 +52,12 @@ public class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'b', 'b', 'a', 'c', 'd');
     char[] expected = { 'a', 'b', 'e' };
-    try {
-      arrays.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('e'), newLinkedHashSet('a', 'b')));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('e'), newLinkedHashSet('a', 'b')));
   }
 
   @Test
@@ -94,14 +93,12 @@ public class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
   public void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'd' };
-    try {
-      arrays.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('d'), newLinkedHashSet()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('d'), newLinkedHashSet()));
   }
 
   @Test
@@ -119,16 +116,14 @@ public class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'B', 'b', 'A', 'c', 'd');
     char[] expected = { 'a', 'B', 'e' };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('e'), newLinkedHashSet('a', 'B'),
-              caseInsensitiveComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(
+        info,
+        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('e'), newLinkedHashSet('a', 'B'),
+            caseInsensitiveComparisonStrategy));
   }
 
   @Test
@@ -157,15 +152,13 @@ public class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] expected = { 'A', 'b', 'D' };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('D'), newLinkedHashSet(),
-              caseInsensitiveComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(
+        info,
+        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('D'), newLinkedHashSet(),
+            caseInsensitiveComparisonStrategy));
   }
 }

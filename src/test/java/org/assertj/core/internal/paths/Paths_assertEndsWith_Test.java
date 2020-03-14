@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -53,34 +54,32 @@ public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_canonical_actual_does_not_end_with_normalized_other() throws IOException {
-	final Path canonicalActual = mock(Path.class);
-	final Path normalizedOther = mock(Path.class);
+    final Path canonicalActual = mock(Path.class);
+    final Path normalizedOther = mock(Path.class);
 
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(other.normalize()).thenReturn(normalizedOther);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(other.normalize()).thenReturn(normalizedOther);
 
-	// This is the default, but...
-	when(canonicalActual.endsWith(normalizedOther)).thenReturn(false);
+    // This is the default, but...
+    when(canonicalActual.endsWith(normalizedOther)).thenReturn(false);
 
-	try {
-	  paths.assertEndsWith(info, actual, other);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldEndWith(actual, other));
-	}
+    Throwable error = catchThrowable(() -> paths.assertEndsWith(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldEndWith(actual, other));
   }
 
   @Test
   public void should_succeed_if_canonical_actual_ends_with_normalized_other() throws IOException {
-	final Path canonicalActual = mock(Path.class);
-	final Path normalizedOther = mock(Path.class);
+    final Path canonicalActual = mock(Path.class);
+    final Path normalizedOther = mock(Path.class);
 
-	when(actual.toRealPath()).thenReturn(canonicalActual);
-	when(other.normalize()).thenReturn(normalizedOther);
+    when(actual.toRealPath()).thenReturn(canonicalActual);
+    when(other.normalize()).thenReturn(normalizedOther);
 
-	// We want the canonical versions to be compared, not the arguments
-	when(canonicalActual.endsWith(normalizedOther)).thenReturn(true);
+    // We want the canonical versions to be compared, not the arguments
+    when(canonicalActual.endsWith(normalizedOther)).thenReturn(true);
 
-	paths.assertEndsWith(info, actual, other);
+    paths.assertEndsWith(info, actual, other);
   }
 }

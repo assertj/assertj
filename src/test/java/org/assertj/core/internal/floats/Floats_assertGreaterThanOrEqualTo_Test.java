@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.floats;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -52,13 +53,11 @@ public class Floats_assertGreaterThanOrEqualTo_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      floats.assertGreaterThanOrEqualTo(info, 6f, 8f);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6f, 8f));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floats.assertGreaterThanOrEqualTo(info, 6f, 8f));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreaterOrEqual(6f, 8f));
   }
 
   @Test
@@ -82,12 +81,10 @@ public class Floats_assertGreaterThanOrEqualTo_Test extends FloatsBaseTest {
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      floatsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, 6f, -8f);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6f, -8f, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, 6f, -8f));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreaterOrEqual(6f, -8f, absValueComparisonStrategy));
   }
 }

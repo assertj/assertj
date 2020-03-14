@@ -8,16 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.time.Clock.systemUTC;
 import static java.time.LocalDateTime.now;
-import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
-import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
-import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgnoringHours;
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
@@ -25,13 +21,19 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualI
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
+import java.util.Comparator;
 
 import org.assertj.core.data.TemporalUnitOffset;
+import org.assertj.core.internal.ChronoLocalDateTimeComparator;
+import org.assertj.core.internal.Comparables;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertions for {@link LocalDateTime} type from new Date &amp; Time API introduced in Java 8.
@@ -56,10 +58,16 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   protected AbstractLocalDateTimeAssert(LocalDateTime actual, Class<?> selfType) {
     super(actual, selfType);
+    this.comparables = buildDefaultComparables();
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> before the given one.
+   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> before the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isBefore(ChronoLocalDateTime)}.
+   * <p>
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59")).isBefore(parse("2000-01-02T00:00:00"));</code></pre>
@@ -71,11 +79,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} is not strictly before the given one.
    */
   public SELF isBefore(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
-    if (!actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-    }
+    comparables.assertIsBefore(info, actual, other);
     return myself;
   }
 
@@ -102,7 +107,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is before or equals to the given one.
+   * Verifies that the actual {@code LocalDateTime} is before or equals to the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isBefore(ChronoLocalDateTime)}.
+   * <p>
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59"))
@@ -115,11 +125,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} is not before or equals to the given one.
    */
   public SELF isBeforeOrEqualTo(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
-    if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
-    }
+    comparables.assertIsBeforeOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -147,7 +154,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is after or equals to the given one.
+   * Verifies that the actual {@code LocalDateTime} is after or equals to the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isAfter(ChronoLocalDateTime)}.
+   * <p>
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isAfterOrEqualTo(parse("2000-01-01T00:00:00"))
@@ -160,11 +172,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} is not after or equals to the given one.
    */
   public SELF isAfterOrEqualTo(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
-    if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
-    }
+    comparables.assertIsAfterOrEqualTo(info, actual, other);
     return myself;
   }
 
@@ -192,7 +201,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> after the given one.
+   * Verifies that the actual {@code LocalDateTime} is <b>strictly</b> after the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isAfter(ChronoLocalDateTime)}.
+   * <p>
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
    * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isAfter(parse("1999-12-31T23:59:59"));</code></pre>
@@ -204,11 +218,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError if the actual {@code LocalDateTime} is not strictly after the given one.
    */
   public SELF isAfter(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
-    if (!actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
-    }
+    comparables.assertIsAfter(info, actual, other);
     return myself;
   }
 
@@ -235,6 +246,33 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
+   * Verifies that the actual {@code LocalDateTime} is equal to the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isEqual(ChronoLocalDateTime)}.
+   * <p>
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isEqualTo(parse("2000-01-01T00:00:00"));</code></pre>
+   *
+   * @param other the given {@link LocalDateTime}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} differs from the given {@code LocalDateTime}
+   *            according to the comparator in use.
+   */
+  @Override
+  public SELF isEqualTo(Object other) {
+    if (actual == null || other == null) {
+      super.isEqualTo(other);
+    } else {
+      comparables.assertEqual(info, actual, other);
+    }
+    return myself;
+  }
+
+  /**
    * Same assertion as {@link #isEqualTo(Object)} (where Object is expected to be {@link LocalDateTime}) but here you
    * pass {@link LocalDateTime} String representation that must follow <a href=
    * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE_TIME"
@@ -254,6 +292,33 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   public SELF isEqualTo(String dateTimeAsString) {
     assertLocalDateTimeAsStringParameterIsNotNull(dateTimeAsString);
     return isEqualTo(parse(dateTimeAsString));
+  }
+
+  /**
+   * Verifies that the actual {@code LocalDateTime} is not equal to the given one according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator
+   * which is consistent with {@link LocalDateTime#isEqual(ChronoLocalDateTime)}.
+   * <p>
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00")).isEqualTo(parse("2000-01-01T00:00:00"));</code></pre>
+   *
+   * @param other the given value to compare the actual value to.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} equals to the given {@code LocalDateTime}
+   *            according to the comparator in use.
+   */
+  @Override
+  public SELF isNotEqualTo(Object other) {
+    if (actual == null || other == null) {
+      super.isNotEqualTo(other);
+    } else {
+      comparables.assertNotEqual(info, actual, other);
+    }
+    return myself;
   }
 
   /**
@@ -348,8 +413,24 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
     return isCloseTo(now(systemUTC()), offset);
   }
 
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingDefaultComparator() {
+    SELF self = super.usingDefaultComparator();
+    self.comparables = buildDefaultComparables();
+    return self;
+  }
+
+  private Comparables buildDefaultComparables() {
+    ChronoLocalDateTimeComparator defaultComparator = ChronoLocalDateTimeComparator.getInstance();
+    return new Comparables(new ComparatorBasedComparisonStrategy(defaultComparator, defaultComparator.description()));
+  }
+
   private static Object[] convertToLocalDateTimeArray(String... dateTimesAsString) {
-    return Arrays.stream(dateTimesAsString).map(LocalDateTime::parse).toArray();
+    return Arrays.stream(dateTimesAsString)
+                 .map(LocalDateTime::parse)
+                 .toArray();
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
@@ -528,7 +609,11 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@link LocalDateTime} is in the [start, end] period (start and end included).
+   * Verifies that the actual {@link LocalDateTime} is in the [start, end] period (start and end included) according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator.
+   * <p>
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();
@@ -592,7 +677,11 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that the actual {@link LocalDateTime} is in the ]start, end[ period (start and end excluded).
+   * Verifies that the actual {@link LocalDateTime} is in the ]start, end[ period (start and end excluded) according to the {@link ChronoLocalDateTime#timeLineOrder()} comparator.
+   * <p>
+   * {@link ChronoLocalDateTime#timeLineOrder()} compares {@code LocalDateTime} in time-line order <b>ignoring the chronology</b>, this is equivalent to comparing the epoch-day and nano-of-day.
+   * <p>
+   * This behaviour can be overridden by {@link AbstractLocalDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example:
    * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();

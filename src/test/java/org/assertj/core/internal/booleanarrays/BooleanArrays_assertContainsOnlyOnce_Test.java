@@ -8,18 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.booleanarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -51,14 +52,12 @@ public class BooleanArrays_assertContainsOnlyOnce_Test extends BooleanArraysBase
     AssertionInfo info = someInfo();
     actual = arrayOf(true, true, false, false);
     boolean[] expected = { true, false };
-    try {
-      arrays.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(), newLinkedHashSet(true, false)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(), newLinkedHashSet(true, false)));
   }
 
   @Test
@@ -95,14 +94,12 @@ public class BooleanArrays_assertContainsOnlyOnce_Test extends BooleanArraysBase
     AssertionInfo info = someInfo();
     actual = arrayOf(true);
     boolean[] expected = { true, false };
-    try {
-      arrays.assertContainsOnlyOnce(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
           shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(false), newLinkedHashSet()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
 }

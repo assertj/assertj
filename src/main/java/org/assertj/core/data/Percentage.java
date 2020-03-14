@@ -8,16 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.data;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 /**
  * A positive percentage value.
@@ -36,7 +36,7 @@ public class Percentage {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withPercentage(double value) {
-    checkNotNull(value);
+    requireNonNull(value);
     checkArgument(value >= 0, "The percentage value <%s> should be greater than or equal to zero", value);
     return new Percentage(value);
   }

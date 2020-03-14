@@ -8,50 +8,60 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.localdate;
 
-import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.LocalDate;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * Only test String based assertion (tests with {@link LocalDate} are already defined in assertj-core)
  */
+@DisplayName("LocalDateAssert isNotIn")
 public class LocalDateAssert_isNotIn_Test extends LocalDateAssertBaseTest {
 
   @Test
-  public void test_isNotIn_assertion() {
-	// WHEN
-	assertThat(REFERENCE).isNotIn(REFERENCE.plusDays(1).toString(), REFERENCE.plusDays(2).toString());
-	// THEN
-	assertThatThrownBy(() -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), REFERENCE.plusDays(1).toString())).isInstanceOf(AssertionError.class);
+  public void should_pass_if_actual_is_not_in_dates_as_string_array_parameter() {
+    assertThat(REFERENCE).isNotIn(AFTER.toString(), BEFORE.toString());
   }
 
   @Test
-  public void test_isNotIn_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      assertThat(LocalDate.of(2000, 1, 5)).isNotIn(LocalDate.of(2000, 1, 5).toString(),
-                                                   LocalDate.of(2012, 1, 1).toString());
-    }).withMessage(format("%nExpecting:%n <2000-01-05>%nnot to be in:%n <[2000-01-05, 2012-01-01]>%n"));
+  public void should_fail_if_actual_is_in_dates_as_string_array_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeIn(REFERENCE, asList(REFERENCE, AFTER)).create());
   }
 
   @Test
   public void should_fail_if_dates_as_string_array_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDate.now()).isNotIn((String[]) null))
+    // GIVEN
+    String[] otherLocalDatesAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalDate.now()).isNotIn(otherLocalDatesAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given LocalDate array should not be null");
   }
 
   @Test
   public void should_fail_if_dates_as_string_array_parameter_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDate.now()).isNotIn(new String[0]))
+    // GIVEN
+    String[] otherLocalDatesAsString = new String[0];
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalDate.now()).isNotIn(otherLocalDatesAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The given LocalDate array should not be empty");
   }
 

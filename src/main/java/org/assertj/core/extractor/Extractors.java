@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.extractor;
 
@@ -39,35 +39,32 @@ public class Extractors {
   public static Function<Object, String> toStringMethod() {
     return new ToStringExtractor();
   }
-  
+
   /**
    * Provides extractor for extracting single field or property from any object using reflection
-   * @param <F> type to extract property from
-   * @param fieldOrProperty the name of the field/property to extract 
+   * @param fieldOrProperty the name of the field/property to extract
    * @return the built {@link Function}
    */
-  public static <F> Function<F, Object> byName(String fieldOrProperty) {
-    return new ByNameSingleExtractor<>(fieldOrProperty);
+  public static Function<Object, Object> byName(String fieldOrProperty) {
+    return new ByNameSingleExtractor(fieldOrProperty);
   }
-  
+
   /**
    * Provides extractor for extracting multiple fields or properties from any object using reflection
-   * @param <F> type to extract property from
-   * @param fieldsOrProperties the name of the fields/properties to extract 
+   * @param fieldsOrProperties the name of the fields/properties to extract
    * @return the built {@link Function}
    */
-  public static <F> Function<F, Tuple> byName(String... fieldsOrProperties) {
-    return new ByNameMultipleExtractor<>(fieldsOrProperties);
+  public static Function<Object, Tuple> byName(String... fieldsOrProperties) {
+    return new ByNameMultipleExtractor(fieldsOrProperties);
   }
 
   /**
    * Provides extractor for extracting values by method name from any object using reflection
-   * @param <F> type to extract property from
    * @param methodName the name of the method to execute
    * @return the built {@link Function}
    */
-  public static <F> Function<F, Object> resultOf(String methodName) {
-    return new ResultOfExtractor<>(methodName);
+  public static Function<Object, Object> resultOf(String methodName) {
+    return new ResultOfExtractor(methodName);
   }
 
   public static String extractedDescriptionOf(String... itemsDescription) {
@@ -78,7 +75,7 @@ public class Extractors {
     String[] itemsDescription = Stream.of(items).map(Object::toString).toArray(String[]::new);
     return extractedDescriptionOf(itemsDescription);
   }
-  
+
   public static String extractedDescriptionOfMethod(String method) {
     return format("Extracted: result of %s()", method);
   }

@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.float_;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatAssert;
@@ -66,30 +67,26 @@ public class FloatAssert_isZero_Test extends FloatAssertBaseTest {
   public void should_fail_with_non_zero() {
     // GIVEN
     final float notZero = 1.0f;
-    try {
-      // WHEN
-      assertThat(notZero).isZero();
-    } catch (AssertionError e) {
-      // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <1.0f>%nto be equal to:%n <0.0f>%nbut was not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(notZero).isZero());
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n <1.0f>%nto be equal to:%n <0.0f>%nbut was not."));
   }
 
   @Test
   public void should_fail_with_Float_negative_zero() {
     // GIVEN
     final Float negativeZero = -0.0f;
-    try {
-      // WHEN
-      assertThat(negativeZero).isZero();
-    } catch (AssertionError e) {
-      // THEN
-      assertThat(e).hasMessage(format("%nExpecting:%n <-0.0f>%nto be equal to:%n <0.0f>%nbut was not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(negativeZero).isZero());
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n <-0.0f>%nto be equal to:%n <0.0f>%nbut was not."));
   }
 
 }

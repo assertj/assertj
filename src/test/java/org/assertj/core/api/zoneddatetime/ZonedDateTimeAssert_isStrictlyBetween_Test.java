@@ -8,29 +8,25 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.zoneddatetime;
 
 import static org.mockito.Mockito.verify;
 
-import java.time.ZonedDateTime;
-
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 
-public class ZonedDateTimeAssert_isStrictlyBetween_Test extends org.assertj.core.api.ZonedDateTimeAssertBaseTest {
-
-  private ZonedDateTime before = now.minusSeconds(1);
-  private ZonedDateTime after = now.plusSeconds(1);
+public class ZonedDateTimeAssert_isStrictlyBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   @Override
   protected ZonedDateTimeAssert invoke_api_method() {
-    return assertions.isStrictlyBetween(before, after);
+    return assertions.isStrictlyBetween(YESTERDAY, TOMORROW);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, false, false);
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, false, false);
   }
 
 }

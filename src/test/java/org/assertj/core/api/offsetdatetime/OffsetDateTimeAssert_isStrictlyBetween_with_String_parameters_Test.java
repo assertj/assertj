@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.offsetdatetime;
 
@@ -16,26 +16,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
 
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 public class OffsetDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
-    extends org.assertj.core.api.OffsetDateTimeAssertBaseTest {
-
-  private OffsetDateTime before = now.minusSeconds(1);
-  private OffsetDateTime after = now.plusSeconds(1);
+    extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {
-    return assertions.isStrictlyBetween(before.toString(), after.toString());
+    return assertions.isStrictlyBetween(BEFORE.toString(), AFTER.toString());
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, false, false);
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), BEFORE, AFTER, false, false);
   }
 
   @Test
@@ -43,7 +40,7 @@ public class OffsetDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
     // GIVEN
     String abc = "abc";
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.isStrictlyBetween(abc, after.toString()));
+    Throwable thrown = catchThrowable(() -> assertions.isStrictlyBetween(abc, AFTER.toString()));
     // THEN
     assertThat(thrown).isInstanceOf(DateTimeParseException.class);
   }
@@ -53,7 +50,7 @@ public class OffsetDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
     // GIVEN
     String abc = "abc";
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.isStrictlyBetween(before.toString(), abc));
+    Throwable thrown = catchThrowable(() -> assertions.isStrictlyBetween(BEFORE.toString(), abc));
     // THEN
     assertThat(thrown).isInstanceOf(DateTimeParseException.class);
   }

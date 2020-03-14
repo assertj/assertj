@@ -8,22 +8,23 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.ErrorMessages.offsetIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -82,13 +83,11 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
                                                                                      BigInteger expected,
                                                                                      BigInteger offset) {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(actual, expected, byLessThan(offset), offset));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(actual, expected, byLessThan(offset), offset));
   }
 
   @Test
@@ -128,37 +127,31 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertIsCloseTo(info, ONE, TEN, within(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, within(ONE), NINE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertIsCloseTo(info, ONE, TEN, within(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE, TEN, within(ONE), NINE));
   }
 
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value_with_a_strict_offset() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), NINE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), NINE));
   }
 
   @Test
   public void should_fail_if_difference_is_equal_to_the_given_strict_offset() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertIsCloseTo(info, TWO, ONE, byLessThan(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(TWO, ONE, byLessThan(ONE), ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertIsCloseTo(info, TWO, ONE, byLessThan(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(TWO, ONE, byLessThan(ONE), ONE));
   }
 
   // with comparison strategy
@@ -185,25 +178,21 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   @Test
   public void should_fail_if_actual_is_not_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, ONE, TEN, offset(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, offset(ONE), NINE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, ONE, TEN, offset(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE, TEN, offset(ONE), NINE));
   }
 
   @Test
   public void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), NINE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), NINE));
   }
 
   @Test

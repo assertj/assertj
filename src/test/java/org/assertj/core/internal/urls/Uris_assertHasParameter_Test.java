@@ -8,173 +8,106 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Lists.list;
 
 import java.net.URI;
-import java.util.List;
 
 import org.assertj.core.internal.UrisBaseTest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-public class Uris_assertHasParameter_Test extends UrisBaseTest {
+class Uris_assertHasParameter_Test extends UrisBaseTest {
 
-  @Test
-  public void should_fail_if_parameter_is_missing() {
-    URI uri = URI.create("http://assertj.org/news");
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "http://assertj.org/news?article",
+      "http://assertj.org/news?article=10",
+  })
+  void should_pass_if_parameter_is_found(URI uri) {
+    // WHEN/THEN
+    uris.assertHasParameter(info, uri, "article");
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "http://assertj.org/news",
+      "http://assertj.org/news?story=1",
+  })
+  void should_fail_if_parameter_is_missing(URI uri) {
+    // GIVEN
     String name = "article";
-
-    try {
-      uris.assertHasParameter(info, uri, name);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(uri, name));
-      return;
-    }
-
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(uri, name).create());
   }
 
-  @Test
-  public void should_pass_if_parameter_has_no_value() {
-    uris.assertHasParameter(info, URI.create("http://assertj.org/news?article"), "article");
+  @ParameterizedTest
+  @CsvSource({
+      "http://assertj.org/news?article,                 ",            // expected null
+      "http://assertj.org/news?article&article,         ",            // expected null
+      "http://assertj.org/news?article=,                ''",          // expected empty
+      "http://assertj.org/news?article=10,              10",          // expected plain
+      "http://assertj.org/news?article=abc%26page%3D5,  abc&page=5",  // expected escaped
+  })
+  void should_pass_if_parameter_with_expected_value_is_found(URI uri, String expected) {
+    // WHEN/THEN
+    uris.assertHasParameter(info, uri, "article", expected);
   }
 
-  @Test
-  public void should_pass_if_parameter_has_value() {
-    uris.assertHasParameter(info, URI.create("http://assertj.org/news?article=10"), "article");
-  }
-
-  @Test
-  public void should_fail_if_parameter_without_value_is_missing() {
-    URI uri = URI.create("http://assertj.org/news");
+  @ParameterizedTest
+  @CsvSource({
+      "http://assertj.org/news, ",            // expected null
+      "http://assertj.org/news, ''",          // expected empty
+      "http://assertj.org/news, 10",          // expected plain
+      "http://assertj.org/news, abc&page=5",  // expected escaped
+  })
+  void should_fail_if_parameter_with_expected_value_is_missing(URI uri, String expected) {
+    // GIVEN
     String name = "article";
-    String expectedValue = null;
-
-    try {
-      uris.assertHasParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue));
-      return;
-    }
-
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected).create());
   }
 
-  @Test
-  public void should_pass_if_parameter_without_value_is_found() {
-    uris.assertHasParameter(info, URI.create("http://assertj.org/news?article"), "article", null);
-  }
-
-  @Test
-  public void should_fail_if_parameter_without_value_has_value() {
-    URI uri = URI.create("http://assertj.org/news?article=11");
+  @ParameterizedTest
+  @CsvSource({
+      "http://assertj.org/news?article,     10, ",    // expected not null, actual null
+      "http://assertj.org/news?article=,    10, ''",  // expected not null, actual empty
+      "http://assertj.org/news?article=11,  ,   11",  // expected null, actual not null
+      "http://assertj.org/news?article=11,  '', 11",  // expected empty, actual not null
+      "http://assertj.org/news?article=11,  10, 11",  // expected not matching actual
+  })
+  void should_fail_if_parameter_has_wrong_value(URI uri, String expected, String actual) {
+    // GIVEN
     String name = "article";
-    String expectedValue = null;
-    List<String> actualValue = newArrayList("11");
-
-    try {
-      uris.assertHasParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue, actualValue));
-      return;
-    }
-
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected, list(actual)).create());
   }
 
-  @Test
-  public void should_fail_if_parameter_without_value_has_multiple_values() {
-    URI uri = URI.create("http://assertj.org/news?article=11&article=12");
+  @ParameterizedTest
+  @CsvSource({
+      "http://assertj.org/news?article&article,       10, ,   ",    // expected not null, actuals null
+      "http://assertj.org/news?article=11&article=12, ,   11, 12",  // expected null, actuals not null
+  })
+  void should_fail_if_parameter_has_multiple_wrong_values(URI uri, String expected, String actual1, String actual2) {
+    // GIVEN
     String name = "article";
-    String expectedValue = null;
-    List<String> actualValues = newArrayList("11", "12");
-
-    try {
-      uris.assertHasParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue, actualValues));
-      return;
-    }
-
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected, list(actual1, actual2)).create());
   }
 
-  @Test
-  public void should_fail_if_parameter_with_value_is_missing() {
-    URI uri = URI.create("http://assertj.org/news");
-    String name = "article";
-    String expectedValue = "10";
-
-    try {
-      uris.assertHasParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue));
-      return;
-    }
-
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_parameter_with_value_has_no_value() {
-    URI uri = URI.create("http://assertj.org/news?article");
-    String name = "article";
-    String expectedValue = "10";
-    List<String> actualValues = newArrayList((String)null);
-
-    try {
-      uris.assertHasParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue, actualValues));
-      return;
-    }
-
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_parameter_with_value_has_multiple_no_values() {
-    URI uri = URI.create("http://assertj.org/news?article&article");
-    String name = "article";
-    String expectedValue = "10";
-    List<String> actualValues = newArrayList(null, null);
-
-
-    try {
-      uris.assertHasParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue, actualValues));
-      return;
-    }
-
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_parameter_with_value_is_wrong() {
-    URI uri = URI.create("http://assertj.org/news?article=11");
-    String name = "article";
-    String expectedValue = "10";
-    List<String> actualValues = newArrayList("11");
-
-    try {
-      uris.assertHasParameter(info, uri, name, expectedValue);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParameter(uri, name, expectedValue, actualValues));
-      return;
-    }
-
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_pass_if_parameter_with_value_is_found() {
-    uris.assertHasParameter(info, URI.create("http://assertj.org/news?article=10"), "article", "10");
-  }
 }

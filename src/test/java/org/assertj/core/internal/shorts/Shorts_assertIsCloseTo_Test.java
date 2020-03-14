@@ -8,18 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.shorts;
 
 import static java.lang.Math.abs;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -71,13 +72,11 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
   })
   public void should_fail_if_actual_is_not_close_enough_to_expected(short actual, short expected, short offset) {
     AssertionInfo info = someInfo();
-    try {
-      shorts.assertIsCloseTo(info, actual, expected, within(offset));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(actual, expected, within(offset), (short) abs(actual - expected)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shorts.assertIsCloseTo(info, actual, expected, within(offset)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(actual, expected, within(offset), (short) abs(actual - expected)));
   }
 
   @ParameterizedTest
@@ -91,13 +90,11 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
   public void should_fail_if_difference_is_equal_to_the_given_strict_offset(short actual, short expected,
                                                                             short offset) {
     AssertionInfo info = someInfo();
-    try {
-      shorts.assertIsCloseTo(info, actual, expected, byLessThan(offset));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(actual, expected, byLessThan(offset), (short) abs(actual - expected)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> shorts.assertIsCloseTo(info, actual, expected, byLessThan(offset)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(actual, expected, byLessThan(offset), (short) abs(actual - expected)));
   }
 
   @Test

@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 
 import static org.mockito.Mockito.verify;
@@ -41,12 +42,10 @@ public class Objects_assertNotNull_Test extends ObjectsBaseTest {
   @Test
   public void should_fail_if_object_is_null() {
     AssertionInfo info = someInfo();
-    try {
-      objects.assertNotNull(info, null);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeNull());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertNotNull(info, null));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeNull());
   }
 }

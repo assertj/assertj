@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveAllNullFields.shouldHaveAllNullFields;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
@@ -44,11 +44,11 @@ class ShouldHaveAllNullFields_create_Test {
     // WHEN
     String message = shouldHaveAllNullFields(actual, nonNullFields, ignoredFields).create(DESCRIPTION);
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n"
-                                         + "Expecting%n"
-                                         + "  <Person[name='']>%n"
-                                         + "to only have null property or field, but <\"name\"> was not null.%n"
-                                         + "Check was performed on all fields/properties."));
+    then(message).isEqualTo(format("[TEST] %n"
+                                   + "Expecting%n"
+                                   + "  <Person[name='']>%n"
+                                   + "to only have null property or field, but <\"name\"> was not null.%n"
+                                   + "Check was performed on all fields/properties."));
   }
 
   @Test
@@ -60,11 +60,11 @@ class ShouldHaveAllNullFields_create_Test {
     // WHEN
     String message = shouldHaveAllNullFields(actual, nonNullFields, ignoredFields).create(DESCRIPTION);
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n"
-                                         + "Expecting%n"
-                                         + "  <Person[name='']>%n"
-                                         + "to only have null property or field, but <\"someAnotherField\"> was not null.%n"
-                                         + "Check was performed on all fields/properties except: <[\"name\"]>."));
+    then(message).isEqualTo(format("[TEST] %n"
+                                   + "Expecting%n"
+                                   + "  <Person[name='']>%n"
+                                   + "to only have null property or field, but <\"someAnotherField\"> was not null.%n"
+                                   + "Check was performed on all fields/properties except: <[\"name\"]>."));
   }
 
   @Test
@@ -76,12 +76,12 @@ class ShouldHaveAllNullFields_create_Test {
     // WHEN
     String message = shouldHaveAllNullFields(actual, nonNullFields, ignoredFields).create(DESCRIPTION);
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n"
-                                         + "Expecting%n"
-                                         + "  <Joda the Jedi>%n"
-                                         + "to only have null properties or fields but these were not null:%n"
-                                         + " <[\"name\", \"lightSaberColor\"]>.%n"
-                                         + "Check was performed on all fields/properties."));
+    then(message).isEqualTo(format("[TEST] %n"
+                                   + "Expecting%n"
+                                   + "  <Joda the Jedi>%n"
+                                   + "to only have null properties or fields but these were not null:%n"
+                                   + " <[\"name\", \"lightSaberColor\"]>.%n"
+                                   + "Check was performed on all fields/properties."));
   }
 
   @Test
@@ -93,10 +93,10 @@ class ShouldHaveAllNullFields_create_Test {
     // WHEN
     String message = shouldHaveAllNullFields(actual, nonNullFields, ignoredFields).create(DESCRIPTION);
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n"
-                                         + "Expecting%n"
-                                         + "  <Joda the Jedi>%n"
-                                         + "to only have null property or field, but <\"lightSaberColor\"> was not null.%n"
-                                         + "Check was performed on all fields/properties except: <[\"name\"]>."));
+    then(message).isEqualTo(format("[TEST] %n"
+                                   + "Expecting%n"
+                                   + "  <Joda the Jedi>%n"
+                                   + "to only have null property or field, but <\"lightSaberColor\"> was not null.%n"
+                                   + "Check was performed on all fields/properties except: <[\"name\"]>."));
   }
 }

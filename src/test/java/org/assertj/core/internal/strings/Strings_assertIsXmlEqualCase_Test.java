@@ -8,15 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 import static org.mockito.Mockito.verify;
@@ -59,13 +60,11 @@ public class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
     String actual = "<rss version=\"2.0\"><channel><title>Java Tutorials</title></channel></rss>";
     String expected = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples</title></channel></rss>";
     AssertionInfo info = someInfo();
-    try {
-      strings.assertXmlEqualsTo(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected), info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> strings.assertXmlEqualsTo(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected), info.representation()));
   }
 
   @Test
@@ -80,14 +79,12 @@ public class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
     AssertionInfo info = someInfo();
     String actual = "<rss version=\"2.0\"><channel><title>Java Tutorials</title></channel></rss>";
     String expected = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples</title></channel></rss>";
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertXmlEqualsTo(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected),
-          info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertXmlEqualsTo(someInfo(), actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected),
+        info.representation()));
   }
 
 }

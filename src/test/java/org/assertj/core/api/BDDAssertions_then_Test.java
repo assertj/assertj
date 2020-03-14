@@ -8,24 +8,34 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.assertj.core.api.BDDAssertions.and;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.thenIOException;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.thenIllegalStateException;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.api.BDDAssertions.thenObject;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -45,6 +55,7 @@ public class BDDAssertions_then_Test {
     then('z').isGreaterThan('a');
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void then_Character() {
     then(new Character('A')).isEqualTo(new Character('A'));
@@ -273,4 +284,55 @@ public class BDDAssertions_then_Test {
     then(URI.create("http://assertj.org")).hasNoPort();
   }
 
+  @Test
+  public void then_Spliterator() {
+    Spliterator<Integer> spliterator = Stream.of(1, 2).spliterator();
+    then(spliterator).hasCharacteristics(Spliterator.SIZED);
+  }
+
+  @Test
+  public void then_Duration() {
+    then(Duration.ofHours(1)).isNotNull().isPositive();
+  }
+
+  @SuppressWarnings("static-access")
+  @Test
+  public void and_then() {
+    and.then(true).isNotEqualTo(false);
+    and.then(1L).isEqualTo(1L);
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_throwable_thrown() {
+    thenExceptionOfType(Throwable.class).isThrownBy(() -> methodThrowing(new Throwable("boom")))
+                                        .withMessage("boom");
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_NullPointerException_thrown() {
+    thenNullPointerException().isThrownBy(() -> methodThrowing(new NullPointerException("something was wrong")))
+                              .withMessage("something was wrong");
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_IllegalArgumentException_thrown() {
+    thenIllegalArgumentException().isThrownBy(() -> methodThrowing(new IllegalArgumentException("something was wrong")))
+                                  .withMessage("something was wrong");
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_IllegalStateException_thrown() {
+    thenIllegalStateException().isThrownBy(() -> methodThrowing(new IllegalStateException("something was wrong")))
+                               .withMessage("something was wrong");
+  }
+
+  @Test
+  void should_build_ThrowableTypeAssert_with_IOException_thrown() {
+    thenIOException().isThrownBy(() -> methodThrowing(new IOException("something was wrong")))
+                     .withMessage("something was wrong");
+  }
+
+  private static void methodThrowing(Throwable throwable) throws Throwable {
+    throw throwable;
+  }
 }

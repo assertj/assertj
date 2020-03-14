@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -73,7 +74,6 @@ import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -699,7 +699,7 @@ public class Arrays {
   static <T> void assertIsSortedAccordingToComparator(AssertionInfo info, Failures failures, Object array,
                                                       Comparator<T> comparator) {
     assertNotNull(info, array);
-    checkNotNull(comparator, "The given comparator should not be null");
+    requireNonNull(comparator, "The given comparator should not be null");
     try {
       List<T> arrayAsList = asList(array);
       // empty arrays are considered sorted even if comparator can't be applied to <T>.
@@ -773,7 +773,7 @@ public class Arrays {
 
   private static int sizeOf(Object array) {
     if (array instanceof Object[]) return ((Object[]) array).length;
-    return Array.getLength(array);
+    return getLength(array);
   }
 
   private static void failIfEmptySinceActualIsNotEmpty(Object values) {

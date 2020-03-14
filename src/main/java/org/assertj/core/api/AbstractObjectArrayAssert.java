@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -45,9 +45,11 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
@@ -2996,6 +2998,83 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
     return new ListAssert<>(newActual);
+  }
+
+  /**
+   * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert},
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   boolean hasPhd;
+   * }
+   *
+   * public class Doctor {
+   *  String name;
+   *  boolean hasPhd;
+   * }
+   *
+   * Doctor drSheldon = new Doctor("Sheldon Cooper", true);
+   * Doctor drLeonard = new Doctor("Leonard Hofstadter", true);
+   * Doctor drRaj = new Doctor("Raj Koothrappali", true);
+   *
+   * Person sheldon = new Person("Sheldon Cooper", true);
+   * Person leonard = new Person("Leonard Hofstadter", true);
+   * Person raj = new Person("Raj Koothrappali", true);
+   * Person howard = new Person("Howard Wolowitz", false);
+   *
+   * Doctor[] doctors = { drSheldon, drLeonard, drRaj };
+   * Person[] people = { sheldon, leonard, raj };
+   *
+   * // assertion succeeds as both lists contains equivalent items in order.
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .isEqualTo(people);
+   *
+   * // assertion fails because leonard names are different.
+   * leonard.setName("Leonard Ofstater");
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .isEqualTo(people);
+   *
+   * // assertion fails because howard is missing and leonard is not expected.
+   * Person[] otherPeople = { howard, sheldon, raj };
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .isEqualTo(otherPeople);</code></pre>
+   *
+   * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
+   * <p>
+   * The default recursive comparison behavior is {@link RecursiveComparisonConfiguration configured} as follows:
+   * <ul>
+   *   <li> different types of iterable can be compared by default, this allows to compare for example an {@code Person[]} and a {@code PersonDto[]}.<br>
+   *        This behavior can be turned off by calling {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking}.</li>
+   *   <li>overridden equals methods are used in the comparison (unless stated otherwise - see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals">https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals</a>)</li>
+   *   <li>the following types are compared with these comparators:
+   *     <ul>
+   *       <li>{@code java.lang.Double}: {@code DoubleComparator} with precision of 1.0E-15</li>
+   *       <li>{@code java.lang.Float}: {@code FloatComparator }with precision of 1.0E-6</li>
+   *       <li>any comparators previously registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} </li>
+   *     </ul>
+   *   </li>
+   * </ul>
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance
+   * @see RecursiveComparisonConfiguration RecursiveComparisonConfiguration
+   */
+  @Override
+  @Beta
+  public RecursiveComparisonAssert<?> usingRecursiveComparison() {
+    // overridden for javadoc and to make this method public
+    return super.usingRecursiveComparison();
+  }
+
+  /**
+   * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   */
+  @Override
+  public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    return super.usingRecursiveComparison(recursiveComparisonConfiguration).withTypeComparators(comparatorsByType);
   }
 
   // lazy init TypeComparators

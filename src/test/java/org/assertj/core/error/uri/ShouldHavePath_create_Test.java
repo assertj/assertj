@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error.uri;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 
 import java.net.URI;
@@ -26,9 +26,10 @@ public class ShouldHavePath_create_Test {
 
   @Test
   public void should_create_error_message_for_uri() {
+    // WHEN
     String error = shouldHavePath(URI.create("http://assertj.org/news"), "/foo").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting path of%n" +
                                        "  <http://assertj.org/news>%n" +
                                        "to be:%n" +
@@ -39,9 +40,10 @@ public class ShouldHavePath_create_Test {
 
   @Test
   public void should_create_error_message_for_url() throws Exception {
+    // WHEN
     String error = shouldHavePath(new URL("http://assertj.org/news"), "/foo").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting path of%n" +
                                        "  <http://assertj.org/news>%n" +
                                        "to be:%n" +
@@ -52,10 +54,12 @@ public class ShouldHavePath_create_Test {
 
   @Test
   public void should_create_error_message_for_uri_has_no_path() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
+    // WHEN
     String error = shouldHavePath(uri, null).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting:%n" +
                                        "  <http://assertj.org/news?type=beta>%n" +
                                        "not to have a path but had:%n" +
@@ -64,18 +68,20 @@ public class ShouldHavePath_create_Test {
 
   @Test
   public void should_create_error_message_for_url_has_no_path() throws Exception {
+    // GIVEN
     URL url = new URL("http://assertj.org/news?type=beta");
+    // WHEN
     String error = shouldHavePath(url, null).create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting:%n" +
                                        "  <http://assertj.org/news?type=beta>%n" +
                                        "not to have a path but had:%n" +
                                        "  <\"/news\">"));
 
     error = shouldHavePath(url, "").create(new TestDescription("TEST"));
-
-    assertThat(error).isEqualTo(format("[TEST] %n" +
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
                                        "Expecting:%n" +
                                        "  <http://assertj.org/news?type=beta>%n" +
                                        "not to have a path but had:%n" +

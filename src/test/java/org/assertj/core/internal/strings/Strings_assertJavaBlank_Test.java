@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
@@ -53,13 +54,10 @@ public class Strings_assertJavaBlank_Test extends StringsBaseTest {
   @ParameterizedTest
   @MethodSource("notBlank")
   public void should_fail_if_string_is_not_blank(String actual) {
-    try {
-      strings.assertJavaBlank(someInfo(), actual);
-    } catch (AssertionError expectedAssertionError) {
-      verifyFailureThrownWhenStringIsNotBank(someInfo(), actual);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> strings.assertJavaBlank(someInfo(), actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenStringIsNotBank(someInfo(), actual);
   }
 
   private void verifyFailureThrownWhenStringIsNotBank(AssertionInfo info, String actual) {

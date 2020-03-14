@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -41,13 +42,11 @@ public class Dates_assertIsBeforeOrEqualTo_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_strictly_before_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2000-01-01");
-    try {
-      dates.assertIsBeforeOrEqualTo(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBeforeOrEqualTo(actual, other));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsBeforeOrEqualTo(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBeforeOrEqualTo(actual, other));
   }
 
   @Test
@@ -76,13 +75,11 @@ public class Dates_assertIsBeforeOrEqualTo_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_strictly_before_given_date_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2000-01-01");
-    try {
-      datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(info, actual, other);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo(actual, other, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(info, actual, other));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo(actual, other, yearAndMonthComparisonStrategy));
   }
 
   @Test

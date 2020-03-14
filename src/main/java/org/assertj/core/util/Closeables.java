@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -42,7 +42,7 @@ public final class Closeables {
     try {
       c.close();
     } catch (Throwable t) {
-      logger.log(Level.WARNING, "Error ocurred while closing " + c, t);
+      logger.log(Level.WARNING, "Error occurred while closing " + c, t);
     }
   }
 

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -21,6 +21,7 @@ public class ComparatorFactory {
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
   public Comparator<Double> doubleComparatorWithPrecision(final double precision) {
+    @SuppressWarnings("unused") // can't use <> with anonymous class in java 8
     Comparator<Double> closeToComparator = new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
@@ -37,6 +38,7 @@ public class ComparatorFactory {
   }
 
   public Comparator<Float> floatComparatorWithPrecision(final float precision) {
+    @SuppressWarnings("unused")
     Comparator<Float> closeToComparator = new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {

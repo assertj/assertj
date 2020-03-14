@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 
 import java.util.IllegalFormatException;
@@ -91,7 +92,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessage(String message, Object... parameters) {
-    return hasMessage(String.format(message, parameters));
+    return hasMessage(format(message, parameters));
   }
 
   /**
@@ -158,7 +159,61 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Returns a new assertion object that uses the cause of the current Throwable as the actual Throwable under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable cause =  new IllegalArgumentException("wrong amount 123");
+   * Throwable exception = new Exception("boom!", cause);
+   *
+   * // typical use:
+   * assertThat(throwableWithMessage).getCause()
+   *                                 .hasMessageStartingWith("wrong amount");</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
+   *
+   * @since 3.16.0
+   */
+  public AbstractThrowableAssert<?,?> getCause() {
+    throwables.assertHasCause(info, actual);
+    return new ThrowableAssert(actual.getCause());
+  }
+
+  /**
+   * Returns a new assertion object that uses the root cause of the current Throwable as the actual Throwable under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable rootCause =  new JdbcException("invalid query");
+   * Throwable cause =  new RuntimeException(rootCause);
+   * Throwable exception = new Exception("boom!", cause);
+   *
+   * // typical use:
+   * assertThat(throwableWithMessage).getRootCause()
+   *                                 .hasMessageStartingWith("invalid");</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
+   *
+   * @since 3.16.0
+   */
+  public AbstractThrowableAssert<?,?> getRootCause() {
+    throwables.assertHasRootCause(info, actual);
+    return new ThrowableAssert(org.assertj.core.util.Throwables.getRootCause(actual));
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} starts with the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageStartingWith("wrong amount");
+   *
+   * // assertions will fail:
+   * assertThat(throwableWithMessage).hasMessageStartingWith("right amount"); </code></pre>
    *
    * @param description the description expected to start the actual {@code Throwable}'s message.
    * @return this assertion object.
@@ -167,6 +222,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageStartingWith(String description) {
     throwables.assertHasMessageStartingWith(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} starts with the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageStartingWith("%s amount", "wrong");
+   *
+   * // assertions will fail:
+   * assertThat(throwableWithMessage).hasMessageStartingWith("%s amount", "right"); </code></pre>
+   *
+   * @param description the description expected to start the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   */
+  public SELF hasMessageStartingWith(String description, Object... parameters) {
+    throwables.assertHasMessageStartingWith(info, actual, format(description, parameters));
     return myself;
   }
 
@@ -191,6 +271,33 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageContaining(String description) {
     throwables.assertHasMessageContaining(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} contains the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   * Throwable throwableWithoutMessage = new IllegalArgumentException();
+   *
+   * // assertion will pass:
+   * assertThat(throwableWithMessage).hasMessageContaining("amount %d", 123);
+   *
+   * // assertions will fail:
+   * assertThat(throwableWithoutMessage).hasMessageContaining("amount %d", 123);
+   * assertThat(throwableWithMessage).hasMessageContaining("%s amount", "right"); </code></pre>
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   */
+  public SELF hasMessageContaining(String description, Object... parameters) {
+    throwables.assertHasMessageContaining(info, actual, format(description, parameters));
     return myself;
   }
 
@@ -257,7 +364,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * // assertion will fail:
    * assertThat(throwableWithMessage).hasMessageNotContainingAny("foo", "amount");</code></pre>
    *
-   * @param values the contents expected to not be contained in the actual {@code Throwables}'s message.
+   * @param values the contents expected to not be contained in the actual {@code Throwable}'s message.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} contains any of the given values.
@@ -270,6 +377,15 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * Verifies that the stack trace of the actual {@code Throwable} contains the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwableWithMessage).hasStackTraceContaining("amount 123");
+   *
+   * // assertion will fail
+   * assertThat(throwableWithMessage).hasStackTraceContaining("456");</code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
    * @return this assertion object.
@@ -278,6 +394,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasStackTraceContaining(String description) {
     throwables.assertHasStackTraceContaining(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the stack trace of the actual {@code Throwable} contains the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwableWithMessage).hasStackTraceContaining("%s", amount);
+   *
+   * // assertion will fail
+   * assertThat(throwableWithMessage).hasStackTraceContaining("%d", 456);</code></pre>
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   */
+  public SELF hasStackTraceContaining(String description, Object... parameters) {
+    throwables.assertHasStackTraceContaining(info, actual, format(description, parameters));
     return myself;
   }
 
@@ -334,6 +475,15 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * Verifies that the message of the actual {@code Throwable} ends with the given description.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwableWithMessage).hasMessageEndingWith("123");
+   *
+   * // assertion will fail
+   * assertThat(throwableWithMessage).hasMessageEndingWith("456");</code></pre>
    *
    * @param description the description expected to end the actual {@code Throwable}'s message.
    * @return this assertion object.
@@ -342,6 +492,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageEndingWith(String description) {
     throwables.assertHasMessageEndingWith(info, actual, description);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} ends with the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwableWithMessage).hasMessageEndingWith("%s 123", "amount");
+   *
+   * // assertion will fail
+   * assertThat(throwableWithMessage).hasMessageEndingWith("amount %d", 456);</code></pre>
+   *
+   * @param description the description expected to end the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   */
+  public SELF hasMessageEndingWith(String description, Object... parameters) {
+    throwables.assertHasMessageEndingWith(info, actual, format(description, parameters));
     return myself;
   }
 
@@ -475,6 +650,63 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Verifies that the message of the root cause of the actual {@code Throwable} is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException("object")));
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseMessage("object");
+   *
+   * // assertions will fail
+   * assertThat((Throwable) null).hasRootCauseMessage("object");
+   * assertThat(throwable).hasRootCauseMessage("another object");
+   * assertThat(new Throwable()).hasRootCauseMessage("object");
+   * assertThat(new Throwable(new NullPointerException())).hasRootCauseMessage("object");</code></pre>
+   *
+   * @param message the expected root cause message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the root cause of the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the root cause of the actual {@code Throwable} is not equal to
+   *                        the given one.
+   * @since 3.14.0
+   */
+  public SELF hasRootCauseMessage(String message) {
+    throwables.assertHasRootCauseMessage(info, actual, message);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the root cause of the actual {@code Throwable} is equal to the given one, after
+   * being formatted using {@link String#format(String, Object...)} method.
+   * <p>
+   * Example:
+   * <pre><code class='java'>Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException("expected message")));
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseMessage("%s %s", "expected", "message");
+   *
+   * // assertions will fail
+   * assertThat((Throwable) null).hasRootCauseMessage("%s %s", "expected", "message");
+   * assertThat(throwable).hasRootCauseMessage("%s", "message");
+   * assertThat(new Throwable()).hasRootCauseMessage("%s %s", "expected", "message");
+   * assertThat(new Throwable(new NullPointerException())).hasRootCauseMessage("%s %s", "expected", "message");</code></pre>
+   *
+   * @param message the expected root cause message.
+   * @param parameters argument referenced by the format specifiers in the format string.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the root cause of the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the root cause of the actual {@code Throwable} is not equal to the given one.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @since 3.14.0
+   */
+  public SELF hasRootCauseMessage(String message, Object... parameters) {
+    return hasRootCauseMessage(format(message, parameters));
+  }
+
+  /**
    * Verifies that the actual {@code Throwable} has no suppressed exceptions.
    * <p>
    * Example:
@@ -536,4 +768,5 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public void doesNotThrowAnyException() {
     if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
   }
+
 }

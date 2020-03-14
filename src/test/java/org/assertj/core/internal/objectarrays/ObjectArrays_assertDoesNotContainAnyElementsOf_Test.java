@@ -8,18 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -66,15 +67,13 @@ public class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectA
 
   @Test
   public void should_fail_if_actual_contains_one_element_of_given_iterable() {
-	AssertionInfo info = someInfo();
-	List<String> list = newArrayList("Vador", "Yoda", "Han");
-	try {
-	  arrays.assertDoesNotContainAnyElementsOf(info, actual, list);
-	} catch (AssertionError e) {
+    AssertionInfo info = someInfo();
+    List<String> list = newArrayList("Vador", "Yoda", "Han");
+
+    Throwable error = catchThrowable(() -> arrays.assertDoesNotContainAnyElementsOf(info, actual, list));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
 	  verify(failures).failure(info, shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -94,15 +93,13 @@ public class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectA
 
   @Test
   public void should_fail_if_actual_contains_one_element_of_given_iterable_according_to_custom_comparison_strategy() {
-	AssertionInfo info = someInfo();
-	List<String> expected = newArrayList("LuKe", "YODA", "Han");
-	try {
-	  arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(info, actual, expected);
-	} catch (AssertionError e) {
+    AssertionInfo info = someInfo();
+    List<String> expected = newArrayList("LuKe", "YODA", "Han");
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
 	  verify(failures).failure(info, shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"),
 		                                              caseInsensitiveStringComparisonStrategy));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

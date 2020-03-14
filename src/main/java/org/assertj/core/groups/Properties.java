@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.groups;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class Properties<T> {
   }
   
   private static void checkIsNotNullOrEmpty(String propertyName) {
-    checkNotNull(propertyName, "The name of the property to read should not be null");
+    requireNonNull(propertyName, "The name of the property to read should not be null");
     checkArgument(propertyName.length() > 0, "The name of the property to read should not be empty");
   }
 

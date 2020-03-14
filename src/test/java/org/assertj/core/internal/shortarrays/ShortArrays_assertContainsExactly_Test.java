@@ -8,19 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.shortarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ShortArrays.arrayOf;
 import static org.assertj.core.test.ShortArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -49,13 +50,11 @@ public class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest 
   @Test
   public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
-    try {
-      arrays.assertContainsExactly(info, actual, arrayOf(6, 10, 8));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, elementsDifferAtIndex((short) 8, (short) 10, 1));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, arrayOf(6, 10, 8)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, elementsDifferAtIndex((short) 8, (short) 10, 1));
   }
 
   @Test
@@ -84,28 +83,24 @@ public class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest 
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     short[] expected = { 6, 8, 20 };
-    try {
-      arrays.assertContainsExactly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                          newArrayList((short) 20), newArrayList((short) 10)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                        newArrayList((short) 20), newArrayList((short) 10)));
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     short[] expected = { 6, 8, 10, 10 };
-    try {
-      arrays.assertContainsExactly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                          newArrayList((short) 10), newArrayList()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                        newArrayList((short) 10), newArrayList()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -121,13 +116,11 @@ public class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest 
   public void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     short[] expected = { -6, 10, 8 };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, elementsDifferAtIndex((short) 8, (short) 10, 1, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, elementsDifferAtIndex((short) 8, (short) 10, 1, absValueComparisonStrategy));
   }
 
   @Test
@@ -153,30 +146,26 @@ public class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest 
   public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     short[] expected = { 6, -8, 20 };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                          newArrayList((short) 20), newArrayList((short) 10),
-                                                          absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                        newArrayList((short) 20), newArrayList((short) 10),
+                                                        absValueComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     short[] expected = { 6, 8, 10, 10 };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                          newArrayList((short) 10), newArrayList(),
-                                                          absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
+                                                        newArrayList((short) 10), newArrayList(),
+                                                        absValueComparisonStrategy));
   }
 
 }

@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -63,37 +64,31 @@ public class Doubles_assertIsStrictlyBetween_Test extends DoublesBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
-    try {
-        doubles.assertIsStrictlyBetween(info, ONE, ONE, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doubles.assertIsStrictlyBetween(info, ONE, ONE, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
-    try {
-      doubles.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doubles.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
   }
 
   @Test
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
-    try {
-        doubles.assertIsStrictlyBetween(info, ONE, TWO, TEN);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, false, false));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> doubles.assertIsStrictlyBetween(info, ONE, TWO, TEN));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, false, false));
   }
 
   @Test

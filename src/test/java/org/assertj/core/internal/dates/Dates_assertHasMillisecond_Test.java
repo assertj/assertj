@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -45,13 +46,11 @@ public class Dates_assertHasMillisecond_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_millisecond() {
     AssertionInfo info = someInfo();
     int millisecond = 5;
-    try {
-      dates.assertHasMillisecond(info, actual, millisecond);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertHasMillisecond(info, actual, millisecond));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
   }
 
   @Test
@@ -69,13 +68,11 @@ public class Dates_assertHasMillisecond_Test extends DatesBaseTest {
   public void should_fail_if_actual_has_not_given_millisecond_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int millisecond = 5;
-    try {
-      datesWithCustomComparisonStrategy.assertHasMillisecond(info, actual, millisecond);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertHasMillisecond(info, actual, millisecond));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
   }
 
   @Test

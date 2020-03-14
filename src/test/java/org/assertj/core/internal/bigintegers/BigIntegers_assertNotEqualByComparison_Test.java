@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -47,13 +48,11 @@ public class BigIntegers_assertNotEqualByComparison_Test extends BigIntegersBase
   @Test
   public void should_fail_if_big_integers_are_equal_by_comparison() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertNotEqualByComparison(info, ONE, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertNotEqualByComparison(info, ONE, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
   }
 
   @Test
@@ -70,12 +69,10 @@ public class BigIntegers_assertNotEqualByComparison_Test extends BigIntegersBase
   @Test
   public void should_fail_if_big_integers_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
   }
 }

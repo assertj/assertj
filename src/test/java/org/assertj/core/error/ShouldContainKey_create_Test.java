@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
 import static org.assertj.core.test.Maps.mapOf;
@@ -33,13 +33,16 @@ public class ShouldContainKey_create_Test {
 
   @Test
   public void should_create_error_message_with_key_condition() {
+    // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKey(map, new TestCondition<>("test condition"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
-                                         "to contain a key satisfying:%n" +
-                                         "  <test condition>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "to contain a key satisfying:%n" +
+                                   "  <test condition>"));
   }
 }

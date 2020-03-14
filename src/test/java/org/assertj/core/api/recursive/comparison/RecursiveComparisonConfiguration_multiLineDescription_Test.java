@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -19,7 +19,9 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
 
+import java.time.ZonedDateTime;
 import java.util.Comparator;
+import java.util.UUID;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.AlwaysEqualComparator;
@@ -39,13 +41,23 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_that_null_fields_are_ignored() {
+  public void should_show_that_actual_null_fields_are_ignored() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     assertThat(multiLineDescription).contains(format("- all actual null fields were ignored in the comparison%n"));
+  }
+
+  @Test
+  public void should_show_that_expected_null_fields_are_ignored() {
+    // GIVEN
+    recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).contains(format("- all expected null fields were ignored in the comparison%n"));
   }
 
   @Test
@@ -66,6 +78,16 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     assertThat(multiLineDescription).contains(format("- the fields matching the following regexes were ignored in the comparison: foo, bar, foo.bar%n"));
+  }
+
+  @Test
+  public void should_show_that_some_given_types_are_ignored() {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).contains(format("- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n"));
   }
 
   @Test
@@ -225,8 +247,10 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   public void should_show_a_complete_multiline_description() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
+    recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..");
+    recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
@@ -243,8 +267,10 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // @format:off
     assertThat(multiLineDescription).isEqualTo(format(
                "- all actual null fields were ignored in the comparison%n" +
+               "- all expected null fields were ignored in the comparison%n" +
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
+               "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +
                "- overridden equals methods were used in the comparison, except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +

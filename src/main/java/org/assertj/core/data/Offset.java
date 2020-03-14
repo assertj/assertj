@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.data;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.Objects;
 
@@ -52,7 +52,7 @@ public class Offset<T extends Number> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static <T extends Number> Offset<T> offset(T value) {
-    checkNotNull(value);
+    requireNonNull(value);
     checkArgument(value.doubleValue() >= 0d, "An offset value should be greater than or equal to zero");
     return new Offset<>(value, false);
   }
@@ -75,7 +75,7 @@ public class Offset<T extends Number> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static <T extends Number> Offset<T> strictOffset(T value) {
-    checkNotNull(value);
+    requireNonNull(value);
     checkArgument(value.doubleValue() > 0d, "A strict offset value should be greater than zero");
     return new Offset<>(value, true);
   }

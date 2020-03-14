@@ -8,14 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public final class IterableUtil {
    * @throws NullPointerException if given {@link Iterable} is null.
    */
   public static int sizeOf(Iterable<?> iterable) {
-    checkNotNull(iterable, "Iterable must not be null");
+    requireNonNull(iterable, "Iterable must not be null");
     if (iterable instanceof Collection) return ((Collection<?>) iterable).size();
     return Math.toIntExact(Streams.stream(iterable).count());
   }

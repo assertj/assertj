@@ -8,9 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
+
+import java.util.IllegalFormatException;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
@@ -182,6 +184,36 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
   }
 
   /**
+   * Verifies that the message of the actual {@code Throwable} starts with the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withMessageStartingWith("%s amount", "wrong");
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withMessageStartingWith("%s amount", "right");</code></pre>
+   *
+   * @param description the description expected to start the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @see AbstractThrowableAssert#hasMessageStartingWith(String, Object...)
+   */
+  public ThrowableAssertAlternative<T> withMessageStartingWith(String description, Object... parameters) {
+    delegate.hasMessageStartingWith(description, parameters);
+    return this;
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} contains the given description.
    * <p>
    * Examples:
@@ -205,6 +237,36 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    */
   public ThrowableAssertAlternative<T> withMessageContaining(String description) {
     delegate.hasMessageContaining(description);
+    return this;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} contains the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withMessageContaining("%s", amount);
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withMessageContaining("%d", 456);</code></pre>
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @see AbstractThrowableAssert#hasMessageContaining(String, Object...)
+   */
+  public ThrowableAssertAlternative<T> withMessageContaining(String description, Object... parameters) {
+    delegate.hasMessageContaining(description, parameters);
     return this;
   }
 
@@ -253,7 +315,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *           .isThrownBy(codeThrowing(new Exception("boom")))
    *           .withMessageNotContaining("boom");</code></pre>
    *
-   * @param content the content expected to not be contained in the actual {@code Throwables}'s message.
+   * @param content the content expected to not be contained in the actual {@code Throwable}'s message.
    * @return this assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} contains the given content.
@@ -282,7 +344,7 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    *           .isThrownBy(codeThrowing(new Exception("boom")))
    *           .withMessageNotContainingAny("bam", "boom");</code></pre>
    *
-   * @param values the contents expected to not be contained in the actual {@code Throwables}'s message.
+   * @param values the contents expected to not be contained in the actual {@code Throwable}'s message.
    * @return this assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} contains any of the given values.
@@ -317,6 +379,36 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    */
   public ThrowableAssertAlternative<T> withStackTraceContaining(String description) {
     delegate.hasStackTraceContaining(description);
+    return this;
+  }
+
+  /**
+   * Verifies that the stack trace of the actual {@code Throwable} contains with the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withStackTraceContaining("%s", amount);
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withStackTraceContaining("%d", 456);</code></pre>
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @see AbstractThrowableAssert#hasStackTraceContaining(String, Object...)
+   */
+  public ThrowableAssertAlternative<T> withStackTraceContaining(String description, Object... parameters) {
+    delegate.hasStackTraceContaining(description, parameters);
     return this;
   }
 
@@ -372,6 +464,36 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
    */
   public ThrowableAssertAlternative<T> withMessageEndingWith(String description) {
     delegate.hasMessageEndingWith(description);
+    return this;
+  }
+
+  /**
+   * Verifies that the message of the actual {@code Throwable} ends with the given description, after being formatted using
+   * the {@link String#format} method.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withMessageEndingWith("%d", 123);
+   *
+   * // assertion will fail
+   * assertThatExceptionOfType(Throwable.class)
+   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
+   *           .withMessageEndingWith("%d", 456);</code></pre>
+   *
+   * @param description the description expected to end the actual {@code Throwable}'s message.
+   * @param parameters argument referenced by the format specifiers in the format string
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @see AbstractThrowableAssert#hasMessageEndingWith(String, Object...)
+   */
+  public ThrowableAssertAlternative<T> withMessageEndingWith(String description, Object... parameters) {
+    delegate.hasMessageEndingWith(description, parameters);
     return this;
   }
 
@@ -524,4 +646,35 @@ public class ThrowableAssertAlternative<T extends Throwable> extends AbstractAss
     delegate.describedAs(description);
     return super.describedAs(description);
   }
+
+  /**
+   * Checks if the actual {@link Throwable} has a cause and returns a new assertion object where the
+   * cause becomes the actual Throwable in order to further assert properties of the cause {@link Throwable}
+   *
+   * @return a new assertion object with the cause of the current actual becoming the new actual
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   *
+   * @since 3.16.0
+   */
+  public ThrowableAssertAlternative<?> havingCause() {
+    AbstractThrowableAssert<?,?> causeAssert = delegate.getCause();
+    return new ThrowableAssertAlternative<>(causeAssert.actual);
+  }
+
+  /**
+   * Checks if the actual {@link Throwable} has a root cause and returns a new assertion object where the
+   * root cause becomes the actual Throwable in order to further assert properties of the cause {@link Throwable}
+   *
+   * @return a new assertion object with the root cause of the current actual becoming the new actual
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no root cause.
+   *
+   * @since 3.16.0
+   */
+  public ThrowableAssertAlternative<?> havingRootCause() {
+    AbstractThrowableAssert<?, ?> rootCauseAssert = delegate.getRootCause();
+    return new ThrowableAssertAlternative<>(rootCauseAssert.actual);
+  }
+
 }

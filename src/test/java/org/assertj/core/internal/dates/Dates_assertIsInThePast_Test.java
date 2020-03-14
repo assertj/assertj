@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.DateUtil.monthOf;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -41,16 +42,14 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_not_in_the_past() {
     AssertionInfo info = someInfo();
-    try {
-      // init actual so that it is in the future compared to the instant when we call dates.assertIsInThePast
-      long oneSecond = 1000;
-      actual = new Date(System.currentTimeMillis() + oneSecond);
-      dates.assertIsInThePast(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInThePast(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // init actual so that it is in the future compared to the instant when we call dates.assertIsInThePast
+    long oneSecond = 1000;
+    actual = new Date(System.currentTimeMillis() + oneSecond);
+
+    Throwable error = catchThrowable(() -> dates.assertIsInThePast(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInThePast(actual));
   }
 
   @Test
@@ -68,35 +67,31 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_not_in_the_past_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      // set actual to a date in the future according to our comparison strategy (that compares only month and year)
-      actual = parseDate("2111-01-01");
-      datesWithCustomComparisonStrategy.assertIsInThePast(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInThePast(actual, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // set actual to a date in the future according to our comparison strategy (that compares only month and year)
+    actual = parseDate("2111-01-01");
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInThePast(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInThePast(actual, yearAndMonthComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_is_today_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      // we want actual to "now" according to our comparison strategy (that compares only month and year)
-      // => if we are at the end of the month we subtract one day instead of adding one
-      Calendar cal = Calendar.getInstance();
-      cal.add(Calendar.DAY_OF_MONTH, 1);
-      Date tomorrow = cal.getTime();
-      cal.add(Calendar.DAY_OF_MONTH, -2);
-      Date yesterday = cal.getTime();
-      actual = monthOf(tomorrow) == monthOf(new Date()) ? tomorrow : yesterday;
-      datesWithCustomComparisonStrategy.assertIsInThePast(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInThePast(actual, yearAndMonthComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // we want actual to "now" according to our comparison strategy (that compares only month and year)
+    // => if we are at the end of the month we subtract one day instead of adding one
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.DAY_OF_MONTH, 1);
+    Date tomorrow = cal.getTime();
+    cal.add(Calendar.DAY_OF_MONTH, -2);
+    Date yesterday = cal.getTime();
+    actual = monthOf(tomorrow) == monthOf(new Date()) ? tomorrow : yesterday;
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInThePast(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeInThePast(actual, yearAndMonthComparisonStrategy));
   }
 
   @Test

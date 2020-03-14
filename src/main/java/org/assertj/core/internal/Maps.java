@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
@@ -49,7 +50,6 @@ import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -98,7 +98,7 @@ public class Maps {
 
   public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,
                                       BiConsumer<? super K, ? super V> entryRequirements) {
-    checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
+    requireNonNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
 
     List<UnsatisfiedRequirement> unsatisfiedRequirements = actual.entrySet().stream()
@@ -122,7 +122,7 @@ public class Maps {
 
   public <K, V> void assertAnySatisfy(AssertionInfo info, Map<K, V> actual,
                                       BiConsumer<? super K, ? super V> entryRequirements) {
-    checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
+    requireNonNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
 
     List<UnsatisfiedRequirement> unsatisfiedRequirements =  new ArrayList<>();
@@ -136,7 +136,7 @@ public class Maps {
   }
 
   public <K, V> void assertNoneSatisfy(AssertionInfo info, Map<K, V> actual, BiConsumer<? super K,? super V> entryRequirements) {
-    checkNotNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
+    requireNonNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
 
     List<Map.Entry<K, V>> erroneousEntries = actual.entrySet().stream()
@@ -411,7 +411,7 @@ public class Maps {
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
                                               Consumer<? super V> valueRequirements) {
     assertContainsKeys(info, actual, key);
-    checkNotNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
+    requireNonNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
     V value = actual.get(key);
     valueRequirements.accept(value);
   }
@@ -695,7 +695,7 @@ public class Maps {
   public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual,
                                           @SuppressWarnings("unchecked") V... values) {
     assertNotNull(info, actual);
-    checkNotNull(values, "The array of values to look for should not be null");
+    requireNonNull(values, "The array of values to look for should not be null");
     if (actual.isEmpty() && values.length == 0) return;
     //
     Set<V> valuesNotFound = new LinkedHashSet<>();
@@ -864,15 +864,15 @@ public class Maps {
   }
 
   private static <K> void failIfNull(K[] keys, String errorMessage) {
-    checkNotNull(keys, errorMessage);
+    requireNonNull(keys, errorMessage);
   }
 
   private static <K, V> void failIfNull(Map.Entry<? extends K, ? extends V>[] entries) {
-    checkNotNull(entries, ErrorMessages.entriesToLookForIsNull());
+    requireNonNull(entries, ErrorMessages.entriesToLookForIsNull());
   }
 
   private <K, V> boolean containsEntry(Map<K, V> actual, Map.Entry<? extends K, ? extends V> entry) {
-    checkNotNull(entry, "Entries to look for should not be null");
+    requireNonNull(entry, "Entries to look for should not be null");
     return actual.containsKey(entry.getKey()) ? areEqual(actual.get(entry.getKey()), entry.getValue()) : false;
   }
 

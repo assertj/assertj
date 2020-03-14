@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.example.test;
 
@@ -35,8 +35,7 @@ class CustomSoftAssertionsLineNumberTest {
     // WHEN
     AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
     // THEN
-    assertThat(error).hasMessageContaining(format("Expecting value to be <v2> but was <v1>:%n" +
-                                                  "at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:34)"));
+    assertThat(error).hasMessageContaining(format("at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:34)"));
   }
 
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.inputstreams;
 
@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link BinaryDiff#diff(java.io.InputStream, java.io.InputStream)}</code>.
- * 
+ *
  * @author Olivier Michallat
  */
 public class BinaryDiff_diff_InputStream_Test {
@@ -48,32 +48,35 @@ public class BinaryDiff_diff_InputStream_Test {
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
     assertThat(result.hasNoDiff()).isTrue();
   }
-  
+
   @Test
   public void should_return_diff_if_inputstreams_differ_on_one_byte() throws IOException {
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = stream(0xCA, 0xFE, 0xBE, 0xBE);
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
+    assertThat(result.hasDiff()).isTrue();
     assertThat(result.offset).isEqualTo(2);
     assertThat(result.actual).isEqualTo("0xBA");
     assertThat(result.expected).isEqualTo("0xBE");
   }
-  
+
   @Test
   public void should_return_diff_if_actual_is_shorter() throws IOException {
     actual = stream(0xCA, 0xFE, 0xBA);
     expected = stream(0xCA, 0xFE, 0xBA, 0xBE);
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
+    assertThat(result.hasDiff()).isTrue();
     assertThat(result.offset).isEqualTo(3);
     assertThat(result.actual).isEqualTo("EOF");
     assertThat(result.expected).isEqualTo("0xBE");
   }
-  
+
   @Test
   public void should_return_diff_if_expected_is_shorter() throws IOException {
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = stream(0xCA, 0xFE, 0xBA);
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
+    assertThat(result.hasDiff()).isTrue();
     assertThat(result.offset).isEqualTo(3);
     assertThat(result.actual).isEqualTo("0xBE");
     assertThat(result.expected).isEqualTo("EOF");

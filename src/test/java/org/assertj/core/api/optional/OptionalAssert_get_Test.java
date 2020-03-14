@@ -8,42 +8,71 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Optional;
 
-import org.assertj.core.api.BaseTest;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacter.Race;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.OptionalAssert;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
+ * Tests for <code>{@link OptionalAssert#get()}</code>.
+ *
  * @author Filip Hrisafov
  */
-public class OptionalAssert_get_Test extends BaseTest {
+@DisplayName("OptionalAssert get")
+class OptionalAssert_get_Test implements NavigationMethodBaseTest<OptionalAssert<String>> {
+
+  private final Optional<String> optional = Optional.of("Frodo");
 
   @Test
-  public void should_fail_when_optional_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).get())
-                                                   .withMessage(actualIsNull());
+  void should_fail_if_optional_is_null() {
+    // GIVEN
+    Optional<String> optional = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get());
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_when_optional_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.<String>empty()).get())
-                                                   .withMessage(shouldBePresent(Optional.<String>empty()).create());
+  void should_fail_if_optional_is_empty() {
+    // GIVEN
+    Optional<String> optional = Optional.empty();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get());
+    // THEN
+    then(assertionError).hasMessage(shouldBePresent(optional).create());
   }
 
   @Test
-  public void should_pass_when_optional_contains_a_value() {
-    TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, Race.HOBBIT);
-    assertThat(Optional.of(frodo)).get().hasNoNullFieldsOrProperties();
+  void should_pass_if_optional_contains_a_value() {
+    // WHEN
+    AbstractObjectAssert<?, String> result = assertThat(optional).get();
+    // THEN
+    result.isEqualTo("Frodo");
   }
+
+  @Override
+  public OptionalAssert<String> getAssertion() {
+    return assertThat(optional);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(OptionalAssert<String> assertion) {
+    return assertion.get();
+  }
+
 }

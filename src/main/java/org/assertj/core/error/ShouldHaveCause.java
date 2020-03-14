@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
+
+import java.util.Objects;
 
 public class ShouldHaveCause extends BasicErrorMessageFactory {
 
@@ -22,12 +23,16 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
     // actualCause has no cause
     if (actualCause == null) return new ShouldHaveCause(expectedCause);
     // same message => different type
-    if (areEqual(actualCause.getMessage(), expectedCause.getMessage()))
+    if (Objects.equals(actualCause.getMessage(), expectedCause.getMessage()))
       return new ShouldHaveCause(actualCause, expectedCause.getClass());
     // same type => different message
-    if (areEqual(actualCause.getClass(), expectedCause.getClass()))
+    if (Objects.equals(actualCause.getClass(), expectedCause.getClass()))
       return new ShouldHaveCause(actualCause, expectedCause.getMessage());
     return new ShouldHaveCause(actualCause, expectedCause);
+  }
+
+  public static ErrorMessageFactory shouldHaveCause(Throwable actualCause) {
+    return new BasicErrorMessageFactory("expecting %s to have a cause but it did not", actualCause);
   }
 
   private ShouldHaveCause(Throwable actualCause, Throwable expectedCause) {

@@ -8,49 +8,43 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.groups;
 
-import static java.util.Collections.addAll;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Lists.list;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class Tuple {
+public final class Tuple {
 
-  private final List<Object> datas = newArrayList();
+  private final List<Object> values;
 
   public Tuple(Object... values) {
-    addAll(datas, values);
+    this.values = list(values);
   }
 
   public Object[] toArray() {
-    return datas.toArray();
+    return values.toArray();
   }
 
   public List<Object> toList() {
-    return datas;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + datas.hashCode();
-    return result;
+    return values;
   }
 
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
-    if (obj == null) return false;
     if (!(obj instanceof Tuple)) return false;
     Tuple other = (Tuple) obj;
-    // datas can't be null
-    return areEqual(datas.toArray(), other.datas.toArray());
+    return Arrays.deepEquals(values.toArray(), other.values.toArray());
+  }
+
+  @Override
+  public int hashCode() {
+    return Arrays.deepHashCode(values.toArray());
   }
 
   @Override

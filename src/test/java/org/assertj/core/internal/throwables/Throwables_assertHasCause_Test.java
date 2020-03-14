@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.throwables;
 
@@ -20,14 +20,14 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
+import java.util.stream.Stream;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
 
@@ -78,7 +78,6 @@ public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
   }
 
   // @format:off
-  @SuppressWarnings("unused")
   private static Stream<Arguments> failingData() {
     return Stream.of(Arguments.of(null, new Throwable(), "no actual cause"),
                      Arguments.of(new NullPointerException(), new IllegalArgumentException(), "different cause type"),

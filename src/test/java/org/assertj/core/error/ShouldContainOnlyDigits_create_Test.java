@@ -8,16 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,31 +25,31 @@ import org.junit.jupiter.api.Test;
  */
 public class ShouldContainOnlyDigits_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldContainOnlyDigits("10$", '$', 2);
-  }
-
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                  "Expecting:%n" +
-                                  "  <\"10$\">%n" +
-                                  "to contain only digits%n" +
-                                  "but found non-digit character <'$'> at index <2>"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainOnlyDigits("10$", '$', 2);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\"10$\">%n" +
+                                   "to contain only digits%n" +
+                                   "but found non-digit character <'$'> at index <2>"));
   }
 
   @Test
   public void should_create_error_message_for_empty_string() {
-    factory = shouldContainOnlyDigits("");
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                  "Expecting:%n" +
-                                  "  <\"\">%n" +
-                                  "to contain only digits%n" +
-                                  "but could not found any digits at all"));
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainOnlyDigits("");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <\"\">%n" +
+                                   "to contain only digits%n" +
+                                   "but could not found any digits at all"));
   }
 }

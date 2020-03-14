@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -563,6 +563,17 @@ public class AssertionsForClassTypes {
    */
   public static AbstractInstantAssert<?> assertThat(Instant instant) {
     return new InstantAssert(instant);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
+   *
+   * @param duration the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  public static AbstractDurationAssert<?> assertThat(Duration duration) {
+    return new DurationAssert(duration);
   }
 
   /**
@@ -1734,7 +1745,7 @@ public class AssertionsForClassTypes {
    * Defaults date format are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link java.sql.Timestamp} String representation support)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>

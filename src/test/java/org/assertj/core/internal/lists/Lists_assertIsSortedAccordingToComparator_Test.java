@@ -8,15 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.lists;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.*;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -80,13 +81,11 @@ public class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTes
   public void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     AssertionInfo info = someInfo();
     List<String> actual = newArrayList("Yoda", "Vador", "Leia", "Leia", "Luke");
-    try {
-      lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(3, actual, stringDescendingOrderComparator));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(3, actual, stringDescendingOrderComparator));
   }
 
   @Test
@@ -96,28 +95,24 @@ public class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTes
     actual.add("bar");
     actual.add(new Integer(5));
     actual.add("foo");
-    try {
-      lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
   }
 
   @Test
   public void should_fail_if_actual_has_one_element_only_not_comparable_according_to_given_comparator() {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList(new Object());
-    try {
-      lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
   }
 
 }

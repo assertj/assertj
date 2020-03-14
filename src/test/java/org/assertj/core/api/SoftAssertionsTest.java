@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -16,7 +16,9 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.entry;
@@ -25,6 +27,7 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -35,6 +38,7 @@ import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.Name.lastNameComparator;
 import static org.assertj.core.test.Name.name;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -42,7 +46,9 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -57,8 +63,10 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -93,6 +101,7 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
@@ -102,6 +111,7 @@ import org.opentest4j.MultipleFailuresError;
  *
  * @author Brian Laframboise
  */
+@DisplayName("Soft assertions")
 public class SoftAssertionsTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
@@ -205,9 +215,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<{\"54\"=\"55\"}>"));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "deprecation" })
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {
       softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
@@ -310,12 +320,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat((IntPredicate) s -> s == 1).accepts(2);
       softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
       softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
+      softly.assertThat(URI.create("http://assertj.org:80").toURL()).hasNoPort();
+      softly.assertThat(Duration.ofHours(10)).hasHours(5);
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (MultipleFailuresError e) {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
-      assertThat(errors).hasSize(52);
+      assertThat(errors).hasSize(54);
       assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
       assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
       assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -409,6 +421,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                                  + "to accept <2L> but it did not."));
       assertThat(errors.get(51)).contains(format("%nExpecting:%n  <given predicate>%n"
                                                  + "to accept <2.0> but it did not."));
+      assertThat(errors.get(52)).contains(format("%nExpecting:%n"
+                                                 + "  <http://assertj.org:80>%n"
+                                                 + "not to have a port but had:%n"
+                                                 + "  <80>"));
+      assertThat(errors.get(53)).contains(format("%nExpecting Duration:%n"
+                                                 + " <10H>%n"
+                                                 + "to have 5L hours but had 10L"));
     }
   }
 
@@ -425,7 +444,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting("first")
           .isEqualTo("John");
     softly.assertThat(name)
-          .extracting("first", STRING)
+          .extracting("first", as(STRING))
           .startsWith("Jo");
     softly.assertThat(name)
           .extracting(Name::getFirst, Name::getLast)
@@ -434,7 +453,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extracting(Name::getFirst)
           .isEqualTo("John");
     softly.assertThat(name)
-          .extracting(Name::getFirst, STRING)
+          .extracting(Name::getFirst, as(STRING))
           .startsWith("Jo");
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
@@ -540,6 +559,31 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
             .contains("John")
             .contains("Jane");
     }
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  void should_pass_when_using_extracting_with_map() {
+    // GIVEN
+    Map<String, Object> map = mapOf(entry("name", "kawhi"), entry("age", 25));
+    // WHEN
+    softly.assertThat(map)
+          .extractingByKeys("name", "age")
+          .contains("kawhi", 25);
+    softly.assertThat(map)
+          .extractingByKey("name")
+          .isEqualTo("kawhi");
+    softly.assertThat(map)
+          .extractingByKey("name", as(STRING))
+          .startsWith("kaw");
+    softly.assertThat(map)
+          .extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
+          .contains(tuple("name", "kawhi"), tuple("age", 25));
+    softly.assertThat(map)
+          .extractingFromEntries(Map.Entry::getValue)
+          .contains("kawhi", 25);
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
   }
 
   @Test
@@ -667,7 +711,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .contains("Frodo", 55);
     softly.assertThat(frodo)
           .overridingErrorMessage("error 3")
-          .extracting("name", STRING)
+          .extracting("name", as(STRING))
           .startsWith("Bar");
     softly.assertThat(frodo)
           .overridingErrorMessage("error 4")
@@ -681,7 +725,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .isEqualTo("Foo");
     softly.assertThat(frodo)
           .overridingErrorMessage("error 6")
-          .extracting(TolkienCharacter::getName, STRING)
+          .extracting(TolkienCharacter::getName, as(STRING))
           .startsWith("Bar");
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
@@ -784,6 +828,33 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  public void should_not_collect_AssertionError_from_CompletableFuture_succeedsWithin() {
+    // GIVEN
+    CompletableFuture<String> future = new CompletableFuture<>();
+    future.cancel(false);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, MILLISECONDS));
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
+    assertThat(assertionError).hasMessageContaining("Cancelled");
+  }
+
+  @Test
+  public void should_only_collect_error_from_chained_assertions_performed_after_succeedsWithin() {
+    // GIVEN
+    CompletableFuture<String> completableFuture = completedFuture("done");
+    // WHEN
+    softly.assertThat(completableFuture)
+          .succeedsWithin(10, TimeUnit.MILLISECONDS)
+          .isEqualTo("not done")
+          .isEqualTo("not ok");
+    // THEN
+    assertThat(softly.errorsCollected()).hasSize(2);
+    assertThat(softly.errorsCollected().get(0)).hasMessageContaining("not done");
+    assertThat(softly.errorsCollected().get(1)).hasMessageContaining("not ok");
+  }
+
+  @Test
   public void should_work_with_predicate() {
     // GIVEN
     Predicate<String> lowercasePredicate = s -> s.equals(s.toLowerCase());
@@ -797,40 +868,53 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_optional() {
-    // GIVEN
-    Optional<String> optional = Optional.of("Gandalf");
-    // WHEN
-    softly.assertThat(optional).contains("Gandalf");
-    // THEN
-    softly.assertAll();
-  }
-
-  @Test
-  public void should_work_with_optional_chained_with_map() {
+  void should_work_with_optional() {
     // GIVEN
     Optional<String> optional = Optional.of("Gandalf");
     // WHEN
     softly.assertThat(optional)
-          .contains("Gandalf")
+          .contains("Gandalf");
+    softly.assertThat(optional)
           .map(String::length)
           .contains(7);
+    softly.assertThat(optional)
+          .get()
+          .isEqualTo("Gandalf");
+    softly.assertThat(optional)
+          .get(as(STRING))
+          .startsWith("Gan");
     // THEN
     softly.assertAll();
   }
 
   @Test
-  public void should_propagate_AssertionError_from_nested_proxied_calls() {
+  void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(emptyList()).first();
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).first(as(STRING));
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).element(0);
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).element(0, as(STRING));
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).last();
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).last(as(STRING));
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.assertThat(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
     softly.assertThat((Predicate<String>) null).accepts("a", "b", "c");
     // nested proxied call to isCompleted
     softly.assertThat(new CompletableFuture<String>()).isCompletedWithValue("done");
+    // nested proxied call to isEqualTo
+    softly.assertThat(Duration.ofDays(1)).isZero();
+    // nested proxied call to isLessThan
+    softly.assertThat(Duration.ofDays(1)).isNegative();
+    // nested proxied call to isGreaterThan
+    softly.assertThat(Duration.ofDays(-1)).isPositive();
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(4);
+    assertThat(softly.errorsCollected()).hasSize(12);
   }
 
   @Test
@@ -971,7 +1055,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .size()
           .isGreaterThan(22)
           .returnToIterable()
-          .as("shoud not be empty") // TODO returnToIterable() does not yet propagate assertion info
+          .as("should not be empty") // TODO returnToIterable() does not yet propagate assertion info
           .overridingErrorMessage("error message 2")
           .isEmpty();
     softly.assertThat(names)
@@ -980,24 +1064,42 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .first()
           .isNull();
     softly.assertThat(names)
+          .as("first element as Name")
+          .overridingErrorMessage("error message")
+          .first(as(type(Name.class)))
+          .isNull();
+    softly.assertThat(names)
           .as("element(0)")
           .overridingErrorMessage("error message")
           .element(0)
+          .isNull();
+    softly.assertThat(names)
+          .as("element(0) as Name")
+          .overridingErrorMessage("error message")
+          .element(0, as(type(Name.class)))
           .isNull();
     softly.assertThat(names)
           .as("last element")
           .overridingErrorMessage("error message")
           .last()
           .isNull();
+    softly.assertThat(names)
+          .as("last element as Name")
+          .overridingErrorMessage("error message")
+          .last(as(type(Name.class)))
+          .isNull();
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(6);
+    assertThat(errorsCollected).hasSize(9);
     assertThat(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
-    assertThat(errorsCollected.get(2)).hasMessage("[shoud not be empty] error message 2");
+    assertThat(errorsCollected.get(2)).hasMessage("[should not be empty] error message 2");
     assertThat(errorsCollected.get(3)).hasMessage("[first element] error message");
-    assertThat(errorsCollected.get(4)).hasMessage("[element(0)] error message");
-    assertThat(errorsCollected.get(5)).hasMessage("[last element] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[first element as Name] error message");
+    assertThat(errorsCollected.get(5)).hasMessage("[element(0)] error message");
+    assertThat(errorsCollected.get(6)).hasMessage("[element(0) as Name] error message");
+    assertThat(errorsCollected.get(7)).hasMessage("[last element] error message");
+    assertThat(errorsCollected.get(8)).hasMessage("[last element as Name] error message");
   }
 
   @Test
@@ -1025,24 +1127,42 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .first()
           .isNull();
     softly.assertThat(names)
+          .as("first element as Name")
+          .overridingErrorMessage("error message")
+          .first(as(type(Name.class)))
+          .isNull();
+    softly.assertThat(names)
           .as("element(0)")
           .overridingErrorMessage("error message")
           .element(0)
+          .isNull();
+    softly.assertThat(names)
+          .as("element(0) as Name")
+          .overridingErrorMessage("error message")
+          .element(0, as(type(Name.class)))
           .isNull();
     softly.assertThat(names)
           .as("last element")
           .overridingErrorMessage("error message")
           .last()
           .isNull();
+    softly.assertThat(names)
+          .as("last element as Name")
+          .overridingErrorMessage("error message")
+          .last(as(type(Name.class)))
+          .isNull();
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(6);
+    assertThat(errorsCollected).hasSize(9);
     assertThat(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[shoud not be empty] error message 2");
     assertThat(errorsCollected.get(3)).hasMessage("[first element] error message");
-    assertThat(errorsCollected.get(4)).hasMessage("[element(0)] error message");
-    assertThat(errorsCollected.get(5)).hasMessage("[last element] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[first element as Name] error message");
+    assertThat(errorsCollected.get(5)).hasMessage("[element(0)] error message");
+    assertThat(errorsCollected.get(6)).hasMessage("[element(0) as Name] error message");
+    assertThat(errorsCollected.get(7)).hasMessage("[last element] error message");
+    assertThat(errorsCollected.get(8)).hasMessage("[last element as Name] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1683,12 +1803,16 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(map)
           .as("extracting(\"a\")")
           .overridingErrorMessage("error message")
-          // convert to Object otherwise will use extracting(String) in AbstractObjectAssert
-          .extracting((Object) "a")
+          .extractingByKey("a")
           .isEqualTo("456");
+    softly.assertThat(map)
+          .as("extracting(\"a\") as string")
+          .overridingErrorMessage("error message")
+          .extractingByKey("a", as(STRING))
+          .startsWith("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(16);
+    assertThat(errors).hasSize(17);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1706,6 +1830,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
     assertThat(errors.get(14)).hasMessageContaining("to contain only");
     assertThat(errors.get(15)).hasMessage("[extracting(\"a\")] error message");
+    assertThat(errors.get(16)).hasMessage("[extracting(\"a\") as string] error message");
   }
 
   @Test
@@ -1759,7 +1884,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void optional_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
+  void optional_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
     Optional<String> optional = Optional.of("Yoda");
     Function<String, Optional<String>> upperCaseOptional = s -> s == null ? Optional.empty() : Optional.of(s.toUpperCase());
@@ -1779,14 +1904,28 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .map(String::length)
           .hasValue(4)
           .hasValue(888); // fail
+    softly.assertThat(optional)
+          .as("get()")
+          .overridingErrorMessage("error message")
+          .get()
+          .isEqualTo("Yoda")
+          .isEqualTo("Luke"); // fail
+    softly.assertThat(optional)
+          .as("get(as(STRING))")
+          .overridingErrorMessage("error message")
+          .get(as(STRING))
+          .startsWith("Yo")
+          .startsWith("Lu"); // fail
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(3);
+    assertThat(errorsCollected).hasSize(5);
     assertThat(errorsCollected.get(0)).hasMessage("[map(String::length)] error message");
     assertThat(errorsCollected.get(1)).hasMessageContaining("flatMap(upperCaseOptional)")
                                       .hasMessageContaining("yoda");
     assertThat(errorsCollected.get(2)).hasMessageContaining("map(String::length) after flatMap(upperCaseOptional)")
                                       .hasMessageContaining("888");
+    assertThat(errorsCollected.get(3)).hasMessage("[get()] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[get(as(STRING))] error message");
   }
 
   @Test
@@ -2040,4 +2179,58 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     }
   }
 
+  @Test
+  public void should_work_with_spliterator() {
+    // GIVEN
+    Spliterator<String> spliterator1 = Stream.of("a", "b", "c").spliterator();
+    Spliterator<String> spliterator2 = Stream.of("a", "b", "c").spliterator();
+    Spliterator<Integer> nullSpliterator = null;
+    // WHEN
+    softly.assertThat(spliterator1)
+          .hasCharacteristics(Spliterator.SIZED) // OK
+          .hasOnlyCharacteristics(Spliterator.IMMUTABLE);  // FAIL
+    softly.assertThat(spliterator2).hasCharacteristics(Spliterator.DISTINCT);
+    softly.assertThat(nullSpliterator).hasCharacteristics(Spliterator.DISTINCT);
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(3);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("IMMUTABLE");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("DISTINCT");
+    assertThat(errorsCollected.get(2)).hasMessageContaining("Expecting actual not to be null");
+  }
+
+  @Test
+  void throwable_soft_assertions_should_work_with_navigation_method_get_cause() {
+    // GIVEN
+    IllegalArgumentException cause = new IllegalArgumentException("cause message");
+    Throwable throwable = new Throwable("top level", cause);
+    // WHEN
+    softly.assertThat(throwable)
+          .hasMessage("not top level message")
+          .getCause()
+          .hasMessage("not cause message");
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("not top level message");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("not cause message");
+  }
+
+  @Test
+  void throwable_soft_assertions_should_work_with_navigation_method_get_root_cause() {
+    // GIVEN
+    NullPointerException rootCause = new NullPointerException("root cause message");
+    IllegalArgumentException cause = new IllegalArgumentException("cause message", rootCause);
+    Throwable throwable = new Throwable("top level", cause);
+    // WHEN
+    softly.assertThat(throwable)
+          .hasMessage("not top level message")
+          .getRootCause()
+          .hasMessage("not root cause message");
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessageContaining("not top level message");
+    assertThat(errorsCollected.get(1)).hasMessageContaining("not root cause message");
+  }
 }

@@ -8,16 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -116,18 +116,16 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    try {
-      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
-                                                 "name");
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
-                                                                        newArrayList("lightSaberColor"),
-                                                                        newArrayList((Object) "Green"),
-                                                                        newArrayList((Object) "Blue"),
-                                                                        newArrayList("name")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
+      "name"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
+                                                                      newArrayList("lightSaberColor"),
+                                                                      newArrayList((Object) "Green"),
+                                                                      newArrayList((Object) "Blue"),
+                                                                      newArrayList("name")));
   }
 
   @Test
@@ -135,17 +133,15 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    try {
-      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators());
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
-                                                                        newArrayList("lightSaberColor"),
-                                                                        newArrayList("Green"),
-                                                                        newArrayList("Blue"),
-                                                                        new ArrayList<>()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
+                                                                      newArrayList("lightSaberColor"),
+                                                                      newArrayList("Green"),
+                                                                      newArrayList("Blue"),
+                                                                      new ArrayList<>()));
   }
 
   @Test
@@ -153,18 +149,16 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
-    try {
-      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
-                                                 "lightSaberColor");
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
-                                                                        newArrayList("name"),
-                                                                        newArrayList("Yoda"),
-                                                                        newArrayList("Luke"),
-                                                                        newArrayList("lightSaberColor")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
+      "lightSaberColor"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
+                                                                      newArrayList("name"),
+                                                                      newArrayList("Yoda"),
+                                                                      newArrayList("Luke"),
+                                                                      newArrayList("lightSaberColor")));
   }
 
   @Test
@@ -183,19 +177,17 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
-    try {
-      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
-                                                 "name");
-    } catch (AssertionError err) {
-      List<Object> expected = newArrayList((Object) "Green");
-      verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
-                                                                        newArrayList("lightSaberColor"),
-                                                                        newArrayList((Object) null),
-                                                                        expected,
-                                                                        newArrayList("name")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
+      "name"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    List<Object> expected = newArrayList((Object) "Green");
+    verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
+                                                                      newArrayList("lightSaberColor"),
+                                                                      newArrayList((Object) null),
+                                                                      expected,
+                                                                      newArrayList("name")));
   }
 
   @Test

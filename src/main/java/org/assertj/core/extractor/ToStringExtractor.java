@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.extractor;
 
@@ -20,14 +20,11 @@ import java.util.function.Function;
  * @author Mateusz Haligowski
  *
  */
-public class ToStringExtractor implements Function<Object, String> {
+class ToStringExtractor implements Function<Object, String> {
+
   @Override
   public String apply(Object input) {
     return input.toString();
-  }
-  
-  ToStringExtractor() {
-    
   }
 
 }

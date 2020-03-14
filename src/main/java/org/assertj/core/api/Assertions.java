@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -25,8 +25,8 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,6 +45,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -134,6 +135,7 @@ import org.assertj.core.util.introspection.Introspection;
  * @author Mikhail Mazursky
  * @author Nicolas François
  * @author Julien Meddah
+ * @author William Bakker
  * @author William Delanoue
  */
 @CheckReturnValue
@@ -852,6 +854,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.7.0
    */
   public static AbstractInstantAssert<?> assertThat(Instant actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link InstantAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  public static AbstractDurationAssert<?> assertThat(Duration actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1976,6 +1989,32 @@ public class Assertions implements InstanceOfAssertFactories {
     return extractor;
   }
 
+  /**
+   * A syntax sugar to write fluent assertion with methods having an {@link InstanceOfAssertFactory} parameter.
+   * <p>
+   * Example:
+   * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
+   * assertThat(yoda).extracting(Jedi::getName, as(InstanceOfAssertFactories.STRING))
+   *                 .startsWith("Yo");</code></pre>
+   *
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @param <T>           the type to use for the cast.
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @return same instance of {@code assertFactory}
+   *
+   * @since 3.14.0
+   * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
+   * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
+   * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
+   * @see AbstractOptionalAssert#get(InstanceOfAssertFactory)
+   * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
+   * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
+   * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
+   */
+  public static <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
+    return assertFactory;
+  }
+
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -2509,7 +2548,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * <ul>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSSX</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link java.sql.Timestamp} String representation support)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
@@ -2756,6 +2795,22 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static ListAssert<Integer> assertThat(IntStream actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
+   *
+   * Example:
+   * <pre><code class='java'> Spliterator&lt;Integer&gt; spliterator = Stream.of(1, 2, 3).spliterator();
+   * assertThat(spliterator).hasCharacteristics(Spliterator.SIZED); </code></pre>
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the spliterator to test.
+   * @return the created assertion object.
+   * @since 3.14.0
+   */
+  public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 

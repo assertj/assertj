@@ -8,14 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Locale.ENGLISH;
-import static org.assertj.core.util.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
@@ -48,11 +48,11 @@ public final class Introspection {
    */
   public static Method getPropertyGetter(String propertyName, Object target) {
     checkNotNullOrEmpty(propertyName);
-    checkNotNull(target);
+    requireNonNull(target);
     Method getter;
     try {
       getter = findGetter(propertyName, target);
-      if (Modifier.isPublic(getter.getModifiers())) {
+      if (isPublic(getter.getModifiers())) {
         // force access for static class with public getter
         getter.setAccessible(true);
       }

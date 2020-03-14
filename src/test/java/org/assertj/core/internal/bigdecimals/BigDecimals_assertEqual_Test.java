@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -53,13 +54,11 @@ public class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_big_decimals_are_not_equal() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertEqual(info, ONE_WITH_3_DECIMALS, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE_WITH_3_DECIMALS, ONE, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertEqual(info, ONE_WITH_3_DECIMALS, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(ONE_WITH_3_DECIMALS, ONE, info.representation()));
   }
 
   @Test
@@ -76,14 +75,12 @@ public class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
   @Test
   public void should_fail_if_big_decimals_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      numbersWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(TEN, ONE, comparatorComparisonStrategy,
+
+    Throwable error = catchThrowable(() -> numbersWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(TEN, ONE, comparatorComparisonStrategy,
           new StandardRepresentation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
 }

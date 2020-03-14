@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.util.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
@@ -42,6 +42,6 @@ public class Predicates {
    * @throws NullPointerException if the given {@code Predicate} is {@code null}.
    */
   public void assertIsNotNull(Predicate<?> predicate) {
-    checkNotNull(predicate, "The predicate to evaluate should not be null");
+    requireNonNull(predicate, "The predicate to evaluate should not be null");
   }
 }

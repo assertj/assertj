@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
@@ -38,6 +39,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.time.LocalTime;
 import java.time.OffsetTime;
@@ -202,9 +204,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "deprecation" })
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     // GIVEN
     softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
     softly.then(Boolean.FALSE).isTrue();
@@ -285,11 +287,12 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then((IntPredicate) s -> s == 1).accepts(2);
     softly.then((LongPredicate) s -> s == 1).accepts(2);
     softly.then((DoublePredicate) s -> s == 1).accepts(2);
+    softly.then(URI.create("http://assertj.org:80").toURL()).hasNoPort();
     // WHEN
     MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
     // THEN
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
-    assertThat(errors).hasSize(52);
+    assertThat(errors).hasSize(53);
     assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
     assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
     assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -362,6 +365,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "to accept <2L> but it did not."));
     assertThat(errors.get(51)).contains(format("%nExpecting:%n  <given predicate>%n"
                                                + "to accept <2.0> but it did not."));
+    assertThat(errors.get(52)).contains(format("%nExpecting:%n"
+                                               + "  <http://assertj.org:80>%n"
+                                               + "not to have a port but had:%n"
+                                               + "  <80>"));
   }
 
   @SuppressWarnings("unchecked")
@@ -736,6 +743,16 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   public void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.then(emptyList()).first();
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).first(as(STRING));
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).last();
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).last(as(STRING));
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).element(1);
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).element(1, as(STRING));
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.then(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
@@ -743,12 +760,12 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // nested proxied call to isCompleted
     softly.then(new CompletableFuture<String>()).isCompletedWithValue("done");
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(4);
+    assertThat(softly.errorsCollected()).hasSize(9);
   }
 
   // bug #447
 
-  public class TolkienHeroe {
+  public static class TolkienHero {
     String name;
     int age;
   }
@@ -756,8 +773,8 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void check_477_bugfix() {
     // GIVEN
-    TolkienHeroe frodo = new TolkienHeroe();
-    TolkienHeroe samnullGamgee = null;
+    TolkienHero frodo = new TolkienHero();
+    TolkienHero samnullGamgee = null;
     TolkienSoftAssertions softly = new TolkienSoftAssertions();
     // WHEN
     softly.then(frodo).hasAge(10); // Expect failure - age will be 0 due to not being initialized.
@@ -766,13 +783,13 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(2);
   }
 
-  public static class TolkienHeroesAssert extends AbstractAssert<TolkienHeroesAssert, TolkienHeroe> {
+  public static class TolkienHeroesAssert extends AbstractAssert<TolkienHeroesAssert, TolkienHero> {
 
-    public TolkienHeroesAssert(TolkienHeroe actual) {
+    public TolkienHeroesAssert(TolkienHero actual) {
       super(actual, TolkienHeroesAssert.class);
     }
 
-    public static TolkienHeroesAssert assertThat(TolkienHeroe actual) {
+    public static TolkienHeroesAssert assertThat(TolkienHero actual) {
       return new TolkienHeroesAssert(actual);
     }
 
@@ -807,8 +824,8 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   public static class TolkienSoftAssertions extends SoftAssertions {
 
-    public TolkienHeroesAssert then(TolkienHeroe actual) {
-      return proxy(TolkienHeroesAssert.class, TolkienHeroe.class, actual);
+    public TolkienHeroesAssert then(TolkienHero actual) {
+      return proxy(TolkienHeroesAssert.class, TolkienHero.class, actual);
     }
   }
 
@@ -1522,8 +1539,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(map)
           .as("extracting(\"a\")")
           .overridingErrorMessage("error message")
-          // convert to Object otherwise will use extracting(String) in AbstractObjectAssert
-          .extracting((Object) "a")
+          .extractingByKey("a")
           .isEqualTo("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();

@@ -8,17 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.comparison.Color.BLUE;
+import static org.assertj.core.api.recursive.comparison.Color.GREEN;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
@@ -27,18 +28,19 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.FriendlyPerson;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Human;
 import org.assertj.core.internal.objects.data.Person;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@DisplayName("RecursiveComparisonAssert isEqualTo")
 public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
@@ -71,48 +73,6 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
     verify(failures).failure(info, shouldBeEqual(actual, null, objects.getComparisonStrategy(), info.representation()));
-  }
-
-  @Test
-  public void should_honor_test_description() {
-    // GIVEN
-    Person actual = new Person("John");
-    actual.home.address.number = 1;
-    Person expected = new Person("John");
-    expected.home.address.number = 2;
-    // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).as("test description")
-                                                                        .usingRecursiveComparison()
-                                                                        .isEqualTo(expected));
-    // THEN
-    assertThat(error).hasMessageContaining("[test description]");
-  }
-
-  @Test
-  public void should_propagate_representation() {
-    // GIVEN
-    Person actual = new Person("John");
-    Person expected = new Person("John");
-    // WHEN
-    RecursiveComparisonAssert<?> assertion = assertThat(actual).withRepresentation(UNICODE_REPRESENTATION)
-                                                               .usingRecursiveComparison()
-                                                               .isEqualTo(expected);
-    // THEN
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-  }
-
-  @Test
-  public void should_propagate_overridden_error_message() {
-    // GIVEN
-    Person actual = new Person("John");
-    Person expected = new Person("John");
-    String errorMessage = "boom";
-    // WHEN
-    RecursiveComparisonAssert<?> assertion = assertThat(actual).overridingErrorMessage(errorMessage)
-                                                               .usingRecursiveComparison()
-                                                               .isEqualTo(expected);
-    // THEN
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo(errorMessage);
   }
 
   @Test
@@ -332,6 +292,50 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     ComparisonDifference missingFieldDifference = diff("", actual, expected,
                                                        "org.assertj.core.internal.objects.data.Giant can't be compared to org.assertj.core.internal.objects.data.Human as Human does not declare all Giant fields, it lacks these: [height]");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, missingFieldDifference);
+  }
+
+  @Test
+  public void should_not_compare_enum_recursively() {
+    // GIVEN
+    Light actual = new Light(GREEN);
+    Light expected = new Light(BLUE);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference difference = diff("color", actual.color, expected.color);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
+  }
+
+  @Test
+  public void should_compare_enum_by_value_only_when_strictTypeChecking_mode_is_disabled() {
+    // GIVEN
+    Light actual = new Light(GREEN);
+    LightDto expected = new LightDto(ColorDto.GREEN);
+    // WHEN-THEN
+    then(actual).usingRecursiveComparison()
+                .isEqualTo(expected);
+  }
+
+  @Test
+  public void should_fail_when_expected_is_an_enum_and_actual_is_not() {
+    // GIVEN
+    LightString actual = new LightString("GREEN");
+    Light expected = new Light(GREEN);
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference difference = diff("color", "GREEN", GREEN,
+                                           "expected field is an enum but actual field is not (java.lang.String)");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
+  }
+
+  static class LightString {
+    public String color;
+
+    public LightString(String value) {
+      this.color = value;
+    }
+
   }
 
 }

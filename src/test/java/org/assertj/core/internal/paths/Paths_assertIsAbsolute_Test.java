@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,26 +26,24 @@ public class Paths_assertIsAbsolute_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsAbsolute(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsAbsolute(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_absolute() {
-	// This is the default, but make it explicit
-	when(actual.isAbsolute()).thenReturn(false);
+    // This is the default, but make it explicit
+    when(actual.isAbsolute()).thenReturn(false);
 
-	try {
-	  paths.assertIsAbsolute(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeAbsolutePath(actual));
-	}
+    Throwable error = catchThrowable(() -> paths.assertIsAbsolute(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeAbsolutePath(actual));
   }
 
   @Test
   public void should_pass_if_actual_is_absolute() {
-	when(actual.isAbsolute()).thenReturn(true);
-	paths.assertIsAbsolute(info, actual);
+    when(actual.isAbsolute()).thenReturn(true);
+    paths.assertIsAbsolute(info, actual);
   }
 }

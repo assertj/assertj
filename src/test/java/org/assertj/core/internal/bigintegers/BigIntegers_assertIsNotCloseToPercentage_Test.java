@@ -8,21 +8,22 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -82,26 +83,22 @@ public class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBa
   public void should_fail_if_difference_is_equal_to_given_percentage(BigInteger actual, BigInteger other,
                                                                      Integer percentage) {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertIsNotCloseToPercentage(info, actual, other, withPercentage(percentage));
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withinPercentage(percentage),
-                                                                      actual.subtract(other).abs()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertIsNotCloseToPercentage(info, actual, other, withPercentage(percentage)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withinPercentage(percentage),
+                                                                    actual.subtract(other).abs()));
   }
 
   @Test
   public void should_fail_if_actual_is_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
-    try {
-      numbers.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(100));
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100), TEN.subtract(ONE)));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(100)));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100), TEN.subtract(ONE)));
   }
 }

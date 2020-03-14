@@ -8,49 +8,44 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
 
-
 import org.assertj.core.api.Fail;
-
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link ShouldBeEqual}</code> related to AssertionError stack trace filtering.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
 
   @Test
-  public void fest_elements_should_be_removed_from_assertion_error_stack_trace() {
+  public void assertj_elements_should_be_removed_from_assertion_error_stack_trace() {
+    // GIVEN
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(true);
-    try {
-      assertThat("Xavi").isEqualTo("Xabi");
-    } catch (AssertionError assertionError) {
-      assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isFalse();
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    Throwable error = catchThrowable(() -> then("Xavi").isEqualTo("Xabi"));
+    // THEN
+    then(error).isInstanceOf(AssertionError.class);
+    then(hasStackTraceElementRelatedToAssertJ(error)).isFalse();
   }
 
   @Test
-  public void fest_elements_should_be_kept_in_assertion_error_stack_trace() {
+  public void assertj_elements_should_be_kept_in_assertion_error_stack_trace() {
+    // GIVEN
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(false);
-    try {
-      assertThat("Messi").isEqualTo("Ronaldo");
-    } catch (AssertionError assertionError) {
-      assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isTrue();
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    // WHEN
+    Throwable error = catchThrowable(() -> then("Messi").isEqualTo("Ronaldo"));
+    // THEN
+    then(error).isInstanceOf(AssertionError.class);
+    then(hasStackTraceElementRelatedToAssertJ(error)).isTrue();
   }
 
 }

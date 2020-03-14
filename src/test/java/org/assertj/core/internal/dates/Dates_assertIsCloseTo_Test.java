@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.dates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -52,13 +53,11 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta() {
     AssertionInfo info = someInfo();
-    try {
-      dates.assertIsCloseTo(info, actual, other, delta);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> dates.assertIsCloseTo(info, actual, other, delta));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
   }
 
   @Test
@@ -81,13 +80,11 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      datesWithCustomComparisonStrategy.assertIsCloseTo(info, actual, other, delta);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(info, actual, other, delta));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
   }
 
   @Test

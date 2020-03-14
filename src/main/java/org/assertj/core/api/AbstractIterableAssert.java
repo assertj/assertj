@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,12 +46,13 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
@@ -71,7 +73,6 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
-import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -1438,7 +1439,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.apply(element)))
-                                      .collect(Collectors.toList());
+                                      .collect(toList());
     return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
@@ -1482,7 +1483,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
                                                                 .map(extractor -> extractor.apply(element)))
-                                      .collect(Collectors.toList());
+                                      .collect(toList());
     return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
@@ -1917,6 +1918,90 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
+   * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert},
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   boolean hasPhd;
+   * }
+   *
+   * public class Doctor {
+   *  String name;
+   *  boolean hasPhd;
+   * }
+   *
+   * Doctor drSheldon = new Doctor("Sheldon Cooper", true);
+   * Doctor drLeonard = new Doctor("Leonard Hofstadter", true);
+   * Doctor drRaj = new Doctor("Raj Koothrappali", true);
+   *
+   * Person sheldon = new Person("Sheldon Cooper", true);
+   * Person leonard = new Person("Leonard Hofstadter", true);
+   * Person raj = new Person("Raj Koothrappali", true);
+   * Person howard = new Person("Howard Wolowitz", false);
+   *
+   * List&lt;Doctor&gt; doctors = Arrays.asList(drSheldon, drLeonard, drRaj);
+   * List&lt;Person&gt; people = Arrays.asList(sheldon, leonard, raj);
+   *
+   * // assertion succeeds as both lists contains equivalent items in order.
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .isEqualTo(people);
+   *
+   * // assertion fails because leonard names are different.
+   * leonard.setName("Leonard Ofstater");
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .isEqualTo(people);
+   *
+   * // assertion fails because howard is missing and leonard is not expected.
+   * people = Arrays.asList(howard, sheldon, raj)
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .isEqualTo(people);</code></pre>
+   *
+   * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
+   * <p>
+   * The default recursive comparison behavior is {@link RecursiveComparisonConfiguration configured} as follows:
+   * <ul>
+   *   <li> different types of iterable can be compared by default, this allows to compare for example an {@code List<Person>} and a {@code LinkedHashSet<PersonDto>}.<br>
+   *        This behavior can be turned off by calling {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking}.</li>
+   *   <li>overridden equals methods are used in the comparison (unless stated otherwise - see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals">https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals</a>)</li>
+   *   <li>the following types are compared with these comparators:
+   *     <ul>
+   *       <li>{@code java.lang.Double}: {@code DoubleComparator} with precision of 1.0E-15</li>
+   *       <li>{@code java.lang.Float}: {@code FloatComparator }with precision of 1.0E-6</li>
+   *       <li>any comparators previously registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} </li>
+   *     </ul>
+   *   </li>
+   * </ul>
+   * <p>
+   * Another point worth mentionning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
+   * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
+   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
+   * <p>
+   * At the moment, only `isEqualTo` can be chained after this method but there are plans to provide assertions.
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance
+   * @see RecursiveComparisonConfiguration RecursiveComparisonConfiguration
+   */
+  @Override
+  @Beta
+  public RecursiveComparisonAssert<?> usingRecursiveComparison() {
+    // overridden for javadoc and to make this method public
+    return super.usingRecursiveComparison();
+  }
+
+  /**
+   * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   */
+  @Override
+  public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    return super.usingRecursiveComparison(recursiveComparisonConfiguration).withTypeComparators(comparatorsByType);
+  }
+
+  /**
    * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
    * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
@@ -2339,23 +2424,60 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * you will be able to chain {@code first()} with more specific typed assertion.
    * <p>
    * Example: use of {@code String} assertions after {@code first()}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * // String assertions are available after first()
    * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("fro")
+   *                                        .startsWith("Fro")
    *                                        .endsWith("do");
    * // assertion fails
    * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("pip");</code></pre>
+   *                                        .startsWith("Pip");</code></pre>
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty.
    * @since 2.5.0 / 3.5.0
+   * @see #first(InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public ELEMENT_ASSERT first() {
+    return internalFirst();
+  }
+
+  /**
+   * Navigate and allow to perform assertions on the first element of the {@link Iterable} under test.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Example: use of {@code String} assertions after {@code first(as(InstanceOfAssertFactories.STRING)}
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
+   *
+   * // assertion succeeds
+   * assertThat(hobbits).first(as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("Fro")
+   *                    .endsWith("do");
+   * // assertion fails
+   * assertThat(hobbits).first(as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("Pip");
+   * // assertion fails because of wrong factory type
+   * assertThat(hobbits).first(as(InstanceOfAssertFactories.INTEGER))
+   *                    .isZero();</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the first element
+   * @throws AssertionError if the actual {@link Iterable} is empty.
+   * @throws NullPointerException if the given factory is {@code null}
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT first(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalFirst().asInstanceOf(assertFactory);
+  }
+
+  private ELEMENT_ASSERT internalFirst() {
     isNotEmpty();
     return toAssert(actual.iterator().next(), navigationDescription("check first element"));
   }
@@ -2386,23 +2508,60 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * you will be able to chain {@code last()} with more specific typed assertion.
    * <p>
    * Example: use of {@code String} assertions after {@code last()}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * // String assertions are available after last()
    * assertThat(hobbits, StringAssert.class).last()
-   *                                        .startsWith("pi")
+   *                                        .startsWith("Pi")
    *                                        .endsWith("in");
    * // assertion fails
    * assertThat(hobbits, StringAssert.class).last()
-   *                                        .startsWith("fro");</code></pre>
+   *                                        .startsWith("Fro");</code></pre>
    *
-   * @return the assertion on the first element
+   * @return the assertion on the last element
    * @throws AssertionError if the actual {@link Iterable} is empty.
    * @since 2.5.0 / 3.5.0
+   * @see #last(InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public ELEMENT_ASSERT last() {
+    return internalLast();
+  }
+
+  /**
+   * Navigate and allow to perform assertions on the last element of the {@link Iterable} under test.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Example: use of {@code String} assertions after {@code last(as(InstanceOfAssertFactories.STRING)}
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
+   *
+   * // assertion succeeds
+   * assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("Pip")
+   *                    .endsWith("pin");
+   * // assertion fails
+   * assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("Fro");
+   * // assertion fails because of wrong factory type
+   * assertThat(hobbits).last(as(InstanceOfAssertFactories.INTEGER))
+   *                    .isZero();</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the last element
+   * @throws AssertionError if the actual {@link Iterable} is empty.
+   * @throws NullPointerException if the given factory is {@code null}
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT last(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalLast().asInstanceOf(assertFactory);
+  }
+
+  private ELEMENT_ASSERT internalLast() {
     isNotEmpty();
     return toAssert(lastElement(), navigationDescription("check last element"));
   }
@@ -2447,24 +2606,62 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * you will be able to chain {@code element(index)} with more specific typed assertion.
    * <p>
    * Example: use of {@code String} assertions after {@code element(index)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * // String assertions are available after element(index)
    * assertThat(hobbits, StringAssert.class).element(1)
-   *                                        .startsWith("sa")
+   *                                        .startsWith("Sa")
    *                                        .endsWith("am");
    * // assertion fails
    * assertThat(hobbits, StringAssert.class).element(1)
-   *                                        .startsWith("fro");</code></pre>
+   *                                        .startsWith("Fro");</code></pre>
    *
    * @param index the element's index
    * @return the assertion on the given element
    * @throws AssertionError if the given index is out of bound.
    * @since 2.5.0 / 3.5.0
+   * @see #element(int, InstanceOfAssertFactory)
    */
   @CheckReturnValue
   public ELEMENT_ASSERT element(int index) {
+    return internalElement(index);
+  }
+
+  /**
+   * Navigate and allow to perform assertions on the chosen element of the {@link Iterable} under test.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Example: use of {@code String} assertions after {@code element(index, as(InstanceOfAssertFactories.STRING)}
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
+   *
+   * // assertion succeeds
+   * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("Sa")
+   *                    .endsWith("am");
+   * // assertion fails
+   * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
+   *                    .startsWith("Fro");
+   * // assertion fails because of wrong factory type
+   * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.INTEGER))
+   *                    .isZero();</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param index         the element's index
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the element at the given index
+   * @throws AssertionError if the given index is out of bound.
+   * @throws NullPointerException if the given factory is {@code null}
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT element(int index, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalElement(index).asInstanceOf(assertFactory);
+  }
+
+  private ELEMENT_ASSERT internalElement(int index) {
     isNotEmpty();
     assertThat(index).describedAs(navigationDescription("check index validity"))
                      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
@@ -2820,7 +3017,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @CheckReturnValue
   public AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> size() {
-    Preconditions.checkNotNull(actual, "Can not perform assertions on the size of a null iterable.");
+    requireNonNull(actual, "Can not perform assertions on the size of a null iterable.");
     return new IterableSizeAssert(this, IterableUtil.sizeOf(actual));
   }
 

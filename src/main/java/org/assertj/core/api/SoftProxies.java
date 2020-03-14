@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.isPublic;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
@@ -35,7 +36,6 @@ import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.matcher.ElementMatcher.Junction;
-import net.bytebuddy.matcher.ElementMatchers;
 
 class SoftProxies {
 
@@ -51,8 +51,14 @@ class SoftProxies {
                                                                                                                       .or(named("extractingResultOf"))
                                                                                                                       .or(named("flatExtracting"))
                                                                                                                       .or(named("usingRecursiveComparison"))
+                                                                                                                      .or(named("extractingByKey"))
+                                                                                                                      .or(named("extractingByKeys"))
                                                                                                                       .or(named("extractingFromEntries"))
-                                                                                                                      .or(named("asInstanceOf"));
+                                                                                                                      .or(named("get"))
+                                                                                                                      .or(named("getCause"))
+                                                                                                                      .or(named("getRootCause"))
+                                                                                                                      .or(named("asInstanceOf"))
+                                                                                                                      .or(named("succeedsWithin"));
 
   private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
                                                                                             .or(named("describedAs"))
@@ -75,7 +81,8 @@ class SoftProxies {
                                                                                             .or(named("withAssertionState"))
                                                                                             .or(named("withRepresentation"))
                                                                                             .or(named("withTypeComparators"))
-                                                                                            .or(named("withThreadDumpOnError"));
+                                                                                            .or(named("withThreadDumpOnError"))
+                                                                                            .or(named("succeedsWithin"));
 
   private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(new AuxiliaryType.NamingStrategy.SuffixingRandom("AssertJ$SoftProxies"))
                                                              .with(TypeValidation.DISABLED);
@@ -163,10 +170,10 @@ class SoftProxies {
                      .defineField(ProxifyMethodChangingTheObjectUnderTest.FIELD_NAME,
                                   ProxifyMethodChangingTheObjectUnderTest.class,
                                   Visibility.PRIVATE)
-                     .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
+                     .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST.and(isPublic()))
                      .intercept(PROXIFY_METHOD_CHANGING_THE_OBJECT_UNDER_TEST)
                      .defineField(ErrorCollector.FIELD_NAME, ErrorCollector.class, Visibility.PRIVATE)
-                     .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
+                     .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST.and(isPublic())))
                                   .and(not(METHODS_NOT_TO_PROXY)))
                      .intercept(ERROR_COLLECTOR)
                      .implement(AssertJProxySetup.class)
@@ -181,7 +188,7 @@ class SoftProxies {
   }
 
   private static Junction<MethodDescription> methodsNamed(String name) {
-    return ElementMatchers.named(name);
+    return named(name);
   }
 
 }

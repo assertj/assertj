@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import org.assertj.core.description.Description;
@@ -57,8 +57,8 @@ public class MessageFormatter {
    * @return A formatted {@code String}.
    */
   public String format(Description d, Representation p, String format, Object... args) {
-    checkNotNull(format);
-    checkNotNull(args);
+    requireNonNull(format);
+    requireNonNull(args);
     return descriptionFormatter.format(d) + formatIfArgs(format, format(p, args));
   }
 

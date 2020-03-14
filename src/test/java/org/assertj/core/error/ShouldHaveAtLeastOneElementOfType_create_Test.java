@@ -8,17 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,26 +28,32 @@ public class ShouldHaveAtLeastOneElementOfType_create_Test {
 
   @Test
   public void should_create_error_message_for_iterable() {
-	ErrorMessageFactory factory = shouldHaveAtLeastOneElementOfType(newArrayList("Yoda", "Luke"), Long.class);
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n"
-	                              + "Expecting:%n"
-	                              + "  <[\"Yoda\", \"Luke\"]>%n"
-	                              + "to have at least one element of type:%n"
-	                              + "  <java.lang.Long>%n"
-	                              + "but had none."));
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveAtLeastOneElementOfType(list("Yoda", "Luke"), Long.class);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(String.format("[Test] %n"
+                                          + "Expecting:%n"
+                                          + "  <[\"Yoda\", \"Luke\"]>%n"
+                                          + "to have at least one element of type:%n"
+                                          + "  <java.lang.Long>%n"
+                                          + "but had none."));
   }
 
   @Test
   public void should_create_error_message_for_array() {
-	ErrorMessageFactory factory = shouldHaveAtLeastOneElementOfType(array("Yoda", "Luke"), Long.class);
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n"
-	                              + "Expecting:%n"
-	                              + "  <[\"Yoda\", \"Luke\"]>%n"
-	                              + "to have at least one element of type:%n"
-	                              + "  <java.lang.Long>%n"
-	                              + "but had none."));
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveAtLeastOneElementOfType(array("Yoda", "Luke"), Long.class);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(String.format("[Test] %n"
+                                          + "Expecting:%n"
+                                          + "  <[\"Yoda\", \"Luke\"]>%n"
+                                          + "to have at least one element of type:%n"
+                                          + "  <java.lang.Long>%n"
+                                          + "but had none."));
   }
 
 }

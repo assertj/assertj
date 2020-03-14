@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -74,7 +74,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * @since 2.6.0 / 3.6.0
    */
   public void fail(String failureMessage, Object... args) {
-    AssertionError error = Failures.instance().failure(String.format(failureMessage, args));
+    AssertionError error = Failures.instance().failure(format(failureMessage, args));
     proxies.collectError(error);
   }
 
@@ -208,6 +208,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
           || className.startsWith("org.eclipse.jdt.internal.junit5.")
           || className.startsWith("com.intellij.junit5.")
           || className.startsWith("com.intellij.rt.execution.junit.")
+          || className.startsWith("com.intellij.rt.junit.") // since IntelliJ IDEA build 193.2956.37
           || className.startsWith("org.apache.maven.surefire")
           || className.startsWith("org.assertj")) {
         continue;

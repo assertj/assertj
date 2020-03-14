@@ -8,18 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -95,42 +96,36 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
   public void should_fail_if_actual_does_not_contain_all_given_values() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
-    try {
-      iterables.assertContainsOnly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsOnly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia")));
   }
 
   @Test
   public void should_fail_if_actual_contains_additional_elements() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda" };
-    try {
-      iterables.assertContainsOnly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newArrayList(), newArrayList("Leia")));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsOnly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldContainOnly(actual, expected, newArrayList(), newArrayList("Leia")));
   }
 
   @Test
   public void should_fail_if_actual_contains_a_subset_of_expected_elements() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Obiwan", "Leia" };
-    try {
-      iterables.assertContainsOnly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newArrayList("Obiwan"), newArrayList()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsOnly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldContainOnly(actual, expected, newArrayList("Obiwan"), newArrayList()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -167,14 +162,12 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
   public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-                                                       comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
+                                                     comparisonStrategy));
   }
 
 }

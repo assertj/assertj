@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -26,6 +26,7 @@ import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -97,7 +98,6 @@ public class StandardRepresentation implements Representation {
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
 
-
   /**
    * It resets the static defaults for the standard representation.
    * <p>
@@ -167,6 +167,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
+    if (object instanceof Duration) return toStringOf((Duration) object);
     if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
     if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
     if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
@@ -193,7 +194,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
-    return object == null ? null : fallbackToStringOf(object);
+    return fallbackToStringOf(object);
   }
 
   @SuppressWarnings("unchecked")
@@ -311,7 +312,9 @@ public class StandardRepresentation implements Representation {
       Object joinResultRepresentation = joinResult instanceof CompletableFuture ? joinResult : toStringOf(joinResult);
       return concat(className, "[Completed: ", joinResultRepresentation, "]");
     } catch (CompletionException e) {
-      return concat(className, "[Failed: ", toStringOf(e.getCause()), "]", String.format("%n%s", getStackTrace(e)));
+      // get the stack trace of the cause (if any) to avoid polluting it with the exception from trying to join the future
+      String stackTrace = e.getCause() != null ? getStackTrace(e.getCause()) : getStackTrace(e);
+      return concat(className, "[Failed with the following stack trace:", String.format("%n%s", stackTrace), "]");
     } catch (CancellationException e) {
       return concat(className, "[Cancelled]");
     }
@@ -386,6 +389,10 @@ public class StandardRepresentation implements Representation {
   private String toStringOf(InsertDelta<?> insertDelta) {
     return String.format("Extra content at line %s:%n  %s%n", insertDelta.lineNumber(),
                          formatLines(insertDelta.getRevised().getLines()));
+  }
+
+  private String toStringOf(Duration duration) {
+    return duration.toString().substring(2);
   }
 
   private String formatLines(List<?> lines) {

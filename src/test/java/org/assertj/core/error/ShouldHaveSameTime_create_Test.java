@@ -8,18 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameTime.shouldHaveSameTime;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.Date;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.Test;
 
@@ -34,18 +34,20 @@ public class ShouldHaveSameTime_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     Date actual = DateUtil.parseDatetime("2011-01-01T05:01:00");
     Date expected = DateUtil.parseDatetime("2011-01-01T05:01:01");
-    String message = shouldHaveSameTime(actual, expected).create(new TextDescription("Test"),
-                                                                 new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting%n" +
-                                         "  <2011-01-01T05:01:00.000>%n" +
-                                         "to have the same time as:%n" +
-                                         "  <2011-01-01T05:01:01.000>%n" +
-                                         "but actual time is%n" +
-                                         "  <" + actual.getTime() + "L>%n" +
-                                         "and expected was:%n" +
-                                         "  <" + expected.getTime() + "L>"));
+    // WHEN
+    String message = shouldHaveSameTime(actual, expected).create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  <2011-01-01T05:01:00.000>%n" +
+                                   "to have the same time as:%n" +
+                                   "  <2011-01-01T05:01:01.000>%n" +
+                                   "but actual time is%n" +
+                                   "  <" + actual.getTime() + "L>%n" +
+                                   "and expected was:%n" +
+                                   "  <" + expected.getTime() + "L>"));
   }
 }

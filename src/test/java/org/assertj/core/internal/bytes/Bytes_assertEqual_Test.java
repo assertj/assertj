@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -50,13 +51,11 @@ public class Bytes_assertEqual_Test extends BytesBaseTest {
   @Test
   public void should_fail_if_bytes_are_not_equal() {
     AssertionInfo info = someInfo();
-    try {
-      bytes.assertEqual(info, (byte) 6, (byte) 8);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, info.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> bytes.assertEqual(info, (byte) 6, (byte) 8));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, info.representation()));
   }
 
   @Test
@@ -73,13 +72,11 @@ public class Bytes_assertEqual_Test extends BytesBaseTest {
   @Test
   public void should_fail_if_bytes_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      bytesWithAbsValueComparisonStrategy.assertEqual(info, (byte) 6, (byte) 8);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, absValueComparisonStrategy,
-          new StandardRepresentation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertEqual(info, (byte) 6, (byte) 8));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, absValueComparisonStrategy,
+        new StandardRepresentation()));
   }
 }

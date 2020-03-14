@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 
 import org.assertj.core.description.TextDescription;
@@ -24,41 +24,43 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShouldContainSubsequenceOfCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldContainSubsequenceOfCharSequence_create_Test {
 
-  private ErrorMessageFactory factory;
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-
-    factory = shouldContainSubsequence(actual, sequenceValues, 1);
+    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, 1);
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                         "  <\"" + actual + "\">%n" +
-                                         "to contain the following CharSequences in this order:%n" +
-                                         "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
-                                         "but <\"title\"> was found before <\"author\">%n"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+                                   "  <\"" + actual + "\">%n" +
+                                   "to contain the following CharSequences in this order:%n" +
+                                   "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
+                                   "but <\"title\"> was found before <\"author\">%n"));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
+    // GIVEN
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-
-    factory = shouldContainSubsequence(actual, sequenceValues, 1,
-                                       new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, 1,
+                                                           new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                         "  <\"" + actual + "\">%n" +
-                                         "to contain the following CharSequences in this order:%n" +
-                                         "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
-                                         "but <\"title\"> was found before <\"author\">%n" +
-                                         "when comparing values using CaseInsensitiveStringComparator"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+                                   "  <\"" + actual + "\">%n" +
+                                   "to contain the following CharSequences in this order:%n" +
+                                   "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
+                                   "but <\"title\"> was found before <\"author\">%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

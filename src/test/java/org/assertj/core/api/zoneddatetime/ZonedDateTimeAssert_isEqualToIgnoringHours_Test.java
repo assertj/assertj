@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.zoneddatetime;
 
@@ -18,15 +18,15 @@ import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PA
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import org.assertj.core.api.BaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
+public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
 
   private final ZonedDateTime refDatetime = ZonedDateTime.of(2000, 1, 2, 0, 0, 0, 0, UTC);
 
@@ -43,14 +43,14 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 5, 0, 0, 0, cestTimeZone));
     // new DateTime(2013, 6, 11, 1, 0, cestTimeZone) = DateTime(2013, 6, 10, 23, 0, DateTimeZone.UTC)
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 11, 1, 0, 0, 0, cestTimeZone));
-    try {
-      // DateTime(2013, 6, 10, 0, 0, cestTimeZone) = DateTime(2013, 6, 9, 22, 0, DateTimeZone.UTC)
-      assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n  <2013-06-10T00:00Z>%nto have same year, month and day as:%n  <2013-06-09T22:00Z>%nbut had not."));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    // DateTime(2013, 6, 10, 0, 0, cestTimeZone) = DateTime(2013, 6, 9, 22, 0, DateTimeZone.UTC)
+    Throwable error = catchThrowable(() -> assertThat(utcDateTime)
+      .isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone)));
+
+    // THEN
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessage(format("%nExpecting:%n  <2013-06-10T00:00Z>%nto have same year, month and day as:%n  <2013-06-09T22:00Z>%nbut had not."));
   }
 
   @Test

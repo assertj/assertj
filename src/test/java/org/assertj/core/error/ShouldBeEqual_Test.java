@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
@@ -28,19 +28,20 @@ public class ShouldBeEqual_Test {
     // GIVEN
     String actual = "Luke";
     String expected = "Yoda";
-    ThrowingCallable code = () -> assertThat(actual).as("Jedi").usingComparator(CaseInsensitiveStringComparator.instance)
-                                                    .isEqualTo(expected);
+    ThrowingCallable code = () -> then(actual).as("Jedi")
+                                              .usingComparator(CaseInsensitiveStringComparator.instance)
+                                              .isEqualTo(expected);
     // WHEN
     AssertionFailedError error = catchThrowableOfType(code, AssertionFailedError.class);
     // THEN
-    assertThat(error.getActual().getValue()).isSameAs(actual);
-    assertThat(error.getExpected().getValue()).isSameAs(expected);
-    assertThat(error).hasMessage(format("[Jedi] %nExpecting:%n" +
-                                        " <\"Luke\">%n" +
-                                        "to be equal to:%n" +
-                                        " <\"Yoda\">%n" +
-                                        "when comparing values using CaseInsensitiveStringComparator%n" +
-                                        "but was not."));
+    then(error.getActual().getValue()).isSameAs(actual);
+    then(error.getExpected().getValue()).isSameAs(expected);
+    then(error).hasMessage(format("[Jedi] %nExpecting:%n" +
+                                  " <\"Luke\">%n" +
+                                  "to be equal to:%n" +
+                                  " <\"Yoda\">%n" +
+                                  "when comparing values using CaseInsensitiveStringComparator%n" +
+                                  "but was not."));
   }
 
 }

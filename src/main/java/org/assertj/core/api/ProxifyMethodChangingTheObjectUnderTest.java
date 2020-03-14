@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -129,6 +130,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (currentAssert instanceof DoubleAssert) return Double.class;
     if (currentAssert instanceof DoubleArrayAssert) return double[].class;
     if (currentAssert instanceof DoublePredicateAssert) return DoublePredicate.class;
+    if (currentAssert instanceof DurationAssert) return Duration.class;
     if (currentAssert instanceof FileAssert) return File.class;
     if (currentAssert instanceof FloatAssert) return Float.class;
     if (currentAssert instanceof FloatArrayAssert) return float[].class;

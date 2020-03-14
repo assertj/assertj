@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -16,7 +16,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a class have an annotation.
+ * Creates an error message indicating that an assertion that verifies that a class has annotations failed.
  * 
  * @author William Delanoue
  * @author Joel Costigliola
@@ -24,7 +24,7 @@ import java.util.Collection;
 public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link org.assertj.core.error.ShouldHaveAnnotations}</code>.
+   * Creates a new <code>{@link ShouldHaveAnnotations}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected expected annotations for this class

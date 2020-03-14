@@ -8,27 +8,30 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.extractor;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("ToStringExtractor")
+class ToStringExtractorTest {
 
-public class ToStringExtractorTest {
+  private ToStringExtractor underTest = new ToStringExtractor();
 
-  private ToStringExtractor toStringExtractor = new ToStringExtractor();
-  
   @Test
-  public void should_extract_toString() {
+  void should_extract_toString() {
+    // GIVEN
     Employee someEmployee = new Employee(1, new Name("John Doe"), 28);
-    
-    String result = toStringExtractor.apply(someEmployee);
-    
-    assertThat(result).isEqualTo("Employee[id=1, name=Name[first='John Doe', last='null'], age=28]");
+    // WHEN
+    String result = underTest.apply(someEmployee);
+    // THEN
+    then(result).isEqualTo("Employee[id=1, name=Name[first='John Doe', last='null'], age=28]");
   }
+
 }

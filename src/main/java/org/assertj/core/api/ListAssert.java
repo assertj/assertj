@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -226,7 +225,7 @@ public class ListAssert<ELEMENT> extends
 
     private List<ELEMENT> initList() {
       if (list == null) {
-        list = Lists.newArrayList(stream.iterator());
+        list = newArrayList(stream.iterator());
         stream.close();
       }
       return list;

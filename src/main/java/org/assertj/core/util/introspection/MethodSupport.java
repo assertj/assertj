@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 
 import java.lang.reflect.Method;
@@ -47,7 +47,7 @@ public class MethodSupport {
    *                                  any argument
    */
   public static Object methodResultFor(Object instance, String methodName) {
-    checkNotNull(instance, "Object instance can not be null!");
+    requireNonNull(instance, "Object instance can not be null!");
     checkNotNullOrEmpty(methodName, "Method name can not be empty!");
     Method method = findMethod(methodName, instance.getClass());
     return invokeMethod(instance, method);
@@ -66,9 +66,7 @@ public class MethodSupport {
       Method method = itemClass.getMethod(methodName);
       assertHasReturnType(itemClass, method);
       return method;
-    } catch (SecurityException e) {
-      throw prepareMethodNotFoundException(methodName, itemClass, e);
-    } catch (NoSuchMethodException e) {
+    } catch (SecurityException | NoSuchMethodException e) {
       throw prepareMethodNotFoundException(methodName, itemClass, e);
     }
   }

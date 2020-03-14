@@ -8,59 +8,72 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.error.future.ShouldHaveFailed.shouldHaveFailed;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CompletableFutureAssert_hasFailed_Test extends BaseTest {
+@DisplayName("CompletableFutureAssert hasFailed")
+public class CompletableFutureAssert_hasFailed_Test {
 
   @Test
-  public void assertion_should_pass_if_completable_future_has_failed() {
+  public void should_pass_if_completable_future_has_failed() {
+    // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
+    // WHEN
     future.completeExceptionally(new RuntimeException());
-
+    // THEN
     assertThat(future).hasFailed();
   }
 
   @Test
-  public void assertion_should_fail_when_completable_future_is_null() {
-    assertThatThrownBy(() -> assertThat((CompletableFuture<String>) null).hasFailed()).isInstanceOf(AssertionError.class)
-                                                                                      .hasMessage(format(actualIsNull()));
+  public void should_fail_when_completable_future_is_null() {
+    // GIVEN
+    CompletableFuture<String> future = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).hasFailed();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
-  public void assertion_should_fail_if_completable_future_is_incomplete() {
+  public void should_fail_if_completable_future_is_incomplete() {
+    // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
-
-    assertThatThrownBy(() -> assertThat(future).hasFailed()).isInstanceOf(AssertionError.class)
-                                                            .hasMessage(shouldHaveFailed(future).create());
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).hasFailed();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveFailed(future).create());
   }
 
   @Test
-  public void assertion_should_fail_if_completable_future_is_completed() {
+  public void should_fail_if_completable_future_is_completed() {
+    // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
-
-    assertThatThrownBy(() -> assertThat(future).hasFailed()).isInstanceOf(AssertionError.class)
-                                                            .hasMessage(shouldHaveFailed(future).create());
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).hasFailed();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveFailed(future).create());
   }
 
   @Test
-  public void assertion_should_fail_if_completable_future_was_cancelled() {
+  public void should_fail_if_completable_future_was_cancelled() {
+    // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);
-
-    assertThatThrownBy(() -> assertThat(future).hasFailed()).isInstanceOf(AssertionError.class)
-                                                            .hasMessage(shouldHaveFailed(future).create());
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).hasFailed();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveFailed(future).create());
   }
 }

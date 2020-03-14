@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSecondWindow;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
@@ -33,15 +33,18 @@ public class ShouldBeInSameSecondWindow_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     ErrorMessageFactory factory = shouldBeInSameSecondWindow(parseDatetimeWithMs("2011-01-01T05:00:01.000"),
                                                              parseDatetimeWithMs("2011-01-01T05:00:02.001"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <2011-01-01T05:00:01.000>%n" +
-                                         "to be close to:%n" +
-                                         "  <2011-01-01T05:00:02.001>%n" +
-                                         "by less than one second (strictly) but difference was: 1s and 1ms"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <2011-01-01T05:00:01.000>%n" +
+                                   "to be close to:%n" +
+                                   "  <2011-01-01T05:00:02.001>%n" +
+                                   "by less than one second (strictly) but difference was: 1s and 1ms"));
   }
 
 }

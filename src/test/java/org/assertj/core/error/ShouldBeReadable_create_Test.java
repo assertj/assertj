@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.SHOULD_BE_READABLE;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.mockito.Mockito.mock;
@@ -31,21 +31,23 @@ public class ShouldBeReadable_create_Test {
 
   @Test
   public void should_create_error_message_for_File() {
-	FakeFile file = new FakeFile("xyz");
-	ErrorMessageFactory factory = shouldBeReadable(file);
-
-	String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
-
-	assertThat(message).isEqualTo(format("[Test] " + SHOULD_BE_READABLE, file));
+    // GIVEN
+    FakeFile file = new FakeFile("xyz");
+    ErrorMessageFactory factory = shouldBeReadable(file);
+    // WHEN
+    String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] " + SHOULD_BE_READABLE, file));
   }
 
   @Test
   public void should_create_error_message_for_Path() {
-	final Path path = mock(Path.class);
-	ErrorMessageFactory factory = shouldBeReadable(path);
-
-	String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
-
-	assertThat(message).isEqualTo(format("[Test] " + SHOULD_BE_READABLE, path));
+    // GIVEN
+    final Path path = mock(Path.class);
+    ErrorMessageFactory factory = shouldBeReadable(path);
+    // WHEN
+    String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] " + SHOULD_BE_READABLE, path));
   }
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
@@ -25,7 +25,6 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import java.sql.Timestamp;
@@ -165,18 +164,15 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Person other = new Person();
     other.name = "Jack";
 
-    try {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
-                                                              defaultTypeComparators());
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
-                                                                                   asList(new Difference(asList("name"),
-                                                                                                         "John",
-                                                                                                         "Jack")),
-                                                                                   CONFIGURATION_PROVIDER.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() ->
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
+                                                                                 asList(new Difference(asList("name"),
+                                                                                                       "John",
+                                                                                                       "Jack")),
+                                                                                 CONFIGURATION_PROVIDER.representation()));
   }
 
   @Test
@@ -191,19 +187,16 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 2;
 
-    try {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
-                                                              defaultTypeComparators());
-    } catch (AssertionError err) {
-      verify(failures).failure(info,
-                               shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
-                                                                             asList(new Difference(asList("home.address.number"),
-                                                                                                   1,
-                                                                                                   2)),
-                                                                             CONFIGURATION_PROVIDER.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() ->
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
+                                                                           asList(new Difference(asList("home.address.number"),
+                                                                                                 1,
+                                                                                                 2)),
+                                                                           CONFIGURATION_PROVIDER.representation()));
   }
 
   @Test
@@ -266,18 +259,15 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 2;
 
-    try {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(),
-                                                              defaultTypeComparators());
-    } catch (AssertionError err) {
-      verify(failures).failure(info,
-                               shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
-                                                                             asList(new Difference(asList("home.address.number"),
-                                                                                                   1, 2)),
-                                                                             CONFIGURATION_PROVIDER.representation()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() ->
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+                             shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
+                                                                           asList(new Difference(asList("home.address.number"),
+                                                                                                 1, 2)),
+                                                                           CONFIGURATION_PROVIDER.representation()));
   }
 
   @Test
@@ -290,15 +280,12 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     expected.collection.add("bar");
     expected.collection.add("foo");
 
-    try {
-      assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
-    } catch (AssertionError err) {
-      assertThat(err).hasMessageContaining(format("Path to difference: <collection>%n"));
-      assertThat(err).hasMessageContaining(format("- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@"));
-      assertThat(err).hasMessageContaining(format("- expected: <[\"bar\", \"foo\"] (TreeSet@"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessageContaining(format("Path to difference: <collection>%n"))
+      .hasMessageContaining(format("- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@"))
+      .hasMessageContaining(format("- expected: <[\"bar\", \"foo\"] (TreeSet@"));
   }
 
   @Test
@@ -311,15 +298,12 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     expected.collection.add("bar");
     expected.collection.add("foo");
 
-    try {
-      assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
-    } catch (AssertionError err) {
-      assertThat(err).hasMessageContaining(format("Path to difference: <collection>%n"));
-      assertThat(err).hasMessageContaining(format("- actual  : <[\"bar\", \"foo\"] (TreeSet@"));
-      assertThat(err).hasMessageContaining(format("- expected: <[\"bar\", \"foo\"] (LinkedHashSet@"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessageContaining(format("Path to difference: <collection>%n"))
+      .hasMessageContaining(format("- actual  : <[\"bar\", \"foo\"] (TreeSet@"))
+      .hasMessageContaining(format("- expected: <[\"bar\", \"foo\"] (LinkedHashSet@"));
   }
 
   @Test
@@ -332,15 +316,12 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     expected.map.put(2L, false);
     expected.map.put(1L, true);
 
-    try {
-      assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
-    } catch (AssertionError err) {
-      assertThat(err).hasMessageContaining(format("Path to difference: <map>%n"));
-      assertThat(err).hasMessageContaining(format("- actual  : <{1L=true, 2L=false} (LinkedHashMap@"));
-      assertThat(err).hasMessageContaining(format("- expected: <{1L=true, 2L=false} (TreeMap@"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessageContaining(format("Path to difference: <map>%n"))
+      .hasMessageContaining(format("- actual  : <{1L=true, 2L=false} (LinkedHashMap@"))
+      .hasMessageContaining(format("- expected: <{1L=true, 2L=false} (TreeMap@"));
   }
 
   @Test
@@ -353,15 +334,12 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     expected.map.put(2L, false);
     expected.map.put(1L, true);
 
-    try {
-      assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
-    } catch (AssertionError err) {
-      assertThat(err).hasMessageContaining(format("Path to difference: <map>%n"));
-      assertThat(err).hasMessageContaining(format("- actual  : <{1L=true, 2L=false} (TreeMap@"));
-      assertThat(err).hasMessageContaining(format("- expected: <{1L=true, 2L=false} (LinkedHashMap@"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessageContaining(format("Path to difference: <map>%n"))
+      .hasMessageContaining(format("- actual  : <{1L=true, 2L=false} (TreeMap@"))
+      .hasMessageContaining(format("- expected: <{1L=true, 2L=false} (LinkedHashMap@"));
   }
 
   @Test
@@ -455,16 +433,13 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Person other = new Person();
     other.name = "%foo";
 
-    try {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
-                                                              defaultTypeComparators());
-    } catch (AssertionError err) {
-      assertThat(err).hasMessageContaining("Path to difference: <name>")
-                     .hasMessageContaining("- expected: <\"%foo\">")
-                     .hasMessageContaining("- actual  : <\"foo\">");
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() ->
+      objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators()));
+
+    assertThat(error).isInstanceOf(AssertionError.class)
+      .hasMessageContaining("Path to difference: <name>")
+      .hasMessageContaining("- expected: <\"%foo\">")
+      .hasMessageContaining("- actual  : <\"foo\">");
   }
 
   @Test

@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -58,13 +59,11 @@ public class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseT
   @Test
   public void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
-    try {
-      arrays.assertContainsOnlyNulls(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyNulls(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyNulls(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainOnlyNulls(actual));
   }
 
   @Test
@@ -72,13 +71,11 @@ public class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseT
     AssertionInfo info = someInfo();
     actual = array(null, null, "person");
     List<String> nonNulls = newArrayList("person");
-    try {
-      arrays.assertContainsOnlyNulls(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyNulls(actual, nonNulls));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyNulls(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainOnlyNulls(actual, nonNulls));
   }
 
   @Test
@@ -86,12 +83,10 @@ public class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseT
     AssertionInfo info = someInfo();
     actual = array("person", "person2");
     List<String> nonNulls = newArrayList("person", "person2");
-    try {
-      arrays.assertContainsOnlyNulls(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnlyNulls(actual, nonNulls));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyNulls(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldContainOnlyNulls(actual, nonNulls));
   }
 }

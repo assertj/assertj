@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameYear.shouldBeInSameYear;
 import static org.assertj.core.util.DateUtil.parse;
 
@@ -25,20 +25,23 @@ import org.junit.jupiter.api.Test;
  * Tests for
  * <code>{@link ShouldBeInSameYear#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldBeInSameYear_create_Test {
 
   @Test
   public void should_create_error_message() {
+    // GIVEN
     ErrorMessageFactory factory = shouldBeInSameYear(parse("2010-01-01"), parse("2011-01-01"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         " <2010-01-01T00:00:00.000>%n" +
-                                         "to be on same year as:%n" +
-                                         " <2011-01-01T00:00:00.000>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <2010-01-01T00:00:00.000>%n" +
+                                   "to be on same year as:%n" +
+                                   " <2011-01-01T00:00:00.000>"));
   }
 
 }

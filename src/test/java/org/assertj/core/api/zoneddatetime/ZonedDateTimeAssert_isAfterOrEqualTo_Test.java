@@ -8,21 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.zoneddatetime;
 
-import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
+import static org.mockito.Mockito.verify;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.ZonedDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,71 +30,43 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssert_isAfterOrEqualTo_Test extends ZonedDateTimeAssertBaseTest {
+public class ZonedDateTimeAssert_isAfterOrEqualTo_Test extends AbstractZonedDateTimeAssertBaseTest {
+
+  @Override
+  protected ZonedDateTimeAssert invoke_api_method() {
+    return assertions.isAfterOrEqualTo(NOW)
+                     .isAfterOrEqualTo(YESTERDAY.toString());
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertIsAfterOrEqualTo(getInfo(assertions), getActual(assertions), NOW);
+    verify(comparables).assertIsAfterOrEqualTo(getInfo(assertions), getActual(assertions), YESTERDAY);
+  }
 
   @Test
-  public void test_isAfterOrEqual_assertion() {
+  public void should_fail_if_zonedDateTime_parameter_is_null() {
+    // GIVEN
+    ZonedDateTime otherZonedDateTime = null;
     // WHEN
-    assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
-    assertThat(AFTER).isAfterOrEqualTo(REFERENCE.toString());
-    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
-    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE.toString());
+    ThrowingCallable code = () -> assertThat(NOW).isAfterOrEqualTo(otherZonedDateTime);
     // THEN
-    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
+    thenIllegalArgumentException().isThrownBy(code)
+                                  .withMessage("The ZonedDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void isAfterOrEqualTo_should_compare_datetimes_in_actual_timezone() {
-    ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
-    ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
-    ZonedDateTime cestDateTime1 = ZonedDateTime.of(2013, 6, 10, 2, 0, 0, 0, cestTimeZone);
-    ZonedDateTime cestDateTime2 = ZonedDateTime.of(2013, 6, 10, 1, 0, 0, 0, cestTimeZone);
-    // utcDateTime = cestDateTime1
-    assertThat(utcDateTime).as("in UTC time zone").isAfterOrEqualTo(cestDateTime1);
-    // utcDateTime > cestDateTime2
-    assertThat(utcDateTime).as("in UTC time zone").isAfterOrEqualTo(cestDateTime2);
+  public void should_fail_if_zonedDateTime_as_string_parameter_is_null() {
+    // GIVEN
+    String otherZonedDateTimeAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(NOW).isAfterOrEqualTo(otherZonedDateTimeAsString);
+    // THEN
+    thenIllegalArgumentException().isThrownBy(code)
+                                  .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
   }
-
   @Test
-  public void test_isAfterOrEqual_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isAfterOrEqualTo(AFTER))
-                                                   .withMessage(shouldBeAfterOrEqualTo(REFERENCE, AFTER).create());
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isAfterOrEqualTo("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);
   }
-
-  @Test
-  public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      ZonedDateTime actual = null;
-      assertThat(actual).isAfterOrEqualTo(ZonedDateTime.now());
-    }).withMessage(actualIsNull());
-  }
-
-  @Test
-  public void should_fail_if_dateTime_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isAfterOrEqualTo((ZonedDateTime) null))
-                                        .withMessage("The ZonedDateTime to compare actual with should not be null");
-  }
-
-  @Test
-  public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isAfterOrEqualTo((String) null))
-                                        .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
-  }
-
-  private static void verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(ZonedDateTime dateToCheck,
-                                                                                           ZonedDateTime reference) {
-    try {
-      assertThat(dateToCheck).isAfterOrEqualTo(reference);
-    } catch (AssertionError e) {
-      // AssertionError was expected, test same assertion with String based parameter
-      try {
-        assertThat(dateToCheck).isAfterOrEqualTo(reference.toString());
-      } catch (AssertionError e2) {
-        // AssertionError was expected (again)
-        return;
-      }
-    }
-    fail("Should have thrown AssertionError");
-  }
-
 }

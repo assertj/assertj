@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -31,7 +31,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for <code>{@link MessageFormatter#format(Description, String, Object...)}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class MessageFormatter_format_Test {
@@ -48,22 +48,23 @@ public class MessageFormatter_format_Test {
 
   @Test
   public void should_throw_error_if_format_string_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> messageFormatter.format(null, null, null));
+    thenNullPointerException().isThrownBy(() -> messageFormatter.format(null, null, null));
   }
 
   @Test
   public void should_throw_error_if_args_array_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      Object[] args = null;
-      messageFormatter.format(null, null, "", args);
-    });
+    Object[] args = null;
+    thenNullPointerException().isThrownBy(() -> messageFormatter.format(null, null, "", args));
   }
 
   @Test
   public void should_format_message() {
+    // GIVEN
     Description description = new TextDescription("Test");
+    // WHEN
     String s = messageFormatter.format(description, STANDARD_REPRESENTATION, "Hello %s", "World");
-    assertThat(s).isEqualTo("[Test] Hello \"World\"");
+    // THEN
+    then(s).isEqualTo("[Test] Hello \"World\"");
     verify(descriptionFormatter).format(description);
   }
 
@@ -75,7 +76,7 @@ public class MessageFormatter_format_Test {
     // WHEN
     String finalMessage = messageFormatter.format(description, STANDARD_REPRESENTATION, input);
     // THEN
-    assertThat(finalMessage).isEqualTo("[Test] " + formatted);
+    then(finalMessage).isEqualTo("[Test] " + formatted);
   }
 
   public static Stream<Arguments> messages() {

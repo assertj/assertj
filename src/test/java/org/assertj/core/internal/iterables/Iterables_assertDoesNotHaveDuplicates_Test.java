@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -16,9 +16,9 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -67,13 +67,11 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
     AssertionInfo info = someInfo();
     Collection<String> duplicates = newLinkedHashSet("Luke", "Yoda");
     actual.addAll(duplicates);
-    try {
-      iterables.assertDoesNotHaveDuplicates(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotHaveDuplicates(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates));
   }
 
   @Test
@@ -94,14 +92,11 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
     // duplicates is commented, because mockito is not smart enough to compare arrays contents 
     // Collection<String[]> duplicates = newLinkedHashSet();
     // duplicates.add(array("Luke", "Yoda"));
-    try {
-      iterables.assertDoesNotHaveDuplicates(someInfo(), actual);
-    } catch (AssertionError e) {
-      // can't use verify since mockito not smart enough to compare arrays contents
-      // verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    Throwable error = catchThrowable(() -> iterables.assertDoesNotHaveDuplicates(someInfo(), actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    // can't use verify since mockito not smart enough to compare arrays contents
+    // verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -118,13 +113,11 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
     AssertionInfo info = someInfo();
     Collection<String> duplicates = newLinkedHashSet("LUKE", "yoda");
     actual.addAll(duplicates);
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
   }
   
   @Test

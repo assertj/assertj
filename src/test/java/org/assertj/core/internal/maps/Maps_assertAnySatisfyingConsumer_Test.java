@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -25,7 +25,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Iterator;
 import java.util.List;
@@ -37,11 +40,19 @@ import org.assertj.core.error.ElementsShouldSatisfy;
 import org.assertj.core.internal.MapsBaseTest;
 import org.assertj.core.test.Player;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
+@ExtendWith(MockitoExtension.class)
+class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
 
   private Map<String, Player> greatPlayers;
+
+  @Mock
+  private BiConsumer<String, Player> consumer;
 
   @Override
   @BeforeEach
@@ -51,10 +62,9 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void must_not_check_all_entries() {
+  void must_not_check_all_entries() {
     // GIVEN
     assertThat(greatPlayers).hasSizeGreaterThan(2); // This test requires a map with size > 2
-    BiConsumer<String,Player> consumer = mock(BiConsumer.class);
     // first entry does not match -> assertion error, 2nd entry does match -> doNothing()
     doThrow(new AssertionError("some error message")).doNothing().when(consumer).accept(anyString(), any(Player.class));
     // WHEN
@@ -65,7 +75,7 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_one_entry_satisfies_the_given_requirements() {
+  void should_pass_if_one_entry_satisfies_the_given_requirements() {
     maps.assertAnySatisfy(someInfo(), greatPlayers, (team, player) -> {
       assertThat(team).isEqualTo("Lakers");
       assertThat(player.getPointsPerGame()).isGreaterThan(18);
@@ -73,7 +83,7 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_the_map_under_test_is_empty_whatever_the_assertions_requirements_are() {
+  void should_fail_if_the_map_under_test_is_empty_whatever_the_assertions_requirements_are() {
     // GIVEN
     actual.clear();
     // WHEN
@@ -84,7 +94,7 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_no_entry_satisfies_the_given_requirements() {
+  void should_fail_if_no_entry_satisfies_the_given_requirements() {
     // WHEN
     AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual,
                                                                             ($1, $2) -> assertThat(true).isFalse()));
@@ -108,7 +118,7 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // WHEN
     AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), null, (team, player) -> {}));
     // THEN
@@ -116,7 +126,7 @@ public class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_given_requirements_are_null() {
+  void should_fail_if_given_requirements_are_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertAnySatisfy(someInfo(), greatPlayers, null))
                                     .withMessage("The BiConsumer<K, V> expressing the assertions requirements must not be null");
   }

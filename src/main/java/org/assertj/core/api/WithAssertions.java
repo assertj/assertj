@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -22,8 +22,8 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +40,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -1643,6 +1644,26 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * A syntax sugar to write fluent assertion with methods having an {@link InstanceOfAssertFactory} parameter.
+   * <p>
+   * Example:
+   * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
+   * assertThat(yoda).extracting(Jedi::getName, as(InstanceOfAssertFactories.STRING))
+   *                 .startsWith("Yo");</code></pre>
+   *
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @param <T>           the type to use for the cast.
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @return same instance of {@code assertFactory}
+   *
+   * @since 3.14.0
+   * @see Assertions#as(InstanceOfAssertFactory)
+   */
+  default <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
+    return Assertions.as(assertFactory);
+  }
+
+  /**
    * Creates a new <code>{@link AnyOf}</code>
    *
    * @param <T> the type of object the given condition accept.
@@ -2044,7 +2065,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * Defaults date format are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link java.sql.Timestamp} String representation support)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2180,6 +2201,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.7.0
    */
   default AbstractInstantAssert<?> assertThat(final Instant actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  default AbstractDurationAssert<?> assertThat(final Duration actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2532,6 +2564,18 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractUriAssert<?> assertThat(final URI actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code>.
+   *
+   * @param <ELEMENT> the type of the elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.14.0
+   */
+  default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(final Spliterator<ELEMENT> actual) {
     return Assertions.assertThat(actual);
   }
 

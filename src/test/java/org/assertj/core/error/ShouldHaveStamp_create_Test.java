@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveStamp.shouldHaveStamp;
 
@@ -31,13 +31,13 @@ public class ShouldHaveStamp_create_Test {
     // WHEN
     String message = shouldHaveStamp(actual, 5678).create(new TestDescription("TEST"), CONFIGURATION_PROVIDER.representation());
     // THEN
-    assertThat(message).isEqualTo(format("[TEST] %n" +
-                                         "Expecting%n" +
-                                         "  <AtomicStampedReference[stamp=1234, reference=\"foo\"]>%n" +
-                                         "to have stamp:%n" +
-                                         "  <5678>%n" +
-                                         "but had:%n" +
-                                         "  <1234>"));
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting%n" +
+                                   "  <AtomicStampedReference[stamp=1234, reference=\"foo\"]>%n" +
+                                   "to have stamp:%n" +
+                                   "  <5678>%n" +
+                                   "but had:%n" +
+                                   "  <1234>"));
   }
 
 }

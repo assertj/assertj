@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThan.shouldHaveSizeGreaterThan;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Sandra Parsick
  * @author Georg Berky
  */
-public class ShouldHaveSizeGreaterThan_create_Test {
+class ShouldHaveSizeGreaterThan_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -44,10 +44,10 @@ public class ShouldHaveSizeGreaterThan_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n"
-                                         + "Expecting size of:%n"
-                                         + "  <\"ab\">%n"
-                                         + "to be greater than 4 but was 2"));
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting size of:%n"
+                                   + "  <\"ab\">%n"
+                                   + "to be greater than 4 but was 2"));
   }
 
   @Test
@@ -55,9 +55,9 @@ public class ShouldHaveSizeGreaterThan_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n"
-                                         + "Expecting size of:%n"
-                                         + "  <\"['0x0061', '0x0062']\">%n"
-                                         + "to be greater than 4 but was 2"));
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting size of:%n"
+                                   + "  <\"['0x0061', '0x0062']\">%n"
+                                   + "to be greater than 4 but was 2"));
   }
 }

@@ -8,20 +8,22 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.localdatetime;
 
-import static java.lang.String.format;
-import static java.time.LocalDateTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
+import org.assertj.core.api.LocalDateTimeAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,52 +31,45 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class LocalDateTimeAssert_isAfter_Test extends LocalDateTimeAssertBaseTest {
+@DisplayName("LocalDateTimeAssert isAfter")
+public class LocalDateTimeAssert_isAfter_Test extends AbstractLocalDateTimeAssertBaseTest {
 
-  @Test
-  public void test_isAfter_assertion() {
-	// WHEN
-	assertThat(AFTER).isAfter(REFERENCE);
-	assertThat(AFTER).isAfter(REFERENCE.toString());
-	// THEN
-	verify_that_isAfter_assertion_fails_and_throws_AssertionError(REFERENCE, REFERENCE);
-	verify_that_isAfter_assertion_fails_and_throws_AssertionError(BEFORE, REFERENCE);
+  @Override
+  protected LocalDateTimeAssert invoke_api_method() {
+    return assertions.isAfter(NOW)
+                     .isAfter(YESTERDAY.toString());
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertIsAfter(getInfo(assertions), getActual(assertions), NOW);
+    verify(comparables).assertIsAfter(getInfo(assertions), getActual(assertions), YESTERDAY);
   }
 
   @Test
-  public void test_isAfter_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("2000-01-01T03:00:05.123")).isAfter(parse("2000-01-01T03:00:05.123456789")))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <2000-01-01T03:00:05.123>%n" +
-                                                                       "to be strictly after:%n" +
-                                                                       "  <2000-01-01T03:00:05.123456789>"));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      LocalDateTime actual = null;
-      assertThat(actual).isAfter(LocalDateTime.now());
-    }).withMessage(actualIsNull());
-  }
-
-  @Test
-  public void should_fail_if_dateTime_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isAfter((LocalDateTime) null))
+  public void should_fail_if_localDateTime_parameter_is_null() {
+    // GIVEN
+    LocalDateTime otherDateTime = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalDateTime.now()).isAfter(otherDateTime);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The LocalDateTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(LocalDateTime.now()).isAfter((String) null))
+  public void should_fail_if_localDateTime_as_string_parameter_is_null() {
+    // GIVEN
+    String otherDateTimeAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalDateTime.now()).isAfter(otherDateTimeAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
   }
 
-  private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(LocalDateTime dateToCheck,
-                                                                                    LocalDateTime reference) {
-    assertThatThrownBy(() -> assertThat(dateToCheck).isAfter(reference)).isInstanceOf(AssertionError.class);
-    assertThatThrownBy(() -> assertThat(dateToCheck).isAfter(reference.toString())).isInstanceOf(AssertionError.class);
+  @Test
+  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+    assertThatThrownBy(() -> assertions.isAfter("not a LocalDateTime")).isInstanceOf(DateTimeParseException.class);
   }
-
 }

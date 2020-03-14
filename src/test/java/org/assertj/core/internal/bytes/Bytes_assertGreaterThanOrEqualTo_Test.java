@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -54,13 +55,11 @@ public class Bytes_assertGreaterThanOrEqualTo_Test extends BytesBaseTest {
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      bytes.assertGreaterThanOrEqualTo(info, (byte) 6, (byte) 8);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual((byte) 6, (byte) 8));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> bytes.assertGreaterThanOrEqualTo(info, (byte) 6, (byte) 8));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreaterOrEqual((byte) 6, (byte) 8));
   }
 
   @Test
@@ -82,12 +81,10 @@ public class Bytes_assertGreaterThanOrEqualTo_Test extends BytesBaseTest {
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      bytesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, (byte) 6, (byte) -8);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual((byte) 6, (byte) -8, absValueComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, (byte) 6, (byte) -8));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreaterOrEqual((byte) 6, (byte) -8, absValueComparisonStrategy));
   }
 }

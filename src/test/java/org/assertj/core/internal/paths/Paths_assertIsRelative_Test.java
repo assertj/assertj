@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,26 +26,24 @@ public class Paths_assertIsRelative_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsRelative(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsRelative(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_relative() {
-	// This is the default, but make it explicit
-	when(actual.isAbsolute()).thenReturn(true);
+    // This is the default, but make it explicit
+    when(actual.isAbsolute()).thenReturn(true);
 
-	try {
-	  paths.assertIsRelative(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeRelativePath(actual));
-	}
+    Throwable error = catchThrowable(() -> paths.assertIsRelative(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeRelativePath(actual));
   }
 
   @Test
   public void should_pass_if_actual_is_relative() {
-	when(actual.isAbsolute()).thenReturn(false);
-	paths.assertIsRelative(info, actual);
+    when(actual.isAbsolute()).thenReturn(false);
+    paths.assertIsRelative(info, actual);
   }
 }

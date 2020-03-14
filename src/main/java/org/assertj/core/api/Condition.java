@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -101,26 +101,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
 
   /** {@inheritDoc} */
   @Override
-  public Condition<T> describedAs(String newDescription, Object... args) {
-    return as(newDescription, args);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Condition<T> as(String newDescription, Object... args) {
-    description = new TextDescription(newDescription, args);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public Condition<T> describedAs(Description newDescription) {
-    return as(newDescription);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Condition<T> as(Description newDescription) {
     description = Description.emptyIfNull(newDescription);
     return this;
   }

@@ -8,14 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
@@ -42,6 +41,7 @@ import org.junit.jupiter.api.Test;
 
 public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
 
+  private static final TextDescription TEST_DESCRIPTION = new TextDescription("Test");
   private static final Representation REPRESENTATION = CONFIGURATION_PROVIDER.representation();
 
   @Test
@@ -50,14 +50,9 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     // GIVEN
     Jedi yoda = new Jedi("Yoda", "Green");
     Jedi noname = new Jedi(null, "Green");
-    // WHEN
-    Throwable throwable1 = catchThrowable(() -> assertThat(yoda).isEqualToComparingFieldByFieldRecursively(noname));
-    Throwable throwable2 = catchThrowable(() -> assertThat(noname).isEqualToComparingFieldByFieldRecursively(yoda));
     // THEN
-    assertThat(throwable1).isInstanceOf(AssertionError.class)
-                          .isNotInstanceOf(NullPointerException.class);
-    assertThat(throwable2).isInstanceOf(AssertionError.class)
-                          .isNotInstanceOf(NullPointerException.class);
+    expectAssertionError(() -> then(yoda).isEqualToComparingFieldByFieldRecursively(noname));
+    expectAssertionError(() -> then(noname).isEqualToComparingFieldByFieldRecursively(yoda));
   }
 
   @Test
@@ -75,21 +70,21 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                    withSortedSet,
                                                                    differences,
                                                                    REPRESENTATION)
-        .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <WithCollection [collection=[bar, foo]]>%n" +
-                                         "to be equal to:%n" +
-                                         "  <WithCollection [collection=[bar, foo]]>%n" +
-                                         "when recursively comparing field by field, but found the following difference(s):%n"
-                                         + "%n" +
-                                         "Path to difference: <collection>%n" +
-                                         "- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@%s)>%n" +
-                                         "- expected: <[\"bar\", \"foo\"] (TreeSet@%s)>",
-                                         toHexString(System.identityHashCode(withHashSet.collection)),
-                                         toHexString(System.identityHashCode(withSortedSet.collection))));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <WithCollection [collection=[bar, foo]]>%n" +
+                                   "to be equal to:%n" +
+                                   "  <WithCollection [collection=[bar, foo]]>%n" +
+                                   "when recursively comparing field by field, but found the following difference(s):%n"
+                                   + "%n" +
+                                   "Path to difference: <collection>%n" +
+                                   "- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@%s)>%n" +
+                                   "- expected: <[\"bar\", \"foo\"] (TreeSet@%s)>",
+                                   toHexString(System.identityHashCode(withHashSet.collection)),
+                                   toHexString(System.identityHashCode(withSortedSet.collection))));
   }
 
   @Test
@@ -107,21 +102,21 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                    withTreeMap,
                                                                    differences,
                                                                    REPRESENTATION)
-                                                          .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <WithMap [map={1=true, 2=false}]>%n" +
-                                         "to be equal to:%n" +
-                                         "  <WithMap [map={1=true, 2=false}]>%n" +
-                                         "when recursively comparing field by field, but found the following difference(s):%n" +
-                                         "%n" +
-                                         "Path to difference: <map>%n" +
-                                         "- actual  : <{1L=true, 2L=false} (LinkedHashMap@%s)>%n" +
-                                         "- expected: <{1L=true, 2L=false} (TreeMap@%s)>",
-                                         toHexString(System.identityHashCode(withLinkedHashMap.map)),
-                                         toHexString(System.identityHashCode(withTreeMap.map))));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <WithMap [map={1=true, 2=false}]>%n" +
+                                   "to be equal to:%n" +
+                                   "  <WithMap [map={1=true, 2=false}]>%n" +
+                                   "when recursively comparing field by field, but found the following difference(s):%n" +
+                                   "%n" +
+                                   "Path to difference: <map>%n" +
+                                   "- actual  : <{1L=true, 2L=false} (LinkedHashMap@%s)>%n" +
+                                   "- expected: <{1L=true, 2L=false} (TreeMap@%s)>",
+                                   toHexString(System.identityHashCode(withLinkedHashMap.map)),
+                                   toHexString(System.identityHashCode(withTreeMap.map))));
   }
 
   @Test
@@ -137,24 +132,24 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                    personDAO,
                                                                    differences,
                                                                    REPRESENTATION)
-                                                           .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
     String personHash = toHexString(person.hashCode());
     String personDAOHash = toHexString(personDAO.hashCode());
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <org.assertj.core.error.Person@%s>%n" +
-                                         "to be equal to:%n" +
-                                         "  <org.assertj.core.error.PersonDAO@%s>%n" +
-                                         "when recursively comparing field by field, but found the following difference(s):%n" +
-                                         "%n" +
-                                         "Path to difference: <>%n" +
-                                         "- actual  : <org.assertj.core.error.Person@%s>%n" +
-                                         "- expected: <org.assertj.core.error.PersonDAO@%s>%n" +
-                                         "- reason  : org.assertj.core.error.Person can't be compared to org.assertj.core.error.PersonDAO as PersonDAO does not declare all Person fields, it lacks these:[firstName, lastName]",
-                                         personHash, personDAOHash,
-                                         personHash, personDAOHash));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <org.assertj.core.error.Person@%s>%n" +
+                                   "to be equal to:%n" +
+                                   "  <org.assertj.core.error.PersonDAO@%s>%n" +
+                                   "when recursively comparing field by field, but found the following difference(s):%n" +
+                                   "%n" +
+                                   "Path to difference: <>%n" +
+                                   "- actual  : <org.assertj.core.error.Person@%s>%n" +
+                                   "- expected: <org.assertj.core.error.PersonDAO@%s>%n" +
+                                   "- reason  : org.assertj.core.error.Person can't be compared to org.assertj.core.error.PersonDAO as PersonDAO does not declare all Person fields, it lacks these:[firstName, lastName]",
+                                   personHash, personDAOHash,
+                                   personHash, personDAOHash));
   }
 
   @Test
@@ -164,7 +159,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     final Name actualName = new Name("Andy");
     final Name nullName = new Name(null);
     // THEN
-    expectAssertionError(() -> assertThat(actualName).isEqualToComparingFieldByFieldRecursively(nullName));
+    expectAssertionError(() -> then(actualName).isEqualToComparingFieldByFieldRecursively(nullName));
   }
 
   @Test
@@ -179,23 +174,23 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                    yoda2,
                                                                    differences,
                                                                    REPRESENTATION)
-                                                           .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <Yoda the Jedi>%n" +
-                                         "to be equal to:%n" +
-                                         "  <%%%%Yoda%% the Jedi>%n" +
-                                         "when recursively comparing field by field, but found the following difference(s):%n" +
-                                         "%n" +
-                                         "Path to difference: <name>%n" +
-                                         "- actual  : <\"Yoda\">%n" +
-                                         "- expected: <\"%%%%Yoda%%\">%n" +
-                                         "%n" +
-                                         "Path to difference: <lightSaberColor>%n" +
-                                         "- actual  : <\"Green\">%n" +
-                                         "- expected: <\"Green%%\">"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <Yoda the Jedi>%n" +
+                                   "to be equal to:%n" +
+                                   "  <%%%%Yoda%% the Jedi>%n" +
+                                   "when recursively comparing field by field, but found the following difference(s):%n" +
+                                   "%n" +
+                                   "Path to difference: <name>%n" +
+                                   "- actual  : <\"Yoda\">%n" +
+                                   "- expected: <\"%%%%Yoda%%\">%n" +
+                                   "%n" +
+                                   "Path to difference: <lightSaberColor>%n" +
+                                   "- actual  : <\"Green\">%n" +
+                                   "- expected: <\"Green%%\">"));
   }
 
   @Test
@@ -213,26 +208,26 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                      differences,
                                                                      recursiveComparisonConfiguration,
                                                                      REPRESENTATION)
-                                                           .create(new TextDescription("Test"), REPRESENTATION);
+                                                           .create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <Name[first='Magic', last='Johnson']>%n" +
-                                         "to be equal to:%n" +
-                                         "  <Name[first='null', last='Ginobili']>%n" +
-                                         "when recursively comparing field by field, but found the following 2 differences:%n" +
-                                         "%n" +
-                                         "field/property 'first' differ:%n" +
-                                         "- actual value   : \"Magic\"%n" +
-                                         "- expected value : null%n" +
-                                         "%n" +
-                                         "field/property 'last' differ:%n" +
-                                         "- actual value   : \"Johnson\"%n" +
-                                         "- expected value : \"Ginobili\"%n" +
-                                         "%n" +
-                                         "The recursive comparison was performed with this configuration:%n%s",
-                                         CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <Name[first='Magic', last='Johnson']>%n" +
+                                   "to be equal to:%n" +
+                                   "  <Name[first='null', last='Ginobili']>%n" +
+                                   "when recursively comparing field by field, but found the following 2 differences:%n" +
+                                   "%n" +
+                                   "field/property 'first' differ:%n" +
+                                   "- actual value   : \"Magic\"%n" +
+                                   "- expected value : null%n" +
+                                   "%n" +
+                                   "field/property 'last' differ:%n" +
+                                   "- actual value   : \"Johnson\"%n" +
+                                   "- expected value : \"Ginobili\"%n" +
+                                   "%n" +
+                                   "The recursive comparison was performed with this configuration:%n%s",
+                                   CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
   }
 
   @Test
@@ -249,22 +244,22 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                      nullName,
                                                                      differences,
                                                                      recursiveComparisonConfiguration,
-                                                                     REPRESENTATION).create(new TextDescription("Test"), REPRESENTATION);
+                                                                     REPRESENTATION).create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <Name[first='Magic', last='Johnson']>%n" +
-                                         "to be equal to:%n" +
-                                         "  <Name[first='null', last='Johnson']>%n" +
-                                         "when recursively comparing field by field, but found the following difference:%n" +
-                                         "%n" +
-                                         "field/property 'first' differ:%n" +
-                                         "- actual value   : \"Magic\"%n" +
-                                         "- expected value : null%n" +
-                                         "%n" +
-                                         "The recursive comparison was performed with this configuration:%n%s",
-                                         CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <Name[first='Magic', last='Johnson']>%n" +
+                                   "to be equal to:%n" +
+                                   "  <Name[first='null', last='Johnson']>%n" +
+                                   "when recursively comparing field by field, but found the following difference:%n" +
+                                   "%n" +
+                                   "field/property 'first' differ:%n" +
+                                   "- actual value   : \"Magic\"%n" +
+                                   "- expected value : null%n" +
+                                   "%n" +
+                                   "The recursive comparison was performed with this configuration:%n%s",
+                                   CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
   }
 
   @Test
@@ -281,26 +276,26 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                                                      nullName,
                                                                      differences,
                                                                      recursiveComparisonConfiguration,
-                                                                     REPRESENTATION).create(new TextDescription("Test"), REPRESENTATION);
+                                                                     REPRESENTATION).create(TEST_DESCRIPTION, REPRESENTATION);
     // @format:on
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <Name[first='%%%%Ma%%gi%%', last='%%Johnson']>%n" +
-                                         "to be equal to:%n" +
-                                         "  <Name[first='null', last='%%Johnson']>%n" +
-                                         "when recursively comparing field by field, but found the following difference:%n" +
-                                         "%n" +
-                                         "field/property 'first' differ:%n" +
-                                         "- actual value   : \"%%%%Ma%%gi%%\"%n" +
-                                         "- expected value : null%n" +
-                                         "%n" +
-                                         "The recursive comparison was performed with this configuration:%n%s",
-                                         CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <Name[first='%%%%Ma%%gi%%', last='%%Johnson']>%n" +
+                                   "to be equal to:%n" +
+                                   "  <Name[first='null', last='%%Johnson']>%n" +
+                                   "when recursively comparing field by field, but found the following difference:%n" +
+                                   "%n" +
+                                   "field/property 'first' differ:%n" +
+                                   "- actual value   : \"%%%%Ma%%gi%%\"%n" +
+                                   "- expected value : null%n" +
+                                   "%n" +
+                                   "The recursive comparison was performed with this configuration:%n%s",
+                                   CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
   }
 
   private List<ComparisonDifference> computeDifferences(Object actual, Object expected,
-                                                          RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+                                                        RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonDifferenceCalculator().determineDifferences(actual, expected, recursiveComparisonConfiguration);
   }
 

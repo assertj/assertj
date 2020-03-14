@@ -8,36 +8,36 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
-import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.TempFileUtil.createTempPathWithContent;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -45,103 +45,119 @@ import org.junit.jupiter.api.Test;
  */
 public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
-  @Test
-  public void should_pass_if_path_has_same_content_as_other() throws IOException {
-	when(diff.diff(actual, defaultCharset(), other, defaultCharset())).thenReturn(new ArrayList<>());
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-	paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(), other, defaultCharset());
+  private static final Charset CHARSET = defaultCharset();
+  private Path actual;
+  private Path expected;
+
+  @BeforeEach
+  public void setUpOnce() throws IOException {
+    // Does not matter if the values differ, the actual comparison is mocked in this test
+    actual = createTempPathWithContent("foo", CHARSET);
+    expected = createTempPathWithContent("bar", CHARSET);
+    given(nioFilesWrapper.exists(actual)).willReturn(true);
+    given(nioFilesWrapper.isReadable(actual)).willReturn(true);
+    given(nioFilesWrapper.exists(expected)).willReturn(true);
+    given(nioFilesWrapper.isReadable(expected)).willReturn(true);
   }
 
   @Test
-  public void should_throw_error_if_other_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> paths.assertHasSameContentAs(someInfo(), actual, defaultCharset(),
-                                                                                   null, defaultCharset()))
-                                    .withMessage("The given Path to compare actual content to should not be null");
+  public void should_pass_if_path_has_same_textual_content_as_expected() throws IOException {
+    // GIVEN
+    given(diff.diff(actual, CHARSET, expected, CHARSET)).willReturn(emptyList());
+    // WHEN/THEN
+    paths.assertHasSameContentAs(someInfo(), actual, CHARSET, expected, CHARSET);
+  }
+
+  @Test
+  public void should_throw_error_if_expected_is_null() {
+    // GIVEN
+    Path nullExpected = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> paths.assertHasSameContentAs(someInfo(), actual, CHARSET, nullExpected,
+                                                                                       CHARSET),
+                                                    NullPointerException.class);
+    // THEN
+    then(npe).hasMessage("The given Path to compare actual content to should not be null");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-      paths.assertHasSameContentAs(someInfo(), null, defaultCharset(), other, defaultCharset());
-    }).withMessage(actualIsNull());
+    // GIVEN
+    Path path = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasSameContentAs(someInfo(), path, CHARSET, expected,
+                                                                                   CHARSET));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_path_does_not_exist() {
-	AssertionInfo info = someInfo();
-	when(nioFilesWrapper.exists(actual)).thenReturn(false);
-	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-	try {
-	  paths.assertHasSameContentAs(info, actual, defaultCharset(), other, defaultCharset());
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExist(actual));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    // GIVEN
+    AssertionInfo info = someInfo();
+    given(nioFilesWrapper.exists(actual)).willReturn(false);
+    // WHEN
+    expectAssertionError(() -> paths.assertHasSameContentAs(info, actual, CHARSET, expected, CHARSET));
+    // THEN
+    verify(failures).failure(info, shouldExist(actual));
   }
 
   @Test
   public void should_fail_if_actual_is_not_a_readable_file() {
-	AssertionInfo info = someInfo();
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(actual)).thenReturn(false);
-	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-	try {
-	  paths.assertHasSameContentAs(info, actual, defaultCharset(), other, defaultCharset());
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeReadable(actual));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    // GIVEN
+    given(nioFilesWrapper.isReadable(actual)).willReturn(false);
+    // WHEN
+    expectAssertionError(() -> paths.assertHasSameContentAs(someInfo(), actual, CHARSET, expected, CHARSET));
+    // THEN
+    verify(failures).failure(someInfo(), shouldBeReadable(actual));
   }
-  
-  @Test
-  public void should_fail_if_other_is_not_a_readable_file() {
-    when(nioFilesWrapper.isReadable(other)).thenReturn(false);
 
-    assertThatIllegalArgumentException().isThrownBy(() -> paths.assertHasSameContentAs(someInfo(), actual,
-                                                                                       defaultCharset(), other,
-                                                                                       defaultCharset()))
-                                        .withMessage(format("The given Path <%s> to compare actual content to should be readable",
-                                                            other));
+  @Test
+  public void should_fail_if_expected_path_is_does_not_exist() {
+    // GIVEN
+    given(nioFilesWrapper.exists(expected)).willReturn(false);
+    // WHEN
+    IllegalArgumentException iae = catchThrowableOfType(() -> paths.assertHasSameContentAs(someInfo(), actual, CHARSET,
+                                                                                           expected, CHARSET),
+                                                        IllegalArgumentException.class);
+    // THEN
+    then(iae).hasMessage("The given Path <%s> to compare actual content to should exist", expected);
+  }
+
+  @Test
+  public void should_fail_if_expected_path_is_not_readable() {
+    // GIVEN
+    given(nioFilesWrapper.isReadable(expected)).willReturn(false);
+    // WHEN
+    IllegalArgumentException iae = catchThrowableOfType(() -> paths.assertHasSameContentAs(someInfo(), actual, CHARSET,
+                                                                                           expected, CHARSET),
+                                                        IllegalArgumentException.class);
+    // THEN
+    then(iae).hasMessage("The given Path <%s> to compare actual content to should be readable", expected);
   }
 
   @Test
   public void should_throw_error_wrapping_caught_IOException() throws IOException {
-	IOException cause = new IOException();
-	when(diff.diff(actual, defaultCharset(), other, defaultCharset())).thenThrow(cause);
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasSameContentAs(someInfo(),
-                                                                                                        actual,
-                                                                                                        defaultCharset(),
-                                                                                                        other,
-                                                                                                        defaultCharset()))
-                                                         .withCause(cause);
+    // GIVEN
+    IOException cause = new IOException();
+    given(diff.diff(actual, CHARSET, expected, CHARSET)).willThrow(cause);
+    // WHEN
+    UncheckedIOException uioe = catchThrowableOfType(() -> paths.assertHasSameContentAs(someInfo(), actual, CHARSET,
+                                                                                        expected, CHARSET),
+                                                     UncheckedIOException.class);
+    // THEN
+    then(uioe).hasCause(cause);
   }
 
   @Test
   public void should_fail_if_actual_and_given_path_does_not_have_the_same_content() throws IOException {
-    @SuppressWarnings("unchecked")
-    List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
-	when(diff.diff(actual, defaultCharset(), other, defaultCharset())).thenReturn(diffs);
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
-	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
-	AssertionInfo info = someInfo();
-	try {
-	  paths.assertHasSameContentAs(info, actual, defaultCharset(), other, defaultCharset());
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveSameContent(actual, other, diffs));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    // GIVEN
+    List<Delta<String>> diffs = list((Delta<String>) mock(Delta.class));
+    given(diff.diff(actual, CHARSET, expected, CHARSET)).willReturn(diffs);
+    AssertionInfo info = someInfo();
+    // WHEN
+    expectAssertionError(() -> paths.assertHasSameContentAs(someInfo(), actual, CHARSET, expected, CHARSET));
+    // THEN
+    verify(failures).failure(info, shouldHaveSameContent(actual, expected, diffs));
   }
 }
-
-

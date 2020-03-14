@@ -8,26 +8,31 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
+import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Doubles;
-
+import org.assertj.core.test.AlwaysEqualComparator;
 
 /**
  * Base class for {@link DoubleAssert} tests.
- * 
+ *
  * @author Olivier Michallat
  */
 public abstract class DoubleAssertBaseTest extends BaseTestTemplate<DoubleAssert, Double> {
+
+  protected static final AlwaysEqualComparator<Double> ALWAY_EQUAL_DOUBLE = new AlwaysEqualComparator<>();
+
   protected Doubles doubles;
+  protected Comparables comparables;
 
   @Override
   protected DoubleAssert create_assertions() {
-    return new DoubleAssert(new Double(3.14));
+    return new DoubleAssert(Double.valueOf(3.14));
   }
 
   @Override
@@ -35,6 +40,8 @@ public abstract class DoubleAssertBaseTest extends BaseTestTemplate<DoubleAssert
     super.inject_internal_objects();
     doubles = mock(Doubles.class);
     assertions.doubles = doubles;
+    comparables = mock(Comparables.class);
+    assertions.comparables = comparables;
   }
 
   protected Doubles getDoubles(DoubleAssert someAssertions) {

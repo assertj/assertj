@@ -8,31 +8,36 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.condition;
 
 import static java.util.Collections.unmodifiableCollection;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.JoinDescription;
+import org.assertj.core.util.Streams;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Join of two or more <code>{@link Condition}</code>s.
  * @param <T> the type of object this condition accepts.
- * 
+ *
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
 public abstract class Join<T> extends Condition<T> {
 
   @VisibleForTesting
-  final Collection<Condition<? super T>> conditions;
+  Collection<Condition<? super T>> conditions;
 
   /**
    * Creates a new <code>{@link Join}</code>.
@@ -42,8 +47,7 @@ public abstract class Join<T> extends Condition<T> {
    */
   @SafeVarargs
   protected Join(Condition<? super T>... conditions) {
-    checkNotNull(conditions, conditionsIsNull());
-    this.conditions = Arrays.stream(conditions).map(Join::notNull).collect(toList());
+    this(Arrays.stream(checkNotNullConditions(conditions)));
   }
 
   /**
@@ -53,18 +57,33 @@ public abstract class Join<T> extends Condition<T> {
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
   protected Join(Iterable<? extends Condition<? super T>> conditions) {
-    checkNotNull(conditions, conditionsIsNull());
-    this.conditions = new ArrayList<>();
-    for (Condition<? super T> condition : conditions)
-      this.conditions.add(notNull(condition));
+    this(Streams.stream(checkNotNullConditions(conditions)));
   }
+
+  private Join(Stream<? extends Condition<? super T>> stream) {
+    this.conditions = stream.map(Join::notNull).collect(toList());
+    List<Description> descriptions = this.conditions.stream()
+                                                    .map(Condition::description)
+                                                    .collect(toList());
+    this.describedAs(new JoinDescription(descriptionPrefix() + ":[", "]", descriptions));
+  }
+
+  private static <T> T checkNotNullConditions(T conditions) {
+    return requireNonNull(conditions, conditionsIsNull());
+  }
+
+  /**
+   * method used to prefix the subclass join description, ex: "all of"
+   * @return the prefix to use to build the description.
+   */
+  public abstract String descriptionPrefix();
 
   private static String conditionsIsNull() {
     return "The given conditions should not be null";
   }
 
-  private static <T> Condition<T> notNull(Condition<T> condition) {
-    return checkNotNull(condition, "The given conditions should not have null entries");
+  private static <T> T notNull(T condition) {
+    return requireNonNull(condition, "The given conditions should not have null entries");
   }
 
   /**

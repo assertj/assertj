@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldExist.shouldExist;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,38 +27,36 @@ public class Paths_assertIsDirectory_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsDirectory(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsDirectory(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(false);
-	try {
-	  paths.assertIsDirectory(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldExist(actual));
-	}
+    when(nioFilesWrapper.exists(actual)).thenReturn(false);
+
+    Throwable error = catchThrowable(() -> paths.assertIsDirectory(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldExist(actual));
   }
 
   @Test
   public void should_fail_if_target_exists_but_is_not_a_directory() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isDirectory(actual)).thenReturn(false);
-	try {
-	  paths.assertIsDirectory(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeDirectory(actual));
-	}
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isDirectory(actual)).thenReturn(false);
+
+    Throwable error = catchThrowable(() -> paths.assertIsDirectory(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeDirectory(actual));
   }
 
   @Test
   public void should_succeed_if_actual_is_a_directory() {
-	when(nioFilesWrapper.exists(actual)).thenReturn(true);
-	when(nioFilesWrapper.isDirectory(actual)).thenReturn(true);
-	paths.assertIsDirectory(info, actual);
+    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+    when(nioFilesWrapper.isDirectory(actual)).thenReturn(true);
+    paths.assertIsDirectory(info, actual);
   }
 
 }

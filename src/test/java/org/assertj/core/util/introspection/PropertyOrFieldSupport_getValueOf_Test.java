@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
@@ -27,12 +27,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class PropertyOrFieldSupport_getValueOf_Test {
-  private static final Employee yoda = new Employee(1L, new Name("Yoda"), 800);
+
   private PropertyOrFieldSupport propertyOrFieldSupport;
+  private Employee yoda;
 
   @BeforeEach
   public void setup() {
     propertyOrFieldSupport = PropertyOrFieldSupport.EXTRACTION;
+    yoda = new Employee(1L, new Name("Yoda"), 800);
+    yoda.setRelation("padawan", new Employee(3L, new Name("Luke", "Skywalker"), 24));
   }
 
   @Test
@@ -93,6 +96,21 @@ public class PropertyOrFieldSupport_getValueOf_Test {
     luke.surname = new Name("Young", "Padawan");
     Object value = propertyOrFieldSupport.getValueOf("me.field.me.field.me.field.surname.name", darth);
     assertThat(value).isEqualTo("Young Padawan");
+  }
+
+  @Test
+  public void should_extract_value_from_nested_map() {
+    Employee darth = new Employee(1L, new Name("Darth", "Vader"), 100);
+    darth.setAttribute("side", "dark");
+
+    Object value = propertyOrFieldSupport.getValueOf("attributes.side", darth);
+    assertThat(value).isEqualTo("dark");
+  }
+
+  @Test
+  public void should_extract_nested_property_field_within_nested_map() {
+    Object value = propertyOrFieldSupport.getValueOf("relations.padawan.name.first", yoda);
+    assertThat(value).isEqualTo("Luke");
   }
 
   @Test

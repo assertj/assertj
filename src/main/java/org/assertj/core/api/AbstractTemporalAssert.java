@@ -8,20 +8,23 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
+import java.util.Comparator;
 
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.Comparables;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -32,7 +35,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
     extends AbstractAssert<SELF, TEMPORAL> {
 
   @VisibleForTesting
-  Comparables comparables = new Comparables();
+  Comparables comparables;
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractTemporalAssert}</code>.
@@ -41,6 +44,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    */
   protected AbstractTemporalAssert(TEMPORAL actual, Class<?> selfType) {
     super(actual, selfType);
+    comparables = new Comparables();
   }
 
   @VisibleForTesting
@@ -73,8 +77,8 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    */
   public SELF isCloseTo(TEMPORAL other, TemporalOffset<? super TEMPORAL> offset) {
     Objects.instance().assertNotNull(info, actual);
-    checkNotNull(other, "The temporal object to compare actual with should not be null");
-    checkNotNull(offset, "The offset should not be null");
+    requireNonNull(other, "The temporal object to compare actual with should not be null");
+    requireNonNull(offset, "The offset should not be null");
     if (offset.isBeyondOffset(actual, other)) {
       throw Failures.instance().failure(info,
                                         shouldBeCloseTo(actual, other,
@@ -100,7 +104,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * @throws AssertionError if the actual {@code Temporal} is not close to the given for a provided offset.
    */
   public SELF isCloseTo(String otherAsString, TemporalOffset<? super TEMPORAL> offset) {
-    checkNotNull(otherAsString, "The String representing of the temporal object to compare actual with should not be null");
+    requireNonNull(otherAsString, "The String representing of the temporal object to compare actual with should not be null");
     return isCloseTo(parse(otherAsString), offset);
   }
 
@@ -111,4 +115,26 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    */
   protected abstract TEMPORAL parse(String temporalAsString);
 
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super TEMPORAL> customComparator) {
+    return usingComparator(customComparator, null);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingComparator(Comparator<? super TEMPORAL> customComparator, String customComparatorDescription) {
+    this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
+    return super.usingComparator(customComparator, customComparatorDescription);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @CheckReturnValue
+  public SELF usingDefaultComparator() {
+    this.comparables = new Comparables();
+    return super.usingDefaultComparator();
+  }
 }

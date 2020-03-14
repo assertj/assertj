@@ -8,33 +8,37 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import org.junit.jupiter.api.Test;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
 
 import java.util.Optional;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+import org.junit.jupiter.api.Test;
 
 public class OptionalShouldContainInstanceOf_create_Test {
 
   @Test
   public void should_create_error_message_with_empty() {
+    // WHEN
     String errorMessage = shouldContainInstanceOf(Optional.empty(), Object.class).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting:%n <Optional>%n" +
-      "to contain a value that is an instance of:%n <java.lang.Object>%n" +
-      "but was empty"));
+    // THEN
+    then(errorMessage).isEqualTo(format("%nExpecting:%n <Optional>%n" +
+                                        "to contain a value that is an instance of:%n <java.lang.Object>%n" +
+                                        "but was empty"));
   }
 
   @Test
   public void should_create_error_message_with_expected_type() {
+    // WHEN
     String errorMessage = shouldContainInstanceOf(Optional.of(Integer.MIN_VALUE), String.class).create();
-    assertThat(errorMessage).isEqualTo(format("%nExpecting:%n <Optional>%n" +
-      "to contain a value that is an instance of:%n <java.lang.String>%n" +
-      "but did contain an instance of:%n <java.lang.Integer>"));
+    // THEN
+    then(errorMessage).isEqualTo(format("%nExpecting:%n <Optional>%n" +
+                                        "to contain a value that is an instance of:%n <java.lang.String>%n" +
+                                        "but did contain an instance of:%n <java.lang.Integer>"));
   }
 }

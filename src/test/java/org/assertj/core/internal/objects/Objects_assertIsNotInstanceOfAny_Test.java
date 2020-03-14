@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -83,10 +84,10 @@ public class Objects_assertIsNotInstanceOfAny_Test extends ObjectsBaseTest {
   public void should_fail_if_actual_is_instance_of_any_type() {
     AssertionInfo info = someInfo();
     Class<?>[] types = { String.class, Person.class };
-    try {
-      objects.assertIsNotInstanceOfAny(info, actual, types);
-      failBecauseExpectedAssertionErrorWasNotThrown();
-    } catch (AssertionError err) {}
+
+    Throwable error = catchThrowable(() -> objects.assertIsNotInstanceOfAny(info, actual, types));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
 }

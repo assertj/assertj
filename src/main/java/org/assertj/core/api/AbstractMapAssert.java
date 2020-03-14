@@ -8,20 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toCollection;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -30,9 +31,10 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotations.Beta;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
@@ -1146,8 +1148,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @since 3.12.0
    */
+  @SuppressWarnings("unchecked")
   public SELF containsOnlyKeys(Iterable<? extends K> keys) {
-    maps.assertContainsOnlyKeys(info, actual, keys);
+    if (keys instanceof Path) {
+      // do not treat Path as an Iterable
+      K path = (K) keys;
+      maps.assertContainsOnlyKeys(info, actual, path);
+    } else {
+      maps.assertContainsOnlyKeys(info, actual, keys);
+    }
     return myself;
   }
 
@@ -1528,7 +1537,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
-    checkNotNull(actual, "Can not perform assertions on the size of a null map.");
+    requireNonNull(actual, "Can not perform assertions on the size of a null map.");
     return new MapSizeAssert(this, actual.size());
   }
 
@@ -1556,14 +1565,53 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param keys the keys used to get values from the map under test
    * @return a new assertion object whose object under test is the array containing the extracted map values
+   *
+   * @deprecated use {@link #extractingByKeys(Object[])} instead
    */
+  @Deprecated
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Object... keys) {
     isNotNull();
-    List<Object> extractedValues = Stream.of(keys).map(actual::get).collect(Collectors.toList());
+    List<Object> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).as(description);
+  }
+
+  /**
+   * Extract the values of given keys from the map under test into an array, this new array becoming
+   * the object under test.
+   * <p>
+   * For example, if you specify "id", "name" and "email" keys then the array will contain the map values for
+   * these keys, you can then perform array assertions on the extracted values.
+   * <p>
+   * If a given key is not present in the map under test, a null value is extracted.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * map.put("name", "kawhi");
+   * map.put("age", 25);
+   *
+   * assertThat(map).extractingByKeys("name", "age")
+   *                .contains("kawhi", 25);</code></pre>
+   * <p>
+   * Note that:
+   * <ul>
+   *   <li>The order of the extracted key values is consistent with the iteration order of given keys.</li>
+   *   <li>Providing no keys will result in an empty list.</li>
+   * </ul>
+   *
+   * @param keys the keys used to get values from the map under test
+   * @return a new assertion object whose object under test is the array containing the extracted map values
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeys(@SuppressWarnings("unchecked") K... keys) {
+    isNotNull();
+    List<V> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
+    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
+    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+    return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
   }
 
   /**
@@ -1587,7 +1635,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
    *
    * @since 3.13.0
+   * @deprecated use {@link #extractingByKey(Object)} instead
    */
+  @Deprecated
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(Object key) {
     isNotNull();
@@ -1595,6 +1645,75 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
     return newObjectAssert(extractedValue).as(description);
+  }
+
+  /**
+   * Extract the value of given key from the map under test, the extracted value becoming the new object under test.
+   * <p>
+   * For example, if you specify "id" key, then the object under test will be the map value for this key.
+   * <p>
+   * If a given key is not present in the map under test, a null value is extracted.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * map.put("name", "kawhi");
+   *
+   * assertThat(map).extractingByKey("name")
+   *                .isEqualTo("kawhi");</code></pre>
+   *
+   * @param key the key used to get value from the map under test
+   * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
+   *
+   * @since 3.14.0
+   * @see #extractingByKey(Object, InstanceOfAssertFactory)
+   */
+  @CheckReturnValue
+  public AbstractObjectAssert<?, V> extractingByKey(K key) {
+    return internalExtractingByKey(key);
+  }
+
+  /**
+   * Extract the value of given key from the map under test, the extracted value becoming the new object under test.
+   * <p>
+   * For example, if you specify "id" key, then the object under test will be the map value for this key.
+   * <p>
+   * If a given key is not present in the map under test, the assertion will fail.
+   * <p>
+   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * assertions narrowed to the factory type.
+   * <p>
+   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * assertion more readable.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+   * map.put("name", "kawhi");
+   *
+   * assertThat(map).extractingByKey("name", as(InstanceOfAssertFactories.STRING))
+   *                .startsWith("kaw");</code></pre>
+   * <p>
+   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
+   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param key           the key used to get value from the map under test
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance whose object under test is the extracted map value
+   * @throws NullPointerException if the given factory is {@code null}
+   *
+   * @since 3.14.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT extractingByKey(K key, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalExtractingByKey(key).asInstanceOf(assertFactory);
+  }
+
+  private AbstractObjectAssert<?, V> internalExtractingByKey(K key) {
+    isNotNull();
+    V extractedValue = actual.get(key);
+    String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
+    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+    return newObjectAssert(extractedValue).withAssertionState(myself).as(description);
   }
 
   /**
@@ -1622,7 +1741,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     List<Object> extractedObjects = actual.entrySet().stream()
                                           .map(extractor)
                                           .collect(toList());
-    return newListAssertInstance(extractedObjects).as(info.description());
+    return newListAssertInstance(extractedObjects).withAssertionState(myself).as(info.description());
   }
 
   /**
@@ -1670,7 +1789,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     List<Tuple> extractedTuples = actual.entrySet().stream()
                                         .map(tupleExtractor)
                                         .collect(toList());
-    return newListAssertInstance(extractedTuples).as(info.description());
+    return newListAssertInstance(extractedTuples).withAssertionState(myself).as(info.description());
   }
 
   /**
@@ -1725,6 +1844,84 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(valuesFlattened).as(description);
+  }
+
+  /**
+   * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert},
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   boolean hasPhd;
+   * }
+   *
+   * public class Doctor {
+   *  String name;
+   *  boolean hasPhd;
+   * }
+   *
+   * Doctor drSheldon = new Doctor("Sheldon Cooper", true);
+   * Doctor drLeonard = new Doctor("Leonard Hofstadter", true);
+   * Doctor drRaj = new Doctor("Raj Koothrappali", true);
+   *
+   * Person sheldon = new Person("Sheldon Cooper", true);
+   * Person leonard = new Person("Leonard Hofstadter", true);
+   * Person raj = new Person("Raj Koothrappali", true);
+   *
+   * Map&lt;String, Doctor&gt; doctors = mapOf(entry(drSheldon.name, drSheldon),
+   *                                           entry(drLeonard.name, drLeonard),
+   *                                           entry(drRaj.name, drRaj));
+   * Map&lt;String, Person&gt; people = mapOf(entry(sheldon.name, sheldon),
+   *                                          entry(leonard.name, leonard),
+   *                                          entry(raj.name, raj));
+   *
+   * // assertion succeeds as both maps contains equivalent items.
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .isEqualTo(people);
+   *
+   * // assertion fails because leonard names are different.
+   * leonard.setName("Leonard Ofstater");
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .isEqualTo(people);</code></pre>
+   *
+   * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
+   * <p>
+   * The default recursive comparison behavior is {@link RecursiveComparisonConfiguration configured} as follows:
+   * <ul>
+   *   <li> different types of map can be compared by default, this allows to compare for example an {@code HashMap<Person>} and a {@code LinkedHashMap<PersonDto>}.<br>
+   *        This behavior can be turned off by calling {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking}.</li>
+   *   <li>overridden equals methods are used in the comparison (unless stated otherwise - see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals">https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals</a>)</li>
+   *   <li>the following types are compared with these comparators:
+   *     <ul>
+   *       <li>{@code java.lang.Double}: {@code DoubleComparator} with precision of 1.0E-15</li>
+   *       <li>{@code java.lang.Float}: {@code FloatComparator }with precision of 1.0E-6</li>
+   *       <li>any comparators previously registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} </li>
+   *     </ul>
+   *   </li>
+   * </ul>
+   * <p>
+   * At the moment, only `isEqualTo` can be chained after this method but there are plans to provide assertions.
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance
+   * @see RecursiveComparisonConfiguration RecursiveComparisonConfiguration
+   */
+  @Override
+  @Beta
+  public RecursiveComparisonAssert<?> usingRecursiveComparison() {
+    // overridden for javadoc and to make this method public
+    return super.usingRecursiveComparison();
+  }
+
+  /**
+   * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   *
+   * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   */
+  @Override
+  public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    // overridden for javadoc and to make this method public
+    return super.usingRecursiveComparison(recursiveComparisonConfiguration);
   }
 
   private static List<Object> flatten(Iterable<Object> collectionToFlatten) {

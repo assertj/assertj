@@ -8,16 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -100,13 +101,11 @@ public class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
     actual = newArrayList("Yoda");
     List<String> values = newArrayList("C-3PO", "Leila");
     List<String> extra = newArrayList("Yoda");
-    try {
-      iterables.assertIsSubsetOf(info, actual, values);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterables.assertIsSubsetOf(info, actual, values));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -137,13 +136,11 @@ public class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
     actual = newArrayList("Yoda", "Luke");
     List<String> values = newArrayList("yoda", "C-3PO");
     List<String> extra = newArrayList("Luke");
-    try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(info, actual, values);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(info, actual, values));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
 
 }

@@ -8,17 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -84,39 +85,33 @@ public class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBas
   public void should_fail_if_subsequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-    try {
-      arrays.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_whole_subsequence() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "Han", "C-3PO" };
-    try {
-      arrays.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_subsequence() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "Leia", "Obi-Wan", "Han" };
-    try {
-      arrays.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
   }
 
   private void verifyFailureThrownWhenSubsequenceNotFound(AssertionInfo info, Object[] sequence) {
@@ -146,42 +141,36 @@ public class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBas
   public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] subsequence = { "LUKE", "LeiA", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsSubsequence(info, actual, subsequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainSubsequence(actual, subsequence, caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(info, actual, subsequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainSubsequence(actual, subsequence, caseInsensitiveStringComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_whole_subsequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsSubsequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainSubsequence(actual, sequence, caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainSubsequence(actual, sequence, caseInsensitiveStringComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_contains_first_elements_of_subsequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "LeiA", "Obi-Wan", "Han" };
-    try {
-      arraysWithCustomComparisonStrategy.assertContainsSubsequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldContainSubsequence(actual, sequence, caseInsensitiveStringComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(info, actual, sequence));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info,
+        shouldContainSubsequence(actual, sequence, caseInsensitiveStringComparisonStrategy));
   }
 
   @Test

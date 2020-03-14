@@ -8,17 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,6 +36,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -81,7 +84,11 @@ import org.assertj.core.util.CheckReturnValue;
  *
  *   then(bulls).contains(rose, noah).doesNotContain(james);
  * }</code></pre>
+ * Use <code>{@link #and}</code> to avoid clash with other libraries (like BDDMockito) exposing '<code>then(object)</code>'.
+ * You might have to ignore a warning like: <i>The static method BDDAssertions.then() should be accessed in a static way</i>.
  *
+ *
+ * @author Gonzalo Müller
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author David DIDIER
@@ -101,6 +108,48 @@ public class BDDAssertions extends Assertions {
    * Creates a new <code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */
   protected BDDAssertions() {}
+
+  /**
+   * A <code>BDDAssertions</code> which allows to blend assertions with other libraries when the name '<code>then</code>' cause clash.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> import static org.assertj.core.api.BDDAssertions.and;
+   * import static org.mockito.BDDMockito.then;
+   * import static org.mockito.Mockito.mock;
+   * import static org.mockito.Mockito.times;
+   *
+   * // suppress and.then warning: The static method BDDAssertions.then() should be accessed in a static way
+   * {@literal @SuppressWarnings}("static-access")
+   * {@literal @Test}
+   * public void bdd_assertions_with_bdd_mockito() {
+   *   // GIVEN
+   *   Person person = mock(Person.class)
+   *   // WHEN
+   *   person.ride(bike);
+   *   person.ride(bike);
+   *   // THEN
+   *   // mockito then()
+   *   then(person).should(times(2)).ride(bike);
+   *   // use AssertJ and.then(person) as then(person) would clash with mockito then(person)
+   *   and.then(person.hasBike()).isTrue();
+   * }</code></pre>
+   * <p>
+   * Can also be used to add extra readability:
+   * <pre><code class='java'> import static org.assertj.core.api.BDDAssertions.and;
+   * import static org.assertj.core.api.BDDAssertions.then;
+   *
+   * // suppress and.then warning: The static method BDDAssertions.then() should be accessed in a static way
+   * {@literal @SuppressWarnings}("static-access")
+   * {@literal @Test}
+   * public void bdd_assertions_with_and_field() {
+   *   // ...
+   *   then(person.hasBike()).isTrue()
+   *   and.then(bike.isNew()).isFalse();
+   * }</code></pre>
+   *
+   * @since 3.14.0
+   */
+  public static final BDDAssertions and = new BDDAssertions();
 
   /**
    * Create assertion for {@link Predicate}.
@@ -1156,6 +1205,17 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.15.0
+   */
+  public static AbstractDurationAssert<?> then(Duration actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link UriAssert}</code>.
    *
    * @param actual the actual value.
@@ -1401,4 +1461,76 @@ public class BDDAssertions extends Assertions {
   public static ListAssert<Integer> then(IntStream actual) {
     return assertThat(actual);
   }
+
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
+   *
+   * Example:
+   * <pre><code class='java'> Spliterator&lt;Integer&gt; spliterator = Stream.of(1, 2, 3).spliterator();
+   * then(spliterator).hasCharacteristics(Spliterator.SIZED); </code></pre>
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the spliterator to test.
+   * @return the created assertion object.
+   * @since 3.14.0
+   */
+  public static <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
+   * which allows to chain assertions on the thrown exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> thenExceptionOfType(IOException.class)
+   *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
+   *           .withMessage("boom!"); </code></pre>
+   *
+   * This method is more or less the same of {@link #thenThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   * @param <T> the exception type.
+   * @param exceptionType the exception type class.
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static <T extends Throwable> ThrowableTypeAssert<T> thenExceptionOfType(final Class<? extends T> exceptionType) {
+    return assertThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static ThrowableTypeAssert<NullPointerException> thenNullPointerException() {
+    return assertThatNullPointerException();
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static ThrowableTypeAssert<IllegalArgumentException> thenIllegalArgumentException() {
+    return assertThatIllegalArgumentException();
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static ThrowableTypeAssert<IOException> thenIOException() {
+    return assertThatIOException();
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IllegalStateException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static ThrowableTypeAssert<IllegalStateException> thenIllegalStateException() {
+    return assertThatIllegalStateException();
+  }
+
+
 }

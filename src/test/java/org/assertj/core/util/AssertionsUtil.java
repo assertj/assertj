@@ -8,18 +8,27 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.util;
 
+import static java.nio.charset.Charset.forName;
+import static java.nio.charset.StandardCharsets.UTF_16;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+
+import java.nio.charset.Charset;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.ThrowableAssertAlternative;
+import org.junit.AssumptionViolatedException;
 
 public class AssertionsUtil {
+
+  public static final Charset TURKISH_CHARSET = forName("windows-1254");
 
   public static AssertionError expectAssertionError(ThrowingCallable shouldRaiseAssertionError) {
     AssertionError error = catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
@@ -31,4 +40,11 @@ public class AssertionsUtil {
     return assertThatExceptionOfType(AssertionError.class).isThrownBy(shouldRaiseAssertionError);
   }
 
+  public static void expectAssumptionViolatedException(ThrowingCallable shouldRaiseError) {
+    assertThatThrownBy(shouldRaiseError).isInstanceOf(AssumptionViolatedException.class);
+  }
+
+  public static Charset getDifferentCharsetFrom(Charset charset) {
+    return charset.equals(UTF_8) ? UTF_16 : UTF_8;
+  }
 }

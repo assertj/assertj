@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.throwables;
 
@@ -41,13 +41,11 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
                                                     String testDescription) {
     // WHEN
     throwables.assertHasRootCause(INFO, throwable, expectedRootCause);
-
     // THEN
     // no exception thrown
   }
 
   // @format:off
-  @SuppressWarnings("unused")
   private static Stream<Arguments> passingData() {
     return Stream.of(Arguments.of(withRootCause(new IllegalArgumentException("bang")), new IllegalArgumentException("bang"), "same root cause"),
                      Arguments.of(withCause(new IllegalArgumentException("wibble")), new IllegalArgumentException("wibble"), "same cause"),
@@ -63,16 +61,13 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
                                                       String testDescription) {
     // GIVEN
     final Throwable throwable = withRootCause(actualRootCause);
-
     // WHEN
     expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, unexpectedRootCause));
-
     // THEN
-    verify(failures).failure(INFO, shouldHaveRootCause(actualRootCause, unexpectedRootCause));
+    verify(failures).failure(INFO, shouldHaveRootCause(throwable, actualRootCause, unexpectedRootCause));
   }
 
   // @format:off
-  @SuppressWarnings("unused")
   private static Stream<Arguments> failingData() {
     return Stream.of(Arguments.of(null, new RuntimeException(), "no actual cause"),
                      Arguments.of(new IllegalArgumentException(), new NullPointerException(), "different root cause type"),
@@ -87,10 +82,8 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
     // GIVEN
     final Throwable throwable = null;
     final Throwable expected = new Throwable();
-
     // WHEN
     AssertionError actual = expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, expected));
-
     // THEN
     assertThat(actual).hasMessage(actualIsNull());
   }
@@ -101,10 +94,8 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
     Throwable rootCause = new NullPointerException();
     final Throwable throwable = withRootCause(rootCause);
     final Throwable expected = null;
-
     // WHEN
     expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, expected));
-
     // THEN
     verify(failures).failure(INFO, shouldHaveNoCause(throwable));
   }

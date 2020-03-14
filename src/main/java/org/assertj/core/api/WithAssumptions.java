@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -881,6 +883,17 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link DurationAssert}</code> assumption.
+   *
+   * @param duration the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.15.0
+   */
+  default AbstractDurationAssert<?> assumeThat(final Duration duration) {
+    return Assumptions.assumeThat(duration);
+  }
+
+  /**
    * Creates a new instance of <code>{@link OffsetTimeAssert}</code> assumption.
    *
    * @param offsetTime the actual value.
@@ -1034,4 +1047,15 @@ public interface WithAssumptions {
     return Assumptions.assumeThat(uri);
   }
 
+  /**
+   * Creates a new instance of <code>{@link SpliteratorAssert}</code> assumption.
+   *
+   * @param <ELEMENT> the type of the elements.
+   * @param spliterator the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.14.0
+   */
+  default <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> assumeThat(final Spliterator<ELEMENT> spliterator) {
+    return Assumptions.assumeThat(spliterator);
+  }
 }

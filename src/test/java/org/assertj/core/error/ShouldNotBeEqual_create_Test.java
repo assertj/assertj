@@ -8,47 +8,46 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link ShouldNotBeEqual#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 public class ShouldNotBeEqual_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldNotBeEqual("Yoda", "Luke");
-  }
-
   @Test
   public void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotBeEqual("Yoda", "Luke");
+    // WHEN
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format("[Jedi] %nExpecting:%n <\"Yoda\">%nnot to be equal to:%n <\"Luke\">%n"));
+    // THEN
+    then(message).isEqualTo(format("[Jedi] %nExpecting:%n <\"Yoda\">%nnot to be equal to:%n <\"Luke\">%n"));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldNotBeEqual("Yoda", "Luke", new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotBeEqual("Yoda", "Luke",
+                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Jedi] %nExpecting:%n <\"Yoda\">%nnot to be equal to:%n <\"Luke\">%nwhen comparing values using CaseInsensitiveStringComparator"
-    ));
+    // THEN
+    then(message).isEqualTo(format("[Jedi] %nExpecting:%n <\"Yoda\">%nnot to be equal to:%n <\"Luke\">%nwhen comparing values using CaseInsensitiveStringComparator"));
   }
 }

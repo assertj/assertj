@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.condition;
 
@@ -17,7 +17,7 @@ import org.assertj.core.api.Condition;
 /**
  * Returns {@code true} if any of the joined conditions is satisfied.
  * @param <T> the type of object this condition accepts.
- * 
+ *
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
@@ -25,7 +25,7 @@ public class AnyOf<T> extends Join<T> {
 
   /**
    * Creates a new <code>{@link AnyOf}</code>
-   * 
+   *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
@@ -65,7 +65,7 @@ public class AnyOf<T> extends Join<T> {
   }
 
   @Override
-  public String toString() {
-    return String.format("any of:<%s>", conditions);
+  public String descriptionPrefix() {
+    return "any of";
   }
 }

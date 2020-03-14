@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -25,9 +26,7 @@ import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
 import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -86,6 +85,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * to Date.<br>
    * It keeps the insertion order so first format added will be first format used.
    */
+  // can't use <> with anonymous class in java 8
   @VisibleForTesting
   static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = new ThreadLocal<LinkedHashSet<DateFormat>>() {
     @Override
@@ -102,10 +102,12 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object) isEqualTo(Date date)} but given date is represented as
-   * String either with one of the supported defaults date format or a user custom date format (set with method
-   * {@link #withDateFormat(DateFormat)}).
+   * a {@code String} either with one of the supported defaults date format or a user custom date format set with method
+   * {@link #withDateFormat(DateFormat)}.
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -114,22 +116,29 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isEqualTo("2002-12-19");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -145,30 +154,39 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // OK : all dates fields are the same up to minutes excluded
    * assertThat("2003-04-26T13:01:35").isEqualToIgnoringHours("2003-04-26T14:02:35");
    *
    * // KO : fail as day fields differ
-   * assertThat("2003-04-26T14:01:35").isEqualToIgnoringHours("2003-04-27T13:02:35");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat("2003-04-26T14:01:35").isEqualToIgnoringHours("2003-04-27T13:02:35")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -185,7 +203,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
@@ -214,7 +234,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * String either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> withDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -222,23 +244,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat("2003-04-26T13:01:35").isEqualToIgnoringMinutes("2003-04-26T13:02:35");
    *
    * // KO : fail as hour fields differ
-   * assertThat("2003-04-26T14:01:35").isEqualToIgnoringMinutes("2003-04-26T13:02:35");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat("2003-04-26T14:01:35").isEqualToIgnoringMinutes("2003-04-26T13:02:35")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -282,7 +311,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
@@ -291,23 +322,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date1).isEqualToIgnoringSeconds("2003-04-26T13:01:57");
    *
    * // KO : fail as minute fields differ
-   * assertThat(date1).isEqualToIgnoringMinutes("2003-04-26T13:02:00");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(date1).isEqualToIgnoringMinutes("2003-04-26T13:02:00")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -350,7 +388,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-04-26T13:01:35.998");
@@ -359,23 +399,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat().isEqualToIgnoringMillis("2003-04-26T13:01:35.997");
    *
    * // KO : fail as seconds fields differ
-   * assertThat("2003-04-26T13:01:35.998").isEqualToIgnoringMinutes("2003-04-26T13:01:36.998");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat("2003-04-26T13:01:35.998").isEqualToIgnoringMinutes("2003-04-26T13:01:36.998")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -416,7 +463,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * represented as String either with one of the supported defaults date format or a user custom date format (set with
    * method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -424,23 +473,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo("2002-12-19");
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo("2002-12-18");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo("2002-12-18")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -455,7 +511,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link Assert#isIn(Object...)}but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -463,23 +521,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isIn("2002-12-17", "2002-12-18", "2002-12-19");
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isIn("2002-12-17", "2002-12-19", "2002-12-20");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isIn("2002-12-17", "2002-12-19", "2002-12-20")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
@@ -498,7 +563,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link Assert#isIn(Iterable)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -506,23 +573,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(asList("2002-12-17", "2002-12-18", "2002-12-19"));
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(asList("2002-12-17", "2002-12-19", "2002-12-20"));</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(asList("2002-12-17", "2002-12-19", "2002-12-20"))</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    * <p>
    * Method signature could not be <code>isIn(Collection&lt;String&gt;)</code> because it would be same signature as
    * <code>isIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.
@@ -540,7 +614,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link Assert#isNotIn(Object...)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -548,23 +624,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isNotIn("2002-12-17", "2002-12-19");
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isNotIn("2002-12-17", "2002-12-18");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isNotIn("2002-12-17", "2002-12-18")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
@@ -583,7 +666,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link Assert#isNotIn(Iterable)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -591,23 +676,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17", "2002-12-19"));
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17", "2002-12-18"));</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17", "2002-12-18"))</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    * Method signature could not be <code>isNotIn(Collection&lt;String&gt;)</code> because it would be same signature as
    * <code>isNotIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.
    *
@@ -646,7 +738,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isBefore(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -655,23 +749,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-17");
-   * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-18");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-18")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -739,7 +840,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isBeforeOrEqualsTo(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -748,23 +851,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-18");
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-17");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-17")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -784,7 +894,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isBeforeOrEqualTo(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -793,23 +905,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualTo("2002-12-18");
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualTo("2002-12-17");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualTo("2002-12-17")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -849,7 +968,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isAfter(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -858,23 +979,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-18");
-   * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-19");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-19")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -942,7 +1070,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isAfterOrEqualsTo(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -951,23 +1081,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-18");
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-19");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-19")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -987,7 +1124,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isAfterOrEqualTo(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -996,23 +1135,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualTo("2002-12-18");
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualTo("2002-12-19");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualTo("2002-12-19")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1053,7 +1199,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isBetween(Date, Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -1061,23 +1209,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-17", "2002-12-19");
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-15", "2002-12-17");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-15", "2002-12-17")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
@@ -1130,7 +1285,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * with one of the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -1139,23 +1296,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-18", "2002-12-19", true, false);
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-17", "2002-12-18", false, false);</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-17", "2002-12-18", false, false)</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param start the period start, expected not to be null.
    * @param end the period end, expected not to be null.
@@ -1209,7 +1373,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * either with one of the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -1218,23 +1384,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-17", "2002-12-18", false, true);
-   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-18", "2002-12-19", true, false);</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-18", "2002-12-19", true, false)</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
@@ -1282,30 +1455,39 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isNotBetween(Date, Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(theFellowshipOfTheRing.getReleaseDate()).isNotBetween("2002-12-01", "2002-12-10");
    *
    * // assertion will fail
-   * assertThat(theFellowshipOfTheRing.getReleaseDate()).isNotBetween("2002-12-01", "2002-12-19");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(theFellowshipOfTheRing.getReleaseDate()).isNotBetween("2002-12-01", "2002-12-19")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
@@ -1713,27 +1895,36 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isInSameYearAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
-   * assertThat(date1).isInSameYearAs("2003-05-27");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(date1).isInSameYearAs("2003-05-27")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1772,27 +1963,36 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isInSameMonthAs(Date)}but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
-   * assertThat(date1).isInSameMonthAs("2003-04-27");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(date1).isInSameMonthAs("2003-04-27")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1830,27 +2030,36 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isInSameDayAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T23:17:00");
-   * assertThat(date1).isInSameDayAs("2003-04-26");</code></pre>
-   *
-   * Defaults date format (expressed in the local time zone) are :
+   * assertThat(date1).isInSameDayAs("2003-04-26")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1905,23 +2114,32 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * with one of the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -1975,23 +2193,32 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isInSameHourAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2046,23 +2273,32 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2118,23 +2354,32 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isInSameMinuteAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -2193,23 +2438,32 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String.
    * @return this assertion object.
@@ -2263,23 +2517,32 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isInSameSecondAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    * @param dateAsString the given Date represented as String.
    * @return this assertion object.
    */
@@ -2324,23 +2587,32 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Same assertion as {@link #isCloseTo(Date, long)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @param deltaInMilliseconds the delta used for date comparison, expressed in milliseconds
@@ -2374,7 +2646,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Verifies that the actual {@code Date} has the same time as the given date, useful to compare {@link Date} and
-   * {@link Timestamp}.
+   * {@link java.sql.Timestamp}.
    * <p>
    * Example:
    * <pre><code class='java'> Date date = new Date();
@@ -2405,7 +2677,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * the supported default date formats or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * Beware that the default formats are expressed in the current local time zone.
+   * User custom date format take precedence over the default ones.
+   * <p>
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
    * Example:
    * <pre><code class='java'> Date date = parseDatetime("2003-04-26T12:00:00");
@@ -2415,23 +2689,30 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(date).hasSameTimeAs("2003-04-26T12:00:01");
-   * assertThat(date).hasSameTimeAs("2003-04-27T12:00:00");</code></pre>
-   *
-   * Default date formats (expressed in the local time zone) are:
+   * assertThat(date).hasSameTimeAs("2003-04-27T12:00:00")</code></pre>
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
    * @param dateAsString the given {@code Date} represented as {@code String} in default or custom date format.
    * @return this assertion object.
@@ -2496,7 +2777,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @CheckReturnValue
   public SELF withDateFormat(String userCustomDateFormatPattern) {
-    checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
+    requireNonNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
     return withDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
   }
 
@@ -2579,7 +2860,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public static void registerCustomDateFormat(DateFormat userCustomDateFormat) {
     ConfigurationProvider.loadRegisteredConfiguration();
-    checkNotNull(userCustomDateFormat, DATE_FORMAT_SHOULD_NOT_BE_NULL);
+    requireNonNull(userCustomDateFormat, DATE_FORMAT_SHOULD_NOT_BE_NULL);
     userDateFormats.get().add(userCustomDateFormat);
   }
 
@@ -2625,30 +2906,39 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
    */
   public static void registerCustomDateFormat(String userCustomDateFormatPattern) {
-    checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
+    requireNonNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
     registerCustomDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
   }
 
   /**
    * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
+   * <p>
+   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
+   * you can explicitly specify the date format to use so that the default ones are bypassed.
    */
   public static void useDefaultDateFormatsOnly() {
     userDateFormats.get().clear();
@@ -2657,20 +2947,26 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   /**
    * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
    * <p>
-   * Beware that the default formats are expressed in the current local timezone.
+   * User custom date format take precedence over the default ones.
    * <p>
-   * Defaults date format (expressed in the local time zone) are :
+   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
+   * <p>
+   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
+   * <li><code>2003-04-26T03:01:02+00:00</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
@@ -2723,7 +3019,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     for (DateFormat defaultDateFormat : dateFormats) {
       try {
         return defaultDateFormat.parse(dateAsString);
-      } catch (ParseException e) {
+      } catch (@SuppressWarnings("unused") ParseException e) {
         // ignore and try next date format
       }
     }

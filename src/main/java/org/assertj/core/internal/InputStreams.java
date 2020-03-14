@@ -8,15 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.internal.Digests.digestDiff;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,7 +65,7 @@ public class InputStreams {
    * @throws InputStreamsException if an I/O error occurs.
    */
   public void assertSameContentAs(AssertionInfo info, InputStream actual, InputStream expected) {
-    checkNotNull(expected, "The InputStream to compare to should not be null");
+    requireNonNull(expected, "The InputStream to compare to should not be null");
     assertNotNull(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, expected);
@@ -89,7 +89,7 @@ public class InputStreams {
    * @throws InputStreamsException if an I/O error occurs.
    */
   public void assertHasContent(AssertionInfo info, InputStream actual, String expected) {
-    checkNotNull(expected, "The String to compare to should not be null");
+    requireNonNull(expected, "The String to compare to should not be null");
     assertNotNull(info, actual);
 
     try {
@@ -107,8 +107,8 @@ public class InputStreams {
   }
 
   public void assertHasDigest(AssertionInfo info, InputStream actual, MessageDigest digest, byte[] expected) {
-    checkNotNull(digest, "The message digest algorithm should not be null");
-    checkNotNull(expected, "The binary representation of digest to compare to should not be null");
+    requireNonNull(digest, "The message digest algorithm should not be null");
+    requireNonNull(expected, "The binary representation of digest to compare to should not be null");
     assertNotNull(info, actual);
     try {
       DigestDiff diff = digestDiff(actual, digest, expected);
@@ -120,12 +120,12 @@ public class InputStreams {
   }
 
   public void assertHasDigest(AssertionInfo info, InputStream actual, MessageDigest digest, String expected) {
-    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, digest, Digests.fromHex(expected));
   }
 
   public void assertHasDigest(AssertionInfo info, InputStream actual, String algorithm, byte[] expected) {
-    checkNotNull(algorithm, "The message digest algorithm should not be null");
+    requireNonNull(algorithm, "The message digest algorithm should not be null");
     try {
       assertHasDigest(info, actual, MessageDigest.getInstance(algorithm), expected);
     } catch (NoSuchAlgorithmException e) {
@@ -134,7 +134,7 @@ public class InputStreams {
   }
 
   public void assertHasDigest(AssertionInfo info, InputStream actual, String algorithm, String expected) {
-    checkNotNull(expected, "The string representation of digest to compare to should not be null");
+    requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
 }

@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
@@ -29,15 +29,15 @@ public class ShouldHaveMessage_create_Test {
     // WHEN
     String errorMessage = shouldHaveMessage(actual, "expected error message").create(new TestDescription("TEST"));
     // THEN
-    assertThat(errorMessage).isEqualTo("[TEST] %n" +
-                                       "Expecting message to be:%n" +
-                                       "  <\"expected error message\">%n" +
-                                       "but was:%n" +
-                                       "  <\"error message\">%n" +
-                                       "%n" +
-                                       "Throwable that failed the check:%n" +
-                                       "%n%s",
-                                       getStackTrace(actual));
+    then(errorMessage).isEqualTo("[TEST] %n" +
+                                 "Expecting message to be:%n" +
+                                 "  <\"expected error message\">%n" +
+                                 "but was:%n" +
+                                 "  <\"error message\">%n" +
+                                 "%n" +
+                                 "Throwable that failed the check:%n" +
+                                 "%n%s",
+                                 getStackTrace(actual));
   }
 
   @Test
@@ -47,15 +47,15 @@ public class ShouldHaveMessage_create_Test {
     // WHEN
     String errorMessage = shouldHaveMessage(actual, "expected error message").create(new TestDescription("TEST"));
     // THEN
-    assertThat(errorMessage).isEqualTo("[TEST] %n" +
-                                       "Expecting message to be:%n" +
-                                       "  <\"expected error message\">%n" +
-                                       "but was:%n" +
-                                       "  <\"%%3A\">%n" +
-                                       "%n" +
-                                       "Throwable that failed the check:%n" +
-                                       "%n%s",
-                                       getStackTrace(actual));
+    then(errorMessage).isEqualTo("[TEST] %n" +
+                                 "Expecting message to be:%n" +
+                                 "  <\"expected error message\">%n" +
+                                 "but was:%n" +
+                                 "  <\"%%3A\">%n" +
+                                 "%n" +
+                                 "Throwable that failed the check:%n" +
+                                 "%n%s",
+                                 getStackTrace(actual));
   }
 
 }

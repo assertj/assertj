@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -41,6 +41,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Jean-Christophe Gay
  * @author Valeriy Vyrva
+ * @author Nikolaos Georgiou
  */
 public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssert<SELF, File> {
 
@@ -236,11 +237,49 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    *
-   * @deprecated use {@link #hasSameContentAs(File)} instead
+   * @deprecated use {@link #hasSameTextualContentAs(File)} instead
    */
   @Deprecated
   public SELF hasContentEqualTo(File expected) {
     return hasSameContentAs(expected);
+  }
+
+  /**
+   * @deprecated use {@link #hasSameTextualContentAs(File)} instead.
+   * <p>
+   * Verifies that the content of the actual {@code File} is equal to the content of the given one.
+   * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   *
+   * Examples:
+   * <pre><code class="java"> // use the default charset
+   * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
+   * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
+   * // use UTF-8 charset
+   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), StandardCharsets.UTF_8).toFile();
+   *
+   * // The following assertion succeeds (default charset is used):
+   * assertThat(xFile).hasSameContentAs(xFileClone);
+   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
+   * assertThat(xFileUTF8).usingCharset("UTF-8").hasSameContentAs(xFileClone);
+   *
+   * // The following assertion fails:
+   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
+   *
+   * @param expected the given {@code File} to compare the actual {@code File} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code File} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   */
+  @Deprecated
+  public SELF hasSameContentAs(File expected) {
+    return hasSameTextualContentAs(expected);
   }
 
   /**
@@ -258,12 +297,12 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), StandardCharsets.UTF_8).toFile();
    *
    * // The following assertion succeeds (default charset is used):
-   * assertThat(xFile).hasSameContentAs(xFileClone);
+   * assertThat(xFile).hasSameTextualContentAs(xFileClone);
    * // The following assertion succeeds (UTF-8 charset is used to read xFile):
-   * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
+   * assertThat(xFileUTF8).usingCharset("UTF-8").hasSameTextualContentAs(xFileClone);
    *
    * // The following assertion fails:
-   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
+   * assertThat(xFile).hasSameTextualContentAs(xFileFrench);</code></pre>
    *
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @return {@code this} assertion object.
@@ -273,9 +312,41 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} is not an existing file.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   * @since 3.15
    */
-  public SELF hasSameContentAs(File expected) {
+  public SELF hasSameTextualContentAs(File expected) {
     files.assertSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
+    return myself;
+  }
+
+  /**
+   * Verifies that the content of the actual {@code File} is equal to the content of the given one, the comparison is done at the binary level.<br>
+   * For text files, use {@link #hasSameTextualContentAs(File)}.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // The first two files have the same contents, the third does not
+   * File aFile = Files.write(Paths.get("a-file.bin"), new byte[] { 42 }).toFile();
+   * File bFile = Files.write(Paths.get("b-file.bin"), new byte[] { 42 }).toFile();
+   * File cFile = Files.write(Paths.get("c-file.bin"), new byte[] { 24 }).toFile();
+   *
+   * // The following assertion succeeds:
+   * assertThat(aFile).hasSameBinaryContentAs(bFile);
+   *
+   * // The following assertion fails:
+   * assertThat(aFile).hasSameBinaryContent(cFile);</code></pre>
+   *
+   * @param expected the given {@code File} to compare the actual {@code File} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code File} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   * @since 3.15
+   */
+  public SELF hasSameBinaryContentAs(File expected) {
+    files.assertSameBinaryContentAs(info, actual, expected);
     return myself;
   }
 
@@ -288,13 +359,13 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Examples:
    * <pre><code class="java"> File fileUTF8 = Files.write(Paths.get("actual"), Collections.singleton("Gerçek"), StandardCharsets.UTF_8).toFile();
    * Charset turkishCharset = Charset.forName("windows-1254");
-   * File fileTurkischCharset = Files.write(Paths.get("expected"), Collections.singleton("Gerçek"), turkishCharset).toFile();
+   * File fileTurkishCharset = Files.write(Paths.get("expected"), Collections.singleton("Gerçek"), turkishCharset).toFile();
    *
    * // The following assertion succeeds:
-   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, turkishCharset);
+   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkishCharset, turkishCharset);
    *
    * // The following assertion fails:
-   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkischCharset, StandardCharsets.UTF_8);</code></pre>
+   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkishCharset, StandardCharsets.UTF_8);</code></pre>
    *
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @param expectedCharset the {@link Charset} used to read the content of the expected file.
@@ -305,8 +376,41 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} is not an existing file.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   * @deprecated use {@link #hasSameTextualContentAs(File, Charset)} instead
    */
+  @Deprecated
   public SELF hasSameContentAs(File expected, Charset expectedCharset) {
+    return hasSameTextualContentAs(expected, expectedCharset);
+  }
+
+  /**
+   * Verifies that the content of the actual {@code File} is the same as the expected one, the expected {@code File} being read with the given charset while
+   * the charset used to read the actual path can be provided with {@link #usingCharset(Charset)} or {@link #usingCharset(String)} prior to calling this method;
+   * if not, the platform's default charset (as returned by {@link Charset#defaultCharset()}) will be used.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> File fileUTF8 = Files.write(Paths.get("actual"), Collections.singleton("Gerçek"), StandardCharsets.UTF_8).toFile();
+   * Charset turkishCharset = Charset.forName("windows-1254");
+   * File fileTurkishCharset = Files.write(Paths.get("expected"), Collections.singleton("Gerçek"), turkishCharset).toFile();
+   *
+   * // The following assertion succeeds:
+   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameTextualContentAs(fileTurkishCharset, turkishCharset);
+   *
+   * // The following assertion fails:
+   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameTextualContentAs(fileTurkishCharset, StandardCharsets.UTF_8);</code></pre>
+   *
+   * @param expected the given {@code File} to compare the actual {@code File} to.
+   * @param expectedCharset the {@link Charset} used to read the content of the expected file.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code File} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   * @since 3.13
+   */
+  public SELF hasSameTextualContentAs(File expected, Charset expectedCharset) {
     files.assertSameContentAs(info, actual, charset, expected, expectedCharset);
     return myself;
   }
@@ -321,7 +425,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertion will pass
    * assertThat(bin).hasBinaryContent(new byte[] {1, 1});
    *
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(bin).hasBinaryContent(new byte[] { });
    * assertThat(bin).hasBinaryContent(new byte[] {0, 0});</code></pre>
    *
@@ -335,6 +439,31 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   public SELF hasBinaryContent(byte[] expected) {
     files.assertHasBinaryContent(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the size of the {@code File} under test is <b>exactly</b> equal to the given size <b>in bytes</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;bin&quot;);
+   * Files.write(file.toPath(), new byte[] {1, 1});
+   *
+   * // assertion will pass
+   * assertThat(file).hasSize(2);
+   *
+   * // assertions will fail
+   * assertThat(file).hasSize(1);</code></pre>
+   *
+   * @param expectedSizeInBytes the expected {@code File}'s size in bytes.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws AssertionError if the size of the actual {@code File} is not equal to the given size.
+   * @since 3.14.0
+   */
+  public SELF hasSize(long expectedSizeInBytes) {
+    files.assertHasSizeInBytes(info, actual, expectedSizeInBytes);
     return myself;
   }
 
@@ -360,7 +489,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   @CheckReturnValue
   public SELF usingCharset(Charset charset) {
-    this.charset = checkNotNull(charset, "The charset should not be null");
+    this.charset = requireNonNull(charset, "The charset should not be null");
     return myself;
   }
 
@@ -964,6 +1093,57 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   public SELF isNotEmptyDirectory() {
     files.assertIsNotEmptyDirectory(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code File} is empty (i.e. the file size = 0).
+   * <p>
+   * Example:
+   * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   *
+   * // assertion will pass
+   * assertThat(file).isEmpty();
+   *
+   * Files.write(file.toPath(), new byte[]{1, 1});
+   *
+   * // assertion will fail
+   * assertThat(file).isEmpty();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not exist.
+   * @throws AssertionError if the actual {@code File} is not empty.
+   * @since 3.14.0
+   */
+  public SELF isEmpty() {
+    files.assertIsEmptyFile(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code File} is not empty (i.e. the file size &gt; 0).
+   * <p>
+   * Example:
+   * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * Files.write(file.toPath(), new byte[]{1, 1});
+   *
+   * // assertion will pass
+   * assertThat(file).isNotEmpty();
+   *
+   * file = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   *
+   * // assertion will fail
+   * assertThat(file).isNotEmpty();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not exist.
+   * @throws AssertionError if the actual {@code File} is empty.
+   * @since 3.14.0
+   */
+  public SELF isNotEmpty() {
+    files.assertIsNotEmptyFile(info, actual);
     return myself;
   }
 }

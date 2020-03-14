@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -48,13 +49,11 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
     AssertionInfo info = someInfo();
     URI uri = URI.create("http://example.com:8080/pages/");
     String expectedAuthority = "example.com:8888";
-    try {
-      uris.assertHasAuthority(info, uri, expectedAuthority);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveAuthority(uri, expectedAuthority));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveAuthority(uri, expectedAuthority));
   }
 
   @Test
@@ -62,13 +61,11 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
     AssertionInfo info = someInfo();
     URI uri = URI.create("http://example.com:8080/pages/");
     String expectedAuthority = "example.org:8080";
-    try {
-      uris.assertHasAuthority(info, uri, expectedAuthority);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveAuthority(uri, expectedAuthority));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldHaveAuthority(uri, expectedAuthority));
   }
 
 }

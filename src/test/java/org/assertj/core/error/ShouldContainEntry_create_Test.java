@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
@@ -32,29 +33,35 @@ public class ShouldContainEntry_create_Test {
 
   @Test
   public void should_create_error_message_with_entry_condition() {
+    // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainEntry(map, new TestCondition<>("test condition"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                                "Expecting:%n" +
-                                                " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
-                                                "to contain an entry satisfying:%n" +
-                                                " <test condition>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "to contain an entry satisfying:%n" +
+                                   " <test condition>"));
   }
 
   @Test
   public void should_create_error_message_with_key_and_value_conditions() {
+    // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainEntry(map, new TestCondition<>("test key condition"),
                                                      new TestCondition<>("test value condition"));
+    // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
-    assertThat(message).isEqualTo(String.format("[Test] %n" +
-                                                "Expecting:%n" +
-                                                " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
-                                                "to contain an entry satisfying both key and value conditions:%n" +
-                                                "- key condition:%n" +
-                                                "    <test key condition>%n" +
-                                                "- value condition:%n" +
-                                                "    <test value condition>"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "to contain an entry satisfying both key and value conditions:%n" +
+                                   "- key condition:%n" +
+                                   "    <test key condition>%n" +
+                                   "- value condition:%n" +
+                                   "    <test value condition>"));
   }
 }

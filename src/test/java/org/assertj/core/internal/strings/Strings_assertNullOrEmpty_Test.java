@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -34,13 +35,11 @@ public class Strings_assertNullOrEmpty_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
-    try {
-      strings.assertNullOrEmpty(info, "Yoda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> strings.assertNullOrEmpty(info, "Yoda"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
   }
 
   @Test
@@ -56,13 +55,11 @@ public class Strings_assertNullOrEmpty_Test extends StringsBaseTest {
   @Test
   public void should_fail_if_actual_is_not_null_and_is_not_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, "Yoda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, "Yoda"));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
   }
 
   @Test

@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.core.test.Maps.mapOf;
@@ -27,26 +27,32 @@ import org.junit.jupiter.api.Test;
 public class ShouldContainValues_create_Test {
   @Test
   public void should_create_error_message_with_multiple_values() {
-	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-	ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld", "Vader"));
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n" +
-	                              "Expecting:%n" +
-	                              "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
-	                              "to contain values:%n" +
-	                              "  <[\"VeryOld\", \"Vader\"]>"));
+    // GIVEN
+    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+    ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld", "Vader"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(String.format("[Test] %n" +
+                                          "Expecting:%n" +
+                                          "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                          "to contain values:%n" +
+                                          "  <[\"VeryOld\", \"Vader\"]>"));
   }
 
   @Test
   public void should_create_error_message_with_single_value() {
-	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-	ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld"));
-	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo(String.format("[Test] %n" +
-	                              "Expecting:%n" +
-	                              "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
-	                              "to contain value:%n" +
-	                              "  <\"VeryOld\">"));
+    // GIVEN
+    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+    ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(String.format("[Test] %n" +
+                                          "Expecting:%n" +
+                                          "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                          "to contain value:%n" +
+                                          "  <\"VeryOld\">"));
   }
 
 }

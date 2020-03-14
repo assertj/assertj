@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.zoneddatetime;
 
@@ -16,26 +16,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
 
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
+import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
 public class ZonedDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
-    extends org.assertj.core.api.ZonedDateTimeAssertBaseTest {
-
-  private ZonedDateTime before = now.minusSeconds(1);
-  private ZonedDateTime after = now.plusSeconds(1);
+    extends AbstractZonedDateTimeAssertBaseTest {
 
   @Override
   protected ZonedDateTimeAssert invoke_api_method() {
-    return assertions.isStrictlyBetween(before.toString(), after.toString());
+    return assertions.isStrictlyBetween(YESTERDAY.toString(), TOMORROW.toString());
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), before, after, false, false);
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, false, false);
   }
 
   @Test
@@ -43,7 +40,7 @@ public class ZonedDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
     // GIVEN
     String abc = "abc";
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.isStrictlyBetween(abc, after.toString()));
+    Throwable thrown = catchThrowable(() -> assertions.isStrictlyBetween(abc, TOMORROW.toString()));
     // THEN
     assertThat(thrown).isInstanceOf(DateTimeParseException.class);
   }
@@ -53,7 +50,7 @@ public class ZonedDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
     // GIVEN
     String abc = "abc";
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.isStrictlyBetween(before.toString(), abc));
+    Throwable thrown = catchThrowable(() -> assertions.isStrictlyBetween(YESTERDAY.toString(), abc));
     // THEN
     assertThat(thrown).isInstanceOf(DateTimeParseException.class);
   }

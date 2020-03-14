@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -27,7 +27,6 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
@@ -327,7 +326,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its {@code equals} method.
    * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the  field.
+   * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
@@ -583,12 +582,16 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * If you extract "id", "name" and "email" fields/properties then the list will contain the id, name and email values
    * of the object under test, you can then perform list assertions on the extracted values.
    * <p>
-   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to get the value
-   * corresponding to actual.getAdress().getStreet().getNumber()
+   * If the object under test is a {@link Map} with {@link String} keys, extracting will extract values matching the given fields/properties.
+   * <p>
+   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to:
+   * <pre><code class='java'> // "adress.street.number" corresponding to pojo properties
+   * actual.getAdress().getStreet().getNumber();</code></pre>
+   * or if address is a {@link Map}:
+   * <pre><code class='java'> // "adress" is a Map property (that is getAdress() returns a Map)
+   * actual.getAdress().get("street").getNumber();</code></pre>
    * <p>
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
-   * <p>
-   * If the object under test is a {@link Map} with {@link String} keys, extracting will extract values matching the given fields/properties.
    * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
@@ -596,7 +599,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * // let's verify Frodo's name, age and race name:
    * assertThat(frodo).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
-   *                  .containsExactly(&quot;Frodo&quot;, 33, "Hobbit");</code></pre>
+   *                  .containsExactly(&quot;Frodo&quot;, 33, &quot;Hobbit&quot;);</code></pre>
    *
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
    * for, if the field is not accessible (i.e. does not exist) an {@link IntrospectionError} is thrown.
@@ -612,7 +615,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     Tuple values = byName(propertiesOrFields).apply(actual);
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(values.toList()).as(description);
+    return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
   }
 
   /**
@@ -620,8 +623,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
    * <p>
-   * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
-   * corresponding to actual.getAddress().getStreet().getNumber()
+   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to:
+   * <pre><code class='java'> // "adress.street.number" corresponding to pojo properties
+   * actual.getAdress().getStreet().getNumber();</code></pre>
+   * or if address is a {@link Map}:
+   * <pre><code class='java'> // "adress" is a Map property (that is getAdress() returns a Map)
+   * actual.getAdress().get("street").getNumber();</code></pre>
    * <p>
    * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -634,6 +641,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // let's extract and verify Frodo's name:
    * assertThat(frodo).extracting(&quot;name&quot;)
    *                  .isEqualTo(&quot;Frodo&quot;);
+   * // or its race name:
+   * assertThat(frodo).extracting(&quot;race.name&quot;)
+   *                  .isEqualTo(&quot;Hobbit&quot;);
    *
    * // The extracted value being a String, we would like to use String assertions but we can't due to Java generics limitations.
    * // The following assertion does NOT compile:
@@ -641,7 +651,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                  .startsWith(&quot;Fro&quot;);
    *
    * // To get String assertions, use {@link #extracting(String, InstanceOfAssertFactory)}:
-   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.STRING)
+   * assertThat(frodo).extracting(&quot;name&quot;, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    * <p>
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
@@ -656,7 +666,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    return internalExtracting(propertyOrField);
+    return super.extracting(propertyOrField, this::newObjectAssert);
   }
 
   /**
@@ -672,16 +682,19 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
+   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * assertion more readable.
+   * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race (Race having a name property)
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    *
    * // let's extract and verify Frodo's name:
-   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.STRING)
+   * assertThat(frodo).extracting(&quot;name&quot;, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);
    *
    * // The following assertion will fail as Frodo's name is not an Integer:
-   * assertThat(frodo).extracting(&quot;name&quot;, InstanceOfAssertFactories.INTEGER)
+   * assertThat(frodo).extracting(&quot;name&quot;, as(InstanceOfAssertFactories.INTEGER))
    *                  .isZero();</code></pre>
    * <p>
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
@@ -699,14 +712,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return internalExtracting(propertyOrField).asInstanceOf(assertFactory);
-  }
-
-  private AbstractObjectAssert<?, ?> internalExtracting(String propertyOrField) {
-    Object value = byName(propertyOrField).apply(actual);
-    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
-    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return newObjectAssert(value).withAssertionState(myself).as(description);
+    return super.extracting(propertyOrField, this::newObjectAssert).asInstanceOf(assertFactory);
   }
 
   /**
@@ -731,8 +737,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param extractors the extractor functions to extract values from the Object under test.
    * @return a new assertion object whose object under test is the list containing the extracted values
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(@SuppressWarnings("unchecked") Function<? super ACTUAL, ?>... extractors) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors").create());
     List<Object> values = Stream.of(extractors)
                                 .map(extractor -> extractor.apply(actual))
@@ -759,7 +766,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                  .startsWith(&quot;Fro&quot;);
    *
    * // To get String assertions, use {@link #extracting(Function, InstanceOfAssertFactory)}:
-   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.STRING)
+   * assertThat(frodo).extracting(TolkienCharacter::getName, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    *
    * @param <T> the expected extracted value type.
@@ -771,7 +778,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
-    return internalExtracting(extractor);
+    return super.extracting(extractor, this::newObjectAssert);
   }
 
   /**
@@ -782,16 +789,19 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
+   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * assertion more readable.
+   * <p>
    * Example:
    * <pre><code class='java'> // Create frodo, setting its name, age and Race
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    *
    * // let's extract and verify Frodo's name:
-   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.STRING)
+   * assertThat(frodo).extracting(TolkienCharacter::getName, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);
    *
    * // The following assertion will fail as Frodo's name is not an Integer:
-   * assertThat(frodo).extracting(TolkienCharacter::getName, InstanceOfAssertFactories.INTEGER)
+   * assertThat(frodo).extracting(TolkienCharacter::getName, as(InstanceOfAssertFactories.INTEGER))
    *                  .isZero();</code></pre>
    *
    * @param <T>           the expected extracted value type
@@ -806,13 +816,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
                                                                     InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return internalExtracting(extractor).asInstanceOf(assertFactory);
-  }
-
-  private <T> AbstractObjectAssert<?, T> internalExtracting(Function<? super ACTUAL, T> extractor) {
-    requireNonNull(extractor, shouldNotBeNull("extractor").create());
-    T extractedValue = extractor.apply(actual);
-    return newObjectAssert(extractedValue).withAssertionState(myself);
+    return super.extracting(extractor, this::newObjectAssert).asInstanceOf(assertFactory);
   }
 
   /**
@@ -971,7 +975,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * It is possible to change the comparison behavior, among things what you can is:
    * <ul>
-   *   <li>Choosing a strict or lenient recursive comparison (lenient being the default wich allows to compare different types like {@code Book} and {@code BookDto} </li>
+   *   <li>Choosing a strict or lenient recursive comparison (lenient being the default which allows to compare different types like {@code Book} and {@code BookDto} </li>
    *   <li>Ignoring fields in the comparison </li>
    *   <li>Specifying comparators to use in the comparison per fields and types</li>
    *   <li>Forcing recursive comparison on classes that have redefined equals (by default overridden equals are used)</li>
@@ -981,9 +985,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @return a new {@link RecursiveComparisonAssert} instance
    */
-  @Beta
+  @Override
   public RecursiveComparisonAssert<?> usingRecursiveComparison() {
-    return usingRecursiveComparison(new RecursiveComparisonConfiguration());
+    // overridden for javadoc
+    return super.usingRecursiveComparison();
   }
 
   /**
@@ -992,10 +997,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
-  @Beta
+  @Override
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself)
-                                                                                    .withTypeComparators(comparatorByType);
+    return super.usingRecursiveComparison(recursiveComparisonConfiguration).withTypeComparators(comparatorByType);
   }
 
   // override for proxyable friendly AbstractObjectAssert

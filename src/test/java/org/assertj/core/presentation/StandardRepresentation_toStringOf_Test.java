@@ -8,21 +8,24 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.presentation;
 
 import static java.lang.String.format;
+import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -38,12 +41,16 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.stream.Stream;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.util.OtherStringTestComparator;
 import org.assertj.core.util.OtherStringTestComparatorWithAt;
 import org.assertj.core.util.StringTestComparator;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for {@link org.assertj.core.presentation.StandardRepresentation#toStringOf(Object)}.
@@ -116,7 +123,8 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
-    Collection<List<String>> collection = newArrayList(newArrayList("s1", "s2"), newArrayList("s3", "s4", "s5"), newArrayList("s6", "s7"));
+    Collection<List<String>> collection = newArrayList(newArrayList("s1", "s2"), newArrayList("s3", "s4", "s5"),
+                                                       newArrayList("s6", "s7"));
     StandardRepresentation.setMaxElementsForPrinting(2);
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection))
                                                               .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
@@ -294,6 +302,21 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
                           .findAny().get();
 
     assertThat(STANDARD_REPRESENTATION.toStringOf(method)).isEqualTo(method.toGenericString());
+  }
+
+  @ParameterizedTest
+  @MethodSource("durations")
+  public void should_return_toString_of_duration(Duration duration, String expectedDurationRepresentation) {
+    // WHEN
+    String durationRepresentation = STANDARD_REPRESENTATION.toStringOf(duration);
+    // THEN
+    then(durationRepresentation).isEqualTo(expectedDurationRepresentation);
+  }
+
+  private static Stream<Arguments> durations() {
+    return Stream.of(Arguments.of(Duration.of(1L, MILLIS), "0.001S"),
+                     Arguments.of(Duration.of(1234L, MILLIS), "1.234S"),
+                     Arguments.of(Duration.of(3_661_001L, MILLIS), "1H1M1.001S"));
   }
 
   private String toStringOf(Object o) {

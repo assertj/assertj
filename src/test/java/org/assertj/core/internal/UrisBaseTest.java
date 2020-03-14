@@ -8,12 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
+
+import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,12 +32,16 @@ public abstract class UrisBaseTest {
   protected Uris uris;
   protected AssertionInfo info;
 
-
   @BeforeEach
-  public void setUp() {
-	failures = spy(new Failures());
-	uris = new Uris();
-	uris.failures = failures;
-	info = someInfo();
+  void setUp() {
+    failures = spy(new Failures());
+    uris = new Uris();
+    uris.failures = failures;
+    info = someInfo();
   }
+
+  protected static Map<String, List<String>> getParameters(String query) {
+    return Uris.getParameters(query);
+  }
+
 }

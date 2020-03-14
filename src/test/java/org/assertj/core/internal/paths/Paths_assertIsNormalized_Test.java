@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
-import static org.assertj.core.test.TestFailures.wasExpectingAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -28,26 +29,24 @@ public class Paths_assertIsNormalized_Test extends MockPathsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsNormalized(info, null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsNormalized(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_normalized() {
-	when(actual.normalize()).thenReturn(mock(Path.class));
+    when(actual.normalize()).thenReturn(mock(Path.class));
 
-	try {
-	  paths.assertIsNormalized(info, actual);
-	  wasExpectingAssertionError();
-	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldBeNormalized(actual));
-	}
+    Throwable error = catchThrowable(() -> paths.assertIsNormalized(info, actual));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeNormalized(actual));
   }
 
   @Test
   public void should_pass_if_actual_is_normalized() {
-	when(actual.normalize()).thenReturn(actual);
+    when(actual.normalize()).thenReturn(actual);
 
-	paths.assertIsNormalized(info, actual);
+    paths.assertIsNormalized(info, actual);
   }
 }

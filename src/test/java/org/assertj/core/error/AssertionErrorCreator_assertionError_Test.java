@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -34,11 +34,11 @@ public class AssertionErrorCreator_assertionError_Test {
     // WHEN
     AssertionError assertionError = assertionErrorCreator.assertionError(message, actual, expected);
     // THEN
-    assertThat(assertionError).isInstanceOf(AssertionFailedError.class)
-                              .hasMessage(message);
+    then(assertionError).isInstanceOf(AssertionFailedError.class)
+                        .hasMessage(message);
     AssertionFailedError assertionFailedError = (AssertionFailedError) assertionError;
-    assertThat(assertionFailedError.getActual().getValue()).isSameAs(actual);
-    assertThat(assertionFailedError.getExpected().getValue()).isSameAs(expected);
+    then(assertionFailedError.getActual().getValue()).isSameAs(actual);
+    then(assertionFailedError.getExpected().getValue()).isSameAs(expected);
   }
 
   @Test
@@ -51,7 +51,7 @@ public class AssertionErrorCreator_assertionError_Test {
     // WHEN
     AssertionError assertionError = assertionErrorCreator.assertionError(message, "actual", "expected");
     // THEN
-    assertThat(assertionError).isNotInstanceOf(AssertionFailedError.class)
-                              .hasMessage(message);
+    then(assertionError).isNotInstanceOf(AssertionFailedError.class)
+                        .hasMessage(message);
   }
 }

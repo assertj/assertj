@@ -8,15 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -31,13 +31,13 @@ public class ShouldNotHaveAnyElementsOfTypes_create_Test {
   @Test
   public void should_create_error_message() {
     // GIVEN
-    List<Number> actual = newArrayList(1, 2, 3.0, 4.1, BigDecimal.ONE);
+    List<Number> actual = list(1, 2, 3.0, 4.1, BigDecimal.ONE);
 
     Class<?>[] unexpectedTypes = { Long.class, Double.class, BigDecimal.class };
 
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
-    nonMatchingElementsByType.put(BigDecimal.class, newArrayList(BigDecimal.ONE));
-    nonMatchingElementsByType.put(Double.class, newArrayList(3.0, 4.1));
+    nonMatchingElementsByType.put(BigDecimal.class, list(BigDecimal.ONE));
+    nonMatchingElementsByType.put(Double.class, list(3.0, 4.1));
 
     ShouldNotHaveAnyElementsOfTypes shouldNotHaveAnyElementsOfTypes = shouldNotHaveAnyElementsOfTypes(actual,
                                                                                                       unexpectedTypes,
@@ -46,12 +46,12 @@ public class ShouldNotHaveAnyElementsOfTypes_create_Test {
     String message = shouldNotHaveAnyElementsOfTypes.create(new TestDescription("Test"), CONFIGURATION_PROVIDER.representation());
 
     // THEN
-    assertThat(message).isEqualTo(format("[Test] %n" +
-                                         "Expecting:%n" +
-                                         "  <[1, 2, 3.0, 4.1, 1]>%n" +
-                                         "to not have any elements of the following types:%n" +
-                                         "  <[java.lang.Long, java.lang.Double, java.math.BigDecimal]>%n" +
-                                         "but found:%n" +
-                                         "  <{java.math.BigDecimal=[1], java.lang.Double=[3.0, 4.1]}>"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <[1, 2, 3.0, 4.1, 1]>%n" +
+                                   "to not have any elements of the following types:%n" +
+                                   "  <[java.lang.Long, java.lang.Double, java.math.BigDecimal]>%n" +
+                                   "but found:%n" +
+                                   "  <{java.math.BigDecimal=[1], java.lang.Double=[3.0, 4.1]}>"));
   }
 }

@@ -8,192 +8,212 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.extractor;
 
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.test.Maps.mapOf;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.OptionalInt;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.Introspection;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class ByNameSingleExtractorTest {
-  private static final Employee yoda = new Employee(1L, new Name("Yoda"), 800);
+@DisplayName("ByNameSingleExtractor")
+class ByNameSingleExtractorTest {
+
+  private static final Employee YODA = new Employee(1L, new Name("Yoda"), 800);
 
   @Test
-  public void should_extract_field_values_even_if_property_does_not_exist() {
-    Object extractedValues = idExtractor().apply(yoda);
-
-    assertThat(extractedValues).isEqualTo(1L);
+  void should_extract_field_values_even_if_property_does_not_exist() {
+    // GIVEN
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("id");
+    // WHEN
+    Object result = underTest.apply(YODA);
+    // THEN
+    then(result).isEqualTo(1L);
   }
 
   @Test
-  public void should_extract_property_values_when_no_public_field_match_given_name() {
-    Object extractedValues = ageExtractor().apply(yoda);
-
-    assertThat(extractedValues).isEqualTo(800);
+  void should_extract_property_values_when_no_public_field_match_given_name() {
+    // GIVEN
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("age");
+    // WHEN
+    Object result = underTest.apply(YODA);
+    // THEN
+    then(result).isEqualTo(800);
   }
 
   @Test
-  public void should_extract_pure_property_values() {
-    Object extractedValues = adultExtractor().apply(yoda);
-
-    assertThat(extractedValues).isEqualTo(true);
+  void should_extract_pure_property_values() {
+    // GIVEN
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("adult");
+    // WHEN
+    Object result = underTest.apply(YODA);
+    // THEN
+    then(result).isEqualTo(true);
   }
 
   @Test
-  public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> new ByNameSingleExtractor<Employee>("unknown").apply(yoda));
+  void should_throw_error_when_no_property_nor_public_field_match_given_name() {
+    // GIVEN
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("unknown");
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.apply(YODA));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
   }
 
   @Test
-  public void should_throw_exception_when_given_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>(null).apply(yoda))
-                                        .withMessage("The name of the field/property to read should not be null");
+  void should_throw_exception_when_given_name_is_null() {
+    // GIVEN
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor(null);
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.apply(YODA));
+    // THEN
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("The name of the property/field to read should not be null");
   }
 
   @Test
-  public void should_throw_exception_when_given_name_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> new ByNameSingleExtractor<Employee>("").apply(yoda))
-                                        .withMessage("The name of the field/property to read should not be empty");
+  void should_throw_exception_when_given_name_is_empty() {
+    // GIVEN
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("");
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.apply(YODA));
+    // THEN
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("The name of the property/field to read should not be empty");
   }
 
   @Test
-  public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
-    Object extractedValue = nameExtractor().apply(new EmployeeWithBrokenName("Name"));
-
-    assertThat(extractedValue).isEqualTo(new Name("Name"));
+  void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
+    // GIVEN
+    Employee employee = new Employee(1L, new Name("Name"), 0) {
+      @Override
+      public Name getName() {
+        throw new RuntimeException();
+      }
+    };
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("name");
+    // WHEN
+    Object result = underTest.apply(employee);
+    // THEN
+    then(result).isEqualTo(new Name("Name"));
   }
 
   @Test
-  public void should_prefer_properties_over_fields() {
-    Object extractedValue = nameExtractor().apply(new EmployeeWithOverriddenName("Overridden Name"));
-
-    assertThat(extractedValue).isEqualTo(new Name("Overridden Name"));
+  void should_prefer_properties_over_fields() {
+    // GIVEN
+    Employee employee = new Employee(1L, new Name("Name"), 0) {
+      @Override
+      public Name getName() {
+        return new Name("Overridden Name");
+      }
+    };
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("name");
+    // WHEN
+    Object result = underTest.apply(employee);
+    // THEN
+    then(result).isEqualTo(new Name("Overridden Name"));
   }
 
   @Test
-  public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
-      Employee employee = new BrokenEmployee();
-      adultExtractor().apply(employee);
-    });
+  void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
+    // GIVEN
+    Employee employee = new Employee() {
+      @Override
+      public boolean isAdult() {
+        throw new RuntimeException();
+      }
+    };
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("adult");
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.apply(employee));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
   }
 
   @Test
-  public void should_throw_exception_if_no_object_is_given() {
-    assertThatIllegalArgumentException().isThrownBy(() -> idExtractor().apply(null));
+  void should_throw_exception_if_no_object_is_given() {
+    // GIVEN
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("id");
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.apply(null));
+    // THEN
+    then(thrown).isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  public void should_extract_single_value_from_maps_by_key() {
-    String key1 = "key1";
-    String key2 = "key2";
-    Map<String, Employee> map1 = new HashMap<>();
-    map1.put(key1, yoda);
-    Employee luke = new Employee(2L, new Name("Luke"), 22);
-    map1.put(key2, luke);
-
-    Map<String, Employee> map2 = new HashMap<>();
-    map2.put(key1, yoda);
-    Employee han = new Employee(3L, new Name("Han"), 31);
-    map2.put(key2, han);
-
-    List<Map<String, Employee>> maps = asList(map1, map2);
-    assertThat(maps).extracting(key2).containsExactly(luke, han);
-    assertThat(maps).extracting(key2, Employee.class).containsExactly(luke, han);
-    assertThat(maps).extracting(key1).containsExactly(yoda, yoda);
-    assertThat(maps).extracting("bad key").containsExactly(null, null);
+  void should_extract_single_value_from_map_by_key() {
+    // GIVEN
+    Map<String, Employee> map = mapOf(entry("key", YODA));
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("key");
+    // WHEN
+    Object result = underTest.apply(map);
+    // THEN
+    then(result).isEqualTo(YODA);
   }
 
   @Test
-  public void should_extract_property_field_combinations() {
+  void should_extract_null_from_map_by_non_existing_key() {
+    // GIVEN
+    Map<String, Employee> map = mapOf(entry("key", YODA));
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("non-existing");
+    // WHEN
+    Object result = underTest.apply(map);
+    // THEN
+    then(result).isNull();
+  }
+
+  @Test
+  void should_extract_property_field_combinations() {
+    // GIVEN
     Employee darth = new Employee(1L, new Name("Darth", "Vader"), 100);
     Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     darth.field = luke;
     luke.field = darth;
     luke.surname = new Name("Young", "Padawan");
-    Object extracted = byName("me.field.me.field.me.field.surname.name").apply(darth);
-    assertThat(extracted).isEqualTo("Young Padawan");
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("me.field.me.field.me.field.surname.name");
+    // WHEN
+    Object result = underTest.apply(darth);
+    // THEN
+    then(result).isEqualTo("Young Padawan");
   }
 
   @Test
-  public void should_extract_property_with_barename_method() {
+  void should_extract_property_with_bare_name_method() {
+    // GIVEN
     BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
-    assertThat(holder).extracting("value")
-                      .isEqualTo(OptionalInt.of(42));
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("value");
+    // WHEN
+    Object result = underTest.apply(holder);
+    // THEN
+    then(result).isEqualTo(OptionalInt.of(42));
   }
 
   @Test
-  public void should_ignore_property_with_barename_method() {
-    BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
-    Assertions.setExtractBareNamePropertyMethods(false);
-    assertThat(holder).extracting("value")
-                      .isEqualTo(42);
-    Assertions.setExtractBareNamePropertyMethods(true);
-  }
-
-  public static class EmployeeWithBrokenName extends Employee {
-
-    public EmployeeWithBrokenName(String name) {
-      super(1L, new Name(name), 0);
+  void should_ignore_property_with_bare_name_method_when_disabled() {
+    try {
+      // GIVEN
+      Introspection.setExtractBareNamePropertyMethods(false);
+      BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
+      ByNameSingleExtractor underTest = new ByNameSingleExtractor("value");
+      // WHEN
+      Object result = underTest.apply(holder);
+      // THEN
+      then(result).isEqualTo(42);
+    } finally {
+      Introspection.setExtractBareNamePropertyMethods(true);
     }
-
-    @Override
-    public Name getName() {
-      throw new IllegalStateException();
-    }
-  }
-
-  public static class EmployeeWithOverriddenName extends Employee {
-
-    private String overriddenName;
-
-    public EmployeeWithOverriddenName(final String overriddenName) {
-      super(1L, new Name("Name"), 0);
-      this.overriddenName = overriddenName;
-    }
-
-    @Override
-    public Name getName() {
-      return new Name(overriddenName);
-    }
-  }
-
-  public static class BrokenEmployee extends Employee {
-
-    @Override
-    public boolean isAdult() {
-      throw new IllegalStateException();
-    }
-  }
-
-  private ByNameSingleExtractor<Employee> idExtractor() {
-    return new ByNameSingleExtractor<>("id");
-  }
-
-  private ByNameSingleExtractor<Employee> ageExtractor() {
-    return new ByNameSingleExtractor<>("age");
-  }
-
-  private ByNameSingleExtractor<Employee> adultExtractor() {
-    return new ByNameSingleExtractor<>("adult");
-  }
-
-  private ByNameSingleExtractor<Employee> nameExtractor() {
-    return new ByNameSingleExtractor<>("name");
   }
 
   /** This style of Optional handling is emitted by Immutables code gen library. */
@@ -213,8 +233,9 @@ public class ByNameSingleExtractorTest {
     }
 
     // ensure setter-like methods don't distract us
-    public BareOptionalIntHolder value(int value) {
+    public BareOptionalIntHolder value(@SuppressWarnings("unused") int value) {
       throw new AssertionError("unreached");
     }
   }
+
 }

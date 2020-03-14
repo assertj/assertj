@@ -8,39 +8,49 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.assertj.core.api.BaseTest;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CompletableFutureAssert_isDone_Test extends BaseTest {
+@DisplayName("CompletableFutureAssert isDone")
+public class CompletableFutureAssert_isDone_Test {
 
   @Test
   public void should_pass_if_completable_future_is_done() {
-    assertThat(CompletableFuture.completedFuture("done")).isDone();
+    // GIVEN
+    CompletableFuture<String> future = CompletableFuture.completedFuture("done");
+    // THEN
+    assertThat(future).isDone();
   }
 
   @Test
   public void should_fail_when_completable_future_is_null() {
-    assertThatThrownBy(() -> assertThat((CompletableFuture<String>) null).isDone()).isInstanceOf(AssertionError.class)
-                                                                                   .hasMessage(format(actualIsNull()));
+    // GIVEN
+    CompletableFuture<String> future = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).isDone();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_completable_future_is_not_done() {
+    // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
-
-    assertThatThrownBy(() -> assertThat(future).isDone()).isInstanceOf(AssertionError.class)
-                                                         .hasMessage(shouldBeDone(future).create());
+    // WHEN
+    ThrowingCallable code = () -> assertThat(future).isDone();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeDone(future).create());
   }
 }

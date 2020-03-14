@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.characters;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -49,25 +50,21 @@ public class Characters_assertGreaterThan_Test extends CharactersBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo someInfo = someInfo();
-    try {
-      characters.assertGreaterThan(someInfo, 'b', 'b');
-    } catch (AssertionError e) {
-      verify(failures).failure(someInfo, shouldBeGreater('b', 'b'));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> characters.assertGreaterThan(someInfo, 'b', 'b'));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(someInfo, shouldBeGreater('b', 'b'));
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
-    try {
-      characters.assertGreaterThan(info, 'a', 'b');
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater('a', 'b'));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> characters.assertGreaterThan(info, 'a', 'b'));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater('a', 'b'));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -82,25 +79,21 @@ public class Characters_assertGreaterThan_Test extends CharactersBaseTest {
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo someInfo = someInfo();
-    try {
-      charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo, 'B', 'b');
-    } catch (AssertionError e) {
-      verify(failures).failure(someInfo, shouldBeGreater('B', 'b', caseInsensitiveComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo, 'B', 'b'));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(someInfo, shouldBeGreater('B', 'b', caseInsensitiveComparisonStrategy));
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    try {
-      charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(info, 'A', 'b');
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater('A', 'b', caseInsensitiveComparisonStrategy));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(info, 'A', 'b'));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeGreater('A', 'b', caseInsensitiveComparisonStrategy));
   }
 
 }

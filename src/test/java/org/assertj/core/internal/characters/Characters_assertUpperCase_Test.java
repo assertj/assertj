@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal.characters;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
@@ -49,13 +50,11 @@ public class Characters_assertUpperCase_Test extends CharactersBaseTest {
   @Test
   public void should_fail_if_actual_is_not_uppercase() {
     AssertionInfo info = someInfo();
-    try {
-      characters.assertUpperCase(info, 'a');
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeUpperCase('a'));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> characters.assertUpperCase(info, 'a'));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeUpperCase('a'));
   }
 
   @Test
@@ -72,12 +71,10 @@ public class Characters_assertUpperCase_Test extends CharactersBaseTest {
   @Test
   public void should_fail_if_actual_is_not_uppercase_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    try {
-      charactersWithCaseInsensitiveComparisonStrategy.assertUpperCase(info, 'a');
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeUpperCase('a'));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+
+    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertUpperCase(info, 'a'));
+
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeUpperCase('a'));
   }
 }

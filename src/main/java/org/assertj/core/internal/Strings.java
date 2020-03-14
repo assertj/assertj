@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -16,6 +16,7 @@ import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -66,7 +67,6 @@ import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.io.IOException;
@@ -534,7 +534,7 @@ public class Strings {
   }
 
   private void checkCharSequenceIsNotNull(CharSequence sequence) {
-    checkNotNull(sequence, "The char sequence to look for should not be null");
+    requireNonNull(sequence, "The char sequence to look for should not be null");
   }
 
   /**
@@ -757,7 +757,7 @@ public class Strings {
   }
 
   private static void failIfPrefixIsNull(CharSequence prefix) {
-    checkNotNull(prefix, "The given prefix should not be null");
+    requireNonNull(prefix, "The given prefix should not be null");
   }
 
   /**
@@ -795,7 +795,7 @@ public class Strings {
   }
 
   private static void failIfSuffixIsNull(CharSequence suffix) {
-    checkNotNull(suffix, "The given suffix should not be null");
+    requireNonNull(suffix, "The given suffix should not be null");
   }
 
   /**
@@ -985,7 +985,7 @@ public class Strings {
 
   public void assertIsSubstringOf(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     assertNotNull(info, actual);
-    checkNotNull(sequence, "Expecting CharSequence not to be null");
+    requireNonNull(sequence, "Expecting CharSequence not to be null");
     if (stringContains(sequence.toString(), actual.toString())) return;
     throw failures.failure(info, shouldBeSubstring(actual, sequence, comparisonStrategy));
   }
@@ -1065,7 +1065,7 @@ public class Strings {
       checkCharSequenceIsNotNull(values[0]);
     } else {
       for (int i = 0; i < values.length; i++) {
-        checkNotNull(values[i], "Expecting CharSequence elements not to be null but found one at index " + i);
+        requireNonNull(values[i], "Expecting CharSequence elements not to be null but found one at index " + i);
       }
     }
   }
