@@ -77,7 +77,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
     String pattern = null;
     // THEN
     assertThatNullPointerException().isThrownBy(() -> paths.assertIsDirectoryNotContaining(INFO, null, pattern))
-                                    .withMessage("The syntax and pattern to build PathMatcher should not be null");
+                                    .withMessage("The syntax and pattern should not be null");
   }
 
   @Test
