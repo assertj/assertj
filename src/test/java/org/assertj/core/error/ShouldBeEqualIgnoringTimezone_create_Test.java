@@ -60,9 +60,9 @@ public class ShouldBeEqualIgnoringTimezone_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <2000-05-13T12:00Z>%n" +
+                                   "  <2000-05-13T12:00Z (java.time.OffsetDateTime)>%n" +
                                    "to have same time fields except timezone as:%n" +
-                                   "  <2000-05-13T12:00-18:00>%n" +
+                                   "  <2000-05-13T12:00-18:00 (java.time.OffsetDateTime)>%n" +
                                    "but had not."));
   }
 }

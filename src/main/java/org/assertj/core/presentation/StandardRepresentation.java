@@ -17,6 +17,8 @@ import static java.lang.reflect.Array.getLength;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 import static org.assertj.core.util.Arrays.isObjectArray;
+import static org.assertj.core.util.DateUtil.formatAsDatetime;
+import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
@@ -27,6 +29,10 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -59,7 +65,6 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Arrays;
-import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
@@ -97,6 +102,8 @@ public class StandardRepresentation implements Representation {
   private static int maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
+  private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
+      OffsetDateTime.class, Calendar.class };
 
   /**
    * It resets the static defaults for the standard representation.
@@ -168,6 +175,10 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
     if (object instanceof Date) return toStringOf((Date) object);
     if (object instanceof Duration) return toStringOf((Duration) object);
+    if (object instanceof LocalDate) return toStringOf((LocalDate) object);
+    if (object instanceof LocalDateTime) return toStringOf((LocalDateTime) object);
+    if (object instanceof OffsetDateTime) return toStringOf((OffsetDateTime) object);
+    if (object instanceof ZonedDateTime) return toStringOf((ZonedDateTime) object);
     if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
     if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
     if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
@@ -210,11 +221,22 @@ public class StandardRepresentation implements Representation {
 
   @Override
   public String unambiguousToStringOf(Object obj) {
-    return obj == null ? null
-        : String.format("%s (%s@%s)",
-                        toStringOf(obj),
-                        obj.getClass().isAnonymousClass() ? obj.getClass().getName() : obj.getClass().getSimpleName(),
-                        toHexString(System.identityHashCode(obj)));
+    // some types have already an unambiguous toString, no need to double down
+    if (hasAlreadyAnUnambiguousToStringOf(obj)) return toStringOf(obj);
+    return obj == null ? null : String.format("%s (%s@%s)", toStringOf(obj), classNameOf(obj), identityHexCodeOf(obj));
+  }
+
+  /**
+   * Determine whether the given object's type has a representation that is not ambiguous.
+   * @param obj the object to check
+   * @return true if the given object's type has a representation that is not ambiguous, false otherwise.
+   */
+  // not static so that it can be overridden
+  protected boolean hasAlreadyAnUnambiguousToStringOf(Object obj) {
+    for (int i = 0; i < TYPE_WITH_UNAMBIGUOUS_REPRESENTATION.length; i++) {
+      if (TYPE_WITH_UNAMBIGUOUS_REPRESENTATION[i].isInstance(obj)) return true;
+    }
+    return false;
   }
 
   /**
@@ -262,8 +284,8 @@ public class StandardRepresentation implements Representation {
         : quote(comparatorDescription);
   }
 
-  protected String toStringOf(Calendar c) {
-    return DateUtil.formatAsDatetime(c);
+  protected String toStringOf(Calendar calendar) {
+    return formatAsDatetime(calendar) + classNameDisambiguation(calendar);
   }
 
   protected String toStringOf(Class<?> c) {
@@ -283,8 +305,32 @@ public class StandardRepresentation implements Representation {
     return p.isDefault() ? String.format("%s", p.description) : String.format("'%s'", p.description);
   }
 
-  protected String toStringOf(Date d) {
-    return DateUtil.formatAsDatetimeWithMs(d);
+  protected String toStringOf(Date date) {
+    return formatAsDatetimeWithMs(date) + classNameDisambiguation(date);
+  }
+
+  protected String toStringOf(LocalDateTime localDateTime) {
+    return defaultToStringWithClassNameDisambiguation(localDateTime);
+  }
+
+  protected String toStringOf(OffsetDateTime offsetDateTime) {
+    return defaultToStringWithClassNameDisambiguation(offsetDateTime);
+  }
+
+  protected String toStringOf(ZonedDateTime zonedDateTime) {
+    return defaultToStringWithClassNameDisambiguation(zonedDateTime);
+  }
+
+  protected String toStringOf(LocalDate localDate) {
+    return defaultToStringWithClassNameDisambiguation(localDate);
+  }
+
+  protected String classNameDisambiguation(Object o) {
+    return String.format(" (%s)", o.getClass().getName());
+  }
+
+  private String defaultToStringWithClassNameDisambiguation(Object o) {
+    return o.toString() + classNameDisambiguation(o);
   }
 
   protected String toStringOf(Float f) {
@@ -540,6 +586,14 @@ public class StandardRepresentation implements Representation {
 
   private static boolean doesDescriptionFitOnSingleLine(String singleLineDescription) {
     return singleLineDescription == null || singleLineDescription.length() < maxLengthForSingleLineDescription;
+  }
+
+  private static String identityHexCodeOf(Object obj) {
+    return toHexString(System.identityHashCode(obj));
+  }
+
+  private static Object classNameOf(Object obj) {
+    return obj.getClass().isAnonymousClass() ? obj.getClass().getName() : obj.getClass().getSimpleName();
   }
 
 }

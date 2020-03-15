@@ -44,7 +44,7 @@ public class ShouldHaveTime_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   " <2011-01-01T05:01:00.000>%n" +
+                                   " <2011-01-01T05:01:00.000 (java.util.Date)>%n" +
                                    "to have time:%n" +
                                    " <123L>%n" +
                                    "but was:%n" +

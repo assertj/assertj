@@ -20,12 +20,17 @@ import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -96,7 +101,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_toString_of_Collection_of_String() {
-    Collection<String> collection = newArrayList("s1", "s2");
+    Collection<String> collection = list("s1", "s2");
     // assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\",%n" +
     // " \"s2\"]"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\", \"s2\"]"));
@@ -104,27 +109,26 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_toString_of_Collection_of_arrays() {
-    List<Boolean[]> collection = newArrayList(array(true, false), array(true, false, true));
+    List<Boolean[]> collection = list(array(true, false), array(true, false, true));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true, false], [true, false, true]]");
   }
 
   @Test
   public void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
-    List<Boolean[]> collection = newArrayList(array(true, false), array(true, false, true), array(true, true));
+    List<Boolean[]> collection = list(array(true, false), array(true, false, true), array(true, true));
     StandardRepresentation.setMaxElementsForPrinting(2);
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true, false], [true, false, ...], ...]");
   }
 
   @Test
   public void should_return_toString_of_Collection_of_Collections() {
-    Collection<List<String>> collection = newArrayList(newArrayList("s1", "s2"), newArrayList("s3", "s4", "s5"));
+    Collection<List<String>> collection = list(list("s1", "s2"), list("s3", "s4", "s5"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
   }
 
   @Test
   public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
-    Collection<List<String>> collection = newArrayList(newArrayList("s1", "s2"), newArrayList("s3", "s4", "s5"),
-                                                       newArrayList("s6", "s7"));
+    Collection<List<String>> collection = list(list("s1", "s2"), list("s3", "s4", "s5"), list("s6", "s7"));
     StandardRepresentation.setMaxElementsForPrinting(2);
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection))
                                                               .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
@@ -163,15 +167,65 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   }
 
   @Test
-  public void should_return_toString_of_calendar() {
+  public void should_return_unambiguous_toString_of_calendar() {
+    // GIVEN
     GregorianCalendar calendar = new GregorianCalendar(2011, Calendar.JANUARY, 18, 23, 53, 17);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(calendar)).isEqualTo("2011-01-18T23:53:17");
+    // WHEN
+    String stringOfCalendar = STANDARD_REPRESENTATION.toStringOf(calendar);
+    // THEN
+    then(stringOfCalendar).isEqualTo("2011-01-18T23:53:17 (java.util.GregorianCalendar)");
   }
 
   @Test
-  public void should_return_toString_of_date() {
+  public void should_return_unambiguous_toString_of_date() {
+    // GIVEN
     Date date = new GregorianCalendar(2011, Calendar.JUNE, 18, 23, 53, 17).getTime();
-    assertThat(STANDARD_REPRESENTATION.toStringOf(date)).isEqualTo("2011-06-18T23:53:17.000");
+    // WHEN
+    String dateRepresentation = STANDARD_REPRESENTATION.toStringOf(date);
+    // THEN
+    then(dateRepresentation).isEqualTo("2011-06-18T23:53:17.000 (java.util.Date)");
+  }
+
+  @Test
+  public void should_return_unambiguous_toString_of_LocalDate() {
+    // GIVEN use Object to call toStringOf(Object) and not toStringOf(LocalDateTime)
+    Object localDate = LocalDate.of(2011, 6, 18);
+    // WHEN
+    String localDateRepresentation = STANDARD_REPRESENTATION.toStringOf(localDate);
+    // THEN
+    then(localDateRepresentation).isEqualTo("2011-06-18 (java.time.LocalDate)");
+  }
+
+  @Test
+  public void should_return_unambiguous_toString_of_LocalDateTime() {
+    // GIVEN use Object to call toStringOf(Object) and not toStringOf(LocalDateTime)
+    Object localDateTime = LocalDateTime.of(2011, 6, 18, 23, 53, 17);
+    // WHEN
+    String localDateTimeRepresentation = STANDARD_REPRESENTATION.toStringOf(localDateTime);
+    // THEN
+    then(localDateTimeRepresentation).isEqualTo("2011-06-18T23:53:17 (java.time.LocalDateTime)");
+  }
+
+  @Test
+  public void should_return_unambiguous_toString_of_OffsetDateTime() {
+    // GIVEN use Object to call toStringOf(Object) and not toStringOf(LocalDateTime)
+    LocalDateTime localDateTime = LocalDateTime.of(2011, 6, 18, 23, 53, 17);
+    Object offsetDateTime = OffsetDateTime.of(localDateTime, ZoneOffset.UTC);
+    // WHEN
+    String offsetDateTimeRepresentation = STANDARD_REPRESENTATION.toStringOf(offsetDateTime);
+    // THEN
+    then(offsetDateTimeRepresentation).isEqualTo("2011-06-18T23:53:17Z (java.time.OffsetDateTime)");
+  }
+
+  @Test
+  public void should_return_unambiguous_toString_of_ZonedDateTime() {
+    // GIVEN use Object to call toStringOf(Object) and not toStringOf(LocalDateTime)
+    LocalDateTime localDateTime = LocalDateTime.of(2011, 6, 18, 23, 53, 17);
+    Object offsetDateTime = ZonedDateTime.of(localDateTime, ZoneOffset.UTC);
+    // WHEN
+    String offsetDateTimeRepresentation = STANDARD_REPRESENTATION.toStringOf(offsetDateTime);
+    // THEN
+    then(offsetDateTimeRepresentation).isEqualTo("2011-06-18T23:53:17Z (java.time.ZonedDateTime)");
   }
 
   @Test
@@ -212,6 +266,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void toString_with_anonymous_comparator() {
+    @SuppressWarnings("unused")
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
       public int compare(String s1, String s2) {
@@ -223,6 +278,7 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void toString_with_anonymous_comparator_overriding_toString() {
+    @SuppressWarnings("unused")
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
       public int compare(String s1, String s2) {

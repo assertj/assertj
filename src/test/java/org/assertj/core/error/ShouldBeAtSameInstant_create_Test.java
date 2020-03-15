@@ -37,9 +37,9 @@ class ShouldBeAtSameInstant_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <2000-12-14T00:00Z>%n" +
+                                   "  <2000-12-14T00:00Z (java.time.OffsetDateTime)>%n" +
                                    "to be at the same instant as:%n" +
-                                   "  <2000-12-14T00:00-03:00>%n" +
+                                   "  <2000-12-14T00:00-03:00 (java.time.OffsetDateTime)>%n" +
                                    "but actual instance was%n" +
                                    "  <2000-12-14T00:00:00Z>%n" +
                                    "and expected instant was:%n" +

@@ -39,9 +39,9 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   "  <2011-01-01T05:00:00.000>%n" +
+                                   "  <2011-01-01T05:00:00.000 (java.util.Date)>%n" +
                                    "to have same year, month, day, hour, minute and second as:%n" +
-                                   "  <2011-01-01T06:05:17.003>%n" +
+                                   "  <2011-01-01T06:05:17.003 (java.util.Date)>%n" +
                                    "but had not."));
   }
 
@@ -52,9 +52,9 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   "  <2011-01-01T05:00:00.000>%n" +
+                                   "  <2011-01-01T05:00:00.000 (java.util.Date)>%n" +
                                    "to have same year, month, day, hour and minute as:%n" +
-                                   "  <2011-01-01T06:05:17.003>%n" +
+                                   "  <2011-01-01T06:05:17.003 (java.util.Date)>%n" +
                                    "but had not."));
   }
 
@@ -65,9 +65,9 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   "  <2011-01-01T05:00:00.000>%n" +
+                                   "  <2011-01-01T05:00:00.000 (java.util.Date)>%n" +
                                    "to have same year, month, day and hour as:%n" +
-                                   "  <2011-01-01T06:05:17.003>%n" +
+                                   "  <2011-01-01T06:05:17.003 (java.util.Date)>%n" +
                                    "but had not."));
   }
 
@@ -78,9 +78,9 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   "  <2011-01-01T05:00:00.000>%n" +
+                                   "  <2011-01-01T05:00:00.000 (java.util.Date)>%n" +
                                    "to have same year, month and day as:%n" +
-                                   "  <2011-01-01T06:05:17.003>%n" +
+                                   "  <2011-01-01T06:05:17.003 (java.util.Date)>%n" +
                                    "but had not."));
   }
 

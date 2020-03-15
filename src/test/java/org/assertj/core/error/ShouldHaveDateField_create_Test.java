@@ -35,7 +35,7 @@ public class ShouldHaveDateField_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <2015-12-31T00:00:00.000>%n" +
+                                   "  <2015-12-31T00:00:00.000 (java.util.Date)>%n" +
                                    "to be on \"month\" <10>"));
   }
 

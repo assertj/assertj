@@ -17,8 +17,9 @@ import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
@@ -36,30 +37,36 @@ public class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test {
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_offsetdatetime_with_minute_ignored() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusMinutes(1)))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <2000-01-01T23:00Z>%n" +
-                                                                       "to have same year, month, day and hour as:%n" +
-                                                                       "  <2000-01-01T22:59Z>%nbut had not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusMinutes(1)));
+    // THEN
+    then(assertionError).hasMessage(format("%n" +
+                                           "Expecting:%n" +
+                                           "  <2000-01-01T23:00Z (java.time.OffsetDateTime)>%n" +
+                                           "to have same year, month, day and hour as:%n" +
+                                           "  <2000-01-01T22:59Z (java.time.OffsetDateTime)>%nbut had not."));
   }
 
   @Test
   public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusNanos(1)))
-                                                   .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
-                                                                       "  <2000-01-01T23:00Z>%n" +
-                                                                       "to have same year, month, day and hour as:%n" +
-                                                                       "  <2000-01-01T22:59:59.999999999Z>%nbut had not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusNanos(1)));
+    // THEN
+    then(assertionError).hasMessage(format("%n" +
+                                           "Expecting:%n" +
+                                           "  <2000-01-01T23:00Z (java.time.OffsetDateTime)>%n" +
+                                           "to have same year, month, day and hour as:%n" +
+                                           "  <2000-01-01T22:59:59.999999999Z (java.time.OffsetDateTime)>%nbut had not."));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      OffsetDateTime actual = null;
-      assertThat(actual).isEqualToIgnoringMinutes(OffsetDateTime.now());
-    }).withMessage(actualIsNull());
+    // GIVEN
+    OffsetDateTime actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringMinutes(OffsetDateTime.now()));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test

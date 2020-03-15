@@ -41,9 +41,9 @@ public class ShouldBeAfter_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <2011-01-01T00:00:00.000>%n" +
+                                   "  <2011-01-01T00:00:00.000 (java.util.Date)>%n" +
                                    "to be strictly after:%n" +
-                                   "  <2012-01-01T00:00:00.000>%n"));
+                                   "  <2012-01-01T00:00:00.000 (java.util.Date)>%n"));
   }
 
   @Test
@@ -56,9 +56,9 @@ public class ShouldBeAfter_create_Test {
     // THEN
     then(message).isEqualTo("[Test] %n" +
                             "Expecting:%n" +
-                            "  <2011-01-01T00:00:00.000>%n" +
+                            "  <2011-01-01T00:00:00.000 (java.util.Date)>%n" +
                             "to be strictly after:%n" +
-                            "  <2012-01-01T00:00:00.000>%n" +
+                            "  <2012-01-01T00:00:00.000 (java.util.Date)>%n" +
                             "when comparing values using '%s'",
                             NEVER_EQUALS.description());
   }

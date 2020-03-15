@@ -59,11 +59,11 @@ public class AutoCloseableBDDSoftAssertionsTest {
       softly.then(false).isTrue();
       softly.then(new boolean[] { false }).isEqualTo(new boolean[] { true });
 
-      softly.then(new Byte((byte) 0)).isEqualTo((byte) 1);
+      softly.then(Byte.valueOf((byte) 0)).isEqualTo((byte) 1);
       softly.then((byte) 2).inHexadecimal().isEqualTo((byte) 3);
       softly.then(new byte[] { 4 }).isEqualTo(new byte[] { 5 });
 
-      softly.then(new Character((char) 65)).isEqualTo(new Character((char) 66));
+      softly.then(Character.valueOf((char) 65)).isEqualTo(Character.valueOf((char) 66));
       softly.then((char) 67).isEqualTo((char) 68);
       softly.then(new char[] { 69 }).isEqualTo(new char[] { 70 });
 
@@ -73,7 +73,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
 
       softly.then(parseDatetime("1999-12-31T23:59:59")).isEqualTo(parseDatetime("2000-01-01T00:00:01"));
 
-      softly.then(new Double(6.0d)).isEqualTo(new Double(7.0d));
+      softly.then(Double.valueOf(6.0d)).isEqualTo(Double.valueOf(7.0d));
       softly.then(8.0d).isEqualTo(9.0d);
       softly.then(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
 
@@ -81,14 +81,14 @@ public class AutoCloseableBDDSoftAssertionsTest {
             .overridingErrorMessage(format("%nExpecting:%n <File(a)>%nto be equal to:%n <File(b)>%nbut was not."))
             .isEqualTo(new File("b"));
 
-      softly.then(new Float(12f)).isEqualTo(new Float(13f));
+      softly.then(Float.valueOf(12f)).isEqualTo(Float.valueOf(13f));
       softly.then(14f).isEqualTo(15f);
       softly.then(new float[] { 16f }).isEqualTo(new float[] { 17f });
 
       softly.then(new ByteArrayInputStream(new byte[] { (byte) 65 }))
             .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
 
-      softly.then(new Integer(20)).isEqualTo(new Integer(21));
+      softly.then(Integer.valueOf(20)).isEqualTo(Integer.valueOf(21));
       softly.then(22).isEqualTo(23);
       softly.then(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
@@ -96,13 +96,13 @@ public class AutoCloseableBDDSoftAssertionsTest {
       softly.then(list("28").iterator()).isExhausted();
       softly.then(list("30")).isEqualTo(Lists.newArrayList("31"));
 
-      softly.then(new Long(32L)).isEqualTo(new Long(33L));
+      softly.then(Long.valueOf(32L)).isEqualTo(Long.valueOf(33L));
       softly.then(34L).isEqualTo(35L);
       softly.then(new long[] { 36L }).isEqualTo(new long[] { 37L });
 
       softly.then(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));
 
-      softly.then(new Short((short) 42)).isEqualTo(new Short((short) 43));
+      softly.then(Short.valueOf((short) 42)).isEqualTo(Short.valueOf((short) 43));
       softly.then((short) 44).isEqualTo((short) 45);
       softly.then(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
 
@@ -165,7 +165,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
 
       assertThat(errors.get(11)).contains(format("%nExpecting:%n <java.lang.Object>%nto be equal to:%n <java.lang.String>%nbut was not."));
 
-      assertThat(errors.get(12)).contains(format("%nExpecting:%n <1999-12-31T23:59:59.000>%nto be equal to:%n <2000-01-01T00:00:01.000>%nbut was not."));
+      assertThat(errors.get(12)).contains(format("%nExpecting:%n <1999-12-31T23:59:59.000 (java.util.Date)>%nto be equal to:%n <2000-01-01T00:00:01.000 (java.util.Date)>%nbut was not."));
 
       assertThat(errors.get(13)).contains(format("%nExpecting:%n <6.0>%nto be equal to:%n <7.0>%nbut was not."));
       assertThat(errors.get(14)).contains(format("%nExpecting:%n <8.0>%nto be equal to:%n <9.0>%nbut was not."));
@@ -218,7 +218,8 @@ public class AutoCloseableBDDSoftAssertionsTest {
 
       assertThat(errors.get(42)).contains(format("%nExpecting:%n <12:00>%nto be equal to:%n <13:00>%nbut was not."));
       assertThat(errors.get(43)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
-      assertThat(errors.get(44)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00>%n" +
+      assertThat(errors.get(44)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00 (java.time.OffsetDateTime)>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00 (java.time.OffsetDateTime)>%n"
+                                                 +
         "when comparing values using '%s'%nbut was not.", OffsetDateTimeByInstantComparator.getInstance()));
       return;
     }

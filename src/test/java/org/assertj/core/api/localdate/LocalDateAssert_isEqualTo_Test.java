@@ -15,7 +15,8 @@ package org.assertj.core.api.localdate;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.LocalDate;
 
@@ -40,10 +41,11 @@ public class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
   @Test
   public void should_fail_if_actual_is_not_equal_to_date_as_string_parameter() {
     // WHEN
-    ThrowingCallable code = () -> assertThat(AFTER).isEqualTo(REFERENCE.toString());
+    AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER).isEqualTo(REFERENCE.toString()));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(format("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.",
-                                                                AFTER, REFERENCE));
+    then(assertionError).hasMessage(format("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.",
+                                           AFTER + " (java.time.LocalDate)",
+                                           REFERENCE + " (java.time.LocalDate)"));
   }
 
   @Test

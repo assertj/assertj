@@ -16,9 +16,9 @@ import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZoneId;
@@ -37,41 +37,53 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_ignoring_hours_in_different_timezone() {
+    // GIVEN
     ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
     ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
     // new DateTime(2013, 6, 10, 5, 0, cestTimeZone) = DateTime(2013, 6, 10, 3, 0, DateTimeZone.UTC)
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 5, 0, 0, 0, cestTimeZone));
     // new DateTime(2013, 6, 11, 1, 0, cestTimeZone) = DateTime(2013, 6, 10, 23, 0, DateTimeZone.UTC)
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 11, 1, 0, 0, 0, cestTimeZone));
-
     // DateTime(2013, 6, 10, 0, 0, cestTimeZone) = DateTime(2013, 6, 9, 22, 0, DateTimeZone.UTC)
-    Throwable error = catchThrowable(() -> assertThat(utcDateTime)
-      .isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone)));
+    ZonedDateTime expected = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone);
+
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(utcDateTime).isEqualToIgnoringHours(expected));
 
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("%nExpecting:%n  <2013-06-10T00:00Z>%nto have same year, month and day as:%n  <2013-06-09T22:00Z>%nbut had not."));
+    assertThat(assertionError).hasMessage(format("%n" +
+                                                 "Expecting:%n" +
+                                                 "  <2013-06-10T00:00Z (java.time.ZonedDateTime)>%n" +
+                                                 "to have same year, month and day as:%n" +
+                                                 "  <2013-06-09T22:00Z (java.time.ZonedDateTime)>%n" +
+                                                 "but had not."));
   }
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_datetime_with_hours_ignored() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusHours(1)))
-                                                   .withMessage(format("%nExpecting:%n  <2000-01-02T00:00Z>%nto have same year, month and day as:%n  <2000-01-01T23:00Z>%nbut had not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusHours(1)));
+    // THEN
+    then(assertionError).hasMessage(format("%nExpecting:%n  <2000-01-02T00:00Z (java.time.ZonedDateTime)>%nto have same year, month and day as:%n  <2000-01-01T23:00Z (java.time.ZonedDateTime)>%nbut had not."));
   }
 
   @Test
   public void should_fail_as_hours_fields_are_different_even_if_time_difference_is_less_than_a_hour() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusNanos(1)))
-                                                   .withMessage(format(
-                                                                       "%nExpecting:%n  <2000-01-02T00:00Z>%nto have same year, month and day as:%n  <2000-01-01T23:59:59.999999999Z>%nbut had not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusNanos(1)));
+    // THEN
+    then(assertionError).hasMessage(format(
+                                           "%nExpecting:%n  <2000-01-02T00:00Z (java.time.ZonedDateTime)>%nto have same year, month and day as:%n  <2000-01-01T23:59:59.999999999Z (java.time.ZonedDateTime)>%nbut had not."));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      ZonedDateTime actual = null;
-      assertThat(actual).isEqualToIgnoringHours(ZonedDateTime.now());
-    }).withMessage(actualIsNull());
+    // GIVEN
+    ZonedDateTime actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringHours(ZonedDateTime.now()));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test

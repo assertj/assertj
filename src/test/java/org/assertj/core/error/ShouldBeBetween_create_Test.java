@@ -39,9 +39,9 @@ public class ShouldBeBetween_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2010-01-01T00:00:00.000>%n" +
+                                   " <2010-01-01T00:00:00.000 (java.util.Date)>%n" +
                                    "to be in period:%n" +
-                                   " [2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000]%n"));
+                                   " [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]%n"));
   }
 
   @Test
@@ -53,9 +53,9 @@ public class ShouldBeBetween_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2010-01-01T00:00:00.000>%n" +
+                                   " <2010-01-01T00:00:00.000 (java.util.Date)>%n" +
                                    "to be in period:%n" +
-                                   " [2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000[%n"));
+                                   " [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)[%n"));
   }
 
   @Test
@@ -67,9 +67,9 @@ public class ShouldBeBetween_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2010-01-01T00:00:00.000>%n" +
+                                   " <2010-01-01T00:00:00.000 (java.util.Date)>%n" +
                                    "to be in period:%n" +
-                                   " ]2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000]%n"));
+                                   " ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]%n"));
   }
 
   @Test
@@ -81,9 +81,9 @@ public class ShouldBeBetween_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2010-01-01T00:00:00.000>%n" +
+                                   " <2010-01-01T00:00:00.000 (java.util.Date)>%n" +
                                    "to be in period:%n" +
-                                   " ]2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000[%n"));
+                                   " ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)[%n"));
   }
 
   @Test
@@ -97,9 +97,9 @@ public class ShouldBeBetween_create_Test {
     // THEN
     then(message).isEqualTo("[Test] %n" +
                             "Expecting:%n" +
-                            " <2010-01-01T00:00:00.000>%n" +
+                            " <2010-01-01T00:00:00.000 (java.util.Date)>%n" +
                             "to be in period:%n" +
-                            " ]2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000[%n" +
+                            " ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)[%n" +
                             "when comparing values using '%s'",
                             NEVER_EQUALS.description());
   }

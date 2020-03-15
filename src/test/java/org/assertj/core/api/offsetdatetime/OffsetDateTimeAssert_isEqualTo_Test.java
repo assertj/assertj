@@ -65,7 +65,7 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeA
     // GIVEN
     Temporal reference = REFERENCE;
     // WHEN/THEN
-    assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isEqualTo(reference);
+    then(REFERENCE_WITH_DIFFERENT_OFFSET).isEqualTo(reference);
   }
 
   @Test
@@ -74,7 +74,8 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeA
     AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isEqualTo(REFERENCE));
     // THEN
     then(assertionError).hasMessage("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nwhen comparing values using 'OffsetDateTime.timeLineOrder()'%nbut was not.",
-                                    AFTER_WITH_DIFFERENT_OFFSET, REFERENCE);
+                                    AFTER_WITH_DIFFERENT_OFFSET + " (java.time.OffsetDateTime)",
+                                    REFERENCE + " (java.time.OffsetDateTime)");
   }
 
   @Test

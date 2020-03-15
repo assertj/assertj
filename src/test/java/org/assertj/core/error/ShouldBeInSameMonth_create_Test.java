@@ -39,9 +39,9 @@ public class ShouldBeInSameMonth_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2010-01-01T00:00:00.000>%n" +
+                                   " <2010-01-01T00:00:00.000 (java.util.Date)>%n" +
                                    "to be on same year and month as:%n" +
-                                   " <2010-02-01T00:00:00.000>"));
+                                   " <2010-02-01T00:00:00.000 (java.util.Date)>"));
   }
 
 }

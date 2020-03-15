@@ -41,9 +41,9 @@ public class ShouldBeInSameHourWindow_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <2011-01-01T05:00:00.000>%n" +
+                                   "  <2011-01-01T05:00:00.000 (java.util.Date)>%n" +
                                    "to be close to:%n" +
-                                   "  <2011-01-01T06:05:17.003>%n" +
+                                   "  <2011-01-01T06:05:17.003 (java.util.Date)>%n" +
                                    "by less than one hour (strictly) but difference was: 1h 5m 17s and 3ms"));
   }
 

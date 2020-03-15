@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -103,26 +103,24 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
 
   @Test
   public void should_return_toString_of_Collection_of_String() {
-    Collection<String> collection = newArrayList("s1", "s2");
+    Collection<String> collection = list("s1", "s2");
     assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[\"s1\", \"s2\"] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
   }
 
   @Test
   public void should_return_toString_of_Collection_of_arrays() {
-    List<Boolean[]> collection = newArrayList(
-                                              array(true, false),
-                                              array(true, false, true));
+    List<Boolean[]> collection = list(array(true, false),
+                                      array(true, false, true));
     assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[true, false], [true, false, true]] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
   }
 
   @Test
   public void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
-    List<Boolean[]> collection = newArrayList(
-                                              array(true, false),
-                                              array(true, false, true),
-                                              array(true, true));
+    List<Boolean[]> collection = list(array(true, false),
+                                      array(true, false, true),
+                                      array(true, true));
     StandardRepresentation.setMaxElementsForPrinting(2);
     assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[true, false], [true, false, ...], ...] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
@@ -130,19 +128,18 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
 
   @Test
   public void should_return_toString_of_Collection_of_Collections() {
-    Collection<List<String>> collection = newArrayList(
-                                                       newArrayList("s1", "s2"),
-                                                       newArrayList("s3", "s4", "s5"));
+    Collection<List<String>> collection = list(
+                                               list("s1", "s2"),
+                                               list("s3", "s4", "s5"));
     assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
   }
 
   @Test
   public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
-    Collection<List<String>> collection = newArrayList(
-                                                       newArrayList("s1", "s2"),
-                                                       newArrayList("s3", "s4", "s5"),
-                                                       newArrayList("s6", "s7"));
+    Collection<List<String>> collection = list(list("s1", "s2"),
+                                               list("s3", "s4", "s5"),
+                                               list("s6", "s7"));
     StandardRepresentation.setMaxElementsForPrinting(2);
     assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
@@ -166,8 +163,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
 
   @Test
   public void should_return_toString_of_array_of_arrays() {
-    String[][] array = array(
-                             array("s1", "s2"),
+    String[][] array = array(array("s1", "s2"),
                              array("s3", "s4", "s5"));
     assertThat(unambiguousToStringOf(array)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]] (String[][]@%s)",
                                                               toHexString(System.identityHashCode(array))));
@@ -175,8 +171,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
 
   @Test
   public void should_return_toString_of_array_of_arrays_up_to_the_maximum_allowed_elements() {
-    String[][] array = array(
-                             array("s1", "s2"),
+    String[][] array = array(array("s1", "s2"),
                              array("s3", "s4", "s5"),
                              array("s6", "s7"));
     StandardRepresentation.setMaxElementsForPrinting(2);
@@ -194,15 +189,13 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   @Test
   public void should_return_toString_of_calendar() {
     GregorianCalendar calendar = new GregorianCalendar(2011, Calendar.JANUARY, 18, 23, 53, 17);
-    assertThat(unambiguousToStringOf(calendar)).isEqualTo(format("2011-01-18T23:53:17 (GregorianCalendar@%s)",
-                                                                 toHexString(System.identityHashCode(calendar))));
+    assertThat(unambiguousToStringOf(calendar)).isEqualTo("2011-01-18T23:53:17 (java.util.GregorianCalendar)");
   }
 
   @Test
   public void should_return_toString_of_date() {
     Date date = new GregorianCalendar(2011, Calendar.JUNE, 18, 23, 53, 17).getTime();
-    assertThat(unambiguousToStringOf(date)).isEqualTo(format("2011-06-18T23:53:17.000 (Date@%s)",
-                                                             toHexString(System.identityHashCode(date))));
+    assertThat(unambiguousToStringOf(date)).isEqualTo("2011-06-18T23:53:17.000 (java.util.Date)");
   }
 
   @Test
@@ -252,6 +245,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
 
   @Test
   public void toString_with_anonymous_comparator() {
+    @SuppressWarnings("unused")
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
       public int compare(String s1, String s2) {
@@ -283,6 +277,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
 
   @Test
   public void toString_with_anonymous_comparator_overriding_toString() {
+    @SuppressWarnings("unused")
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
       public int compare(String s1, String s2) {
@@ -337,13 +332,10 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
     assertThat(unambiguousToStringOf(b)).isNotEqualTo(unambiguousToStringOf(c));
     assertThat(unambiguousToStringOf(b)).isNotEqualTo(unambiguousToStringOf(s));
     assertThat(unambiguousToStringOf(c)).isNotEqualTo(unambiguousToStringOf(s));
-    assertThat(unambiguousToStringOf(b))
-                                        .isEqualTo(format("20 (Byte@%s)", toHexString(System.identityHashCode(b))));
-    assertThat(unambiguousToStringOf(c))
-                                        .isEqualTo(format("'\u0014' (Character@%s)",
+    assertThat(unambiguousToStringOf(b)).isEqualTo(format("20 (Byte@%s)", toHexString(System.identityHashCode(b))));
+    assertThat(unambiguousToStringOf(c)).isEqualTo(format("'\u0014' (Character@%s)",
                                                           toHexString(System.identityHashCode(c))));
-    assertThat(unambiguousToStringOf(s))
-                                        .isEqualTo(format("20 (Short@%s)", toHexString(System.identityHashCode(s))));
+    assertThat(unambiguousToStringOf(s)).isEqualTo(format("20 (Short@%s)", toHexString(System.identityHashCode(s))));
   }
 
   @Test

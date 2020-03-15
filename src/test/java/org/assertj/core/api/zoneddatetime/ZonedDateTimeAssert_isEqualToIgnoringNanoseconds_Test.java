@@ -16,8 +16,9 @@ import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZonedDateTime;
@@ -36,24 +37,39 @@ public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_datetime_with_nanoseconds_ignored() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.plusSeconds(1)))
-                                                   .withMessage(format(
-                                                                       "%nExpecting:%n  <2000-01-01T00:00:01Z>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:02Z>%nbut had not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.plusSeconds(1)));
+    // THEN
+    then(assertionError).hasMessage(format("%n" +
+                                           "Expecting:%n" +
+                                           "  <2000-01-01T00:00:01Z (java.time.ZonedDateTime)>%n" +
+                                           "to have same year, month, day, hour, minute and second as:%n" +
+                                           "  <2000-01-01T00:00:02Z (java.time.ZonedDateTime)>%n" +
+                                           "but had not."));
   }
 
   @Test
   public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.minusNanos(1)))
-                                                   .withMessage(format(
-                                                                       "%nExpecting:%n  <2000-01-01T00:00:01Z>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:00.999999999Z>%nbut had not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.minusNanos(1)));
+    // THEN
+    then(assertionError).hasMessage(format("%n" +
+                                           "Expecting:%n" +
+                                           "  <2000-01-01T00:00:01Z (java.time.ZonedDateTime)>%n" +
+                                           "to have same year, month, day, hour, minute and second as:%n" +
+                                           "  <2000-01-01T00:00:00.999999999Z (java.time.ZonedDateTime)>%n" +
+                                           "but had not."));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      ZonedDateTime actual = null;
-      assertThat(actual).isEqualToIgnoringNanos(ZonedDateTime.now());
-    }).withMessage(actualIsNull());
+    // GIVEN
+    ZonedDateTime actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringNanos(ZonedDateTime.now()));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
+
   }
 
   @Test
