@@ -25,7 +25,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
-import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuation.shouldBeEqualNormalizingPunctuation;
+import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhitespace.shouldBeEqualNormalizingPunctuationAndWhitespace;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
@@ -697,7 +697,7 @@ public class Strings {
    */
   public void assertEqualsNormalizingPunctuationAndWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
     if (!areEqualNormalizingPunctuationAndWhitespace(actual, expected))
-      throw failures.failure(info, shouldBeEqualNormalizingPunctuation(actual, expected), actual, expected);
+      throw failures.failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), actual, expected);
   }
 
   private boolean areEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {

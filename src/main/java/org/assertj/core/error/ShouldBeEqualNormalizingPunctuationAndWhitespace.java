@@ -18,19 +18,19 @@ package org.assertj.core.error;
  *
  * Created by harisha talanki on 2/29/20
  */
-public class ShouldBeEqualNormalizingPunctuation extends BasicErrorMessageFactory {
+public class ShouldBeEqualNormalizingPunctuationAndWhitespace extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link org.assertj.core.error.ShouldBeEqualNormalizingPunctuation}</code>.
+   * Creates a new <code>{@link ShouldBeEqualNormalizingPunctuationAndWhitespace}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqualNormalizingPunctuation(CharSequence actual, CharSequence expected) {
-    return new ShouldBeEqualNormalizingPunctuation(actual, expected);
+  public static ErrorMessageFactory shouldBeEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
+    return new ShouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected);
   }
 
-  private ShouldBeEqualNormalizingPunctuation(CharSequence actual, CharSequence expected) {
+  private ShouldBeEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
     super("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%nafter punctuation differences are normalized", actual, expected);
   }
 }

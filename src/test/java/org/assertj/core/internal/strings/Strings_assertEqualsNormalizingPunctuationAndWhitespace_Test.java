@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuation.shouldBeEqualNormalizingPunctuation;
+import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhitespace.shouldBeEqualNormalizingPunctuationAndWhitespace;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
@@ -85,6 +85,6 @@ public class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extend
 
   private void verifyFailureThrownWhenStringsAreNotEqualNormalizingPunctuationAndWhitespace(AssertionInfo info, String actual,
                                                                                             String expected) {
-    verify(failures).failure(info, shouldBeEqualNormalizingPunctuation(actual, expected), actual, expected);
+    verify(failures).failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), actual, expected);
   }
 }

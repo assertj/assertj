@@ -17,22 +17,22 @@ import org.junit.jupiter.api.Test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuation.shouldBeEqualNormalizingPunctuation;
+import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhitespace.shouldBeEqualNormalizingPunctuationAndWhitespace;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.error.ShouldBeEqualNormalizingPunctuation#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * <code>{@link ShouldBeEqualNormalizingPunctuationAndWhitespace#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
  *
  * @author Harisha Talanki
  */
-public class ShouldBeEqualNormalizingPunctuation_create_test {
+public class ShouldBeEqualNormalizingPunctuationAndWhitespace_create_test {
 
   @Test
   public void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeEqualNormalizingPunctuation(" Game-of-Thrones ", " Game of Thrones ");
+    ErrorMessageFactory factory = shouldBeEqualNormalizingPunctuationAndWhitespace(" Game-of-Thrones ", " Game of Thrones ");
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
