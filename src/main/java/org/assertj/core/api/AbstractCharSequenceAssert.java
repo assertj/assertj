@@ -1370,19 +1370,19 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * Example :
    * <pre><code class='java'> // assertions will pass
-   * assertThat("Game'of'Thrones").isEqualToNormalizingPunctuation("GameofThrones")
-   * assertThat("Game of Throne's").isEqualToNormalizingPunctuation("Game of Thrones")
-   * assertThat(":Game of Thrones:").isEqualToNormalizingPunctuation("Game of Thrones")
-   * assertThat(":Game-of-Thrones:").isEqualToNormalizingPunctuation("Game of Thrones")
-   * assertThat("Game of Thrones?").isEqualToNormalizingPunctuation("Game of Thrones")
-   * assertThat("Game of Thrones!!!").isEqualToNormalizingPunctuation("Game of Thrones")
-   * assertThat("Game of  {{(!)}}    Thrones!!!").isEqualToNormalizingPunctuation("Game of Thrones")
-   * assertThat("{(Game)-(of)-(Thrones)!!!}").isEqualToNormalizingPunctuation("GameofThrones");
+   * assertThat("Game'of'Thrones").isEqualToNormalizingPunctuationAndWhitespace("GameofThrones")
+   * assertThat("Game of Throne's").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat(":Game of Thrones:").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat(":Game-of-Thrones:").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat("Game of Thrones?").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat("Game of Thrones!!!").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat("Game of  {{(!)}}    Thrones!!!").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
+   * assertThat("{(Game)-(of)-(Thrones)!!!}").isEqualToNormalizingPunctuationAndWhitespace("GameofThrones");
    *
    * // assertions will fail
-   * assertThat("Game-of-Thrones").isEqualToNormalizingPunctuation("Game of Thrones");
-   * assertThat("{Game:of:Thrones}").isEqualToNormalizingPunctuation("Game of Thrones");
-   * assertThat("{(Game)-(of)-(Thrones)!!!}").isEqualToNormalizingPunctuation("Game of Thrones");</code></pre>
+   * assertThat("Game-of-Thrones").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones");
+   * assertThat("{Game:of:Thrones}").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones");
+   * assertThat("{(Game)-(of)-(Thrones)!!!}").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones");</code></pre>
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
@@ -1390,8 +1390,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *           after punctuation have been normalized.
    * @since 3.16.0
    */
-  public SELF isEqualToNormalizingPunctuation(CharSequence expected) {
-    strings.assertEqualsNormalizingPunctuation(info, actual, expected);
+  public SELF isEqualToNormalizingPunctuationAndWhitespace(CharSequence expected) {
+    strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected);
     return myself;
   }
 

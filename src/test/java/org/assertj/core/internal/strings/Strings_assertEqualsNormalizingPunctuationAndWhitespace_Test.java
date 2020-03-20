@@ -28,11 +28,11 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsNormalizingPunctuation(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
+ * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsNormalizingPunctuationAndWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
  *
  * @author Harisha Talanki
  */
-public class Strings_assertEqualsNormalizingPunctuation_Test extends StringsBaseTest {
+public class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_expected_string_is_empty() {
@@ -42,10 +42,10 @@ public class Strings_assertEqualsNormalizingPunctuation_Test extends StringsBase
 
     AssertionInfo info = someInfo();
     // WHEN/THEN
-    Throwable error = catchThrowable(() -> strings.assertEqualsNormalizingPunctuation(info, actual, expected));
+    Throwable error = catchThrowable(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenStringsAreNotEqualNormalizingPunctuation(info, actual, expected);
+    verifyFailureThrownWhenStringsAreNotEqualNormalizingPunctuationAndWhitespace(info, actual, expected);
   }
 
   @Test
@@ -56,19 +56,19 @@ public class Strings_assertEqualsNormalizingPunctuation_Test extends StringsBase
 
     AssertionInfo info = someInfo();
     // WHEN/THEN
-    Throwable error = catchThrowable(() -> strings.assertEqualsNormalizingPunctuation(info, actual, expected));
+    Throwable error = catchThrowable(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenStringsAreNotEqualNormalizingPunctuation(info, actual, expected);
+    verifyFailureThrownWhenStringsAreNotEqualNormalizingPunctuationAndWhitespace(info, actual, expected);
   }
 
   @ParameterizedTest
-  @MethodSource("equalNormalizingPunctuationGenerator")
+  @MethodSource("equalNormalizingPunctuationAndWhitespaceGenerator")
   public void should_pass_if_both_Strings_are_equal_normalizing_punctuation(String actual, String expected) {
-    strings.assertEqualsNormalizingPunctuation(someInfo(), actual, expected);
+    strings.assertEqualsNormalizingPunctuationAndWhitespace(someInfo(), actual, expected);
   }
 
-  public static Stream<Arguments> equalNormalizingPunctuationGenerator() {
+  public static Stream<Arguments> equalNormalizingPunctuationAndWhitespaceGenerator() {
     return Stream.of(Arguments.of("Game of Thrones {})()!' 98402938409283904230948", "Game of Thrones 98402938409283904230948"), // strings containing numbers
       Arguments.of("Game of    {})()!' Thrones", "Game of Thrones"),
       Arguments.of("{(Game)-(of)-(Thrones)!!!}", "GameofThrones"), // strings with no whitespaces but contains punctuations
@@ -83,8 +83,8 @@ public class Strings_assertEqualsNormalizingPunctuation_Test extends StringsBase
       Arguments.of("Game {} of () Thrones {})()!'", "Game  of  Thrones ")); // comparing strings with punctuation and additional spaces
   }
 
-  private void verifyFailureThrownWhenStringsAreNotEqualNormalizingPunctuation(AssertionInfo info, String actual,
-                                                                           String expected) {
+  private void verifyFailureThrownWhenStringsAreNotEqualNormalizingPunctuationAndWhitespace(AssertionInfo info, String actual,
+                                                                                            String expected) {
     verify(failures).failure(info, shouldBeEqualNormalizingPunctuation(actual, expected), actual, expected);
   }
 }

@@ -695,18 +695,18 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are not equal.
    * @since 3.16.0
    */
-  public void assertEqualsNormalizingPunctuation(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (!areEqualNormalizingPunctuation(actual, expected))
+  public void assertEqualsNormalizingPunctuationAndWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (!areEqualNormalizingPunctuationAndWhitespace(actual, expected))
       throw failures.failure(info, shouldBeEqualNormalizingPunctuation(actual, expected), actual, expected);
   }
 
-  private boolean areEqualNormalizingPunctuation(CharSequence actual, CharSequence expected) {
+  private boolean areEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
     if (actual == null) return expected == null;
     checkCharSequenceIsNotNull(expected);
-    return normalizePunctuation(actual).equals(normalizePunctuation(expected));
+    return normalizePunctuationAndWhitespace(actual).equals(normalizePunctuationAndWhitespace(expected));
   }
 
-  private String normalizePunctuation(CharSequence toNormalize) {
+  private String normalizePunctuationAndWhitespace(CharSequence toNormalize) {
     return normalizeWhitespace(toNormalize.toString().replaceAll(PUNCTUATION_REGEX, ""));
   }
 

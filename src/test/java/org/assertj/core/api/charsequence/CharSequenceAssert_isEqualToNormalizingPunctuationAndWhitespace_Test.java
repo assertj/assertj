@@ -14,24 +14,21 @@ package org.assertj.core.api.charsequence;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 /**
  * Created by harisha talanki on 2/29/20
  */
-public class CharSequenceAssert_isEqualToNormalizingPunctuation_Test extends CharSequenceAssertBaseTest {
+public class CharSequenceAssert_isEqualToNormalizingPunctuationAndWhitespace_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.isEqualToNormalizingPunctuation("Game of Thrones");
+    return assertions.isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertEqualsNormalizingPunctuation(getInfo(assertions), getActual(assertions), "Game of Thrones");
+    verify(strings).assertEqualsNormalizingPunctuationAndWhitespace(getInfo(assertions), getActual(assertions), "Game of Thrones");
   }
 }
