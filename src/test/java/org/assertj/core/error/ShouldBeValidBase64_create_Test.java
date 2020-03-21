@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
+import static org.assertj.core.error.ShouldBeValidBase64.shouldBeValidBase64;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.Description;
@@ -28,19 +28,15 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
-@DisplayName("ShouldHaveNoSuperclass create")
-class ShouldHaveNoSuperclass_create_Test {
+@DisplayName("ShouldBeValidBase64 create")
+class ShouldBeValidBase64_create_Test {
 
   @Test
   void should_create_error_message() {
     // WHEN
-    String message = shouldHaveNoSuperclass(String.class).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
+    String message = shouldBeValidBase64("string %s").create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %n" +
-                                   "Expecting%n" +
-                                   "  <java.lang.String>%n" +
-                                   "to have no superclass, but had:%n" +
-                                   "  <java.lang.Object>"));
+    then(message).isEqualTo(format("[TEST] %nExpecting <\"string %%s\"> to be a valid Base64 encoded string"));
   }
 
 }
