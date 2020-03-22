@@ -56,6 +56,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -455,6 +456,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link LongAdder}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default LongAdderAssert assertThat(LongAdder actual) {
     return Assertions.assertThat(actual);
   }
 

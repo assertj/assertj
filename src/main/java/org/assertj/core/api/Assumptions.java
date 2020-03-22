@@ -59,6 +59,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -527,6 +528,17 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assumeThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return asAssumption(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
+  }
+
+  /**
+   * Create assumption for {@link java.util.concurrent.atomic.LongAdder}.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.16.0 / 3.16.0
+   */
+  public static LongAdderAssert assumeThat(LongAdder actual) {
+    return asAssumption(LongAdderAssert.class, LongAdder.class, actual);
   }
 
   /**

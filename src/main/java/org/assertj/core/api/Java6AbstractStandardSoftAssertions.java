@@ -37,6 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CanIgnoreReturnValue;
@@ -538,6 +539,17 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    */
   public <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return proxy(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.atomic.LongAdder}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public LongAdderAssert assertThat(LongAdder actual) {
+    return proxy(LongAdderAssert.class, LongAdder.class, actual);
   }
 
   /**
