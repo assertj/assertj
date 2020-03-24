@@ -13,10 +13,18 @@
 package org.assertj.core.internal.objects.data;
 
 import java.util.Date;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 public class PersonDto {
   public Date dateOfBirth;
   public String name;
+  public Optional<String> phone;
+  public OptionalInt age;
+  public OptionalLong id;
+  public OptionalDouble weight;
   public HomeDto home = new HomeDto();
   public PersonDto neighbour;
 

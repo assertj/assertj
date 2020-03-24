@@ -26,7 +26,7 @@ public class DualValueUtil {
   }
 
   static List<String> randomPath() {
-    return list(RandomStringUtils.random(RandomUtils.nextInt(0, 10)));
+    return list(RandomStringUtils.random(RandomUtils.nextInt(01, 10), true, false));
   }
 
 }

@@ -22,6 +22,10 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -70,6 +74,26 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
                      arguments(dualValue(null, 123)),
                      arguments(dualValue(null, (Object) null)),
                      arguments(dualValue(null, new Date())));
+
+  }
+
+  @ParameterizedTest(name = "{0} should be ignored")
+  @MethodSource("ignoringActualOptionalEmptyFieldsSource")
+  public void should_ignore_actual_optional_empty_fields(DualValue dualValue) {
+    // GIVEN
+    recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
+    // THEN
+    assertThat(ignored).as("%s should be ignored", dualValue).isTrue();
+  }
+
+  private static Stream<Arguments> ignoringActualOptionalEmptyFieldsSource() {
+    return Stream.of(arguments(dualValue(Optional.empty(), "John")),
+                     arguments(dualValue(Optional.empty(), Optional.of("John"))),
+                     arguments(dualValue(OptionalInt.empty(), OptionalInt.of(123))),
+                     arguments(dualValue(OptionalLong.empty(), OptionalLong.of(123l))),
+                     arguments(dualValue(OptionalDouble.empty(), OptionalDouble.of(123.0))));
 
   }
 

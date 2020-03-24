@@ -18,6 +18,10 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
@@ -89,6 +93,77 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
                      arguments(person6, person7, "same data, actual has only non null name"),
                      arguments(person6, person8, "same data, actual has only non null name"),
                      arguments(person7, person8, "same data, actual has null fields deep in its graph"));
+  }
+
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
+  @MethodSource("recursivelyEqualObjectsIgnoringActualOptionalEmptyValues")
+  public void should_pass_when_actual_empty_optional_fields_are_ignored(Object actual,
+                                                                        Object expected,
+                                                                        @SuppressWarnings("unused") String testDescription) {
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringActualEmptyOptionalFields()
+                      .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> recursivelyEqualObjectsIgnoringActualOptionalEmptyValues() {
+    Person person1 = new Person("John");
+    person1.home.address.number = 1;
+    person1.phone = Optional.empty();
+    person1.age = OptionalInt.empty();
+    person1.id = OptionalLong.empty();
+    person1.weight = OptionalDouble.empty();
+
+    Person person2 = new Person("John");
+    person2.home.address.number = 1;
+    person2.phone = Optional.of("456");
+    person2.age = OptionalInt.of(33);
+    person2.id = OptionalLong.of(123456);
+    person2.weight = OptionalDouble.of(1.80);
+
+    Person person3 = new Person("John");
+    person3.home.address.number = 1;
+    person3.phone = Optional.empty();
+    person3.age = OptionalInt.empty();
+    person3.id = OptionalLong.empty();
+    person3.weight = OptionalDouble.empty();
+
+    Person person4 = new Person("John");
+    person4.home.address.number = 1;
+    person4.phone = null;
+    person4.age = null;
+    person4.id = null;
+    person4.weight = null;
+
+    return Stream.of(arguments(person1, person2, "same data and same type except for actual empty optional fields"),
+                     arguments(person1, person3, "same data, same type, both actual and expected have empty optional fields"),
+                     arguments(person1, person4, "same data and same type except for ignored optional fields"));
+  }
+
+  @Test
+  public void should_fail_when_actual_differs_from_expected_even_when_all_empty_optional_actual_fields_are_ignored() {
+    // GIVEN
+    Person actual = new Person("John");
+    actual.home.address.number = 1;
+    actual.phone = Optional.empty();
+    actual.age = OptionalInt.empty();
+    actual.id = OptionalLong.empty();
+    actual.weight = OptionalDouble.empty();
+
+    Person expected = new Person("John");
+    expected.home.address.number = 2;
+    expected.phone = Optional.of("123-456-789");
+    expected.age = OptionalInt.of(33);
+    expected.id = OptionalLong.of(123456);
+    expected.weight = OptionalDouble.of(1.80);
+
+    recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
+
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+
+    // THEN
+    ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
   @Test

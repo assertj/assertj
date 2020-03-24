@@ -94,6 +94,16 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
+  public void should_allow_to_ignore_all_actual_empty_optional_fields() {
+    // WHEN
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .ignoringActualEmptyOptionalFields()
+                                                                       .getRecursiveComparisonConfiguration();
+    // THEN
+    assertThat(configuration.getIgnoreAllActualEmptyOptionalFields()).isTrue();
+  }
+
+  @Test
   public void should_allow_to_ignore_fields() {
     // GIVEN
     String field1 = "foo";

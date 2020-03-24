@@ -23,6 +23,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.stream.Stream;
@@ -37,7 +40,6 @@ final class DualValue {
   final Object actual;
   final Object expected;
   private final int hashCode;
-
 
   DualValue(List<String> path, Object actual, Object expected) {
     this.path = newArrayList(path);
@@ -98,6 +100,41 @@ final class DualValue {
 
   public boolean isActualFieldAnOptional() {
     return actual instanceof Optional;
+  }
+
+  public boolean isActualFieldAnOptionalInt() {
+    return actual instanceof OptionalInt;
+  }
+
+  public boolean isActualFieldAnOptionalLong() {
+    return actual instanceof OptionalLong;
+  }
+
+  public boolean isActualFieldAnOptionalDouble() {
+    return actual instanceof OptionalDouble;
+  }
+
+  public boolean isActualFieldAnEmptyOptionalOfAnyType() {
+    return isActualFieldAnEmptyOptional()
+           || isActualFieldAnEmptyOptionalInt()
+           || isActualFieldAnEmptyOptionalLong()
+           || isActualFieldAnEmptyOptionalDouble();
+  }
+
+  private boolean isActualFieldAnEmptyOptional() {
+    return isActualFieldAnOptional() && ((Optional<?>) actual).isPresent() == false;
+  }
+
+  private boolean isActualFieldAnEmptyOptionalInt() {
+    return isActualFieldAnOptionalInt() && ((OptionalInt) actual).isPresent() == false;
+  }
+
+  private boolean isActualFieldAnEmptyOptionalLong() {
+    return isActualFieldAnOptionalLong() && ((OptionalLong) actual).isPresent() == false;
+  }
+
+  private boolean isActualFieldAnEmptyOptionalDouble() {
+    return isActualFieldAnOptionalDouble() && ((OptionalDouble) actual).isPresent() == false;
   }
 
   public boolean isExpectedFieldAnOptional() {

@@ -13,10 +13,18 @@
 package org.assertj.core.internal.objects.data;
 
 import java.util.Date;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 public class Person {
   public Date dateOfBirth;
   public String name;
+  public Optional<String> phone;
+  public OptionalInt age;
+  public OptionalLong id;
+  public OptionalDouble weight;
   public Home home = new Home();
   public Person neighbour;
 
@@ -28,6 +36,7 @@ public class Person {
 
   @Override
   public String toString() {
-    return "Person [name=" + name + ", home=" + home + "]";
+    return String.format("Person [dateOfBirth=%s, name=%s, phone=%s, home=%s]", dateOfBirth, name, phone, home);
   }
+
 }

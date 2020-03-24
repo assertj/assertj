@@ -19,6 +19,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
@@ -194,7 +197,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *                   .ignoringActualNullFields()
    *                   .isEqualTo(sherlock);
    *
-   * // assertion fails as name and home.address.street fields are populated for sherlock but not noName.
+   * // assertion fails as name and home.address.street fields are populated for sherlock but not for noName.
    * assertThat(sherlock).usingRecursiveComparison()
    *                     .ignoringActualNullFields()
    *                     .isEqualTo(noName);</code></pre>
@@ -204,6 +207,58 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public SELF ignoringActualNullFields() {
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore all <b>actual empty optional fields</b> (including {@link Optional}, {@link OptionalInt}, {@link OptionalLong} and {@link OptionalDouble}),
+   * note that the expected object empty optional fields are not ignored, this only applies to actual's fields.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   OptionalInt age;
+   *   OptionalLong id;
+   *   OptionalDouble height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   String address;
+   *   Optional&lt;String&gt; phone;
+   * }
+   *
+   * Person homerWithoutDetails = new Person("Homer Simpson");
+   * homerWithoutDetails.home.address.street = "Evergreen Terrace";
+   * homerWithoutDetails.home.address.number = 742;
+   * homerWithoutDetails.home.phone = Optional.empty();
+   * homerWithoutDetails.age = OptionalInt.empty();
+   * homerWithoutDetails.id = OptionalLong.empty();
+   * homerWithoutDetails.height = OptionalDouble.empty();
+   *
+   * Person homerWithDetails = new Person("Homer Simpson");
+   * homerWithDetails.home.address.street = "Evergreen Terrace";
+   * homerWithDetails.home.address.number = 742;
+   * homerWithDetails.home.phone = Optional.of("(939) 555-0113");
+   * homerWithDetails.age = OptionalInt.of(39);
+   * homerWithDetails.id = OptionalLong.of(123456);
+   * homerWithDetails.height = OptionalDouble.of(1.83);
+   *
+   * // assertion succeeds as phone is ignored in the comparison
+   * assertThat(homerWithoutDetails).usingRecursiveComparison()
+   *                                .ignoringActualEmptyOptionalFields()
+   *                                .isEqualTo(homerWithDetails);
+   *
+   * // assertion fails as phone, age, id and height are not ignored and are populated for homerWithDetails but not for homerWithoutDetails.
+   * assertThat(homerWithDetails).usingRecursiveComparison()
+   *                             .ignoringActualEmptyOptionalFields()
+   *                             .isEqualTo(homerWithoutDetails);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF ignoringActualEmptyOptionalFields() {
+    recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
     return myself;
   }
 
