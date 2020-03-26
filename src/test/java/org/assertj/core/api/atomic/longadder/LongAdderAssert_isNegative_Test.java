@@ -10,18 +10,27 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.atomic.longadder;
 
-import java.util.concurrent.atomic.LongAdder;
+import org.assertj.core.api.LongAdderAssert;
+import org.assertj.core.api.LongAdderAssertBaseTest;
+
+import static org.mockito.Mockito.verify;
 
 /**
- * Assertions for {@link java.util.concurrent.atomic.LongAdder}.
+ * Tests for <code>{@link LongAdderAssert#isNegative()}  </code>.
  *
  * @author Grzegorz Piwowarek
  */
-public class LongAdderAssert extends AbstractLongAdderAssert<LongAdderAssert> {
+public class LongAdderAssert_isNegative_Test extends LongAdderAssertBaseTest {
 
-  public LongAdderAssert(LongAdder longAdder) {
-    super(longAdder, LongAdderAssert.class);
+  @Override
+  protected LongAdderAssert invoke_api_method() {
+    return assertions.isNegative();
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(longs).assertIsNegative(getInfo(assertions), getActual(assertions).longValue());
   }
 }
