@@ -63,7 +63,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasValueBetween(int startInclusive, int endInclusive) {
     isNotNull();
-    integers.assertIsBetween(getWritableAssertionInfo(), actual.get(), startInclusive, endInclusive);
+    integers.assertIsBetween(info, actual.get(), startInclusive, endInclusive);
     return myself;
   }
 
@@ -88,7 +88,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasValueLessThan(int other) {
     isNotNull();
-    integers.assertLessThan(getWritableAssertionInfo(), actual.get(), other);
+    integers.assertLessThan(info, actual.get(), other);
     return myself;
   }
 
@@ -113,7 +113,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasValueLessThanOrEqualTo(int other) {
     isNotNull();
-    integers.assertLessThanOrEqualTo(getWritableAssertionInfo(), actual.get(), other);
+    integers.assertLessThanOrEqualTo(info, actual.get(), other);
     return myself;
   }
 
@@ -138,7 +138,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasValueGreaterThan(int other) {
     isNotNull();
-    integers.assertGreaterThan(getWritableAssertionInfo(), actual.get(), other);
+    integers.assertGreaterThan(info, actual.get(), other);
     return myself;
   }
 
@@ -163,7 +163,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasValueGreaterThanOrEqualTo(int other) {
     isNotNull();
-    integers.assertGreaterThanOrEqualTo(getWritableAssertionInfo(), actual.get(), other);
+    integers.assertGreaterThanOrEqualTo(info, actual.get(), other);
     return myself;
   }
 
@@ -186,7 +186,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasPositiveValue() {
     isNotNull();
-    integers.assertIsPositive(getWritableAssertionInfo(), actual.get());
+    integers.assertIsPositive(info, actual.get());
     return myself;
   }
 
@@ -209,7 +209,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasNonPositiveValue() {
     isNotNull();
-    integers.assertIsNotPositive(getWritableAssertionInfo(), actual.get());
+    integers.assertIsNotPositive(info, actual.get());
     return myself;
   }
 
@@ -232,7 +232,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasNegativeValue() {
     isNotNull();
-    integers.assertIsNegative(getWritableAssertionInfo(), actual.get());
+    integers.assertIsNegative(info, actual.get());
     return myself;
   }
 
@@ -255,7 +255,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasNonNegativeValue() {
     isNotNull();
-    integers.assertIsNotNegative(getWritableAssertionInfo(), actual.get());
+    integers.assertIsNotNegative(info, actual.get());
     return myself;
   }
 
@@ -283,7 +283,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasValueCloseTo(int expected, Percentage percentage) {
     isNotNull();
-    integers.assertIsCloseToPercentage(getWritableAssertionInfo(), actual.get(), expected, percentage);
+    integers.assertIsCloseToPercentage(info, actual.get(), expected, percentage);
     return myself;
   }
 
@@ -323,7 +323,7 @@ public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, Ato
    */
   public AtomicIntegerAssert hasValueCloseTo(int expected, Offset<Integer> offset) {
     isNotNull();
-    integers.assertIsCloseTo(getWritableAssertionInfo(), actual.get(), expected, offset);
+    integers.assertIsCloseTo(info, actual.get(), expected, offset);
     return myself;
   }
 
