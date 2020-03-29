@@ -34,7 +34,7 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
  *
  * @author Grzegorz Piwowarek
  */
-class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extends AbstractAssert<LongAdderAssert, LongAdder> implements NumberAssert<LongAdderAssert, Long> {
+class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extends AbstractAssert<SELF, LongAdder> implements NumberAssert<SELF, Long> {
 
   @VisibleForTesting
   Longs longs = Longs.instance();
@@ -69,7 +69,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is not in [start, end] range.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasValueBetween(long startInclusive, long endInclusive) {
+  public SELF hasValueBetween(long startInclusive, long endInclusive) {
     isNotNull();
     longs.assertIsBetween(getWritableAssertionInfo(), actual.sum(), startInclusive, endInclusive);
     return myself;
@@ -101,7 +101,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is equal to or greater than the given one.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasValueLessThan(long other) {
+  public SELF hasValueLessThan(long other) {
     isNotNull();
     longs.assertLessThan(getWritableAssertionInfo(), actual.sum(), other);
     return myself;
@@ -133,7 +133,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is greater than the given one.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasValueLessThanOrEqualTo(long other) {
+  public SELF hasValueLessThanOrEqualTo(long other) {
     isNotNull();
     longs.assertLessThanOrEqualTo(getWritableAssertionInfo(), actual.sum(), other);
     return myself;
@@ -165,7 +165,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is equal to or less than the given one.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasValueGreaterThan(long other) {
+  public SELF hasValueGreaterThan(long other) {
     isNotNull();
     longs.assertGreaterThan(getWritableAssertionInfo(), actual.sum(), other);
     return myself;
@@ -197,7 +197,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is less than the given one.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasValueGreaterThanOrEqualTo(long other) {
+  public SELF hasValueGreaterThanOrEqualTo(long other) {
     isNotNull();
     longs.assertGreaterThanOrEqualTo(getWritableAssertionInfo(), actual.sum(), other);
     return myself;
@@ -226,7 +226,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is not positive.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasPositiveValue() {
+  public SELF hasPositiveValue() {
     isNotNull();
     longs.assertIsPositive(getWritableAssertionInfo(), actual.sum());
     return myself;
@@ -254,7 +254,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is not non positive.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasNonPositiveValue() {
+  public SELF hasNonPositiveValue() {
     isNotNull();
     longs.assertIsNotPositive(getWritableAssertionInfo(), actual.sum());
     return myself;
@@ -282,7 +282,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is not negative.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasNegativeValue() {
+  public SELF hasNegativeValue() {
     isNotNull();
     longs.assertIsNegative(getWritableAssertionInfo(), actual.sum());
     return myself;
@@ -310,7 +310,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is not non negative.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasNonNegativeValue() {
+  public SELF hasNonNegativeValue() {
     isNotNull();
     longs.assertIsNotNegative(getWritableAssertionInfo(), actual.sum());
     return myself;
@@ -343,7 +343,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError       if the actual adder is {@code null}.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasValueCloseTo(long expected, Percentage percentage) {
+  public SELF hasValueCloseTo(long expected, Percentage percentage) {
     isNotNull();
     longs.assertIsCloseToPercentage(getWritableAssertionInfo(), actual.sum(), expected, percentage);
     return myself;
@@ -386,7 +386,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError       if the actual adder is {@code null}.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasValueCloseTo(long expected, Offset<Long> offset) {
+  public SELF hasValueCloseTo(long expected, Offset<Long> offset) {
     isNotNull();
     longs.assertIsCloseTo(getWritableAssertionInfo(), actual.sum(), expected, offset);
     return myself;
@@ -413,7 +413,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is not non negative.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert hasValue(long expectedValue) {
+  public SELF hasValue(long expectedValue) {
     isNotNull();
     long actualValue = actual.sum();
     if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
@@ -443,7 +443,7 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
    * @throws AssertionError if the actual sum value is not non negative.
    * @since 2.16.0 / 3.16.0
    */
-  public LongAdderAssert doesNotHaveValue(long expectedValue) {
+  public SELF doesNotHaveValue(long expectedValue) {
     isNotNull();
     long actualValue = actual.sum();
     if (objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
@@ -454,98 +454,98 @@ class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extend
 
   @Override
   @CheckReturnValue
-  public LongAdderAssert usingComparator(Comparator<? super LongAdder> customComparator) {
+  public SELF usingComparator(Comparator<? super LongAdder> customComparator) {
     return usingComparator(customComparator, null);
   }
 
   @Override
   @CheckReturnValue
-  public LongAdderAssert usingComparator(Comparator<? super LongAdder> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super LongAdder> customComparator, String customComparatorDescription) {
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }
 
   @Override
   @CheckReturnValue
-  public LongAdderAssert usingDefaultComparator() {
+  public SELF usingDefaultComparator() {
     longs = Longs.instance();
     return super.usingDefaultComparator();
   }
 
   @Override
-  public LongAdderAssert isZero() {
+  public SELF isZero() {
     longs.assertIsZero(info, actual.longValue());
     return myself;
   }
 
   @Override
-  public LongAdderAssert isNotZero() {
+  public SELF isNotZero() {
     longs.assertIsNotZero(info, actual.longValue());
     return myself;
   }
 
   @Override
-  public LongAdderAssert isOne() {
+  public SELF isOne() {
     longs.assertIsOne(info, actual.longValue());
     return myself;
   }
 
   @Override
-  public LongAdderAssert isPositive() {
+  public SELF isPositive() {
     longs.assertIsPositive(info, actual.longValue());
     return myself;
   }
 
   @Override
-  public LongAdderAssert isNegative() {
+  public SELF isNegative() {
     longs.assertIsNegative(info, actual.longValue());
     return myself;
   }
 
   @Override
-  public LongAdderAssert isNotNegative() {
+  public SELF isNotNegative() {
     longs.assertIsNotNegative(info, actual.longValue());
     return myself;
   }
 
   @Override
-  public LongAdderAssert isNotPositive() {
+  public SELF isNotPositive() {
     longs.assertIsNotPositive(info, actual.longValue());
     return myself;
   }
 
   @Override
-  public LongAdderAssert isBetween(Long start, Long end) {
+  public SELF isBetween(Long start, Long end) {
     longs.assertIsBetween(info, actual.longValue(), start, end);
     return myself;
   }
 
   @Override
-  public LongAdderAssert isStrictlyBetween(Long start, Long end) {
+  public SELF isStrictlyBetween(Long start, Long end) {
     longs.assertIsStrictlyBetween(info, actual.longValue(), start, end);
     return myself;
   }
 
   @Override
-  public LongAdderAssert isCloseTo(Long expected, Offset<Long> offset) {
+  public SELF isCloseTo(Long expected, Offset<Long> offset) {
     longs.assertIsCloseTo(info, actual.longValue(), expected, offset);
     return myself;
   }
 
   @Override
-  public LongAdderAssert isNotCloseTo(Long expected, Offset<Long> offset) {
+  public SELF isNotCloseTo(Long expected, Offset<Long> offset) {
     longs.assertIsNotCloseTo(info, actual.longValue(), expected, offset);
     return myself;
   }
 
   @Override
-  public LongAdderAssert isCloseTo(Long expected, Percentage percentage) {
+  public SELF isCloseTo(Long expected, Percentage percentage) {
     longs.assertIsCloseToPercentage(info, actual.longValue(), expected, percentage);
     return myself;
   }
 
   @Override
-  public LongAdderAssert isNotCloseTo(Long expected, Percentage percentage) {
+  public SELF isNotCloseTo(Long expected, Percentage percentage) {
     longs.assertIsNotCloseToPercentage(info, actual.longValue(), expected, percentage);
     return myself;
   }
