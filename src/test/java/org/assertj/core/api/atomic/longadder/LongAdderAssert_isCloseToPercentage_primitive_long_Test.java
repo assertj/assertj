@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Grzegorz Piwowarek
  */
-public class LongAdderAssert_isCloseToPercentage_primitive_long_Test extends LongAdderAssertBaseTest {
+class LongAdderAssert_isCloseToPercentage_primitive_long_Test extends LongAdderAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5L);
     private final long value = 10L;

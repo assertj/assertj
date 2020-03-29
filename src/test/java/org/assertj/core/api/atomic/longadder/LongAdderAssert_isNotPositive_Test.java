@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Grzegorz Piwowarek
  */
-public class LongAdderAssert_isNotPositive_Test extends LongAdderAssertBaseTest {
+class LongAdderAssert_isNotPositive_Test extends LongAdderAssertBaseTest {
 
   @Override
   protected LongAdderAssert invoke_api_method() {

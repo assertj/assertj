@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Grzegorz Piwowarek
  */
-public class LongAdderAssert_isCloseTo_long_Test extends LongAdderAssertBaseTest {
+class LongAdderAssert_isCloseTo_long_Test extends LongAdderAssertBaseTest {
 
   private final Offset<Long> offset = offset(5L);
   private final Long value = 8L;
