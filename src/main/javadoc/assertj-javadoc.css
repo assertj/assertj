@@ -12,9 +12,9 @@
  */
 
 body {
-    background-color:#ffffff;
-    color:#353833;
-    font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+    background-color:#EDD9A6;
+    color:#000000;
+    font-family:Verdana, Geneva, sans-serif;
     font-size:14px;
     margin:0;
     padding:0;
@@ -31,14 +31,15 @@ iframe {
 }
 a:link, a:visited {
     text-decoration:none;
-    color:#4A6782;
+    color:#861203;
+    font-weight: bold;
 }
 a[href]:hover, a[href]:focus {
     text-decoration:none;
-    color:#bb7a2a;
+    color:#470C03;
 }
 a[name] {
-    color:#353833;
+    color:#000000;
 }
 a[name]:before, a[name]:target, a[id]:before, a[id]:target {
     content:"";
@@ -123,7 +124,7 @@ button {
     margin-left:.5em;
 }
 .bar a, .bar a:link, .bar a:visited, .bar a:active {
-    color:#FFFFFF;
+    color:#EDD9A6;
     text-decoration:none;
 }
 .bar a:hover, .bar a:focus {
@@ -131,7 +132,7 @@ button {
 }
 .tab {
     background-color:#0066FF;
-    color:#ffffff;
+    color:#EDD9A6;
     padding:8px;
     width:5em;
     font-weight:bold;
@@ -140,8 +141,8 @@ button {
  * Styles for navigation bar.
  */
 .bar {
-    background-color:#4D7A97;
-    color:#FFFFFF;
+    background-color:#232323;
+    color:#EDD9A6;
     padding:.8em .5em .4em .8em;
     height:auto;/*height:1.8em;*/
     font-size:11px;
@@ -154,11 +155,11 @@ button {
     position:fixed;
     width:100%;
     z-index:999;
-    background-color:#ffffff;
+    background-color:#EDD9A6;
 }
 .topNav {
-    background-color:#4D7A97;
-    color:#FFFFFF;
+    background-color:#232323;
+    color:#EDD9A6;
     float:left;
     padding:0;
     width:100%;
@@ -170,8 +171,8 @@ button {
 }
 .bottomNav {
     margin-top:10px;
-    background-color:#4D7A97;
-    color:#FFFFFF;
+    background-color:#232323;
+    color:#EDD9A6;
     float:left;
     padding:0;
     width:100%;
@@ -182,7 +183,7 @@ button {
     font-size:12px;
 }
 .subNav {
-    background-color:#dee3e9;
+    background-color:#e1bf6b;
     float:left;
     width:100%;
     overflow:hidden;
@@ -229,7 +230,7 @@ ul.subNavList li {
     padding-top:10px;
 }
 .topNav a:link, .topNav a:active, .topNav a:visited, .bottomNav a:link, .bottomNav a:active, .bottomNav a:visited {
-    color:#FFFFFF;
+    color:#EDD9A6;
     text-decoration:none;
     text-transform:uppercase;
 }
@@ -239,9 +240,10 @@ ul.subNavList li {
     text-transform:uppercase;
 }
 .navBarCell1Rev {
-    background-color:#F8981D;
-    color:#253441;
+    background-color:#e1bf6b;
+    color:#000000;
     margin: auto 5px;
+    font-weight: bold;
 }
 .skipNav {
     position:absolute;
@@ -260,7 +262,7 @@ ul.subNavList li {
 .indexNav {
     position:relative;
     font-size:12px;
-    background-color:#dee3e9;
+    background-color:#e1bf6b;
 }
 .indexNav ul {
     margin-top:0;
@@ -276,7 +278,7 @@ ul.subNavList li {
     font-size:13px;
 }
 .title {
-    color:#2c4557;
+    color:#000000;
     margin:10px 0;
 }
 .subTitle {
@@ -297,14 +299,14 @@ ul.subNavList li {
  * Styles for headings.
  */
 div.details ul.blockList ul.blockList ul.blockList li.blockList h4, div.details ul.blockList ul.blockList ul.blockListLast li.blockList h4 {
-    background-color:#dee3e9;
-    border:1px solid #d0d9e0;
+    background-color:#e1bf6b;
+    border:1px solid #e1bf6b;
     margin:0 0 6px -8px;
     padding:7px 5px;
 }
 ul.blockList ul.blockList ul.blockList li.blockList h3 {
-    background-color:#dee3e9;
-    border:1px solid #d0d9e0;
+    background-color:#e1bf6b;
+    border:1px solid #e1bf6b;
     margin:0 0 6px -8px;
     padding:7px 5px;
 }
@@ -345,12 +347,12 @@ ul.blockList li.blockList h2 {
     font-size:12px;
     font-weight:bold;
     margin:10px 0 0 0;
-    color:#4E4E4E;
+    color:#000000;
 }
 .contentContainer .description dl dd, .contentContainer .details dl dd, .serializedFormContainer dl dd {
     margin:5px 0 10px 0px;
     font-size:14px;
-    font-family:'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    font-family:Verdana, Geneva, sans-serif;
 }
 .serializedFormContainer dl.nameValue dt {
     margin-left:1px;
@@ -397,12 +399,12 @@ ul.blockList li.blockList, ul.blockListLast li.blockList {
 }
 ul.blockList ul.blockList li.blockList, ul.blockList ul.blockListLast li.blockList {
     padding:0px 20px 5px 10px;
-    border:1px solid #ededed;
-    background-color:#f8f8f8;
+    border:1px solid #e1bf6b;
+    background-color:#e9d195
 }
 ul.blockList ul.blockList ul.blockList li.blockList, ul.blockList ul.blockList ul.blockListLast li.blockList {
     padding:0 0 5px 8px;
-    background-color:#ffffff;
+    background-color:#EDD9A6;
     border:none;
 }
 ul.blockList ul.blockList ul.blockList ul.blockList li.blockList {
@@ -440,7 +442,7 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
     position:relative;
     text-align:left;
     background-repeat:no-repeat;
-    color:#253441;
+    color:#000000;
     font-weight:bold;
     clear:none;
     overflow:hidden;
@@ -470,7 +472,7 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
 .deprecatedSummary caption a:visited,
 .requiresSummary caption a:visited, .packagesSummary caption a:visited, .providesSummary caption a:visited,
 .usesSummary caption a:visited {
-    color:#FFFFFF;
+    color:#444444;
 }
 .overviewSummary caption span, .memberSummary caption span, .typeSummary caption span,
 .useSummary caption span, .constantsSummary caption span, .deprecatedSummary caption span,
@@ -483,7 +485,7 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
     padding-bottom:7px;
     display:inline-block;
     float:left;
-    background-color:#F8981D;
+    background-color:#e1bf6b;
     border: none;
     height:16px;
 }
@@ -494,7 +496,7 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
     width:5px;
     position:relative;
     float:left;
-    background-color:#F8981D;
+    background-color:#e1bf6b;
 }
 .overviewSummary [role=tablist] button, .memberSummary [role=tablist] button,
 .typeSummary [role=tablist] button, .packagesSummary [role=tablist] button {
@@ -506,13 +508,13 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
 }
 .overviewSummary [role=tablist] .activeTableTab, .memberSummary [role=tablist] .activeTableTab,
 .typeSummary [role=tablist] .activeTableTab, .packagesSummary [role=tablist] .activeTableTab {
-   background: #F8981D;
+   background: #e1bf6b;
    color: #253441;
 }
 .overviewSummary [role=tablist] .tableTab, .memberSummary [role=tablist] .tableTab,
 .typeSummary [role=tablist] .tableTab, .packagesSummary [role=tablist] .tableTab {
-   background: #4D7A97;
-   color: #FFFFFF;
+   background: #232323;
+   color: #EDD9A6;
 }
 .rowColor th, .altColor th {
     font-weight:normal;
@@ -533,7 +535,7 @@ th.colFirst, th.colSecond, th.colLast, th.colConstructorName, th.colDeprecatedIt
 }
 th.colFirst, th.colSecond, th.colLast, th.colConstructorName, th.colDeprecatedItemName, .constantsSummary th,
 .packagesSummary th {
-    background:#dee3e9;
+    background:#e1bf6b;
     text-align:left;
     padding:8px 3px 3px 7px;
 }
@@ -579,10 +581,10 @@ th.colDeprecatedItemName a:link, th.colDeprecatedItemName a:visited,
     background-color:#EEEEFF;
 }
 .altColor, .altColor th {
-    background-color:#FFFFFF;
+    background-color:#EDD9A6;
 }
 .rowColor, .rowColor th {
-    background-color:#EEEEEF;
+    background-color:#e5c880;
 }
 /*
  * Styles for contents.
@@ -602,7 +604,8 @@ ul.blockList ul.blockList ul.blockList li.blockList h3 {
 }
 div.block {
     font-size:14px;
-    font-family:'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    font-family: Verdana, Geneva, sans-serif;
+    color: #000000;
 }
 td.colLast div {
     padding-top:0px;
@@ -625,7 +628,7 @@ h1.hidden {
 .block {
     display:block;
     margin:3px 10px 2px 0px;
-    color:#474747;
+    color:#000000;
 }
 .deprecatedLabel, .descfrmTypeLabel, .implementationLabel, .memberNameLabel, .memberNameLink,
 .moduleLabelInPackage, .moduleLabelInType, .overrideSpecifyLabel, .packageLabelInType,
@@ -638,7 +641,7 @@ h1.hidden {
 }
 .deprecationBlock {
     font-size:14px;
-    font-family:'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    font-family:Verdana, Geneva, sans-serif;
     border-style:solid;
     border-width:thin;
     border-radius:10px;
@@ -722,8 +725,8 @@ main, nav, header, footer, section {
     font-weight:bold;
     font-size:15px;
     padding:7px 0 7px 3px;
-    background-color:#4D7A97;
-    color:#FFFFFF;
+    background-color:#232323;
+    color:#EDD9A6;
 }
 .resultItem {
     font-size:13px;
@@ -797,6 +800,7 @@ ul.ui-autocomplete  li {
 }
 .methodSignature {
     white-space:normal;
+    color: #000000;
 }
 
 /*
@@ -890,6 +894,8 @@ Railscasts-like style (c) Visoft, Inc. (Damien White)
   padding: 0.5em;
   background: #232323;
   color: #e6e1dc;
+  /* added by us */
+  border-radius:8px;
 }
 
 .hljs-comment,
