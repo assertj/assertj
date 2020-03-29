@@ -63,7 +63,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasValueBetween(long startInclusive, long endInclusive) {
     isNotNull();
-    longs.assertIsBetween(getWritableAssertionInfo(), actual.get(), startInclusive, endInclusive);
+    longs.assertIsBetween(info, actual.get(), startInclusive, endInclusive);
     return myself;
   }
 
@@ -88,7 +88,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasValueLessThan(long other) {
     isNotNull();
-    longs.assertLessThan(getWritableAssertionInfo(), actual.get(), other);
+    longs.assertLessThan(info, actual.get(), other);
     return myself;
   }
 
@@ -113,7 +113,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasValueLessThanOrEqualTo(long other) {
     isNotNull();
-    longs.assertLessThanOrEqualTo(getWritableAssertionInfo(), actual.get(), other);
+    longs.assertLessThanOrEqualTo(info, actual.get(), other);
     return myself;
   }
 
@@ -138,7 +138,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasValueGreaterThan(long other) {
     isNotNull();
-    longs.assertGreaterThan(getWritableAssertionInfo(), actual.get(), other);
+    longs.assertGreaterThan(info, actual.get(), other);
     return myself;
   }
 
@@ -163,7 +163,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasValueGreaterThanOrEqualTo(long other) {
     isNotNull();
-    longs.assertGreaterThanOrEqualTo(getWritableAssertionInfo(), actual.get(), other);
+    longs.assertGreaterThanOrEqualTo(info, actual.get(), other);
     return myself;
   }
 
@@ -186,7 +186,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasPositiveValue() {
     isNotNull();
-    longs.assertIsPositive(getWritableAssertionInfo(), actual.get());
+    longs.assertIsPositive(info, actual.get());
     return myself;
   }
 
@@ -209,7 +209,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasNonPositiveValue() {
     isNotNull();
-    longs.assertIsNotPositive(getWritableAssertionInfo(), actual.get());
+    longs.assertIsNotPositive(info, actual.get());
     return myself;
   }
 
@@ -232,7 +232,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasNegativeValue() {
     isNotNull();
-    longs.assertIsNegative(getWritableAssertionInfo(), actual.get());
+    longs.assertIsNegative(info, actual.get());
     return myself;
   }
 
@@ -255,7 +255,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasNonNegativeValue() {
     isNotNull();
-    longs.assertIsNotNegative(getWritableAssertionInfo(), actual.get());
+    longs.assertIsNotNegative(info, actual.get());
     return myself;
   }
 
@@ -283,7 +283,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasValueCloseTo(long expected, Percentage percentage) {
     isNotNull();
-    longs.assertIsCloseToPercentage(getWritableAssertionInfo(), actual.get(), expected, percentage);
+    longs.assertIsCloseToPercentage(info, actual.get(), expected, percentage);
     return myself;
   }
 
@@ -323,7 +323,7 @@ public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLon
    */
   public AtomicLongAssert hasValueCloseTo(long expected, Offset<Long> offset) {
     isNotNull();
-    longs.assertIsCloseTo(getWritableAssertionInfo(), actual.get(), expected, offset);
+    longs.assertIsCloseTo(info, actual.get(), expected, offset);
     return myself;
   }
 
