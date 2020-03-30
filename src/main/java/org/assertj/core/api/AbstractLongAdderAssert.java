@@ -71,7 +71,6 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValueLessThan(long other) {
-    isNotNull();
     longs.assertLessThan(info, actual.sum(), other);
     return myself;
   }
@@ -103,7 +102,6 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValueLessThanOrEqualTo(long other) {
-    isNotNull();
     longs.assertLessThanOrEqualTo(info, actual.sum(), other);
     return myself;
   }
@@ -135,7 +133,6 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValueGreaterThan(long other) {
-    isNotNull();
     longs.assertGreaterThan(info, actual.sum(), other);
     return myself;
   }
@@ -167,7 +164,6 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValueGreaterThanOrEqualTo(long other) {
-    isNotNull();
     longs.assertGreaterThanOrEqualTo(info, actual.sum(), other);
     return myself;
   }
