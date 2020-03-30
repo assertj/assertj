@@ -62,7 +62,6 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @return {@code this} assertion object.
    *
    * @throws AssertionError if the actual adder is {@code null}.
-   * @since 2.16.0 / 3.16.0
    */
   public SELF hasValue(long expectedValue) {
     isNotNull();
@@ -92,7 +91,6 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    *
    * @throws AssertionError if the actual adder is {@code null}.
    * @throws AssertionError if the actual sum is not the given value.
-   * @since 2.16.0 / 3.16.0
    */
   public SELF doesNotHaveValue(long expectedValue) {
     isNotNull();
