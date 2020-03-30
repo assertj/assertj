@@ -67,7 +67,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @return {@code this} assertion object.
    *
    * @throws AssertionError if the actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is equal to or greater than the given one.
+   * @throws AssertionError if the actual sum value is less than the given one.
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValueLessThan(long other) {
@@ -99,7 +99,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @return {@code this} assertion object.
    *
    * @throws AssertionError if the actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is greater than the given one.
+   * @throws AssertionError if the actual sum value is less or equal to the given one.
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValueLessThanOrEqualTo(long other) {
@@ -131,7 +131,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @return {@code this} assertion object.
    *
    * @throws AssertionError if actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is equal to or less than the given one.
+   * @throws AssertionError if the actual sum value is greater than the given one.
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValueGreaterThan(long other) {
@@ -163,7 +163,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @return {@code this} assertion object.
    *
    * @throws AssertionError if the actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is less than the given one.
+   * @throws AssertionError if the actual sum value is greater or equal to the given one.
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValueGreaterThanOrEqualTo(long other) {
