@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
  *               for more details.
  *
  * @author Grzegorz Piwowarek
+ * @since 3.16.0
  */
 public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extends AbstractAssert<SELF, LongAdder> implements NumberAssert<SELF, Long> {
 
