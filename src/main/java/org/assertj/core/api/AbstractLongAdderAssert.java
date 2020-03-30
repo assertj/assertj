@@ -190,7 +190,6 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @return {@code this} assertion object.
    *
    * @throws AssertionError if the actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is not non negative.
    * @since 2.16.0 / 3.16.0
    */
   public SELF hasValue(long expectedValue) {
@@ -203,7 +202,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
   }
 
   /**
-   * Verifies that the actual sum has not the given value.
+   * Verifies that the actual sum is not the given value.
    * <p>
    * Example:
    * <pre><code class='java'>
@@ -220,7 +219,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @return {@code this} assertion object.
    *
    * @throws AssertionError if the actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is not non negative.
+   * @throws AssertionError if the actual sum is not the given value.
    * @since 2.16.0 / 3.16.0
    */
   public SELF doesNotHaveValue(long expectedValue) {
