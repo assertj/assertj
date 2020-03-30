@@ -17,15 +17,15 @@ import org.assertj.core.api.LongAdderAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-class LongAdderAssert_hasValueGreaterThanOrEqualTo_Test extends LongAdderAssertBaseTest {
+class LongAdderAssert_isLessThanOrEqualTo_Test extends LongAdderAssertBaseTest {
 
   @Override
   protected LongAdderAssert invoke_api_method() {
-    return assertions.hasValueGreaterThanOrEqualTo(7L);
+    return assertions.isLessThanOrEqualTo(7L);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(longs).assertGreaterThanOrEqualTo(getInfo(assertions), getActual(assertions).sum(), 7L);
+    verify(longs).assertLessThanOrEqualTo(getInfo(assertions), getActual(assertions).sum(), 7L);
   }
 }

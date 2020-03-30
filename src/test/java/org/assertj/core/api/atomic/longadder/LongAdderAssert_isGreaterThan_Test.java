@@ -12,17 +12,20 @@
  */
 package org.assertj.core.api.atomic.longadder;
 
-import org.assertj.core.util.AbsValueComparator;
-import org.junit.jupiter.api.Test;
+import org.assertj.core.api.LongAdderAssert;
+import org.assertj.core.api.LongAdderAssertBaseTest;
 
-import java.util.concurrent.atomic.LongAdder;
+import static org.mockito.Mockito.verify;
 
-import static org.assertj.core.api.Assertions.assertThat;
+class LongAdderAssert_isGreaterThan_Test extends LongAdderAssertBaseTest {
 
-class LongAdderAssert_customComparator_Test {
+  @Override
+  protected LongAdderAssert invoke_api_method() {
+    return assertions.isGreaterThan(7L);
+  }
 
-  @Test
-  public void should_honor_custom_comparator() {
-    assertThat(new LongAdder()).usingComparator(new AbsValueComparator<>()).isLessThanOrEqualTo(-1L);
+  @Override
+  protected void verify_internal_effects() {
+    verify(longs).assertGreaterThan(getInfo(assertions), getActual(assertions).sum(), 7L);
   }
 }

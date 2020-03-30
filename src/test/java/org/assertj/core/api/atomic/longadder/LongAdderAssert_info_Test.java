@@ -26,7 +26,7 @@ class LongAdderAssert_info_Test {
     String assertionDescription = "ssss";
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(new LongAdder()).as(assertionDescription)
-        .hasValueLessThan(-1L))
+        .isLessThan(-1L))
       .withMessageContaining(assertionDescription);
   }
 }

@@ -35,137 +35,13 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
  * @author Grzegorz Piwowarek
  * @since 3.16.0
  */
-public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extends AbstractAssert<SELF, LongAdder> implements NumberAssert<SELF, Long> {
+public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extends AbstractAssert<SELF, LongAdder> implements NumberAssert<SELF, Long>, ComparableAssert<SELF, Long> {
 
   @VisibleForTesting
   Longs longs = Longs.instance();
 
   public AbstractLongAdderAssert(LongAdder longAdder, Class<?> selfType) {
     super(longAdder, selfType);
-  }
-
-  /**
-   * Verifies that the actual sum has a value strictly less than the given one.
-   * <p>
-   * Example:
-   * <pre><code class='java'>
-   * // assertions will pass:
-   * LongAdder actual1 = new LongAdder();
-   * actual1.add(1);
-   * assertThat(actual1).hasValueLessThan(2);
-   *
-   * LongAdder actual2 = new LongAdder();
-   * actual2.add(-2);
-   * assertThat(actual2).hasValueLessThan(-1);
-   *
-   * // assertions will fail:
-   * assertThat(actual1).hasValueLessThan(0)
-   *                    .hasValueLessThan(1);</code></pre>
-   *
-   * @param other the given value to compare the actual value to.
-   *
-   * @return {@code this} assertion object.
-   *
-   * @throws AssertionError if the actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is less than the given one.
-   * @since 2.16.0 / 3.16.0
-   */
-  public SELF hasValueLessThan(long other) {
-    longs.assertLessThan(info, actual.sum(), other);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual sum has a value strictly less than the given one.
-   * <p>
-   * Example:
-   * <pre><code class='java'>
-   * // assertions will pass:
-   * LongAdder actual1 = new LongAdder();
-   * actual1.add(1);
-   * assertThat(actual1).hasValueLessThanOrEqualTo(1)
-   *                    .hasValueLessThanOrEqualTo(2);
-   *
-   * LongAdder actual2 = new LongAdder();
-   * actual2.add(-2);
-   * assertThat(actual2).hasValueLessThanOrEqualTo(-1);
-   *
-   * // assertion will fail:
-   * assertThat(actual1).hasValueLessThanOrEqualTo(0);</code></pre>
-   *
-   * @param other the given value to compare the actual value to.
-   *
-   * @return {@code this} assertion object.
-   *
-   * @throws AssertionError if the actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is less or equal to the given one.
-   * @since 2.16.0 / 3.16.0
-   */
-  public SELF hasValueLessThanOrEqualTo(long other) {
-    longs.assertLessThanOrEqualTo(info, actual.sum(), other);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual sum has a value strictly greater than the given one.
-   * <p>
-   * Example:
-   * <pre><code class='java'>
-   * // assertions will pass:
-   * LongAdder actual1 = new LongAdder();
-   * actual1.add(1);
-   * assertThat(actual1).hasValueGreaterThan(0);
-   *
-   * LongAdder actual2 = new LongAdder();
-   * actual2.add(-1);
-   * assertThat(actual2).hasValueGreaterThan(-2);
-   *
-   * // assertions will fail:
-   * assertThat(actual1).hasValueGreaterThan(2)
-   *                    .hasValueGreaterThan(1);</code></pre>
-   *
-   * @param other the given value to compare the actual value to.
-   *
-   * @return {@code this} assertion object.
-   *
-   * @throws AssertionError if actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is greater than the given one.
-   * @since 2.16.0 / 3.16.0
-   */
-  public SELF hasValueGreaterThan(long other) {
-    longs.assertGreaterThan(info, actual.sum(), other);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual sum has a value strictly greater than the given one.
-   * <p>
-   * Example:
-   * <pre><code class='java'>
-   * // assertions will pass:
-   * LongAdder actual1 = new LongAdder();
-   * actual1.add(1);
-   * assertThat(actual1).hasValueGreaterThanOrEqualTo(0)
-   *                    .hasValueGreaterThanOrEqualTo(1);
-   *
-   * LongAdder actual2 = new LongAdder();
-   * actual1.add(-1);
-   * assertThat(actual2).hasValueGreaterThanOrEqualTo(-2);
-   *
-   * // assertion will fail:
-   * assertThat(actual1).hasValueGreaterThanOrEqualTo(2);</code></pre>
-   *
-   * @param other the given value to compare the actual value to.
-   *
-   * @return {@code this} assertion object.
-   *
-   * @throws AssertionError if the actual adder is {@code null}.
-   * @throws AssertionError if the actual sum value is greater or equal to the given one.
-   * @since 2.16.0 / 3.16.0
-   */
-  public SELF hasValueGreaterThanOrEqualTo(long other) {
-    longs.assertGreaterThanOrEqualTo(info, actual.sum(), other);
-    return myself;
   }
 
   /**
@@ -286,6 +162,42 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
   @Override
   public SELF isNotPositive() {
     longs.assertIsNotPositive(info, actual.longValue());
+    return myself;
+  }
+
+  @Override
+  public SELF isEqualByComparingTo(Long other) {
+    longs.assertEqualByComparison(info, actual.longValue(), other);
+    return myself;
+  }
+
+  @Override
+  public SELF isNotEqualByComparingTo(Long other) {
+    longs.assertNotEqualByComparison(info, actual.longValue(), other);
+    return myself;
+  }
+
+  @Override
+  public SELF isLessThan(Long other) {
+    longs.assertLessThan(info, actual.longValue(), other);
+    return myself;
+  }
+
+  @Override
+  public SELF isLessThanOrEqualTo(Long other) {
+    longs.assertLessThanOrEqualTo(info, actual.longValue(), other);
+    return myself;
+  }
+
+  @Override
+  public SELF isGreaterThan(Long other) {
+    longs.assertGreaterThan(info, actual.longValue(), other);
+    return myself;
+  }
+
+  @Override
+  public SELF isGreaterThanOrEqualTo(Long other) {
+    longs.assertGreaterThanOrEqualTo(info, actual.longValue(), other);
     return myself;
   }
 

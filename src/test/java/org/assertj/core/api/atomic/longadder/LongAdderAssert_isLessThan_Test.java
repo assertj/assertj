@@ -17,11 +17,11 @@ import org.assertj.core.api.LongAdderAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-class LongAdderAssert_hasValueLessThan_Test extends LongAdderAssertBaseTest {
+class LongAdderAssert_isLessThan_Test extends LongAdderAssertBaseTest {
 
   @Override
   protected LongAdderAssert invoke_api_method() {
-    return assertions.hasValueLessThan(7L);
+    return assertions.isLessThan(7L);
   }
 
   @Override
