@@ -40,8 +40,9 @@ import org.junit.jupiter.params.provider.CsvSource;
  * @author Sam Brannen
  * @since 3.13
  * @see SoftAssertionsExtensionIntegrationTest
+ * @see CustomSoftAssertionsExtensionIntegrationTest
  */
-@DisplayName("JUnit Jupiter BDD Soft Assertions extension integration tests")
+@DisplayName("JUnit Jupiter BDD Soft Assertions extension integration tests (BDD)")
 class BDDSoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
 
 	@Override
