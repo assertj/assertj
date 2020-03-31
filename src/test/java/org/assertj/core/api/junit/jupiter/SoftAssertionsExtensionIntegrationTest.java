@@ -36,88 +36,89 @@ import org.junit.jupiter.params.provider.CsvSource;
  * @author Sam Brannen
  * @since 3.13
  * @see BDDSoftAssertionsExtensionIntegrationTest
+ * @see CustomSoftAssertionsExtensionIntegrationTest
  */
-@DisplayName("JUnit Jupiter Soft Assertions extension integration tests")
+@DisplayName("JUnit Jupiter Soft Assertions extension integration tests (standard)")
 class SoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
 
-	@Override
-	protected Class<?> getTestInstancePerMethodTestCase() {
-		return TestInstancePerMethodExample.class;
-	}
+  @Override
+  protected Class<?> getTestInstancePerMethodTestCase() {
+    return TestInstancePerMethodExample.class;
+  }
 
-	@Override
-	protected Class<?> getTestInstancePerClassTestCase() {
-		return TestInstancePerClassExample.class;
-	}
+  @Override
+  protected Class<?> getTestInstancePerClassTestCase() {
+    return TestInstancePerClassExample.class;
+  }
 
-	@Override
-	protected Class<?> getTestInstancePerMethodNestedTestCase() {
-		return TestInstancePerMethodNestedExample.class;
-	}
+  @Override
+  protected Class<?> getTestInstancePerMethodNestedTestCase() {
+    return TestInstancePerMethodNestedExample.class;
+  }
 
-	@Override
-	protected Class<?> getTestInstancePerClassNestedTestCase() {
-		return TestInstancePerClassNestedExample.class;
-	}
+  @Override
+  protected Class<?> getTestInstancePerClassNestedTestCase() {
+    return TestInstancePerClassNestedExample.class;
+  }
 
-	// -------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
 
-	@ExtendWith(SoftAssertionsExtension.class)
-	@TestMethodOrder(OrderAnnotation.class)
-	private static abstract class AbstractSoftAssertionsExample {
+  @ExtendWith(SoftAssertionsExtension.class)
+  @TestMethodOrder(OrderAnnotation.class)
+  private static abstract class AbstractSoftAssertionsExample {
 
-		@Test
-		@Order(1)
-		void multipleFailures(SoftAssertions softly) {
-			softly.assertThat(1).isEqualTo(0);
-			softly.assertThat(2).isEqualTo(2);
-			softly.assertThat(3).isEqualTo(4);
-		}
+    @Test
+    @Order(1)
+    void multipleFailures(SoftAssertions softly) {
+      softly.assertThat(1).isEqualTo(0);
+      softly.assertThat(2).isEqualTo(2);
+      softly.assertThat(3).isEqualTo(4);
+    }
 
-		@Test
-		@Order(2)
-		void allAssertionsShouldPass(SoftAssertions softly) {
-			softly.assertThat(1).isEqualTo(1);
-			softly.assertThat(Arrays.asList(1, 2)).containsOnly(1, 2);
-		}
+    @Test
+    @Order(2)
+    void allAssertionsShouldPass(SoftAssertions softly) {
+      softly.assertThat(1).isEqualTo(1);
+      softly.assertThat(Arrays.asList(1, 2)).containsOnly(1, 2);
+    }
 
-		@ParameterizedTest
-		@CsvSource({ "1, 1, 2", "1, 2, 3" })
-		@Order(3)
-		void parameterizedTest(int a, int b, int sum, SoftAssertions softly) {
-			softly.assertThat(a + b).as("sum").isEqualTo(sum);
-			softly.assertThat(a).as("operand 1 is equal to operand 2").isEqualTo(b);
-		}
-	}
+    @ParameterizedTest
+    @CsvSource({ "1, 1, 2", "1, 2, 3" })
+    @Order(3)
+    void parameterizedTest(int a, int b, int sum, SoftAssertions softly) {
+      softly.assertThat(a + b).as("sum").isEqualTo(sum);
+      softly.assertThat(a).as("operand 1 is equal to operand 2").isEqualTo(b);
+    }
+  }
 
-	@TestInstance(PER_METHOD)
-	@Disabled("Executed via the JUnit Platform Test Kit")
-	static class TestInstancePerMethodExample extends AbstractSoftAssertionsExample {
-	}
+  @TestInstance(PER_METHOD)
+  @Disabled("Executed via the JUnit Platform Test Kit")
+  static class TestInstancePerMethodExample extends AbstractSoftAssertionsExample {
+  }
 
-	@TestInstance(PER_CLASS)
-	@Disabled
-	static class TestInstancePerClassExample extends AbstractSoftAssertionsExample {
-	}
+  @TestInstance(PER_CLASS)
+  @Disabled
+  static class TestInstancePerClassExample extends AbstractSoftAssertionsExample {
+  }
 
-	@TestInstance(PER_METHOD)
-	@Disabled("Executed via the JUnit Platform Test Kit")
-	static class TestInstancePerMethodNestedExample extends AbstractSoftAssertionsExample {
+  @TestInstance(PER_METHOD)
+  @Disabled("Executed via the JUnit Platform Test Kit")
+  static class TestInstancePerMethodNestedExample extends AbstractSoftAssertionsExample {
 
-		@Nested
-		@Disabled("Executed via the JUnit Platform Test Kit")
-		class InnerExample extends AbstractSoftAssertionsExample {
-		}
-	}
+    @Nested
+    @Disabled("Executed via the JUnit Platform Test Kit")
+    class InnerExample extends AbstractSoftAssertionsExample {
+    }
+  }
 
-	@TestInstance(PER_CLASS)
-	@Disabled("Executed via the JUnit Platform Test Kit")
-	static class TestInstancePerClassNestedExample extends AbstractSoftAssertionsExample {
+  @TestInstance(PER_CLASS)
+  @Disabled("Executed via the JUnit Platform Test Kit")
+  static class TestInstancePerClassNestedExample extends AbstractSoftAssertionsExample {
 
-		@Nested
-		@Disabled("Executed via the JUnit Platform Test Kit")
-		class InnerExample extends AbstractSoftAssertionsExample {
-		}
-	}
+    @Nested
+    @Disabled("Executed via the JUnit Platform Test Kit")
+    class InnerExample extends AbstractSoftAssertionsExample {
+    }
+  }
 
 }
