@@ -42,9 +42,9 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    *
    * @param executable an assertion call.
    */
-  public void check(Executable executable) {
+  public void check(ThrowingRunnable assertion) {
     try {
-      executable.execute();
+      assertion.run();
     } catch (AssertionError error) {
       proxies.collectError(error);
     } catch (RuntimeException runtimeException) {
