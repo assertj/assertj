@@ -212,7 +212,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
   }
 
   @FunctionalInterface
-  public interface Executable {
-    void execute() throws Exception;
+  public interface ThrowingRunnable {
+    void run() throws Exception;
   }
 }
