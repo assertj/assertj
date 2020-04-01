@@ -181,13 +181,13 @@ public class SoftAssertions extends AbstractStandardSoftAssertions {
    *   );
    * }</code></pre>
    *
-   * @param executables assertion calls.
+   * @param assertions assertion calls array.
    * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
    */
-  public static void assertSoftly(Executable... executables) {
+  public static void assertSoftly(ThrowingRunnable... assertions) {
     SoftAssertions softly = new SoftAssertions();
-    for (final Executable executable : executables) {
-      softly.check(executable);
+    for (final ThrowingRunnable assertion : assertions) {
+      softly.check(assertion);
     }
     softly.assertAll();
   }
