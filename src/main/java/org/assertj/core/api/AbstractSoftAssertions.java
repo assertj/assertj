@@ -40,7 +40,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * softly.check(() -&gt; CustomAssertions.assertThat(…).…);
    * softly.assertAll(); </code></pre>
    *
-   * @param executable an assertion call.
+   * @param assertion an assertion call.
    */
   public void check(ThrowingRunnable assertion) {
     try {
