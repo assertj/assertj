@@ -71,7 +71,7 @@ public class InputStreams_assertHasBinaryContent_Test extends InputStreamsBaseTe
   }
 
   @Test
-  public void should_fail_if_inputstream_and_string_do_not_have_equal_content() throws IOException {
+  public void should_fail_if_inputstream_does_not_have_the_expected_binary_content() throws IOException {
     // GIVEN
     BinaryDiffResult diff = new BinaryDiffResult(1, 2, 3);
     given(binaryDiff.diff(actual, expectedContent)).willReturn(diff);
