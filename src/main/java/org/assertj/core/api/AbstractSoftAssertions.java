@@ -125,16 +125,17 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * Returns a copy of list of soft assertions collected errors.
    * @return a copy of list of soft assertions collected errors.
    */
-  public List<Throwable> errorsCollected() {
+  public List<AssertionError> errorsCollected() {
     return decorateErrorsCollected(proxies.errorsCollected());
   }
 
   /**
    * Modifies collected errors. Override to customize modification.
+   * @param <T> the supertype to use in the list return value
    * @param errors list of errors to decorate
    * @return decorated list
   */
-  protected List<Throwable> decorateErrorsCollected(List<Throwable> errors) {
+  protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
     return addLineNumberToErrorMessages(errors);
   }
 
@@ -154,13 +155,13 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     return proxies.wasSuccess();
   }
 
-  private List<Throwable> addLineNumberToErrorMessages(List<Throwable> errors) {
+  private <T extends Throwable> List<T> addLineNumberToErrorMessages(List<? extends T> errors) {
     return errors.stream()
                  .map(this::addLineNumberToErrorMessage)
                  .collect(toList());
   }
 
-  private Throwable addLineNumberToErrorMessage(Throwable error) {
+  private <T extends Throwable> T addLineNumberToErrorMessage(T error) {
     StackTraceElement testStackTraceElement = getFirstStackTraceElementFromTest(error.getStackTrace());
     if (testStackTraceElement != null) {
       try {
@@ -170,12 +171,14 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     return error;
   }
 
-  private Throwable createNewInstanceWithLineNumberInErrorMessage(Throwable error,
-                                                                  StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
-    Constructor<? extends Throwable> constructor = error.getClass().getConstructor(String.class, Throwable.class);
-    Throwable errorWithLineNumber = constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(),
-                                                                                            testStackTraceElement),
-                                                            error.getCause());
+  private <T extends Throwable> T createNewInstanceWithLineNumberInErrorMessage(T error,
+                                                                                StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    @SuppressWarnings("unchecked")
+    Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
+                                                                                                      Throwable.class);
+    T errorWithLineNumber = constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(),
+                                                                                    testStackTraceElement),
+                                                    error.getCause());
     errorWithLineNumber.setStackTrace(error.getStackTrace());
     for (Throwable suppressed : error.getSuppressed()) {
       errorWithLineNumber.addSuppressed(suppressed);

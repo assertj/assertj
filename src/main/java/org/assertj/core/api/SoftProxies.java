@@ -98,11 +98,11 @@ class SoftProxies {
     return collector.wasSuccess();
   }
 
-  void collectError(Throwable error) {
+  void collectError(AssertionError error) {
     collector.addError(error);
   }
 
-  List<Throwable> errorsCollected() {
+  List<AssertionError> errorsCollected() {
     return collector.errors();
   }
 

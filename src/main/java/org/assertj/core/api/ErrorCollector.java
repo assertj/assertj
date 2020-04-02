@@ -35,7 +35,7 @@ public class ErrorCollector {
   private static final String CLASS_NAME = ErrorCollector.class.getName();
 
   // scope : the current softassertion object
-  private final List<Throwable> errors = new ArrayList<>();
+  private final List<AssertionError> errors = new ArrayList<>();
   // scope : the last assertion call (might be nested)
   private final LastResult lastResult = new LastResult();
 
@@ -78,12 +78,12 @@ public class ErrorCollector {
     errorCollector.errors.add(error);
   }
 
-  public void addError(Throwable error) {
+  public void addError(AssertionError error) {
     errors.add(error);
     lastResult.recordError();
   }
 
-  public List<Throwable> errors() {
+  public List<AssertionError> errors() {
     return Collections.unmodifiableList(errors);
   }
 
