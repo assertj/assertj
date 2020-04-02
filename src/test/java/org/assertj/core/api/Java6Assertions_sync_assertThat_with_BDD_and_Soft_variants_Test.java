@@ -38,7 +38,7 @@ public class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test ext
     // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
     // the soft assertions we need to ignore them
     Method[] assertThatMethods = findMethodsWithName(Java6Assertions.class, "assertThat", SPECIAL_IGNORED_RETURN_TYPES);
-    Method[] assertThatSoftMethods = findMethodsWithName(Java6AbstractStandardSoftAssertions.class, "assertThat");
+    Method[] assertThatSoftMethods = findMethodsWithName(Java6StandardSoftAssertionsProvider.class, "assertThat");
 
     // ignore the return type of soft assertions until they have the same as the Assertions
     assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
@@ -51,7 +51,7 @@ public class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test ext
     // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
     // the soft assertions we need to ignore them
     Method[] thenMethods = findMethodsWithName(Java6BDDAssertions.class, "then", SPECIAL_IGNORED_RETURN_TYPES);
-    Method[] thenSoftMethods = findMethodsWithName(Java6AbstractBDDSoftAssertions.class, "then");
+    Method[] thenSoftMethods = findMethodsWithName(Java6BDDSoftAssertionsProvider.class, "then");
 
     // ignore the return type of soft assertions until they have the same as the Assertions
     assertThat(thenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)

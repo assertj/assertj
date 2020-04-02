@@ -12,10 +12,8 @@
  */
 package org.assertj.core.api;
 
-import java.util.List;
 import java.util.function.Consumer;
 
-import org.assertj.core.error.AssertionErrorCreator;
 import org.opentest4j.MultipleFailuresError;
 
 /**
@@ -97,7 +95,7 @@ import org.opentest4j.MultipleFailuresError;
  *   });
  * }</code></pre>
  *
- * <p>You can also compose several soft assertions together using the {@link SoftAssertions#assertAlso(SoftAssertions)} method</p>
+ * <p>You can also compose several soft assertions together using the {@link SoftAssertionsProvider#assertAlso(AssertionErrorCollector)} method</p>
  * <pre><code class='java'> public SoftAssertions check_kitchen() {
  *   SoftAssertions softly = new SoftAssertions();
  *   softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
@@ -132,7 +130,7 @@ import org.opentest4j.MultipleFailuresError;
  * <p>
  * SoftAssertions works by providing you with proxies of the AssertJ assertion objects (those created by
  * {@link Assertions}#assertThat...) whose assertion failures are caught and stored. Only when you call
- * {@link SoftAssertions#assertAll()} will a {@link SoftAssertionError} be thrown containing the error messages of those
+ * {@link SoftAssertionsProvider#assertAll()} will a {@link SoftAssertionError} be thrown containing the error messages of those
  * previously caught assertion failures.
  * </p>
  *
@@ -152,54 +150,15 @@ import org.opentest4j.MultipleFailuresError;
  *
  * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
-public class SoftAssertions extends AbstractStandardSoftAssertions {
-
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
-
+public class SoftAssertions extends AbstractSoftAssertions implements StandardSoftAssertionsProvider {
   /**
-   * Verifies that no soft assertions have failed.
-   *
+   * Convenience method for calling {@link SoftAssertionsProvider#assertSoftly} for these assertion types.
+   * Equivalent to {@code SoftAssertion.assertSoftly(SoftAssertions.class, softly)}.
+   * @param softly the Consumer containing the code that will make the soft assertions.
+   *     Takes one parameter (the SoftAssertions instance used to make the assertions).
    * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
    */
-  public void assertAll() {
-    List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
-  }
-
-  /**
-   * Add all assertion errors of <code>softly</code> argument to current <code>{@link SoftAssertions}</code> instance.
-   *
-   * @param softly the <code>{@link SoftAssertions}</code> assertion error source
-   */
-  public void assertAlso(SoftAssertions softly) {
-    softly.errorsCollected().forEach(proxies::collectError);
-  }
-
-  /**
-  * Use this to avoid having to call assertAll manually.
-  *
-  * <pre><code class='java'> &#064;Test
-  * public void host_dinner_party_where_nobody_dies() {
-  *   Mansion mansion = new Mansion();
-  *   mansion.hostPotentiallyMurderousDinnerParty();
-  *   SoftAssertions.assertSoftly(softly -&gt; {
-  *     softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
-  *     softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
-  *     softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
-  *     softly.assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
-  *     softly.assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
-  *     softly.assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
-  *     softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
-  *   });
-  * }</code></pre>
-  *
-  * @param softly the SoftAssertions instance that you can call your own assertions on.
-  * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
-  * @since 3.6.0
-  */
-public static void assertSoftly(Consumer<SoftAssertions> softly) {
-      SoftAssertions assertions = new SoftAssertions();
-      softly.accept(assertions);
-      assertions.assertAll();
+  public static void assertSoftly(Consumer<SoftAssertions> softly) {
+    SoftAssertionsProvider.assertSoftly(SoftAssertions.class, softly);
   }
 }

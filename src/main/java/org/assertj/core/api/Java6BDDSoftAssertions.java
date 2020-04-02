@@ -12,12 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.groups.Properties.extractProperty;
-
-import java.util.List;
-
-import org.assertj.core.error.AssertionErrorCreator;
-
 /**
  * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
  * <p>
@@ -28,20 +22,5 @@ import org.assertj.core.error.AssertionErrorCreator;
  * @since 2.5.0 / 3.5.0
  */
 @Deprecated
-public class Java6BDDSoftAssertions extends Java6AbstractBDDSoftAssertions {
-
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
-
-  /**
-   * Verifies that no proxied assertion methods have failed.
-   *
-   * @throws SoftAssertionError if any proxied assertion objects threw
-   */
-  public void assertAll() {
-    List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) {
-      assertionErrorCreator.tryThrowingMultipleFailuresError(errors);
-      throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
-    }
-  }
+public class Java6BDDSoftAssertions extends AbstractSoftAssertions implements Java6BDDSoftAssertionsProvider {
 }

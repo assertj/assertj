@@ -40,8 +40,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.util.CheckReturnValue;
 
-@CheckReturnValue
-public abstract class AbstractStandardSoftAssertions extends Java6AbstractStandardSoftAssertions {
+public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvider {
 
   /**
    * Creates a new, proxied instance of a {@link PathAssert}
@@ -49,7 +48,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the path
    * @return the created assertion object
    */
-  public PathAssert assertThat(Path actual) {
+  @CheckReturnValue
+  default PathAssert then(Path actual) {
     return proxy(PathAssert.class, Path.class, actual);
   }
 
@@ -61,7 +61,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    *
    * @return the created assertion object.
    */
-  public <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default <VALUE> OptionalAssert<VALUE> then(Optional<VALUE> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
   }
 
@@ -72,19 +74,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    *
    * @return the created assertion object.
    */
-  public OptionalDoubleAssert assertThat(OptionalDouble actual) {
+  @CheckReturnValue
+  default OptionalDoubleAssert then(OptionalDouble actual) {
     return proxy(OptionalDoubleAssert.class, OptionalDouble.class, actual);
-  }
-
-  /**
-   * Create assertion for {@link java.util.OptionalLong}.
-   *
-   * @param actual the actual value.
-   *
-   * @return the created assertion object.
-   */
-  public OptionalLongAssert assertThat(OptionalLong actual) {
-    return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
   }
 
   /**
@@ -94,17 +86,31 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    *
    * @return the created assertion object.
    */
-  public OptionalIntAssert assertThat(OptionalInt actual) {
+  @CheckReturnValue
+  default OptionalIntAssert then(OptionalInt actual) {
     return proxy(OptionalIntAssert.class, OptionalInt.class, actual);
   }
 
   /**
-   * Creates a new instance of <code>{@link LocalDateAssert}</code>.
+   * Create assertion for {@link java.util.OptionalLong}.
    *
    * @param actual the actual value.
+   *
    * @return the created assertion object.
    */
-  public LocalDateAssert assertThat(LocalDate actual) {
+  @CheckReturnValue
+  default OptionalLongAssert then(OptionalLong actual) {
+    return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
+  }
+
+  /**
+  * Creates a new instance of <code>{@link LocalDateAssert}</code>.
+  *
+  * @param actual the actual value.
+  * @return the created assertion object.
+  */
+  @CheckReturnValue
+  default LocalDateAssert then(LocalDate actual) {
     return proxy(LocalDateAssert.class, LocalDate.class, actual);
   }
 
@@ -114,7 +120,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public LocalDateTimeAssert assertThat(LocalDateTime actual) {
+  @CheckReturnValue
+  default LocalDateTimeAssert then(LocalDateTime actual) {
     return proxy(LocalDateTimeAssert.class, LocalDateTime.class, actual);
   }
 
@@ -124,7 +131,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ZonedDateTimeAssert assertThat(ZonedDateTime actual) {
+  @CheckReturnValue
+  default ZonedDateTimeAssert then(ZonedDateTime actual) {
     return proxy(ZonedDateTimeAssert.class, ZonedDateTime.class, actual);
   }
 
@@ -134,7 +142,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public LocalTimeAssert assertThat(LocalTime actual) {
+  @CheckReturnValue
+  default LocalTimeAssert then(LocalTime actual) {
     return proxy(LocalTimeAssert.class, LocalTime.class, actual);
   }
 
@@ -144,7 +153,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public OffsetTimeAssert assertThat(OffsetTime actual) {
+  @CheckReturnValue
+  default OffsetTimeAssert then(OffsetTime actual) {
     return proxy(OffsetTimeAssert.class, OffsetTime.class, actual);
   }
 
@@ -154,7 +164,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public OffsetDateTimeAssert assertThat(OffsetDateTime actual) {
+  @CheckReturnValue
+  default OffsetDateTimeAssert then(OffsetDateTime actual) {
     return proxy(OffsetDateTimeAssert.class, OffsetDateTime.class, actual);
   }
 
@@ -165,7 +176,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @return the created assertion object.
    * @since 3.7.0
    */
-  public InstantAssert assertThat(Instant actual) {
+  @CheckReturnValue
+  default InstantAssert then(Instant actual) {
     return proxy(InstantAssert.class, Instant.class, actual);
   }
 
@@ -176,7 +188,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @return the created assertion object.
    * @since 3.15.0
    */
-  public DurationAssert assertThat(Duration actual) {
+  @CheckReturnValue
+  default DurationAssert then(Duration actual) {
     return proxy(DurationAssert.class, Duration.class, actual);
   }
 
@@ -188,7 +201,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    *
    * @return the created assertion object.
    */
-  public <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default <RESULT> CompletableFutureAssert<RESULT> then(CompletableFuture<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
   }
 
@@ -202,7 +217,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    *
    * @return the created assertion object.
    */
-  public <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default <RESULT> CompletableFutureAssert<RESULT> then(CompletionStage<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletionStage.class, actual);
   }
 
@@ -216,7 +233,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    *
    * @since 3.5.0
    */
-  public <T> ProxyablePredicateAssert<T> assertThat(Predicate<T> actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default <T> ProxyablePredicateAssert<T> then(Predicate<T> actual) {
     return proxy(ProxyablePredicateAssert.class, Predicate.class, actual);
   }
 
@@ -227,7 +246,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @return the created assertion object.
    * @since 3.5.0
    */
-  public IntPredicateAssert assertThat(IntPredicate actual) {
+  @CheckReturnValue
+  default IntPredicateAssert then(IntPredicate actual) {
     return proxy(IntPredicateAssert.class, IntPredicate.class, actual);
   }
 
@@ -238,7 +258,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @return the created assertion object.
    * @since 3.5.0
    */
-  public DoublePredicateAssert assertThat(DoublePredicate actual) {
+  @CheckReturnValue
+  default DoublePredicateAssert then(DoublePredicate actual) {
     return proxy(DoublePredicateAssert.class, DoublePredicate.class, actual);
   }
 
@@ -249,7 +270,8 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @return the created assertion object.
    * @since 3.5.0
    */
-  public LongPredicateAssert assertThat(LongPredicate actual) {
+  @CheckReturnValue
+  default LongPredicateAssert then(LongPredicate actual) {
     return proxy(LongPredicateAssert.class, LongPredicate.class, actual);
   }
 
@@ -264,7 +286,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
-  public <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Stream<? extends ELEMENT> actual) {
     return proxy(ProxyableListAssert.class, Stream.class, actual);
   }
 
@@ -278,7 +302,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
    */
-  public AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> then(DoubleStream actual) {
     return proxy(ProxyableListAssert.class, DoubleStream.class, actual);
   }
 
@@ -292,7 +318,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
    */
-  public AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> then(LongStream actual) {
     return proxy(ProxyableListAssert.class, LongStream.class, actual);
   }
 
@@ -306,7 +334,9 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.
    */
-  public AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> then(IntStream actual) {
     return proxy(ProxyableListAssert.class, IntStream.class, actual);
   }
 
@@ -316,8 +346,11 @@ public abstract class AbstractStandardSoftAssertions extends Java6AbstractStanda
    * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Spliterator} value.
    * @return the created assertion object.
+   * @since 3.14.0
    */
-  public <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
     return proxy(SpliteratorAssert.class, Spliterator.class, actual);
   }
 }

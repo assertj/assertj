@@ -18,9 +18,10 @@ import static java.util.stream.Collectors.toList;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
 
-public class AbstractSoftAssertions implements InstanceOfAssertFactories {
+public class AbstractSoftAssertions implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
   protected final SoftProxies proxies;
 
@@ -28,31 +29,23 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     proxies = new SoftProxies();
   }
 
-  public <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
+  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+
+  @Override
+  public void assertAll() {
+    List<AssertionError> errors = assertionErrorsCollected();
+    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
+  }
+
+  @Override
+  public <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(Class<SELF> assertClass,
+                                                                                    Class<ACTUAL> actualClass, ACTUAL actual) {
     return proxies.createSoftAssertionProxy(assertClass, actualClass, actual);
   }
 
-  /**
-   * Catch and collect assertion errors coming from standard and <b>custom</b> assertions.
-   * <p>
-   * Example :
-   * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
-   * softly.check(() -&gt; Assertions.assertThat(…).…);
-   * softly.check(() -&gt; CustomAssertions.assertThat(…).…);
-   * softly.assertAll(); </code></pre>
-   *
-   * @param assertion an assertion call.
-   */
-  public void check(ThrowingRunnable assertion) {
-    try {
-      assertion.run();
-    } catch (AssertionError error) {
-      proxies.collectError(error);
-    } catch (RuntimeException runtimeException) {
-      throw runtimeException;
-    } catch (Exception exception) {
-      throw new RuntimeException(exception);
-    }
+  @Override
+  public void collectAssertionError(AssertionError error) {
+    proxies.collectError(error);
   }
 
   /**
@@ -124,16 +117,26 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * Returns a copy of list of soft assertions collected errors.
    * @return a copy of list of soft assertions collected errors.
    */
+  @Override
+  public List<AssertionError> assertionErrorsCollected() {
+    return decorateErrorsCollected(proxies.errorsCollected());
+  }
+
+  /**
+   * Returns a copy of list of soft assertions collected errors.
+   * @return a copy of list of soft assertions collected errors.
+   */
   public List<Throwable> errorsCollected() {
     return decorateErrorsCollected(proxies.errorsCollected());
   }
 
   /**
    * Modifies collected errors. Override to customize modification.
+   * @param <T> the supertype to use in the list return value
    * @param errors list of errors to decorate
    * @return decorated list
   */
-  protected List<Throwable> decorateErrorsCollected(List<Throwable> errors) {
+  protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
     return addLineNumberToErrorMessages(errors);
   }
 
@@ -149,17 +152,18 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    *
    * @return true if the last assertion was a success.
    */
+  @Override
   public boolean wasSuccess() {
     return proxies.wasSuccess();
   }
 
-  private List<Throwable> addLineNumberToErrorMessages(List<Throwable> errors) {
+  private <T extends Throwable> List<T> addLineNumberToErrorMessages(List<? extends T> errors) {
     return errors.stream()
                  .map(this::addLineNumberToErrorMessage)
                  .collect(toList());
   }
 
-  private Throwable addLineNumberToErrorMessage(Throwable error) {
+  private <T extends Throwable> T addLineNumberToErrorMessage(T error) {
     StackTraceElement testStackTraceElement = getFirstStackTraceElementFromTest(error.getStackTrace());
     if (testStackTraceElement != null) {
       try {
@@ -169,12 +173,14 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     return error;
   }
 
-  private Throwable createNewInstanceWithLineNumberInErrorMessage(Throwable error,
-                                                                  StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
-    Constructor<? extends Throwable> constructor = error.getClass().getConstructor(String.class, Throwable.class);
-    Throwable errorWithLineNumber = constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(),
-                                                                                            testStackTraceElement),
-                                                            error.getCause());
+  private <T extends Throwable> T createNewInstanceWithLineNumberInErrorMessage(T error,
+                                                                                StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    @SuppressWarnings("unchecked")
+    Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
+                                                                                                      Throwable.class);
+    T errorWithLineNumber = constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(),
+                                                                                    testStackTraceElement),
+                                                    error.getCause());
     errorWithLineNumber.setStackTrace(error.getStackTrace());
     for (Throwable suppressed : error.getSuppressed()) {
       errorWithLineNumber.addSuppressed(suppressed);
@@ -220,9 +226,5 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
 
   private boolean isProxiedAssertionClass(String className) {
     return className.contains("$ByteBuddy$");
-  }
-
-  public interface ThrowingRunnable {
-    void run() throws Exception;
   }
 }

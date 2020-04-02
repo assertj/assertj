@@ -12,36 +12,38 @@
  */
 package org.assertj.core.api.abstract_; // Make sure that package-private access is lost
 
-import java.util.List;
-
-import org.assertj.core.api.AbstractStandardSoftAssertions;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.api.StandardSoftAssertionsProvider;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
+
 /**
- * This tests that classes extended from {@link AbstractStandardSoftAssertions} will have access to the list of
+ * This tests that classes extended from {@link StandardSoftAssertionsProvider} will have access to the list of
  * collected errors that the various proxies have collected.
  */
 public class SoftAssertionsErrorsCollectedTest {
-  private final Object objectForTesting = null;
-  private final TestCollector softly = new TestCollector();
+  private final SoftAssertions softly = new SoftAssertions();
 
   @Test
   public void return_empty_list_of_errors() {
-    softly.assertThat(objectForTesting).isNull(); // No errors to collect
-    assertThat(softly.getErrors()).isEmpty();
+    // GIVEN
+    Object objectToTest = null;
+    // WHEN
+    softly.assertThat(objectToTest).isNull();
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
+    assertThat(softly.errorsCollected()).isEqualTo(softly.assertionErrorsCollected());
   }
 
   @Test
   public void returns_nonempty_list_of_errors() {
-    softly.assertThat(objectForTesting).isNotNull(); // This should allow something to be collected
-    assertThat(softly.getErrors()).hasAtLeastOneElementOfType(Throwable.class);
-  }
-
-  private class TestCollector extends AbstractStandardSoftAssertions {
-    public List<Throwable> getErrors() {
-      return errorsCollected();
-    }
+    // GIVEN
+    Object objectToTest = null;
+    // WHEN
+    softly.assertThat(objectToTest).isNotNull(); // This should allow something to be collected
+    // THEN
+    assertThat(softly.errorsCollected()).hasAtLeastOneElementOfType(AssertionError.class)
+                                        .isEqualTo(softly.assertionErrorsCollected());
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.error.AssertionErrorCreator;
@@ -21,14 +22,14 @@ import org.junit.runners.model.Statement;
 // used for JUnit4 soft assertion rules
 class SoftAssertionsStatement {
 
-  private AbstractSoftAssertions soft;
+  private SoftAssertionsProvider soft;
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
-  private SoftAssertionsStatement(AbstractSoftAssertions soft) {
+  private SoftAssertionsStatement(SoftAssertionsProvider soft) {
     this.soft = soft;
   }
 
-  public static Statement softAssertionsStatement(AbstractSoftAssertions softAssertions, final Statement baseStatement) {
+  public static Statement softAssertionsStatement(SoftAssertionsProvider softAssertions, final Statement baseStatement) {
     return new SoftAssertionsStatement(softAssertions).build(baseStatement);
   }
 
@@ -38,12 +39,16 @@ class SoftAssertionsStatement {
       @Override
       public void evaluate() throws Throwable {
         baseStatement.evaluate();
-        List<Throwable> errors = soft.errorsCollected();
+        List<AssertionError> errors = soft.assertionErrorsCollected();
         if (errors.isEmpty()) return;
         // tests assertions raised some errors
         assertionErrorCreator.tryThrowingMultipleFailuresError(errors);
         // failed to throw MultipleFailuresError -> throw MultipleFailureException instead
-        MultipleFailureException.assertEmpty(errors);
+        // This new ArrayList() is necessary due to the incompatible type signatures between
+        // MultipleFailureException.assertEmpty() (takes a List<Throwable>) and errors
+        // (which is a List<AssertionError>). Ideally assertEmpty() should have been a 
+        // List<? extends Throwable>.
+        MultipleFailureException.assertEmpty(new ArrayList<>(errors));
       }
     };
   }

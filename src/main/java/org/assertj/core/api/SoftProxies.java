@@ -98,20 +98,21 @@ class SoftProxies {
     return collector.wasSuccess();
   }
 
-  void collectError(Throwable error) {
+  void collectError(AssertionError error) {
     collector.addError(error);
   }
 
-  List<Throwable> errorsCollected() {
+  List<AssertionError> errorsCollected() {
     return collector.errors();
   }
 
-  // TODO V extends AbstractAssert ?
-  <V, T> V createSoftAssertionProxy(Class<V> assertClass, Class<T> actualClass, T actual) {
+  <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF createSoftAssertionProxy(Class<SELF> assertClass,
+                                                                                                Class<ACTUAL> actualClass,
+                                                                                                ACTUAL actual) {
     try {
-      Class<? extends V> proxyClass = createSoftAssertionProxyClass(assertClass);
-      Constructor<? extends V> constructor = proxyClass.getConstructor(actualClass);
-      V proxiedAssert = constructor.newInstance(actual);
+      Class<? extends SELF> proxyClass = createSoftAssertionProxyClass(assertClass);
+      Constructor<? extends SELF> constructor = proxyClass.getConstructor(actualClass);
+      SELF proxiedAssert = constructor.newInstance(actual);
       // instance is a AssertJProxySetup since it is a generated proxy implementing it (see createProxy)
       ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
       return proxiedAssert;
@@ -121,9 +122,10 @@ class SoftProxies {
   }
 
   @SuppressWarnings("unchecked")
-  private static <V> Class<? extends V> createSoftAssertionProxyClass(Class<V> assertClass) {
+  private static <ASSERT extends Assert<?, ?>> Class<ASSERT> createSoftAssertionProxyClass(Class<ASSERT> assertClass) {
     SimpleKey cacheKey = new SimpleKey(assertClass);
-    return (Class<V>) CACHE.findOrInsert(SoftProxies.class.getClassLoader(), cacheKey, () -> generateProxyClass(assertClass));
+    return (Class<ASSERT>) CACHE.findOrInsert(SoftProxies.class.getClassLoader(), cacheKey,
+                                              () -> generateProxyClass(assertClass));
   }
 
   IterableSizeAssert<?> createIterableSizeAssertProxy(IterableSizeAssert<?> iterableSizeAssert) {

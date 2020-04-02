@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.SoftAssertionsStatement.softAssertionsStatement;
 
-import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
@@ -28,8 +27,8 @@ import org.junit.runners.model.Statement;
  * @since 2.5.0 / 3.5.0
  */
 @Deprecated
-public class Java6JUnitSoftAssertions extends Java6AbstractStandardSoftAssertions
-    implements TestRule {
+public class Java6JUnitSoftAssertions extends AbstractSoftAssertions
+    implements Java6StandardSoftAssertionsProvider, SoftAssertionsRule {
 
   @Override
   public Statement apply(final Statement base, Description description) {

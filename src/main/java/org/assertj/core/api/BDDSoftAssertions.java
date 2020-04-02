@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
-import java.util.List;
+import java.util.function.Consumer;
 
-import org.assertj.core.error.AssertionErrorCreator;
+import org.opentest4j.MultipleFailuresError;
 
 /**
  * <p>
@@ -102,18 +102,18 @@ import org.assertj.core.error.AssertionErrorCreator;
  *
  * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
-public class BDDSoftAssertions extends AbstractBDDSoftAssertions {
-
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
-
+public class BDDSoftAssertions extends AbstractSoftAssertions implements BDDSoftAssertionsProvider {
   /**
-   * Verifies that no proxied assertion methods have failed.
+   * Convenience method for calling {@link SoftAssertionsProvider#assertSoftly} for these assertion types.
+   * Equivalent to {@code SoftAssertion.assertSoftly(BDDSoftAssertions.class, softly)}.
    *
-   * @throws SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
+   * @param softly the Consumer containing the code that will make the soft assertions.
+   *     Takes one parameter (the actual BDDSoftAssertions instance used to make the assertions).
+   * @throws MultipleFailuresError if possible or SoftAssertionError if any proxied assertion objects threw an {@link AssertionError}
+   * @since 3.16.0
    */
-  public void assertAll() {
-    List<Throwable> errors = errorsCollected();
-    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
+  public static void thenSoftly(Consumer<BDDSoftAssertions> softly) {
+    SoftAssertionsProvider.assertSoftly(BDDSoftAssertions.class, softly);
   }
 
 }

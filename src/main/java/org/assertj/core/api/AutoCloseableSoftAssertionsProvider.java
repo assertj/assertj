@@ -13,15 +13,22 @@
 package org.assertj.core.api;
 
 /**
- * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
- * <p>
- * Duplicate of {@link JUnitBDDSoftAssertions} compatible with Android.
+ * Parent interface for soft assertion implementations.
  *
- * @see JUnitBDDSoftAssertions
- *
- * @since 2.5.0 / 3.5.0
+ * @author Fr Jeremy Krieg
+ * @see AbstractSoftAssertions
+ * @see SoftAssertions
  */
-@Deprecated
-public class Java6JUnitBDDSoftAssertions extends AbstractSoftAssertions
-    implements Java6BDDSoftAssertionsProvider, SoftAssertionsRule {
+public interface AutoCloseableSoftAssertionsProvider extends SoftAssertionsProvider, AutoCloseable {
+
+  /**
+   * Allows the SoftAssertionsProvider to be used as an {@link AutoClosable} by calling {@link #assertAll()}.
+   *
+   * @see #assertAll
+   */
+  @Override
+  default void close() {
+    assertAll();
+  }
+
 }

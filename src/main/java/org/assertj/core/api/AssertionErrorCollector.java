@@ -12,16 +12,11 @@
  */
 package org.assertj.core.api;
 
-/**
- * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
- * <p>
- * Duplicate of {@link JUnitBDDSoftAssertions} compatible with Android.
- *
- * @see JUnitBDDSoftAssertions
- *
- * @since 2.5.0 / 3.5.0
- */
-@Deprecated
-public class Java6JUnitBDDSoftAssertions extends AbstractSoftAssertions
-    implements Java6BDDSoftAssertionsProvider, SoftAssertionsRule {
+import java.util.List;
+
+public interface AssertionErrorCollector {
+
+  void collectAssertionError(AssertionError error);
+
+  List<AssertionError> assertionErrorsCollected();
 }
