@@ -28,7 +28,8 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     proxies = new SoftProxies();
   }
 
-  public <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
+  public <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(Class<SELF> assertClass,
+                                                                                    Class<ACTUAL> actualClass, ACTUAL actual) {
     return proxies.createSoftAssertionProxy(assertClass, actualClass, actual);
   }
 
