@@ -37,10 +37,16 @@ public class BinaryDiff {
 
   @VisibleForTesting
   public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
-    try (InputStream expectedStream = new ByteArrayInputStream(expected);
-        InputStream actualStream = Files.newInputStream(actual)) {
-      return diff(actualStream, expectedStream);
+    try (InputStream actualStream = Files.newInputStream(actual)) {
+      return diff(actualStream, expected);
     }
+  }
+
+  @VisibleForTesting
+  public BinaryDiffResult diff(InputStream actualStream, byte[] expected) throws IOException {
+    try (InputStream expectedStream = new ByteArrayInputStream(expected)) {
+		  return diff(actualStream, expectedStream);
+	  }
   }
 
   @VisibleForTesting

@@ -105,6 +105,29 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   /**
+   * Verifies that the binary content of the actual {@code InputStream} is <b>exactly</b> equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new ByteArrayInputStream(new byte[] {1, 2})).hasContent(new byte[] {1, 2});
+   *
+   * // assertions will fail
+   * assertThat(bin).hasBinaryContent(new byte[] { });
+   * assertThat(bin).hasBinaryContent(new byte[] {0, 0});</code></pre>
+   *
+   * @param expected the expected binary content to compare the actual {@code InputStream}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given content is {@code null}.
+   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the given binary content.
+   * @throws InputStreamsException if an I/O error occurs.
+   */
+  public SELF hasBinaryContent(byte[] expected) {
+    inputStreams.assertHasBinaryContent(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the tested {@link InputStream} digest (calculated with the specified {@link MessageDigest}) is equal to the given one.
    * <p>
    * Examples:
