@@ -12,15 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.SoftAssertionsStatement.softAssertionsStatement;
-
-import java.util.List;
-
-import org.assertj.core.util.VisibleForTesting;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
-
 /**
  * Same as {@link SoftAssertions}, but with the following differences: <br>
  * First, it's a junit rule, which can be used without having to call {@link SoftAssertions#assertAll() assertAll()},
@@ -39,16 +30,5 @@ import org.junit.runners.model.Statement;
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */
-public class JUnitBDDSoftAssertions extends AbstractBDDSoftAssertions implements TestRule {
-
-  @Override
-  public Statement apply(final Statement base, Description description) {
-      return softAssertionsStatement(this, base);
-  }
-
-  @VisibleForTesting
-  List<Throwable> getErrors() {
-    return proxies.errorsCollected();
-  }
-
+public class JUnitBDDSoftAssertions extends AbstractSoftAssertions implements AbstractBDDSoftAssertions, SoftAssertionsRule {
 }

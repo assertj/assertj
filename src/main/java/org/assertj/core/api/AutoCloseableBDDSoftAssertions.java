@@ -120,10 +120,5 @@ package org.assertj.core.api;
  *
  * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
-public class AutoCloseableBDDSoftAssertions extends BDDSoftAssertions implements AutoCloseable {
-
-  @Override
-  public void close() throws SoftAssertionError {
-    assertAll();
-  }
+public class AutoCloseableBDDSoftAssertions extends BDDSoftAssertions {
 }

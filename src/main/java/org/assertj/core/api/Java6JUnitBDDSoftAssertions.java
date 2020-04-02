@@ -12,12 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.SoftAssertionsStatement.softAssertionsStatement;
-
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
-
 /**
  * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
  * <p>
@@ -28,11 +22,5 @@ import org.junit.runners.model.Statement;
  * @since 2.5.0 / 3.5.0
  */
 @Deprecated
-public class Java6JUnitBDDSoftAssertions extends Java6AbstractBDDSoftAssertions
-    implements TestRule {
-
-  @Override
-  public Statement apply(final Statement base, Description description) {
-    return softAssertionsStatement(this, base);
-  }
+public class Java6JUnitBDDSoftAssertions extends AbstractSoftAssertions implements Java6AbstractBDDSoftAssertions, SoftAssertionsRule {
 }

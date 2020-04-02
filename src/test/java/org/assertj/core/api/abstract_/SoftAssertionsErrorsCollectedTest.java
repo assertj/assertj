@@ -12,12 +12,11 @@
  */
 package org.assertj.core.api.abstract_; // Make sure that package-private access is lost
 
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AbstractStandardSoftAssertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This tests that classes extended from {@link AbstractStandardSoftAssertions} will have access to the list of
@@ -25,23 +24,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class SoftAssertionsErrorsCollectedTest {
   private final Object objectForTesting = null;
-  private final TestCollector softly = new TestCollector();
+  private final SoftAssertions softly = new SoftAssertions();
 
   @Test
   public void return_empty_list_of_errors() {
     softly.assertThat(objectForTesting).isNull(); // No errors to collect
-    assertThat(softly.getErrors()).isEmpty();
+    assertThat(softly.errorsCollected()).isEmpty();
+    assertThat(softly.errorsCollected()).isEqualTo(softly.assertionErrorsCollected());
   }
 
   @Test
   public void returns_nonempty_list_of_errors() {
     softly.assertThat(objectForTesting).isNotNull(); // This should allow something to be collected
-    assertThat(softly.getErrors()).hasAtLeastOneElementOfType(Throwable.class);
-  }
-
-  private class TestCollector extends AbstractStandardSoftAssertions {
-    public List<Throwable> getErrors() {
-      return errorsCollected();
-    }
+    assertThat(softly.errorsCollected()).hasAtLeastOneElementOfType(Throwable.class);
+    assertThat(softly.errorsCollected()).isEqualTo(softly.assertionErrorsCollected());
   }
 }

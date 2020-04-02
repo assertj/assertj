@@ -50,15 +50,14 @@ import org.assertj.core.util.CheckReturnValue;
  * @since 2.5.0 / 3.5.0
  */
 @CheckReturnValue
-public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAssertions {
-
+public interface Java6AbstractStandardSoftAssertions extends SoftAssertionsProvider {
   /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public BigDecimalAssert assertThat(BigDecimal actual) {
+  default BigDecimalAssert assertThat(BigDecimal actual) {
     return proxy(BigDecimalAssert.class, BigDecimal.class, actual);
   }
 
@@ -69,7 +68,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  public BigIntegerAssert assertThat(BigInteger actual) {
+  default BigIntegerAssert assertThat(BigInteger actual) {
     return proxy(BigIntegerAssert.class, BigInteger.class, actual);
   }
 
@@ -79,7 +78,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public BooleanAssert assertThat(boolean actual) {
+  default BooleanAssert assertThat(boolean actual) {
     return proxy(BooleanAssert.class, Boolean.class, actual);
   }
 
@@ -89,7 +88,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public BooleanAssert assertThat(Boolean actual) {
+  default BooleanAssert assertThat(Boolean actual) {
     return proxy(BooleanAssert.class, Boolean.class, actual);
   }
 
@@ -99,7 +98,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public BooleanArrayAssert assertThat(boolean[] actual) {
+  default BooleanArrayAssert assertThat(boolean[] actual) {
     return proxy(BooleanArrayAssert.class, boolean[].class, actual);
   }
 
@@ -109,7 +108,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ByteAssert assertThat(byte actual) {
+  default ByteAssert assertThat(byte actual) {
     return proxy(ByteAssert.class, Byte.class, actual);
   }
 
@@ -119,7 +118,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ByteAssert assertThat(Byte actual) {
+  default ByteAssert assertThat(Byte actual) {
     return proxy(ByteAssert.class, Byte.class, actual);
   }
 
@@ -129,7 +128,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ByteArrayAssert assertThat(byte[] actual) {
+  default ByteArrayAssert assertThat(byte[] actual) {
     return proxy(ByteArrayAssert.class, byte[].class, actual);
   }
 
@@ -139,7 +138,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public CharacterAssert assertThat(char actual) {
+  default CharacterAssert assertThat(char actual) {
     return proxy(CharacterAssert.class, Character.class, actual);
   }
 
@@ -149,7 +148,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public CharArrayAssert assertThat(char[] actual) {
+  default CharArrayAssert assertThat(char[] actual) {
     return proxy(CharArrayAssert.class, char[].class, actual);
   }
 
@@ -159,7 +158,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public CharacterAssert assertThat(Character actual) {
+  default CharacterAssert assertThat(Character actual) {
     return proxy(CharacterAssert.class, Character.class, actual);
   }
 
@@ -171,7 +170,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ProxyableClassAssert assertThat(Class<?> actual) {
+  default ProxyableClassAssert assertThat(Class<?> actual) {
     return proxy(ProxyableClassAssert.class, Class.class, actual);
   }
 
@@ -183,7 +182,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
+  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return proxy(GenericComparableAssert.class, Comparable.class, actual);
   }
 
@@ -196,7 +195,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public <T> ProxyableIterableAssert<T> assertThat(Iterable<? extends T> actual) {
+  default <T> ProxyableIterableAssert<T> assertThat(Iterable<? extends T> actual) {
     return proxy(ProxyableIterableAssert.class, Iterable.class, actual);
   }
 
@@ -209,7 +208,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public <T> IteratorAssert<T> assertThat(Iterator<? extends T> actual) {
+  default <T> IteratorAssert<T> assertThat(Iterator<? extends T> actual) {
     return proxy(IteratorAssert.class, Iterator.class, actual);
   }
 
@@ -219,7 +218,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public DoubleAssert assertThat(double actual) {
+  default DoubleAssert assertThat(double actual) {
     return proxy(DoubleAssert.class, Double.class, actual);
   }
 
@@ -229,7 +228,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public DoubleAssert assertThat(Double actual) {
+  default DoubleAssert assertThat(Double actual) {
     return proxy(DoubleAssert.class, Double.class, actual);
   }
 
@@ -239,7 +238,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public DoubleArrayAssert assertThat(double[] actual) {
+  default DoubleArrayAssert assertThat(double[] actual) {
     return proxy(DoubleArrayAssert.class, double[].class, actual);
   }
 
@@ -249,7 +248,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public FileAssert assertThat(File actual) {
+  default FileAssert assertThat(File actual) {
     return proxy(FileAssert.class, File.class, actual);
   }
 
@@ -260,7 +259,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value
    * @return the created assertion object
    */
-  public <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
+  default <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
     return proxy(FutureAssert.class, Future.class, actual);
   }
 
@@ -270,7 +269,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public InputStreamAssert assertThat(InputStream actual) {
+  default InputStreamAssert assertThat(InputStream actual) {
     return proxy(InputStreamAssert.class, InputStream.class, actual);
   }
 
@@ -280,7 +279,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public FloatAssert assertThat(float actual) {
+  default FloatAssert assertThat(float actual) {
     return proxy(FloatAssert.class, Float.class, actual);
   }
 
@@ -290,7 +289,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public FloatAssert assertThat(Float actual) {
+  default FloatAssert assertThat(Float actual) {
     return proxy(FloatAssert.class, Float.class, actual);
   }
 
@@ -300,7 +299,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public FloatArrayAssert assertThat(float[] actual) {
+  default FloatArrayAssert assertThat(float[] actual) {
     return proxy(FloatArrayAssert.class, float[].class, actual);
   }
 
@@ -310,7 +309,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public IntegerAssert assertThat(int actual) {
+  default IntegerAssert assertThat(int actual) {
     return proxy(IntegerAssert.class, Integer.class, actual);
   }
 
@@ -320,7 +319,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public IntArrayAssert assertThat(int[] actual) {
+  default IntArrayAssert assertThat(int[] actual) {
     return proxy(IntArrayAssert.class, int[].class, actual);
   }
 
@@ -330,7 +329,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public IntegerAssert assertThat(Integer actual) {
+  default IntegerAssert assertThat(Integer actual) {
     return proxy(IntegerAssert.class, Integer.class, actual);
   }
 
@@ -343,7 +342,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public <T> ProxyableListAssert<T> assertThat(List<? extends T> actual) {
+  default <T> ProxyableListAssert<T> assertThat(List<? extends T> actual) {
     return proxy(ProxyableListAssert.class, List.class, actual);
   }
 
@@ -353,7 +352,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public LongAssert assertThat(long actual) {
+  default LongAssert assertThat(long actual) {
     return proxy(LongAssert.class, Long.class, actual);
   }
 
@@ -363,7 +362,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public LongAssert assertThat(Long actual) {
+  default LongAssert assertThat(Long actual) {
     return proxy(LongAssert.class, Long.class, actual);
   }
 
@@ -373,7 +372,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public LongArrayAssert assertThat(long[] actual) {
+  default LongArrayAssert assertThat(long[] actual) {
     return proxy(LongArrayAssert.class, long[].class, actual);
   }
 
@@ -384,7 +383,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param <T> the type of the actual value.
    * @return the created assertion object.
    */
-  public <T> ProxyableObjectAssert<T> assertThat(T actual) {
+  default <T> ProxyableObjectAssert<T> assertThat(T actual) {
     return proxy(ProxyableObjectAssert.class, Object.class, actual);
   }
 
@@ -395,7 +394,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param <T> the type values of the actual array.
    * @return the created assertion object.
    */
-  public <T> ProxyableObjectArrayAssert<T> assertThat(T[] actual) {
+  default <T> ProxyableObjectArrayAssert<T> assertThat(T[] actual) {
     return proxy(ProxyableObjectArrayAssert.class, Object[].class, actual);
   }
 
@@ -409,7 +408,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public <K, V> ProxyableMapAssert<K, V> assertThat(Map<K, V> actual) {
+  default <K, V> ProxyableMapAssert<K, V> assertThat(Map<K, V> actual) {
     return proxy(ProxyableMapAssert.class, Map.class, actual);
   }
 
@@ -419,7 +418,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ShortAssert assertThat(short actual) {
+  default ShortAssert assertThat(short actual) {
     return proxy(ShortAssert.class, Short.class, actual);
   }
 
@@ -429,7 +428,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ShortAssert assertThat(Short actual) {
+  default ShortAssert assertThat(Short actual) {
     return proxy(ShortAssert.class, Short.class, actual);
   }
 
@@ -439,7 +438,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ShortArrayAssert assertThat(short[] actual) {
+  default ShortArrayAssert assertThat(short[] actual) {
     return proxy(ShortArrayAssert.class, short[].class, actual);
   }
 
@@ -449,7 +448,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public CharSequenceAssert assertThat(CharSequence actual) {
+  default CharSequenceAssert assertThat(CharSequence actual) {
     return proxy(CharSequenceAssert.class, CharSequence.class, actual);
   }
 
@@ -460,7 +459,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @return the created assertion object.
    * @since 3.11.0
    */
-  public CharSequenceAssert assertThat(StringBuilder actual) {
+  default CharSequenceAssert assertThat(StringBuilder actual) {
     return proxy(CharSequenceAssert.class, CharSequence.class, actual);
   }
 
@@ -471,7 +470,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @return the created assertion object.
    * @since 3.11.0
    */
-  public CharSequenceAssert assertThat(StringBuffer actual) {
+  default CharSequenceAssert assertThat(StringBuffer actual) {
     return proxy(CharSequenceAssert.class, CharSequence.class, actual);
   }
 
@@ -481,7 +480,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public StringAssert assertThat(String actual) {
+  default StringAssert assertThat(String actual) {
     return proxy(StringAssert.class, String.class, actual);
   }
 
@@ -491,7 +490,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public DateAssert assertThat(Date actual) {
+  default DateAssert assertThat(Date actual) {
     return proxy(DateAssert.class, Date.class, actual);
   }
 
@@ -502,7 +501,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    *
    * @return the created assertion object.
    */
-  public AtomicBooleanAssert assertThat(AtomicBoolean actual) {
+  default AtomicBooleanAssert assertThat(AtomicBoolean actual) {
     return proxy(AtomicBooleanAssert.class, AtomicBoolean.class, actual);
   }
 
@@ -513,7 +512,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    *
    * @return the created assertion object.
    */
-  public AtomicIntegerAssert assertThat(AtomicInteger actual) {
+  default AtomicIntegerAssert assertThat(AtomicInteger actual) {
     return proxy(AtomicIntegerAssert.class, AtomicInteger.class, actual);
   }
 
@@ -524,7 +523,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    *
    * @return the created assertion object.
    */
-  public AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
+  default AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
     return proxy(AtomicIntegerArrayAssert.class, AtomicIntegerArray.class, actual);
   }
 
@@ -536,7 +535,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  public <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+  default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return proxy(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
   }
 
@@ -547,7 +546,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    *
    * @return the created assertion object.
    */
-  public AtomicLongAssert assertThat(AtomicLong actual) {
+  default AtomicLongAssert assertThat(AtomicLong actual) {
     return proxy(AtomicLongAssert.class, AtomicLong.class, actual);
   }
 
@@ -558,7 +557,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    *
    * @return the created assertion object.
    */
-  public AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
+  default AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
     return proxy(AtomicLongArrayAssert.class, AtomicLongArray.class, actual);
   }
 
@@ -570,7 +569,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  public <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
+  default <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
     return proxy(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
   }
 
@@ -582,7 +581,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
    * @return the created assertion object.
    */
-  public <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
+  default <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
     return proxy(AtomicReferenceAssert.class, AtomicReference.class, actual);
   }
 
@@ -593,7 +592,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
+  default <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
     return proxy(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
   }
 
@@ -606,7 +605,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  public <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+  default <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return proxy(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
   }
 
@@ -617,7 +616,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
+  default <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
     return proxy(AtomicMarkableReferenceAssert.class, AtomicMarkableReference.class, actual);
   }
 
@@ -628,7 +627,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
+  default <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
     return proxy(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);
   }
 
@@ -638,7 +637,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  public ThrowableAssert assertThat(Throwable actual) {
+  default ThrowableAssert assertThat(Throwable actual) {
     return proxy(ThrowableAssert.class, Throwable.class, actual);
   }
 
@@ -647,7 +646,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    *
    * Java 8 example :
    * <pre><code class='java'>  {@literal @}Test
-   *  public void testException() {
+   *  default void testException() {
    *    SoftAssertions softly = new SoftAssertions();
    *    softly.assertThatThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
    *                                                                      .hasMessageContaining("boom");
@@ -658,7 +657,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * softly.assertThatThrownBy(new ThrowingCallable() {
    *
    *   {@literal @}Override
-   *   public Void call() throws Exception {
+   *   default Void call() throws Exception {
    *     throw new Exception("boom!");
    *   }
    *
@@ -669,7 +668,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
   @CanIgnoreReturnValue
-  public AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
+  default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
@@ -679,7 +678,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * <p>
    * Example:
    * <pre><code class='java'> {@literal @}Test
-   *  public void testException() {
+   *  default void testException() {
    *    SoftAssertions softly = new SoftAssertions();
    *    // if this assertion failed (but it doesn't), the error message would start with [Test explosive code]
    *    softly.assertThatThrownBy(() -&gt; { throw new IOException("boom!") }, "Test explosive code")
@@ -707,7 +706,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
-  public AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
+  default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                             String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
@@ -753,7 +752,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @since 3.7.0
    */
-  public AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+  default AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
@@ -778,7 +777,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @return the created assertion object.
    * @since 3.12.0
    */
-  public <T> ProxyableObjectAssert<T> assertThatObject(T actual) {
+  default <T> ProxyableObjectAssert<T> assertThatObject(T actual) {
     return assertThat(actual);
   }
 
@@ -788,7 +787,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public UriAssert assertThat(URI actual) {
+  default UriAssert assertThat(URI actual) {
     return proxy(UriAssert.class, URI.class, actual);
   }
 
@@ -798,7 +797,7 @@ public abstract class Java6AbstractStandardSoftAssertions extends AbstractSoftAs
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public AbstractUrlAssert<?> assertThat(URL actual) {
+  default AbstractUrlAssert<?> assertThat(URL actual) {
     return proxy(UrlAssert.class, URL.class, actual);
   }
 }

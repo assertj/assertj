@@ -40,7 +40,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */
 @Deprecated
-public class JUnitJupiterSoftAssertions extends AbstractStandardSoftAssertions implements AfterEachCallback {
+public class JUnitJupiterSoftAssertions extends AbstractSoftAssertions implements AbstractStandardSoftAssertions, AfterEachCallback {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 

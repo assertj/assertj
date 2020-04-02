@@ -18,9 +18,10 @@ import static java.util.stream.Collectors.toList;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
 
-public class AbstractSoftAssertions implements InstanceOfAssertFactories {
+public class AbstractSoftAssertions implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
   protected final SoftProxies proxies;
 
@@ -28,32 +29,23 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     proxies = new SoftProxies();
   }
 
+  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+
+  @Override
+  public void assertAll() {
+    List<AssertionError> errors = assertionErrorsCollected();
+    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
+  }
+
+  @Override
   public <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(Class<SELF> assertClass,
                                                                                     Class<ACTUAL> actualClass, ACTUAL actual) {
     return proxies.createSoftAssertionProxy(assertClass, actualClass, actual);
   }
 
-  /**
-   * Catch and collect assertion errors coming from standard and <b>custom</b> assertions.
-   * <p>
-   * Example :
-   * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
-   * softly.check(() -&gt; Assertions.assertThat(…).…);
-   * softly.check(() -&gt; CustomAssertions.assertThat(…).…);
-   * softly.assertAll(); </code></pre>
-   *
-   * @param assertion an assertion call.
-   */
-  public void check(ThrowingRunnable assertion) {
-    try {
-      assertion.run();
-    } catch (AssertionError error) {
-      proxies.collectError(error);
-    } catch (RuntimeException runtimeException) {
-      throw runtimeException;
-    } catch (Exception exception) {
-      throw new RuntimeException(exception);
-    }
+  @Override
+  public void collectAssertionError(AssertionError error) {
+    proxies.collectError(error);
   }
 
   /**
@@ -125,7 +117,16 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
    * Returns a copy of list of soft assertions collected errors.
    * @return a copy of list of soft assertions collected errors.
    */
-  public List<AssertionError> errorsCollected() {
+  @Override
+  public List<AssertionError> assertionErrorsCollected() {
+    return decorateErrorsCollected(proxies.errorsCollected());
+  }
+
+  /**
+   * Returns a copy of list of soft assertions collected errors.
+   * @return a copy of list of soft assertions collected errors.
+   */
+  public List<Throwable> errorsCollected() {
     return decorateErrorsCollected(proxies.errorsCollected());
   }
 
@@ -224,9 +225,5 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
 
   private boolean isProxiedAssertionClass(String className) {
     return className.contains("$ByteBuddy$");
-  }
-
-  public interface ThrowingRunnable {
-    void run() throws Exception;
   }
 }
