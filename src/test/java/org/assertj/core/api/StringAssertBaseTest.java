@@ -17,16 +17,18 @@ import static org.mockito.Mockito.mock;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Strings;
 
-
 public abstract class StringAssertBaseTest extends BaseTestTemplate<StringAssert, String> {
 
   protected Comparables comparables;
+  protected Strings strings;
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
     comparables = mock(Comparables.class);
     assertions.comparables = comparables;
+    strings = mock(Strings.class);
+    assertions.strings = strings;
   }
 
   @Override

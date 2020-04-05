@@ -219,6 +219,30 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
+   * Verifies that the actual value is a valid Base64 encoded string.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeeds
+   * assertThat(&quot;QXNzZXJ0Sg==&quot;).isValidBase64();
+   *
+   * // assertion succeeds even without padding as it is optional by specification
+   * assertThat(&quot;QXNzZXJ0Sg&quot;).isValidBase64();
+   *
+   * // assertion fails as it has invalid Base64 characters
+   * assertThat(&quot;inv@lid&quot;).isValidBase64();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a valid Base64 encoded string.
+   *
+   * @since 3.16.0
+   */
+  public SELF isValidBase64() {
+    strings.assertIsValidBase64(info, actual);
+    return myself;
+  }
+
+  /**
    * Use the given custom comparator instead of relying on {@link String} natural comparator for the incoming assertions.
    * <p>
    * The custom comparator is bound to an assertion instance, meaning that if a new assertion instance is created

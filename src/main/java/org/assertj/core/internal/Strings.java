@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
+import static org.assertj.core.error.ShouldBeValidBase64.shouldBeValidBase64;
 import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -73,6 +74,7 @@ import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -1122,9 +1124,26 @@ public class Strings {
     throw failures.failure(info, shouldBeUpperCase(actual));
   }
 
+  /***
+   * Verifies that actual is a valid Base64 encoded string.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence} (new lines will be ignored).
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} is not a valid Base64 encoded string.
+   */
+  public void assertIsValidBase64(AssertionInfo info, String actual) {
+    assertNotNull(info, actual);
+    try {
+      Base64.getDecoder().decode(actual);
+    } catch (IllegalArgumentException e) {
+      throw failures.failure(info, shouldBeValidBase64(actual));
+    }
+  }
+
   private static String removeNewLines(CharSequence text) {
     String normalizedText = normalizeNewlines(text);
-    return normalizedText.toString().replace("\n", "");
+    return normalizedText.replace("\n", "");
   }
 
   private void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
