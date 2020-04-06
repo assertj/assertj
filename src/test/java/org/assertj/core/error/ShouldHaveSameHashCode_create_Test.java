@@ -60,8 +60,7 @@ public class ShouldHaveSameHashCode_create_Test {
       if (obj == null) return false;
       if (getClass() != obj.getClass()) return false;
       FixedHashCode other = (FixedHashCode) obj;
-      if (code != other.code) return false;
-      return true;
+      return code == other.code;
     }
 
     @Override

@@ -62,7 +62,8 @@ public class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), (Map<Integer,?>) null, 8, o -> assertThat(o).isNotNull()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, 8,
+                                                                                                   o -> assertThat(o).isNotNull()))
                                                    .withMessage(actualIsNull());
   }
 

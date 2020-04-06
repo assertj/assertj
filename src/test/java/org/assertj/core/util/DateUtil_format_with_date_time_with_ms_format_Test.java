@@ -12,11 +12,11 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ public class DateUtil_format_with_date_time_with_ms_format_Test {
 
   @Test
   public void should_return_null_if_date_is_null() {
-    assertThat(formatAsDatetimeWithMs((Date) null)).isNull();
+    assertThat(formatAsDatetimeWithMs(null)).isNull();
   }
 
 }

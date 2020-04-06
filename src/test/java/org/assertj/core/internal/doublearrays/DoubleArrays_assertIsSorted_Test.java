@@ -25,9 +25,8 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
- * Tests for <code>{@link DoubleArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
+ * Tests for <code>{@link DoubleArrays#assertIsSorted(AssertionInfo, double[])}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -55,7 +54,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (double[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -84,15 +83,18 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (double[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(),
+                                                                                                                       null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     actual = arrayOf(1.0, 3.0, 2.0);
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual))
-                                                   .withMessage(shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(),
+                                                                                                                       actual))
+                                                   .withMessage(shouldBeSortedAccordingToGivenComparator(1, actual,
+                                                                                                         comparatorForCustomComparisonStrategy()).create());
   }
 
 }

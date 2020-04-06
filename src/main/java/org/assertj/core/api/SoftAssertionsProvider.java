@@ -25,7 +25,7 @@ import org.opentest4j.MultipleFailuresError;
  */
 public interface SoftAssertionsProvider extends AssertionErrorCollector {
 
-  public interface ThrowingRunnable {
+  interface ThrowingRunnable {
     void run() throws Exception;
   }
 

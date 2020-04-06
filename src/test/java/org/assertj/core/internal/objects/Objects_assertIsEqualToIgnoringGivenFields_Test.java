@@ -117,14 +117,15 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
 
-    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
-      "name"));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(),
+                                                                                      defaultTypeComparators(),
+                                                                                      "name"));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                       newArrayList("lightSaberColor"),
-                                                                      newArrayList((Object) "Green"),
-                                                                      newArrayList((Object) "Blue"),
+                                                                      newArrayList("Green"),
+                                                                      newArrayList("Blue"),
                                                                       newArrayList("name")));
   }
 
@@ -134,7 +135,8 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
 
-    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(),
+                                                                                      defaultTypeComparators()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
@@ -150,8 +152,9 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
 
-    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
-      "lightSaberColor"));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(),
+                                                                                      defaultTypeComparators(),
+                                                                                      "lightSaberColor"));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
@@ -166,10 +169,12 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
 
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
-      objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, noFieldComparators(),
-                                                 defaultTypeComparators(), "name");
-    }).withMessageContaining("Can't find any field or property with name 'lightSaberColor'");
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> objects.assertIsEqualToIgnoringGivenFields(someInfo(),
+                                                                                                                    actual, other,
+                                                                                                                    noFieldComparators(),
+                                                                                                                    defaultTypeComparators(),
+                                                                                                                    "name"))
+                                                       .withMessageContaining("Can't find any field or property with name 'lightSaberColor'");
   }
 
   @Test
@@ -178,11 +183,12 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
 
-    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(), defaultTypeComparators(),
-      "name"));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringGivenFields(info, actual, other, noFieldComparators(),
+                                                                                      defaultTypeComparators(),
+                                                                                      "name"));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    List<Object> expected = newArrayList((Object) "Green");
+    List<Object> expected = newArrayList("Green");
     verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                       newArrayList("lightSaberColor"),
                                                                       newArrayList((Object) null),

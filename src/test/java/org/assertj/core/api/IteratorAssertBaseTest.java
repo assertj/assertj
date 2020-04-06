@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Collections.emptyList;
 import static org.mockito.Mockito.mock;
 
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.assertj.core.internal.Iterators;
@@ -31,7 +31,7 @@ public abstract class IteratorAssertBaseTest extends BaseTestTemplate<IteratorAs
 
   @Override
   protected IteratorAssert<Object> create_assertions() {
-    return new IteratorAssert<>(emptyList().iterator());
+    return new IteratorAssert<>(Collections.emptyIterator());
   }
 
   @Override

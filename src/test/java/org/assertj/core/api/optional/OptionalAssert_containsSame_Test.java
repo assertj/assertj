@@ -56,7 +56,7 @@ public class OptionalAssert_containsSame_Test {
   @Test
   public void should_fail_if_optional_contains_equal_but_not_same_value() {
     Optional<String> actual = Optional.of(new String("something"));
-    String expectedValue = new String("something");
+    String expectedValue = "something";
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).containsSame(expectedValue))
                                                    .withMessage(shouldContainSame(actual, expectedValue).create());

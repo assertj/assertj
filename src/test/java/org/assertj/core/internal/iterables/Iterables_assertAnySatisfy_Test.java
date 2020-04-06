@@ -57,12 +57,12 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_when_one_element_satisfies_the_single_assertion_requirement() {
-    iterables.<String> assertAnySatisfy(someInfo(), actual, s -> assertThat(s).hasSize(6));
+    iterables.assertAnySatisfy(someInfo(), actual, s -> assertThat(s).hasSize(6));
   }
 
   @Test
   public void should_pass_when_one_element_satisfies_all_the_assertion_requirements() {
-    iterables.<String> assertAnySatisfy(someInfo(), actual, s -> {
+    iterables.assertAnySatisfy(someInfo(), actual, s -> {
       assertThat(s).hasSize(4);
       assertThat(s).doesNotContain("L");
     });
@@ -70,7 +70,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_when_several_elements_satisfy_all_the_assertion_requirements() {
-    iterables.<String> assertAnySatisfy(someInfo(), actual, s -> {
+    iterables.assertAnySatisfy(someInfo(), actual, s -> {
       assertThat(s).hasSize(4);
       assertThat(s).contains("L");
     });
@@ -78,7 +78,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_no_elements_satisfy_the_assertions_requirements() {
-    Throwable error = catchThrowable(() -> iterables.<String> assertAnySatisfy(someInfo(), actual, s -> {
+    Throwable error = catchThrowable(() -> iterables.assertAnySatisfy(someInfo(), actual, s -> {
       assertThat(s).hasSize(4);
       assertThat(s).contains("W");
     }));
@@ -110,7 +110,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   public void should_fail_if_the_iterable_under_test_is_empty_whatever_the_assertions_requirements_are() {
     actual.clear();
 
-    Throwable error = catchThrowable(() -> iterables.<String> assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue()));
+    Throwable error = catchThrowable(() -> iterables.assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = emptyList();

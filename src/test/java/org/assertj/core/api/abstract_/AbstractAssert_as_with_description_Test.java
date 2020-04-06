@@ -51,7 +51,7 @@ public class AbstractAssert_as_with_description_Test {
 
   @Test
   public void should_replace_null_description_by_an_empty_one() {
-    ConcreteAssert concreteAssert = assertions.as((Description) null);
+    ConcreteAssert concreteAssert = assertions.as(null);
     assertThat(concreteAssert.info.descriptionText()).isEmpty();
   }
 }

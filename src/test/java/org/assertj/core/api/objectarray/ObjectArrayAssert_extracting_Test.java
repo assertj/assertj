@@ -116,10 +116,9 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
-      assertThat(jedis).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
-                                                                        tuple("Luke", 26, 2L));
-    });
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(jedis).extracting("unknown", "age", "id")
+                                                                                          .containsOnly(tuple("Yoda", 800, 1L),
+                                                                                                        tuple("Luke", 26, 2L)));
   }
 
   @Test
@@ -163,12 +162,9 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_with_anonymous_class_throwing_extractor() {
-    assertThat(jedis).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
-      @Override
-      public Object extractThrows(Employee employee) throws Exception {
-        if (employee.getAge() < 20) throw new Exception("age < 20");
-        return employee.getName().getFirst();
-      }
+    assertThat(jedis).extracting((ThrowingExtractor<Employee, Object, Exception>) employee -> {
+      if (employee.getAge() < 20) throw new Exception("age < 20");
+      return employee.getName().getFirst();
     }).containsOnly("Yoda", "Luke");
   }
 
@@ -188,7 +184,6 @@ public class ObjectArrayAssert_extracting_Test {
                                                  tuple("Aragorn", 87),
                                                  tuple("Boromir", 37));
   }
-
 
   @Test
   public void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_function() {
@@ -286,7 +281,7 @@ public class ObjectArrayAssert_extracting_Test {
   public static class Person implements DefaultName {
   }
 
-  public static interface DefaultName {
+  public interface DefaultName {
     default String getName() {
       return "John Doe";
     }
@@ -294,41 +289,60 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty()).withMessageContaining("[Extracted: name.first]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   public void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class).isEmpty()).withMessageContaining("[Extracted: name.first]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class)
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", "name.last").isEmpty()).withMessageContaining("[Extracted: name.first, name.last]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", "name.last")
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first, name.last]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name").extracting("name.first", String.class).isEmpty()).withMessageContaining("[check employees first name]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                                                      .extracting("name.first", String.class)
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[check employees first name]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees name").extracting("name.first", "name.last").isEmpty()).withMessageContaining("[check employees name]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees name")
+                                                                                      .extracting("name.first", "name.last")
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[check employees name]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name").extracting("name.first").isEmpty()).withMessageContaining("[check employees first name]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                                                      .extracting("name.first").isEmpty())
+                                                   .withMessageContaining("[check employees first name]");
   }
 
   @Test
   public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name").extracting(input -> input.getName().getFirst()).isEmpty()).withMessageContaining("[check employees first name]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                                                      .extracting(input -> input.getName()
+                                                                                                                .getFirst())
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[check employees first name]");
   }
 
   public void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("expected exception").extracting(THROWING_EXTRACTOR).isEmpty()).withMessageContaining("[expected exception]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("expected exception")
+                                                                                      .extracting(THROWING_EXTRACTOR).isEmpty())
+                                                   .withMessageContaining("[expected exception]");
   }
 
   @Test

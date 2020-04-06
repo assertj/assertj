@@ -19,8 +19,6 @@ import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -48,7 +46,7 @@ public class ObjectArrays_assertContainsNull_Test extends ObjectArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_null_values() {
-    actual = array((String) null, (String) null);
+    actual = array(null, null);
     arrays.assertContainsNull(someInfo(), actual);
   }
 
@@ -82,7 +80,7 @@ public class ObjectArrays_assertContainsNull_Test extends ObjectArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_null_values_according_to_custom_comparison_strategy() {
-    actual = array((String) null, (String) null);
+    actual = array(null, null);
     arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), actual);
   }
 

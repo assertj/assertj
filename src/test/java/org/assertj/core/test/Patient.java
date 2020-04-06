@@ -72,8 +72,7 @@ public class Patient {
       if (obj == null) return false;
       if (getClass() != obj.getClass()) return false;
       Health other = (Health) obj;
-      if (health != other.health) return false;
-      return true;
+      return health == other.health;
     }
 
   }

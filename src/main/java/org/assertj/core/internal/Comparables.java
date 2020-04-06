@@ -94,10 +94,9 @@ public class Comparables {
     } else if (!comparisonStrategy.equals(other.comparisonStrategy)) return false;
 
     if (failures == null) {
-      if (other.failures != null) return false;
-    } else if (!failures.equals(other.failures)) return false;
+      return other.failures == null;
+    } else return failures.equals(other.failures);
 
-    return true;
   }
 
   @Override

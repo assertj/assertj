@@ -18,8 +18,8 @@ import static org.assertj.core.test.TestData.someTextDescription;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -51,7 +51,7 @@ public class Condition_as_Description_Test {
 
   @Test
   public void should_replace_null_description_by_an_empty_one() {
-    condition.as((Description) null);
+    condition.as(null);
     assertThat(condition.description()).isEqualTo(emptyDescription());
   }
 

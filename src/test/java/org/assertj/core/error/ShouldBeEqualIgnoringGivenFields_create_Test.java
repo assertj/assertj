@@ -39,7 +39,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
   public void should_create_error_message_with_all_fields_differences() {
     // GIVEN
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), list("name", "lightSaberColor"),
-                                                 list((Object) "Yoda", "blue"), list((Object) "Yoda", "green"),
+                                                 list("Yoda", "blue"), list("Yoda", "green"),
                                                  list("someIgnoredField"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
@@ -59,7 +59,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
   public void should_create_error_message_with_single_field_difference() {
     // GIVEN
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), list("lightSaberColor"),
-                                                 list((Object) "blue"), list((Object) "green"),
+                                                 list("blue"), list("green"),
                                                  list("someIgnoredField"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
@@ -75,7 +75,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
     // GIVEN
     List<String> ignoredFields = list();
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), list("name", "lightSaberColor"),
-                                                 list((Object) "Yoda", "blue"), list((Object) "Yoda", "green"), ignoredFields);
+                                                 list("Yoda", "blue"), list("Yoda", "green"), ignoredFields);
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
@@ -94,7 +94,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
     // GIVEN
     List<String> ignoredFields = list();
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), list("lightSaberColor"),
-                                                 list((Object) "blue"), list((Object) "green"),
+                                                 list("blue"), list("green"),
                                                  ignoredFields);
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());

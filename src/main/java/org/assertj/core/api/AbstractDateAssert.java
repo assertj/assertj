@@ -85,14 +85,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * to Date.<br>
    * It keeps the insertion order so first format added will be first format used.
    */
-  // can't use <> with anonymous class in java 8
   @VisibleForTesting
-  static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = new ThreadLocal<LinkedHashSet<DateFormat>>() {
-    @Override
-    protected LinkedHashSet<DateFormat> initialValue() {
-      return new LinkedHashSet<>();
-    }
-  };
+  static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = ThreadLocal.withInitial(LinkedHashSet::new);
+
   @VisibleForTesting
   Dates dates = Dates.instance();
 

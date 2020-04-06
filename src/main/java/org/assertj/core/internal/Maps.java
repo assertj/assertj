@@ -873,7 +873,7 @@ public class Maps {
 
   private <K, V> boolean containsEntry(Map<K, V> actual, Map.Entry<? extends K, ? extends V> entry) {
     requireNonNull(entry, "Entries to look for should not be null");
-    return actual.containsKey(entry.getKey()) ? areEqual(actual.get(entry.getKey()), entry.getValue()) : false;
+    return actual.containsKey(entry.getKey()) && areEqual(actual.get(entry.getKey()), entry.getValue());
   }
 
   private void assertNotNull(AssertionInfo info, Map<?, ?> actual) {

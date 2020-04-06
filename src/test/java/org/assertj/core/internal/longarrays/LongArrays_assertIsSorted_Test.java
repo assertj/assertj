@@ -17,11 +17,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.assertj.core.test.LongArrays.*;
+import static org.assertj.core.test.LongArrays.arrayOf;
+import static org.assertj.core.test.LongArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -29,9 +28,8 @@ import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
- * Tests for <code>{@link LongArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
+ * Tests for <code>{@link LongArrays#assertIsSorted(AssertionInfo, long[])}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -59,7 +57,7 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (long[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -91,7 +89,8 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (long[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(),
+                                                                                                                       null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -104,7 +103,7 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures)
-        .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
+                    .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
   }
 
 }

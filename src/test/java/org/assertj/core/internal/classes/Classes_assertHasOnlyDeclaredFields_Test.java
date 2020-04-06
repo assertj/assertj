@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  */
 public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
 
-  private static final LinkedHashSet<String> EMPTY_STRING_SET = Sets.<String> newLinkedHashSet();
+  private static final LinkedHashSet<String> EMPTY_STRING_SET = Sets.newLinkedHashSet();
 
   @BeforeEach
   public void setupActual() {

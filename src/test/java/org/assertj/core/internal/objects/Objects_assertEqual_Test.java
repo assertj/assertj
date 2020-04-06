@@ -102,8 +102,7 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
       if (o == null) throw new NullEqualsException();
       if (getClass() != o.getClass()) throw new DifferentClassesException();
       MyObject myObject = (MyObject) o;
-      if (anInt != myObject.anInt) return false;
-      return true;
+      return anInt == myObject.anInt;
     }
 
     private class NullEqualsException extends RuntimeException {

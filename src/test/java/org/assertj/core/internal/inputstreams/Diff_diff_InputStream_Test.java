@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.internal.Diff;
@@ -43,9 +43,9 @@ public class Diff_diff_InputStream_Test {
   private InputStream actual;
   private InputStream expected;
 
-  static InputStream stream(String... lines) throws UnsupportedEncodingException {
+  static InputStream stream(String... lines) {
     String joinedLines = String.join(System.lineSeparator(), lines);
-    return new ByteArrayInputStream(joinedLines.getBytes("ASCII"));
+    return new ByteArrayInputStream(joinedLines.getBytes(StandardCharsets.US_ASCII));
   }
 
   @Test

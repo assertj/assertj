@@ -72,7 +72,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   private static Stream<Arguments> ignoringNullActualFieldsSource() {
     return Stream.of(arguments(dualValue(null, "John")),
                      arguments(dualValue(null, 123)),
-                     arguments(dualValue(null, (Object) null)),
+                     arguments(dualValue(null, null)),
                      arguments(dualValue(null, new Date())));
 
   }
@@ -92,7 +92,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     return Stream.of(arguments(dualValue(Optional.empty(), "John")),
                      arguments(dualValue(Optional.empty(), Optional.of("John"))),
                      arguments(dualValue(OptionalInt.empty(), OptionalInt.of(123))),
-                     arguments(dualValue(OptionalLong.empty(), OptionalLong.of(123l))),
+                     arguments(dualValue(OptionalLong.empty(), OptionalLong.of(123L))),
                      arguments(dualValue(OptionalDouble.empty(), OptionalDouble.of(123.0))));
 
   }
@@ -111,7 +111,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   private static Stream<Arguments> ignoringNullExpectedFieldsSource() {
     return Stream.of(arguments(dualValue("John", null)),
                      arguments(dualValue(123, null)),
-                     arguments(dualValue(null, (Object) null)),
+                     arguments(dualValue(null, null)),
                      arguments(dualValue(new Date(), null)));
 
   }

@@ -15,11 +15,12 @@ package org.assertj.core.internal.floatarrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldBeSorted.*;
-import static org.assertj.core.test.FloatArrays.*;
+import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
+import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
+import static org.assertj.core.test.FloatArrays.arrayOf;
+import static org.assertj.core.test.FloatArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -28,7 +29,7 @@ import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link FloatArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
+ * Tests for <code>{@link FloatArrays#assertIsSorted(AssertionInfo, float[])}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -56,7 +57,7 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (float[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -89,7 +90,8 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (float[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(),
+                                                                                                                       null))
                                                    .withMessage(actualIsNull());
   }
 

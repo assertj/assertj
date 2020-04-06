@@ -124,11 +124,8 @@ public abstract class Delta<T> {
     } else if (!original.equals(other.original))
       return false;
     if (revised == null) {
-      if (other.revised != null)
-        return false;
-    } else if (!revised.equals(other.revised))
-      return false;
-    return true;
+      return other.revised == null;
+    } else return revised.equals(other.revised);
   }
 
   public int lineNumber() {

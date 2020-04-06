@@ -659,7 +659,7 @@ public class Arrays {
       int arraySize = sizeOf(array);
       for (int i = 0; i < arraySize; i++) {
         E element = (E) Array.get(array, i);
-        if (negateCondition ? !condition.matches(element) : condition.matches(element)) filteredElements.add(element);
+        if (negateCondition != condition.matches(element)) filteredElements.add(element);
       }
       return filteredElements;
     } catch (ClassCastException e) {

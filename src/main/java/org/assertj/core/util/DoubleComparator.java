@@ -51,7 +51,7 @@ public class DoubleComparator extends NullSafeComparator<Double> {
     if (obj == null) return false;
     if (!(obj instanceof DoubleComparator)) return false;
     DoubleComparator other = (DoubleComparator) obj;
-    return Double.doubleToLongBits(precision) == Double.doubleToLongBits(other.precision) ? true : false;
+    return Double.doubleToLongBits(precision) == Double.doubleToLongBits(other.precision);
   }
 
   @Override

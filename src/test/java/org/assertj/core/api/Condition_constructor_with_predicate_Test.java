@@ -15,8 +15,6 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Test;
 
 public class Condition_constructor_with_predicate_Test {
@@ -32,6 +30,6 @@ public class Condition_constructor_with_predicate_Test {
 
   @Test
   public void should_throw_error_if_predicate_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> new Condition<>((Predicate<Object>) null, ""));
+    assertThatNullPointerException().isThrownBy(() -> new Condition<>(null, ""));
   }
 }

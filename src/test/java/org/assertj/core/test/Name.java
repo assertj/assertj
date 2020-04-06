@@ -90,8 +90,7 @@ public class Name {
       if (other.first != null) return false;
     } else if (!first.equals(other.first)) return false;
     if (last == null) {
-      if (other.last != null) return false;
-    } else if (!last.equals(other.last)) return false;
-    return true;
+      return other.last == null;
+    } else return last.equals(other.last);
   }
 }

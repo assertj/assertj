@@ -16,11 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
-import static org.assertj.core.test.BooleanArrays.*;
+import static org.assertj.core.test.BooleanArrays.arrayOf;
+import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -29,9 +28,8 @@ import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
- * Tests for <code>{@link BooleanArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
+ * Tests for <code>{@link BooleanArrays#assertIsSorted(AssertionInfo, boolean[])}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -61,7 +59,7 @@ public class BooleanArrays_assertIsSorted_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (boolean[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 

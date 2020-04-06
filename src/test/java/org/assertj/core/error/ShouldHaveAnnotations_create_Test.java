@@ -15,8 +15,6 @@ package org.assertj.core.error;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 
-import java.lang.annotation.Annotation;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Lists;
@@ -34,9 +32,9 @@ public class ShouldHaveAnnotations_create_Test {
   public void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveAnnotations(ShouldHaveAnnotations_create_Test.class,
-                                                        Lists.<Class<? extends Annotation>> list(Override.class,
+                                                        Lists.list(Override.class,
                                                                                                  Deprecated.class),
-                                                        Lists.<Class<? extends Annotation>> list(SuppressWarnings.class));
+                                                        Lists.list(SuppressWarnings.class));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

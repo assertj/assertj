@@ -70,7 +70,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
   public void should_pass_if_actual_and_given_keys_are_empty() {
-    maps.assertContainsOnlyKeys(someInfo(), emptyMap(), (Object[]) emptyKeys());
+    maps.assertContainsOnlyKeys(someInfo(), emptyMap(), emptyKeys());
   }
 
   @Test

@@ -30,9 +30,7 @@ import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for
- * <code>{@link org.assertj.core.internal.Classes#assertContainsAnnotations(org.assertj.core.api.AssertionInfo, Class, Class[])}</code>
- * .
+ * Tests for <code>{@link org.assertj.core.internal.Classes#assertContainsAnnotations(org.assertj.core.api.AssertionInfo, Class, Class[])}</code>.
  * 
  * @author William Delanoue
  */
@@ -52,7 +50,8 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     actual = null;
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertContainsAnnotations(someInfo(), actual, Override.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertContainsAnnotations(someInfo(), actual,
+                                                                                                       Override.class))
                                                    .withMessage(actualIsNull());
   }
 
@@ -84,13 +83,13 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   @Test()
   public void should_fail_if_actual_does_not_contains_an_annotation() {
     actual = AnnotatedClass.class;
-    Class<Annotation> expected[] = new Class[] { Override.class, Deprecated.class, MyAnnotation.class };
+    Class<Annotation>[] expected = new Class[] { Override.class, Deprecated.class, MyAnnotation.class };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertContainsAnnotations(someInfo(),
                                                                                                        actual,
                                                                                                        expected))
                                                    .withMessage(shouldHaveAnnotations(actual,
-                                                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(expected),
-                                                                                      Sets.<Class<? extends Annotation>> newLinkedHashSet(Override.class,
-                                                                                                                                          Deprecated.class)).create());
+                                                                                      Sets.newLinkedHashSet(expected),
+                                                                                      Sets.newLinkedHashSet(Override.class,
+                                                                                                            Deprecated.class)).create());
   }
 }

@@ -78,7 +78,7 @@ public class FieldsOrPropertiesExtractor_extract_tuples_Test {
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> extract(employees, byName(new String[0])))
+    assertThatIllegalArgumentException().isThrownBy(() -> extract(employees, byName()))
                                         .withMessage("The names of the fields/properties to read should not be empty");
   }
 }

@@ -63,7 +63,7 @@ public class Assertions_assertThat_with_Stream_startsWith_Test {
   public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Stream<String> names = Stream.of("Luke", "Leia");
-      assertThat(names).startsWith(new String[0]);
+      assertThat(names).startsWith();
     });
   }
 

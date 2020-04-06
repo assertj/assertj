@@ -102,16 +102,16 @@ public class DeepDifference_Test {
 
   @Test
   public void testPrimitiveArrays() {
-    int array1[] = { 2, 4, 5, 6, 3, 1, 3, 3, 5, 22 };
-    int array2[] = { 2, 4, 5, 6, 3, 1, 3, 3, 5, 22 };
+    int[] array1 = { 2, 4, 5, 6, 3, 1, 3, 3, 5, 22 };
+    int[] array2 = { 2, 4, 5, 6, 3, 1, 3, 3, 5, 22 };
 
     assertHaveNoDifferences(array1, array2);
 
-    int array3[] = { 3, 4, 7 };
+    int[] array3 = { 3, 4, 7 };
 
     assertHaveDifferences(array1, array3);
 
-    float array4[] = { 3.4f, 5.5f };
+    float[] array4 = { 3.4f, 5.5f };
     assertHaveDifferences(array1, array4);
   }
 

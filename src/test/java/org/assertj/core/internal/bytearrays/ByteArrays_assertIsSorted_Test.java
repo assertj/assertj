@@ -15,12 +15,12 @@ package org.assertj.core.internal.bytearrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldBeSorted.*;
-import static org.assertj.core.test.ByteArrays.*;
+import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
+import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
+import static org.assertj.core.test.ByteArrays.arrayOf;
+import static org.assertj.core.test.ByteArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -28,9 +28,8 @@ import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
- * Tests for <code>{@link ByteArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
+ * Tests for <code>{@link ByteArrays#assertIsSorted(AssertionInfo, byte[])}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -58,7 +57,7 @@ public class ByteArrays_assertIsSorted_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), (byte[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -91,7 +90,8 @@ public class ByteArrays_assertIsSorted_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (byte[]) null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(),
+                                                                                                                       null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -104,7 +104,7 @@ public class ByteArrays_assertIsSorted_Test extends ByteArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures)
-        .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
+                    .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
   }
 
 }

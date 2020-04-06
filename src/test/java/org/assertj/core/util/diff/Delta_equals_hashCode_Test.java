@@ -31,7 +31,7 @@ public class Delta_equals_hashCode_Test {
 
   @BeforeEach
   public void setUp() {
-    chunk = new Chunk<>(1, Collections.<String>emptyList());
+    chunk = new Chunk<>(1, Collections.emptyList());
     delta = new ChangeDelta<>(chunk, chunk);
   }
 
@@ -67,7 +67,7 @@ public class Delta_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Delta_with_different_value() {
-    Chunk<String> chunk2 = new Chunk<>(5, Collections.<String>emptyList());
+    Chunk<String> chunk2 = new Chunk<>(5, Collections.emptyList());
     assertThat(delta.equals(new ChangeDelta<>(chunk2, chunk2))).isFalse();
   }
 }

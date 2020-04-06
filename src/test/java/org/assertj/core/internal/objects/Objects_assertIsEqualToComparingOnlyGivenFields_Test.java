@@ -125,8 +125,8 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
 
     assertThat(error).isInstanceOf(AssertionError.class);
 
-    List<Object> expected = newArrayList((Object) "Blue");
-    List<Object> rejected = newArrayList((Object) "Green");
+    List<Object> expected = newArrayList("Blue");
+    List<Object> rejected = newArrayList("Green");
     verify(failures).failure(info, shouldBeEqualComparingOnlyGivenFields(actual,
                                                                          newArrayList("lightSaberColor"),
                                                                          rejected,
@@ -144,8 +144,8 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
       defaultTypeComparators(), "name", "lightSaberColor"));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    List<Object> expected = newArrayList((Object) "Luke");
-    List<Object> rejected = newArrayList((Object) "Yoda");
+    List<Object> expected = newArrayList("Luke");
+    List<Object> rejected = newArrayList("Yoda");
     verify(failures).failure(info, shouldBeEqualComparingOnlyGivenFields(actual,
                                                                          newArrayList("name"),
                                                                          rejected,

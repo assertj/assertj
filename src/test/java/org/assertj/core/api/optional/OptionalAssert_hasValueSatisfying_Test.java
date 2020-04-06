@@ -26,20 +26,14 @@ public class OptionalAssert_hasValueSatisfying_Test {
 
   @Test
   public void should_fail_when_optional_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      assertThat((Optional<String>) null).hasValueSatisfying(s -> {
-        ;
-      });
-    }).withMessage(actualIsNull());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).hasValueSatisfying(s -> {}))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_when_optional_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      assertThat(Optional.empty()).hasValueSatisfying(o -> {
-        ;
-      });
-    }).withMessage(shouldBePresent(Optional.empty()).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).hasValueSatisfying(o -> {}))
+                                                   .withMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
@@ -52,8 +46,7 @@ public class OptionalAssert_hasValueSatisfying_Test {
 
   @Test
   public void should_fail_from_consumer() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something"));
-    }).withMessage(format("%nExpecting:%n <\"something else\">%nto be equal to:%n <\"something\">%nbut was not."));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something")))
+                                                   .withMessage(format("%nExpecting:%n <\"something else\">%nto be equal to:%n <\"something\">%nbut was not."));
   }
 }

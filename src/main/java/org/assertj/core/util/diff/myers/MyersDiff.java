@@ -47,8 +47,8 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * Constructs an instance of the Myers differencing algorithm.
    */
   public MyersDiff() {
-    /**	Default equalizer. */
-    equalizer = (original, revised) -> original.equals(revised);
+    /* Default equalizer. */
+    equalizer = Object::equals;
   }
 
   /**
@@ -91,7 +91,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
     final int MAX = N + M + 1;
     final int size = 1 + 2 * MAX;
     final int middle = size / 2;
-    final PathNode diagonal[] = new PathNode[size];
+    final PathNode[] diagonal = new PathNode[size];
 
     diagonal[middle + 1] = new Snake(0, -1, null);
     for (int d = 0; d < MAX; d++) {

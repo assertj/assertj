@@ -33,8 +33,8 @@ public class ShouldBeAssignableFrom_create_Test {
   public void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeAssignableFrom(ShouldBeAssignableFrom_create_Test.class,
-                                                         Sets.<Class<?>> newLinkedHashSet(String.class, Integer.class),
-                                                         Sets.<Class<?>> newLinkedHashSet((String.class)));
+                                                         Sets.newLinkedHashSet(String.class, Integer.class),
+                                                         Sets.newLinkedHashSet((String.class)));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

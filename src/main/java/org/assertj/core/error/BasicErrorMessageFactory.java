@@ -86,9 +86,8 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
       if (getClass() != obj.getClass()) return false;
       UnquotedString other = (UnquotedString) obj;
       if (string == null) {
-        if (other.string != null) return false;
-      } else if (!string.equals(other.string)) return false;
-      return true;
+        return other.string == null;
+      } else return string.equals(other.string);
     }
   }
 

@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,9 +35,9 @@ public class ConstructorInvoker_newInstance_Test {
   @Test
   public void should_create_Object_using_reflection() throws Exception {
     // WHEN
-    Object o = invoker.newInstance("java.lang.Exception", new Class<?>[] { String.class }, new Object[] { "Hi" });
+    Object o = invoker.newInstance("java.lang.Exception", new Class<?>[] { String.class }, "Hi");
     // THEN
-    then(o).isInstanceOf(Exception.class);
-    then((Exception) o).hasMessage("Hi");
+    then(o).asInstanceOf(THROWABLE)
+           .hasMessage("Hi");
   }
 }

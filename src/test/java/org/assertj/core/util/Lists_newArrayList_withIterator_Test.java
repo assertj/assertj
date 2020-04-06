@@ -16,6 +16,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ public class Lists_newArrayList_withIterator_Test {
 
   @Test
   public void should_return_empty_List_if_iterator_is_empty() {
-    Iterator<String> elements = new ArrayList<String>().iterator();
+    Iterator<String> elements = Collections.emptyIterator();
     ArrayList<String> list = Lists.newArrayList(elements);
     assertThat(list).isEmpty();
   }

@@ -53,7 +53,7 @@ public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
   @BeforeEach
   public void setUp() {
     super.setUp();
-    actual = mapOf(entry("name", "Yoda"), entry("color", "green"), entry((String) null, (String) null));
+    actual = mapOf(entry("name", "Yoda"), entry("color", "green"), entry(null, null));
     isDigits = new Condition<String>("isDigits") {
       @Override
       public boolean matches(String value) {

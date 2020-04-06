@@ -47,7 +47,7 @@ public class FloatComparator extends NullSafeComparator<Float> {
     if (obj == null) return false;
     if (!(obj instanceof FloatComparator)) return false;
     FloatComparator other = (FloatComparator) obj;
-    return Float.floatToIntBits(precision) == Float.floatToIntBits(other.precision) ? true : false;
+    return Float.floatToIntBits(precision) == Float.floatToIntBits(other.precision);
   }
 
   @Override

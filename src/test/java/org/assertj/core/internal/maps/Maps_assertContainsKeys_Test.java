@@ -21,7 +21,6 @@ import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
@@ -43,7 +42,7 @@ public class Maps_assertContainsKeys_Test extends MapsBaseTest {
   @BeforeEach
   public void setUp() {
     super.setUp();
-    actual = mapOf(entry("name", "Yoda"), entry("color", "green"), entry((String) null, (String) null));
+    actual = mapOf(entry("name", "Yoda"), entry("color", "green"), entry(null, null));
   }
 
   @Test

@@ -36,7 +36,7 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
   public void should_create_error_message_with_all_fields_differences() {
     // GIVEN
     factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Luke", "blue"), list("name", "lightSaberColor"),
-                                                    list((Object) "Luke", "blue"), list((Object) "Yoda", "green"),
+                                                    list("Luke", "blue"), list("Yoda", "green"),
                                                     list("name", "lightSaberColor"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
@@ -57,7 +57,7 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
   public void should_create_error_message_with_single_field_difference() {
     // GIVEN
     factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Yoda", "green"), list("lightSaberColor"),
-                                                    list((Object) "green"), list((Object) "blue"),
+                                                    list("green"), list("blue"),
                                                     list("lightSaberColor"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());

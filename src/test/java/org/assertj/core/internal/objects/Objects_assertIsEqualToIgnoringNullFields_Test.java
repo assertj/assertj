@@ -102,7 +102,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                       newArrayList("lightSaberColor"),
                                                                       newArrayList((Object) null),
-                                                                      newArrayList((Object) "Green"),
+                                                                      newArrayList("Green"),
                                                                       newArrayList("strangeNotReadablePrivateField")));
   }
 
@@ -117,8 +117,8 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
                                                                       newArrayList("name"),
-                                                                      newArrayList((Object) "Yoda"),
-                                                                      newArrayList((Object) "Soda"),
+                                                                      newArrayList("Yoda"),
+                                                                      newArrayList("Soda"),
                                                                       newArrayList("strangeNotReadablePrivateField")));
   }
 

@@ -135,7 +135,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
 
   @Test
   public void should_format_Object_array_that_has_primitive_array_as_element() {
-    boolean booleans[] = { true, false };
+    boolean[] booleans = { true, false };
     Object[] array = { "Hello", booleans };
     assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"Hello\", [true, false]]");
   }

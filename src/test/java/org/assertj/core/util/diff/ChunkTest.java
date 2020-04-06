@@ -75,6 +75,6 @@ public class ChunkTest {
   }
 
   private static List<String> emptyList() {
-    return Collections.<String>emptyList();
+    return Collections.emptyList();
   }
 }

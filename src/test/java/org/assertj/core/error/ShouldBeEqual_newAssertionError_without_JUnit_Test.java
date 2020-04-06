@@ -84,6 +84,6 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {
     return invoker.newInstance(ComparisonFailure.class.getName(),
                                new Class<?>[] { String.class, String.class, String.class },
-                               new Object[] { "[Jedi]", "\"Yoda\"", "\"Luke\"" });
+                               "[Jedi]", "\"Yoda\"", "\"Luke\"");
   }
 }
