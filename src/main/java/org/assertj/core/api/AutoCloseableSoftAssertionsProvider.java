@@ -22,7 +22,7 @@ package org.assertj.core.api;
 public interface AutoCloseableSoftAssertionsProvider extends SoftAssertionsProvider, AutoCloseable {
 
   /**
-   * Allows the SoftAssertionsProvider to be used as an {@link AutoClosable} by calling {@link #assertAll()}.
+   * Allows the SoftAssertionsProvider to be used as an {@link AutoCloseable} by calling {@link #assertAll()}.
    *
    * @see #assertAll
    */
