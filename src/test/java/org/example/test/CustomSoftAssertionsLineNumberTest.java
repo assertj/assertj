@@ -16,8 +16,9 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 /**
  * The assertions classes have to be in a package other than org.assertj to test
@@ -25,9 +26,8 @@ import org.junit.jupiter.api.Test;
  */
 class CustomSoftAssertionsLineNumberTest {
 
-  // ignore because of failure only happening in Travis CI https://travis-ci.org/joel-costigliola/assertj-core/builds/351639100
   @Test
-  @Disabled
+  @DisabledOnOs(OS.MAC) // fails in github actions macOs builds
   void should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package() throws Exception {
     // GIVEN
     MyProjectSoftAssertions softly = new MyProjectSoftAssertions();
