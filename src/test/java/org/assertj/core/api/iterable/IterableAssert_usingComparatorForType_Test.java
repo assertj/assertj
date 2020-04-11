@@ -152,11 +152,11 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
                                         .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING, String.class)
                                         .usingFieldByFieldElementComparator()
                                         .contains(other, other);
-    }).withMessage(format("%nExpecting:%n"
+    }).withMessage(format("%nExpecting ArrayList:%n"
                           + " <[Yoda the Jedi, Yoda the Jedi]>%n"
                           + "to contain:%n"
                           + " <[Luke the Jedi, Luke the Jedi]>%n"
-                          + "but could not find:%n"
+                          + "but could not find the following elements:%n"
                           + " <[Luke the Jedi]>%n"
                           + "when comparing values using field/property by field/property comparator on all fields/properties%n"
                           + "Comparators used:%n"

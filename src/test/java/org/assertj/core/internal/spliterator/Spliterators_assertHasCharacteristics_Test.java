@@ -29,6 +29,7 @@ import org.assertj.core.internal.SpliteratorsBaseTest;
 import org.assertj.core.test.StringSpliterator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.ls.LSOutput;
 
 /**
  * Tests for <code>{@link SpliteratorAssert#hasCharacteristics(int...)}</code>.
@@ -77,12 +78,18 @@ public class Spliterators_assertHasCharacteristics_Test extends SpliteratorsBase
     // GIVEN
     Spliterator<?> actual = createSpliterator(SORTED);
     // WHEN
-    expectAssertionError(() -> spliterators.assertHasCharacteristics(INFO, actual, DISTINCT));
+    AssertionError error = expectAssertionError(() -> spliterators.assertHasCharacteristics(INFO, actual, DISTINCT));
     // THEN
-    verify(failures).failure(INFO, shouldContain(singleton("SORTED"), array("DISTINCT"), singleton("DISTINCT")));
+    assertThat(error).hasMessage("\nExpecting spliterator characteristics:\n"
+                                 + " <[\"SORTED\"]>\n"
+                                 + "to contain:\n"
+                                 + " <[\"DISTINCT\"]>\n"
+                                 + "but could not find the following characteristics:\n"
+                                 + " <[\"DISTINCT\"]>\n");
   }
 
   private Spliterator<?> createSpliterator(int characteristics) {
     return new StringSpliterator(characteristics);
   }
+
 }

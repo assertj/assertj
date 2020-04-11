@@ -42,11 +42,12 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
+    String[] name = getSpecificName(actual);
     if (isNullOrEmpty(notExpected))
-      return new ShouldContainOnly(actual, expected, notFound, NOT_FOUND_ONLY, comparisonStrategy);
+      return new ShouldContainOnly(actual, expected, notFound, NOT_FOUND_ONLY, comparisonStrategy, name);
     if (isNullOrEmpty(notFound))
-      return new ShouldContainOnly(actual, expected, notExpected, NOT_EXPECTED_ONLY, comparisonStrategy);
-    return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy);
+      return new ShouldContainOnly(actual, expected, notExpected, NOT_EXPECTED_ONLY, comparisonStrategy, name);
+    return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy, name);
   }
 
   /**
@@ -64,28 +65,28 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
   }
 
   private ShouldContainOnly(Object actual, Object expected, Iterable<?> notFound, Iterable<?> notExpected,
-                            ComparisonStrategy comparisonStrategy) {
+                            ComparisonStrategy comparisonStrategy, String[] name) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting" + name[0] + ":%n" +
           "  <%s>%n" +
           "to contain only:%n" +
           "  <%s>%n" +
-          "elements not found:%n" +
+          name[1] + " not found:%n" +
           "  <%s>%n" +
-          "and elements not expected:%n" +
+          "and " + name[1] + " not expected:%n" +
           "  <%s>%n%s", actual,
           expected, notFound, notExpected, comparisonStrategy);
   }
 
   private ShouldContainOnly(Object actual, Object expected, Iterable<?> notFoundOrNotExpected, ErrorType errorType,
-                            ComparisonStrategy comparisonStrategy) {
+                            ComparisonStrategy comparisonStrategy, String[] name) {
     // @format:off
     super("%n" +
-          "Expecting:%n" +
+          "Expecting"+name[0]+":%n" +
           "  <%s>%n" +
           "to contain only:%n" +
           "  <%s>%n" + (errorType == NOT_FOUND_ONLY ?
-          "but could not find the following elements:%n" : "but the following elements were unexpected:%n") +
+          "but could not find the following "+name[1]+":%n" : "but the following "+name[1]+" were unexpected:%n") +
           "  <%s>%n%s",
           actual, expected, notFoundOrNotExpected, comparisonStrategy);
     // @format:on

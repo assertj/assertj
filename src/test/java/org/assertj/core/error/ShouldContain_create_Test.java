@@ -48,11 +48,11 @@ public class ShouldContain_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting ArrayList:%n" +
                                    " <[\"Yoda\"]>%n" +
                                    "to contain:%n" +
                                    " <[\"Luke\", \"Yoda\"]>%n" +
-                                   "but could not find:%n" +
+                                   "but could not find the following elements:%n" +
                                    " <[\"Luke\"]>%n"));
   }
 
@@ -82,11 +82,11 @@ public class ShouldContain_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting Long:%n" +
                                    " <5L>%n" +
                                    "to contain:%n" +
                                    " <5>%n" +
-                                   "but could not find:%n" +
+                                   "but could not find the following elements:%n" +
                                    " <5>%n" +
                                    ""));
   }
