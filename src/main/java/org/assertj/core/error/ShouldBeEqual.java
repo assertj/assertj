@@ -104,7 +104,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * org.junit.ComparisonFailure that highlights the difference(s) between the expected and actual objects.
    * </p>
    * <p>
-   *   If opentest4j is on the classpath then {@code org.opentest4j.AssertionFailedError} would be used.
+   * If opentest4j is on the classpath then {@code org.opentest4j.AssertionFailedError} would be used.
    * </p>
    * {@link AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter
    * them (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
