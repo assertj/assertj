@@ -30,8 +30,6 @@ public class ShouldNotExist extends BasicErrorMessageFactory {
   public static final String PATH_SHOULD_NOT_EXIST = "%nExpecting path:%n  <%s>%nnot to exist";
   @VisibleForTesting
   public static final String FILE_SHOULD_NOT_EXIST = "%nExpecting file:%n  <%s>%nnot to exist";
-  @VisibleForTesting
-  public static final String PATH_SHOULD_NOT_EXIST_NO_FOLLOW_LINKS = "%nExpecting path:%n  <%s>%nnot to exist (symbolic links were not followed).";
 
   /**
    * Creates a new <code>{@link ShouldNotExist}</code>.
@@ -57,9 +55,5 @@ public class ShouldNotExist extends BasicErrorMessageFactory {
 
   private ShouldNotExist(final Path actual) {
 	super(PATH_SHOULD_NOT_EXIST, actual);
-  }
-
-  private ShouldNotExist(final Path actual, boolean followLinks) {
-	super(followLinks ? PATH_SHOULD_NOT_EXIST : PATH_SHOULD_NOT_EXIST_NO_FOLLOW_LINKS, actual);
   }
 }
