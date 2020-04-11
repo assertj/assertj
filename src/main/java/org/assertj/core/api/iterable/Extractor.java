@@ -28,6 +28,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
  * @param <T> target element type
  * @deprecated use {@link Function} instead
  */
+@Deprecated
 @FunctionalInterface
 public interface Extractor<F, T> extends Function<F, T> {
 
