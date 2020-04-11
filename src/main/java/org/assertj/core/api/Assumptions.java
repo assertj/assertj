@@ -95,7 +95,7 @@ public class Assumptions {
    * This NamingStrategy takes the original class's name and adds a suffix to distinguish it.
    * The default is ByteBuddy but for debugging purposes, it makes sense to add AssertJ as a name.
    */
-  private static ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED)
+  private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED)
                                                        .with(new AuxiliaryType.NamingStrategy.SuffixingRandom("Assertj$Assumptions"));
 
   private static final Implementation ASSUMPTION = MethodDelegation.to(AssumptionMethodInterceptor.class);
