@@ -49,7 +49,7 @@ public class ShouldContainOnly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting ArrayList:%n"
                                    + "  <[\"Yoda\", \"Han\"]>%n"
                                    + "to contain only:%n"
                                    + "  <[\"Luke\", \"Yoda\"]>%n"
@@ -71,7 +71,7 @@ public class ShouldContainOnly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting ArrayList:%n"
                                    + "  <[\"Yoda\", \"Han\"]>%n"
                                    + "to contain only:%n"
                                    + "  <[\"Luke\", \"Yoda\"]>%n"
@@ -93,7 +93,7 @@ public class ShouldContainOnly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting ArrayList:%n"
                                    + "  <[\"Yoda\"]>%n"
                                    + "to contain only:%n"
                                    + "  <[\"Luke\", \"Yoda\"]>%n"
@@ -113,7 +113,7 @@ public class ShouldContainOnly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting ArrayList:%n"
                                    + "  <[\"Yoda\"]>%n"
                                    + "to contain only:%n"
                                    + "  <[\"Luke\", \"Yoda\"]>%n"
@@ -133,7 +133,7 @@ public class ShouldContainOnly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting ArrayList:%n"
                                    + "  <[\"Yoda\", \"Leia\"]>%n"
                                    + "to contain only:%n"
                                    + "  <[\"Yoda\"]>%n"
@@ -153,7 +153,7 @@ public class ShouldContainOnly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting ArrayList:%n"
                                    + "  <[\"Yoda\", \"Leia\"]>%n"
                                    + "to contain only:%n"
                                    + "  <[\"Yoda\"]>%n"

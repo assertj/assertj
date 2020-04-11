@@ -42,7 +42,7 @@ public class Java6JUnitBDDSoftAssertionsFailureTest {
       assertThat(failures).hasSize(2);
       assertThat(failures.get(0)).hasMessageContaining(format("%nExpecting:%n <1>%nto be equal to:%n <2>%nbut was not."));
       assertThat(failures.get(1)).hasMessageContaining(format("%n" +
-                                                              "Expecting:%n" +
+                                                              "Expecting ArrayList:%n" +
                                                               "  <[1, 2]>%n" +
                                                               "to contain only:%n" +
                                                               "  <[1, 3]>%n" +

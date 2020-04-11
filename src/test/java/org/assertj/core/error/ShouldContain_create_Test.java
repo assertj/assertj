@@ -48,11 +48,11 @@ public class ShouldContain_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting ArrayList:%n" +
                                    " <[\"Yoda\"]>%n" +
                                    "to contain:%n" +
                                    " <[\"Luke\", \"Yoda\"]>%n" +
-                                   "but could not find:%n" +
+                                   "but could not find the following elements:%n" +
                                    " <[\"Luke\"]>%n"));
   }
 
@@ -65,11 +65,11 @@ public class ShouldContain_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting ArrayList:%n" +
                                    " <[\"Yoda\"]>%n" +
                                    "to contain:%n" +
                                    " <[\"Luke\", \"Yoda\"]>%n" +
-                                   "but could not find:%n" +
+                                   "but could not find the following elements:%n" +
                                    " <[\"Luke\"]>%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
@@ -82,11 +82,11 @@ public class ShouldContain_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting Long:%n" +
                                    " <5L>%n" +
                                    "to contain:%n" +
                                    " <5>%n" +
-                                   "but could not find:%n" +
+                                   "but could not find the following elements:%n" +
                                    " <5>%n" +
                                    ""));
   }
@@ -99,11 +99,11 @@ public class ShouldContain_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting ArrayList:%n" +
                                    " <[5L, 7L]>%n" +
                                    "to contain:%n" +
                                    " <[5, 7]>%n" +
-                                   "but could not find:%n" +
+                                   "but could not find the following elements:%n" +
                                    " <[5, 7]>%n" +
                                    ""));
   }
@@ -116,11 +116,11 @@ public class ShouldContain_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting ArrayList:%n" +
                                    " <[5.0, 7.0]>%n" +
                                    "to contain:%n" +
                                    " <[5.0f, 7.0f]>%n" +
-                                   "but could not find:%n" +
+                                   "but could not find the following elements:%n" +
                                    " <[5.0f, 7.0f]>%n" +
                                    ""));
   }

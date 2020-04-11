@@ -124,11 +124,11 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
                                                                                                                                      String.class)
                                                                                             .usingFieldByFieldElementComparator()
                                                                                             .contains(other, "any"))
-                                                   .withMessage(format("%nExpecting:%n"
+                                                   .withMessage(format("%nExpecting array Object[]:%n"
                                                                        + " <[Yoda the Jedi, \"some\"]>%n"
                                                                        + "to contain:%n"
                                                                        + " <[Luke the Jedi, \"any\"]>%n"
-                                                                       + "but could not find:%n"
+                                                                       + "but could not find the following elements:%n"
                                                                        + " <[\"any\"]>%n"
                                                                        + "when comparing values using field/property by field/property comparator on all fields/properties%n"
                                                                        + "Comparators used:%n"
@@ -176,11 +176,11 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
                                                                                                                                      String.class)
                                                                                             .usingFieldByFieldElementComparator()
                                                                                             .contains(other, other))
-                                                   .withMessage(format("%nExpecting:%n"
+                                                   .withMessage(format("%nExpecting array Object[]:%n"
                                                                        + " <[Yoda the Jedi, Yoda the Jedi]>%n"
                                                                        + "to contain:%n"
                                                                        + " <[Luke the Jedi, Luke the Jedi]>%n"
-                                                                       + "but could not find:%n"
+                                                                       + "but could not find the following elements:%n"
                                                                        + " <[Luke the Jedi]>%n"
                                                                        + "when comparing values using field/property by field/property comparator on all fields/properties%n"
                                                                        + "Comparators used:%n"
