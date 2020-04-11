@@ -27,8 +27,6 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   @VisibleForTesting
   protected FloatArrays arrays = FloatArrays.instance();
 
-  private final ComparatorFactory floatComparator = ComparatorFactory.INSTANCE;
-
   public AbstractFloatArrayAssert(float[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -961,7 +959,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    */
   @CheckReturnValue
   public SELF usingComparatorWithPrecision(Float precision) {
-    return usingElementComparator(floatComparator.floatComparatorWithPrecision(precision));
+    return usingElementComparator(ComparatorFactory.INSTANCE.floatComparatorWithPrecision(precision));
   }
 
   /**
