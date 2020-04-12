@@ -40,17 +40,19 @@ def search(path=".", pattern="*Test.java"):
 
 
 def replace(file):
-    with open(file, "w+") as f:
+    s = ""
+    with open(file, "r+") as f:
         print("\nConverting JUnit assertions to AssertJ assertions in files matching pattern : $FILES_PATTERN\n")
         s = f.read()
+        print(s)
 
         print(" 1 - Replacing : assertEquals(0, myList.size()) ................. by : assertThat(myList).isEmpty()")
         s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).as(\1).isEmpty()", s)
-        s = re.sub(r"assertEquals\(\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)\)", r"assertThat(\1).isEmpty()", s)
+        s = re.sub(r"assertEquals\(\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\1).isEmpty()", s)
 
         print(" 2 - Replacing : assertEquals(expectedSize, myList.size()) ...... by : assertThat(myList).hasSize(expectedSize)")
         s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\s*(.*)\.size\(\)\)", r"assertThat(\3).as(\1).hasSize(\2)", s)
-        s = re.sub(r"assertEquals\(\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"ssertThat(\2).hasSize(\1)", s)
+        s = re.sub(r"assertEquals\(\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).hasSize(\1)", s)
 
         print(" 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))")
         s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isCloseTo(\2, within(\4))", s)
@@ -94,6 +96,8 @@ def replace(file):
         s = re.sub(r"import static org.junit.Assert.assertEquals;", r"import static org.assertj.core.api.Assertions.assertThat;", s)
         s = re.sub(r"import static org.junit.Assert.fail;", r"import static org.assertj.core.api.Assertions.fail;", s)
         s = re.sub(r"import static org.junit.Assert.\*;", r"import static org.assertj.core.api.Assertions.\*;", s)
+    with open(file, "w+") as f:
+        print(s)
         f.write(s)
 
 
