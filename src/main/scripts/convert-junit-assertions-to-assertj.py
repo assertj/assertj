@@ -48,11 +48,11 @@ def replace(file):
 
         print(" 1 - Replacing : assertEquals(0, myList.size()) ................. by : assertThat(myList).isEmpty()")
         s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).as(\1).isEmpty()", s)
-        s = re.sub(r"assertEquals\(\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)\)", r"assertThat(\1).isEmpty()", s)
+        s = re.sub(r"assertEquals\(\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\1).isEmpty()", s)
 
         print(" 2 - Replacing : assertEquals(expectedSize, myList.size()) ...... by : assertThat(myList).hasSize(expectedSize)")
         s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\s*(.*)\.size\(\)\)", r"assertThat(\3).as(\1).hasSize(\2)", s)
-        s = re.sub(r"assertEquals\(\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"ssertThat(\2).hasSize(\1)", s)
+        s = re.sub(r"assertEquals\(\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).hasSize(\1)", s)
 
         print(" 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))")
         s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isCloseTo(\2, within(\4))", s)
