@@ -366,7 +366,7 @@ public class Paths {
   }
 
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
-    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
   }
@@ -377,7 +377,7 @@ public class Paths {
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
-    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryNotContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
   }
