@@ -11,7 +11,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @BeforeEach
   public void init() {
     tester = new Shell_Script_Conversion_Test_Invoker(
-        "C:/Program Files/Git/bin/sh.exe",
+        "sh",
         "src/test/java/org/assertj/scripts/Shell_Script_Conversion_Test_Invoker_Buffer.java",
         "src/main/scripts/convert-junit-assertions-to-assertj.py"
       );

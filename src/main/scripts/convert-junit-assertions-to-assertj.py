@@ -57,8 +57,8 @@ def convert(file):
         lines = replace(r"assertEquals\(\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\1).isEmpty()", lines)
 
         print(" 2 - Replacing : assertEquals(expectedSize, myList.size()) ...... by : assertThat(myList).hasSize(expectedSize)")
-        lines = replace(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\s*(.*)\.size\(\)\)", r"assertThat(\3).as(\1).hasSize(\2)", lines)
-        lines = replace(r"assertEquals\(\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).hasSize(\1)", lines)
+        lines = replace(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(\d*)\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\s*(.*)\.size\(\)\)", r"assertThat(\3).as(\1).hasSize(\2)", lines)
+        lines = replace(r"assertEquals\(\s*(\d*)\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).hasSize(\1)", lines)
 
         print(" 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))")
         lines = replace(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isCloseTo(\2, within(\4))", lines)
@@ -99,9 +99,9 @@ def convert(file):
         print("\n12 - Replacing JUnit static imports by AssertJ ones, at this point you will probably need to :")
         print("12 --- optimize imports with your IDE to remove unused imports")
         print("12 --- add \"import static org.assertj.core.api.Assertions.within;\" if you were using JUnit number assertions with deltas")
-        lines = replace(r"import static org.junit.Assert.assertEquals;", r"import static org.assertj.core.api.Assertions.assertThat;", lines)
-        lines = replace(r"import static org.junit.Assert.fail;", r"import static org.assertj.core.api.Assertions.fail;", lines)
-        lines = replace(r"import static org.junit.Assert.\*;", r"import static org.assertj.core.api.Assertions.\*;", lines)
+        lines = replace(r"import static org\.junit\.Assert\.assertEquals;", r"import static org.assertj.core.api.Assertions.assertThat;", lines)
+        lines = replace(r"import static org\.junit\.Assert\.fail;", r"import static org.assertj.core.api.Assertions.fail;", lines)
+        lines = replace(r"import static org\.junit\.Assert\.\*;", r"import static org.assertj.core.api.Assertions.*;", lines)
 
     with open(file, "w+") as f:
         f.writelines(lines)
