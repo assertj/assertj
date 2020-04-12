@@ -40,7 +40,7 @@ def search(path=".", pattern="*Test.java"):
 
 
 def replace(file):
-    with open(file, "r+") as f:
+    with open(file, "w+") as f:
         print("\nConverting JUnit assertions to AssertJ assertions in files matching pattern : $FILES_PATTERN\n")
         s = f.read()
 
@@ -94,6 +94,7 @@ def replace(file):
         s = re.sub(r"import static org.junit.Assert.assertEquals;", r"import static org.assertj.core.api.Assertions.assertThat;", s)
         s = re.sub(r"import static org.junit.Assert.fail;", r"import static org.assertj.core.api.Assertions.fail;", s)
         s = re.sub(r"import static org.junit.Assert.\*;", r"import static org.assertj.core.api.Assertions.\*;", s)
+        f.write(s)
 
 
 if __name__ == "__main__":
