@@ -42,7 +42,7 @@ public class Shell_Script_Conversion_Test_Invoker {
   }
 
   private void Execute_Shell() throws Exception{
-    String shellCommand = "cd "+ root + "/" + fileDirectory + " && " + root+ "/" + testedShellPath + " \"" + fileName + "\"";
+    String shellCommand = "cd "+ root + "/" + fileDirectory + " && python " + root+ "/" + testedShellPath + " \"" + fileName + "\"";
     Runtime runtime = Runtime.getRuntime();
     Process pro = runtime.exec(new String[]{shellProgramLocation , "-c" ,shellCommand} , null , null);
     int status = pro.waitFor();
@@ -72,8 +72,8 @@ public class Shell_Script_Conversion_Test_Invoker {
     }
 
     if (result) {
-      try (FileWriter fileWriter = new FileWriter(myFilePath, false);){
-        fileWriter.write(newContent);
+      try (FileOutputStream fos = new FileOutputStream (filePath);){
+        fos.write(newContent.getBytes());
       } catch (Exception e) {
         e.printStackTrace();
       }
