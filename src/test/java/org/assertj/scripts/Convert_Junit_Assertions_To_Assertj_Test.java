@@ -57,8 +57,8 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
     input += "assertEquals(1234, (new int[1234]).size());\n";
     expected += "assertThat((new int[1234])).hasSize(1234);\n";
 
-    input += "assertEquals( 1234 , \"12.12,123\".size());\n";
-    expected += "assertThat(\"12.12,123\").hasSize(1234);\n";
+    input += "assertEquals( 1234 , myList(123).size());\n";
+    expected += "assertThat(myList(123)).hasSize(1234);\n";
 
     input += "assertEquals( 1234 , (\"12.\" + \",123\").size() )  ;\n";
     expected += "assertThat((\"12.\" + \",123\")).hasSize(1234);\n";
@@ -73,13 +73,10 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
     String expected = "assertThat(13.45).isCloseTo(12.34, within(0.1));\n";
 
     input += "assertEquals(expected.size(), value, EPSILON);\n";
-    expected += "assertThat( value).isCloseTo(expected.size(), within(EPSILON));\n";
+    expected += "assertThat(value).isCloseTo(expected.size(), within(EPSILON));\n";
 
     input += "assertEquals( 4, (new Array(3)).size(), EPSILON);\n";
-    expected += "assertThat( (new Array(3)).size()).isCloseTo(4, within(EPSILON));\n";
-
-    input += "assertEquals( 1.1, (new Matrix(3,4)).shape[0], EPSILON);\n";
-    expected += "assertThat( (new Matrix(3,4)).shape[0]).isCloseTo(4, within(1.1));\n";
+    expected += "assertThat((new Array(3)).size()).isCloseTo(4, within(EPSILON));\n";
 
     tester.Start_Test(input, expected);
   }
@@ -138,28 +135,50 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @Test
   //Replacing : assertNull(actual) ............................. by : assertThat(actual).isNull()
   public void Replace_Type_6() throws Exception {
-    //TODO: Add more test
     String input = "assertNull(actual);\n";
     String expected = "assertThat(actual).isNull();\n";
 
-    input += "assertThat( Invoker.invoke(clazz, args)).isNull()\n";
-    expected += "assertThat(actual).isEqualTo(\"123,4,56\".getBytes());\n";
+    input += "assertNull(Invoker.invoke(clazz, args));\n";
+    expected += "assertThat(Invoker.invoke(clazz, args)).isNull();\n";
 
-    input += "assertArrayEquals(houses.getList(\"house_name\"), actual);\n";
-    expected += "assertThat(actual).isEqualTo(houses.getList(\"house_name\"));\n";
+    input += "assertNull(\"12,41\".getBytes());\n";
+    expected += "assertThat(\"12,41\".getBytes()).isNull();\n";
 
     tester.Start_Test(input, expected);
   }
 
   @Test
-  //Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))
+  //Replacing : assertSame(expected, actual) ................... by : assertThat(actual).isSameAs(expected)
   public void Replace_Type_10() throws Exception {
     //TODO: Add more test
-    String input = "";
-    String expected = "";
+    String input = "assertSame(expected, actual);\n";
+    String expected = "assertThat(actual).isSameAs(expected);\n";
 
-    input += "";
-    expected += "";
+    input += "assertSame(2.14, actual);\n";
+    expected += "assertThat(actual).isSameAs(2.14);\n";
+
+    input += "assertSame(2.14, actual);\n";
+    expected += "assertThat(actual).isSameAs(2.14);\n";
+
+    tester.Start_Test(input, expected);
+
+    input = "assertSame(\"12.34\", StringHandling.fixFPNumberFormat(\"12.34\"));\n";
+    expected = "assertThat(StringHandling.fixFPNumberFormat(\"12.34\")).isSameAs(\"12.34\");\n";
+
+    input += "assertSame(\"34.34\", StringHandling.fixFPNumberFormat(\"34,34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"34,34\")).isSameAs(\"34.34\");\n";
+
+    input += "assertSame(\"1234.34\", StringHandling.fixFPNumberFormat(\"1,234.34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"1,234.34\")).isSameAs(\"1234.34\");\n";
+
+    input += "assertSame(\"1234.34\", StringHandling.fixFPNumberFormat(\"1.234,34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"1.234,34\")).isSameAs(\"1234.34\");\n";
+
+    input += "assertSame(\"1234567.34\", StringHandling.fixFPNumberFormat(\"1,234,567.34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"1,234,567.34\")).isSameAs(\"1234567.34\");\n";
+
+    input += "assertSame(\"1234567.34\", StringHandling.fixFPNumberFormat(\"1.234.567,34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"1.234.567,34\")).isSameAs(\"1234567.34\");\n";
 
     tester.Start_Test(input, expected);
   }
@@ -168,18 +187,24 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   //Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))
   public void Replace_Type_12() throws Exception {
     //TODO: Add more test
-    String input = "assertEquals(12.34, 13.45, 0.1);\n";
-    String expected = "assertThat(13.45).isCloseTo(12.34, within(0.1));\n";
+    String input = "import static org.junit.Assert.assertEquals;\n";
+    String expected = "import static org.assertj.core.api.Assertions.assertThat;\n";
 
-    input += "assertEquals(expected.size(), value, EPSILON);\n";
-    expected += "assertThat( value).isCloseTo(expected.size(), within(EPSILON));\n";
+    input += "import static org.junit.Assert.fail;\n";
+    expected += "import static org.assertj.core.api.Assertions.fail;\n";
 
-    input += "assertEquals( 4, (new Array(3)).size(), EPSILON);\n";
-    expected += "assertThat( (new Array(3)).size()).isCloseTo(4, within(EPSILON));\n";
+    input += "import static org.junit.Assert.*;\n";
+    expected += "import static org.assertj.core.api.Assertions.*;\n";
 
-    input += "assertEquals( 1.1, (new Matrix(3,4)).shape[0], EPSILON);\n";
-    expected += "assertThat( (new Matrix(3,4)).shape[0]).isCloseTo(4, within(1.1));\n";
+    tester.Start_Test(input, expected);
+    input = "import static org!junit.Assert.assertEquals;\n";
+    expected = "import static org!junit.Assert.assertEquals;\n";
 
+    input += "import static org.junit.Assert...fail;\n";
+    expected += "import static org.junit.Assert...fail;\n";
+
+    input += "import static org.junit.Assert.....Test;\n";
+    expected += "import static org.junit.Assert.....Test;\n";
     tester.Start_Test(input, expected);
   }
 
