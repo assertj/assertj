@@ -39,66 +39,72 @@ def search(path=".", pattern="*Test.java"):
             file_list.append(path)
 
 
-def replace(file):
-    s = ""
+def replace(reg1, reg2, lines):
+    new_lines = []
+    for s in lines:
+        s = re.sub(reg1, reg2, s)
+        new_lines.append(s)
+    return new_lines
+
+
+def convert(file):
     with open(file, "r+") as f:
         print("\nConverting JUnit assertions to AssertJ assertions in files matching pattern : $FILES_PATTERN\n")
-        s = f.read()
-        print(s)
+        lines = f.readlines()
 
         print(" 1 - Replacing : assertEquals(0, myList.size()) ................. by : assertThat(myList).isEmpty()")
-        s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).as(\1).isEmpty()", s)
-        s = re.sub(r"assertEquals\(\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\1).isEmpty()", s)
+        lines = replace(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).as(\1).isEmpty()", lines)
+        lines = replace(r"assertEquals\(\s*0,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\1).isEmpty()", lines)
 
         print(" 2 - Replacing : assertEquals(expectedSize, myList.size()) ...... by : assertThat(myList).hasSize(expectedSize)")
-        s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\s*(.*)\.size\(\)\)", r"assertThat(\3).as(\1).hasSize(\2)", s)
-        s = re.sub(r"assertEquals\(\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).hasSize(\1)", s)
+        lines = replace(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\s*(.*)\.size\(\)\)", r"assertThat(\3).as(\1).hasSize(\2)", lines)
+        lines = replace(r"assertEquals\(\s*(\d*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\.size\(\)\)", r"assertThat(\2).hasSize(\1)", lines)
 
         print(" 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))")
-        s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isCloseTo(\2, within(\4))", s)
-        s = re.sub(r"assertEquals\(\s*([^\"]*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*([^\"]*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*([^\"]*)\)", r"assertThat(\2).isCloseTo(\1, within(\3))", s)
+        lines = replace(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isCloseTo(\2, within(\4))", lines)
+        lines = replace(r"assertEquals\(\s*([^\"]*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*([^\"]*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*([^\"]*)\)", r"assertThat(\2).isCloseTo(\1, within(\3))", lines)
 
         print(" 4 - Replacing : assertEquals(expected, actual) ................. by : assertThat(actual).isEqualTo(expected)")
-        s = re.sub(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isEqualTo(\2)", s)
-        s = re.sub(r"assertEquals\(\s*(.*)\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).isEqualTo(\1)", s)
+        lines = replace(r"assertEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isEqualTo(\2)", lines)
+        lines = replace(r"assertEquals\(\s*(.*)\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).isEqualTo(\1)", lines)
 
         print(" 5 - Replacing : assertArrayEquals(expectedArray, actual) ....... by : assertThat(actual).isEqualTo(expectedArray)")
-        s = re.sub(r"assertArrayEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isEqualTo(\2)", s)
-        s = re.sub(r"assertArrayEquals\(\s*(.*)\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).isEqualTo(\1)", s)
+        lines = replace(r"assertArrayEquals\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isEqualTo(\2)", lines)
+        lines = replace(r"assertArrayEquals\(\s*(.*)\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).isEqualTo(\1)", lines)
 
         print(" 6 - Replacing : assertNull(actual) ............................. by : assertThat(actual).isNull()")
-        s = re.sub(r"assertNull\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).as(\1).isNull()", s)
-        s = re.sub(r"assertNull\(\s*(.*)\)", r"assertThat(\1).isNull()", s)
+        lines = replace(r"assertNull\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).as(\1).isNull()", lines)
+        lines = replace(r"assertNull\(\s*(.*)\)", r"assertThat(\1).isNull()", lines)
 
         print(" 7 - Replacing : assertNotNull(actual) .......................... by : assertThat(actual).isNotNull()")
-        s = re.sub(r"assertNotNull\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).as(\1).isNotNull()", s)
-        s = re.sub(r"assertNotNull\(\s*(.*)\)", r"assertThat(\1).isNotNull()", s)
+        lines = replace(r"assertNotNull\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).as(\1).isNotNull()", lines)
+        lines = replace(r"assertNotNull\(\s*(.*)\)", r"assertThat(\1).isNotNull()", lines)
 
         print(" 8 - Replacing : assertTrue(logicalCondition) ................... by : assertThat(logicalCondition).isTrue()")
-        s = re.sub(r"assertTrue\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).as(\1).isTrue()", s)
-        s = re.sub(r"assertTrue\(\s*(.*)\)", r"assertThat(\1).isTrue()", s)
+        lines = replace(r"assertTrue\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).as(\1).isTrue()", lines)
+        lines = replace(r"assertTrue\(\s*(.*)\)", r"assertThat(\1).isTrue()", lines)
 
         print(" 9 - Replacing : assertFalse(logicalCondition) .................. by : assertThat(logicalCondition).isFalse()")
-        s = re.sub(r"assertFalse\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).as(\1).isFalse()", s)
-        s = re.sub(r"assertFalse\(\s*(.*)\)", r"assertThat(\1).isFalse()", s)
+        lines = replace(r"assertFalse\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).as(\1).isFalse()", lines)
+        lines = replace(r"assertFalse\(\s*(.*)\)", r"assertThat(\1).isFalse()", lines)
 
         print("10 - Replacing : assertSame(expected, actual) ................... by : assertThat(actual).isSameAs(expected")
-        s = re.sub(r"assertSame\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isSameAs(\2)", s)
-        s = re.sub(r"assertSame\(\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).isSameAs(\1)", s)
+        lines = replace(r"assertSame\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isSameAs(\2)", lines)
+        lines = replace(r"assertSame\(\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).isSameAs(\1)", lines)
 
         print("11 - Replacing : assertNotSame(expected, actual) ................ by : assertThat(actual).isNotSameAs(expected)")
-        s = re.sub(r"assertNotSame\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isNotSameAs(\2)", s)
-        s = re.sub(r"assertNotSame\(\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).isNotSameAs(\1)", s)
+        lines = replace(r"assertNotSame\((\".*\"),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\3).as(\1).isNotSameAs(\2)", lines)
+        lines = replace(r"assertNotSame\(\s*(.*),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\s*(.*)\)", r"assertThat(\2).isNotSameAs(\1)", lines)
 
         print("\n12 - Replacing JUnit static imports by AssertJ ones, at this point you will probably need to :")
         print("12 --- optimize imports with your IDE to remove unused imports")
         print("12 --- add \"import static org.assertj.core.api.Assertions.within;\" if you were using JUnit number assertions with deltas")
-        s = re.sub(r"import static org.junit.Assert.assertEquals;", r"import static org.assertj.core.api.Assertions.assertThat;", s)
-        s = re.sub(r"import static org.junit.Assert.fail;", r"import static org.assertj.core.api.Assertions.fail;", s)
-        s = re.sub(r"import static org.junit.Assert.\*;", r"import static org.assertj.core.api.Assertions.\*;", s)
+        lines = replace(r"import static org.junit.Assert.assertEquals;", r"import static org.assertj.core.api.Assertions.assertThat;", lines)
+        lines = replace(r"import static org.junit.Assert.fail;", r"import static org.assertj.core.api.Assertions.fail;", lines)
+        lines = replace(r"import static org.junit.Assert.\*;", r"import static org.assertj.core.api.Assertions.\*;", lines)
+
     with open(file, "w+") as f:
-        print(s)
-        f.write(s)
+        f.writelines(lines)
 
 
 if __name__ == "__main__":
@@ -114,4 +120,4 @@ if __name__ == "__main__":
             exit(0)
         search(pattern=arg)
     for file in file_list:
-        replace(file)
+        convert(file)
