@@ -72,7 +72,7 @@ public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceA
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, 800))
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String)null, 800))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 

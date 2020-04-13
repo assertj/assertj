@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
@@ -26,6 +27,7 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
@@ -2785,8 +2787,8 @@ public class AtomicReferenceArrayAssert<T>
    *                                .filteredOn("name", not("Boromir"))
    *                                .containsOnly(aragorn);</code></pre>
    *
-   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
-   * filter to apply.
+   * If you need more complex filter, use {@link #filteredOn(Condition)} or {@link #filteredOn(Predicate)} and 
+   * provide a {@link Condition} or {@link Predicate} to specify the filter to apply.
    *
    * @param propertyOrFieldName the name of the property or field to read
    * @param filterOperator the filter operator to apply
@@ -2839,6 +2841,68 @@ public class AtomicReferenceArrayAssert<T>
   public AtomicReferenceArrayAssert<T> filteredOn(Condition<? super T> condition) {
     Iterable<? extends T> filteredIterable = filter(array).being(condition).get();
     return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
+  }
+
+  /**
+   * Filter the array under test into a list composed of the elements matching the given {@link Predicate},
+   * allowing to perform assertions on the filtered list.
+   * <p>
+   * Example : check old employees whose age &gt; 100:
+   *
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   *
+   * AtomicReferenceArray&lt;Employee&gt; employees = new AtomicReferenceArray&lt;&gt;(new Employee[]{ yoda, luke, obiwan, noname });
+   *
+   * assertThat(employees).filteredOn(employee -&gt; employee.getAge() &gt; 100)
+   *                      .containsOnly(yoda, obiwan);</code></pre>
+   *
+   * @param predicate the filter predicate
+   * @return a new assertion object with the filtered array under test
+   * @throws IllegalArgumentException if the given predicate is {@code null}.
+   * @since 3.16.0
+   */
+  public AtomicReferenceArrayAssert<T> filteredOn(Predicate<? super T> predicate) {
+    checkArgument(predicate != null, "The filter predicate should not be null");
+    List<T> filteredList = stream(array).filter(predicate).collect(toList());
+    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredList)));
+  }
+
+  /**
+   * Filter the array under test into a list composed of the elements for which the result of the {@code function} is equal to {@code expectedValue}.
+   * <p>
+   * It allows to filter elements in more safe way than by using {@link #filterOn(String, Object)}, as it
+   * doesn't utilize introspection.
+   * <p>
+   *
+   * As an example, let's check all employees 800 years old (yes, special employees):
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   *
+   * AtomicReferenceArray&lt;Employee&gt; employees = new AtomicReferenceArray&lt;&gt;(new Employee[]{ yoda, luke, obiwan, noname });
+   *
+   * assertThat(employees).filteredOn(Employee::getAge, 800)
+   *                      .containsOnly(yoda, obiwan);
+   *
+   * assertThat(employees).filteredOn(e -&gt; e.getName(), null)
+   *                      .containsOnly(noname);</code></pre>
+   *
+   * If you need more complex filter, use {@link #filteredOn(Predicate)} or {@link #filteredOn(Condition)}.
+   *
+   * @param <U> result type of the filter function
+   * @param function the filter function
+   * @param expectedValue the expected value of the filter function
+   * @return a new assertion object with the filtered array under test
+   * @throws IllegalArgumentException if the given function is {@code null}.
+   * @since 3.17.0
+   */
+  @CheckReturnValue
+  public <U> AtomicReferenceArrayAssert<T> filteredOn(Function<? super T, U> function, U expectedValue) {
+    checkArgument(function != null, "The filter function should not be null");
+    return filteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
   }
 
   /**
