@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -1926,6 +1927,33 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
                                       .hasMessageContaining("888");
     assertThat(errorsCollected.get(3)).hasMessage("[get()] error message");
     assertThat(errorsCollected.get(4)).hasMessage("[get(as(STRING))] error message");
+  }
+
+  @Test
+  void string_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
+    // GIVEN
+    String base64String = "QXNzZXJ0Sg==";
+    // WHEN
+    softly.assertThat(base64String)
+          .as("decodedAsBase64()")
+          .overridingErrorMessage("error message 1")
+          .decodedAsBase64()
+          .isEmpty();
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("[decodedAsBase64()] error message 1");
+  }
+
+  @Test
+  void should_work_with_string() {
+    // GIVEN
+    String base64String = "QXNzZXJ0Sg==";
+    // WHEN
+    softly.assertThat(base64String)
+          .decodedAsBase64()
+          .containsExactly("AssertJ".getBytes());
+    // THEN
+    softly.assertAll();
   }
 
   @Test
