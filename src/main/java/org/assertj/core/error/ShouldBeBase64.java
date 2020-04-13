@@ -17,18 +17,18 @@ package org.assertj.core.error;
  * 
  * @author Stefano Cordio
  */
-public class ShouldBeValidBase64 extends BasicErrorMessageFactory {
+public class ShouldBeBase64 extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldBeValidBase64}</code>.
+   * Creates a new <code>{@link ShouldBeBase64}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeValidBase64(String actual) {
-    return new ShouldBeValidBase64(actual);
+  public static ErrorMessageFactory shouldBeBase64(String actual) {
+    return new ShouldBeBase64(actual);
   }
 
-  private ShouldBeValidBase64(String actual) {
+  private ShouldBeBase64(String actual) {
     super("%nExpecting <%s> to be a valid Base64 encoded string", actual);
   }
 

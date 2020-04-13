@@ -224,13 +224,13 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion succeeds
-   * assertThat(&quot;QXNzZXJ0Sg==&quot;).isValidBase64();
+   * assertThat(&quot;QXNzZXJ0Sg==&quot;).isBase64();
    *
    * // assertion succeeds even without padding as it is optional by specification
-   * assertThat(&quot;QXNzZXJ0Sg&quot;).isValidBase64();
+   * assertThat(&quot;QXNzZXJ0Sg&quot;).isBase64();
    *
    * // assertion fails as it has invalid Base64 characters
-   * assertThat(&quot;inv@lid&quot;).isValidBase64();</code></pre>
+   * assertThat(&quot;inv@lid&quot;).isBase64();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -238,8 +238,8 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *
    * @since 3.16.0
    */
-  public SELF isValidBase64() {
-    strings.assertIsValidBase64(info, actual);
+  public SELF isBase64() {
+    strings.assertIsBase64(info, actual);
     return myself;
   }
 
@@ -264,7 +264,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   @CheckReturnValue
   public AbstractByteArrayAssert<?> decodedAsBase64() {
-    strings.assertIsValidBase64(info, actual);
+    strings.assertIsBase64(info, actual);
     return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
   }
 

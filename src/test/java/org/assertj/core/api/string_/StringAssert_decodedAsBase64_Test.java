@@ -39,7 +39,7 @@ class StringAssert_decodedAsBase64_Test extends StringAssertBaseTest implements 
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertIsValidBase64(getInfo(assertions), getActual(assertions));
+    verify(strings).assertIsBase64(getInfo(assertions), getActual(assertions));
   }
 
   @Override

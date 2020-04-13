@@ -19,21 +19,21 @@ import org.assertj.core.api.StringAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
 /**
- * Tests for <code>{@link StringAssert#isValidBase64()}</code>.
+ * Tests for <code>{@link StringAssert#isBase64()}</code>.
  *
  * @author Stefano Cordio
  */
-@DisplayName("StringAssert isValidBase64")
-class StringAssert_isValidBase64_Test extends StringAssertBaseTest {
+@DisplayName("StringAssert isBase64")
+class StringAssert_isBase64_Test extends StringAssertBaseTest {
 
   @Override
   protected StringAssert invoke_api_method() {
-    return assertions.isValidBase64();
+    return assertions.isBase64();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertIsValidBase64(getInfo(assertions), getActual(assertions));
+    verify(strings).assertIsBase64(getInfo(assertions), getActual(assertions));
   }
 
 }
