@@ -35,6 +35,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
+import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
@@ -131,6 +132,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param errorMessage the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
    */
   protected void failWithMessage(String errorMessage, Object... arguments) {
     AssertionError assertionError = Failures.instance().failureIfErrorMessageIsOverridden(info);
@@ -139,6 +141,48 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
       assertionError = new AssertionError(description + String.format(errorMessage, arguments));
     }
+    Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
+    throw assertionError;
+  }
+
+  /**
+   * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * in error message with actual and expected values.
+   * <p>
+   * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
+   * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
+   * <p>
+   * This method also sets the "actual" and "expected" fields of the assertion if available (eg, if OpenTest4J is on the path).
+   * This aids IDEs to produce visual diffs of the resulting values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> public TolkienCharacterAssert hasName(String name) {
+   *   // check that actual TolkienCharacter we want to make assertions on is not null.
+   *   isNotNull();
+   *
+   *   // check condition
+   *   if (!actual.getName().equals(name)) {
+   *     failWithActualExpectedAndMessage(actual.getName(), name, &quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
+   *   }
+   *
+   *   // return the current assertion for method chaining
+   *   return this;
+   * }</code></pre>
+   *
+   * @param actual the actual object that was found during the test
+   * @param expected the object that was expected
+   * @param errorMessage the error message to format
+   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @see #failWithMessage(String, Object...)
+   */
+  protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessage, Object... arguments) {
+    AssertionError assertionError = Failures.instance().failureIfErrorMessageIsOverridden(info);
+    String description = (assertionError == null)
+        ? MessageFormatter.instance().format(info.description(), info.representation(), "")
+          + String.format(errorMessage, arguments)
+        : assertionError.getMessage();
+    assertionError = assertionErrorCreator.assertionError(description, actual, expected);
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
     throw assertionError;
@@ -777,7 +821,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   // Does not take a Consumer<ACTUAL>... to avoid to use @SafeVarargs to suppress the generic array type safety warning.
   // @SafeVarargs requires methods to be final which breaks the proxying mechanism used by soft assertions and assumptions
-  public SELF satisfiesAnyOf(Consumer<ACTUAL> assertions1, Consumer<ACTUAL> assertions2, Consumer<ACTUAL> assertions3, Consumer<ACTUAL> assertions4) {
+  public SELF satisfiesAnyOf(Consumer<ACTUAL> assertions1, Consumer<ACTUAL> assertions2, Consumer<ACTUAL> assertions3,
+                             Consumer<ACTUAL> assertions4) {
     return satisfiesAnyOfAssertionsGroups(assertions1, assertions2, assertions3, assertions4);
   }
 

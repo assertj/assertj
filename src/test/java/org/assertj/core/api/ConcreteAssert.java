@@ -52,4 +52,10 @@ public class ConcreteAssert extends AbstractAssert<ConcreteAssert, Object> {
     super.failWithMessage(errorMessage, arguments);
   }
 
+  // relax visibility for test
+  @Override
+  public void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessage, Object... arguments) {
+    super.failWithActualExpectedAndMessage(actual, expected, errorMessage, arguments);
+  }
+
 }
