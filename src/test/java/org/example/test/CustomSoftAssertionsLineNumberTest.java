@@ -12,13 +12,10 @@
  */
 package org.example.test;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 
 /**
  * The assertions classes have to be in a package other than org.assertj to test
@@ -27,7 +24,6 @@ import org.junit.jupiter.api.condition.OS;
 class CustomSoftAssertionsLineNumberTest {
 
   @Test
-  @DisabledOnOs(OS.MAC) // fails in github actions macOs builds
   void should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package() throws Exception {
     // GIVEN
     MyProjectSoftAssertions softly = new MyProjectSoftAssertions();
@@ -35,7 +31,8 @@ class CustomSoftAssertionsLineNumberTest {
     // WHEN
     AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
     // THEN
-    assertThat(error).hasMessageContaining(format("at CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:34)"));
+    // does not check the exact line number because it can vary (for example when Jacoco injects fields to check code coverage)
+    assertThat(error).hasStackTraceContaining​​("CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:3");
   }
 
 }
