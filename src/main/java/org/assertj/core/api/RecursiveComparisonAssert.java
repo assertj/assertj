@@ -294,7 +294,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *                     .ignoringExpectedNullFields()
    *                     .isEqualTo(noName);
    *
-   * // assertion fails as name and home.address.street fields are populated for sherlock but not noName.
+   * // assertion fails as name and home.address.street fields are populated for sherlock but not for noName.
    * assertThat(noName).usingRecursiveComparison()
    *                   .ignoringExpectedNullFields()
    *                   .isEqualTo(sherlock);</code></pre>
