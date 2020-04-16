@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import static org.assertj.core.error.ShouldContainOnly.ErrorType.NOT_EXPECTED_ONLY;
 import static org.assertj.core.error.ShouldContainOnly.ErrorType.NOT_FOUND_ONLY;
+import static org.assertj.core.error.GroupTypeDescription.getGroupTypeDescription;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import org.assertj.core.internal.ComparisonStrategy;
@@ -42,12 +43,12 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
-    String[] name = getSpecificName(actual);
+    GroupTypeDescription groupTypeDescription = getGroupTypeDescription(actual);
     if (isNullOrEmpty(notExpected))
-      return new ShouldContainOnly(actual, expected, notFound, NOT_FOUND_ONLY, comparisonStrategy, name);
+      return new ShouldContainOnly(actual, expected, notFound, NOT_FOUND_ONLY, comparisonStrategy, groupTypeDescription);
     if (isNullOrEmpty(notFound))
-      return new ShouldContainOnly(actual, expected, notExpected, NOT_EXPECTED_ONLY, comparisonStrategy, name);
-    return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy, name);
+      return new ShouldContainOnly(actual, expected, notExpected, NOT_EXPECTED_ONLY, comparisonStrategy, groupTypeDescription);
+    return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy, groupTypeDescription);
   }
 
   /**
@@ -65,28 +66,28 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
   }
 
   private ShouldContainOnly(Object actual, Object expected, Iterable<?> notFound, Iterable<?> notExpected,
-                            ComparisonStrategy comparisonStrategy, String[] name) {
+                            ComparisonStrategy comparisonStrategy, GroupTypeDescription groupTypeDescription) {
     super("%n" +
-          "Expecting" + name[0] + ":%n" +
+          "Expecting " + groupTypeDescription.getGroupTypeName() + ":%n" +
           "  <%s>%n" +
           "to contain only:%n" +
           "  <%s>%n" +
-          name[1] + " not found:%n" +
+          groupTypeDescription.getElementTypeName() + " not found:%n" +
           "  <%s>%n" +
-          "and " + name[1] + " not expected:%n" +
+          "and " + groupTypeDescription.getElementTypeName() + " not expected:%n" +
           "  <%s>%n%s", actual,
           expected, notFound, notExpected, comparisonStrategy);
   }
 
   private ShouldContainOnly(Object actual, Object expected, Iterable<?> notFoundOrNotExpected, ErrorType errorType,
-                            ComparisonStrategy comparisonStrategy, String[] name) {
+                            ComparisonStrategy comparisonStrategy, GroupTypeDescription groupTypeDescription) {
     // @format:off
     super("%n" +
-          "Expecting"+name[0]+":%n" +
+          "Expecting "+groupTypeDescription.getGroupTypeName()+":%n" +
           "  <%s>%n" +
           "to contain only:%n" +
           "  <%s>%n" + (errorType == NOT_FOUND_ONLY ?
-          "but could not find the following "+name[1]+":%n" : "but the following "+name[1]+" were unexpected:%n") +
+          "but could not find the following "+groupTypeDescription.getElementTypeName()+":%n" : "but the following "+groupTypeDescription.getElementTypeName()+" were unexpected:%n") +
           "  <%s>%n%s",
           actual, expected, notFoundOrNotExpected, comparisonStrategy);
     // @format:on

@@ -41,8 +41,8 @@ public class ShouldContain extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound,
                                                   ComparisonStrategy comparisonStrategy) {
-    String[] name = getSpecificName(actual);
-    return new ShouldContain(actual, expected, notFound, comparisonStrategy, name);
+    GroupTypeDescription groupTypeDescription = GroupTypeDescription.getGroupTypeDescription(actual);
+    return new ShouldContain(actual, expected, notFound, comparisonStrategy, groupTypeDescription);
   }
 
   /**
@@ -64,8 +64,11 @@ public class ShouldContain extends BasicErrorMessageFactory {
     return new ShouldContain(actual, directoryContent, filterDescription);
   }
 
-  private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy, String[] name) {
-    super("%nExpecting" + name[0] + ":%n <%s>%nto contain:%n <%s>%nbut could not find the following "+name[1]+":%n <%s>%n%s", actual, expected, notFound,
+  private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy,
+                        GroupTypeDescription groupTypeDescription) {
+    super("%nExpecting " + groupTypeDescription.getGroupTypeName()
+          + ":%n <%s>%nto contain:%n <%s>%nbut could not find the following " + groupTypeDescription.getElementTypeName()
+          + ":%n <%s>%n%s", actual, expected, notFound,
           comparisonStrategy);
   }
 

@@ -194,7 +194,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errors = softly.errorsCollected();
     assertThat(errors).hasSize(2);
-    assertThat(errors.get(0)).hasMessageContaining(format("Expecting LinkedHashMap:%n"
+    assertThat(errors.get(0)).hasMessageContaining(format("Expecting map:%n"
                                                           + " <{\"54\"=\"55\"}>%n"
                                                           + "to contain:%n"
                                                           + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
@@ -343,7 +343,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  <\"something was good\">%n"
                                                + "but was:%n"
                                                + "  <\"something was wrong\">"));
-    assertThat(errors.get(39)).contains(format("%nExpecting LinkedHashMap:%n"
+    assertThat(errors.get(39)).contains(format("%nExpecting map:%n"
                                                + " <{\"54\"=\"55\"}>%n"
                                                + "to contain:%n"
                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"

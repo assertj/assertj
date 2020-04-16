@@ -22,7 +22,6 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Strings.quote;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
@@ -30,7 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * A factory of error messages typically shown when an assertion fails.
- * 
+ *
  * @author Alex Ruiz
  */
 public class BasicErrorMessageFactory implements ErrorMessageFactory {
@@ -94,7 +93,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
-   * 
+   *
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.
    */
@@ -123,7 +122,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
   /**
    * Return a string who will be unquoted in message format (without '')
-   * 
+   *
    * @param string the string who will be unquoted.
    * @return an unquoted string in message format.
    */
@@ -162,31 +161,4 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
                   CONFIGURATION_PROVIDER.representation().toStringOf(arguments));
   }
 
-  /**
-   * Return the specific name that will be used in the error message.
-   *
-   * @param actual the object that is being verified .
-   * @return an String array of length two. The first string is the object (class) name, the second string is the element name.
-   */
-  public static String[] getSpecificName(Object actual) {
-    String name = actual.getClass().getSimpleName();
-    String[] s = { "", "elements" };
-    StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
-    if (stElements[5].getClassName().contains("Spliterators")) {
-      s[0] = "spliterator characteristics";
-      s[1] = "characteristics";
-    } else if (actual instanceof Map) {
-      s[0] = name;
-      s[1] = "map entries";
-    } else if (actual.getClass().isArray()) {
-      s[0] = "array " + name;
-      if(actual.getClass().getComponentType().isPrimitive()){
-        s[1] = name.substring(0, name.length() - 2);
-      };// get "float" from "float[]"
-    } else {
-      s[0] = name;
-    }
-    s[0] = " " + s[0];
-    return s;
-  }
 }
