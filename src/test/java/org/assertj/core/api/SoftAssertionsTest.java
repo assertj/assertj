@@ -1945,6 +1945,21 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void byte_array_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
+    // GIVEN
+    byte[] byteArray = "AssertJ".getBytes();
+    // WHEN
+    softly.assertThat(byteArray)
+          .as("encodedAsBase64()")
+          .overridingErrorMessage("error message 1")
+          .encodedAsBase64()
+          .isEmpty();
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("[encodedAsBase64()] error message 1");
+  }
+
+  @Test
   void should_work_with_string() {
     // GIVEN
     String base64String = "QXNzZXJ0Sg==";
@@ -1952,6 +1967,18 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(base64String)
           .decodedAsBase64()
           .containsExactly("AssertJ".getBytes());
+    // THEN
+    softly.assertAll();
+  }
+
+  @Test
+  void should_work_with_byte_array() {
+    // GIVEN
+    byte[] byteArray = "AssertJ".getBytes();
+    // WHEN
+    softly.assertThat(byteArray)
+          .encodedAsBase64()
+          .isEqualTo("QXNzZXJ0Sg==");
     // THEN
     softly.assertAll();
   }
