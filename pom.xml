@@ -302,7 +302,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version><!--$NO-MVN-MAN-VER$-->
+        <version>3.0.0</version><!--$NO-MVN-MAN-VER$-->
         <executions>
           <!-- STEP 5: detach the primary artifact so we can re-execute maven-jar-plugin -->
           <execution>
