@@ -10,41 +10,49 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api.long_;
+package org.assertj.core.api.atomic.longadder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Comparator;
+import java.util.concurrent.atomic.LongAdder;
 
-import org.assertj.core.api.LongAssert;
-import org.assertj.core.api.LongAssertBaseTest;
+import org.assertj.core.api.LongAdderAssert;
+import org.assertj.core.api.LongAdderAssertBaseTest;
+import org.assertj.core.internal.Longs;
+import org.assertj.core.internal.Objects;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * Tests for <code>{@link LongAssert#usingComparator(Comparator)}</code>.
+ * Tests for <code>{@link LongAdderAssert#usingDefaultComparator()}</code>.
  * 
- * @author Joel Costigliola
+ * @author Stefano Cordio
  */
-@DisplayName("LongAssert usingComparator")
+@DisplayName("LongAdderAssert usingDefaultComparator")
 @ExtendWith(MockitoExtension.class)
-class LongAssert_usingComparator_Test extends LongAssertBaseTest {
+class LongAdderAssert_usingDefaultComparator_Test extends LongAdderAssertBaseTest {
 
   @Mock
-  private Comparator<Long> comparator;
+  private Comparator<LongAdder> comparator;
+
+  @BeforeEach
+  void before() {
+    assertions.usingComparator(comparator);
+  }
 
   @Override
-  protected LongAssert invoke_api_method() {
-    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
-    return assertions.usingComparator(comparator);
+  protected LongAdderAssert invoke_api_method() {
+    return assertions.usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getLongs(assertions).getComparator());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(Longs.instance()).isSameAs(getLongs(assertions));
   }
 
 }

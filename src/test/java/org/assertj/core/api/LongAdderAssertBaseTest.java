@@ -34,4 +34,8 @@ public abstract class LongAdderAssertBaseTest extends BaseTestTemplate<LongAdder
     assertions.longs = longs;
   }
 
+  protected Longs getLongs(LongAdderAssert someAssertions) {
+    return someAssertions.longs;
+  }
+
 }
