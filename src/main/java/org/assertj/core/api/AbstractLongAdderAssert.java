@@ -46,7 +46,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
   }
 
   /**
-   * Verifies that the actual sum is the given value.
+   * Verifies that the actual sum has the given value.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -71,7 +71,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
   }
 
   /**
-   * Verifies that the actual sum is not the given value.
+   * Verifies that the actual sum has not the given value.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
