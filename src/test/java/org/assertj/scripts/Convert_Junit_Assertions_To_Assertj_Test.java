@@ -20,8 +20,8 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @Test
   public void Script_Test_Template() throws Exception {
 
-    String input = "assertEquals(0, myList.size());";
-    String expected = "assertThat(myList).isEmpty();";
+    String input = "assertEquals(0, myList.size());\n";
+    String expected = "assertThat(myList).isEmpty();\n";
     tester.Start_Test(input, expected);
 
   }
@@ -57,10 +57,10 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
     input += "assertEquals(1234, (new int[1234]).size());\n";
     expected += "assertThat((new int[1234])).hasSize(1234);\n";
 
-    input += "assertEquals( 1234 , myList(123).size());\n";
+    input += "assertEquals( 1234, myList(123).size());\n";
     expected += "assertThat(myList(123)).hasSize(1234);\n";
 
-    input += "assertEquals( 1234 , (\"12.\" + \",123\").size() )  ;\n";
+    input += "assertEquals( 1234, (\"12.\" + \",123\").size());\n";
     expected += "assertThat((\"12.\" + \",123\")).hasSize(1234);\n";
 
     tester.Start_Test(input, expected);
