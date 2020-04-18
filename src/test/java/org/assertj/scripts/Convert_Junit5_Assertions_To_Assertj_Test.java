@@ -3,17 +3,14 @@ package org.assertj.scripts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-public class Convert_Junit_Assertions_To_Assertj_Test {
+public class Convert_Junit5_Assertions_To_Assertj_Test {
   private Shell_Script_Conversion_Test_Invoker tester;
   @BeforeEach
   public void init() {
     tester = new Shell_Script_Conversion_Test_Invoker(
         "sh",
         "src/test/java/org/assertj/scripts/Shell_Script_Conversion_Test_Invoker_Buffer.java",
-        "src/main/scripts/convert-junit-assertions-to-assertj.sh"
+        "src/main/scripts/convert-junit5-assertions-to-assertj.sh"
       );
   }
 
@@ -118,6 +115,42 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   }
 
   @Test
+  //Replacing : assertNotEquals(expected, actual) ................. by : assertThat(actual).isNotEqualTo(expected)
+  public void Replace_Type_4B() throws Exception {
+    String input = "assertNotEquals(expected, actual);\n";
+    String expected = "assertThat(actual).isNotEqualTo(expected);\n";
+
+    input += "assertNotEquals(2.14, actual);\n";
+    expected += "assertThat(actual).isNotEqualTo(2.14);\n";
+
+    input += "assertNotEquals(2.14, actual);\n";
+    expected += "assertThat(actual).isNotEqualTo(2.14);\n";
+
+    tester.Start_Test(input, expected);
+
+    input = "assertNotEquals(\"12.34\", StringHandling.fixFPNumberFormat(\"12.34\"));\n";
+    expected = "assertThat(StringHandling.fixFPNumberFormat(\"12.34\")).isNotEqualTo(\"12.34\");\n";
+
+    input += "assertNotEquals(\"34.34\", StringHandling.fixFPNumberFormat(\"34,34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"34,34\")).isNotEqualTo(\"34.34\");\n";
+
+    input += "assertNotEquals(\"1234.34\", StringHandling.fixFPNumberFormat(\"1,234.34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"1,234.34\")).isNotEqualTo(\"1234.34\");\n";
+
+    input += "assertNotEquals(\"1234.34\", StringHandling.fixFPNumberFormat(\"1.234,34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"1.234,34\")).isNotEqualTo(\"1234.34\");\n";
+
+    input += "assertNotEquals(\"1234567.34\", StringHandling.fixFPNumberFormat(\"1,234,567.34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"1,234,567.34\")).isNotEqualTo(\"1234567.34\");\n";
+
+    input += "assertNotEquals(\"1234567.34\", StringHandling.fixFPNumberFormat(\"1.234.567,34\"));\n";
+    expected += "assertThat(StringHandling.fixFPNumberFormat(\"1.234.567,34\")).isNotEqualTo(\"1234567.34\");\n";
+
+    tester.Start_Test(input, expected);
+
+  }
+
+  @Test
   //Replacing : assertArrayEquals(expectedArray, actual) ....... by : assertThat(actual).isEqualTo(expectedArray)
   public void Replace_Type_5() throws Exception {
     String input = "assertArrayEquals(expectedArray, actual);\n";
@@ -183,28 +216,26 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
     tester.Start_Test(input, expected);
   }
 
+
+
   @Test
   //Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))
   public void Replace_Type_12() throws Exception {
     //TODO: Add more test
-    String input = "import static org.junit.Assert.assertEquals;\n";
-    String expected = "import static org.assertj.core.api.Assertions.assertThat;\n";
 
-    input += "import static org.junit.Assert.fail;\n";
-    expected += "import static org.assertj.core.api.Assertions.fail;\n";
+    String input = "import static org.junit.jupiter.api.Assertions.fail;\n";
+    String expected = "import static org.assertj.core.api.Assertions.fail;\n";
 
-    input += "import static org.junit.Assert.*;\n";
+    input += "import static org.junit.jupiter.api.Assertions.*;\n";
     expected += "import static org.assertj.core.api.Assertions.*;\n";
 
     tester.Start_Test(input, expected);
-    input = "import static org!junit.Assert.assertEquals;\n";
-    expected = "import static org!junit.Assert.assertEquals;\n";
 
-    input += "import static org.junit.Assert...fail;\n";
-    expected += "import static org.junit.Assert...fail;\n";
+    input += "import static org.junit.jupiter.api.Assertions...*;\n";
+    expected += "import static org.junit.jupiter.api.Assertions...*;\n";
 
-    input += "import static org.junit.Assert.....Test;\n";
-    expected += "import static org.junit.Assert.....Test;\n";
+    input += "import static org.junit!jupiter.api.Assertions.*;\n";
+    expected += "import static org.junit!jupiter.api.Assertions.*;\n";
     tester.Start_Test(input, expected);
   }
 
