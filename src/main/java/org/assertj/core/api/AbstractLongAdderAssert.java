@@ -46,7 +46,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
   }
 
   /**
-   * Verifies that the actual sum has the given value.
+   * Verifies that the actual sum is the given value.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -57,17 +57,15 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * // assertion will fail
    * assertThat(actual).hasValue(0);</code></pre>
    *
-   * @param expectedValue the value not expected .
-   *
+   * @param expected the expected value.
    * @return {@code this} assertion object.
-   *
    * @throws AssertionError if the actual adder is {@code null}.
    */
-  public SELF hasValue(long expectedValue) {
+  public SELF hasValue(long expected) {
     isNotNull();
     long actualValue = actual.sum();
-    if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throwAssertionError(shouldHaveValue(actual, expectedValue));
+    if (!objects.getComparisonStrategy().areEqual(actualValue, expected)) {
+      throwAssertionError(shouldHaveValue(actual, expected));
     }
     return myself;
   }
@@ -84,18 +82,16 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * // assertion will fail
    * assertThat(actual).doesNotHaveValue(42);</code></pre>
    *
-   * @param expectedValue the value not expected .
-   *
+   * @param unexpected the unexpected value.
    * @return {@code this} assertion object.
-   *
    * @throws AssertionError if the actual adder is {@code null}.
    * @throws AssertionError if the actual sum is not the given value.
    */
-  public SELF doesNotHaveValue(long expectedValue) {
+  public SELF doesNotHaveValue(long unexpected) {
     isNotNull();
     long actualValue = actual.sum();
-    if (objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throwAssertionError(shouldNotContainValue(actual, expectedValue));
+    if (objects.getComparisonStrategy().areEqual(actualValue, unexpected)) {
+      throwAssertionError(shouldNotContainValue(actual, unexpected));
     }
     return myself;
   }
