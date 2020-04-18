@@ -59,6 +59,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -96,7 +97,7 @@ public class Assumptions {
    * The default is ByteBuddy but for debugging purposes, it makes sense to add AssertJ as a name.
    */
   private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED)
-                                                       .with(new AuxiliaryType.NamingStrategy.SuffixingRandom("Assertj$Assumptions"));
+                                                             .with(new AuxiliaryType.NamingStrategy.SuffixingRandom("Assertj$Assumptions"));
 
   private static final Implementation ASSUMPTION = MethodDelegation.to(AssumptionMethodInterceptor.class);
 
@@ -527,6 +528,17 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assumeThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return asAssumption(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
+  }
+
+  /**
+   * Create assumption for {@link LongAdder}.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.16.0
+   */
+  public static LongAdderAssert assumeThat(LongAdder actual) {
+    return asAssumption(LongAdderAssert.class, LongAdder.class, actual);
   }
 
   /**

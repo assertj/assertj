@@ -52,6 +52,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -903,6 +904,17 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Create assertion for {@link LongAdder}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.16.0
+   */
+  public static LongAdderAssert then(LongAdder actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.
@@ -1531,6 +1543,5 @@ public class BDDAssertions extends Assertions {
   public static ThrowableTypeAssert<IllegalStateException> thenIllegalStateException() {
     return assertThatIllegalStateException();
   }
-
 
 }

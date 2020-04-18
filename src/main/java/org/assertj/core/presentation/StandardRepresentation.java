@@ -57,6 +57,7 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 
 import org.assertj.core.configuration.Configuration;
@@ -182,6 +183,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
     if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
     if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
+    if (object instanceof LongAdder) return toStringOf((LongAdder) object);
     if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
     if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
     if (object instanceof AtomicStampedReference) return toStringOf((AtomicStampedReference<?>) object);
@@ -267,6 +269,10 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(AtomicLong atomicLong) {
     return String.format("AtomicLong(%s)", atomicLong.get());
+  }
+
+  protected String toStringOf(LongAdder longAdder) {
+    return String.format("LongAdder(%s)", longAdder.sum());
   }
 
   protected String toStringOf(Comparator<?> comparator) {

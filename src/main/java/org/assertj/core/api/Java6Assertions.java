@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
@@ -122,6 +123,18 @@ public class Java6Assertions {
    */
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return new AtomicIntegerFieldUpdaterAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link LongAdder}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   * @since 3.16.0
+   */
+  public static LongAdderAssert assertThat(LongAdder actual) {
+    return new LongAdderAssert(actual);
   }
 
   /**

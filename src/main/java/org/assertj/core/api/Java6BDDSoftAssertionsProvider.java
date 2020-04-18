@@ -37,6 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CanIgnoreReturnValue;
@@ -545,6 +546,17 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   @SuppressWarnings("unchecked")
   default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> then(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return proxy(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link LongAdder}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.16.0
+   */
+  default LongAdderAssert then(LongAdder actual) {
+    return proxy(LongAdderAssert.class, LongAdder.class, actual);
   }
 
   /**
