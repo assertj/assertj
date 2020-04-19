@@ -78,6 +78,20 @@ public class Convert_Junit5_Assertions_To_Assertj_Test {
   //Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))
   public void Replace_Type_12() throws Exception {
 
+    String input = "import static org.junit.jupiter.api.Assertions.fail;\n";
+    String expected = "import static org.assertj.core.api.Assertions.fail;\n";
+
+    input += "import static org.junit.jupiter.api.Assertions.*;\n";
+    expected += "import static org.assertj.core.api.Assertions.*;\n";
+
+    tester.Start_Test(input, expected);
+
+    input += "import static org.junit.jupiter.api.Assertions...*;\n";
+    expected += "import static org.junit.jupiter.api.Assertions...*;\n";
+
+    input += "import static org.junit!jupiter.api.Assertions.*;\n";
+    expected += "import static org.junit!jupiter.api.Assertions.*;\n";
+    tester.Start_Test(input, expected);
   }
 
 }

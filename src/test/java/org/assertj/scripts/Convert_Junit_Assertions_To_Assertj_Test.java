@@ -130,10 +130,10 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
 
     input += format("assertEquals(\"123\\\",5\\\"67.34\", StringHandling.fixFPNumberFormat(\"1.234.567,34\"));%n");
     expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234.567,34\")).isEqualTo(\"123\\\",5\\\"67.34\");%n");
-    input += format("assertEquals(\"123\\\",5\\\"67.34\", StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\"));%n");
-    expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234.567,34\")).isEqualTo(\"123\\\",5\\\"67.34\");%n");
-    tester.Start_Test(input, expected);
 
+    input += format("assertEquals(\"123\\\",5\\\"67.34\", StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\"));%n");
+    expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isEqualTo(\"123\\\",5\\\"67.34\");%n");
+    tester.Start_Test(input, expected);
   }
 
   @Test
@@ -147,6 +147,9 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
 
     input += format("assertArrayEquals(houses.getList(\"house_name\"), actual);%n");
     expected += format("assertThat(actual).isEqualTo(houses.getList(\"house_name\"));%n");
+
+    input += format("assertArrayEquals(houses.getList(\" \\\",123 \", \"house_name\"), actual);%n");
+    expected += format("assertThat(actual).isEqualTo(houses.getList(\" \\\",123 \", \"house_name\"));%n");
 
     tester.Start_Test(input, expected);
   }
@@ -163,13 +166,16 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
     input += format("assertNull(\"12,41\".getBytes());%n");
     expected += format("assertThat(\"12,41\".getBytes()).isNull();%n");
 
+    input += format("assertNull(calculate(abcd, \",\\\",123\\\",\", 1234));%n");
+    expected += format("assertThat(calculate(abcd, \",\\\",123\\\",\", 1234)).isNull();%n");
+
     tester.Start_Test(input, expected);
   }
 
   @Test
   //Replacing : assertSame(expected, actual) ................... by : assertThat(actual).isSameAs(expected)
   public void Replace_Type_10() throws Exception {
-    //TODO: Add more test
+    // same as the testcases in Type 4
     String input = format("assertSame(expected, actual);%n");
     String expected = format("assertThat(actual).isSameAs(expected);%n");
 
@@ -200,12 +206,21 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
     expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234.567,34\")).isSameAs(\"1234567.34\");%n");
 
     tester.Start_Test(input, expected);
+
+    input = format("assertSame(\"123,567.34\", StringHandling.fixFPNumberFormat(\"1,234,567.34\"));%n");
+    expected = format("assertThat(StringHandling.fixFPNumberFormat(\"1,234,567.34\")).isSameAs(\"123,567.34\");%n");
+
+    input += format("assertSame(\"123\\\",5\\\"67.34\", StringHandling.fixFPNumberFormat(\"1.234.567,34\"));%n");
+    expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234.567,34\")).isSameAs(\"123\\\",5\\\"67.34\");%n");
+
+    input += format("assertSame(\"123\\\",5\\\"67.34\", StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\"));%n");
+    expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isSameAs(\"123\\\",5\\\"67.34\");%n");
+    tester.Start_Test(input, expected);
   }
 
   @Test
-  //Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))
+  //Replacing JUnit static imports by AssertJ ones, at this point you will probably need to
   public void Replace_Type_12() throws Exception {
-    //TODO: Add more test
     String input = format("import static org.junit.Assert.assertEquals;%n");
     String expected = format("import static org.assertj.core.api.Assertions.assertThat;%n");
 
