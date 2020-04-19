@@ -47,7 +47,7 @@ public class Shell_Script_Conversion_Test_Invoker {
     Process pro = runtime.exec(new String[]{shellProgramLocation , "-c" ,shellCommand} , null , null);
     int status = pro.waitFor();
     if (status != 0) {
-      throw new Exception("return status of shell script is nonzero");
+      throw new Exception("return status of shell script is " + status);
     }
   }
 
