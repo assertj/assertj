@@ -126,18 +126,6 @@ public class Java6Assertions {
   }
 
   /**
-   * Create assertion for {@link LongAdder}.
-   *
-   * @param actual the actual value.
-   *
-   * @return the created assertion object.
-   * @since 3.16.0
-   */
-  public static LongAdderAssert assertThat(LongAdder actual) {
-    return new LongAdderAssert(actual);
-  }
-
-  /**
    * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.

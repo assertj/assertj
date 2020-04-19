@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
  * @author Filip Hrisafov
  */
 @SuppressWarnings("deprecation")
-public class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends BaseAssertionsTest {
+class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends BaseAssertionsTest {
 
   @Test
-  public void standard_assertions_and_bdd_assertions_should_have_the_same_assertions_methods() {
+  void standard_assertions_and_bdd_assertions_should_have_the_same_assertions_methods() {
     Method[] assertThatMethods = findMethodsWithName(Java6Assertions.class, "assertThat");
     Method[] thenMethods = findMethodsWithName(Java6BDDAssertions.class, "then");
 
@@ -34,7 +34,7 @@ public class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test ext
   }
 
   @Test
-  public void standard_assertions_and_soft_assertions_should_have_the_same_assertions_methods() {
+  void standard_assertions_and_soft_assertions_should_have_the_same_assertions_methods() {
     // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
     // the soft assertions we need to ignore them
     Method[] assertThatMethods = findMethodsWithName(Java6Assertions.class, "assertThat", SPECIAL_IGNORED_RETURN_TYPES);
@@ -47,7 +47,7 @@ public class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test ext
   }
 
   @Test
-  public void bdd_assertions_and_bdd_soft_assertions_should_have_the_same_assertions_methods() {
+  void bdd_assertions_and_bdd_soft_assertions_should_have_the_same_assertions_methods() {
     // Until the SpecialIgnoredReturnTypes like AssertProvider, XXXNavigableXXXAssert are implemented for
     // the soft assertions we need to ignore them
     Method[] thenMethods = findMethodsWithName(Java6BDDAssertions.class, "then", SPECIAL_IGNORED_RETURN_TYPES);
