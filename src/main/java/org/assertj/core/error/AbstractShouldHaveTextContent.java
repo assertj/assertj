@@ -12,13 +12,13 @@
  */
 package org.assertj.core.error;
 
-import static java.util.stream.Collectors.joining;
-
-import java.util.List;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.diff.Delta;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.joining;
 
 /**
  * Base class for text content error.
@@ -50,7 +50,7 @@ public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
     return super.create(d, representation) + diffs;
   }
 
-  protected static String diffsAsString(List<Delta<String>> diffsList) {
+  protected static String diffsAsString(List<Delta<CharSequence>> diffsList) {
     return diffsList.stream().map(Delta::toString).collect(joining(System.lineSeparator()));
   }
 

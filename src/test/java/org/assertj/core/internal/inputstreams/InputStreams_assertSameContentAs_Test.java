@@ -12,6 +12,18 @@
  */
 package org.assertj.core.internal.inputstreams;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.InputStreams;
+import org.assertj.core.internal.InputStreamsBaseTest;
+import org.assertj.core.internal.InputStreamsException;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -23,18 +35,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.InputStreams;
-import org.assertj.core.internal.InputStreamsBaseTest;
-import org.assertj.core.internal.InputStreamsException;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.Test;
 
 
 /**
@@ -75,7 +75,7 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
 
   @Test
   public void should_fail_if_inputstreams_do_not_have_equal_content() throws IOException {
-    List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
+    List<Delta<CharSequence>> diffs = newArrayList((Delta<CharSequence>) mock(Delta.class));
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();
 

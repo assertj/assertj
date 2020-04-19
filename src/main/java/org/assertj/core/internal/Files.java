@@ -12,6 +12,22 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
+import java.nio.file.PathMatcher;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.function.Predicate;
+
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
@@ -41,22 +57,6 @@ import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.internal.Digests.digestDiff;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Preconditions.checkArgument;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
-import java.nio.charset.Charset;
-import java.nio.charset.MalformedInputException;
-import java.nio.file.PathMatcher;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.function.Predicate;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.diff.Delta;
 
 /**
  * Reusable assertions for <code>{@link File}</code>s.
@@ -114,7 +114,7 @@ public class Files {
     verifyIsFile(expected);
     assertIsFile(info, actual);
     try {
-      List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
+      List<Delta<CharSequence>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (MalformedInputException e) {
@@ -212,7 +212,7 @@ public class Files {
     requireNonNull(expected, "The text to compare to should not be null");
     assertIsFile(info, actual);
     try {
-      List<Delta<String>> diffs = diff.diff(actual, expected, charset);
+      List<Delta<CharSequence>> diffs = diff.diff(actual, expected, charset);
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {

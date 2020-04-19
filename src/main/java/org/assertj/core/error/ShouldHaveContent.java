@@ -12,12 +12,12 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.util.diff.Delta;
+
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
-
-import org.assertj.core.util.diff.Delta;
 
 
 /**
@@ -34,7 +34,7 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
    * @param diffs the differences between {@code actual} and the expected text that was provided in the assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveContent(File actual, Charset charset, List<Delta<String>> diffs) {
+  public static ErrorMessageFactory shouldHaveContent(File actual, Charset charset, List<Delta<CharSequence>> diffs) {
     return new ShouldHaveContent(actual, charset, diffsAsString(diffs));
   }
   
@@ -45,7 +45,7 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
    * @param diffs the differences between {@code actual} and the expected text that was provided in the assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveContent(Path actual, Charset charset, List<Delta<String>> diffs) {
+  public static ErrorMessageFactory shouldHaveContent(Path actual, Charset charset, List<Delta<CharSequence>> diffs) {
     return new ShouldHaveContent(actual, charset, diffsAsString(diffs));
   }
 

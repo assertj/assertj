@@ -12,6 +12,21 @@
  */
 package org.assertj.core.internal.files;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Files;
+import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.Lists;
+import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -22,21 +37,6 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Files;
-import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.Lists;
-import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Files#assertHasContent(AssertionInfo, File, String, Charset)}</code>.
@@ -99,7 +99,7 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_file_does_not_have_expected_text_content() throws IOException {
-    List<Delta<String>> diffs = Lists.newArrayList(delta);
+    List<Delta<CharSequence>> diffs = Lists.newArrayList(delta);
     when(diff.diff(actual, expected, charset)).thenReturn(diffs);
     AssertionInfo info = someInfo();
 
