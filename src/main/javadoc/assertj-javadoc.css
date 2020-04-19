@@ -183,7 +183,7 @@ button {
     font-size:12px;
 }
 .subNav {
-    background-color:#e1bf6b;
+    background-color:#e5c880;
     float:left;
     width:100%;
     overflow:hidden;
@@ -240,7 +240,7 @@ ul.subNavList li {
     text-transform:uppercase;
 }
 .navBarCell1Rev {
-    background-color:#e1bf6b;
+    background-color:#e5c880;
     color:#000000;
     margin: auto 5px;
     font-weight: bold;
@@ -262,7 +262,7 @@ ul.subNavList li {
 .indexNav {
     position:relative;
     font-size:12px;
-    background-color:#e1bf6b;
+    background-color:#e5c880;
 }
 .indexNav ul {
     margin-top:0;
@@ -299,14 +299,14 @@ ul.subNavList li {
  * Styles for headings.
  */
 div.details ul.blockList ul.blockList ul.blockList li.blockList h4, div.details ul.blockList ul.blockList ul.blockListLast li.blockList h4 {
-    background-color:#e1bf6b;
-    border:1px solid #e1bf6b;
+    background-color:#e5c880;
+    border:1px solid #e5c880;
     margin:0 0 6px -8px;
     padding:7px 5px;
 }
 ul.blockList ul.blockList ul.blockList li.blockList h3 {
-    background-color:#e1bf6b;
-    border:1px solid #e1bf6b;
+    background-color:#e5c880;
+    border:1px solid #e5c880;
     margin:0 0 6px -8px;
     padding:7px 5px;
 }
@@ -399,7 +399,7 @@ ul.blockList li.blockList, ul.blockListLast li.blockList {
 }
 ul.blockList ul.blockList li.blockList, ul.blockList ul.blockListLast li.blockList {
     padding:0px 20px 5px 10px;
-    border:1px solid #e1bf6b;
+    border:1px solid #e5c880;
     background-color:#e9d195
 }
 ul.blockList ul.blockList ul.blockList li.blockList, ul.blockList ul.blockList ul.blockListLast li.blockList {
@@ -485,7 +485,7 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
     padding-bottom:7px;
     display:inline-block;
     float:left;
-    background-color:#e1bf6b;
+    background-color:#e5c880;
     border: none;
     height:16px;
 }
@@ -496,7 +496,7 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
     width:5px;
     position:relative;
     float:left;
-    background-color:#e1bf6b;
+    background-color:#e5c880;
 }
 .overviewSummary [role=tablist] button, .memberSummary [role=tablist] button,
 .typeSummary [role=tablist] button, .packagesSummary [role=tablist] button {
@@ -508,7 +508,7 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
 }
 .overviewSummary [role=tablist] .activeTableTab, .memberSummary [role=tablist] .activeTableTab,
 .typeSummary [role=tablist] .activeTableTab, .packagesSummary [role=tablist] .activeTableTab {
-   background: #e1bf6b;
+   background: #e5c880;
    color: #253441;
 }
 .overviewSummary [role=tablist] .tableTab, .memberSummary [role=tablist] .tableTab,
@@ -535,7 +535,7 @@ th.colFirst, th.colSecond, th.colLast, th.colConstructorName, th.colDeprecatedIt
 }
 th.colFirst, th.colSecond, th.colLast, th.colConstructorName, th.colDeprecatedItemName, .constantsSummary th,
 .packagesSummary th {
-    background:#e1bf6b;
+    background:#e5c880;
     text-align:left;
     padding:8px 3px 3px 7px;
 }
@@ -584,7 +584,7 @@ th.colDeprecatedItemName a:link, th.colDeprecatedItemName a:visited,
     background-color:#EDD9A6;
 }
 .rowColor, .rowColor th {
-    background-color:#e5c880;
+    background-color:#e7ce8e;
 }
 /*
  * Styles for contents.
