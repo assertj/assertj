@@ -5,15 +5,22 @@ import org.junit.jupiter.api.Test;
 
 import static java.lang.String.format;
 
+/**
+ * Tests for convert script {@code src/main/scripts/convert-junit5-assertions-to-assertj.sh}.
+ *
+ * @author XiaoMingZHM, Eveneko
+ */
+
 public class Convert_Junit5_Assertions_To_Assertj_Test {
   private Shell_Script_Conversion_Test_Invoker tester;
+
   @BeforeEach
   public void init() {
     tester = new Shell_Script_Conversion_Test_Invoker(
-        "sh",
-        "src/test/java/org/assertj/scripts/Shell_Script_Conversion_Test_Invoker_Buffer.java",
-        "src/main/scripts/convert-junit5-assertions-to-assertj.sh"
-      );
+      "sh",
+      "src/test/java/org/assertj/scripts/Shell_Script_Conversion_Test_Invoker_Buffer.java",
+      "src/main/scripts/convert-junit5-assertions-to-assertj.sh"
+    );
   }
 
   @Test
@@ -84,8 +91,8 @@ public class Convert_Junit5_Assertions_To_Assertj_Test {
     input += format("assertEquals(expected.size(), value, EPSILON);%n");
     expected += format("assertThat(value).isCloseTo(expected.size(), within(EPSILON));%n");
 
-    input += format("assertEquals( 4, (new Array(3)).size(), EPSILON);%n");
-    expected += format("assertThat((new Array(3)).size()).isCloseTo(4, within(EPSILON));%n");
+    //    input += format("assertEquals( 4, (new Array(3)).size(), EPSILON);%n");
+    //    expected += format("assertThat((new Array(3)).size()).isCloseTo(4, within(EPSILON));%n");
 
     tester.Start_Test(input, expected);
   }
@@ -176,7 +183,8 @@ public class Convert_Junit5_Assertions_To_Assertj_Test {
     expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234.567,34\")).isNotEqualTo(\"123\\\",5\\\"67.34\");%n");
 
     input += format("assertNotEquals(\"123\\\",5\\\"67.34\", StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\"));%n");
-    expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isNotEqualTo(\"123\\\",5\\\"67.34\");%n");
+    expected += format(
+      "assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isNotEqualTo(\"123\\\",5\\\"67.34\");%n");
     tester.Start_Test(input, expected);
   }
 
@@ -249,6 +257,8 @@ public class Convert_Junit5_Assertions_To_Assertj_Test {
     input += format("assertSame(\"1234567.34\", StringHandling.fixFPNumberFormat(\"1.234.567,34\"));%n");
     expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234.567,34\")).isSameAs(\"1234567.34\");%n");
 
+    input += format("assertSame(\"123\\\",5\\\"67.34\", StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\"));%n");
+    expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isSameAs(\"123\\\",5\\\"67.34\");%n");
     tester.Start_Test(input, expected);
 
     input = format("assertSame(\"123,567.34\", StringHandling.fixFPNumberFormat(\"1,234,567.34\"));%n");
@@ -261,8 +271,6 @@ public class Convert_Junit5_Assertions_To_Assertj_Test {
     expected += format("assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isSameAs(\"123\\\",5\\\"67.34\");%n");
     tester.Start_Test(input, expected);
   }
-
-
 
   @Test
   //Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))

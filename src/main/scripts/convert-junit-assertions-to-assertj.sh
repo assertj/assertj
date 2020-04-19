@@ -56,7 +56,7 @@ replace 's/assertEquals\((".*[^\]"),[[:blank:]]*([[:digit:]]*),[[:blank:]]*([^",
 replace 's/assertEquals\([[:blank:]]*([[:digit:]]*),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\))\.size\(\)\)/assertThat(\2).hasSize(\1)/g'
 
 echo ' 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))'
-replace 's/assertEquals\((".*[^\]"),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\)),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\)),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\))\)/assertThat(\3).as(\1).isCloseTo(\2, within(\4))/g'
+replace 's/assertEquals\(([^",]*|".*[^\]"|.*\(.*\)),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\)),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\)),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\))\)/assertThat(\3).as(\1).isCloseTo(\2, within(\4))/g'
 # must be done before assertEquals("description", expected, actual) -> assertThat(actual).as("description").isEqualTo(expected)
 # will only replace triplets without double quote to avoid matching : assertEquals("description", expected, actual)
 replace 's/assertEquals\([[:blank:]]*([^",]*|".*[^\]"|.*\(.*\)),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\)),[[:blank:]]*([^",]*|".*[^\]"|.*\(.*\))\)/assertThat(\2).isCloseTo(\1, within(\3))/g'

@@ -4,6 +4,13 @@ import org.junit.Assert;
 
 import java.io.*;
 
+/**
+ * A class that invokes the shell script and compare the output.
+ *
+ * <p>It will use a temporary file to write the input and call the script, then it will compare the file to the expected value</p>
+ * @author XiaoMingZHM, Eveneko
+ */
+
 public class Shell_Script_Conversion_Test_Invoker {
   private String fileName;
   private String filePath;
@@ -20,40 +27,39 @@ public class Shell_Script_Conversion_Test_Invoker {
     // the path of buffered file, it shall be deleted after invocation.
     this.filePath = filePath;
     // get the directory of file
-    this.fileDirectory = filePath.substring(0,filePath.lastIndexOf('/')+1);
+    this.fileDirectory = filePath.substring(0, filePath.lastIndexOf('/') + 1);
     // get the file name.
-    this.fileName = filePath.substring(filePath.lastIndexOf('/')+1, filePath.length());
+    this.fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length());
     // the path of the shell script it should test.
     this.testedShellPath = testedShellPath;
   }
 
-
-  public void Start_Test(String input, String expected) throws Exception{
+  public void Start_Test(String input, String expected) throws Exception {
     try {
       write(input);
       Execute_Shell();
       String output = read();
       Assert.assertEquals(expected, output);
-    }catch (Exception e) {
+    } catch (Exception e) {
       throw e;
-    }finally {
+    } finally {
       delete();
     }
   }
 
-  private void Execute_Shell() throws Exception{
-    String shellCommand = "cd "+ root + "/" + fileDirectory + " && " + root+ "/" + testedShellPath + " \"" + fileName + "\"";
+  private void Execute_Shell() throws Exception {
+    String shellCommand = "cd " + root + "/" + fileDirectory + " && " + root + "/" + testedShellPath + " \"" + fileName + "\"";
     Runtime runtime = Runtime.getRuntime();
-    Process pro = runtime.exec(new String[]{shellProgramLocation , "-c" ,shellCommand} , null , null);
+    Process pro = runtime.exec(new String[] { shellProgramLocation, "-c", shellCommand }, null, null);
     int status = pro.waitFor();
     if (status != 0) {
-      throw new Exception("return status of shell script is nonzero");
+      throw new Exception("return status of shell script is " + status);
     }
   }
 
   // read a file, if not found return null; Show log in server.
 
-  private String read() throws Exception{
+  private String read() throws Exception {
     String result = "";
     try (FileInputStream fis = new FileInputStream(filePath);) {
       byte[] buffer = new byte[fis.available()];
@@ -64,15 +70,15 @@ public class Shell_Script_Conversion_Test_Invoker {
   }
 
   // append the text content behind the file. If file doesn't exist, create one.
-  private void write(String newContent)throws IOException{
+  private void write(String newContent) throws IOException {
     File myFilePath = new File(filePath);
     boolean result = true;
     if (!myFilePath.exists()) {
-       result = myFilePath.createNewFile();
+      result = myFilePath.createNewFile();
     }
 
     if (result) {
-      try (FileOutputStream fos = new FileOutputStream (filePath);){
+      try (FileOutputStream fos = new FileOutputStream(filePath);) {
         fos.write(newContent.getBytes());
       } catch (Exception e) {
         e.printStackTrace();

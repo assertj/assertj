@@ -7,8 +7,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static java.lang.String.format;
 
+/**
+ * Tests for convert script {@code src/main/scripts/convert-junit-assertions-to-assertj.sh}.
+ *
+ * @author XiaoMingZHM, Eveneko
+ */
+
 public class Convert_Junit_Assertions_To_Assertj_Test {
   private Shell_Script_Conversion_Test_Invoker tester;
+
   @BeforeEach
   public void init() {
     tester = new Shell_Script_Conversion_Test_Invoker(
