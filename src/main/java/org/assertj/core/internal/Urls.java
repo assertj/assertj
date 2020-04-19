@@ -143,7 +143,6 @@ public class Urls {
     assertNotNull(info, actual);
     String expected_nonquery = expected.toString().substring(0, expected.toString().length() - expected.getQuery().length());
     String actual_nonquery = actual.toString().substring(0, actual.toString().length() - actual.getQuery().length());
-
     if (!expected_nonquery.equals(actual_nonquery))
       throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
     if (expected.getQuery() == null || actual.getQuery() == null)
