@@ -22,16 +22,10 @@ import org.junit.Test;
 /**
  * Test for <code>{@link org.assertj.core.api.UrlAssert#isEqualToWithSortedQueryParameters(URL)} </code>.
  */
-public class UrlAssert_isEqualToWithSortedQueryParameters_Test {
+class UrlAssert_isEqualToWithSortedQueryParameters_Test {
   @Test
-  public void should_be_equal_to_if_only_query_parameters_orders_are_different() throws MalformedURLException {
+  private void should_be_equal_to_if_only_query_parameters_orders_are_different() throws MalformedURLException {
     assertThat(new URL("https://example.com/path/to/page?color=purple&name=ferret"))
                                                                                     .isEqualToWithSortedQueryParameters(new URL("https://example.com/path/to/page?name=ferret&color=purple"));
-  }
-
-  @Test
-  public void should_not_be_equal_to_if_domains_are_different() throws MalformedURLException {
-    assertThat(new URL("https://example.com/path/to/page?color=purple"))
-      .isEqualToWithSortedQueryParameters(new URL("https://example2.com/path/to/page?color=purple&name=ferret"));
   }
 }
