@@ -12,10 +12,10 @@
  */
 package org.assertj.core.error.uri;
 
+import java.net.URL;
+
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
-
-import java.net.URL;
 
 public class ShouldBeEqualToWithSortedQueryParameters extends BasicErrorMessageFactory {
   private static final String SHOULD_BE_EQUAL_TO_WITH_SORTED_QUERY_PARAMETERS = "%nExpecting URL to be:%n  <%s>%nbut actually is:%n  <%s>";

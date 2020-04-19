@@ -12,15 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
-
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
@@ -35,6 +26,15 @@ import static org.assertj.core.internal.Comparables.assertNotNull;
 import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.VisibleForTesting;
+
 public class Urls {
 
   private static final Urls INSTANCE = new Urls();
@@ -46,8 +46,7 @@ public class Urls {
     return INSTANCE;
   }
 
-  Urls() {
-  }
+  Urls() {}
 
   public void assertHasProtocol(final AssertionInfo info, final URL actual, final String protocol) {
     assertNotNull(info, actual);

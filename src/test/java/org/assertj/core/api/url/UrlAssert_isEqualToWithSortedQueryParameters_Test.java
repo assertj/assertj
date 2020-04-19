@@ -12,12 +12,12 @@
  */
 package org.assertj.core.api.url;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 /**
  * Test for <code>{@link org.assertj.core.api.UrlAssert#isEqualToWithSortedQueryParameters(URL)} </code>.
@@ -26,6 +26,6 @@ public class UrlAssert_isEqualToWithSortedQueryParameters_Test {
   @Test
   public void should_be_equal_to_if_only_query_parameters_are_different() throws MalformedURLException {
     assertThat(new URL("https://example.com/path/to/page?color=purple&name=ferret"))
-      .isEqualToWithSortedQueryParameters(new URL("https://example.com/path/to/page?name=ferret&color=purple"));
+                                                                                    .isEqualToWithSortedQueryParameters(new URL("https://example.com/path/to/page?name=ferret&color=purple"));
   }
 }

@@ -418,6 +418,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
     return myself;
   }
 
+
   /**
    * Verifies that the URL {@code url1} and URL {@code url2} are actually equivalent after <b>their parameters are sorted</b>.
    * <p>
