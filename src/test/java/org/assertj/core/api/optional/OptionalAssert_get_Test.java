@@ -22,8 +22,9 @@ import java.util.Optional;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractObjectAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.OptionalAssert;
+import org.assertj.core.api.ProxyableObjectChangingMethodTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ import org.junit.jupiter.api.Test;
  * @author Filip Hrisafov
  */
 @DisplayName("OptionalAssert get")
-class OptionalAssert_get_Test implements NavigationMethodBaseTest<OptionalAssert<String>> {
+class OptionalAssert_get_Test implements ProxyableObjectChangingMethodTest<OptionalAssert<String>> {
 
   private final Optional<String> optional = Optional.of("Frodo");
 
@@ -71,7 +72,13 @@ class OptionalAssert_get_Test implements NavigationMethodBaseTest<OptionalAssert
   }
 
   @Override
-  public AbstractAssert<?, ?> invoke_navigation_method(OptionalAssert<String> assertion) {
+  @SuppressWarnings("unchecked")
+  public OptionalAssert<String> getSoftAssertion(AbstractSoftAssertions softly) {
+    return softly.proxy(OptionalAssert.class, Optional.class, optional);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_object_changing_method(OptionalAssert<String> assertion) {
     return assertion.get();
   }
 

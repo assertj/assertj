@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER;
@@ -102,7 +101,6 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -132,7 +130,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.data.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -145,21 +142,6 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
   public void setup() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     softly = new SoftAssertions();
-  }
-
-  @Test
-  public void soft_assertions_should_work() {
-    // GIVEN
-    Object value = "abc";
-    // WHEN
-    softly.assertThat(value)
-          .as("startsWith")
-          .asInstanceOf(STRING)
-          .startsWith("b");
-    // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("[startsWith]");
   }
 
   @ParameterizedTest(name = "with {1}")

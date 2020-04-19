@@ -21,9 +21,10 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.AbstractLongAssert;
+import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.ProxyableObjectChangingMethodTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +35,7 @@ import org.junit.jupiter.api.Test;
  */
 @DisplayName("AbstractAssert asInstanceOf(InstanceOfAssertFactory)")
 class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends AbstractAssertBaseTest
-    implements NavigationMethodBaseTest<ConcreteAssert> {
+    implements ProxyableObjectChangingMethodTest<ConcreteAssert> {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -58,7 +59,12 @@ class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends Abst
   }
 
   @Override
-  public AbstractAssert<?, ?> invoke_navigation_method(ConcreteAssert assertion) {
+  public ConcreteAssert getSoftAssertion(AbstractSoftAssertions softly) {
+    return softly.proxy(ConcreteAssert.class, Object.class, getActual(assertions));
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_object_changing_method(ConcreteAssert assertion) {
     return assertion.asInstanceOf(LONG);
   }
 

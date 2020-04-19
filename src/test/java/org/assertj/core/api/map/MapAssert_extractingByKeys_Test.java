@@ -24,8 +24,8 @@ import java.util.Map;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.MapAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.api.ObjectChangingMethodTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * @author Stefano Cordio
  */
 @DisplayName("MapAssert extractingByKeys(KEY...)")
-class MapAssert_extractingByKeys_Test implements NavigationMethodBaseTest<MapAssert<Object, Object>> {
+class MapAssert_extractingByKeys_Test implements ObjectChangingMethodTest<MapAssert<Object, Object>> {
 
   private static final Object NAME = "name";
   private Map<Object, Object> map;
@@ -96,7 +96,7 @@ class MapAssert_extractingByKeys_Test implements NavigationMethodBaseTest<MapAss
   }
 
   @Override
-  public AbstractAssert<?, ?> invoke_navigation_method(MapAssert<Object, Object> assertion) {
+  public AbstractAssert<?, ?> invoke_object_changing_method(MapAssert<Object, Object> assertion) {
     return assertion.extractingByKeys(NAME, "age");
   }
 

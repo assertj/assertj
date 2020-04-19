@@ -25,11 +25,10 @@ import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.ObjectChangingMethodTest;
 import org.assertj.core.api.abstract_.AbstractAssert_extracting_with_Function_and_AssertFactory_Test.TestAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -39,15 +38,10 @@ import org.junit.jupiter.api.Test;
  * @author Stefano Cordio
  */
 @DisplayName("AbstractAssert extracting(Function, AssertFactory)")
-class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements NavigationMethodBaseTest<TestAssert> {
+class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements ObjectChangingMethodTest<TestAssert> {
 
-  private TestAssert underTest;
-
-  @BeforeEach
-  void setup() {
-    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
-    underTest = new TestAssert(luke);
-  }
+  private final Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+  private final TestAssert underTest = new TestAssert(luke);
 
   @Test
   void should_throw_npe_if_the_given_extractor_is_null() {
@@ -124,7 +118,7 @@ class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements 
   }
 
   @Override
-  public AbstractAssert<?, ?> invoke_navigation_method(TestAssert assertion) {
+  public AbstractAssert<?, ?> invoke_object_changing_method(TestAssert assertion) {
     return assertion.extracting(Employee::getAge, Assertions::assertThat);
   }
 

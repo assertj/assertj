@@ -17,7 +17,8 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.AbstractSoftAssertions;
+import org.assertj.core.api.ProxyableObjectChangingMethodTest;
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Stefano Cordio
  */
 @DisplayName("StringAssert decodedAsBase64")
-class StringAssert_decodedAsBase64_Test extends StringAssertBaseTest implements NavigationMethodBaseTest<StringAssert> {
+class StringAssert_decodedAsBase64_Test extends StringAssertBaseTest implements ProxyableObjectChangingMethodTest<StringAssert> {
 
   @Override
   protected StringAssert invoke_api_method() {
@@ -53,7 +54,12 @@ class StringAssert_decodedAsBase64_Test extends StringAssertBaseTest implements 
   }
 
   @Override
-  public AbstractAssert<?, ?> invoke_navigation_method(StringAssert assertion) {
+  public StringAssert getSoftAssertion(AbstractSoftAssertions softly) {
+    return softly.proxy(StringAssert.class, String.class, getActual(assertions));
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_object_changing_method(StringAssert assertion) {
     return assertion.decodedAsBase64();
   }
 

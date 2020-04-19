@@ -26,10 +26,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.MapAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.ProxyableObjectChangingMethodTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ import org.junit.jupiter.api.Test;
  */
 @DisplayName("MapAssert extractingByKey(KEY, InstanceOfAssertFactory)")
 class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
-    implements NavigationMethodBaseTest<MapAssert<Object, Object>> {
+    implements ProxyableObjectChangingMethodTest<MapAssert<Object, Object>> {
 
   private static final Object NAME = "name";
   private Map<Object, Object> map;
@@ -110,7 +111,13 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
   }
 
   @Override
-  public AbstractAssert<?, ?> invoke_navigation_method(MapAssert<Object, Object> assertion) {
+  @SuppressWarnings("unchecked")
+  public MapAssert<Object, Object> getSoftAssertion(AbstractSoftAssertions softly) {
+    return softly.proxy(MapAssert.class, Map.class, map);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_object_changing_method(MapAssert<Object, Object> assertion) {
     return assertion.extractingByKey(NAME, as(STRING));
   }
 

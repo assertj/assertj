@@ -1536,14 +1536,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .isGreaterThan(1000);
     softly.then(map).containsExactlyEntriesOf(mapOf(entry("kl", "KL"), entry("mn", "MN")));
     softly.then(map).containsExactlyInAnyOrderEntriesOf(mapOf(entry("a", "1"), entry("b", "2")));
-    softly.then(map)
-          .as("extracting(\"a\")")
-          .overridingErrorMessage("error message")
-          .extractingByKey("a")
-          .isEqualTo("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(16);
+    assertThat(errors).hasSize(15);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1560,7 +1555,6 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(12)).hasMessage("[size()] error message");
     assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
     assertThat(errors.get(14)).hasMessageContaining("to contain only");
-    assertThat(errors.get(15)).hasMessage("[extracting(\"a\")] error message");
   }
 
   @Test

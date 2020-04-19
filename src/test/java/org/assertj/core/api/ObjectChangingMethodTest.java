@@ -22,22 +22,22 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.Test;
 
 /**
- * Base tests for navigation methods which create a new assertion.
+ * Tests for methods which change the object under assertion, providing a new assertion instance.
  *
  * @author Stefano Cordio
  */
-public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, ?>> {
+public interface ObjectChangingMethodTest<ASSERT extends AbstractAssert<ASSERT, ?>> {
 
   ASSERT getAssertion();
 
-  AbstractAssert<?, ?> invoke_navigation_method(ASSERT assertion);
+  AbstractAssert<?, ?> invoke_object_changing_method(ASSERT assertion);
 
   @Test
   default void should_honor_registered_comparator() {
     // GIVEN
     ASSERT assertion = getAssertion().usingComparator(ALWAY_EQUALS);
     // WHEN
-    AbstractAssert<?, ?> result = invoke_navigation_method(assertion);
+    AbstractAssert<?, ?> result = invoke_object_changing_method(assertion);
     // THEN
     result.isEqualTo(UUID.randomUUID()); // random value to avoid false positives
   }
@@ -50,7 +50,7 @@ public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, 
                                      .withRepresentation(UNICODE_REPRESENTATION)
                                      .usingComparator(ALWAY_EQUALS);
     // WHEN
-    AbstractAssert<?, ?> result = invoke_navigation_method(assertion);
+    AbstractAssert<?, ?> result = invoke_object_changing_method(assertion);
     // THEN
     then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
                 .extracting(AbstractAssert::getWritableAssertionInfo)

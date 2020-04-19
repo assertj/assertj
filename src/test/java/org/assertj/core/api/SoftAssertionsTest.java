@@ -26,7 +26,6 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -572,12 +571,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .extractingByKeys("name", "age")
           .contains("kawhi", 25);
     softly.assertThat(map)
-          .extractingByKey("name")
-          .isEqualTo("kawhi");
-    softly.assertThat(map)
-          .extractingByKey("name", as(STRING))
-          .startsWith("kaw");
-    softly.assertThat(map)
           .extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
           .contains(tuple("name", "kawhi"), tuple("age", 25));
     softly.assertThat(map)
@@ -878,12 +871,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(optional)
           .map(String::length)
           .contains(7);
-    softly.assertThat(optional)
-          .get()
-          .isEqualTo("Gandalf");
-    softly.assertThat(optional)
-          .get(as(STRING))
-          .startsWith("Gan");
     // THEN
     softly.assertAll();
   }
@@ -1801,19 +1788,9 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .isGreaterThan(1000);
     softly.assertThat(map).containsExactlyEntriesOf(mapOf(entry("kl", "KL"), entry("mn", "MN")));
     softly.assertThat(map).containsExactlyInAnyOrderEntriesOf(mapOf(entry("a", "1"), entry("b", "2")));
-    softly.assertThat(map)
-          .as("extracting(\"a\")")
-          .overridingErrorMessage("error message")
-          .extractingByKey("a")
-          .isEqualTo("456");
-    softly.assertThat(map)
-          .as("extracting(\"a\") as string")
-          .overridingErrorMessage("error message")
-          .extractingByKey("a", as(STRING))
-          .startsWith("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(17);
+    assertThat(errors).hasSize(15);
     assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1830,8 +1807,6 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(12)).hasMessage("[size()] error message");
     assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
     assertThat(errors.get(14)).hasMessageContaining("to contain only");
-    assertThat(errors.get(15)).hasMessage("[extracting(\"a\")] error message");
-    assertThat(errors.get(16)).hasMessage("[extracting(\"a\") as string] error message");
   }
 
   @Test
@@ -1905,55 +1880,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
           .map(String::length)
           .hasValue(4)
           .hasValue(888); // fail
-    softly.assertThat(optional)
-          .as("get()")
-          .overridingErrorMessage("error message")
-          .get()
-          .isEqualTo("Yoda")
-          .isEqualTo("Luke"); // fail
-    softly.assertThat(optional)
-          .as("get(as(STRING))")
-          .overridingErrorMessage("error message")
-          .get(as(STRING))
-          .startsWith("Yo")
-          .startsWith("Lu"); // fail
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(5);
+    assertThat(errorsCollected).hasSize(3);
     assertThat(errorsCollected.get(0)).hasMessage("[map(String::length)] error message");
     assertThat(errorsCollected.get(1)).hasMessageContaining("flatMap(upperCaseOptional)")
                                       .hasMessageContaining("yoda");
     assertThat(errorsCollected.get(2)).hasMessageContaining("map(String::length) after flatMap(upperCaseOptional)")
                                       .hasMessageContaining("888");
-    assertThat(errorsCollected.get(3)).hasMessage("[get()] error message");
-    assertThat(errorsCollected.get(4)).hasMessage("[get(as(STRING))] error message");
-  }
-
-  @Test
-  void string_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
-    // GIVEN
-    String base64String = "QXNzZXJ0Sg==";
-    // WHEN
-    softly.assertThat(base64String)
-          .as("decodedAsBase64()")
-          .overridingErrorMessage("error message 1")
-          .decodedAsBase64()
-          .isEmpty();
-    // THEN
-    then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("[decodedAsBase64()] error message 1");
-  }
-
-  @Test
-  void should_work_with_string() {
-    // GIVEN
-    String base64String = "QXNzZXJ0Sg==";
-    // WHEN
-    softly.assertThat(base64String)
-          .decodedAsBase64()
-          .containsExactly("AssertJ".getBytes());
-    // THEN
-    softly.assertAll();
   }
 
   @Test
