@@ -419,7 +419,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
   }
 
   /**
-   * Verifies that the URL {@code url1} and URL {@code url2} are actually equivalent after <b>their parameters are sorted</b>.
+   * Verifies that the URL {@code actual} and URL {@code expected} are actually equivalent after <b>their parameters are sorted</b>.
    * <p>
    * Example:
    * <pre><code class='java'> URL expected = new URL("http://localhost?a=b&c=d");
