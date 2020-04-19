@@ -9,6 +9,7 @@ import static java.lang.String.format;
 
 public class Convert_Junit_Assertions_To_Assertj_Test {
   private Shell_Script_Conversion_Test_Invoker tester;
+
   @BeforeEach
   public void init() {
     tester = new Shell_Script_Conversion_Test_Invoker(
