@@ -418,7 +418,6 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
     return myself;
   }
 
-
   /**
    * Verifies that the URL {@code url1} and URL {@code url2} are actually equivalent after <b>their parameters are sorted</b>.
    * <p>
@@ -442,6 +441,8 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws IllegalArgumentException if the given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
+   * 
+   * @since 3.15.0
    */
   public SELF isEqualToWithSortedQueryParameters(URL expected) {
     urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
