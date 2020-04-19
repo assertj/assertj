@@ -21,7 +21,7 @@ import java.util.List;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
 
-public class AbstractSoftAssertions implements SoftAssertionsProvider, InstanceOfAssertFactories {
+public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
   protected final SoftProxies proxies;
 
@@ -29,7 +29,7 @@ public class AbstractSoftAssertions implements SoftAssertionsProvider, InstanceO
     proxies = new SoftProxies();
   }
 
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Override
   public void assertAll() {
