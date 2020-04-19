@@ -30,7 +30,7 @@
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
     <!-- guava 21+ is for java 8 -->
     <guava.version>28.1-jre</guava.version>
-    <assertj-core.version>3.14.0</assertj-core.version>
+    <assertj-core.version>3.15.0</assertj-core.version>
   </properties>
 
   <dependencies>
