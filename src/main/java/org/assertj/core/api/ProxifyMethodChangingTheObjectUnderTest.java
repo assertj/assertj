@@ -49,6 +49,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -143,8 +144,9 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (currentAssert instanceof IteratorAssert) return Iterator.class;
     if (currentAssert instanceof LocalDateAssert) return LocalDate.class;
     if (currentAssert instanceof LocalDateTimeAssert) return LocalDateTime.class;
-    if (currentAssert instanceof LongAssert) return Long.class;
+    if (currentAssert instanceof LongAdderAssert) return LongAdder.class;
     if (currentAssert instanceof LongArrayAssert) return long[].class;
+    if (currentAssert instanceof LongAssert) return Long.class;
     if (currentAssert instanceof LongPredicateAssert) return LongPredicate.class;
     if (currentAssert instanceof MapAssert) return Map.class;
     if (currentAssert instanceof ObjectAssert || currentAssert instanceof ProxyableObjectAssert) return Object.class;

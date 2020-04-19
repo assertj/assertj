@@ -549,17 +549,6 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
-   * Create assertion for {@link LongAdder}.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   * @since 3.16.0
-   */
-  default LongAdderAssert then(LongAdder actual) {
-    return proxy(LongAdderAssert.class, LongAdder.class, actual);
-  }
-
-  /**
    * Create assertion for {@link AtomicLong}.
    *
    * @param actual the actual value.

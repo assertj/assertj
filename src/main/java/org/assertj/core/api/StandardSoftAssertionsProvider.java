@@ -29,6 +29,7 @@ import java.util.OptionalLong;
 import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -329,4 +330,16 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
   default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
     return proxy(SpliteratorAssert.class, Spliterator.class, actual);
   }
+
+  /**
+   * Create assertion for {@link LongAdder}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default LongAdderAssert assertThat(LongAdder actual) {
+    return proxy(LongAdderAssert.class, LongAdder.class, actual);
+  }
+
 }
