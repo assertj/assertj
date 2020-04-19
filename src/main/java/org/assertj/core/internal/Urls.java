@@ -140,14 +140,14 @@ public class Urls {
 
   public void assertIsEqualToWithSortedQueryParameters(AssertionInfo info, URL actual, URL expected) {
     assertNotNull(info, actual);
-    String expected_nonquery = expected.toString().substring(0, expected.toString().length() - expected.getQuery().length());
-    String actual_nonquery = actual.toString().substring(0, actual.toString().length() - actual.getQuery().length());
-    if (!expected_nonquery.equals(actual_nonquery))
-      throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
     if (expected.getQuery() == null || actual.getQuery() == null)
       if (expected.getQuery() == null && actual.getQuery() == null)
         return;
       else throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
+    String expected_non_query = expected.toString().substring(0, expected.toString().length() - expected.getQuery().length());
+    String actual_non_query = actual.toString().substring(0, actual.toString().length() - actual.getQuery().length());
+    if (!expected_non_query.equals(actual_non_query))
+      throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
     String[] expected_query_params = expected.getQuery().split("&");
     String[] actual_query_params = actual.getQuery().split("&");
     java.util.Arrays.sort(expected_query_params);
