@@ -12,12 +12,20 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
-import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
-import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
-import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.*;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
 import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
@@ -26,14 +34,6 @@ import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.internal.Comparables.assertNotNull;
 import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
-
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 public class Urls {
 
@@ -46,7 +46,8 @@ public class Urls {
     return INSTANCE;
   }
 
-  Urls() {}
+  Urls() {
+  }
 
   public void assertHasProtocol(final AssertionInfo info, final URL actual, final String protocol) {
     assertNotNull(info, actual);
@@ -138,4 +139,22 @@ public class Urls {
     }
   }
 
+  public void assertIsEqualToWithSortedQueryParameters(AssertionInfo info, URL actual, URL expected) {
+    assertNotNull(info, actual);
+    String expected_nonquery = expected.toString().substring(0, expected.toString().length() - expected.getQuery().length());
+    String actual_nonquery = actual.toString().substring(0, actual.toString().length() - actual.getQuery().length());
+
+    if (!expected_nonquery.equals(actual_nonquery))
+      throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
+    if (expected.getQuery() == null || actual.getQuery() == null)
+      if (expected.getQuery() == null && actual.getQuery() == null)
+        return;
+      else throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
+    String[] expected_query_params = expected.getQuery().split("&");
+    String[] actual_query_params = actual.getQuery().split("&");
+    java.util.Arrays.sort(expected_query_params);
+    java.util.Arrays.sort(actual_query_params);
+    if (!java.util.Arrays.toString(expected_query_params).equals(Arrays.toString(actual_query_params)))
+      throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
+  }
 }

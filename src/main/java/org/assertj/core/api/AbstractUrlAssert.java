@@ -417,4 +417,33 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
     urls.assertHasNoParameter(info, actual, name, value);
     return myself;
   }
+
+  /**
+   * Verifies that the URL {@code url1} and URL {@code url2} are actually equivalent after <b>their parameters are sorted</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> URL expected = new URL("http://localhost?a=b&c=d");
+   *       URL actual2 = new URL("http://example.com?a=b&c=e");
+   *
+   * // this assertion succeeds ...
+   * assertThat(expected).isEqualToWithSortedQueryParameters(new URL("http://localhost?c=d&a=b"));
+   *
+   * // ... but these cases fail as their parameters do not match.
+   * assertThat(expected).isEqualToWithSortedQueryParameters(new URL("http://localhost?a=b&c=e"));
+   *
+   * //... and this case fails as even their domains are different.
+   * assertThat(expected).isEqualToWithSortedQueryParameters(new URL("http://example.com?a=b&c=d"));
+   * </code></pre>
+   *
+   * @param expected the expected URL of the actual {@code URL}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
+   */
+  public SELF isEqualToWithSortedQueryParameters(URL expected) {
+    urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
+    return myself;
+  }
 }
