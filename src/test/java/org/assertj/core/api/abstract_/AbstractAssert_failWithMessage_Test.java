@@ -12,15 +12,16 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
+import org.assertj.core.api.ConcreteAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.ConcreteAssert;
 
 /**
  * Tests for <code>AbstractAssert#failWithMessage(String, Object...)</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 public class AbstractAssert_failWithMessage_Test {
@@ -29,31 +30,41 @@ public class AbstractAssert_failWithMessage_Test {
 
   @BeforeEach
   public void setup() {
-	assertion = new ConcreteAssert("foo");
+    assertion = new ConcreteAssert("foo");
   }
 
   @Test
   public void should_fail_with_simple_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertion.failWithMessage("fail"))
-                                                   .withMessage("fail");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertion.failWithMessage("fail"));
+    // THEN
+    then(error).hasMessage("fail");
   }
 
   @Test
   public void should_fail_with_message_having_args() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertion.failWithMessage("fail %d %s", 5, "times"))
-                                                   .withMessage("fail 5 times");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertion.failWithMessage("fail %d %s", 5, "times"));
+    // THEN
+    then(error).hasMessage("fail 5 times");
   }
 
   @Test
   public void should_keep_description_set_by_user() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertion.as("user description").failWithMessage("fail %d %s", 5, "times"))
-                                                   .withMessage("[user description] fail 5 times");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertion.as("user description").failWithMessage("fail %d %s", 5, "times"));
+    // THEN
+    then(error).hasMessage("[user description] fail 5 times");
   }
 
   @Test
   public void should_keep_specific_error_message_and_description_set_by_user() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertion.as("test context").overridingErrorMessage("my %d errors %s", 5, "!").failWithMessage("%d %s", 5, "time"))
-                                                   .withMessage("[test context] my 5 errors !");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertion.as("test context")
+                                                               .overridingErrorMessage("my %d errors %s %%s", 5, "!")
+                                                               .failWithMessage("%d %s", 5, "time"));
+    // THEN
+    then(error).hasMessage("[test context] my 5 errors ! %s");
   }
 
 }

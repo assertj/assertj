@@ -12,23 +12,22 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 
-import static org.mockito.Mockito.verify;
-
-
 /**
  * Tests for <code>{@link AbstractAssert#isEqualTo(Object)}</code>.
- * 
+ *
  * @author Alex Ruiz
  */
 public class AbstractAssert_isEqualTo_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
-    return assertions.isEqualTo(new Long(8L));
+    return assertions.isEqualTo(Long.valueOf(8l));
   }
 
   @Override
