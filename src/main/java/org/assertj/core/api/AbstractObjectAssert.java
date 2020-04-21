@@ -666,7 +666,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    return super.extracting(propertyOrField, this::newObjectAssert);
+    // eclipse needs the explicit cast or fails to compile :(
+    return super.extracting(propertyOrField, (AssertFactory<Object, AbstractObjectAssert<?, ?>>) this::newObjectAssert);
   }
 
   /**
@@ -712,7 +713,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return super.extracting(propertyOrField, this::newObjectAssert).asInstanceOf(assertFactory);
+    // eclipse needs the explicit cast or fails to compile :(
+    return super.extracting(propertyOrField,
+                            (AssertFactory<Object, AbstractAssert<?, ?>>) this::newObjectAssert).asInstanceOf(assertFactory);
   }
 
   /**
@@ -776,9 +779,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 3.11.0
    * @see #extracting(Function, InstanceOfAssertFactory)
    */
+  @SuppressWarnings("unchecked")
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
-    return super.extracting(extractor, this::newObjectAssert);
+    // eclipse fails to compile return super.extracting(extractor, this::newObjectAssert).asInstanceOf(assertFactory);
+    // adding this crazy cast makes eclipse and maven happy.
+    return (AbstractObjectAssert<?, T>) super.extracting(extractor,
+                                                         (AssertFactory<Object, AbstractObjectAssert<?, Object>>) this::newObjectAssert);
   }
 
   /**
@@ -816,7 +823,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
                                                                     InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return super.extracting(extractor, this::newObjectAssert).asInstanceOf(assertFactory);
+    // eclipse needs the explicit cast or fails to compile :(
+    return super.extracting(extractor,
+                            (AssertFactory<Object, AbstractAssert<?, ?>>) this::newObjectAssert).asInstanceOf(assertFactory);
   }
 
   /**
