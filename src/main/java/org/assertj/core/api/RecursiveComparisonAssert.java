@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -162,6 +163,51 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
                                                                                                                           differences,
                                                                                                                           recursiveComparisonConfiguration,
                                                                                                                           info.representation()));
+    return myself;
+  }
+
+  /**
+   * Asserts that actual object is not equal to the given object based on a property/field by property/field comparison
+   * recursively (including inherited ones). This can be handy if {@code isNotEqualTo} implementation does not suit you.
+   * <p>
+   * This is typically useful when actual's {@code equals} was not overridden.
+   * <p>
+   * The comparison is <b>not symmetrical</b> since it is <b>limited to actual's fields</b>, the algorithm gather all
+   * actual's fields and then compare them to the corresponding expected's fields.
+   * It is then possible for the expected object to have more fields than actual which is handy when comparing
+   * a base type to a subtype.
+   * <p>
+   * This method is based on {@link #isEqualTo(Object)}, you can check out more usages in that method.
+   * <p>
+   * <strong>Example</strong>
+   * <p>
+   * <pre><code class='java'> // equals not overridden in TolkienCharacter
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   *
+   * // Pass as equals compares object references
+   * assertThat(frodo).isNotEqualTo(frodoClone);
+   *
+   * // Fail as frodo and frodoClone are equals when doing a field by field comparison.
+   * assertThat(frodo).usingRecursiveComparison().isNotEqualTo(frodoClone);</code></pre>
+   *
+   * @param other the object to compare {@code actual} to.
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual object and the given objects are both {@code null}.
+   * @throws AssertionError if the actual and the given objects are equals property/field by property/field recursively.
+   * @see #isEqualTo(Object)
+   */
+  @Override
+  public SELF isNotEqualTo(Object other) {
+    // null != notNull => pass, null == null => fail
+    if (actual == null && other == null) {
+      throw objects.getFailures().failure(info, shouldNotBeEqual(actual, other));
+    } else if (other != null && actual != null) {
+      // at this point both actual and expected are not null, we can compare them recursively!
+      List<ComparisonDifference> differences = determineDifferencesWith(other);
+      if (differences.isEmpty()) throw objects.getFailures().failure(info, shouldNotBeEqual(actual, other));
+    }
+
     return myself;
   }
 
