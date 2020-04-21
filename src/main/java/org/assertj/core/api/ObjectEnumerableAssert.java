@@ -1081,6 +1081,27 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
+   * Same semantic as {@link #containsOnlyOnce(Object[])} : Verifies that the actual group contains the given values only once.
+   * <p>
+   * Examples :
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnceElementsOf(list(&quot;winter&quot;));
+   * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnceElementsOf(list(&quot;coming&quot;, &quot;winter&quot;));
+   *
+   * // assertions will fail
+   * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnceElementsOf(list(&quot;Lannister&quot;));
+   * assertThat(newArrayList(&quot;Arya&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnceElementsOf(list(&quot;Stark&quot;));
+   * assertThat(newArrayList(&quot;Arya&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnceElementsOf(list(&quot;Stark&quot;, &quot;Lannister&quot;, &quot;Arya&quot;));</code></pre>
+   * <p>
+   * If you want to directly specify the elements to check with, use {@link #containsOnlyOnce(Object...)} instead.
+   * @param iterable the given {@code Iterable} we will get elements from.
+   *
+   * @return {@code this} assertion object.
+   */
+  SELF containsOnlyOnceElementsOf(Iterable<? extends ELEMENT> iterable);
+
+  /**
    * Verifies that actual contains all the elements of the given iterable and nothing else, <b>in any order</b>
    * and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>

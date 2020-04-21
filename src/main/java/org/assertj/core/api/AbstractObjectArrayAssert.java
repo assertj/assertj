@@ -548,6 +548,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF containsOnlyOnceElementsOf(Iterable<? extends ELEMENT> iterable) {
+    return containsOnlyOnce(toArray(iterable));
+  }
+
+  /**
    * Verifies that the actual array contains exactly the given values and nothing else, <b>in order</b>.<br>
    * <p>
    * Example :
@@ -2885,6 +2893,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     iterables.assertAnySatisfy(info, newArrayList(actual), requirements);
     return myself;
   }
+
   /**
    * {@inheritDoc}
    */
