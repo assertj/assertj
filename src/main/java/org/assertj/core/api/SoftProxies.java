@@ -41,6 +41,7 @@ class SoftProxies {
 
   private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsNamed("asInstanceOf").or(named("asList"))
                                                                                                                         .or(named("asString"))
+                                                                                                                        .or(named("asHexString"))
                                                                                                                         .or(named("decodedAsBase64"))
                                                                                                                         .or(named("extracting"))
                                                                                                                         .or(named("extractingByKey"))
