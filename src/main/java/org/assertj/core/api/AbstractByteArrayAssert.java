@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Hexadecimals.toHexString;
+
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
@@ -910,4 +912,25 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     return myself;
   }
 
+  /**
+   * Returns a String assertion for the hexadecimal String representation of the actual
+   * value, to allow chaining of String-specific assertions from this call.
+   * The Hex String representation is in upper case.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Object bytesAsObject = new byte[] { -1, 0, 1 };
+   *
+   * // assertion will pass
+   * assertThat(bytesAsObject).asHexString().isEqualTo("FF0001");
+   *
+   * // assertion will fail
+   * assertThat(bytesAsObject).asHexString().isEqualTo("FF0000");</code></pre>
+   *
+   * @return a string assertion object
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> asHexString() {
+    objects.assertNotNull(info, actual);
+    return Assertions.assertThat(toHexString(actual));
+  }
 }

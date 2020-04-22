@@ -24,8 +24,15 @@ public class Hexadecimals {
     return new String(new char[] { HEX_ARRAY[v >>> 4], HEX_ARRAY[v & 0x0F] });
   }
 
+  public static String toHexString(byte... bytes) {
+    StringBuilder sb = new StringBuilder();
+    for (byte b : bytes)
+      sb.append(byteToHexString(b));
+
+    return sb.toString();
+  }
+
   private Hexadecimals() {
 
   }
-
 }
