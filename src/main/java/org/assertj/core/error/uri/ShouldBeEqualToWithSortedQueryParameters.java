@@ -18,7 +18,7 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldBeEqualToWithSortedQueryParameters extends BasicErrorMessageFactory {
-  private static final String SHOULD_BE_EQUAL_TO_WITH_SORTED_QUERY_PARAMETERS = "%nExpecting URL to be:%n  <%s>%nbut actually is:%n  <%s>";
+  private static final String SHOULD_BE_EQUAL_TO_WITH_SORTED_QUERY_PARAMETERS = "%nExpecting URL to be:%n  <%s>%nbut was:%n  <%s>%n after sorting parameters";
 
   public static ErrorMessageFactory shouldBeEqualToWithSortedQueryParameters(URL actual, URL expected) {
     return new ShouldBeEqualToWithSortedQueryParameters(actual, expected);

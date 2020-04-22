@@ -419,11 +419,10 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
   }
 
   /**
-   * Verifies that the URL {@code actual} and URL {@code expected} are actually equivalent after <b>their parameters are sorted</b>.
+   * Verifies that the URL {@code expected} is equivalent to URL actual after <b>their parameters are sorted</b>.
    * <p>
    * Example:
    * <pre><code class='java'> URL expected = new URL("http://localhost?a=b&c=d");
-   *       URL actual2 = new URL("http://example.com?a=b&c=e");
    *
    * // this assertion succeeds ...
    * assertThat(expected).isEqualToWithSortedQueryParameters(new URL("http://localhost?c=d&a=b"));

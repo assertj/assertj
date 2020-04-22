@@ -12,14 +12,13 @@
  */
 package org.assertj.core.api.url;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.junit.Test;
+import org.assertj.core.api.UrlAssert;
+import org.assertj.core.api.UrlAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
 /**
@@ -27,39 +26,19 @@ import org.junit.jupiter.api.DisplayName;
  */
 
 @DisplayName("UrlAssert isEqualToWithSortedQueryParameters")
-public class UrlAssert_isEqualToWithSortedQueryParameters_Test {
+public class UrlAssert_isEqualToWithSortedQueryParameters_Test extends UrlAssertBaseTest {
+  private URL expected = new URL("http://example.com?a=b&c=d#hello");
 
-  @Test
-  public void should_pass_if_only_query_parameters_orders_are_different() throws MalformedURLException {
-    // GIVEN
-    URL actual = new URL("https://example.com/path/to/page?color=purple&name=ferret");
-    URL expected = new URL("https://example.com/path/to/page?name=ferret&color=purple");
-    // WHEN/THEN
-    assertThat(actual).isEqualToWithSortedQueryParameters(expected);
+  public UrlAssert_isEqualToWithSortedQueryParameters_Test() throws MalformedURLException {}
+
+  @Override
+  protected UrlAssert invoke_api_method() {
+    return assertions.isEqualToWithSortedQueryParameters(expected);
   }
 
-  @Test
-  public void should_fail_if_domains_are_different() throws MalformedURLException {
-    // GIVEN
-    URL actual = new URL("https://example.com/path/to/page?color=purple&name=ferret");
-    URL expected = new URL("https://example2.com/path/to/page?color=purple&name=ferret");
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToWithSortedQueryParameters(expected));
-    // THEN
-    then(assertionError).hasMessage("%nExpecting URL to be:%n  <\"%s\">%nbut actually is:%n  <\"%s\">", expected.toString(),
-                                    actual.toString());
-  }
-
-  @Test
-  public void should_fail_if_sorted_query_parameters_are_different() throws MalformedURLException {
-    // GIVEN
-    URL actual = new URL("https://example.com/path/to/page?color=purple&name=ferret");
-    URL expected = new URL("https://example.com/path/to/page?color=purple");
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToWithSortedQueryParameters(expected));
-    // THEN
-    then(assertionError).hasMessage("%nExpecting URL to be:%n  <\"%s\">%nbut actually is:%n  <\"%s\">", expected.toString(),
-                                    actual.toString());
+  @Override
+  protected void verify_internal_effects() {
+    verify(urls).assertIsEqualToWithSortedQueryParameters(getInfo(assertions), getActual(assertions), expected);
   }
 
 }
