@@ -431,7 +431,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(expected).isEqualToWithSortedQueryParameters(new URL("http://example.com?a=b&amp;c=e"));
    *
    * //... and this case fails as even their domains are different.
-   * assertThat(expected).isEqualToWithSortedQueryParameters(new URL("http://example2.com?amp;a=b&c=d"));
+   * assertThat(expected).isEqualToWithSortedQueryParameters(new URL("http://example2.com?amp;a=b&amp;c=d"));
    * </code></pre>
    *
    * @param expected the expected URL of the actual {@code URL}.
