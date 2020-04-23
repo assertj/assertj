@@ -19,6 +19,7 @@ import java.util.Map;
  *
  */
 public class GroupTypeDescription {
+  private static final int SPLITERATORS_CLASS_STACK_TRACE_NUM = 5;
   private String groupTypeName;
   private String elementTypeName;
 
@@ -44,14 +45,15 @@ public class GroupTypeDescription {
   public static GroupTypeDescription getGroupTypeDescription(Object actual) {
 
     Class<?> c = actual.getClass();
-    if (Thread.currentThread().getStackTrace()[5].getClassName().contains("Spliterators"))
+    if (Thread.currentThread().getStackTrace()[SPLITERATORS_CLASS_STACK_TRACE_NUM].getClassName().contains("Spliterators"))
       return new GroupTypeDescription("spliterator characteristics", "characteristics");
 
     if (actual instanceof Map)
       return new GroupTypeDescription("map", "map entries");
 
-    if (c.isArray() && c.getComponentType().isPrimitive())
+    if (c.isArray() && c.getComponentType().isPrimitive() || actual instanceof String[])
       return new GroupTypeDescription("array " + c.getSimpleName(), c.getComponentType().getSimpleName());
+
     if (c.isArray())
       return new GroupTypeDescription("array " + c.getSimpleName(), "elements");
 
