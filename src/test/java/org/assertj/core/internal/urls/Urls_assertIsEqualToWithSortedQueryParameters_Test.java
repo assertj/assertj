@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.internal.Urls#assertIsEqualToWithSortedQueryParameters(AssertionInfo, URL, URL)} (org.assertj.core.api.AssertionInfo, java.net.URL, String)}  </code>
+ * <code>{@link org.assertj.core.internal.Urls#assertIsEqualToWithSortedQueryParameters(AssertionInfo, URL, URL)} (org.assertj.core.api.AssertionInfo, java.net.URL, java.net.URL)}  </code>
  * .
  *
  * @author SUN Ting
