@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.internal.Urls#assertHasQuery(org.assertj.core.api.AssertionInfo, java.net.URL, String)}  </code>
+ * <code>{@link org.assertj.core.internal.Urls#assertIsEqualToWithSortedQueryParameters(AssertionInfo, URL, URL)} (org.assertj.core.api.AssertionInfo, java.net.URL, String)}  </code>
  * .
  *
  * @author SUN Ting
@@ -43,14 +43,16 @@ public class Urls_assertIsEqualToWithSortedQueryParameters_Test extends UrlsBase
   }
 
   @Test
-  public void should_pass_if_both_expected_and_actual_have_query_and_they_are_literally_equivalent() throws MalformedURLException {
+  public void should_pass_if_both_expected_and_actual_have_query_and_they_are_literally_equivalent()
+    throws MalformedURLException {
     URL actual = new URL("https://example.com/path/to/page?color=purple&name=ferret#hello");
     URL expected = new URL("https://example.com/path/to/page?color=purple&name=ferret#hello");
     urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
   }
 
   @Test
-  public void should_pass_if_both_expected_and_actual_have_no_query_and_they_are_literally_equivalent() throws MalformedURLException {
+  public void should_pass_if_both_expected_and_actual_have_no_query_and_they_are_literally_equivalent()
+    throws MalformedURLException {
     URL actual = new URL("https://example.com/path/to/page#hello");
     URL expected = new URL("https://example.com/path/to/page#hello");
     urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
