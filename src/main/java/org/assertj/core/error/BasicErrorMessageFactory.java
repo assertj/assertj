@@ -13,11 +13,11 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Strings.quote;
 
@@ -29,7 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * A factory of error messages typically shown when an assertion fails.
- * 
+ *
  * @author Alex Ruiz
  */
 public class BasicErrorMessageFactory implements ErrorMessageFactory {
@@ -85,15 +85,13 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
       if (obj == null) return false;
       if (getClass() != obj.getClass()) return false;
       UnquotedString other = (UnquotedString) obj;
-      if (string == null) {
-        return other.string == null;
-      } else return string.equals(other.string);
+      return string == null ? other.string == null : string.equals(other.string);
     }
   }
 
   /**
    * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
-   * 
+   *
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.
    */
@@ -122,7 +120,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
   /**
    * Return a string who will be unquoted in message format (without '')
-   * 
+   *
    * @param string the string who will be unquoted.
    * @return an unquoted string in message format.
    */
@@ -139,12 +137,12 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
     if (getClass() != obj.getClass())
       return false;
     BasicErrorMessageFactory other = (BasicErrorMessageFactory) obj;
-    if (!areEqual(format, other.format))
+    if (!deepEquals(format, other.format))
       return false;
     // because it does not manage array recursively, don't use : Arrays.equals(arguments, other.arguments);
     // example if arguments[1] and other.arguments[1] are logically same arrays but not same object, it will return
     // false
-    return areEqual(arguments, other.arguments);
+    return deepEquals(arguments, other.arguments);
   }
 
   @Override

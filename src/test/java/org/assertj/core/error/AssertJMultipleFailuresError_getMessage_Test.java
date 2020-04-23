@@ -18,8 +18,10 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("AssertJMultipleFailuresError getMessage")
 public class AssertJMultipleFailuresError_getMessage_Test {
 
   @Test
@@ -74,11 +76,11 @@ public class AssertJMultipleFailuresError_getMessage_Test {
                                   "but was not.%n" +
                                   "-- failure 7 --%n" +
                                   "[contains] %n" +
-                                  "Expecting:%n" +
+                                  "Expecting ArrayList:%n" +
                                   " <[\"a\", \"b\", \"c\"]>%n" +
                                   "to contain:%n" +
                                   " <[\"e\"]>%n" +
-                                  "but could not find:%n" +
+                                  "but could not find the following element(s):%n" +
                                   " <[\"e\"]>%n" +
                                   "%n" +
                                   "-- failure 8 --%n" +
@@ -91,11 +93,11 @@ public class AssertJMultipleFailuresError_getMessage_Test {
                                   " <[\"a\"]>%n" +
                                   "%n" +
                                   "-- failure 9 --%n" +
-                                  "Expecting:%n" +
+                                  "Expecting ArrayList:%n" +
                                   " <[\"a\", \"b\", \"c\"]>%n" +
                                   "to contain:%n" +
                                   " <[\"e\"]>%n" +
-                                  "but could not find:%n" +
+                                  "but could not find the following element(s):%n" +
                                   " <[\"e\"]>%n" +
                                   "%n" +
                                   "-- failure 10 --%n" +

@@ -194,11 +194,11 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errors = softly.errorsCollected();
     assertThat(errors).hasSize(2);
-    assertThat(errors.get(0)).hasMessageContaining(format("Expecting:%n"
+    assertThat(errors.get(0)).hasMessageContaining(format("Expecting map:%n"
                                                           + " <{\"54\"=\"55\"}>%n"
                                                           + "to contain:%n"
                                                           + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
-                                                          + "but could not find:%n"
+                                                          + "but could not find the following map entries:%n"
                                                           + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
     assertThat(errors.get(1)).hasMessageContaining(format("Expecting empty but was:<{\"54\"=\"55\"}>"));
 
@@ -343,11 +343,11 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  <\"something was good\">%n"
                                                + "but was:%n"
                                                + "  <\"something was wrong\">"));
-    assertThat(errors.get(39)).contains(format("%nExpecting:%n"
+    assertThat(errors.get(39)).contains(format("%nExpecting map:%n"
                                                + " <{\"54\"=\"55\"}>%n"
                                                + "to contain:%n"
                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
-                                               + "but could not find:%n"
+                                               + "but could not find the following map entries:%n"
                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
     assertThat(errors.get(40)).contains(format("%nExpecting:%n <12:00>%nto be equal to:%n <13:00>%nbut was not."));
     assertThat(errors.get(41)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
