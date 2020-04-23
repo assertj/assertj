@@ -12,10 +12,8 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
@@ -24,6 +22,8 @@ import java.net.URL;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for
@@ -35,86 +35,63 @@ import org.junit.jupiter.api.Test;
 
 public class Urls_assertIsEqualToWithSortedQueryParameters_Test extends UrlsBaseTest {
 
+  @ParameterizedTest
+  @CsvSource({
+      "https://example.com/path/to/page?color=purple&name=ferret#hello, https://example.com/path/to/page?color=purple&name=ferret#hello",
+      "https://example.com/path/to/page#hello, https://example.com/path/to/page#hello",
+      "https://example.com/path/to/page, https://example.com/path/to/page"
+  })
+  public void should_pass_if_they_are_primitively_equivalent(String actual, String expected) throws MalformedURLException {
+    // GIVEN
+    URL actualUrl = new URL(actual);
+    URL expectedUrl = new URL(expected);
+    // WHEN-THEN
+    urls.assertIsEqualToWithSortedQueryParameters(info, actualUrl, expectedUrl);
+  }
+
   @Test
   public void should_pass_if_only_query_parameters_orders_are_different() throws MalformedURLException {
-    URL actual = new URL("https://example.com/path/to/page?color=purple&name=ferret#hello");
-    URL expected = new URL("https://example.com/path/to/page?name=ferret&color=purple#hello");
-    urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
+    // GIVEN
+    URL actualUrl = new URL("https://example.com/path/to/page?color=purple&name=ferret#hello");
+    URL expectedUrl = new URL("https://example.com/path/to/page?name=ferret&color=purple#hello");
+    // WHEN-THEN
+    urls.assertIsEqualToWithSortedQueryParameters(info, actualUrl, expectedUrl);
   }
 
-  @Test
-  public void should_pass_if_both_expected_and_actual_have_query_and_they_are_literally_equivalent()
-    throws MalformedURLException {
-    URL actual = new URL("https://example.com/path/to/page?color=purple&name=ferret#hello");
-    URL expected = new URL("https://example.com/path/to/page?color=purple&name=ferret#hello");
-    urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
+  @ParameterizedTest
+  @CsvSource({
+      "http://example.com/path/to/page?color=purple&name=ferret#hello, https://example.com/path/to/page?color=purple&name=ferret#hello",
+      "https://example2.com/path/to/page?color=purple&name=ferret#hello, https://example.com/path/to/page?color=purple&name=ferret#hello",
+      "https://example.com/sunt/to/ting?color=purple&name=ferret#hello, https://example.com/path/to/page?color=purple&name=ferret#hello",
+      "https://example.com?color=purple&name=ferret#hello, https://example.com/path/to/page?color=purple&name=ferret#hello",
+      "https://example.com/path/to/page?color=purple&name=ferret#world, https://example.com/path/to/page?color=purple&name=ferret#hello",
+      "https://example.com/path/to/page?color=purple&name=ferret, https://example.com/path/to/page?color=purple&name=ferret#hello",
+  })
+  public void should_fail_if_non_query_parts_are_different(String actual, String expected) throws MalformedURLException {
+    // GIVEN
+    URL actualUrl = new URL(actual);
+    URL expectedUrl = new URL(expected);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertIsEqualToWithSortedQueryParameters(info, actualUrl,
+                                                                                                             expectedUrl));
+    // THEN
+    verify(failures).failure(info, shouldBeEqualToWithSortedQueryParameters(actualUrl, expectedUrl));
   }
 
-  @Test
-  public void should_pass_if_both_expected_and_actual_have_no_query_and_they_are_literally_equivalent()
-    throws MalformedURLException {
-    URL actual = new URL("https://example.com/path/to/page#hello");
-    URL expected = new URL("https://example.com/path/to/page#hello");
-    urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
-  }
-
-  @Test
-  public void should_fail_if_sorted_query_parameters_are_different() throws MalformedURLException {
-    AssertionInfo info = someInfo();
-    URL actual = new URL("https://example.com/path/to/page?color=purple&name=ferret#hello");
-    URL expected = new URL("https://example.com/path/to/page?color=red&name=jackson#hello");
-
-    Throwable error = catchThrowable(() -> urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
-  }
-
-  @Test
-  public void should_fail_if_domains_are_different() throws MalformedURLException {
-    AssertionInfo info = someInfo();
-    URL actual = new URL("https://example.com/path/to/page?color=red&name=jackson#hello");
-    URL expected = new URL("https://example2.com/path/to/page?color=red&name=jackson#hello");
-
-    Throwable error = catchThrowable(() -> urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
-  }
-
-  @Test
-  public void should_fail_if_fragments_are_different() throws MalformedURLException {
-    AssertionInfo info = someInfo();
-    URL actual = new URL("https://example.com/path/to/page?color=red&name=jackson#hello");
-    URL expected = new URL("https://example.com/path/to/page?color=red&name=jackson#world");
-
-    Throwable error = catchThrowable(() -> urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
-  }
-
-  @Test
-  public void should_fail_if_actual_has_no_query_and_expected_has_query() throws MalformedURLException {
-    AssertionInfo info = someInfo();
-    URL actual = new URL("https://example.com/path/to/page#hello");
-    URL expected = new URL("https://example.com/path/to/page?color=red&name=jackson#hello");
-
-    Throwable error = catchThrowable(() -> urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
-  }
-
-  @Test
-  public void should_fail_if_actual_has_query_and_expected_has_no_query() throws MalformedURLException {
-    AssertionInfo info = someInfo();
-    URL actual = new URL("https://example.com/path/to/page?color=red&name=jackson#hello");
-    URL expected = new URL("https://example.com/path/to/page#hello");
-
-    Throwable error = catchThrowable(() -> urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
+  @ParameterizedTest
+  @CsvSource({
+      "https://example.com/path/to/page?color=red&name=jackson#hello, https://example.com/path/to/page?color=purple&name=ferret#hello",
+      "https://example.com/path/to/page?#hello, https://example.com/path/to/page?color=purple&name=ferret#hello",
+      "https://example.com/path/to/page?color=purple&name=ferret#hello, https://example.com/path/to/page?",
+  })
+  public void should_fail_if_sorted_query_parameters_are_different(String actual, String expected) throws MalformedURLException {
+    // GIVEN
+    URL actualUrl = new URL(actual);
+    URL expectedUrl = new URL(expected);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertIsEqualToWithSortedQueryParameters(info, actualUrl,
+                                                                                                             expectedUrl));
+    // THEN
+    verify(failures).failure(info, shouldBeEqualToWithSortedQueryParameters(actualUrl, expectedUrl));
   }
 }

@@ -27,6 +27,7 @@ import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -47,13 +48,8 @@ public class Urls {
 
   Urls() {}
 
-  static String extractNonQueryPart(URL url) {
-    return url.toString().substring(0, url.toString().length()
-                                       - (url.getQuery() == null ? 0
-                                           : url.getQuery().length())
-                                       - (url.getRef() == null ? 0
-                                           : url.getRef().length() + 1))
-           + " " + (url.getRef() == null ? "" : url.getRef());
+  private static String[] extractQueryParams(URL url) {
+    return (url.getQuery() == null ? "" : url.getQuery()).split("&");
   }
 
   public void assertHasProtocol(final AssertionInfo info, final URL actual, final String protocol) {
@@ -148,13 +144,18 @@ public class Urls {
 
   public void assertIsEqualToWithSortedQueryParameters(AssertionInfo info, URL actual, URL expected) {
     assertNotNull(info, actual);
-    if (!extractNonQueryPart(expected).equals(extractNonQueryPart(actual)))
+    String expectedQuery = expected.getQuery() == null ? "" : expected.getQuery();
+    String actualQuery = actual.getQuery() == null ? "" : actual.getQuery();
+    String expectedNonQueryPart = expected.toString().replace(expectedQuery, " ");
+    String actualNonQueryPart = actual.toString().replace(actualQuery, " ");
+
+    if (!expectedNonQueryPart.equals(actualNonQueryPart))
       throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
 
-    String[] expectedQueryParams = (expected.getQuery() == null ? "" : expected.getQuery()).split("&");
-    String[] actualQueryParams = (actual.getQuery() == null ? "" : actual.getQuery()).split("&");
-    java.util.Arrays.sort(expectedQueryParams);
-    java.util.Arrays.sort(actualQueryParams);
+    String[] expectedQueryParams = extractQueryParams(expected);
+    String[] actualQueryParams = extractQueryParams(actual);
+    Arrays.sort(expectedQueryParams);
+    Arrays.sort(actualQueryParams);
     if (!Objects.deepEquals(expectedQueryParams, actualQueryParams))
       throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
   }

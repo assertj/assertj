@@ -441,7 +441,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
    * 
-   * @since 3.15.0
+   * @since 3.16.0
    */
   public SELF isEqualToWithSortedQueryParameters(URL expected) {
     urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
