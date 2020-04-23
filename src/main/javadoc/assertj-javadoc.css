@@ -405,13 +405,13 @@
  ul.blockList ul.blockList ul.blockList li.blockList, ul.blockList ul.blockList ul.blockListLast li.blockList {
      padding:0 0 5px 8px;
      background-color:#EDD9A6;
-     border:none;
+     border:1px solid #d8ad41;
  }
  ul.blockList ul.blockList ul.blockList ul.blockList li.blockList {
      margin-left:0;
      padding-left:0;
      padding-bottom:15px;
-     border:none;
+     /* border:none; */
  }
  ul.blockList ul.blockList ul.blockList ul.blockList li.blockListLast {
      list-style:none;
