@@ -48,8 +48,15 @@ public class Urls {
 
   Urls() {}
 
-  private static String[] extractQueryParams(URL url) {
-    return (url.getQuery() == null ? "" : url.getQuery()).split("&");
+  private static String extractNonQueryParams(URL url) {
+    String queryPart = url.getQuery() == null ? "" : url.getQuery();
+    return url.toString().replace(queryPart, " ");
+  }
+
+  private static String[] extractSortedQueryParams(URL url) {
+    String[] queryParams = (url.getQuery() == null ? "" : url.getQuery()).split("&");
+    Arrays.sort(queryParams);
+    return queryParams;
   }
 
   public void assertHasProtocol(final AssertionInfo info, final URL actual, final String protocol) {
@@ -144,19 +151,10 @@ public class Urls {
 
   public void assertIsEqualToWithSortedQueryParameters(AssertionInfo info, URL actual, URL expected) {
     assertNotNull(info, actual);
-    String expectedQuery = expected.getQuery() == null ? "" : expected.getQuery();
-    String actualQuery = actual.getQuery() == null ? "" : actual.getQuery();
-    String expectedNonQueryPart = expected.toString().replace(expectedQuery, " ");
-    String actualNonQueryPart = actual.toString().replace(actualQuery, " ");
-
-    if (!expectedNonQueryPart.equals(actualNonQueryPart))
+    if (!extractNonQueryParams(expected).equals(extractNonQueryParams(actual)))
       throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
 
-    String[] expectedQueryParams = extractQueryParams(expected);
-    String[] actualQueryParams = extractQueryParams(actual);
-    Arrays.sort(expectedQueryParams);
-    Arrays.sort(actualQueryParams);
-    if (!Objects.deepEquals(expectedQueryParams, actualQueryParams))
+    if (!Objects.deepEquals(extractSortedQueryParams(expected), extractSortedQueryParams(actual)))
       throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
   }
 }
