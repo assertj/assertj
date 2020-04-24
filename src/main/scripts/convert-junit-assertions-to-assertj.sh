@@ -38,12 +38,17 @@ FILES_PATTERN=${1:-*Test.java}
 # what file do we want to convert ?
 MATCHED_FILES=$(find . -name "$FILES_PATTERN")
 
+# sed -E: Interpret regular expressions as extended (modern) regular expressions rather than basic regular expressions (BRE's).
 function replace() {
   for file in ${MATCHED_FILES}; do
     sed -E "${SED_OPTIONS[@]}" "$1" "$file"
   done
 }
 
+# regular expressions patterns:
+# `[^",]*` Match a single character not present in the list `^",`
+# ".*[^\]" Match a single character within double quotes, and it can distinguish escaped double quotes
+# .*\(.*\) Match a single character within round brackets
 echo ''
 echo "Converting JUnit assertions to AssertJ assertions in files matching pattern : $FILES_PATTERN"
 echo ''

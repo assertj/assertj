@@ -60,7 +60,9 @@ public class Shell_Script_Conversion_Test_Invoker {
   }
 
   private void Execute_Shell() throws Exception {
-    String shellCommand = "cd " + root + "/" + fileDirectory + " && " + "chmod +x " + root + "/" + testedShellPath + " && "  + root + "/" + testedShellPath + " \"" + fileName + "\"";
+    String shellCommand =
+      "cd " + root + "/" + fileDirectory + " && " + "chmod +x " + root + "/" + testedShellPath + " && " + root + "/"
+      + testedShellPath + " \"" + fileName + "\"";
     Runtime runtime = Runtime.getRuntime();
     Process pro = runtime.exec(new String[] { shellProgramLocation, "-c", shellCommand }, null, null);
     int status = pro.waitFor();
@@ -99,6 +101,7 @@ public class Shell_Script_Conversion_Test_Invoker {
   }
 
   // delete the file if file exist.
+  // NOTE: if the program is terminated, the buffer file will not be deleted.
   private void delete() {
     try {
       File myFilePath = new File(filePath);
