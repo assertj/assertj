@@ -43,6 +43,7 @@ class SoftProxies {
                                                                                                                         .or(named("asString"))
                                                                                                                         .or(named("asHexString"))
                                                                                                                         .or(named("decodedAsBase64"))
+                                                                                                                        .or(named("encodedAsBase64"))
                                                                                                                         .or(named("extracting"))
                                                                                                                         .or(named("extractingByKey"))
                                                                                                                         .or(named("extractingByKeys"))
