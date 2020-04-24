@@ -38,28 +38,32 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
  * Injects an instance of {@link SoftAssertions} to any Field of type
  * {@code SoftAssertions} that has the annotation {@link Softly @softly}
  * before each test method execution and invokes
- * {@link SoftAssertions#assertAll() assert all} after the test method
+ * {@link SoftAssertions#assertAll() assert all} after the test method execution.
  * </p>
  * <p>
  * This extension will throw a {@link Failures#failure(String) failure}
- * when more that one filed is annotated with{@code @Softly}.
+ * when more that one filed is annotated with {@link Softly @softly}.
  * </p>
  * <p>
  * A nested test class can provide a {@code SoftAssertions}
- * field when it extends {@code this} extension or can inherit
- * the parent's {@code Soft assertions field}</p>
+ * field annotated with  {@link Softly @softly}  when it extends
+ * {@link SoftlyExtension this} extension or it can use
+ * the outer class field.
+ * </p>
+ * <br>
  * <h3>Limitations</h3>
  * <p>
- * Cannot be used with test context that use {@link Lifecycle#PER_CLASS PER_CLASS}
- * life cycle and may exhibit unpredictable behaviour in concurrent execution.
+ * Cannot be used with test context that have {@link Lifecycle#PER_CLASS PER_CLASS}
+ * life cycle and may exhibit unpredictable behaviour in concurrent test execution.
  * </p>
  * <p>
  * In order to mitigate the lifecycle issue a {@link Failures#failure(String) failure}
- * will be thrown when the extension is used in test contexts that use
- * {@link Lifecycle#PER_CLASS PER_CLASS}
+ * will be thrown when the extension is used in test contexts that has
+ * {@link Lifecycle#PER_CLASS PER_CLASS} life cycle.
  * </p>
+ * <br>
  * <p>
- * Inspired by Mockito @Captor annotation.
+ * Inspired by Mockito's {@code @Captor} annotation.
  * </p>
  *
  * @author Arthur Mita
