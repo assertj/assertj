@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.deepEquals;
+import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
@@ -28,6 +30,7 @@ import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -47,6 +50,17 @@ public class Urls {
   }
 
   Urls() {}
+
+  private static String extractNonQueryParams(URL url) {
+    String queryPart = url.getQuery() == null ? "" : url.getQuery();
+    return url.toString().replace(queryPart, " ");
+  }
+
+  private static String[] extractSortedQueryParams(URL url) {
+    String[] queryParams = (url.getQuery() == null ? "" : url.getQuery()).split("&");
+    Arrays.sort(queryParams);
+    return queryParams;
+  }
 
   public void assertHasProtocol(final AssertionInfo info, final URL actual, final String protocol) {
     assertNotNull(info, actual);
@@ -138,4 +152,11 @@ public class Urls {
     }
   }
 
+  public void assertIsEqualToWithSortedQueryParameters(AssertionInfo info, URL actual, URL expected) {
+    assertNotNull(info, actual);
+    boolean differentNonQueryParams = !extractNonQueryParams(expected).equals(extractNonQueryParams(actual));
+    boolean differentSortedQueryParams = !deepEquals(extractSortedQueryParams(expected), extractSortedQueryParams(actual));
+    if (differentNonQueryParams || differentSortedQueryParams)
+      throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
+  }
 }
