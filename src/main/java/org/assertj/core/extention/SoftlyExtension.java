@@ -15,6 +15,7 @@ package org.assertj.core.extention;
 import org.assertj.core.annotations.Softly;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.internal.Failures;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -29,23 +30,34 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 
 /**
  * <p>
  * Injects an instance of {@link SoftAssertions} to any Field of type
- * {@code SoftAssertions} that has the annotation {@link Softly}
+ * {@code SoftAssertions} that has the annotation {@link Softly @softly}
  * before each test method execution and invokes
- * {@link SoftAssertions#assertAll()} after the test method
+ * {@link SoftAssertions#assertAll() assert all} after the test method
  * </p>
  * <p>
- * This extension will throw a {@link Failures#failure(String)}
+ * This extension will throw a {@link Failures#failure(String) failure}
  * when more that one filed is annotated with{@code @Softly}.
  * </p>
  * <p>
  * A nested test class can provide a {@code SoftAssertions}
  * field when it extends {@code this} extension or can inherit
  * the parent's {@code Soft assertions field}</p>
+ * <h3>Limitations</h3>
+ * <p>
+ * Cannot be used with test context that use {@link Lifecycle#PER_CLASS PER_CLASS}
+ * life cycle and may exhibit unpredictable behaviour in concurrent execution.
+ * </p>
+ * <p>
+ * In order to mitigate the lifecycle issue a {@link Failures#failure(String) failure}
+ * will be thrown when the extension is used in test contexts that use
+ * {@link Lifecycle#PER_CLASS PER_CLASS}
+ * </p>
  * <p>
  * Inspired by Mockito @Captor annotation.
  * </p>
@@ -82,6 +94,10 @@ public class SoftlyExtension implements TestInstancePostProcessor, BeforeEachCal
 
           if (softlyFields.size() > 1) {
             throw failures.failure("Only one field of type " + SoftAssertions.class.getName() + " can have the annotation @Softly");
+          }
+
+          if (context.getTestInstanceLifecycle().isPresent() && context.getTestInstanceLifecycle().get() == PER_CLASS) {
+            throw failures.failure("@Softly annotation not permitted in test class with life cycle PER_CLASS");
           }
 
           Field softlyField = softlyFields.get(0);
