@@ -14,7 +14,6 @@ package org.assertj.scripts;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -31,11 +30,11 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @DisplayName("Convert JUnit5 assertions to AssertJ")
 public class Convert_Junit5_Assertions_To_Assertj_Test {
-  private Shell_Script_Conversion_Test_Invoker tester;
+  private shellScriptConversionTestInvoker tester;
 
   @BeforeEach
   public void init() {
-    tester = new Shell_Script_Conversion_Test_Invoker(
+    tester = new shellScriptConversionTestInvoker(
       "sh",
       "src/test/java/org/assertj/scripts/Shell_Script_Junit5_Conversion_Buffer.java",
       "src/main/scripts/convert-junit5-assertions-to-assertj.sh"

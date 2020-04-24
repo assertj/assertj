@@ -23,7 +23,7 @@ import java.io.*;
  * @author XiaoMingZHM, Eveneko
  */
 
-public class Shell_Script_Conversion_Test_Invoker {
+public class shellScriptConversionTestInvoker {
   private String fileName;
   private String filePath;
   private String fileDirectory;
@@ -31,7 +31,7 @@ public class Shell_Script_Conversion_Test_Invoker {
   private String testedShellPath;
   private String root;
 
-  public Shell_Script_Conversion_Test_Invoker(String shellProgramLocation, String filePath, String testedShellPath) {
+  public shellScriptConversionTestInvoker(String shellProgramLocation, String filePath, String testedShellPath) {
     // get the absolute path for this repository. If you have better method, please fix it.
     this.root = (new File("")).getAbsolutePath().replace(File.separator, "/");
     // It will open shell to execute shell script. it is the place sh.exe or shell.exe is.
