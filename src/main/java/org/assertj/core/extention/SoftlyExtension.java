@@ -51,11 +51,11 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace;
  * the outer class field.
  * </p>
  * <br>
- * <h3>Limitations</h3>
- * <p>
- * Cannot be used with test context that have {@link Lifecycle#PER_CLASS PER_CLASS}
- * life cycle and may exhibit unpredictable behaviour in concurrent test execution.
- * </p>
+ * <strong>Limitations</strong>
+ * <ol>
+ *   <li>Cannot be used with test context that have {@link Lifecycle#PER_CLASS PER_CLASS} life cycle</li>
+ *   <li>May exhibit unpredictable behaviour in concurrent test execution</li>
+ * </ol>
  * <p>
  * In order to mitigate the lifecycle issue a {@link Failures#failure(String) failure}
  * will be thrown when the extension is used in test contexts that has
