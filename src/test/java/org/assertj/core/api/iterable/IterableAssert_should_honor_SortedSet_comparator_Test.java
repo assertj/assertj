@@ -25,12 +25,12 @@ import java.util.TreeSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_should_honor_SortedSet_comparator_Test {
+class IterableAssert_should_honor_SortedSet_comparator_Test {
 
   private Iterable<Set<String>> sets;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     Set<String> treeSetWithComparator = new TreeSet<>(Comparator.comparing(String::toUpperCase));
     treeSetWithComparator.add("FOO");
     SortedSet<String> sortedSetWithComparator = new TreeSet<>(Comparator.comparing(String::toUpperCase));
@@ -41,7 +41,7 @@ public class IterableAssert_should_honor_SortedSet_comparator_Test {
   }
 
   @Test
-  public void should_honor_sorted_set_comparator() {
+  void should_honor_sorted_set_comparator() {
     assertThat(sets).allSatisfy(set -> {
       assertThat(set).contains("foo");
       assertThat(set).containsAll(newLinkedHashSet("foo"));
@@ -54,6 +54,7 @@ public class IterableAssert_should_honor_SortedSet_comparator_Test {
       assertThat(set).containsOnly("foo");
       assertThat(set).containsOnlyElementsOf(newLinkedHashSet("foo"));
       assertThat(set).containsOnlyOnce("foo");
+      assertThat(set).containsOnlyOnceElementsOf(newLinkedHashSet("foo"));
       assertThat(set).containsSequence("foo");
       assertThat(set).containsSequence(newLinkedHashSet("foo"));
       assertThat(set).containsSubsequence("foo");

@@ -601,6 +601,14 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> containsOnlyOnceElementsOf(Iterable<? extends T> iterable) {
+    return containsOnlyOnce(toArray(iterable));
+  }
+
+  /**
    * Verifies that the actual AtomicReferenceArray contains only the given values and nothing else, <b>in order</b>.<br>
    * <p>
    * Example :
@@ -1709,7 +1717,6 @@ public class AtomicReferenceArrayAssert<T>
     objects = new Objects(new AtomicReferenceArrayElementComparisonStrategy<>(elementComparator));
     return myself;
   }
-
 
   private AtomicReferenceArrayAssert<T> usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
     return usingElementComparator(new ExtendedByTypesComparator(elementComparator, getComparatorsByType()));
