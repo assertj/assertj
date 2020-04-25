@@ -47,7 +47,7 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasQuery(info, null, "http://www.helloworld.org/index.html?type=test"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasQuery(info, null, "type=test"))
                                                    .withMessage(actualIsNull());
   }
 

@@ -48,7 +48,7 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasQuery(info, null, "http://www.helloworld.org/index.html?type=test"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasQuery(info, null, "type=test"))
                                                    .withMessage(actualIsNull());
   }
 
