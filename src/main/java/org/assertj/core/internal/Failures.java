@@ -136,6 +136,14 @@ public class Failures {
     return assertionError;
   }
 
+  public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory, Object actual, Object expected, Throwable cause) {
+    String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
+    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected, cause);
+    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    printThreadDumpIfNeeded();
+    return assertionError;
+  }
+
   protected String assertionErrorMessage(AssertionInfo info, ErrorMessageFactory messageFactory) {
     String overridingErrorMessage = info.overridingErrorMessage();
     String message = isNullOrEmpty(overridingErrorMessage)

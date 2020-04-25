@@ -48,6 +48,10 @@ public class AssertionErrorCreator {
     return assertionFailedError(message, actual, expected).orElse(assertionError(message));
   }
 
+  public AssertionError assertionError(String message, Object actual, Object expected, Throwable cause) {
+    return assertionFailedError(message, actual, expected, cause).orElse(assertionError(message, cause));
+  }
+
   private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected) {
     try {
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
@@ -59,13 +63,31 @@ public class AssertionErrorCreator {
         AssertionError assertionError = (AssertionError) o;
         return Optional.of(assertionError);
       }
-    } catch (Throwable ignored) {
-    }
+    } catch (Throwable ignored) {}
+    return Optional.empty();
+  }
+
+  private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected, Throwable cause) {
+    try {
+      Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
+                                                MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
+                                                message,
+                                                expected,
+                                                actual,
+                                                cause);
+      if (o instanceof AssertionError) {
+        AssertionError assertionError = (AssertionError) o;
+        return Optional.of(assertionError);
+      }
+    } catch (Throwable ignored) {}
     return Optional.empty();
   }
 
   private static AssertionError assertionError(String message) {
     return new AssertionError(message);
+  }
+  private static AssertionError assertionError(String message, Throwable cause) {
+    return new AssertionError(message, cause);
   }
 
   // multiple assertions error

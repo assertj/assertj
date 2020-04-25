@@ -1101,7 +1101,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *         &quot;  &lt;/bearer&gt;\n&quot; +
    *         &quot;&lt;/rings&gt;&quot;;
    *
-   * // No matter how your xml string is formated, isXmlEqualTo is able to compare it's content with another xml String.
+   * // No matter how your xml string is formatted, isXmlEqualTo is able to compare it's content with another xml String.
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
    * assertThat(oneLineXml).isXmlEqualTo(expectedXml);
    *
@@ -1126,6 +1126,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param expectedXml the XML {@code CharSequence} to which the actual {@code CharSequence} is to be compared to.
    * @return {@code this} assertion object to chain other assertions.
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the XML format of actual {@code CharSequence} or expected {@code CharSequence} is incorrect.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the given XML
    *           {@code CharSequence}.
    */
@@ -1147,6 +1148,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param xmlFile the file to read the expected XML String to compare with actual {@code CharSequence}
    * @return {@code this} assertion object to chain other assertions.
    * @throws NullPointerException if the given {@code File} is {@code null}.
+   * @throws AssertionError if the XML format of actual {@code CharSequence} or content of given {@code File} is incorrect.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of
    *           given {@code File}.
    */

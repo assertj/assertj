@@ -60,6 +60,7 @@ import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldNotStartWith.shouldNotStartWith;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.error.ShouldBeCorrectFormat.shouldBeCorrectFormat;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
@@ -1005,11 +1006,30 @@ public class Strings {
     checkCharSequenceIsNotNull(expectedXml);
     assertNotNull(info, actualXml);
     // we only use default comparison strategy, it does not make sense to use a specific comparison strategy
-    final String formattedActualXml = xmlPrettyFormat(actualXml.toString());
-    final String formattedExpectedXml = xmlPrettyFormat(expectedXml.toString());
+
+    final String actualXmlString = actualXml.toString();
+    final String expectedXmlString = expectedXml.toString();
+
+    String formattedActualXml;
+    String formattedExpectedXml;
+    try {
+      formattedActualXml = xmlPrettyFormat(actualXml.toString());
+    } catch (RuntimeException xmlFormatIncorrect) {
+      // if RuntimeException is cached in formatting actual XML
+      throw failures.failure(info, shouldBeCorrectFormat("actual", actualXmlString), actualXmlString, expectedXmlString,
+                             xmlFormatIncorrect);
+    }
+    try {
+      formattedExpectedXml = xmlPrettyFormat(expectedXml.toString());
+    } catch (RuntimeException xmlFormatIncorrect) {
+      // if RuntimeException is cached in formatting expected XML
+      throw failures.failure(info, shouldBeCorrectFormat("expected", expectedXmlString), actualXmlString, expectedXmlString,
+                             xmlFormatIncorrect);
+    }
+    // do comparison if actual and expected is in correct format
     if (!comparisonStrategy.areEqual(formattedActualXml, formattedExpectedXml))
-      throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy,
-                                                 info.representation()));
+      throw failures.failure(info,
+                             shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy, info.representation()));
   }
 
   public void assertIsSubstringOf(AssertionInfo info, CharSequence actual, CharSequence sequence) {
