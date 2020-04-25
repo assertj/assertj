@@ -52,18 +52,16 @@ public class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends
 
     @BeforeEach
     void createFixturePaths() throws IOException {
-      // @format:off
-    // The layout :
-    //  root
-    //  |-- foo
-    //  |    |-- foobar
-    //  |         |-- foobar1.data
-    //  |         |-- foobar2.json
-    //  |-- foo2.data
+    // @format:off
+      // The layout :
+      //  root
+      //  |-- foo
+      //  |    |-- foobar
+      //  |         |-- foobar1.data
+      //  |         |-- foobar2.json
+      //  |-- foo2.data
     // @format:on
       Path rootDir = createDirectoryWithDefaultParent("root", "foo2.data");
-      java.nio.file.Files.list(rootDir).forEach(System.out::println);
-
       Path fooDir = createDirectory(rootDir, "foo");
       createDirectory(fooDir, "foobar", "foobar1.data", "foobar2.json");
     }
