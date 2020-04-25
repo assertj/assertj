@@ -95,7 +95,7 @@ public class Paths_assertIsDirectoryContaining_SyntaxAndPattern_Test extends Moc
     String filter = null;
     // THEN
     assertThatNullPointerException().isThrownBy(() -> paths.assertIsDirectoryContaining(INFO, null, filter))
-                                    .withMessage("The syntax and pattern to build PathMatcher should not be null");
+                                    .withMessage("The syntax and pattern should not be null");
   }
 
   @Test
