@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import org.assertj.core.api.RecursiveComparisonAssert_isNotEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Jedi;
@@ -23,7 +24,8 @@ import static org.assertj.core.api.recursive.comparison.Color.GREEN;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS_STRING;
 
 @DisplayName("RecursiveComparisonAssert isNotEqualTo")
-public class RecursiveComparisonAssert_isNotEqualTo_Test {
+public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveComparisonAssert_isNotEqualTo_BaseTest {
+
   @Test
   public void should_pass_when_either_actual_or_expected_is_null() {
     // GIVEN
@@ -34,7 +36,6 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test {
                       .isNotEqualTo(other);
     assertThat(other).usingRecursiveComparison()
                      .isNotEqualTo(actual);
-
   }
 
   @Test
@@ -42,9 +43,10 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test {
     // GIVEN
     Person actual = null;
     Person other = null;
-    // THEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingRecursiveComparison()
-                                                                                       .isNotEqualTo(other));
+    // When
+    compareRecursivelySameAsOther(actual, other);
+    // Then
+    verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
   }
 
   @Test
@@ -61,10 +63,11 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
-    // THEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingRecursiveComparison()
-                                                                                       .ignoringFields("name")
-                                                                                       .isNotEqualTo(other));
+    recursiveComparisonConfiguration.ignoreFields("name");
+    // When
+    compareRecursivelySameAsOther(actual, other);
+    // Then
+    verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
   }
 
   @Test
@@ -72,10 +75,11 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test {
     // GIVEN
     CartoonCharacter actual = new CartoonCharacter("Homer Simpson");
     Person other = new Person("Homer Simpson");
-    // THEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingRecursiveComparison()
-                                                                                       .ignoringFields("children")
-                                                                                       .isNotEqualTo(other));
+    recursiveComparisonConfiguration.ignoreFields("children");
+    // When
+    compareRecursivelySameAsOther(actual, other);
+    // Then
+    verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
   }
 
   @Test
@@ -83,11 +87,11 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
-    // THEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingRecursiveComparison()
-                                                                                       .ignoringFields("name")
-                                                                                       .isNotEqualTo(other));
-
+    recursiveComparisonConfiguration.ignoreFields("name");
+    // When
+    compareRecursivelySameAsOther(actual, other);
+    // Then
+    verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
   }
 
   @Test
@@ -95,10 +99,10 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    // THEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual)
-                                                                                       .usingRecursiveComparison()
-                                                                                       .isNotEqualTo(other));
+    // When
+    compareRecursivelySameAsOther(actual, other);
+    // Then
+    verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
 
   }
 
@@ -131,10 +135,11 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Person other = new Person("Yoda");
-    other.neighbour=other;
+    other.neighbour = other;
     // THEN
     assertThat(actual).usingRecursiveComparison().isNotEqualTo(other);
   }
+
   @Test
   public void should_be_able_to_use_a_comparator_for_specified_fields() {
     // GIVEN

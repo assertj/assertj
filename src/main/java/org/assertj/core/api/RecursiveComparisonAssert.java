@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
-import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively.shouldNotBeEqualComparingFieldByFieldRecursively;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -29,6 +29,7 @@ import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
+// import org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
@@ -184,28 +185,40 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <pre><code class='java'> // equals not overridden in TolkienCharacter
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter frodoClone2 = new TolkienCharacter("Frodo", 32, HOBBIT);
    *
    * // Pass as equals compares object references
    * assertThat(frodo).isNotEqualTo(frodoClone);
    *
    * // Fail as frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(frodo).usingRecursiveComparison().isNotEqualTo(frodoClone);</code></pre>
+   * assertThat(frodo).usingRecursiveComparison().isNotEqualTo(frodoClone);
    *
+   * // Pass as there is one different field between frodo and frodoClone2.
+   * assertThat(frodo).isNotEqualTo(frodoClone2);</code></pre>
    * @param other the object to compare {@code actual} to.
    * @return {@code this} assertions object
    * @throws AssertionError if the actual object and the given objects are both {@code null}.
    * @throws AssertionError if the actual and the given objects are equals property/field by property/field recursively.
    * @see #isEqualTo(Object)
+   * @since 3.16.0
    */
   @Override
   public SELF isNotEqualTo(Object other) {
-    // null != notNull => pass, null == null => fail
-    if (actual == null && other == null) {
-      throw objects.getFailures().failure(info, shouldNotBeEqual(actual, other));
-    } else if (other != null && actual != null) {
+    // (null != notNull) => pass, (null == null) => fail
+    if (actual == other) {
+      throw objects.getFailures().failure(info,
+                                          shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
+                                                                                           recursiveComparisonConfiguration,
+                                                                                           info.representation()));
+    }
+    if (other != null && actual != null) {
       // at this point both actual and expected are not null, we can compare them recursively!
       List<ComparisonDifference> differences = determineDifferencesWith(other);
-      if (differences.isEmpty()) throw objects.getFailures().failure(info, shouldNotBeEqual(actual, other));
+      if (differences.isEmpty())
+        throw objects.getFailures().failure(info,
+                                            shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
+                                                                                             recursiveComparisonConfiguration,
+                                                                                             info.representation()));
     }
 
     return myself;

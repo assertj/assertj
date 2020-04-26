@@ -12,19 +12,45 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.presentation.Representation;
 
 public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicErrorMessageFactory {
-  /**
-   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
-   *
-   * @param format    the format string.
-   * @param arguments arguments referenced by the format specifiers in the format string.
-   */
-  public ShouldNotBeEqualComparingFieldByFieldRecursively(String format, Object... arguments) {
-    super(format, arguments);
+
+  public static ErrorMessageFactory shouldNotBeEqualComparingFieldByFieldRecursively(Object actual, Object other,
+                                                                                     RecursiveComparisonConfiguration recursiveComparisonConfiguration,
+                                                                                     Representation representation) {
+    String recursiveComparisonConfigurationDescription = recursiveComparisonConfiguration.multiLineDescription(representation);
+
+    return new ShouldNotBeEqualComparingFieldByFieldRecursively("%n" +
+                                                                "Expecting:%n" +
+                                                                "  <%s>%n" +
+                                                                "not to be equal to:%n" +
+                                                                "  <%s>%n" +
+                                                                "when recursively comparing field by field" +
+                                                                "%n" +
+                                                                "The recursive comparison was performed with this configuration:%n"
+                                                                +
+                                                                recursiveComparisonConfigurationDescription, // don't use %s
+                                                                                                             // to avoid AssertJ
+                                                                                                             // formatting String
+                                                                                                             // with ""
+                                                                actual, other);
   }
 
+  public static ErrorMessageFactory shouldNotBeEqualComparingFieldByFieldRecursively(Object actual) {
+    if (actual == null)
+      return new ShouldNotBeEqualComparingFieldByFieldRecursively("%n" +
+                                                                  "Expecting:%n" +
+                                                                  "  actual not equal to other, but both of them are null.%n");
+    return new ShouldNotBeEqualComparingFieldByFieldRecursively("%n" +
+                                                                "Expecting:%n" +
+                                                                "  actual not equal to other, but both of them refer to%n"
+                                                                + "  <%s>%n", actual);
+  }
+
+  private ShouldNotBeEqualComparingFieldByFieldRecursively(String message, Object... arguments) {
+    super(message, arguments);
+  }
 
 }
