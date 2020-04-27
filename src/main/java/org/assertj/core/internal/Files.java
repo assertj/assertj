@@ -507,15 +507,10 @@ public class Files {
     assertIsDirectoryNotContaining(info, actual, fileMatcher, format("the '%s' pattern", syntaxAndPattern));
   }
 
+  @VisibleForTesting
   public static List<String> toFileNames(List<File> files) {
     return files.stream()
                 .map(File::getName)
-                .collect(toList());
-  }
-
-  public static List<String> toAbsolutePaths(List<File> files) {
-    return files.stream()
-                .map(File::getAbsolutePath)
                 .collect(toList());
   }
 
@@ -551,22 +546,21 @@ public class Files {
     return toFileNames(directoryContent(info, actual));
   }
 
-  // BEGIN - recursively assertion private methods
   private boolean isDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter) {
     assertIsDirectory(info, actual);
-    try (Stream<File> fileStream = createRecursiveStreamOfFile(actual)) {
-      return fileStream.anyMatch(filter);
+    try (Stream<File> actualContent = recursiveContentOf(actual)) {
+      return actualContent.anyMatch(filter);
     }
   }
 
-  private List<File> directoryRecursiveContent(File actual) {
-    try (Stream<File> fileStream = createRecursiveStreamOfFile(actual)) {
+  private List<File> sortedRecursiveContent(File directory) {
+    try (Stream<File> fileStream = recursiveContentOf(directory)) {
       return fileStream.sorted(comparing(File::getAbsolutePath))
                        .collect(toList());
     }
   }
 
-  private Stream<File> createRecursiveStreamOfFile(File directory) {
+  private Stream<File> recursiveContentOf(File directory) {
     Path path = directory.toPath();
     try {
       return java.nio.file.Files.walk(path)
@@ -580,15 +574,9 @@ public class Files {
   private void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter,
                                                       String filterPresentation) {
     if (!isDirectoryRecursivelyContaining(info, actual, filter)) {
-      throw failures.failure(info, directoryShouldContainRecursively(actual, directoryRecursiveContentDescription(actual),
-                                                                     filterPresentation));
+      throw failures.failure(info, directoryShouldContainRecursively(actual, sortedRecursiveContent(actual), filterPresentation));
     }
   }
-
-  private List<String> directoryRecursiveContentDescription(File actual) {
-    return toAbsolutePaths(directoryRecursiveContent(actual));
-  }
-  // END - recursively assertion private methods
 
   private static Predicate<File> fileMatcher(AssertionInfo info, File actual, String syntaxAndPattern) {
     assertNotNull(info, actual);

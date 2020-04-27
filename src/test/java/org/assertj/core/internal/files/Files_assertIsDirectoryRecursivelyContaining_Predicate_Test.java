@@ -14,7 +14,6 @@ package org.assertj.core.internal.files;
 
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
-import static org.assertj.core.internal.Files.toAbsolutePaths;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
@@ -124,10 +123,10 @@ public class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends
                                                                             f -> f.getName().equals("foo2")));
     // THEN
     verify(failures).failure(INFO, directoryShouldContainRecursively(tempDirAsFile,
-                                                                     toAbsolutePaths(list(new File(tempDirAsFile, "foo"),
-                                                                                          new File(tempDirAsFile,
-                                                                                                   "foo/foo2.data"),
-                                                                                          new File(tempDirAsFile, "foo/foo3"))),
+                                                                     list(new File(tempDirAsFile, "foo"),
+                                                                          new File(tempDirAsFile,
+                                                                                   "foo/foo2.data"),
+                                                                          new File(tempDirAsFile, "foo/foo3")),
                                                                      THE_GIVEN_FILTER_DESCRIPTION));
   }
 

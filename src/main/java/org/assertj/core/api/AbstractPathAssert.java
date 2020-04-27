@@ -1506,6 +1506,94 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Verify that the actual {@code Path} directory or any of its subdirectories (recursively) contains at least one file
+   * matching the given {@code String} interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
+   * <p>
+   * That methods performs the same assertion as {@link #isDirectoryContaining(String syntaxAndPattern)}  but recursively.
+   * <p>
+   * Note that the actual {@link Path} must exist and be a directory.
+   * <p>
+   * Examples given the following directory structure:
+   * <pre><code class="text"> root
+   * |—— foo
+   * |    |—— foobar
+   * |         |—— foo-file-1.ext
+   * |—— foo-file-2.ext</code>
+   * </pre>
+   *
+   * <pre><code class="java"> Path root = Paths.get("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(root).isDirectoryRecursivelyContaining("glob:**foo")
+   *                 .isDirectoryRecursivelyContaining("glob:**ooba*")
+   *                 .isDirectoryRecursivelyContaining("glob:**file-1.ext")
+   *                 .isDirectoryRecursivelyContaining("regex:.*file-2.*")
+   *                 .isDirectoryRecursivelyContaining("glob:**.{ext,dummy}");
+   *
+   * // The following assertions fail:
+   * assertThat(root).isDirectoryRecursivelyContaining("glob:**fooba");
+   * assertThat(root).isDirectoryRecursivelyContaining("glob:**.bin");
+   * assertThat(root).isDirectoryRecursivelyContaining("glob:**.{java,class}"); </code></pre>
+   *
+   * @param syntaxAndPattern the syntax and pattern for {@link java.nio.file.PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given syntaxAndPattern is {@code null}.
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if actual does not exist.
+   * @throws AssertionError       if actual is not a directory.
+   * @throws AssertionError       if actual does not contain recursively any files matching the given path matcher.
+   * @see FileSystem#getPathMatcher(String)
+   * @since 3.16.0
+   */
+  public SELF isDirectoryRecursivelyContaining(String syntaxAndPattern) {
+    paths.assertIsDirectoryRecursivelyContaining(info, actual, syntaxAndPattern);
+    return myself;
+  }
+
+  /**
+   * Verify that the actual {@code Path} directory or any of its subdirectories (recursively) contains at least one file
+   * matching the given {@code Predicate<Path>}.
+   * <p>
+   * That methods performs the same assertion as {@link #isDirectoryContaining(Predicate filter)}  but recursively.
+   * <p>
+   * Note that the actual {@link Path} must exist and be a directory.
+   * <p>
+   * Examples given the following directory structure:
+   * <pre><code class="text"> root
+   * |—— foo
+   * |    |—— foobar
+   * |         |—— foo-file-1.ext
+   * |—— foo-file-2.ext</code>
+   * </pre>
+   *
+   * Here are some assertions examples:
+   * <pre><code class="java"> Path root = Paths.get("root");
+   *
+   * // The following assertions succeed:
+   * assertThat(root).isDirectoryRecursivelyContaining(file -&gt; file.getName().startsWith("foo-file-1"))
+   *                 .isDirectoryRecursivelyContaining(file -&gt; file.getName().endsWith("file-2.ext"))
+   *                 .isDirectoryRecursivelyContaining(file -&gt; file.getName().equals("foo"))
+   *                 .isDirectoryRecursivelyContaining(file -&gt; file.getParentFile().getName().equals("foo"))
+   *
+   * // The following assertions fail:
+   * assertThat(root).isDirectoryRecursivelyContaining(file -&gt; file.getName().equals("foo-file-1"))
+   * assertThat(root).isDirectoryRecursivelyContaining(file -&gt; file.getName().equals("foo/foobar")); </code></pre>
+   *
+   * @param filter the filter for files located inside {@code actual}'s directory.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given filter is {@code null}.
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if actual does not exist.
+   * @throws AssertionError       if actual is not a directory.
+   * @throws AssertionError       if actual does not contain recursively any files matching the given predicate.
+   * @since 3.16.0
+   */
+  public SELF isDirectoryRecursivelyContaining(Predicate<Path> filter) {
+    paths.assertIsDirectoryRecursivelyContaining(info, actual, filter);
+    return myself;
+  }
+
+  /**
    * Verify that the actual {@code Path} is a directory that does not contain any files matching the given {@code Predicate<Path>}.
    * <p>
    * Note that the actual {@link Path} must exist and be a directory.
