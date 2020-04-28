@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
+import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
@@ -25,6 +26,7 @@ import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.error.ShouldContain.directoryShouldContain;
+import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
@@ -48,11 +50,13 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
+import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -475,9 +479,21 @@ public class Files {
   }
 
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
-    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
-    Predicate<File> pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
-    assertIsDirectoryContaining(info, actual, pathMatcher, format("the '%s' pattern", syntaxAndPattern));
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
+    Predicate<File> fileMatcher = fileMatcher(info, actual, syntaxAndPattern);
+    assertIsDirectoryContaining(info, actual, fileMatcher, format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
+    Predicate<File> fileMatcher = fileMatcher(info, actual, syntaxAndPattern);
+    assertIsDirectoryRecursivelyContaining(info, actual, fileMatcher,
+                                           format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    requireNonNull(filter, "The files filter should not be null");
+    assertIsDirectoryRecursivelyContaining(info, actual, filter, "the given filter");
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter) {
@@ -486,11 +502,12 @@ public class Files {
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
-    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
-    Predicate<File> pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
-    assertIsDirectoryNotContaining(info, actual, pathMatcher, format("the '%s' pattern", syntaxAndPattern));
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
+    Predicate<File> fileMatcher = fileMatcher(info, actual, syntaxAndPattern);
+    assertIsDirectoryNotContaining(info, actual, fileMatcher, format("the '%s' pattern", syntaxAndPattern));
   }
 
+  @VisibleForTesting
   public static List<String> toFileNames(List<File> files) {
     return files.stream()
                 .map(File::getName)
@@ -529,7 +546,39 @@ public class Files {
     return toFileNames(directoryContent(info, actual));
   }
 
-  private Predicate<File> pathMatcher(AssertionInfo info, File actual, String syntaxAndPattern) {
+  private boolean isDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    assertIsDirectory(info, actual);
+    try (Stream<File> actualContent = recursiveContentOf(actual)) {
+      return actualContent.anyMatch(filter);
+    }
+  }
+
+  private List<File> sortedRecursiveContent(File directory) {
+    try (Stream<File> fileStream = recursiveContentOf(directory)) {
+      return fileStream.sorted(comparing(File::getAbsolutePath))
+                       .collect(toList());
+    }
+  }
+
+  private Stream<File> recursiveContentOf(File directory) {
+    Path path = directory.toPath();
+    try {
+      return java.nio.file.Files.walk(path)
+                                .filter(p -> !p.equals(path))
+                                .map(Path::toFile);
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Unable to walk recursively the directory :<%s>", path), e);
+    }
+  }
+
+  private void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter,
+                                                      String filterPresentation) {
+    if (!isDirectoryRecursivelyContaining(info, actual, filter)) {
+      throw failures.failure(info, directoryShouldContainRecursively(actual, sortedRecursiveContent(actual), filterPresentation));
+    }
+  }
+
+  private static Predicate<File> fileMatcher(AssertionInfo info, File actual, String syntaxAndPattern) {
     assertNotNull(info, actual);
     PathMatcher pathMatcher = actual.toPath().getFileSystem().getPathMatcher(syntaxAndPattern);
     return file -> pathMatcher.matches(file.toPath());

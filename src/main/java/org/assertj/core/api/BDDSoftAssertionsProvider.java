@@ -29,6 +29,7 @@ import java.util.OptionalLong;
 import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -54,10 +55,10 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   }
 
   /**
-   * Create assertion for {@link java.util.Optional}.
+   * Create assertion for {@link Optional}.
    *
    * @param actual the actual value.
-   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link Optional}.
    *
    * @return the created assertion object.
    */
@@ -353,4 +354,17 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   default <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
     return proxy(SpliteratorAssert.class, Spliterator.class, actual);
   }
+
+  /**
+   * Create assertion for {@link LongAdder}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.16.0
+   */
+  @CheckReturnValue
+  default LongAdderAssert then(LongAdder actual) {
+    return proxy(LongAdderAssert.class, LongAdder.class, actual);
+  }
+
 }

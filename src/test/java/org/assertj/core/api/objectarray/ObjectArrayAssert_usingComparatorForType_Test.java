@@ -15,10 +15,11 @@ package org.assertj.core.api.objectarray;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS_STRING;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import java.math.BigDecimal;
@@ -30,8 +31,10 @@ import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("ObjectArrayAssert usingComparatorForType")
 public class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;
@@ -115,20 +118,21 @@ public class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAs
     // GIVEN
     Object[] array = array(actual, "some");
     // THEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING,
-                                                                                                                               String.class)
-                                                                                      .usingFieldByFieldElementComparator()
-                                                                                      .contains(other, "any"))
-                                                   .withMessage(format("%nExpecting:%n"
-                                                                       + " <[Yoda the Jedi, \"some\"]>%n"
-                                                                       + "to contain:%n"
-                                                                       + " <[Luke the Jedi, \"any\"]>%n"
-                                                                       + "but could not find:%n"
-                                                                       + " <[\"any\"]>%n"
-                                                                       + "when comparing values using field/property by field/property comparator on all fields/properties%n"
-                                                                       + "Comparators used:%n"
-                                                                       + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}%n"
-                                                                       + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
+    AssertionError error = expectAssertionError(() -> assertThat(array).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING,
+                                                                                                                String.class)
+                                                                       .usingFieldByFieldElementComparator()
+                                                                       .contains(other, "any"));
+    // THEN
+    then(error).hasMessage(format("%nExpecting Comparable[]:%n"
+                                  + " <[Yoda the Jedi, \"some\"]>%n"
+                                  + "to contain:%n"
+                                  + " <[Luke the Jedi, \"any\"]>%n"
+                                  + "but could not find the following comparable(s):%n"
+                                  + " <[\"any\"]>%n"
+                                  + "when comparing values using field/property by field/property comparator on all fields/properties%n"
+                                  + "Comparators used:%n"
+                                  + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}%n"
+                                  + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
   }
 
   @Test
@@ -164,22 +168,22 @@ public class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAs
   public void should_fail_because_of_comparator_set_last() {
     // GIVEN
     Object[] array = array(actual, actual);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(array).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                                                       .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING,
+                                                                                                                String.class)
+                                                                       .usingFieldByFieldElementComparator()
+                                                                       .contains(other, other));
     // THEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array).usingComparatorForType(ALWAY_EQUALS_STRING,
-                                                                                                              String.class)
-                                                                                      .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING,
-                                                                                                                               String.class)
-                                                                                      .usingFieldByFieldElementComparator()
-                                                                                      .contains(other, other))
-                                                   .withMessage(format("%nExpecting:%n"
-                                                                       + " <[Yoda the Jedi, Yoda the Jedi]>%n"
-                                                                       + "to contain:%n"
-                                                                       + " <[Luke the Jedi, Luke the Jedi]>%n"
-                                                                       + "but could not find:%n"
-                                                                       + " <[Luke the Jedi]>%n"
-                                                                       + "when comparing values using field/property by field/property comparator on all fields/properties%n"
-                                                                       + "Comparators used:%n"
-                                                                       + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> org.assertj.core.test.NeverEqualComparator}%n"
-                                                                       + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}"));
+    then(error).hasMessage(format("%nExpecting Jedi[]:%n"
+                                  + " <[Yoda the Jedi, Yoda the Jedi]>%n"
+                                  + "to contain:%n"
+                                  + " <[Luke the Jedi, Luke the Jedi]>%n"
+                                  + "but could not find the following jedi(s):%n"
+                                  + " <[Luke the Jedi]>%n"
+                                  + "when comparing values using field/property by field/property comparator on all fields/properties%n"
+                                  + "Comparators used:%n"
+                                  + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> org.assertj.core.test.NeverEqualComparator}%n"
+                                  + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}"));
   }
 }

@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
-import static org.assertj.core.internal.Paths.toFileNames;
+import static org.assertj.core.internal.Paths.toPathNames;
 import static org.assertj.core.internal.paths.Paths_assertIsDirectoryContaining_SyntaxAndPattern_Test.mockPathMatcher;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -77,7 +77,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
     String pattern = null;
     // THEN
     assertThatNullPointerException().isThrownBy(() -> paths.assertIsDirectoryNotContaining(INFO, null, pattern))
-                                    .withMessage("The syntax and pattern to build PathMatcher should not be null");
+                                    .withMessage("The syntax and pattern should not be null");
   }
 
   @Test
@@ -139,7 +139,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
     // WHEN
     expectAssertionError(() -> paths.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(items), JAVA_SOURCE_PATTERN_DESCRIPTION));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, toPathNames(items), JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
   @Test
@@ -153,7 +153,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
     // WHEN
     expectAssertionError(() -> paths.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(items), JAVA_SOURCE_PATTERN_DESCRIPTION));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, toPathNames(items), JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
   @Test
@@ -171,7 +171,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
     expectAssertionError(() -> paths.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
     verify(failures).failure(INFO,
-                             directoryShouldNotContain(actual, toFileNames(list(file2, file4)), JAVA_SOURCE_PATTERN_DESCRIPTION));
+                             directoryShouldNotContain(actual, toPathNames(list(file2, file4)), JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
 }

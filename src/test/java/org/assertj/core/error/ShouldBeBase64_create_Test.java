@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeValidBase64.shouldBeValidBase64;
+import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.Description;
@@ -24,17 +24,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldHaveNoSuperclass#create(Description, Representation)}</code>.
+ * Tests for <code>{@link ShouldBeBase64#create(Description, Representation)}</code>.
  *
  * @author Stefano Cordio
  */
-@DisplayName("ShouldBeValidBase64 create")
-class ShouldBeValidBase64_create_Test {
+@DisplayName("ShouldBeBase64 create")
+class ShouldBeBase64_create_Test {
 
   @Test
   void should_create_error_message() {
     // WHEN
-    String message = shouldBeValidBase64("string %s").create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
+    String message = shouldBeBase64("string %s").create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[TEST] %nExpecting <\"string %%s\"> to be a valid Base64 encoded string"));
   }

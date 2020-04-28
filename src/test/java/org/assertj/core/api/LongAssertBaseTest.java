@@ -16,13 +16,13 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Longs;
 
-
 /**
  * Base class for {@link LongAssert} tests.
  * 
  * @author Olivier Michallat
  */
 public abstract class LongAssertBaseTest extends BaseTestTemplate<LongAssert, Long> {
+
   protected Longs longs;
 
   @Override
@@ -40,4 +40,5 @@ public abstract class LongAssertBaseTest extends BaseTestTemplate<LongAssert, Lo
   protected Longs getLongs(LongAssert someAssertions) {
     return someAssertions.longs;
   }
+
 }

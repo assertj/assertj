@@ -10,30 +10,32 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api.string_;
+package org.assertj.core.api.file;
 
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
+import java.io.File;
+import java.util.function.Predicate;
+
+import org.assertj.core.api.FileAssert;
+import org.assertj.core.api.FileAssertBaseTest;
 
 /**
- * Tests for <code>{@link StringAssert#isValidBase64()}</code>.
+ * Tests for <code>{@link FileAssert#isDirectoryRecursivelyContaining(Predicate)}</code>
  *
- * @author Stefano Cordio
+ * @author David Haccoun
  */
-@DisplayName("StringAssert isValidBase64")
-class StringAssert_isValidBase64_Test extends StringAssertBaseTest {
+public class FileAssert_isDirectoryRecursivelyContaining_Predicate_Test extends FileAssertBaseTest {
+
+  private final Predicate<File> anyFilter = path -> true;
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.isValidBase64();
+  protected FileAssert invoke_api_method() {
+    return assertions.isDirectoryRecursivelyContaining(anyFilter);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertIsValidBase64(getInfo(assertions), getActual(assertions));
+    verify(files).assertIsDirectoryRecursivelyContaining(getInfo(assertions), getActual(assertions), anyFilter);
   }
-
 }

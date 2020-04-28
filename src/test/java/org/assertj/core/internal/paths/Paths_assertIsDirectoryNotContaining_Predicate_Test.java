@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
-import static org.assertj.core.internal.Paths.toFileNames;
+import static org.assertj.core.internal.Paths.toPathNames;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
@@ -136,7 +136,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
     // WHEN
     expectAssertionError(() -> paths.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(items), "the given filter"));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, toPathNames(items), "the given filter"));
   }
 
   @Test
@@ -149,7 +149,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
     // WHEN
     expectAssertionError(() -> paths.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(items), "the given filter"));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, toPathNames(items), "the given filter"));
   }
 
   @Test
@@ -165,7 +165,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
     // WHEN
     expectAssertionError(() -> paths.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(list(file2, file4)), "the given filter"));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, toPathNames(list(file2, file4)), "the given filter"));
   }
 
 }

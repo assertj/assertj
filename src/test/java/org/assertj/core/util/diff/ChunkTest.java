@@ -12,14 +12,12 @@
  */
 package org.assertj.core.util.diff;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
-
-import java.util.Collections;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,9 +70,5 @@ public class ChunkTest {
   @Test
   public void should_have_nice_toString_value() {
     assertThat(chunk).hasToString("[position: 1, size: 0, lines: []]");
-  }
-
-  private static List<String> emptyList() {
-    return Collections.emptyList();
   }
 }

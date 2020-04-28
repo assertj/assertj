@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -27,6 +28,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -131,6 +133,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param errorMessage the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
    */
   protected void failWithMessage(String errorMessage, Object... arguments) {
     AssertionError assertionError = Failures.instance().failureIfErrorMessageIsOverridden(info);
@@ -139,6 +142,47 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
       assertionError = new AssertionError(description + String.format(errorMessage, arguments));
     }
+    Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
+    throw assertionError;
+  }
+
+  /**
+   * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * in error message with actual and expected values.
+   * <p>
+   * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
+   * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
+   * <p>
+   * This method also sets the "actual" and "expected" fields of the assertion if available (eg, if OpenTest4J is on the path).
+   * This aids IDEs to produce visual diffs of the resulting values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> public TolkienCharacterAssert hasName(String name) {
+   *   // check that actual TolkienCharacter we want to make assertions on is not null.
+   *   isNotNull();
+   *
+   *   // check condition
+   *   if (!actual.getName().equals(name)) {
+   *     failWithActualExpectedAndMessage(actual.getName(), name, &quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
+   *   }
+   *
+   *   // return the current assertion for method chaining
+   *   return this;
+   * }</code></pre>
+   *
+   * @param actual the actual object that was found during the test
+   * @param expected the object that was expected
+   * @param errorMessageFormat the error message to format
+   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @see #failWithMessage(String, Object...)
+   */
+  protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessageFormat,
+                                                  Object... arguments) {
+    String errorMessage = Optional.ofNullable(info.overridingErrorMessage())
+                                  .orElse(format(errorMessageFormat, arguments));
+    String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
+    AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected);
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
     throw assertionError;
@@ -777,7 +821,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   // Does not take a Consumer<ACTUAL>... to avoid to use @SafeVarargs to suppress the generic array type safety warning.
   // @SafeVarargs requires methods to be final which breaks the proxying mechanism used by soft assertions and assumptions
-  public SELF satisfiesAnyOf(Consumer<ACTUAL> assertions1, Consumer<ACTUAL> assertions2, Consumer<ACTUAL> assertions3, Consumer<ACTUAL> assertions4) {
+  public SELF satisfiesAnyOf(Consumer<ACTUAL> assertions1, Consumer<ACTUAL> assertions2, Consumer<ACTUAL> assertions3,
+                             Consumer<ACTUAL> assertions4) {
     return satisfiesAnyOfAssertionsGroups(assertions1, assertions2, assertions3, assertions4);
   }
 
@@ -889,7 +934,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param propertyOrField the property/field to extract from the initial object under test
    * @param assertFactory   the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
-   * 
+   *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(String)
    * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
@@ -909,13 +954,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Uses the given {@link Function} to extract a value from the object under test and creates a new assertion object
    * using the given assert factory.
-   * 
+   *
    * @param <T>           the expected extracted value type
    * @param <ASSERT>      the type of the resulting {@code Assert}
    * @param extractor     the extractor function used to extract the value from the object under test
    * @param assertFactory the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
-   * 
+   *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(Function)
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)

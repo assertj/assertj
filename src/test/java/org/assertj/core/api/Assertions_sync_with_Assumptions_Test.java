@@ -18,10 +18,10 @@ import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 
-public class Assertions_sync_with_Assumptions_Test extends BaseAssertionsTest {
+class Assertions_sync_with_Assumptions_Test extends BaseAssertionsTest {
 
   @Test
-  public void standard_assertions_and_assumptions_should_have_the_same_assertions_methods() {
+  void standard_assertions_and_assumptions_should_have_the_same_assertions_methods() {
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat", SPECIAL_IGNORED_RETURN_TYPES);
     Method[] assumeThatMethods = findMethodsWithName(Assumptions.class, "assumeThat");
 
@@ -30,7 +30,7 @@ public class Assertions_sync_with_Assumptions_Test extends BaseAssertionsTest {
   }
 
   @Test
-  public void standard_assumptions_and_with_assumptions_should_have_the_same_assertions_methods() {
+  void standard_assumptions_and_with_assumptions_should_have_the_same_assertions_methods() {
     Method[] assumptionsMethods = findMethodsWithName(Assumptions.class, "assumeThat");
     Method[] withAssumptionsMethods = findMethodsWithName(WithAssumptions.class, "assumeThat");
 

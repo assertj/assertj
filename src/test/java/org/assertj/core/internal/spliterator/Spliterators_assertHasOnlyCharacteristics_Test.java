@@ -12,18 +12,13 @@
  */
 package org.assertj.core.internal.spliterator;
 
-import static com.google.common.collect.Sets.newHashSet;
-import static java.util.Collections.emptyList;
+import static java.lang.String.format;
 import static java.util.Spliterator.DISTINCT;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterator.SORTED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.verify;
 
 import java.util.Spliterator;
 
@@ -72,12 +67,14 @@ public class Spliterators_assertHasOnlyCharacteristics_Test extends Spliterators
     // GIVEN
     Spliterator<?> actual = createSpliterator(Spliterator.SORTED | DISTINCT);
     // WHEN
-    expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT));
+    AssertionError error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT));
     // THEN
-    verify(failures).failure(INFO, shouldContainOnly(newHashSet("DISTINCT", "SORTED"),
-                                                     array("DISTINCT"),
-                                                     emptyList(),
-                                                     list("SORTED")));
+    assertThat(error).hasMessage(format("%nExpecting spliterator characteristics:%n"
+                                        + "  <[\"DISTINCT\", \"SORTED\"]>%n"
+                                        + "to contain only:%n"
+                                        + "  <[\"DISTINCT\"]>%n"
+                                        + "but the following characteristics were unexpected:%n"
+                                        + "  <[\"SORTED\"]>%n"));
   }
 
   @Test
@@ -85,12 +82,16 @@ public class Spliterators_assertHasOnlyCharacteristics_Test extends Spliterators
     // GIVEN
     Spliterator<?> actual = createSpliterator(SORTED | ORDERED);
     // WHEN
-    expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT, SORTED));
+    AssertionError error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT, SORTED));
     // THEN
-    verify(failures).failure(INFO, shouldContainOnly(newHashSet("SORTED", "ORDERED"),
-                                                     array("DISTINCT", "SORTED"),
-                                                     list("DISTINCT"),
-                                                     list("ORDERED")));
+    assertThat(error).hasMessage(format("%nExpecting spliterator characteristics:%n"
+                                        + "  <[\"ORDERED\", \"SORTED\"]>%n"
+                                        + "to contain only:%n"
+                                        + "  <[\"DISTINCT\", \"SORTED\"]>%n"
+                                        + "characteristics not found:%n"
+                                        + "  <[\"DISTINCT\"]>%n"
+                                        + "and characteristics not expected:%n"
+                                        + "  <[\"ORDERED\"]>%n"));
   }
 
   private static Spliterator<?> createSpliterator(int characteristics) {

@@ -12,6 +12,10 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Hexadecimals.toHexString;
+
+import java.util.Base64;
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
@@ -908,6 +912,52 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   public SELF containsAnyOf(int... values) {
     arrays.assertContainsAnyOf(info, actual, arrays.toByteArray(values));
     return myself;
+  }
+
+  /**
+   * Converts the actual byte array under test to an hexadecimal String and returns assertions for the computed String
+   * allowing String specific assertions from this call.
+   * <p>
+   * The Hex String representation is in upper case.
+   * <p>
+   * Example :
+   * <pre><code class='java'> byte[] bytes = new byte[] { -1, 0, 1 };
+   *
+   * // assertions will pass
+   * assertThat(bytes).asHexString()
+   *                  .startsWith("FF")
+   *                  .isEqualTo("FF0001");
+   *
+   * // assertion will fail
+   * assertThat(bytes).asHexString()
+   *                  .isEqualTo("FF0000");</code></pre>
+   *
+   * @return a String assertion object
+   *
+   * @since 3.16.0
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> asHexString() {
+    objects.assertNotNull(info, actual);
+    return assertThat(toHexString(actual));
+  }
+
+  /**
+   * Encodes the actual array into a Base64 string, the encoded string becoming the new object under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat("AssertJ".getBytes()).encodedAsBase64().isEqualTo(&quot;QXNzZXJ0Sg==&quot;);</code></pre>
+   *
+   * @return a new {@link StringAssert} instance whose string under test is the result of the encoding.
+   * @throws AssertionError if the actual value is {@code null}.
+   *
+   * @since 3.16.0
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> encodedAsBase64() {
+    objects.assertNotNull(info, actual);
+    return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
   }
 
 }

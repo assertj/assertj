@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.internal.Objects;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * @author Alex Ruiz
@@ -36,7 +37,7 @@ public class ConcreteAssert extends AbstractAssert<ConcreteAssert, Object> {
     // return the current assertion for method chaining
     return this;
   }
-  
+
   public ConcreteAssert failIfTrue(boolean fail) {
     // set a specific error message
     if (fail) {
@@ -45,11 +46,17 @@ public class ConcreteAssert extends AbstractAssert<ConcreteAssert, Object> {
     // return the current assertion for method chaining
     return this;
   }
-  
-  // relax visibility for test
+
+  @VisibleForTesting
   @Override
   public void failWithMessage(String errorMessage, Object... arguments) {
     super.failWithMessage(errorMessage, arguments);
+  }
+
+  @VisibleForTesting
+  @Override
+  public void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessage, Object... arguments) {
+    super.failWithActualExpectedAndMessage(actual, expected, errorMessage, arguments);
   }
 
 }

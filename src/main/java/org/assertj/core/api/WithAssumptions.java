@@ -53,6 +53,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -252,6 +253,17 @@ public interface WithAssumptions {
    * @return the created assertion object.
    */
   default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assumeThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link LongAdderAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default LongAdderAssert assumeThat(LongAdder actual) {
     return Assumptions.assumeThat(actual);
   }
 

@@ -13,7 +13,7 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeValidBase64.shouldBeValidBase64;
+import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -22,15 +22,15 @@ import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Strings assertIsValidBase64")
-class Strings_assertIsValidBase64_Test extends StringsBaseTest {
+@DisplayName("Strings assertIsBase64")
+class Strings_assertIsBase64_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertIsValidBase64(someInfo(), actual));
+    AssertionError assertionError = expectAssertionError(() -> strings.assertIsBase64(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -40,9 +40,9 @@ class Strings_assertIsValidBase64_Test extends StringsBaseTest {
     // GIVEN
     String actual = "inv@lid";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertIsValidBase64(someInfo(), actual));
+    AssertionError assertionError = expectAssertionError(() -> strings.assertIsBase64(someInfo(), actual));
     // THEN
-    then(assertionError).hasMessage(shouldBeValidBase64(actual).create());
+    then(assertionError).hasMessage(shouldBeBase64(actual).create());
   }
 
   @Test
@@ -50,7 +50,7 @@ class Strings_assertIsValidBase64_Test extends StringsBaseTest {
     // GIVEN
     String actual = "QXNzZXJ0Sg==";
     // WHEN/THEN
-    strings.assertIsValidBase64(someInfo(), actual);
+    strings.assertIsBase64(someInfo(), actual);
   }
 
   @Test
@@ -58,7 +58,7 @@ class Strings_assertIsValidBase64_Test extends StringsBaseTest {
     // GIVEN
     String actual = "QXNzZXJ0Sg";
     // WHEN/THEN
-    strings.assertIsValidBase64(someInfo(), actual);
+    strings.assertIsBase64(someInfo(), actual);
   }
 
 }

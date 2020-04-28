@@ -51,6 +51,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -492,6 +493,12 @@ public interface InstanceOfAssertFactories {
   static <OBJECT> InstanceOfAssertFactory<AtomicIntegerFieldUpdater, AtomicIntegerFieldUpdaterAssert<OBJECT>> atomicIntegerFieldUpdater(Class<OBJECT> objectType) {
     return new InstanceOfAssertFactory<>(AtomicIntegerFieldUpdater.class, Assertions::<OBJECT> assertThat);
   }
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link LongAdder}.
+   */
+  InstanceOfAssertFactory<LongAdder, LongAdderAssert> LONG_ADDER = new InstanceOfAssertFactory<>(LongAdder.class,
+                                                                                                 Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicLong}.

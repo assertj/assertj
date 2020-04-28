@@ -37,7 +37,7 @@
     <bnd.version>5.0.1</bnd.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13</junit.version>
-    <junit-jupiter.version>5.6.1</junit-jupiter.version>
+    <junit-jupiter.version>5.6.2</junit-jupiter.version>
     <mockito.version>3.3.3</mockito.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
@@ -152,7 +152,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>28.2-jre</version>
+      <version>29.0-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -216,7 +216,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.3</version>
         <executions>
           <!-- STEP 2: execute maven shade to rename bytebuddy -->
           <execution>
@@ -302,7 +302,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version><!--$NO-MVN-MAN-VER$-->
+        <version>3.0.0</version><!--$NO-MVN-MAN-VER$-->
         <executions>
           <!-- STEP 5: detach the primary artifact so we can re-execute maven-jar-plugin -->
           <execution>

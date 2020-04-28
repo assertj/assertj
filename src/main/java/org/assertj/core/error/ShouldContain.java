@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
-
+import static org.assertj.core.error.GroupTypeDescription.getGroupTypeDescription;
 import static org.assertj.core.util.Strings.escapePercent;
 
 /**
@@ -41,7 +41,8 @@ public class ShouldContain extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound,
                                                   ComparisonStrategy comparisonStrategy) {
-    return new ShouldContain(actual, expected, notFound, comparisonStrategy);
+    GroupTypeDescription groupTypeDescription = getGroupTypeDescription(actual);
+    return new ShouldContain(actual, expected, notFound, comparisonStrategy, groupTypeDescription);
   }
 
   /**
@@ -63,8 +64,11 @@ public class ShouldContain extends BasicErrorMessageFactory {
     return new ShouldContain(actual, directoryContent, filterDescription);
   }
 
-  private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n <%s>%nto contain:%n <%s>%nbut could not find:%n <%s>%n%s", actual, expected, notFound,
+  private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy,
+                        GroupTypeDescription groupTypeDescription) {
+    super("%nExpecting " + groupTypeDescription.getGroupTypeName()
+          + ":%n <%s>%nto contain:%n <%s>%nbut could not find the following " + groupTypeDescription.getElementTypeName()
+          + ":%n <%s>%n%s", actual, expected, notFound,
           comparisonStrategy);
   }
 

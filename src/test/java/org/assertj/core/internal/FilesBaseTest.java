@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -106,7 +107,7 @@ public class FilesBaseTest {
     try {
       given(nioFilesWrapper.newInputStream(path.toPath())).willReturn(new ByteArrayInputStream(new byte[0]));
     } catch (IOException e) {
-      assertThat(e).describedAs("Should not happen").isNull();
+      throw new UncheckedIOException("error during nioFilesWrapper mock recording", e);
     }
     return path;
   }

@@ -64,6 +64,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
+import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ADDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_STREAM;
@@ -146,6 +147,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -722,6 +724,16 @@ class InstanceOfAssertFactoriesTest {
     AtomicIntegerFieldUpdaterAssert<VolatileFieldContainer> result = assertThat(value).asInstanceOf(atomicIntegerFieldUpdater(VolatileFieldContainer.class));
     // THEN
     result.hasValue(0, new VolatileFieldContainer());
+  }
+
+  @Test
+  void long_adder_factory_should_allow_long_adder_assertions() {
+    // GIVEN
+    Object value = new LongAdder();
+    // WHEN
+    LongAdderAssert result = assertThat(value).asInstanceOf(LONG_ADDER);
+    // THEN
+    result.hasValue(0L);
   }
 
   @Test

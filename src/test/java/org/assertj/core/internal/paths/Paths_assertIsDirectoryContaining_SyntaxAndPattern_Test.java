@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContain.directoryShouldContain;
 import static org.assertj.core.error.ShouldExist.shouldExist;
-import static org.assertj.core.internal.Paths.toFileNames;
+import static org.assertj.core.internal.Paths.toPathNames;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
@@ -95,7 +95,7 @@ public class Paths_assertIsDirectoryContaining_SyntaxAndPattern_Test extends Moc
     String filter = null;
     // THEN
     assertThatNullPointerException().isThrownBy(() -> paths.assertIsDirectoryContaining(INFO, null, filter))
-                                    .withMessage("The syntax and pattern to build PathMatcher should not be null");
+                                    .withMessage("The syntax and pattern should not be null");
   }
 
   @Test
@@ -168,7 +168,7 @@ public class Paths_assertIsDirectoryContaining_SyntaxAndPattern_Test extends Moc
     // WHEN
     expectAssertionError(() -> paths.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContain(actual, toFileNames(files), JAVA_SOURCE_PATTERN_DESCRIPTION));
+    verify(failures).failure(INFO, directoryShouldContain(actual, toPathNames(files), JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
   static void mockPathMatcher(Path actual) {

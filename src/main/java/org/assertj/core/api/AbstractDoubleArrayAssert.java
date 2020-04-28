@@ -27,8 +27,6 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
   @VisibleForTesting
   protected DoubleArrays arrays = DoubleArrays.instance();
 
-  private final ComparatorFactory doubleComparator = ComparatorFactory.INSTANCE;
-
   public AbstractDoubleArrayAssert(double[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -963,7 +961,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   @CheckReturnValue
   public SELF usingComparatorWithPrecision(Double precision) {
-    return usingElementComparator(doubleComparator.doubleComparatorWithPrecision(precision));
+    return usingElementComparator(ComparatorFactory.INSTANCE.doubleComparatorWithPrecision(precision));
   }
 
   /**

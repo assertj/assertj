@@ -43,7 +43,7 @@ public class ComparatorFactory {
       @Override
       public int compare(Float o1, Float o2) {
         if(abs(o1.floatValue() - o2.floatValue()) < precision) return 0;
-          return o1.floatValue() - o2.floatValue() > 0 ? 1 : -1;
+        return o1.floatValue() - o2.floatValue() > 0 ? 1 : -1;
       }
 
       @Override

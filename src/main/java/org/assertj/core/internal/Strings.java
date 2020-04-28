@@ -18,7 +18,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
-import static org.assertj.core.error.ShouldBeValidBase64.shouldBeValidBase64;
+import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
 import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -1152,12 +1152,12 @@ public class Strings {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not a valid Base64 encoded string.
    */
-  public void assertIsValidBase64(AssertionInfo info, String actual) {
+  public void assertIsBase64(AssertionInfo info, String actual) {
     assertNotNull(info, actual);
     try {
       Base64.getDecoder().decode(actual);
     } catch (IllegalArgumentException e) {
-      throw failures.failure(info, shouldBeValidBase64(actual));
+      throw failures.failure(info, shouldBeBase64(actual));
     }
   }
 

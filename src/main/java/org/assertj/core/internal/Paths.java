@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
+import static java.nio.file.Files.walk;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
@@ -29,6 +30,7 @@ import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
 import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.error.ShouldContain.directoryShouldContain;
+import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
@@ -57,6 +59,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.exception.PathsException;
@@ -366,9 +369,21 @@ public class Paths {
   }
 
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
-    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
+    PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
+    assertIsDirectoryRecursivelyContaining(info, actual, path -> pathMatcher.matches(path),
+                                           format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
+    requireNonNull(filter, "The files filter should not be null");
+    assertIsDirectoryRecursivelyContaining(info, actual, filter, "the given filter");
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
@@ -377,7 +392,7 @@ public class Paths {
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
-    requireNonNull(syntaxAndPattern, "The syntax and pattern to build PathMatcher should not be null");
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryNotContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
   }
@@ -392,7 +407,7 @@ public class Paths {
     if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty());
   }
 
-  public static List<String> toFileNames(List<Path> files) {
+  public static List<String> toPathNames(List<Path> files) {
     return files.stream()
                 .map(Path::toString)
                 .collect(toList());
@@ -420,16 +435,44 @@ public class Paths {
     }
   }
 
+  private boolean isDirectoryRecursivelyContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
+    assertIsDirectory(info, actual);
+    try (Stream<Path> actualContent = recursiveContentOf(actual)) {
+      return actualContent.anyMatch(filter);
+    }
+  }
+
+  private List<Path> sortedRecursiveContent(Path path) {
+    try (Stream<Path> pathContent = recursiveContentOf(path)) {
+      return pathContent.sorted().collect(toList());
+    }
+  }
+
+  private Stream<Path> recursiveContentOf(Path directory) {
+    try {
+      return walk(directory).filter(p -> !p.equals(directory));
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Unable to walk recursively the directory :<%s>", directory), e);
+    }
+  }
+
+  private void assertIsDirectoryRecursivelyContaining(AssertionInfo info, Path actual, Predicate<Path> filter,
+                                                      String filterPresentation) {
+    if (!isDirectoryRecursivelyContaining(info, actual, filter)) {
+      throw failures.failure(info, directoryShouldContainRecursively(actual, sortedRecursiveContent(actual), filterPresentation));
+    }
+  }
+
   private void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Predicate<Path> filter,
                                               String filterPresentation) {
-    List<Path> matchingFiles = filterDirectory(info, actual, filter);
-    if (matchingFiles.size() > 0) {
-      throw failures.failure(info, directoryShouldNotContain(actual, toFileNames(matchingFiles), filterPresentation));
+    List<Path> matchingPaths = filterDirectory(info, actual, filter);
+    if (matchingPaths.size() > 0) {
+      throw failures.failure(info, directoryShouldNotContain(actual, toPathNames(matchingPaths), filterPresentation));
     }
   }
 
   private List<String> directoryContentDescription(AssertionInfo info, Path actual) {
-    return toFileNames(directoryContent(info, actual));
+    return toPathNames(directoryContent(info, actual));
   }
 
   private PathMatcher pathMatcher(AssertionInfo info, Path actual, String syntaxAndPattern) {

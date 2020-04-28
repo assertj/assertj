@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
+import java.util.Base64;
 import java.util.Comparator;
 
 import org.assertj.core.internal.Comparables;
@@ -222,14 +223,14 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * Verifies that the actual value is a valid Base64 encoded string.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions succeeds
-   * assertThat(&quot;QXNzZXJ0Sg==&quot;).isValidBase64();
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;QXNzZXJ0Sg==&quot;).isBase64();
    *
    * // assertion succeeds even without padding as it is optional by specification
-   * assertThat(&quot;QXNzZXJ0Sg&quot;).isValidBase64();
+   * assertThat(&quot;QXNzZXJ0Sg&quot;).isBase64();
    *
    * // assertion fails as it has invalid Base64 characters
-   * assertThat(&quot;inv@lid&quot;).isValidBase64();</code></pre>
+   * assertThat(&quot;inv@lid&quot;).isBase64();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -237,9 +238,34 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *
    * @since 3.16.0
    */
-  public SELF isValidBase64() {
-    strings.assertIsValidBase64(info, actual);
+  public SELF isBase64() {
+    strings.assertIsBase64(info, actual);
     return myself;
+  }
+
+  /**
+   * Decodes the actual value as a Base64 encoded string, the decoded bytes becoming the new array under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;QXNzZXJ0Sg==&quot;).decodedAsBase64().containsExactly("AssertJ".getBytes());
+   *
+   * // assertion succeeds even without padding as it is optional by specification
+   * assertThat(&quot;QXNzZXJ0Sg&quot;).decodedAsBase64().containsExactly("AssertJ".getBytes());
+   *
+   * // assertion fails as it has invalid Base64 characters
+   * assertThat(&quot;inv@lid&quot;).decodedAsBase64();</code></pre>
+   *
+   * @return a new {@link ByteArrayAssert} instance whose array under test is the result of the decoding.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a valid Base64 encoded string.
+   *
+   * @since 3.16.0
+   */
+  @CheckReturnValue
+  public AbstractByteArrayAssert<?> decodedAsBase64() {
+    strings.assertIsBase64(info, actual);
+    return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
   }
 
   /**
