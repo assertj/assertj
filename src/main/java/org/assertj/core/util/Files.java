@@ -82,7 +82,10 @@ public class Files {
    * 
    * @return the system's temporary directory.
    * @throws RuntimeException if this method cannot find or create the system's temporary directory.
+   *
+   * @deprecated For JUnit4, use TemporaryFolder and @Rule; for JUnit5, use TempDirectory extension and @TempDir instead.
    */
+  @Deprecated
   public static File temporaryFolder() {
     File temp = new File(temporaryFolderPath());
     if (!temp.isDirectory()) {
