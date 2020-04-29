@@ -19,6 +19,7 @@ import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.join;
 
+import java.nio.file.Path;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -166,11 +167,16 @@ final class DualValue {
   }
 
   public boolean isActualFieldAnIterable() {
-    return actual instanceof Iterable;
+    // ignore Path to be consistent with isExpectedFieldAnIterable
+    return actual instanceof Iterable && !(actual instanceof Path);
   }
 
   public boolean isExpectedFieldAnIterable() {
-    return expected instanceof Iterable;
+    // Don't consider Path as an Iterable as recursively comparing them leads to a stack overflow, here's why:
+    // Iterable are compared element by element recursively
+    // Ex: /tmp/foo.txt path has /tmp as its first element
+    // so /tmp is going to be compared recursively but /tmp first element is itself leading to an infinite recursion
+    return expected instanceof Iterable && !(expected instanceof Path);
   }
 
   private static boolean isAnOrderedCollection(Object value) {

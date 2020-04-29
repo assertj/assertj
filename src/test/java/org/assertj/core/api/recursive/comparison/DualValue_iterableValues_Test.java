@@ -19,6 +19,7 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -130,7 +131,8 @@ public class DualValue_iterableValues_Test {
   }
 
   static Stream<Object> nonIterables() {
-    return Stream.of(123, "abc", array("a", "b"));
+    // even though Path is an iterable, it must not be considered as such
+    return Stream.of(123, "abc", array("a", "b"), Paths.get("/tmp"));
   }
 
 }

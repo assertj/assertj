@@ -21,9 +21,12 @@ import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.util.Lists.list;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.stream.Stream;
@@ -36,6 +39,7 @@ import org.assertj.core.internal.objects.data.Human;
 import org.assertj.core.internal.objects.data.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -335,7 +339,30 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     public LightString(String value) {
       this.color = value;
     }
+  }
 
+  @Test
+  @DisabledOnOs(WINDOWS)
+  public void should_not_treat_Path_as_Iterable_to_avoid_infinite_recursion() {
+    final Container container1 = new Container("/tmp/example");
+    final Container container2 = new Container("/tmp/example");
+
+    assertThat(container1).usingRecursiveComparison()
+                          .isEqualTo(container2)
+                          .ignoringAllOverriddenEquals()
+                          .isEqualTo(container2);
+  }
+
+  public static class Container {
+    private Path path;
+
+    public Container(String path) {
+      this.path = Paths.get(path);
+    }
+
+    public Path getPath() {
+      return path;
+    }
   }
 
 }
