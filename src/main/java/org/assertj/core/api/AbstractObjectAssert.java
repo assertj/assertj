@@ -575,9 +575,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return myself;
   }
   /**
-   * Asserts that the actual object has only the specified fields or properties.
-   * <p>
-   * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
+   * Asserts that the actual object has only the specified fields or properties. (only test the declared member)
    * <p>
    *
    * Example:
