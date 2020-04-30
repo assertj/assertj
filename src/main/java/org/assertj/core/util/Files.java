@@ -83,7 +83,7 @@ public class Files {
    * @return the system's temporary directory.
    * @throws RuntimeException if this method cannot find or create the system's temporary directory.
    *
-   * @deprecated For JUnit4, use TemporaryFolder and @Rule; for JUnit5, use TempDirectory extension and @TempDir instead.
+   * @deprecated Use either {@link org.junit.jupiter.api.io.TempDir} or {@link org.junit.rules.TemporaryFolder}
    */
   @Deprecated
   public static File temporaryFolder() {
