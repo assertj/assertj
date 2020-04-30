@@ -222,6 +222,7 @@
           <trimStackTrace>false</trimStackTrace>
           <excludes>
             <exclude>org/assertj/core/osgi/**</exclude>
+            <exclude>org/assertj/core/internal/objects/Objects_assertHasOnlyFields_Test*</exclude>
           </excludes>
         </configuration>
       </plugin>

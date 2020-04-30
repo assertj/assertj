@@ -640,7 +640,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws IllegalArgumentException if name is {@code null}.
-   * @throws AssertionError if the actual object has not the given field/property
+   * @throws AssertionError if the actual object does not have the given field/property
    */
   public SELF hasFieldOrProperty(String name) {
     objects.assertHasFieldOrProperty(info, actual, name);
@@ -687,13 +687,52 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws IllegalArgumentException if name is {@code null}.
-   * @throws AssertionError if the actual object has not the given field/property
+   * @throws AssertionError if the actual object does not have the given field/property
    * @throws AssertionError if the actual object has the given field/property but not with the expected value
    *
    * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
    */
   public SELF hasFieldOrPropertyWithValue(String name, Object value) {
     objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
+    return myself;
+  }
+
+  /**
+   * Asserts that the actual object has only the specified fields and nothing else, the assertion checks declared fields only (inherited fields are not checked).
+   * <p>
+   * By default private fields are included in the check, this can be disabled with {@code Assertions.setAllowExtractingPrivateFields(false);}
+   * but be mindful this is has a global effect on all field introspection in AssertJ.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *
+   *   private String name;
+   *   public int age;
+   *
+   *   public String getName() {
+   *     return this.name;
+   *   }
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   *
+   * // assertion succeeds:
+   * assertThat(frodo).hasOnlyFields("name", "age");
+   *
+   * // assertions fail :
+   * assertThat(frodo).hasOnlyFields("name");
+   * assertThat(frodo).hasOnlyFields("not_exists");
+   * assertThat(frodo).hasOnlyFields(null);</code></pre>
+   *
+   * @param expectedFieldNames the expected field names actual should have
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws IllegalArgumentException if expectedFieldNames is {@code null}.
+   * @throws AssertionError if the actual object does not have the expected fields (without extra ones)
+   * @since 3.19.0
+   */
+  public SELF hasOnlyFields(String... expectedFieldNames) {
+    objects.assertHasOnlyFields(info, actual, expectedFieldNames);
     return myself;
   }
 
