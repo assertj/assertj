@@ -1068,7 +1068,23 @@ public class Strings {
   public void assertMatches(AssertionInfo info, CharSequence actual, Pattern pattern) {
     checkIsNotNull(pattern);
     assertNotNull(info, actual);
-    if (!pattern.matcher(actual).matches()) throw failures.failure(info, shouldMatch(actual, pattern.pattern()));
+    assertMatches(info, actual, pattern.matcher(actual));
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} matches the given regular expression.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param matcher the matcher to check for matching.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not match the given regular expression.
+   */
+  public void assertMatches(AssertionInfo info, CharSequence actual, Matcher matcher) {
+    checkIsNotNull(matcher);
+    assertNotNull(info, actual);
+    if (!matcher.matches()) throw failures.failure(info, shouldMatch(actual, matcher.pattern().pattern()));
   }
 
   /**
@@ -1092,6 +1108,14 @@ public class Strings {
 
   private NullPointerException patternToMatchIsNull() {
     return new NullPointerException("The regular expression pattern to match should not be null");
+  }
+
+  private void checkIsNotNull(Matcher matcher) {
+    if (matcher == null) throw matcherIsNull();
+  }
+
+  private NullPointerException matcherIsNull() {
+    return new NullPointerException("The matcher should not be null");
   }
 
   private void assertNotNull(AssertionInfo info, CharSequence actual) {
@@ -1227,10 +1251,24 @@ public class Strings {
    */
   public void assertContainsPattern(AssertionInfo info, CharSequence actual, CharSequence regex) {
     checkRegexIsNotNull(regex);
+    assertContainsPattern(info, actual, Pattern.compile(regex.toString()));
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} contains the given regular expression.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param matcher the matcher for finding in the actual {@code CharSequence}.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain the given regular expression.
+   */
+  public void assertContainsPattern(AssertionInfo info, CharSequence actual, Matcher matcher) {
     assertNotNull(info, actual);
-    Pattern pattern = Pattern.compile(regex.toString());
-    Matcher matcher = pattern.matcher(actual);
-    if (!matcher.find()) throw failures.failure(info, shouldContainPattern(actual, pattern.pattern()));
+    checkIsNotNull(matcher);
+    if (!matcher.find()) throw failures.failure(info, shouldContainPattern(actual, matcher.pattern().pattern()));
   }
 
   /**
