@@ -574,7 +574,47 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
     return myself;
   }
-
+  /**
+   * Asserts that the actual object has only the specified fields or properties.
+   * <p>
+   * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p>
+   *
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *
+   *   private String name;
+   *   private int age;
+   *   // constructor omitted
+   *
+   *   public String getName() {
+   *     return this.name;
+   *   }
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   *
+   * // assertions will pass :
+   * assertThat(frodo).hasOnlyFieldsOrProperties("name", "age");
+   *
+   * // assertions will fail :
+   * assertThat(frodo).hasOnlyFieldsOrProperties("not_exists");
+   * assertThat(frodo).hasOnlyFieldsOrProperties(null);
+   * assertThat(frodo).hasOnlyFieldsOrProperties("name");
+   * // disable looking for private fields
+   * Assertions.setAllowExtractingPrivateFields(false);
+   * assertThat(frodo).hasOnlyFieldsOrProperties(null); </code></pre>
+   *
+   * @param names the field/property name list to check
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws IllegalArgumentException if name is {@code null}.
+   * @throws AssertionError if the actual object has not the given field/property
+   */
+  public SELF hasOnlyFieldsOrProperties(String... names){
+    objects.assertHasOnlyFieldsOrProperties(info, actual, names);
+    return myself;
+  }
   /**
    * Extracts the values of given fields/properties from the object under test into a list, this new list becoming
    * the object under test.
