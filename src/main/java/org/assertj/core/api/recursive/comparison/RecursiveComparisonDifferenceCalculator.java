@@ -65,12 +65,13 @@ public class RecursiveComparisonDifferenceCalculator {
   private static final Map<Class<?>, Boolean> customHash = new ConcurrentHashMap<>();
 
   private static class ComparisonState {
-    Set<DualValue> visitedDualValues;
+    // Not using a Set as we want to precisely track visited values, a set would remove duplicates
+    List<DualValue> visitedDualValues;
     List<ComparisonDifference> differences = new ArrayList<>();
     DualValueDeque dualValuesToCompare;
     RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
-    public ComparisonState(Set<DualValue> visited, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    public ComparisonState(List<DualValue> visited, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
       this.visitedDualValues = visited;
       this.dualValuesToCompare = new DualValueDeque(recursiveComparisonConfiguration);
       this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
@@ -131,10 +132,19 @@ public class RecursiveComparisonDifferenceCalculator {
       } else {
         dualValuesToCompare.addFirst(dualValue);
       }
-      // need to remove already visited fields pair to avoid infinite recursion in case
+      // We need to remove already visited fields pair to avoid infinite recursion in case
       // parent -> set{child} with child having a reference back to parent
       // it occurs to unordered collection where we compare all possible combination of the collection elements recursively
-      dualValuesToCompare.removeAll(visitedDualValues);
+      // --
+      // Don't use removeAll which uses equals to compare values, comparison must be done by reference otherwise we could remove
+      // values too agressively, that occurs when we add a duplicate of a value already visited.
+      // Example:
+      // - a and a are duplicates but are not the same object, i.e. a equals a' but a' != a
+      // - visitedDualValues = {a , b , c}
+      // - dualValuesToCompare = {a'}
+      // dualValuesToCompare.removeAll(visitedDualValues) would remove it which is incorrect
+      // If we compare references then a' won't be removed from dualValuesToCompare
+      visitedDualValues.forEach(visited -> dualValuesToCompare.removeIf(toCompare -> toCompare == visited));
     }
 
     private boolean mustCompareFieldsRecursively(boolean isRootObject, DualValue dualValue) {
@@ -172,14 +182,14 @@ public class RecursiveComparisonDifferenceCalculator {
       return list(expectedAndActualTypeDifference(actual, expected));
     }
     List<String> rootPath = list();
-    final Set<DualValue> visited = new HashSet<>();
+    List<DualValue> visited = list();
     return determineDifferences(actual, expected, rootPath, true, visited, recursiveComparisonConfiguration);
   }
 
   // TODO keep track of ignored fields in an RecursiveComparisonExecution class ?
 
   private static List<ComparisonDifference> determineDifferences(Object actual, Object expected, List<String> parentPath,
-                                                                 boolean isRootObject, Set<DualValue> visited,
+                                                                 boolean isRootObject, List<DualValue> visited,
                                                                  RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     ComparisonState comparisonState = new ComparisonState(visited, recursiveComparisonConfiguration);
     comparisonState.initDualValuesToCompare(actual, expected, parentPath, isRootObject);

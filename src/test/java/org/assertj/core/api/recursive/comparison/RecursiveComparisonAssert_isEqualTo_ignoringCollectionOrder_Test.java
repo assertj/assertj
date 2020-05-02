@@ -18,6 +18,7 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
@@ -229,6 +230,69 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     // THEN
     ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, friendsDifference);
+  }
+
+  @Test
+  public void should_fix_1854() {
+    // Original Lists
+    List<Integer> listA = list(1, 2);
+    List<Integer> listB = list(1, 2);
+
+    // --------------------------------------------------------------------------------------------------------------
+    // Base test case - compare against exact copies of the original lists
+    List<Integer> listACopy = list(1, 2);
+    List<Integer> listBCopy = list(1, 2);
+    // The lists themselves are equal to each other.
+    assertThat(listA).usingRecursiveComparison()
+                     .ignoringCollectionOrder()
+                     .isEqualTo(listACopy);
+    assertThat(listB).usingRecursiveComparison()
+                     .ignoringCollectionOrder()
+                     .isEqualTo(listBCopy);
+    // Also, nested lists are still considered equal (regardless of the order of the top-level list)
+    assertThat(list(listA, listB)).usingRecursiveComparison()
+                                  .ignoringCollectionOrder()
+                                  .isEqualTo(list(listACopy, listBCopy))
+                                  .isEqualTo(list(listBCopy, listACopy));
+
+    // --------------------------------------------------------------------------------------------------------------
+    // Reversed test case - compare against reversed copies of the original lists
+    List<Integer> listAReverse = list(2, 1);
+    List<Integer> listBReverse = list(2, 1);
+    // The lists themselves are still equal to each other. So far so good.
+    assertThat(listA).usingRecursiveComparison()
+                     .ignoringCollectionOrder()
+                     .isEqualTo(listAReverse);
+    assertThat(listB).usingRecursiveComparison()
+                     .ignoringCollectionOrder()
+                     .isEqualTo(listBReverse);
+    // Also, comparing a list with one reversed and one copy works!
+    assertThat(list(listA, listB)).usingRecursiveComparison()
+                                  .ignoringCollectionOrder()
+                                  .isEqualTo(list(listACopy, listBReverse))
+                                  .isEqualTo(list(listAReverse, listBCopy));
+
+    // <<<<<<<<<<<<<<<<<<<<<<<< HERE IS THE PROBLEM >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // Comparing the original lists against two reversed lists fails!
+    assertThat(list(listA, listB)).usingRecursiveComparison()
+                                  .ignoringCollectionOrder()
+                                  .isEqualTo(list(listAReverse, listBReverse))
+                                  .isEqualTo(list(listBReverse, listAReverse));
+
+    // --------------------------------------------------------------------------------------------------------------
+    // Additional test case - compare against reversed copies of lists with different core elements
+    List<Integer> listC = list(3, 4);
+    List<Integer> listCReverse = list(4, 3);
+    // The lists themselves are equal to each other.
+    assertThat(listC).usingRecursiveComparison()
+                     .ignoringCollectionOrder()
+                     .isEqualTo(listCReverse);
+
+    // Interestingly, both of these assertions work fine!
+    assertThat(list(listA, listC)).usingRecursiveComparison()
+                                  .ignoringCollectionOrder()
+                                  .isEqualTo(list(listAReverse, listCReverse))
+                                  .isEqualTo(list(listCReverse, listAReverse));
   }
 
 }
