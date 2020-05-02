@@ -425,7 +425,8 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * <pre><code class='java'> URL url = new URL("http://example.com?a=b&amp;c=d");
    *
    * // this assertion succeeds ...
-   * assertThat(url).isEqualToWithSortedQueryParameters(new URL("http://example.com?c=d&amp;a=b"));
+   * assertThat(url).isEqualToWithSortedQueryParameters(new URL("http://example.com?c=d&amp;a=b"))
+   *                .isEqualToWithSortedQueryParameters(new URL("http://example.com?a=b&amp;c=d"));
    *
    * // ... but this one fails as parameters do not match.
    * assertThat(url).isEqualToWithSortedQueryParameters(new URL("http://example.com?a=b&amp;c=e"));
