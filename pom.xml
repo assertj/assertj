@@ -433,6 +433,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <!-- Explicitly set Javadoc locale to English -->
+          <locale>en_US</locale>
           <!-- needed to fix javadoc on java 11+ https://github.com/joel-costigliola/assertj-core/issues/1403 -->
           <source>8</source>
           <!-- (1) CSS file location -->
