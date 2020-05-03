@@ -97,7 +97,11 @@ public class RecursiveComparisonDifferenceCalculator {
 
     public DualValue pickDualValueToCompare() {
       final DualValue dualValue = dualValuesToCompare.removeFirst();
-      visitedDualValues.add(dualValue);
+      if (dualValue.hasPotentialCyclingValues()) {
+        // visited dual values are here to avoid cycle, java types don't have cycle, there is no need to track them.
+        // moreover this would make should_fix_1854_minimal_test to fail (see the test for a detailed explanation)
+        visitedDualValues.add(dualValue);
+      }
       return dualValue;
     }
 
@@ -136,15 +140,13 @@ public class RecursiveComparisonDifferenceCalculator {
       // parent -> set{child} with child having a reference back to parent
       // it occurs to unordered collection where we compare all possible combination of the collection elements recursively
       // --
-      // Don't use removeAll which uses equals to compare values, comparison must be done by reference otherwise we could remove
-      // values too agressively, that occurs when we add a duplicate of a value already visited.
-      // Example:
-      // - a and a are duplicates but are not the same object, i.e. a equals a' but a' != a
-      // - visitedDualValues = {a , b , c}
-      // - dualValuesToCompare = {a'}
-      // dualValuesToCompare.removeAll(visitedDualValues) would remove it which is incorrect
-      // If we compare references then a' won't be removed from dualValuesToCompare
-      visitedDualValues.forEach(visited -> dualValuesToCompare.removeIf(toCompare -> toCompare == visited));
+      // remove visited values one by one, DualValue.equals correctly compare respective actual and expected fields by reference
+      visitedDualValues.forEach(visitedDualValue -> {
+        dualValuesToCompare.stream()
+                           .filter(dualValueToCompare -> dualValueToCompare.equals(visitedDualValue))
+                           .findFirst()
+                           .ifPresent(dualValuesToCompare::remove);
+      });
     }
 
     private boolean mustCompareFieldsRecursively(boolean isRootObject, DualValue dualValue) {

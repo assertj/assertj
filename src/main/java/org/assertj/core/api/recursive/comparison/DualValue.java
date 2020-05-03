@@ -60,6 +60,8 @@ final class DualValue {
   public boolean equals(Object other) {
     if (!(other instanceof DualValue)) return false;
     DualValue that = (DualValue) other;
+    // it is critical to compare by reference when tracking visited dual values.
+    // see should_fix_1854_minimal_test for an explanation
     return actual == that.actual && expected == that.expected;
   }
 
@@ -210,6 +212,17 @@ final class DualValue {
     List<String> fieldPath = newArrayList(parentPath);
     fieldPath.add(fieldName);
     return fieldPath;
+  }
+
+  public boolean hasPotentialCyclingValues() {
+    return isPotentialCyclingValue(actual) && isPotentialCyclingValue(expected);
+  }
+
+  private static boolean isPotentialCyclingValue(Object object) {
+    if (object == null) return false;
+    // java.lang are base types that can't cycle to themselves of other types
+    // we could check more type, but that's a good start
+    return !object.getClass().getCanonicalName().startsWith("java.lang");
   }
 
 }

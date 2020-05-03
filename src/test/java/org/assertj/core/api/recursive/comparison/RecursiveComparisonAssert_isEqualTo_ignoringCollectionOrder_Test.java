@@ -295,4 +295,62 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                   .isEqualTo(list(listCReverse, listAReverse));
   }
 
+  /**
+   * This test shows that we can't track all visited values, only the one with potential cycles.
+   * <p>
+   * Let's run it step by step with tracking all visited values:<br>
+   * list(listA, listB) vs list(listAReverse, listBReverse) means trying to find<br>
+   * - listA in list(listAReverse, listBReverse) and then listB
+   * <p>
+   * After comparing possible pairs (listA element, listAReverse element) we conclude that listA matches listAReverse<br>
+   * - here are the pairs (1, 2), (1, 1), (2, 2), we add them to the visited ones<br>
+   * <p>
+   * We now try to find listB in list(listBReverse) - listAReverse must not be taken into account as it had already been matched<br>
+   * - we would like to try (1, 2), (1, 1), (2, 2) but they have already been visited so we skip them<br>
+   * at this point, we know listB won't be found because (1, 1), (2, 2) won't be considered.
+   * <p>
+   * Comparing dualValues actual and expected with == does not solve the issue because Java does not always create different objects
+   * for primitive wrapping the same basic value, i.e. {@code new Integer(1) == new Integer(1)}.
+   * <p>
+   * The solution is to avoid adding all pairs to visited values. <br>
+   * Visited values are here to track cycles, a pair of wrapped primitive types can't cycle back to itself, we thus can and must ignore them.
+   * <p>
+   * For good measure we don't track pair that include any java.lang values.
+   * <p>
+   * If listA and listB contained non wrapped basic types then == is enough to differentiate them.
+   */
+  @Test
+  public void should_fix_1854_minimal_test() {
+    // GIVEN
+    List<Integer> listA = list(1, 2);
+    List<Integer> listB = list(1, 2);
+    // Reversed lists
+    List<Integer> listAReverse = list(2, 1);
+    List<Integer> listBReverse = list(2, 1);
+    // WHEN - THEN
+    assertThat(list(listA, listB)).usingRecursiveComparison()
+                                  .ignoringCollectionOrder()
+                                  .isEqualTo(list(listAReverse, listBReverse));
+
+  }
+
+  @Test
+  public void should_fix_1854_with_non_wrapped_basic_types() {
+    // GIVEN
+    FriendlyPerson p1 = friend("Sherlock Holmes");
+    FriendlyPerson p2 = friend("Watson");
+    FriendlyPerson p3 = friend("Sherlock Holmes");
+    FriendlyPerson p4 = friend("Watson");
+    List<FriendlyPerson> listA = list(p1, p2);
+    List<FriendlyPerson> listB = list(p1, p2);
+    // Reversed lists
+    List<FriendlyPerson> listAReverse = list(p4, p3);
+    List<FriendlyPerson> listBReverse = list(p4, p3);
+    // WHEN - THEN
+    assertThat(list(listA, listB)).usingRecursiveComparison()
+                                  .ignoringCollectionOrder()
+                                  .isEqualTo(list(listAReverse, listBReverse));
+
+  }
+
 }
