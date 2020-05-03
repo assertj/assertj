@@ -24,7 +24,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
       - name: Test
-        run: ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+        run: ./mvnw -V --no-transfer-progress -e clean verify javadoc:javadoc
 
   sonar:
     name: Sonar code analysis
@@ -44,7 +44,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
       - name: Test with Sonar
         run: >
-          ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+          ./mvnw -V --no-transfer-progress -e clean verify javadoc:javadoc
           org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=assertj
