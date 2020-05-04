@@ -5,8 +5,11 @@ package org.example.test;
  */
 
 import org.assertj.core.api.ClassAssert;
+import org.assertj.core.api.ObjectArrayAssert;
 import org.junit.jupiter.api.Test;
 
+
+import java.lang.reflect.Constructor;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -53,5 +56,4 @@ public class ConstructorTest {
     ClassAssert classAssert = assertThat(person.class).hasPrivateConstructor(String.class,
       String.class );
   }
-
 }
