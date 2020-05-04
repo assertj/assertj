@@ -2,7 +2,6 @@ package org.example.test;
 
 /**
  * @author phx
- * @create 2020-05-03-14:35
  */
 
 import org.assertj.core.api.ClassAssert;

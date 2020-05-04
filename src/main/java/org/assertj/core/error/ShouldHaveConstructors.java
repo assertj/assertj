@@ -4,7 +4,6 @@ import java.util.Collection;
 
 /**
  * @author phx
- * @create 2020-05-03-23:24
  */
 public class ShouldHaveConstructors extends BasicErrorMessageFactory {
   /**
