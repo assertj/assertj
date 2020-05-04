@@ -647,4 +647,25 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     classes.assertHasPublicMethods(info, actual, methodNames);
     return myself;
   }
+
+  protected SELF hasPublicConstructor(Class<?>[] parameters){
+    classes.assertHasPublicConstuctors(info, actual, parameters);
+    return myself;
+  }
+
+  protected SELF hasProtectedConstructor(Class<?>[] parameters){
+    classes.assertHasProtectedConstuctors(info, actual, parameters);
+    return myself;
+  }
+
+  protected SELF hasPrivateConstructor(Class<?>[] parameters){
+    classes.assertHasPrivateConstuctors(info, actual, parameters);
+    return myself;
+  }
+
+  protected SELF hasConstructor(Class<?>[] parameters){
+    classes.assertHasConstuctors(info, actual, parameters);
+    return myself;
+  }
+
 }

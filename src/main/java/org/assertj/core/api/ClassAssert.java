@@ -38,4 +38,28 @@ public class ClassAssert extends AbstractClassAssert<ClassAssert> {
   public final ClassAssert hasAnnotations(Class<? extends Annotation>... annotations) {
     return super.hasAnnotations(annotations);
   }
+
+  @SafeVarargs
+  @Override
+  public final ClassAssert hasPublicConstructor(Class<?>... parameters){
+    return super.hasPublicConstructor(parameters);
+  }
+
+  @SafeVarargs
+  @Override
+  public final ClassAssert hasProtectedConstructor(Class<?>... parameters){
+    return super.hasProtectedConstructor(parameters);
+  }
+
+  @SafeVarargs
+  @Override
+  public final ClassAssert hasPrivateConstructor(Class<?>... parameters){
+    return super.hasPrivateConstructor(parameters);
+  }
+
+  @SafeVarargs
+  @Override
+  public final ClassAssert hasConstructor(Class<?>... parameters){
+    return super.hasConstructor(parameters);
+  }
 }
