@@ -6,11 +6,10 @@ import java.io.StringWriter;
 /**
  * Throwable object representation instead of standard java representation.
  *
- * @author Mariusz Smykula
+ * @author XiaoMingZHM Eveneko
  */
 public class ThrowableRepresentation extends StandardRepresentation {
   public static final ThrowableRepresentation THROWABLE_REPRESENTATION = new ThrowableRepresentation();
-
 
   /**
    * Returns throwable the {@code toString} representation of the given object. It may or not the object's own
