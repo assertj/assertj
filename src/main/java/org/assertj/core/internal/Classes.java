@@ -581,6 +581,17 @@ public class Classes {
     }
   }
 
+  /**
+   * Verifies that the actual {@code Class} has the public {@code methods}.
+   *
+   * @param info    contains information about the assertion.
+   * @param actual  the "actual" {@code Class}.
+   * @param parameters the class list of parameters.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
+   * parameters.
+   */
+
   public void assertHasPublicConstuctors(WritableAssertionInfo info, Class<?> actual,
                                          Class<?>[] parameters) {
     assertNotNull(info, actual);
@@ -590,7 +601,16 @@ public class Classes {
     assertConstructors(info, actual, parameters,publicConstructors);
   }
 
-
+  /**
+   * Verifies that the actual {@code Class} has the public {@code methods}.
+   *
+   * @param info    contains information about the assertion.
+   * @param actual  the "actual" {@code Class}.
+   * @param parameters the class list of parameters.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
+   * parameters.
+   */
   public void assertHasProtectedConstuctors(WritableAssertionInfo info, Class<?> actual, Class<?>[] parameters) {
     assertNotNull(info, actual);
     Constructor<?>[] actualConstructors = actual.getDeclaredConstructors();
@@ -599,7 +619,16 @@ public class Classes {
 
     assertConstructors(info, actual, parameters,protectedConstructors);
   }
-
+  /**
+   * Verifies that the actual {@code Class} has the public {@code methods}.
+   *
+   * @param info    contains information about the assertion.
+   * @param actual  the "actual" {@code Class}.
+   * @param parameters the class list of parameters.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
+   * parameters.
+   */
   public void assertHasPrivateConstuctors(WritableAssertionInfo info, Class<?> actual, Class<?>[] parameters) {
     assertNotNull(info, actual);
     Constructor<?>[] actualConstructors = actual.getDeclaredConstructors();
@@ -608,7 +637,16 @@ public class Classes {
     assertConstructors(info, actual, parameters, privateConstructors);
   }
 
-
+  /**
+   * Verifies that the actual {@code Class} has the public {@code methods}.
+   *
+   * @param info    contains information about the assertion.
+   * @param actual  the "actual" {@code Class}.
+   * @param parameters the class list of parameters.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
+   * parameters.
+   */
   public void assertHasConstuctors(WritableAssertionInfo info, Class<?> actual, Class<?>[] parameters) {
     assertNotNull(info, actual);
     Constructor<?>[] actualConstructors = actual.getDeclaredConstructors();

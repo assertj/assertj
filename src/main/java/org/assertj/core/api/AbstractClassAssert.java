@@ -648,21 +648,124 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code Class} has the given public methods.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class MyClass {
+   *     public void constructor(String.class) {}
+   *     public void constructor(String.class,int.class) {}
+   *     protected void constructor(char.class) {}
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(MyClass.class).hasPublicConstructor(String.class);
+   * assertThat(MyClass.class).hasPublicConstructor(String.class, int.class);
+   *
+   * // these assertions fail:
+   * assertThat(MyClass.class).hasPublicConstructor(char.class);</code></pre>
+   *
+   * @param parameters the class list of parameters.
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
+   * parameters.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
   protected SELF hasPublicConstructor(Class<?>[] parameters){
     classes.assertHasPublicConstuctors(info, actual, parameters);
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code Class} has the given public methods.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class MyClass {
+   *     public void constructor(String.class) {}
+   *     public void constructor(String.class,int.class) {}
+   *     protected void constructor(char.class) {}
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(MyClass.class).hasProtectedConstructor(char.class);
+   *
+   * // these assertions fail:
+   * assertThat(MyClass.class).hasProtectedConstructor(String.class, int.class);
+   * assertThat(MyClass.class).hasProtectedConstructor(String.class);</code></pre>
+   *
+   * @param parameters the class list of parameters.
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
+   * parameters.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
   protected SELF hasProtectedConstructor(Class<?>[] parameters){
     classes.assertHasProtectedConstuctors(info, actual, parameters);
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code Class} has the given public methods.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class MyClass {
+   *     public void constructor(String.class) {}
+   *     public void constructor(String.class,int.class) {}
+   *     protected void constructor(char.class) {}
+   *     private void constructor(int.class) {}
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(MyClass.class).hasPrivateConstructor(int.class);
+   *
+   * // these assertions fail:
+   * assertThat(MyClass.class).hasPrivateConstructor(String.class, int.class);
+   * assertThat(MyClass.class).hasPublicConstructor(int.class);</code></pre>
+   *
+   * @param parameters the class list of parameters.
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
+   * parameters.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
   protected SELF hasPrivateConstructor(Class<?>[] parameters){
     classes.assertHasPrivateConstuctors(info, actual, parameters);
     return myself;
   }
-
+  /**
+   * Verifies that the actual {@code Class} has the given public methods.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class MyClass {
+   *     public void constructor(String.class) {}
+   *     public void constructor(String.class,int.class) {}
+   *     protected void constructor(char.class) {}
+   *     private void constructor(int.class) {}
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(MyClass.class).hasConstructor(String.class);
+   * assertThat(MyClass.class).hasConstructor(String.class, int.class);
+   * assertThat(MyClass.class).hasConstructor(char.class);
+   *
+   * // these assertions fail:
+   * assertThat(MyClass.class).hasConstructor(int.class,char.class);
+   * assertThat(MyClass.class).hasConstructor(char.class,String.class);</code></pre>
+   *
+   * @param parameters the class list of parameters.
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
+   * parameters.
+   *
+   * @since 2.7.0 / 3.7.0
+   */
   protected SELF hasConstructor(Class<?>[] parameters){
     classes.assertHasConstuctors(info, actual, parameters);
     return myself;
