@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 
-public class MapTest {
+public class ConstructorTest {
   class person{
     String name;
     int age;
@@ -53,5 +53,11 @@ public class MapTest {
   public void tets4(){
     ClassAssert classAssert = assertThat(person.class).hasPrivateConstructor(String.class,
       String.class );
+  }
+
+  @Test
+  public void tets5(){
+    ClassAssert classAssert = assertThat(person.class).hasPrivateConstructor(String.class,
+      Integer.class );
   }
 }
