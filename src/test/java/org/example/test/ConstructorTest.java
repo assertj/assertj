@@ -55,9 +55,4 @@ public class ConstructorTest {
       String.class );
   }
 
-  @Test
-  public void tets5(){
-    ClassAssert classAssert = assertThat(person.class).hasPrivateConstructor(String.class,
-      Integer.class );
-  }
 }
