@@ -20,6 +20,8 @@ import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
+import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
@@ -330,6 +332,54 @@ public class Objects {
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (!areEqual(actual, expected))
       throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
+  }
+
+  /**
+   * Asserts that one object is greater than other.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to compare {@code actual} to.
+   * @throws AssertionError if {@code actual} is not greater {@code other}.
+   */
+  public void assertGreater(AssertionInfo info, Object actual, Object other) {
+    if (!areGreater(actual, other))
+      throw failures.failure(info, shouldBeGreater(actual, other, comparisonStrategy));
+  }
+
+  /**
+   * Compares actual and other with standard strategy (null safe equals check).
+   *
+   * @param actual the object to compare to other
+   * @param other the object to compare to actual
+   * @return true if actual is greater than other (null safe equals check), false otherwise.
+   */
+  private boolean areGreater(Object actual, Object other) {
+    return comparisonStrategy.isGreaterThan(actual, other);
+  }
+
+  /**
+   * Asserts that one object is less than other.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to compare {@code actual} to.
+   * @throws AssertionError if {@code actual} is not less than {@code other}.
+   */
+  public void assertLess(AssertionInfo info, Object actual, Object other) {
+    if (!areLess(actual, other))
+      throw failures.failure(info, shouldBeLess(actual, other, comparisonStrategy));
+  }
+
+  /**
+   * Compares actual and other with standard strategy (null safe equals check).
+   *
+   * @param actual the object to compare to other
+   * @param other the object to compare to actual
+   * @return true if actual is less than other (null safe equals check), false otherwise.
+   */
+  private boolean areLess(Object actual, Object other) {
+    return comparisonStrategy.isLessThan(actual, other);
   }
 
   /**

@@ -301,6 +301,44 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
+  /**
+   * Given the Comparator<T> instance, verifies that the actual value is greater than the given one
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('b').usingComparator(compara).isGreaterThan('a');
+   *
+   * // assertions will fail
+   * assertThat('a').usingComparator(compara).isGreaterThan('b');
+   *
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is not greater than the given one.
+   */
+  public SELF isGreaterThan(Object other) {
+    objects.assertGreater(info, actual, other);
+    return myself;
+  }
+
+  /**
+   * Given the Comparator<T> instance, verifies that the actual value is less than the given one
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('a').usingComparator(compara).isLessThan('b');
+   *
+   * // assertions will fail
+   * assertThat('b').usingComparator(compara).isLessThan('a');
+   *
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is not less than the given one.
+   */
+  public SELF isLessThan(Object other) {
+    objects.assertLess(info, actual, other);
+    return myself;
+  }
+
   /** {@inheritDoc} */
   @Override
   public SELF isNotEqualTo(Object other) {
