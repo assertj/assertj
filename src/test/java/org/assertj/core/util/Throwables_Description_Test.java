@@ -13,9 +13,6 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.presentation.ThrowableRepresentation;
 
 public class Throwables_Description_Test {
 
