@@ -310,9 +310,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * // assertions will fail
    * assertThat('a').usingComparator(compara).isGreaterThan('b');
+   * </code></pre>
    *
    * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
+   * @return {@code this</code></pre>} assertion object.
    * @throws AssertionError if the actual value is not greater than the given one.
    */
   public SELF isGreaterThan(Object other) {
@@ -329,6 +330,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * // assertions will fail
    * assertThat('b').usingComparator(compara).isLessThan('a');
+   * </code></pre>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
