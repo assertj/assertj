@@ -17,6 +17,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
 import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCauseWithMessage;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.assertj.core.internal.TestDescription;
@@ -178,11 +179,12 @@ class ShouldHaveRootCause_create_Test {
 
   @Test
   void should_create_error_message_for_actual_cause() {
-    //GIVEN
+    // GIVEN
     Throwable actual = new RuntimeException();
-    //WHEN
+    // WHEN
     String message = shouldHaveRootCause(actual).create();
-    //THEN
-    then(message).isEqualTo("expecting java.lang.RuntimeException to have a root cause but it did not");
+    // THEN
+    then(message).isEqualTo(format("Expecting actual throwable to have a root cause but it did not, actual was:%n%s",
+                                   STANDARD_REPRESENTATION.toStringOf(actual)));
   }
 }

@@ -22,11 +22,14 @@ public class ShouldHaveNoSuppressedExceptions extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveNoSuppressedExceptions(Object actual) {
+  public static ErrorMessageFactory shouldHaveNoSuppressedExceptions(Throwable actual) {
     return new ShouldHaveNoSuppressedExceptions(actual);
   }
 
-  private ShouldHaveNoSuppressedExceptions(Object actual) {
-    super("%nExpecting no suppressed exceptions but found: <%s>", actual);
+  private ShouldHaveNoSuppressedExceptions(Throwable actual) {
+    super("%nExpecting actual throwable not to have any suppressed exceptions but had:%n" +
+          "  %s%n%n" +
+          "actual throwable was:%n" +
+          "  %s", actual.getSuppressed(), actual);
   }
 }

@@ -40,6 +40,7 @@ class Configuration_apply_Test {
     // a bit dodgy but since our custom representation inherits StandardRepresentation, changing maxElementsForPrinting amd
     // maxLengthForSingleLineDescription will be effective.
     then(StandardRepresentation.getMaxElementsForPrinting()).isEqualTo(configuration.maxElementsForPrinting());
+    then(StandardRepresentation.getMaxStackTraceElementsDisplayed ()).isEqualTo(configuration.maxStackTraceElementsDisplayed ());
     then(StandardRepresentation.getMaxLengthForSingleLineDescription()).isEqualTo(configuration.maxLengthForSingleLineDescription());
     boolean removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
     then(removeAssertJRelatedElementsFromStackTrace).isEqualTo(configuration.removeAssertJRelatedElementsFromStackTraceEnabled());

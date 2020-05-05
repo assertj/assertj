@@ -12,8 +12,10 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,7 @@ class ShouldHaveCause_create_Test {
     // WHEN
     String message = shouldHaveCause(actual).create();
     // THEN
-    then(message).isEqualTo("expecting java.lang.RuntimeException to have a cause but it did not");
+    then(message).isEqualTo(format("Expecting actual throwable to have a cause but it did not, actual was:%n%s",
+                                   STANDARD_REPRESENTATION.toStringOf(actual)));
   }
 }

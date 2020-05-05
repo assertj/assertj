@@ -1589,6 +1589,38 @@ public class Assertions implements InstanceOfAssertFactories {
     AbstractAssert.setDescriptionConsumer(descriptionConsumer);
   }
 
+  /**
+   * Sets how many stacktrace elements are included in {@link Throwable} representation (by default this set to 3).
+   * <p>
+   * Examples:
+   * <pre><code class='java'>  static class Test1 {
+   *
+   *   static void boom() {
+   *     Test2.boom2();
+   *   }
+   *
+   *   static class Test2 {
+   *     static void boom2() {
+   *       throw new RuntimeException();
+   *     }
+   *   }
+   * }</code></pre>
+   *
+   * {@code Test1.boom()} exception should be represented like this in error messages:
+   * <pre><code class='text'> java.lang.RuntimeException
+   * 	at org.assertj.core.presentation.Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java:35)
+   * 	at org.assertj.core.presentation.Test1.boom(StandardRepresentation_throwable_format_Test.java:40);java.lang.RuntimeException
+   * 	at org.assertj.core.presentation.Test1.lambda$1(StandardRepresentation_throwable_format_Test.java:63)org.assertj.core.util.Throwables_Description_Test$test1$test2.exception_layer_2(Throwables_Description_Test.java:24)
+   * 	...(69 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)org.assertj.core.util.Throwables_Description_Test$test1.exception_layer_1(Throwables_Description_Test.java:30)</code></pre>
+   *
+   * @param maxStackTraceElementsDisplayed  the maximum number of lines for a stacktrace to be displayed on one throw.
+   * @since 3.19.0
+   * @see Configuration
+   */
+  public static void setMaxStackTraceElementsDisplayed(int maxStackTraceElementsDisplayed) {
+    StandardRepresentation.setMaxStackTraceElementsDisplayed(maxStackTraceElementsDisplayed);
+  }
+
   // ------------------------------------------------------------------------------------------------------
   // properties methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------

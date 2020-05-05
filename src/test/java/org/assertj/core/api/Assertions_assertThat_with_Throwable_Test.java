@@ -18,9 +18,9 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.IOException;
 
@@ -84,7 +84,7 @@ class Assertions_assertThat_with_Throwable_Test {
     // THEN
     assertThat(assertionError).hasMessageContainingAll(IOException.class.getName(),
                                                        Exception.class.getName(),
-                                                       getStackTrace(exception));
+                                                       STANDARD_REPRESENTATION.toStringOf(exception));
   }
 
   @Test

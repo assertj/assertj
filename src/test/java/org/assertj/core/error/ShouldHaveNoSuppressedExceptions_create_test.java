@@ -10,22 +10,16 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoSuppressedExceptions.shouldHaveNoSuppressedExceptions;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Throwables_assertHasNoSuppressedExceptions_Test extends ThrowablesBaseTest {
-
-  @Test
-  void should_pass_if_throwable_has_no_suppressed_exceptions() {
-    throwables.assertHasNoSuppressedExceptions(someInfo(), new Throwable());
-  }
+class ShouldHaveNoSuppressedExceptions_create_test {
 
   @Test
   void should_fail_if_throwable_has_suppressed_exceptions() {
@@ -33,8 +27,13 @@ class Throwables_assertHasNoSuppressedExceptions_Test extends ThrowablesBaseTest
     Throwable actual = new Throwable();
     actual.addSuppressed(new IllegalArgumentException("Suppressed Message"));
     // WHEN
-    expectAssertionError(() -> throwables.assertHasNoSuppressedExceptions(someInfo(), actual));
+    String message = shouldHaveNoSuppressedExceptions(actual).create();
     // THEN
-    verify(failures).failure(someInfo(), shouldHaveNoSuppressedExceptions(actual));
+    then(message).isEqualTo(format("%nExpecting actual throwable not to have any suppressed exceptions but had:%n" +
+                                   "  %s%n%n" +
+                                   "actual throwable was:%n" +
+                                   "  %s",
+                                   STANDARD_REPRESENTATION.toStringOf(actual.getSuppressed()),
+                                   STANDARD_REPRESENTATION.toStringOf(actual)));
   }
 }

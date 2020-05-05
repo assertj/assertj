@@ -32,7 +32,8 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
   }
 
   public static ErrorMessageFactory shouldHaveCause(Throwable actualCause) {
-    return new BasicErrorMessageFactory("expecting %s to have a cause but it did not", actualCause);
+    return new BasicErrorMessageFactory("Expecting actual throwable to have a cause but it did not, actual was:%n%s",
+                                        actualCause);
   }
 
   private ShouldHaveCause(Throwable actualCause, Throwable expectedCause) {

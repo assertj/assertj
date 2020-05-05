@@ -24,18 +24,18 @@ public class ShouldHaveSuppressedException extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveSuppressedException(Throwable actual,
-                                                                 Throwable expectedSuppressedException) {
+                                                                  Throwable expectedSuppressedException) {
     return new ShouldHaveSuppressedException(actual, expectedSuppressedException);
   }
 
   private ShouldHaveSuppressedException(Throwable actual, Throwable expectedSuppressedException) {
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to have a suppressed exception with the following type and message:%n" +
-          "  <%s> / <%s>%n" +
+          "  %s / %s%n" +
           "but could not find any in actual's suppressed exceptions:%n" +
-          "  <%s>.",
+          "  %s",
           actual, expectedSuppressedException.getClass().getName(), expectedSuppressedException.getMessage(),
           actual.getSuppressed());
   }

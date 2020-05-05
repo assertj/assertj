@@ -67,6 +67,11 @@ class NonDefaultConfiguration extends Configuration {
   }
 
   @Override
+  public int maxStackTraceElementsDisplayed () {
+    return super.maxStackTraceElementsDisplayed () + 1;
+  }
+
+  @Override
   public List<DateFormat> additionalDateFormats() {
     return list(DATE_FORMAT1, DATE_FORMAT2);
   }

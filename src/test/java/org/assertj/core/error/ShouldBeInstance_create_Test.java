@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull;
-import static org.assertj.core.util.Throwables.getStackTrace;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 
@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  */
 class ShouldBeInstance_create_Test {
-
 
   @Test
   void should_create_error_message() {
@@ -52,17 +51,15 @@ class ShouldBeInstance_create_Test {
   @Test
   void should_create_error_message_with_stack_trace_for_throwable() {
     // GIVEN
-    IllegalArgumentException throwable = new IllegalArgumentException("Not a file");
+    IllegalArgumentException actual = new IllegalArgumentException("Not a file");
     // WHEN
-    String message = shouldBeInstance(throwable, File.class).create();
+    String message = shouldBeInstance(actual, File.class).create();
     // THEN
-    then(message).isEqualTo(format("%nExpecting:%n" +
-                                   "  <java.lang.IllegalArgumentException: Not a file>%n" +
-                                   "to be an instance of:%n" +
-                                   "  <java.io.File>%n" +
+    then(message).isEqualTo(format("%nExpecting actual throwable to be an instance of:%n" +
+                                   "  java.io.File%n" +
                                    "but was:%n" +
-                                   "  <\"%s\">",
-                                   getStackTrace(throwable)));
+                                   "  %s",
+                                   STANDARD_REPRESENTATION.toStringOf(actual)));
   }
 
   @Test

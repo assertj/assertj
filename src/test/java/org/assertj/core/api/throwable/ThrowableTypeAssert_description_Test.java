@@ -36,8 +36,7 @@ class ThrowableTypeAssert_description_Test {
   }
 
   static Stream<Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>>> parameters() {
-    return Stream.of(
-                     t -> t.as("test description"),
+    return Stream.of(t -> t.as("test description"),
                      t -> t.describedAs("test description"),
                      t -> t.as(new TextDescription("%s description", "test")),
                      t -> t.describedAs(new TextDescription("%s description", "test")));
@@ -58,11 +57,11 @@ class ThrowableTypeAssert_description_Test {
                                                                                      .isThrownBy(() -> {
                                                                                        throw new IllegalArgumentException();
                                                                                      }))
-                                                   .withMessageContaining(format("[test description] %n" +
-                                                                                 "Expecting:%n" +
-                                                                                 "  <java.lang.IllegalArgumentException>%n" +
-                                                                                 "to be an instance of:%n" +
-                                                                                 "  <java.util.NoSuchElementException>"));
+                                                   .withMessageContaining(format("[test description] %n"
+                                                                                 + "Expecting actual throwable to be an instance of:%n"
+                                                                                 + "  java.util.NoSuchElementException%n"
+                                                                                 + "but was:%n"
+                                                                                 + "  java.lang.IllegalArgumentException"));
   }
 
   @ParameterizedTest
@@ -74,9 +73,9 @@ class ThrowableTypeAssert_description_Test {
         throw exception;
       }).withMessage("other cause");
     }).withMessageStartingWith(format("[test description] %n" +
-                          "Expecting message to be:%n" +
-                          "  <\"other cause\">%n" +
-                          "but was:%n" +
+                                      "Expecting message to be:%n" +
+                                      "  <\"other cause\">%n" +
+                                      "but was:%n" +
                                       "  <\"some cause\">%n"));
   }
 }

@@ -431,7 +431,7 @@ public class Throwables {
   public void assertHasNoSuppressedExceptions(AssertionInfo info, Throwable actual) {
     assertNotNull(info, actual);
     Throwable[] suppressed = actual.getSuppressed();
-    if (suppressed.length != 0) throw failures.failure(info, shouldHaveNoSuppressedExceptions(suppressed));
+    if (suppressed.length != 0) throw failures.failure(info, shouldHaveNoSuppressedExceptions(actual));
   }
 
   public void assertHasSuppressedException(AssertionInfo info, Throwable actual,

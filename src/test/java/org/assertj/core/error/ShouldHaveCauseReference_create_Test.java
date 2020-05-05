@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCauseReference.shouldHaveCauseReference;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
@@ -36,11 +37,12 @@ class ShouldHaveCauseReference_create_Test {
     // WHEN
     String actual = shouldHaveCauseReference(actualCause, expectedCause).create(DESCRIPTION);
     // THEN
-    then(actual).isEqualTo(format("[TEST] %n"
-                                  + "Expecting actual cause reference to be:%n"
-                                  + " <\"java.lang.RuntimeException: hello\">%n"
-                                  + "but was:%n"
-                                  + " <\"null\">."));
+    then(actual).isEqualTo(format("[TEST] %n" +
+                                  "Expecting actual cause reference to be:%n" +
+                                  "  %s%n" +
+                                  "but was:%n" +
+                                  "  null",
+                                  STANDARD_REPRESENTATION.toStringOf(expectedCause)));
   }
 
   @Test
@@ -51,10 +53,12 @@ class ShouldHaveCauseReference_create_Test {
     // WHEN
     String actual = shouldHaveCauseReference(actualCause, expectedCause).create(DESCRIPTION);
     // THEN
-    then(actual).isEqualTo(format("[TEST] %n"
-                                  + "Expecting actual cause reference to be:%n"
-                                  + " <\"java.lang.RuntimeException: hello\">%n"
-                                  + "but was:%n"
-                                  + " <\"java.lang.NullPointerException\">."));
+    then(actual).isEqualTo(format("[TEST] %n" +
+                                  "Expecting actual cause reference to be:%n" +
+                                  "  %s%n" +
+                                  "but was:%n" +
+                                  "  %s",
+                                  STANDARD_REPRESENTATION.toStringOf(expectedCause),
+                                  STANDARD_REPRESENTATION.toStringOf(actualCause)));
   }
 }

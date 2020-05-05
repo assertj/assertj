@@ -29,6 +29,8 @@ import static org.assertj.core.util.Strings.quote;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
@@ -68,6 +70,7 @@ import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.Closeables;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
@@ -103,6 +106,7 @@ public class StandardRepresentation implements Representation {
 
   private static int maxLengthForSingleLineDescription = Configuration.MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
   private static int maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
+  private static int maxStackTraceElementsDisplayed = Configuration.MAX_STACKTRACE_ELEMENTS_DISPLAYED;
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
@@ -151,6 +155,17 @@ public class StandardRepresentation implements Representation {
     ConfigurationProvider.loadRegisteredConfiguration();
     checkArgument(value >= 1, "maxElementsForPrinting must be >= 1, but was %s", value);
     maxElementsForPrinting = value;
+  }
+
+  @VisibleForTesting
+  public static int getMaxStackTraceElementsDisplayed() {
+    return maxStackTraceElementsDisplayed;
+  }
+
+  public static void setMaxStackTraceElementsDisplayed(int value) {
+    ConfigurationProvider.loadRegisteredConfiguration();
+    checkArgument(value >= 0, "maxStackTraceElementsDisplayed  must be >= 0, but was %s", value);
+    maxStackTraceElementsDisplayed = value;
   }
 
   @VisibleForTesting
@@ -228,6 +243,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
     if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
     if (object instanceof Number) return toStringOf((Number) object);
+    if (object instanceof Throwable) return toStringOf((Throwable) object);
     return fallbackToStringOf(object);
   }
 
@@ -433,6 +449,31 @@ public class StandardRepresentation implements Representation {
       printedElements++;
       if (!entriesIterator.hasNext()) return builder.append("}").toString();
       builder.append(", ");
+    }
+  }
+
+  protected String toStringOf(Throwable throwable) {
+    StackTraceElement[] elements = throwable.getStackTrace();
+    // if the line limit is 0, we assume the user don't want to print stack trace
+    if (maxStackTraceElementsDisplayed == 0) return throwable.toString();
+    // display the full stack trace
+    if (maxStackTraceElementsDisplayed >= elements.length) return getStackTrace(throwable);
+
+    // display a partial stack trace
+    StringWriter sw = null;
+    PrintWriter pw = null;
+    try {
+      sw = new StringWriter();
+      pw = new PrintWriter(sw, true);
+      pw.println(throwable);
+      for (int i = 0; i < maxStackTraceElementsDisplayed; i++) {
+        pw.println("\tat " + elements[i]);
+      }
+      pw.print("\t...(" + (elements.length - maxStackTraceElementsDisplayed)
+               + " remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)");
+      return sw.toString();
+    } finally {
+      Closeables.closeQuietly(sw, pw);
     }
   }
 

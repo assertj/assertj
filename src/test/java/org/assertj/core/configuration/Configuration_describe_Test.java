@@ -50,6 +50,7 @@ class Configuration_describe_Test {
                                        "- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]%n" +
                                        "- maxLengthForSingleLineDescription ............... = 81%n" +
                                        "- maxElementsForPrinting .......................... = 1001%n" +
+                                       "- maxStackTraceElementsDisplayed................... = 4%n" +
                                        "- printAssertionsDescription ...................... = false%n" +
                                        "- descriptionConsumer ............................. = sysout%n" +
                                        "- removeAssertJRelatedElementsFromStackTraceEnabled = false%n"));

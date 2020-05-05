@@ -45,6 +45,7 @@ public class Configuration {
   public static final boolean BARE_NAME_PROPERTY_EXTRACTION_ENABLED = true;
   public static final boolean LENIENT_DATE_PARSING = false;
   public static final boolean PRINT_ASSERTIONS_DESCRIPTION_ENABLED = false;
+  public static final int MAX_STACKTRACE_ELEMENTS_DISPLAYED = 3;
 
   private boolean comparingPrivateFields = ALLOW_COMPARING_PRIVATE_FIELDS;
   private boolean extractingPrivateFields = ALLOW_EXTRACTING_PRIVATE_FIELDS;
@@ -56,6 +57,7 @@ public class Configuration {
   private int maxElementsForPrinting = MAX_ELEMENTS_FOR_PRINTING;
   private boolean printAssertionsDescription = PRINT_ASSERTIONS_DESCRIPTION_ENABLED;
   private Consumer<Description> descriptionConsumer = null;
+  private int maxStackTraceElementsDisplayed = MAX_STACKTRACE_ELEMENTS_DISPLAYED;
 
   /**
    * @return the default {@link Representation} that is used within AssertJ.
@@ -296,6 +298,31 @@ public class Configuration {
   }
 
   /**
+   * Returns the maximum number of lines for a stacktrace to be displayed on one throw.
+   * Default is {@value #MAX_STACKTRACE_ELEMENTS_DISPLAYED}.
+   * <p>
+   * See {@link Assertions#setMaxStackTraceElementsDisplayed (int)} for a detailed description.
+   *
+   * @return the maximum number of lines for a stacktrace to be displayed on one throw.
+   */
+  public int maxStackTraceElementsDisplayed() {
+    return maxStackTraceElementsDisplayed;
+  }
+
+  /**
+   * Returns the maximum number of lines for a stacktrace to be displayed on one throw.
+   * <p>
+   * See {@link Assertions#setMaxStackTraceElementsDisplayed (int)} for a detailed description.
+   * <p>
+   * Note that this change will only be effective once {@link #apply()} or {@link #applyAndDisplay()} is called.
+   *
+   * @param maxStackTraceElementsDisplayed  the maximum number of lines for a stacktrace to be displayed on one throw.
+   */
+  public void setMaxStackTraceElementsDisplayed(int maxStackTraceElementsDisplayed) {
+    this.maxStackTraceElementsDisplayed = maxStackTraceElementsDisplayed;
+  }
+
+  /**
    * Applies this configuration to AssertJ.
    */
   public void apply() {
@@ -309,6 +336,7 @@ public class Configuration {
     Assertions.useRepresentation(representation());
     Assertions.setDescriptionConsumer(descriptionConsumer());
     Assertions.setPrintAssertionsDescription(printAssertionsDescription());
+    Assertions.setMaxStackTraceElementsDisplayed(maxStackTraceElementsDisplayed());
     additionalDateFormats().forEach(Assertions::registerCustomDateFormat);
   }
 
@@ -330,6 +358,7 @@ public class Configuration {
                   "- additional date formats ......................... = %s%n" +
                   "- maxLengthForSingleLineDescription ............... = %s%n" +
                   "- maxElementsForPrinting .......................... = %s%n" +
+                  "- maxStackTraceElementsDisplayed................... = %s%n" +
                   "- printAssertionsDescription ...................... = %s%n" +
                   "- descriptionConsumer ............................. = %s%n" +
                   "- removeAssertJRelatedElementsFromStackTraceEnabled = %s%n",
@@ -342,6 +371,7 @@ public class Configuration {
                   describeAdditionalDateFormats(),
                   maxLengthForSingleLineDescription(),
                   maxElementsForPrinting(),
+                  maxStackTraceElementsDisplayed(),
                   printAssertionsDescription(),
                   descriptionConsumer(),
                   removeAssertJRelatedElementsFromStackTraceEnabled());

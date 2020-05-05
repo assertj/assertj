@@ -19,6 +19,6 @@ public class ShouldHaveCauseReference extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
-    super("%nExpecting actual cause reference to be:%n <\"%s\">%nbut was:%n <\"%s\">.", expectedCause, actualCause);
+    super("%nExpecting actual cause reference to be:%n  %s%nbut was:%n  %s", expectedCause, actualCause);
   }
 }

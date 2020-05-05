@@ -16,6 +16,8 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Arrays.array;
 
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
@@ -26,19 +28,22 @@ class ShouldHaveSuppressedException_create_Test {
   void should_create_error_message() {
     // GIVEN
     Throwable actual = new Throwable();
-    actual.addSuppressed(new IllegalArgumentException("invalid arg"));
-    actual.addSuppressed(new NullPointerException("null arg"));
+    IllegalArgumentException suppressedException1 = new IllegalArgumentException("invalid arg");
+    actual.addSuppressed(suppressedException1);
+    NullPointerException suppressedException2 = new NullPointerException("null arg");
+    actual.addSuppressed(suppressedException2);
     ErrorMessageFactory factory = shouldHaveSuppressedException(actual, new IllegalArgumentException("foo"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <java.lang.Throwable>%n" +
+                                   "  %s%n" +
                                    "to have a suppressed exception with the following type and message:%n" +
-                                   "  <\"java.lang.IllegalArgumentException\"> / <\"foo\">%n" +
+                                   "  \"java.lang.IllegalArgumentException\" / \"foo\"%n" +
                                    "but could not find any in actual's suppressed exceptions:%n" +
-                                   "  <[java.lang.IllegalArgumentException: invalid arg,%n" +
-                                   "    java.lang.NullPointerException: null arg]>."));
+                                   "  %s",
+                                   STANDARD_REPRESENTATION.toStringOf(actual),
+                                   STANDARD_REPRESENTATION.toStringOf(array(suppressedException1, suppressedException2))));
   }
 }

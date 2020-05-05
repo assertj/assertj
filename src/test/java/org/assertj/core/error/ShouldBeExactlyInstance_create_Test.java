@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
-import static org.assertj.core.util.Throwables.getStackTrace;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 
@@ -34,13 +34,13 @@ class ShouldBeExactlyInstance_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeExactlyInstance("Yoda", File.class);
+    ErrorMessageFactory factory = shouldBeExactlyInstance("Yoda%s", File.class);
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
+                                   " <\"Yoda%%s\">%n" +
                                    "to be exactly an instance of:%n" +
                                    " <java.io.File>%n" +
                                    "but was an instance of:%n <java.lang.String>"));
@@ -49,16 +49,14 @@ class ShouldBeExactlyInstance_create_Test {
   @Test
   void should_create_error_message_with_stack_trace_for_throwable() {
     // GIVEN
-    IllegalArgumentException throwable = new IllegalArgumentException("Not a Nullpointer");
+    IllegalArgumentException actual = new IllegalArgumentException("Not a Nullpointer%s");
     // WHEN
-    String message = shouldBeExactlyInstance(throwable, NullPointerException.class).create();
+    String message = shouldBeExactlyInstance(actual, NullPointerException.class).create();
     // THEN
-    then(message).isEqualTo(format("%nExpecting:%n" +
-                                   " <java.lang.IllegalArgumentException: Not a Nullpointer>%n" +
-                                   "to be exactly an instance of:%n" +
-                                   " <java.lang.NullPointerException>%n" +
+    then(message).isEqualTo(format("%nExpecting actual throwable to be exactly an instance of:%n" +
+                                   "  java.lang.NullPointerException%n" +
                                    "but was:%n" +
-                                   " <\"%s\">",
-                                   getStackTrace(throwable)));
+                                   "  %s",
+                                   STANDARD_REPRESENTATION.toStringOf(actual)));
   }
 }

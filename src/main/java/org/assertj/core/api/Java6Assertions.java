@@ -51,6 +51,7 @@ import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
@@ -650,7 +651,7 @@ public class Java6Assertions {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    */
-//@format:off
+  //@format:off
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
@@ -1386,6 +1387,38 @@ public class Java6Assertions {
    */
   public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
+  }
+
+  /**
+   * Sets how many stacktrace elements are included in {@link Throwable} representation (by default this set to 3).
+   * <p>
+   * Examples:
+   * <pre><code class='java'>  static class Test1 {
+   *
+   *   static void boom() {
+   *     Test2.boom2();
+   *   }
+   *
+   *   static class Test2 {
+   *     static void boom2() {
+   *       throw new RuntimeException();
+   *     }
+   *   }
+   * }</code></pre>
+   *
+   * {@code Test1.boom()} exception should be represented like this in error messages:
+   * <pre><code class='text'> java.lang.RuntimeException
+   *  at org.assertj.core.presentation.Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java:35)
+   *  at org.assertj.core.presentation.Test1.boom(StandardRepresentation_throwable_format_Test.java:40);java.lang.RuntimeException
+   *  at org.assertj.core.presentation.Test1.lambda$1(StandardRepresentation_throwable_format_Test.java:63)org.assertj.core.util.Throwables_Description_Test$test1$test2.exception_layer_2(Throwables_Description_Test.java:24)
+   *  ...(69 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)org.assertj.core.util.Throwables_Description_Test$test1.exception_layer_1(Throwables_Description_Test.java:30)</code></pre>
+   *
+   * @param maxStackTraceElementsDisplayed  the maximum number of lines for a stacktrace to be displayed on one throw.
+   * @since 3.19.0
+   * @see Configuration
+   */
+  public static void setMaxStackTraceElementsDisplayed (int maxStackTraceElementsDisplayed ) {
+    StandardRepresentation.setMaxStackTraceElementsDisplayed (maxStackTraceElementsDisplayed );
   }
 
   // ------------------------------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
-import static org.assertj.core.util.Throwables.getStackTrace;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 import java.util.regex.Pattern;
@@ -32,10 +32,8 @@ import org.junit.jupiter.api.Test;
  */
 class ShouldBeInstanceOfAny_create_Test {
 
-
   @BeforeEach
-  public void setUp() {
-  }
+  public void setUp() {}
 
   @Test
   void should_create_error_message() {
@@ -62,10 +60,10 @@ class ShouldBeInstanceOfAny_create_Test {
     // WHEN
     String message = shouldBeInstanceOfAny(throwable, types).create();
     // THEN
-    then(message).isEqualTo(format("%nExpecting:%n" +
-                                   " <java.lang.IllegalArgumentException: Not in a list>%n" +
-                                   "to be an instance of any of:%n" +
-                                   " <[java.lang.NullPointerException, java.lang.IllegalStateException]>%n" +
-                                   "but was:%n <\"%s\">", getStackTrace(throwable)));
+    then(message).isEqualTo(format("%nExpecting actual throwable to be an instance of any of the following types:%n" +
+                                   "  [java.lang.NullPointerException, java.lang.IllegalStateException]%n" +
+                                   "but was:%n" +
+                                   "  %s", STANDARD_REPRESENTATION.toStringOf(throwable)));
+
   }
 }

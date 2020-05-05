@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.Throwables.getStackTrace;
-
 /**
  * Creates an error message indicating that an assertion that verifies that an object is an instance of some type
  * failed.
@@ -58,13 +56,11 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
 
   private ShouldBeInstance(Throwable throwable, Class<?> type) {
     super("%n" +
-          "Expecting:%n" +
-          "  <%s>%n" +
-          "to be an instance of:%n" +
-          "  <%s>%n" +
+          "Expecting actual throwable to be an instance of:%n" +
+          "  %s%n" +
           "but was:%n" +
-          "  <%s>",
-          throwable, type, getStackTrace(throwable));
+          "  %s",
+          type, throwable);
   }
 
   private ShouldBeInstance(String objectDescription, Class<?> type) {
