@@ -302,7 +302,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Given the Comparator<T> instance, verifies that the actual value is greater than the given one
+   * Given the Comparator instance, verifies that the actual value is greater than the given one
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -321,7 +321,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Given the Comparator<T> instance, verifies that the actual value is less than the given one
+   * Given the Comparator instance, verifies that the actual value is less than the given one
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
