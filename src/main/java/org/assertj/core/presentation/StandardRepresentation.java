@@ -25,6 +25,8 @@ import static org.assertj.core.util.Strings.quote;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -207,6 +209,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
+    if (object instanceof Throwable) return  toStringOf((Throwable) object);
     return fallbackToStringOf(object);
   }
 
@@ -398,6 +401,31 @@ public class StandardRepresentation implements Representation {
       if (!entriesIterator.hasNext()) return builder.append("}").toString();
       builder.append(", ");
     }
+  }
+
+  protected String toStringOf(Throwable throwable) {
+    //TODO: need configuration to limit line number
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+
+    StackTraceElement[] elements = throwable.getStackTrace();
+    pw.println(throwable);
+    int elementNumber = elements.length;
+
+    // TODO: get the maxElementNumber from Configuration
+    int maxElementNumber = 1000;
+    if (maxElementNumber >= elementNumber) {
+      for (StackTraceElement element : elements) {
+        pw.println("\tat " + element);
+      }
+    } else {
+      // In this case we may select the topped elements if line number is limited.
+      for (int i = 0; i < maxElementNumber; ++i) {
+        pw.println("\tat " + elements[i]);
+      }
+      pw.println("\t...( " + (elementNumber - maxElementNumber) + " lines folded)");
+    }
+    return sw.toString();
   }
 
   private static Map<?, ?> toSortedMapIfPossible(Map<?, ?> map) {

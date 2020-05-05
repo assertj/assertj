@@ -52,12 +52,12 @@ public class Throwables_Description_Test {
     } catch (RuntimeException e2) {
       e = e2;
     }
-    e.printStackTrace();
-    System.out.println("-------------");
-    System.out.println(e.toString());
+//    e.printStackTrace();
+//    System.out.println("-------------");
+//    System.out.println(e.toString());
 //    assertThat(e).isNull();
 //    assertThat(e).as(ExceptionUtils.getStackTrace(e)).isNull();
-    AbstractAssert.setCustomRepresentation(ThrowableRepresentation.THROWABLE_REPRESENTATION);
+//    AbstractAssert.setCustomRepresentation(ThrowableRepresentation.THROWABLE_REPRESENTATION);
     assertThat(e).isEqualTo(new IndexOutOfBoundsException());
   }
 }
