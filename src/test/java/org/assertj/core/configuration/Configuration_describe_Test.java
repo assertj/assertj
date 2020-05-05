@@ -36,6 +36,7 @@ public class Configuration_describe_Test {
                                              "- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]%n" +
                                              "- maxLengthForSingleLineDescription ............... = 81%n" +
                                              "- maxElementsForPrinting .......................... = 1001%n" +
+                                             "- maxStackTrace ................................... = 1%n" +
                                              "- removeAssertJRelatedElementsFromStackTraceEnabled = false%n"));
   }
 

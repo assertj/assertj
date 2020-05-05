@@ -103,10 +103,11 @@ public class StandardRepresentation implements Representation {
 
   private static int maxLengthForSingleLineDescription = Configuration.MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
   private static int maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
+  private static int maxStackTraceLine = Configuration.MAX_STACKTRACE_LINE;
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
-      OffsetDateTime.class, Calendar.class };
+    OffsetDateTime.class, Calendar.class };
 
   /**
    * It resets the static defaults for the standard representation.
@@ -137,6 +138,17 @@ public class StandardRepresentation implements Representation {
     ConfigurationProvider.loadRegisteredConfiguration();
     checkArgument(value >= 1, "maxElementsForPrinting must be >= 1, but was %s", value);
     maxElementsForPrinting = value;
+  }
+
+  @VisibleForTesting
+  public static int getMaxStackTraceLine() {
+    return maxStackTraceLine;
+  }
+
+  public static void setMaxStackTraceLine(int value) {
+    ConfigurationProvider.loadRegisteredConfiguration();
+    checkArgument(value >= 0, "maxStackTraceLine must be >= 0, but was %s", value);
+    maxStackTraceLine = value;
   }
 
   @VisibleForTesting
@@ -209,7 +221,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
-    if (object instanceof Throwable) return  toStringOf((Throwable) object);
+    if (object instanceof Throwable) return toStringOf((Throwable) object);
     return fallbackToStringOf(object);
   }
 
@@ -290,7 +302,7 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
     String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
     return comparatorDescription == null ? toStringOf(comparatorBasedComparisonStrategy.getComparator())
-        : quote(comparatorDescription);
+      : quote(comparatorDescription);
   }
 
   protected String toStringOf(Calendar calendar) {
@@ -390,7 +402,7 @@ public class StandardRepresentation implements Representation {
     if (!entriesIterator.hasNext()) return "{}";
     StringBuilder builder = new StringBuilder("{");
     int printedElements = 0;
-    for (;;) {
+    for (; ; ) {
       Entry<?, ?> entry = (Entry<?, ?>) entriesIterator.next();
       if (printedElements == maxElementsForPrinting) {
         builder.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
@@ -404,7 +416,6 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(Throwable throwable) {
-    //TODO: need configuration to limit line number
     StringWriter sw = new StringWriter();
     PrintWriter pw = new PrintWriter(sw);
 
@@ -412,8 +423,11 @@ public class StandardRepresentation implements Representation {
     pw.println(throwable);
     int elementNumber = elements.length;
 
-    // TODO: get the maxElementNumber from Configuration
-    int maxElementNumber = 1000;
+    int maxElementNumber = maxStackTraceLine;
+    // if the line limit is 0, we assume the user don't want to print stack trace
+    if (maxElementNumber == 0) {
+      return throwable.toString();
+    }
     if (maxElementNumber >= elementNumber) {
       for (StackTraceElement element : elements) {
         pw.println("\tat " + element);
@@ -508,8 +522,8 @@ public class StandardRepresentation implements Representation {
     Set<Object[]> alreadyFormatted = new HashSet<>();
     String singleLineDescription = singleLineFormat(iterable, alreadyFormatted);
     return doesDescriptionFitOnSingleLine(singleLineDescription)
-        ? singleLineDescription
-        : multiLineFormat(iterable, alreadyFormatted);
+      ? singleLineDescription
+      : multiLineFormat(iterable, alreadyFormatted);
   }
 
   protected String format(Object[] array, String elementSeparator,

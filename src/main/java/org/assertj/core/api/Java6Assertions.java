@@ -197,7 +197,8 @@ public class Java6Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(
+    AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return new AtomicReferenceFieldUpdaterAssert<>(actual);
   }
 
@@ -387,7 +388,8 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(Iterable<? extends T> actual) {
+  public static <T> AbstractIterableAssert<?, Iterable<? extends T>, T, ObjectAssert<T>> assertThat(
+    Iterable<? extends T> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -584,7 +586,7 @@ public class Java6Assertions {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    */
-//@format:off
+  //@format:off
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
@@ -1286,6 +1288,105 @@ public class Java6Assertions {
    */
   public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
+  }
+
+  /**
+   * In throw messages, sets the threshold for how many lines from the stacktrack will be included.
+   *
+   * {@code 0} means it does not display the stacktrace.
+   *
+   * E.q. When this method is called with a value of {@code 0}. And the stacktrace has {@code 3} lines.
+   * <p>
+   * The following messages will be displayed entirely as it's length is &lt;= 3:
+   * <pre><code class='java'> public class Throwables_Description_Test {
+   *
+   *   public static class test1 {
+   *     public class test2 {
+   *
+   *       public void exception_layer_2() {
+   *         throw new RuntimeException();
+   *       }
+   *     }
+   *
+   *     public void exception_layer_1() {
+   *       test2 t = new test2();
+   *       t.exception_layer_2();
+   *     }
+   *   }
+   *
+   * // displayeded as:
+   *
+   * Expecting:
+   *  &gt;java.lang.RuntimeException&lt;
+   * to be equal to:
+   *  &gt;java.lang.IndexOutOfBoundsException&lt;
+   * but was not.</code></pre>
+   *
+   * whereas this method is called with a value of {@code 2}, And the stacktrace has {@code 3} lines, followed by {@code ...( 1 lines folded)}:
+   * <pre><code class='java'>   public static class test1 {
+   *     public class test2 {
+   *
+   *       public void exception_layer_2() {
+   *         throw new RuntimeException();
+   *       }
+   *     }
+   *
+   *     public void exception_layer_1() {
+   *       test2 t = new test2();
+   *       t.exception_layer_2();
+   *     }
+   *   }
+   *
+   * // displayeded as:
+   *
+   * Exception in thread "main" org.opentest4j.AssertionFailedError:
+   * Expecting:
+   *  &gt;java.lang.RuntimeException
+   * 	at org.assertj.core.util.Throwables_Description_Test$test1$test2.exception_layer_2(Throwables_Description_Test.java:24)
+   * 	at org.assertj.core.util.Throwables_Description_Test$test1.exception_layer_1(Throwables_Description_Test.java:30)
+   * 	...( 1 lines folded)
+   * &lt;
+   * to be equal to:
+   *  &gt;java.lang.IndexOutOfBoundsException
+   * 	at org.assertj.core.util.Throwables_Description_Test.main(Throwables_Description_Test.java:46)
+   * &lt;
+   * but was not.</code></pre>
+   *
+   * whereas this method is called with a value of {@code 5}, And the stacktrace has {@code 3} lines, followed by {@code 3}:
+   * <pre><code class='java'>  public static class test1 {
+   *     public class test2 {
+   *
+   *       public void exception_layer_2() {
+   *         throw new RuntimeException();
+   *       }
+   *     }
+   *
+   *     public void exception_layer_1() {
+   *       test2 t = new test2();
+   *       t.exception_layer_2();
+   *     }
+   *   }
+   *
+   * // displayeded as:
+   *
+   * Exception in thread "main" org.opentest4j.AssertionFailedError:
+   * Expecting:
+   *  &gt;java.lang.RuntimeException
+   * 	at org.assertj.core.util.Throwables_Description_Test$test1$test2.exception_layer_2(Throwables_Description_Test.java:24)
+   * 	at org.assertj.core.util.Throwables_Description_Test$test1.exception_layer_1(Throwables_Description_Test.java:30)
+   * 	at org.assertj.core.util.Throwables_Description_Test.main(Throwables_Description_Test.java:42)
+   * &lt;
+   * to be equal to:
+   *  &gt;java.lang.IndexOutOfBoundsException
+   * 	at org.assertj.core.util.Throwables_Description_Test.main(Throwables_Description_Test.java:46)
+   * &lt;
+   * but was not.</code></pre>
+   *
+   * @param maxStackTraceLine the maximum number of lines for a stacktrace to be displayed on one throw.
+   * @since 2.6.0 / 3.6.0
+   */
+  public static void setMaxStackTraceLine(int maxStackTraceLine) {
+    StandardRepresentation.setMaxStackTraceLine(maxStackTraceLine);
   }
 
   // ------------------------------------------------------------------------------------------------------
