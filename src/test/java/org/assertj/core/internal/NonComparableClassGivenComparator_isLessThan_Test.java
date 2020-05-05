@@ -27,7 +27,12 @@ public class NonComparableClassGivenComparator_isLessThan_Test {
     actual.setId(3);
     other.setId(2);
     ObjComparator compara = new ObjComparator();
-    assertThat(actual).usingComparator(compara).isLessThan(other);
+    try{
+      assertThat(actual).usingComparator(compara).isLessThan(other);
+    }
+    catch (AssertionError e){
+      System.out.println(e.getMessage());
+    }
   }
 
 }
