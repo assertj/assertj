@@ -49,7 +49,8 @@ public class AtomicReferenceArrayAssert_filteredOn_condition_Test extends Atomic
 
   @Test
   public void should_fail_if_given_condition_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null))
+    Condition<Employee> condition = null;
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(condition))
                                         .withMessage("The filter condition should not be null");
   }
 

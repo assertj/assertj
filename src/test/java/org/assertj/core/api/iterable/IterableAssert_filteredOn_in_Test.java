@@ -80,7 +80,7 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, in(800)))
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String) null, in(800)))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
@@ -92,8 +92,7 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
-                                                                                                          in("???")))
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret", in("???")))
                                                        .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 

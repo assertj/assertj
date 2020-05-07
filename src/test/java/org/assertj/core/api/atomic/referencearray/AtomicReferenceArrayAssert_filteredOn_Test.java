@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
@@ -72,7 +73,7 @@ public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceA
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, 800))
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String) null, 800))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
@@ -91,17 +92,14 @@ public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceA
 
   @Test
   public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
-                                                                                                          "???"))
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret", "???"))
                                                        .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test
   public void should_fail_if_filter_operators_are_combined() {
-    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(employees).filteredOn("age",
-                                                                                                                     not(in(800)))
-                                                                                                         .containsOnly(luke,
-                                                                                                                       noname))
+    ThrowingCallable code = () -> assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(code)
                                                                   .withMessageStartingWith("Combining operator is not supported");
   }
 }

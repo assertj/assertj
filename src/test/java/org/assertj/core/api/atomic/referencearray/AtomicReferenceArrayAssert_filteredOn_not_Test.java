@@ -50,9 +50,8 @@ public class AtomicReferenceArrayAssert_filteredOn_not_Test extends AtomicRefere
   public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
     setAllowExtractingPrivateFields(false);
     try {
-      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
-        assertThat(employees).filteredOn("city", not("New York"));
-      });
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("city",
+                                                                                                            not("New York")));
     } finally {
       setAllowExtractingPrivateFields(true);
     }
@@ -71,7 +70,7 @@ public class AtomicReferenceArrayAssert_filteredOn_not_Test extends AtomicRefere
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, not(800)))
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String) null, not(800)))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
@@ -90,8 +89,7 @@ public class AtomicReferenceArrayAssert_filteredOn_not_Test extends AtomicRefere
 
   @Test
   public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
-                                                                                                          not("???")))
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret", not("???")))
                                                        .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 }

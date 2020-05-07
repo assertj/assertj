@@ -28,6 +28,7 @@ import static org.assertj.core.util.Sets.newHashSet;
 import java.util.Set;
 
 import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
@@ -98,7 +99,7 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
 
   @Test
   public void should_fail_if_given_property_or_field_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, 800))
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String) null, 800))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
@@ -117,17 +118,14 @@ public class IterableAssert_filteredOn_Test extends IterableAssert_filtered_base
 
   @Test
   public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
-                                                                                                          "???"))
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret", "???"))
                                                        .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test
   public void should_fail_if_filter_operators_are_combined() {
-    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(employees).filteredOn("age",
-                                                                                                                     not(in(800)))
-                                                                                                         .containsOnly(luke,
-                                                                                                                       noname))
+    ThrowingCallable code = () -> assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(code)
                                                                   .withMessageStartingWith("Combining operator is not supported");
   }
 

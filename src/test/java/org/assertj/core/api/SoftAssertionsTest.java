@@ -211,7 +211,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<{\"54\"=\"55\"}>"));
   }
 
-  @SuppressWarnings({ "unchecked", "deprecation" })
+  @SuppressWarnings({ "unchecked" })
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {
@@ -221,11 +221,11 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat(false).isTrue();
       softly.assertThat(new boolean[] { false }).isEqualTo(new boolean[] { true });
 
-      softly.assertThat(new Byte((byte) 0)).isEqualTo((byte) 1);
+      softly.assertThat(Byte.valueOf((byte) 0)).isEqualTo((byte) 1);
       softly.assertThat((byte) 2).inHexadecimal().isEqualTo((byte) 3);
       softly.assertThat(new byte[] { 4 }).isEqualTo(new byte[] { 5 });
 
-      softly.assertThat(new Character((char) 65)).isEqualTo(new Character((char) 66));
+      softly.assertThat(Character.valueOf((char) 65)).isEqualTo(Character.valueOf((char) 66));
       softly.assertThat((char) 67).isEqualTo((char) 68);
       softly.assertThat(new char[] { 69 }).isEqualTo(new char[] { 70 });
 
@@ -235,7 +235,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
       softly.assertThat(parseDatetime("1999-12-31T23:59:59")).isEqualTo(parseDatetime("2000-01-01T00:00:01"));
 
-      softly.assertThat(new Double(6.0d)).isEqualTo(new Double(7.0d));
+      softly.assertThat(Double.valueOf(6.0d)).isEqualTo(Double.valueOf(7.0d));
       softly.assertThat(8.0d).isEqualTo(9.0d);
       softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
 
@@ -243,14 +243,14 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
             .overridingErrorMessage(format("%nExpecting:%n <File(a)>%nto be equal to:%n <File(b)>%nbut was not."))
             .isEqualTo(new File("b"));
 
-      softly.assertThat(new Float(12f)).isEqualTo(new Float(13f));
+      softly.assertThat(Float.valueOf(12f)).isEqualTo(Float.valueOf(13f));
       softly.assertThat(14f).isEqualTo(15f);
       softly.assertThat(new float[] { 16f }).isEqualTo(new float[] { 17f });
 
       softly.assertThat(new ByteArrayInputStream(new byte[] { (byte) 65 }))
             .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
 
-      softly.assertThat(new Integer(20)).isEqualTo(new Integer(21));
+      softly.assertThat(Integer.valueOf(20)).isEqualTo(Integer.valueOf(21));
       softly.assertThat(22).isEqualTo(23);
       softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
@@ -258,13 +258,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat(list("28").iterator()).isExhausted();
       softly.assertThat(list("30")).isEqualTo(Lists.newArrayList("31"));
 
-      softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
+      softly.assertThat(Long.valueOf(32L)).isEqualTo(Long.valueOf(33L));
       softly.assertThat(34L).isEqualTo(35L);
       softly.assertThat(new long[] { 36L }).isEqualTo(new long[] { 37L });
 
       softly.assertThat(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));
 
-      softly.assertThat(new Short((short) 42)).isEqualTo(new Short((short) 43));
+      softly.assertThat(Short.valueOf((short) 42)).isEqualTo(Short.valueOf((short) 43));
       softly.assertThat((short) 44).isEqualTo((short) 45);
       softly.assertThat(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
 
@@ -749,33 +749,155 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   public void should_collect_all_errors_when_using_filtering() {
     // GIVEN
-    LinkedHashSet<CartoonCharacter> dads = newLinkedHashSet(homer, fred);
+    LinkedHashSet<CartoonCharacter> dadsList = newLinkedHashSet(homer, fred);
+    CartoonCharacter[] dadsArray = array(homer, fred);
+    AtomicReferenceArray<CartoonCharacter> atomicDadsArray = new AtomicReferenceArray<>(dadsArray);
     // WHEN
-    softly.assertThat(dads)
+    // iterables
+    softly.assertThat(dadsList)
           .filteredOn("name", "Homer Simpson")
+          .withFailMessage("list: property filter error 1")
           .hasSize(10)
+          .withFailMessage("list: property filter error 2")
           .isEmpty();
-    // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(2);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"));
-    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
-  }
-
-  @Test
-  public void should_collect_all_errors_when_using_predicate_filtering() {
-    // GIVEN
-    LinkedHashSet<CartoonCharacter> dads = newLinkedHashSet(homer, fred);
-    // WHEN
-    softly.assertThat(dads)
+    softly.assertThat(dadsList)
+          .filteredOn("name", in("Homer Simpson"))
+          .withFailMessage("list: filter operator error 1")
+          .hasSize(10)
+          .withFailMessage("list: filter operator error 2")
+          .isEmpty();
+    softly.assertThat(dadsList)
           .filteredOn(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"))
+          .withFailMessage("list: predicate filter error 1")
           .hasSize(10)
+          .withFailMessage("list: predicate filter error 2")
           .isEmpty();
+    softly.assertThat(dadsList)
+          .filteredOn(CartoonCharacter::getName, "Homer Simpson")
+          .withFailMessage("list: function filter error 1")
+          .hasSize(10)
+          .withFailMessage("list: function filter error 2")
+          .isEmpty();
+    softly.assertThat(dadsList)
+          .filteredOn(new Condition<>(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"), "startsWith Jo"))
+          .withFailMessage("list: Condition filter error 1")
+          .hasSize(10)
+          .withFailMessage("list: Condition filter error 2")
+          .isEmpty();
+    softly.assertThat(dadsList)
+          .filteredOnNull("name")
+          .withFailMessage("list: null filter error 1")
+          .hasSize(10)
+          .withFailMessage("list: null filter error 2")
+          .isNotEmpty();
+    softly.assertThat(dadsList)
+          .filteredOnAssertions(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"))
+          .withFailMessage("list: assertion filter error 1")
+          .hasSize(10)
+          .withFailMessage("list: assertion filter error 2")
+          .isEmpty();
+    // array
+    softly.assertThat(dadsArray)
+          .filteredOn("name", "Homer Simpson")
+          .withFailMessage("array: property filter error 1")
+          .hasSize(10)
+          .withFailMessage("array: property filter error 2")
+          .isEmpty();
+    softly.assertThat(dadsArray)
+          .filteredOn("name", in("Homer Simpson"))
+          .withFailMessage("array: filter operator error 1")
+          .hasSize(10)
+          .withFailMessage("array: filter operator error 2")
+          .isEmpty();
+    softly.assertThat(dadsArray)
+          .filteredOn(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"))
+          .withFailMessage("array: predicate filter error 1")
+          .hasSize(10)
+          .withFailMessage("array: predicate filter error 2")
+          .isEmpty();
+    softly.assertThat(dadsArray)
+          .filteredOn(CartoonCharacter::getName, "Homer Simpson")
+          .withFailMessage("array: function filter error 1")
+          .hasSize(10)
+          .withFailMessage("array: function filter error 2")
+          .isEmpty();
+    softly.assertThat(dadsArray)
+          .filteredOn(new Condition<>(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"), "startsWith Jo"))
+          .withFailMessage("array: Condition filter error 1")
+          .hasSize(10)
+          .withFailMessage("array: Condition filter error 2")
+          .isEmpty();
+    softly.assertThat(dadsArray)
+          .filteredOnNull("name")
+          .withFailMessage("array: null filter error 1")
+          .hasSize(10)
+          .withFailMessage("array: null filter error 2")
+          .isNotEmpty();
+    softly.assertThat(dadsArray)
+          .filteredOnAssertions(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"))
+          .withFailMessage("array: assertion filter error 1")
+          .hasSize(10)
+          .withFailMessage("array: assertion filter error 2")
+          .isEmpty();
+    // atomic array
+    softly.assertThat(atomicDadsArray)
+          .filteredOn("name", "Homer Simpson")
+          .withFailMessage("atomic: property filter error 1")
+          .hasSize(10)
+          .withFailMessage("atomic: property filter error 2")
+          .isEmpty();
+    softly.assertThat(atomicDadsArray)
+          .filteredOn("name", in("Homer Simpson"))
+          .withFailMessage("atomic: filter operator error 1")
+          .hasSize(10)
+          .withFailMessage("atomic: filter operator error 2")
+          .isEmpty();
+    softly.assertThat(atomicDadsArray)
+          .filteredOn(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"))
+          .withFailMessage("atomic: predicate filter error 1")
+          .hasSize(10)
+          .withFailMessage("atomic: predicate filter error 2")
+          .isEmpty();
+    softly.assertThat(atomicDadsArray)
+          .filteredOn(CartoonCharacter::getName, "Homer Simpson")
+          .withFailMessage("atomic: function filter error 1")
+          .hasSize(10)
+          .withFailMessage("atomic: function filter error 2")
+          .isEmpty();
+    softly.assertThat(atomicDadsArray)
+          .filteredOn(new Condition<>(cartoonCharacter -> cartoonCharacter.getName().equals("Homer Simpson"), "startsWith Jo"))
+          .withFailMessage("atomic: Condition filter error 1")
+          .hasSize(10)
+          .withFailMessage("atomic: Condition filter error 2")
+          .isEmpty();
+    softly.assertThat(atomicDadsArray)
+          .filteredOnNull("name")
+          .withFailMessage("atomic: null filter error 1")
+          .hasSize(10)
+          .withFailMessage("atomic: null filter error 2")
+          .isNotEmpty();
     // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(2);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"));
-    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
+    assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                        .containsExactly("list: property filter error 1", "list: property filter error 2",
+                                                         "list: filter operator error 1", "list: filter operator error 2",
+                                                         "list: predicate filter error 1", "list: predicate filter error 2",
+                                                         "list: function filter error 1", "list: function filter error 2",
+                                                         "list: Condition filter error 1", "list: Condition filter error 2",
+                                                         "list: null filter error 1", "list: null filter error 2",
+                                                         "list: assertion filter error 1", "list: assertion filter error 2",
+                                                         "array: property filter error 1", "array: property filter error 2",
+                                                         "array: filter operator error 1", "array: filter operator error 2",
+                                                         "array: predicate filter error 1", "array: predicate filter error 2",
+                                                         "array: function filter error 1", "array: function filter error 2",
+                                                         "array: Condition filter error 1", "array: Condition filter error 2",
+                                                         "array: null filter error 1", "array: null filter error 2",
+                                                         "array: assertion filter error 1", "array: assertion filter error 2",
+                                                         "atomic: property filter error 1", "atomic: property filter error 2",
+                                                         "atomic: filter operator error 1", "atomic: filter operator error 2",
+                                                         "atomic: predicate filter error 1", "atomic: predicate filter error 2",
+                                                         "atomic: function filter error 1", "atomic: function filter error 2",
+                                                         "atomic: Condition filter error 1", "atomic: Condition filter error 2",
+                                                         "atomic: null filter error 1", "atomic: null filter error 2");
   }
 
   @Test
