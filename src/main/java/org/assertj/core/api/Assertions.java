@@ -859,7 +859,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link InstantAssert}</code>.
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion object.
