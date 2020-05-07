@@ -2757,7 +2757,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   /**
    * Filter the array under test into a list composed of the elements for which the result of the {@code function} is equal to {@code expectedValue}.
    * <p>
-   * It allows to filter elements in more safe way than by using {@link #filterOn(String, Object)}, as it
+   * It allows to filter elements in more safe way than by using {@link #filteredOn(String, Object)}, as it
    * doesn't utilize introspection.
    * <p>
    *
