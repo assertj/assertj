@@ -35,6 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author Cal027
  */
 public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> extends AbstractComparableAssert<SELF, Byte>
     implements NumberAssert<SELF, Byte> {
@@ -194,9 +195,32 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
+   * @since 3.16.0
    */
   public SELF isEven() {
     bytes.assertIsEven(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual value is odd.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat((byte) 3).isOdd();
+   * assertThat((byte) -17).isOdd();
+   *
+   * // assertions will fail
+   * assertThat((byte) 2).isOdd();
+   * assertThat((byte) -24).isOdd();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not positive.
+   * @since 3.16.0
+   */
+  public SELF isOdd() {
+    bytes.assertIsOdd(info, actual);
     return myself;
   }
 

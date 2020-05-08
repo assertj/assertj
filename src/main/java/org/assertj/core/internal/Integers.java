@@ -21,6 +21,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Cal027
  */
 public class Integers extends Numbers<Integer> {
 
@@ -77,4 +78,16 @@ public class Integers extends Numbers<Integer> {
     assertIsZero(info, lastDigit);
   }
 
+  /**
+   * Asserts that the actual Integer value is odd.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is negative.
+   */
+  public void assertIsOdd(AssertionInfo info, Integer actual) {
+    Integer lastDigit = actual & one();
+    assertIsNotZero(info, lastDigit);
+  }
 }
