@@ -222,7 +222,10 @@ final class DualValue {
     if (object == null) return false;
     // java.lang are base types that can't cycle to themselves of other types
     // we could check more type, but that's a good start
-    return !object.getClass().getCanonicalName().startsWith("java.lang");
+    String canonicalName = object.getClass().getCanonicalName();
+    // canonicalName is null for anonymous and local classes, return true as they can cycle back to other objects.
+    if (canonicalName == null) return true;
+    return !canonicalName.startsWith("java.lang");
   }
 
 }

@@ -10,26 +10,39 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.internal.objects.data;
+package org.assertj.core.api.recursive.comparison;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import static org.assertj.core.api.recursive.comparison.ColorWithCode.GREEN;
 
-public class FriendlyPerson extends Person {
-  public List<FriendlyPerson> friends = new ArrayList<>();
-  public Set<FriendlyPerson> otherFriends = new HashSet<>();
+enum ColorWithCode {
+  RED {
+    @Override
+    String code() {
+      return "#FF0000";
+    }
+  },
+  GREEN {
+    @Override
+    String code() {
+      return "#00FF00";
+    }
+  },
+  BLUE {
+    @Override
+    String code() {
+      return "#0000FF";
+    }
+  };
 
-  public FriendlyPerson() {
-    super();
+  abstract String code();
+
+}
+
+class Theme {
+  ColorWithCode color = GREEN;
+
+  public Theme(ColorWithCode color) {
+    this.color = color;
   }
 
-  public FriendlyPerson(String name) {
-    super(name);
-  }
-
-  public static FriendlyPerson friend(String name) {
-    return new FriendlyPerson(name);
-  }
 }
