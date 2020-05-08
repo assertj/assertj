@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.api;
 
 import java.lang.annotation.Annotation;
@@ -37,6 +38,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is assignable from others {@code Class}
+   *
    * <p>
    * Example:
    * <pre><code class='java'> class Jedi {}
@@ -649,7 +651,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given public methods.
+   * Verifies that the actual {@code Class} has the given public constructor.
    * <p>
    * Example:
    * <pre><code class='java'> class MyClass {
@@ -679,7 +681,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given public methods.
+   * Verifies that the actual {@code Class} has the given protected constructor.
    * <p>
    * Example:
    * <pre><code class='java'> class MyClass {
@@ -709,7 +711,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given public methods.
+   * Verifies that the actual {@code Class} has the given private constructor.
    * <p>
    * Example:
    * <pre><code class='java'> class MyClass {
@@ -739,7 +741,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     return myself;
   }
   /**
-   * Verifies that the actual {@code Class} has the given public methods.
+   * Verifies that the actual {@code Class} has the given constructors.
    * <p>
    * Example:
    * <pre><code class='java'> class MyClass {
@@ -765,6 +767,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * parameters.
    *
    * @since 2.7.0 / 3.7.0
+   *
    */
   protected SELF hasConstructor(Class<?>[] parameters){
     classes.assertHasConstuctors(info, actual, parameters);

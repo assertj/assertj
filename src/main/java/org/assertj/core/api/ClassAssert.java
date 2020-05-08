@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.api;
 
 import java.lang.annotation.Annotation;
@@ -41,25 +42,25 @@ public class ClassAssert extends AbstractClassAssert<ClassAssert> {
 
   @SafeVarargs
   @Override
-  public final ClassAssert hasPublicConstructor(Class<?>... parameters){
+  public final ClassAssert hasPublicConstructor(Class<?>... parameters) {
     return super.hasPublicConstructor(parameters);
   }
 
   @SafeVarargs
   @Override
-  public final ClassAssert hasProtectedConstructor(Class<?>... parameters){
+  public final ClassAssert hasProtectedConstructor(Class<?>... parameters) {
     return super.hasProtectedConstructor(parameters);
   }
 
   @SafeVarargs
   @Override
-  public final ClassAssert hasPrivateConstructor(Class<?>... parameters){
+  public final ClassAssert hasPrivateConstructor(Class<?>... parameters) {
     return super.hasPrivateConstructor(parameters);
   }
 
   @SafeVarargs
   @Override
-  public final ClassAssert hasConstructor(Class<?>... parameters){
+  public final ClassAssert hasConstructor(Class<?>... parameters) {
     return super.hasConstructor(parameters);
   }
 }
