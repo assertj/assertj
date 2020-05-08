@@ -140,6 +140,27 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
   }
 
   /**
+   * Verifies that the actual value is even.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(12L).isEven();
+   * assertThat(46L).isEven();
+   *
+   * // assertions will fail
+   * assertThat(3L).isEven();
+   * assertThat(15L).isEven();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not positive.
+   */
+  public SELF isEven() {
+    longs.assertIsEven(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual value is less than the given one.
    * <p>
    * Example:

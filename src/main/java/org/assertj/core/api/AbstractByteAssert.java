@@ -180,6 +180,27 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
   }
 
   /**
+   * Verifies that the actual value is even.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat((byte) 12).isEven();
+   * assertThat((byte) 46).isEven();
+   *
+   * // assertions will fail
+   * assertThat((byte) 3).isEven();
+   * assertThat((byte) 15).isEven();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not positive.
+   */
+  public SELF isEven() {
+    bytes.assertIsEven(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual value is less than the given one.
    * <p>
    * Example:

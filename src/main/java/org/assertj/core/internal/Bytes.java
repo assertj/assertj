@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -61,6 +62,19 @@ public class Bytes extends Numbers<Byte> {
   @Override
   protected boolean isGreaterThan(Byte value, Byte other) {
     return value > other;
+  }
+
+  /**
+   * Asserts that the actual Byte value is even.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is negative.
+   */
+  public void assertIsEven(AssertionInfo info, Byte actual) {
+    Byte lastDigit = (byte) (actual & one());
+    assertIsZero(info, lastDigit);
   }
 
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -61,6 +62,19 @@ public class Integers extends Numbers<Integer> {
   @Override
   protected boolean isGreaterThan(Integer value, Integer other) {
     return value > other;
+  }
+
+  /**
+   * Asserts that the actual Integer value is even.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is negative.
+   */
+  public void assertIsEven(AssertionInfo info, Integer actual) {
+    Integer lastDigit = actual & one();
+    assertIsZero(info, lastDigit);
   }
 
 }

@@ -89,8 +89,8 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @since 3.10.0
    */
   public SELF isEqualTo(long expected) {
-    if(canBeCastToInt(expected)) {
-      integers.assertEqual(info, actual, (int)expected);
+    if (canBeCastToInt(expected)) {
+      integers.assertEqual(info, actual, (int) expected);
     } else {
       integers.assertEqual(info, actual, expected);
     }
@@ -168,6 +168,27 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   @Override
   public SELF isNotPositive() {
     integers.assertIsNotPositive(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual value is even.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(12).isEven();
+   * assertThat(46).isEven();
+   *
+   * // assertions will fail
+   * assertThat(3).isEven();
+   * assertThat(15).isEven();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not positive.
+   */
+  public SELF isEven() {
+    integers.assertIsEven(info, actual);
     return myself;
   }
 

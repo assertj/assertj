@@ -135,6 +135,28 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
     return myself;
   }
 
+
+  /**
+   * Verifies that the actual value is even.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat((short) 12).isEven();
+   * assertThat((short) 46).isEven();
+   *
+   * // assertions will fail
+   * assertThat((short) 3).isEven();
+   * assertThat((short) 15).isEven();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not positive.
+   */
+  public SELF isEven() {
+    shorts.assertIsEven(info, actual);
+    return myself;
+  }
+
   /**
    * Verifies that the actual value is less than the given one.
    * <p>
