@@ -13,6 +13,8 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.comparison.Color.GREEN;
+import static org.assertj.core.api.recursive.comparison.ColorWithCode.RED;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
@@ -49,6 +51,13 @@ public class DualValue_hasPotentialCyclingValues_Test {
     person2.otherFriends.add(person2);
     person2.otherFriends.add(person1);
 
+    class LocalClass {
+      @Override
+      public String toString() {
+        return "LocalClass";
+      }
+    }
+
     return Stream.of(Arguments.of(null, person2, false),
                      Arguments.of(person1, null, false),
                      Arguments.of(person1, "abc", false),
@@ -64,6 +73,20 @@ public class DualValue_hasPotentialCyclingValues_Test {
                      Arguments.of(person1, person2, true),
                      Arguments.of(list(person1), list(person1), true),
                      Arguments.of(list(person1), list(person2), true),
+                     Arguments.of(new LocalClass(), new LocalClass(), true),
+                     Arguments.of(new Light(GREEN), new Light(GREEN), true),
+                     Arguments.of(new Theme(RED), new Theme(RED), true), // for #1866
+                     Arguments.of(new DualValue_hasPotentialCyclingValues_Test().new Inner(),
+                                  new DualValue_hasPotentialCyclingValues_Test().new Inner(), true),
                      Arguments.of(list(person1, person2), list(person2, person1), true));
   }
+
+  class Inner {
+    @Override
+    public String toString() {
+      return "Inner Class";
+    }
+
+  }
+
 }
