@@ -144,9 +144,9 @@ public class RecursiveComparisonDifferenceCalculator {
       // remove visited values one by one, DualValue.equals correctly compare respective actual and expected fields by reference
       visitedDualValues.forEach(visitedDualValue -> {
         dualValuesToCompare.stream()
-          .filter(dualValueToCompare -> dualValueToCompare.equals(visitedDualValue))
-          .findFirst()
-          .ifPresent(dualValuesToCompare::remove);
+                            .filter(dualValueToCompare -> dualValueToCompare.equals(visitedDualValue))
+                            .findFirst()
+                            .ifPresent(dualValuesToCompare::remove);
       });
     }
 
