@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -624,6 +625,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default ClassAssert assertThat(final Class<?> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code>
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default ConstructorAssert assertThat(final Constructor actual) {
     return Assertions.assertThat(actual);
   }
 
