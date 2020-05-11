@@ -109,11 +109,10 @@ public class Constructors {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Constructor} do not contain these arguments.
    */
-  public <ACTUAL extends Constructor> void hasArguments(AssertionInfo info, ACTUAL actual,
+  public void hasArguments(AssertionInfo info, Constructor actual,
     Class<?>... arguments) {
     assertNotNull(info, actual);
     Class<?>[] parameterTypes = actual.getParameterTypes();
-//    Class<?>[] missingParameter = new Class<?>[parameterTypes.length];
     if (arguments.length != parameterTypes.length) {
       throw failures.failure(info, shouldHaveParameter(actual, arguments, parameterTypes));
     }

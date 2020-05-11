@@ -34,29 +34,30 @@ import org.junit.platform.commons.annotation.Testable;
 import org.junit.platform.commons.support.ReflectionSupport;
 
 /**
- * Extension for JUnit Jupiter that provides support for injecting a concrete implementation of
- * {@link SoftAssertionsProvider} into test methods. Two examples that come packaged with AssertJ
- * are {@link SoftAssertions} and {@link BDDSoftAssertions}, but custom implementations are also
- * supported as long as they have a default constructor.
+ * Extension for JUnit Jupiter that provides support for injecting a concrete
+ * implementation of {@link SoftAssertionsProvider} into test methods. Two examples that
+ * come packaged with AssertJ are {@link SoftAssertions} and
+ * {@link BDDSoftAssertions}, but custom implementations are also supported as
+ * long as they have a default constructor.
  *
  * <h2>Applicability</h2>
  *
  * <p>
- * In this context, the term "test method" refers to any method annotated with {@code @Test},
- * {@code
- *
- * @author Sam Brannen
- * @RepeatedTest}, {@code @ParameterizedTest}, {@code @TestFactory}, or {@code @TestTemplate}.<br>
- * This extension does not inject {@code SoftAssertionsProvider} arguments into test constructors or
- * lifecycle methods.
+ * In this context, the term "test method" refers to any method annotated with
+ * {@code @Test}, {@code @RepeatedTest}, {@code @ParameterizedTest},
+ * {@code @TestFactory}, or {@code @TestTemplate}.<br>
+ * This extension does not inject {@code SoftAssertionsProvider} arguments into test
+ * constructors or lifecycle methods.
  *
  * <h2>Scope</h2>
  *
  * <p>
- * The scope of the {@code SoftAssertionsProvider} instance managed by this extension begins when a
- * parameter of type {@code SoftAssertionsProvider} is resolved for a test method.<br> The scope of
- * the instance ends after the test method has been executed, this is when {@code assertAll()} will
- * be invoked on the instance to verify that no soft assertions failed.
+ * The scope of the {@code SoftAssertionsProvider} instance managed by this extension
+ * begins when a parameter of type {@code SoftAssertionsProvider} is resolved for a test
+ * method.<br>
+ * The scope of the instance ends after the test method has been executed, this
+ * is when {@code assertAll()} will be invoked on the instance to verify that no
+ * soft assertions failed.
  *
  * <h3>Example with {@code SoftAssertions}</h3>
  *
@@ -87,6 +88,8 @@ import org.junit.platform.commons.support.ReflectionSupport;
  *    }
  * }</code>
  * </pre>
+ *
+ * @author Sam Brannen
  * @since 3.13
  */
 public class SoftAssertionsExtension implements ParameterResolver, AfterTestExecutionCallback {
