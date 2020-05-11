@@ -10,13 +10,14 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.error;
 
 import java.lang.reflect.Constructor;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a constructor contain
- * list of classes
+ * list of classes.
  *
  * @author phx
  */
@@ -24,7 +25,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
 
   public ShouldHaveParameter(Constructor actual, Class<?>[] expected, Class<?>[] missing) {
     super("%nExpecting <%s> to have parameters <%s>%nbut the parameters are <%s>", actual, expected,
-      missing);
+        missing);
   }
 
   /**
@@ -36,7 +37,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveParameter(Constructor actual, Class<?>[] expected,
-    Class<?>... missing) {
+      Class<?>... missing) {
     return new ShouldHaveParameter(actual, expected, missing);
   }
 }

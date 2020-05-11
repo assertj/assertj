@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.error;
 
 
@@ -17,7 +18,7 @@ import java.lang.reflect.Constructor;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a constructor is
- * private
+ * private.
  *
  * @author phx
  */

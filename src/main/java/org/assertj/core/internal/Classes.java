@@ -26,7 +26,7 @@ import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFr
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
-import static org.assertj.core.error.ShouldHaveConstructors.ShouldHaveConstructors;
+import static org.assertj.core.error.ShouldHaveConstructors.shouldHaveConstructors;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
@@ -778,7 +778,7 @@ public class Classes {
         return;
       }
     }
-    throw failures.failure(info, ShouldHaveConstructors(actual, expectedParameter,
+    throw failures.failure(info, shouldHaveConstructors(actual, expectedParameter,
       missingParameters));
   }
 

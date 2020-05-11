@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.api;
 
 import java.lang.reflect.Constructor;
@@ -24,7 +25,7 @@ import org.assertj.core.internal.Constructors;
  * @author phx
  */
 public abstract class AbstractConstructorAssert<SELF extends AbstractConstructorAssert<SELF, ACTUAL>,
-  ACTUAL extends Constructor> extends AbstractAssert<SELF, ACTUAL> {
+    ACTUAL extends Constructor> extends AbstractAssert<SELF, ACTUAL> {
 
   Constructors constructores = Constructors.instance();
 
@@ -34,8 +35,8 @@ public abstract class AbstractConstructorAssert<SELF extends AbstractConstructor
 
   /**
    * Verifies that the actual {@code Constructor} is public (has {@code public} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *   protected MyClass(){
    *   }
@@ -58,8 +59,8 @@ public abstract class AbstractConstructorAssert<SELF extends AbstractConstructor
 
   /**
    * Verifies that the actual {@code Constructor} is public (has {@code public} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *   private MyClass(){
    *   }
@@ -86,8 +87,8 @@ public abstract class AbstractConstructorAssert<SELF extends AbstractConstructor
 
   /**
    * Verifies that the actual {@code Constructor} is public (has {@code public} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *   protected MyClass(){
    *   }
@@ -114,8 +115,8 @@ public abstract class AbstractConstructorAssert<SELF extends AbstractConstructor
 
   /**
    * Verifies that the actual {@code Constructor} is public (has {@code public} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *   protected MyClass(){
    *   }

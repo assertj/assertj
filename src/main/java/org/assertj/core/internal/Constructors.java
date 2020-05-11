@@ -10,13 +10,16 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.internal;
 
+import static org.assertj.core.error.ShouldBePrivate.shouldBePrivate;
+import static org.assertj.core.error.ShouldBeProtected.shouldBeProtected;
+import static org.assertj.core.error.ShouldBePublic.shouldBePublic;
 import static org.assertj.core.error.ShouldHaveParameter.shouldHaveParameter;
 
 import java.lang.reflect.Constructor;
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldBePublic;
 
 /**
  * Reusable assertions for <code>{@link Constructor}</code>s.
@@ -97,7 +100,16 @@ public class Constructors {
     if (modifier.equals(exp)) {
       return;
     }
-    throw failures.failure(info, ShouldBePublic.shouldBePublic(actual, modifier));
+    switch (exp) {
+      case "PUBLIC":
+        throw failures.failure(info, shouldBePublic(actual, modifier));
+      case "PROTECTED":
+        throw failures.failure(info, shouldBeProtected(actual, modifier));
+      case "PRIVATE":
+        throw failures.failure(info, shouldBePrivate(actual, modifier));
+      default:
+        throw failures.failure(info, shouldBePublic(actual, modifier));
+    }
   }
 
   /**
@@ -110,7 +122,7 @@ public class Constructors {
    * @throws AssertionError if the actual {@code Constructor} do not contain these arguments.
    */
   public void hasArguments(AssertionInfo info, Constructor actual,
-    Class<?>... arguments) {
+      Class<?>... arguments) {
     assertNotNull(info, actual);
     Class<?>[] parameterTypes = actual.getParameterTypes();
     if (arguments.length != parameterTypes.length) {

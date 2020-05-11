@@ -10,11 +10,14 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.error;
 
 import java.util.Collection;
 
 /**
+ * Creates an error message indicating that an assertion that verifies that a value satisfies a <code>{@link Class}</code>
+ * failed.
  * @author phx
  */
 public class ShouldHaveConstructors extends BasicErrorMessageFactory {
@@ -26,7 +29,7 @@ public class ShouldHaveConstructors extends BasicErrorMessageFactory {
    * @param missing missing parameters of the constructions for this class
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory ShouldHaveConstructors(Class<?> actual,
+  public static ErrorMessageFactory shouldHaveConstructors(Class<?> actual,
                                                           Collection<Class<?>[]> expected,
                                                             Collection<Class<?>[]> missing) {
     return new ShouldHaveConstructors(actual, expected, missing);
@@ -34,7 +37,7 @@ public class ShouldHaveConstructors extends BasicErrorMessageFactory {
 
   private ShouldHaveConstructors(Class<?> actual, Collection<Class<?>[]> expected,
                                   Collection<Class<?>[]> missing) {
-    super("%nExpecting%n  <%s>%nto have parameters:%n  <%s>%nbut the following parameters were " +
-      "not found:%n  <%s>", actual, expected, missing);
+    super("%nExpecting%n  <%s>%nto have parameters:%n  <%s>%nbut the following parameters were "
+        + "not found:%n  <%s>", actual, expected, missing);
   }
 }

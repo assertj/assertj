@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.error;
 
 
@@ -17,7 +18,7 @@ import java.lang.reflect.Constructor;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a constructor is
- * protected
+ * protected.
  *
  * @author phx
  */
@@ -34,7 +35,7 @@ public class ShouldBeProtected extends BasicErrorMessageFactory {
    * @param modifier the actual modifier of Constructor.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory ShouldBeProtected(Constructor actual, String modifier) {
+  public static ErrorMessageFactory shouldBeProtected(Constructor actual, String modifier) {
     return new ShouldBeProtected(actual, modifier);
   }
 }

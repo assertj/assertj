@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.error;
 
 
@@ -17,6 +18,7 @@ import java.lang.reflect.Constructor;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a constructor is public
+ * <code>{@link Constructor}</code>.
  *
  * @author phx
  */
@@ -29,7 +31,7 @@ public class ShouldBePublic extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldBePublic}</code>.
    *
-   * @param actual the actual Constructor.
+   * @param actual   the actual Constructor.
    * @param modifier the actual modifier of Constructor.
    * @return the created {@code ErrorMessageFactory}.
    */

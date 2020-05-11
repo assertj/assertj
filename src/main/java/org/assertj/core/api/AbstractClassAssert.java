@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.api;
 
 import java.lang.annotation.Annotation;
@@ -25,7 +26,7 @@ import org.assertj.core.internal.Classes;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>>
-  extends AbstractAssert<SELF, Class<?>> {
+    extends AbstractAssert<SELF, Class<?>> {
 
   Classes classes = Classes.instance();
 
