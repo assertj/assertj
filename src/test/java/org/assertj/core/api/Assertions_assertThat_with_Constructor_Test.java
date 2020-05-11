@@ -46,8 +46,6 @@ public class Assertions_assertThat_with_Constructor_Test {
   public void should_pass_hasArguments(){
     Constructor[] cons=Person.class.getDeclaredConstructors();
     assertThat(cons[0]).hasArguments(String.class);
-    assertThat(cons[1]).hasArguments(char.class);
-    assertThat(cons[2]).hasArguments(int.class);
   }
 
 
