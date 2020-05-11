@@ -1032,10 +1032,6 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
 
-  public static ConstructorAssert assertThat(Constructor actual){
-    return AssertionsForClassTypes.assertThat(actual);
-  }
-
 
 
 

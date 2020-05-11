@@ -588,10 +588,6 @@ public class AssertionsForClassTypes {
   }
 
 
-  public static ConstructorAssert assertThat(Constructor actual){
-    return new ConstructorAssert(actual);
-  }
-
 
 
   /**
