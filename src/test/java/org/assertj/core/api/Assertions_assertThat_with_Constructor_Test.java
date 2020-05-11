@@ -3,7 +3,6 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Constructor;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 
 /**
