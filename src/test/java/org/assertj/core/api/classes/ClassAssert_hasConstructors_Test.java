@@ -4,11 +4,11 @@ package org.assertj.core.api.classes;
  * @author phx
  */
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
 import org.assertj.core.api.WritableAssertionInfo;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link ClassAssert#hasConstructor(Class[])}</code>.
