@@ -20,6 +20,7 @@ import java.util.LinkedList;
 // special deque that can ignore DualKey according to RecursiveComparisonConfiguration.
 @SuppressWarnings("serial")
 class DualValueDeque extends LinkedList<DualValue> {
+
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   public DualValueDeque(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
@@ -28,30 +29,39 @@ class DualValueDeque extends LinkedList<DualValue> {
 
   @Override
   public boolean add(DualValue dualKey) {
-    if (shouldIgnore(dualKey)) return false;
+    if (shouldIgnore(dualKey)) {
+      return false;
+    }
     return super.add(dualKey);
   }
 
   @Override
   public void add(int index, DualValue dualKey) {
-    if (shouldIgnore(dualKey)) return;
+    if (shouldIgnore(dualKey)) {
+      return;
+    }
     super.add(index, dualKey);
   }
 
   @Override
   public boolean addAll(int index, Collection<? extends DualValue> collection) {
-    return super.addAll(index, collection.stream().filter(this::shouldAddDualKey).collect(toList()));
+    return super
+      .addAll(index, collection.stream().filter(this::shouldAddDualKey).collect(toList()));
   }
 
   @Override
   public void addFirst(DualValue dualKey) {
-    if (shouldIgnore(dualKey)) return;
+    if (shouldIgnore(dualKey)) {
+      return;
+    }
     super.addFirst(dualKey);
   }
 
   @Override
   public void addLast(DualValue dualKey) {
-    if (shouldIgnore(dualKey)) return;
+    if (shouldIgnore(dualKey)) {
+      return;
+    }
     super.addLast(dualKey);
   }
 

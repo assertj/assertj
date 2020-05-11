@@ -32,7 +32,9 @@ public class FieldLocation implements Comparable<FieldLocation> {
 
   @Override
   public boolean equals(final Object other) {
-    if (!(other instanceof FieldLocation)) return false;
+    if (!(other instanceof FieldLocation)) {
+      return false;
+    }
     FieldLocation castOther = (FieldLocation) other;
     return Objects.equals(fieldPath, castOther.fieldPath);
   }

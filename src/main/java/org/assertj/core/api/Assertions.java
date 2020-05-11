@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -1029,6 +1030,15 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+
+
+  public static ConstructorAssert assertThat(Constructor actual){
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+
+
+
 
   /**
    * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).

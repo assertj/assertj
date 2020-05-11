@@ -19,7 +19,7 @@ import java.lang.annotation.Annotation;
  * <p>
  * To create a new instance of this class, invoke <code>{@link org.assertj.core.api.Assertions#assertThat(Class)}</code>
  * </p>
- * 
+ *
  * @author William Delanoue
  * @author Mikhail Mazursky
  */
@@ -28,11 +28,11 @@ public class ClassAssert extends AbstractClassAssert<ClassAssert> {
   public ClassAssert(Class<?> actual) {
     super(actual, ClassAssert.class);
   }
-  
+
   // override method to annotate it with @SafeVarargs, we unfortunately can't do that in AbstractClassAssert as it is
   // used in soft assertions which need to be able to proxy method - @SafeVarargs requiring method to be final prevents
   // using proxies.
-  
+
   @SafeVarargs
   @Override
   public final ClassAssert hasAnnotations(Class<? extends Annotation>... annotations) {
@@ -41,25 +41,25 @@ public class ClassAssert extends AbstractClassAssert<ClassAssert> {
 
   @SafeVarargs
   @Override
-  public final ClassAssert hasPublicConstructor(Class<?>... parameters){
+  public final ClassAssert hasPublicConstructor(Class<?>... parameters) {
     return super.hasPublicConstructor(parameters);
   }
 
   @SafeVarargs
   @Override
-  public final ClassAssert hasProtectedConstructor(Class<?>... parameters){
+  public final ClassAssert hasProtectedConstructor(Class<?>... parameters) {
     return super.hasProtectedConstructor(parameters);
   }
 
   @SafeVarargs
   @Override
-  public final ClassAssert hasPrivateConstructor(Class<?>... parameters){
+  public final ClassAssert hasPrivateConstructor(Class<?>... parameters) {
     return super.hasPrivateConstructor(parameters);
   }
 
   @SafeVarargs
   @Override
-  public final ClassAssert hasConstructor(Class<?>... parameters){
+  public final ClassAssert hasConstructor(Class<?>... parameters) {
     return super.hasConstructor(parameters);
   }
 }

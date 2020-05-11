@@ -3,7 +3,7 @@
     <module name="assertj-core" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="org.assertj.core.internal.*" />
+        <option name="PATTERN" value="org.assertj.core.internal.aClasses" />
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
