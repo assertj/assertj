@@ -23,7 +23,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Stream;
-
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -42,7 +41,7 @@ public class FieldComparators {
    * Puts the {@code comparator} for the given {@code clazz}.
    *
    * @param fieldLocation the FieldLocation where to apply the comparator
-   * @param comparator the comparator it self
+   * @param comparator    the comparator it self
    */
   public void registerComparator(FieldLocation fieldLocation, Comparator<?> comparator) {
     fieldComparators.put(fieldLocation, comparator);
@@ -62,7 +61,8 @@ public class FieldComparators {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof FieldComparators && Objects.equals(fieldComparators, ((FieldComparators) obj).fieldComparators);
+    return obj instanceof FieldComparators && Objects
+      .equals(fieldComparators, ((FieldComparators) obj).fieldComparators);
   }
 
   @Override
@@ -74,7 +74,8 @@ public class FieldComparators {
     return format("{%s}", join(registeredComparatorsDescription).with(", "));
   }
 
-  private static String formatRegisteredComparator(Entry<FieldLocation, Comparator<?>> fieldComparator) {
+  private static String formatRegisteredComparator(
+    Entry<FieldLocation, Comparator<?>> fieldComparator) {
     return format("%s -> %s", fieldComparator, fieldComparator.getValue());
   }
 

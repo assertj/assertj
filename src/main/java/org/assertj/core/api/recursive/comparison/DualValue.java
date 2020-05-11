@@ -34,7 +34,8 @@ import java.util.stream.Stream;
 // logically immutable
 final class DualValue {
 
-  static final Class<?>[] DEFAULT_ORDERED_COLLECTION_TYPES = array(List.class, SortedSet.class, LinkedHashSet.class);
+  static final Class<?>[] DEFAULT_ORDERED_COLLECTION_TYPES = array(List.class, SortedSet.class,
+    LinkedHashSet.class);
 
   final List<String> path;
   final String concatenatedPath;
@@ -58,7 +59,9 @@ final class DualValue {
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof DualValue)) return false;
+    if (!(other instanceof DualValue)) {
+      return false;
+    }
     DualValue that = (DualValue) other;
     return actual == that.actual && expected == that.expected;
   }
@@ -70,7 +73,8 @@ final class DualValue {
 
   @Override
   public String toString() {
-    return format("DualValue [path=%s, actual=%s, expected=%s]", concatenatedPath, actual, expected);
+    return format("DualValue [path=%s, actual=%s, expected=%s]", concatenatedPath, actual,
+      expected);
   }
 
   public List<String> getPath() {
@@ -82,12 +86,16 @@ final class DualValue {
   }
 
   public String getFieldName() {
-    if (path.isEmpty()) return "";
+    if (path.isEmpty()) {
+      return "";
+    }
     return path.get(path.size() - 1);
   }
 
   public boolean isJavaType() {
-    if (actual == null) return false;
+    if (actual == null) {
+      return false;
+    }
     return actual.getClass().getName().startsWith("java.");
   }
 
@@ -117,9 +125,9 @@ final class DualValue {
 
   public boolean isActualFieldAnEmptyOptionalOfAnyType() {
     return isActualFieldAnEmptyOptional()
-           || isActualFieldAnEmptyOptionalInt()
-           || isActualFieldAnEmptyOptionalLong()
-           || isActualFieldAnEmptyOptionalDouble();
+      || isActualFieldAnEmptyOptionalInt()
+      || isActualFieldAnEmptyOptionalLong()
+      || isActualFieldAnEmptyOptionalDouble();
   }
 
   private boolean isActualFieldAnEmptyOptional() {
@@ -201,9 +209,9 @@ final class DualValue {
 
   private static boolean isContainer(Object o) {
     return o instanceof Iterable ||
-           o instanceof Map ||
-           o instanceof Optional ||
-           isArray(o);
+      o instanceof Map ||
+      o instanceof Optional ||
+      isArray(o);
   }
 
   private static List<String> fiedlPath(List<String> parentPath, String fieldName) {

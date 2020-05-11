@@ -13,6 +13,7 @@
 package org.assertj.core.api.exception;
 
 public final class PathsException extends RuntimeException {
+
   private static final long serialVersionUID = 1L;
 
   public PathsException(final String message, final Throwable cause) {

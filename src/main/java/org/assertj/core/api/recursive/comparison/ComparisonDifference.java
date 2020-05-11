@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.presentation.Representation;
 
@@ -29,8 +28,8 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   private static final String FIELD = "field/property '%s'";
   private static final String TOP_LEVEL_OBJECTS = "Top level actual and expected objects";
   private static final String TEMPLATE = "%s differ:%n" +
-                                         "- actual value   : %s%n" +
-                                         "- expected value : %s%s";
+    "- actual value   : %s%n" +
+    "- expected value : %s%s";
 
   final List<String> path;
   final String concatenatedPath;
@@ -42,7 +41,8 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     this(path, actual, other, null);
   }
 
-  public ComparisonDifference(List<String> path, Object actual, Object other, String additionalInformation) {
+  public ComparisonDifference(List<String> path, Object actual, Object other,
+    String additionalInformation) {
     Objects.requireNonNull(path, "a path can't be null");
     this.path = Collections.unmodifiableList(path);
     this.concatenatedPath = join(".", this.path);
@@ -51,7 +51,8 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     this.additionalInformation = Optional.ofNullable(additionalInformation);
   }
 
-  public static ComparisonDifference rootComparisonDifference(Object actual, Object other, String additionalInformation) {
+  public static ComparisonDifference rootComparisonDifference(Object actual, Object other,
+    String additionalInformation) {
     return new ComparisonDifference(list(""), actual, other, additionalInformation);
   }
 
@@ -74,10 +75,10 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   @Override
   public String toString() {
     return additionalInformation.isPresent()
-        ? format("ComparisonDifference [path=%s, actual=%s, expected=%s, additionalInformation=%s]",
-                 concatenatedPath, actual, expected, additionalInformation.get())
-        : format("ComparisonDifference [path=%s, actual=%s, expected=%s]",
-                 concatenatedPath, actual, expected);
+      ? format("ComparisonDifference [path=%s, actual=%s, expected=%s, additionalInformation=%s]",
+      concatenatedPath, actual, expected, additionalInformation.get())
+      : format("ComparisonDifference [path=%s, actual=%s, expected=%s]",
+        concatenatedPath, actual, expected);
   }
 
   public String multiLineDescription() {
@@ -92,19 +93,19 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
     boolean sameRepresentation = Objects.equals(actualRepresentation, expectedRepresentation);
     String unambiguousActualRepresentation = sameRepresentation
-        ? representation.unambiguousToStringOf(actual)
-        : actualRepresentation;
+      ? representation.unambiguousToStringOf(actual)
+      : actualRepresentation;
     String unambiguousExpectedRepresentation = sameRepresentation
-        ? representation.unambiguousToStringOf(expected)
-        : expectedRepresentation;
+      ? representation.unambiguousToStringOf(expected)
+      : expectedRepresentation;
 
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline)
-                                                 .orElse("");
+      .orElse("");
     return format(TEMPLATE,
-                  getObjectPathDescription(),
-                  unambiguousActualRepresentation,
-                  unambiguousExpectedRepresentation,
-                  additionalInfo);
+      getObjectPathDescription(),
+      unambiguousActualRepresentation,
+      unambiguousExpectedRepresentation,
+      additionalInfo);
   }
 
   private String getObjectPathDescription() {
@@ -122,9 +123,9 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     }
     ComparisonDifference castOther = (ComparisonDifference) other;
     return Objects.equals(concatenatedPath, castOther.concatenatedPath)
-           && Objects.equals(actual, castOther.actual)
-           && Objects.equals(expected, castOther.expected)
-           && Objects.equals(additionalInformation, castOther.additionalInformation);
+      && Objects.equals(actual, castOther.actual)
+      && Objects.equals(expected, castOther.expected)
+      && Objects.equals(additionalInformation, castOther.additionalInformation);
   }
 
   @Override

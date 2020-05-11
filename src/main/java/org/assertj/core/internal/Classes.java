@@ -44,24 +44,32 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
-import java.util.*;
-
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.util.Arrays;
 
 /**
  * Reusable assertions for <code>{@link Class}</code>s.
  *
- * @author William Delanoue
+ * @authorWilliam Delanoue
  */
 public class Classes {
 
   private static final Classes INSTANCE = new Classes();
-  private Failures failures = Failures.instance();
-  private ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
+  private final Failures failures = Failures.instance();
+  private final ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
 
   /**
    * Returns the singleton instance of this class.
@@ -73,19 +81,23 @@ public class Classes {
   }
 
   /**
-   * Checks that the {@code expectedNames} are part of the {@code actualNames}. If an {@code expectedName} is not
-   * contained in the {@code actualNames}, the this method will return {@code true}. THe {@code missingNames} will
-   * contain all the {@code expectedNames} that are not part of the {@code actualNames}.
+   * Checks that the {@code expectedNames} are part of the {@code actualNames}. If an {@code
+   * expectedName} is not contained in the {@code actualNames}, the this method will return {@code
+   * true}. THe {@code missingNames} will contain all the {@code expectedNames} that are not part of
+   * the {@code actualNames}.
    *
    * @param actualNames   the names that should be used to check
    * @param expectedNames the names that should be contained in {@code actualNames}
    * @param missingNames  the names that were not part of {@code expectedNames}
-   * @return {@code true} if all {@code expectedNames} are part of the {@code actualNames}, {@code false} otherwise
+   * @return {@code true} if all {@code expectedNames} are part of the {@code actualNames}, {@code
+   * false} otherwise
    */
   private static boolean noMissingElement(Set<String> actualNames, Set<String> expectedNames,
-                                          Set<String> missingNames) {
+    Set<String> missingNames) {
     for (String field : expectedNames) {
-      if (!actualNames.contains(field)) missingNames.add(field);
+      if (!actualNames.contains(field)) {
+        missingNames.add(field);
+      }
     }
     return missingNames.isEmpty();
   }
@@ -104,8 +116,9 @@ public class Classes {
     return methodsWithModifier;
   }
 
-  private static boolean noNonMatchingModifier(Set<String> expectedMethodNames, Map<String, Integer> methodsModifier,
-                                               Map<String, String> nonMatchingModifiers, int modifier) {
+  private static boolean noNonMatchingModifier(Set<String> expectedMethodNames,
+    Map<String, Integer> methodsModifier,
+    Map<String, String> nonMatchingModifiers, int modifier) {
     for (String method : methodsModifier.keySet()) {
       if (expectedMethodNames.contains(method) && (methodsModifier.get(method) & modifier) == 0) {
         nonMatchingModifiers.put(method, Modifier.toString(methodsModifier.get(method)));
@@ -165,8 +178,8 @@ public class Classes {
   }
 
   /**
-   * used to check that the class to compare is not null, in that case throws a {@link NullPointerException} with an
-   * explicit message.
+   * used to check that the class to compare is not null, in that case throws a {@link
+   * NullPointerException} with an explicit message.
    *
    * @param clazz the date to check
    * @throws NullPointerException with an explicit message if the given class is null
@@ -183,7 +196,8 @@ public class Classes {
    * @param others the others {@code Class} who this actual class must be assignable.
    * @throws NullPointerException if one of the {@code others} is {@code null}.
    * @throws AssertionError       if {@code actual} is {@code null}.
-   * @throws AssertionError       if the actual {@code Class} is not assignable from all of the {@code others} classes.
+   * @throws AssertionError       if the actual {@code Class} is not assignable from all of the
+   *                              {@code others} classes.
    */
   public void assertIsAssignableFrom(AssertionInfo info, Class<?> actual, Class<?>... others) {
     assertNotNull(info, actual);
@@ -193,11 +207,14 @@ public class Classes {
     Set<Class<?>> missing = new LinkedHashSet<>();
     for (Class<?> other : expected) {
       classParameterIsNotNull(other);
-      if (!actual.isAssignableFrom(other)) missing.add(other);
+      if (!actual.isAssignableFrom(other)) {
+        missing.add(other);
+      }
     }
 
-    if (!missing.isEmpty())
+    if (!missing.isEmpty()) {
       throw failures.failure(info, shouldBeAssignableFrom(actual, expected, missing));
+    }
   }
 
   /**
@@ -210,7 +227,9 @@ public class Classes {
    */
   public void assertIsNotInterface(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if (actual.isInterface()) throw failures.failure(info, shouldNotBeInterface(actual));
+    if (actual.isInterface()) {
+      throw failures.failure(info, shouldNotBeInterface(actual));
+    }
   }
 
   /**
@@ -223,7 +242,9 @@ public class Classes {
    */
   public void assertIsInterface(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if (!actual.isInterface()) throw failures.failure(info, shouldBeInterface(actual));
+    if (!actual.isInterface()) {
+      throw failures.failure(info, shouldBeInterface(actual));
+    }
   }
 
   /**
@@ -236,8 +257,9 @@ public class Classes {
    */
   public void assertIsAbstract(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if (!Modifier.isAbstract(actual.getModifiers()))
+    if (!Modifier.isAbstract(actual.getModifiers())) {
       throw failures.failure(info, shouldBeAbstract(actual));
+    }
   }
 
   /**
@@ -250,7 +272,9 @@ public class Classes {
    */
   public void assertIsNotAnnotation(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if (actual.isAnnotation()) throw failures.failure(info, shouldNotBeAnnotation(actual));
+    if (actual.isAnnotation()) {
+      throw failures.failure(info, shouldNotBeAnnotation(actual));
+    }
   }
 
   /**
@@ -263,7 +287,9 @@ public class Classes {
    */
   public void assertIsAnnotation(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if (!actual.isAnnotation()) throw failures.failure(info, shouldBeAnnotation(actual));
+    if (!actual.isAnnotation()) {
+      throw failures.failure(info, shouldBeAnnotation(actual));
+    }
   }
 
   /**
@@ -276,8 +302,9 @@ public class Classes {
    */
   public void assertIsFinal(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if (!Modifier.isFinal(actual.getModifiers()))
+    if (!Modifier.isFinal(actual.getModifiers())) {
       throw failures.failure(info, shouldBeFinal(actual));
+    }
   }
 
   /**
@@ -321,7 +348,8 @@ public class Classes {
   public void assertIsPackagePrivate(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
     final int modifiers = actual.getModifiers();
-    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
+    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier
+      .isPrivate(modifiers)) {
       throw failures.failure(info, shouldBePackagePrivate(actual));
     }
   }
@@ -336,8 +364,9 @@ public class Classes {
    */
   public void assertIsNotFinal(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-    if (Modifier.isFinal(actual.getModifiers()))
+    if (Modifier.isFinal(actual.getModifiers())) {
       throw failures.failure(info, shouldNotBeFinal(actual));
+    }
   }
 
   /**
@@ -350,17 +379,20 @@ public class Classes {
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
   public void assertContainsAnnotations(AssertionInfo info, Class<?> actual,
-                                        @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+    @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
     assertNotNull(info, actual);
     Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
     Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
     for (Class<? extends Annotation> other : expected) {
       classParameterIsNotNull(other);
-      if (actual.getAnnotation(other) == null) missing.add(other);
+      if (actual.getAnnotation(other) == null) {
+        missing.add(other);
+      }
     }
 
-    if (!missing.isEmpty())
+    if (!missing.isEmpty()) {
       throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
+    }
   }
 
   /**
@@ -371,7 +403,8 @@ public class Classes {
    * @param superclass the direct superclass, which should not be null.
    * @throws NullPointerException if {@code superclass} is {@code null}.
    * @throws AssertionError       if {@code actual} is {@code null}.
-   * @throws AssertionError       if the actual {@code Class} does not have the expected superclass.
+   * @throws AssertionError       if the actual {@code Class} does not have the expected
+   *                              superclass.
    */
   public void assertHasSuperclass(AssertionInfo info, Class<?> actual, Class<?> superclass) {
     assertNotNull(info, actual);
@@ -412,15 +445,20 @@ public class Classes {
     Set<String> missingFieldNames = newLinkedHashSet();
     Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
     if (expectedFieldNames.isEmpty()) {
-      if (actualFieldNames.isEmpty()) return;
+      if (actualFieldNames.isEmpty()) {
+        return;
+      }
       throw failures.failure(info, shouldHaveNoPublicFields(actual, actualFieldNames));
     }
-    if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
+    if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) {
+      return;
+    }
     throw failures.failure(info, shouldHaveFields(actual, expectedFieldNames, missingFieldNames));
   }
 
   /**
-   * Verifies that the actual {@code Class} has only the {@code fields} and nothing more. <b>in any order</b>.
+   * Verifies that the actual {@code Class} has only the {@code fields} and nothing more. <b>in any
+   * order</b>.
    *
    * @param info           contains information about the assertion.
    * @param actual         the "actual" {@code Class}.
@@ -428,13 +466,16 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
    */
-  public void assertHasOnlyPublicFields(AssertionInfo info, Class<?> actual, String... expectedFields) {
+  public void assertHasOnlyPublicFields(AssertionInfo info, Class<?> actual,
+    String... expectedFields) {
     assertNotNull(info, actual);
     Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
     List<String> notExpected = newArrayList(actualFieldNames);
     List<String> notFound = newArrayList(expectedFields);
     if (expectedFields.length == 0) {
-      if (actualFieldNames.isEmpty()) return;
+      if (actualFieldNames.isEmpty()) {
+        return;
+      }
       throw failures.failure(info, shouldHaveNoPublicFields(actual, actualFieldNames));
     }
 
@@ -445,8 +486,11 @@ public class Classes {
       }
     }
 
-    if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, shouldOnlyHaveFields(actual, newArrayList(expectedFields), notFound, notExpected));
+    if (notExpected.isEmpty() && notFound.isEmpty()) {
+      return;
+    }
+    throw failures.failure(info,
+      shouldOnlyHaveFields(actual, newArrayList(expectedFields), notFound, notExpected));
   }
 
   /**
@@ -464,15 +508,21 @@ public class Classes {
     Set<String> missingFieldNames = newLinkedHashSet();
     Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
     if (expectedFieldNames.isEmpty()) {
-      if (actualFieldNames.isEmpty()) return;
+      if (actualFieldNames.isEmpty()) {
+        return;
+      }
       throw failures.failure(info, shouldHaveNoDeclaredFields(actual, actualFieldNames));
     }
-    if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
-    throw failures.failure(info, shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
+    if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) {
+      return;
+    }
+    throw failures
+      .failure(info, shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
   }
 
   /**
-   * Verifies that the actual {@code Class} has the exactly the {@code fields} and nothing more. <b>in any order</b>.
+   * Verifies that the actual {@code Class} has the exactly the {@code fields} and nothing more.
+   * <b>in any order</b>.
    *
    * @param info           contains information about the assertion.
    * @param actual         the "actual" {@code Class}.
@@ -480,14 +530,17 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
    */
-  public void assertHasOnlyDeclaredFields(AssertionInfo info, Class<?> actual, String... expectedFields) {
+  public void assertHasOnlyDeclaredFields(AssertionInfo info, Class<?> actual,
+    String... expectedFields) {
     assertNotNull(info, actual);
     Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
     List<String> notExpected = newArrayList(actualFieldNames);
     List<String> notFound = newArrayList(expectedFields);
 
     if (expectedFields.length == 0) {
-      if (actualFieldNames.isEmpty()) return;
+      if (actualFieldNames.isEmpty()) {
+        return;
+      }
       throw failures.failure(info, shouldHaveNoDeclaredFields(actual, actualFieldNames));
     }
 
@@ -498,7 +551,9 @@ public class Classes {
       }
     }
 
-    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    if (notExpected.isEmpty() && notFound.isEmpty()) {
+      return;
+    }
     throw failures.failure(info,
       shouldOnlyHaveDeclaredFields(actual, newArrayList(expectedFields), notFound, notExpected));
   }
@@ -528,23 +583,29 @@ public class Classes {
    */
   public void assertHasDeclaredMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
-    doAssertHasMethods(info, actual, filterSyntheticMembers(actual.getDeclaredMethods()), true, methods);
+    doAssertHasMethods(info, actual, filterSyntheticMembers(actual.getDeclaredMethods()), true,
+      methods);
   }
 
-  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Set<Method> actualMethods, boolean declared,
-                                  String... expectedMethods) {
+  private void doAssertHasMethods(AssertionInfo info, Class<?> actual, Set<Method> actualMethods,
+    boolean declared,
+    String... expectedMethods) {
     SortedSet<String> expectedMethodNames = newTreeSet(expectedMethods);
     SortedSet<String> missingMethodNames = newTreeSet();
     SortedSet<String> actualMethodNames = methodsToName(actualMethods);
 
     if (expectedMethods.length == 0) {
-      if (actualMethods.isEmpty()) return;
-      throw failures.failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(actualMethods,
-        Modifier.methodModifiers())));
+      if (actualMethods.isEmpty()) {
+        return;
+      }
+      throw failures
+        .failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(actualMethods,
+          Modifier.methodModifiers())));
     }
 
     if (!noMissingElement(actualMethodNames, expectedMethodNames, missingMethodNames)) {
-      throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
+      throw failures.failure(info,
+        shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
     }
   }
 
@@ -571,11 +632,14 @@ public class Classes {
             Modifier.PUBLIC)));
     }
 
-    if (!noMissingElement(methodNamesWithModifier.keySet(), expectedMethodNames, missingMethodNames)) {
-      throw failures.failure(info, shouldHaveMethods(actual, false, expectedMethodNames, missingMethodNames));
+    if (!noMissingElement(methodNamesWithModifier.keySet(), expectedMethodNames,
+      missingMethodNames)) {
+      throw failures
+        .failure(info, shouldHaveMethods(actual, false, expectedMethodNames, missingMethodNames));
     }
     Map<String, String> nonMatchingModifiers = new LinkedHashMap<>();
-    if (!noNonMatchingModifier(expectedMethodNames, methodNamesWithModifier, nonMatchingModifiers, Modifier.PUBLIC)) {
+    if (!noNonMatchingModifier(expectedMethodNames, methodNamesWithModifier, nonMatchingModifiers,
+      Modifier.PUBLIC)) {
       throw failures.failure(info, shouldHaveMethods(actual, false, expectedMethodNames,
         Modifier.toString(Modifier.PUBLIC), nonMatchingModifiers));
     }
@@ -584,54 +648,55 @@ public class Classes {
   /**
    * Verifies that the actual {@code Class} has the public {@code Constructor}.
    *
-   * @param info    contains information about the assertion.
-   * @param actual  the "actual" {@code Class}.
+   * @param info       contains information about the assertion.
+   * @param actual     the "actual" {@code Class}.
    * @param parameters the class list of parameters.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the given
-   * parameters.
+   * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the
+   *                        given parameters.
    */
 
   public void assertHasPublicConstuctors(WritableAssertionInfo info, Class<?> actual,
-                                         Class<?>... parameters) {
+    Class<?>... parameters) {
     assertNotNull(info, actual);
     Constructor<?>[] actualConstructors = actual.getConstructors();
     Constructor<?>[] publicConstructors = getConstructorsByModifier(actualConstructors,
       "public");
-    assertConstructors(info, actual, parameters,publicConstructors);
+    assertConstructors(info, actual, parameters, publicConstructors);
   }
 
   /**
    * Verifies that the actual {@code Class} has the protected {@code Constructor}.
    *
-   * @param info    contains information about the assertion.
-   * @param actual  the "actual" {@code Class}.
+   * @param info       contains information about the assertion.
+   * @param actual     the "actual" {@code Class}.
    * @param parameters the class list of parameters.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the given
-   * parameters.
+   * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the
+   *                        given parameters.
    */
   public void assertHasProtectedConstuctors(WritableAssertionInfo info, Class<?> actual,
-                                            Class<?>... parameters) {
+    Class<?>... parameters) {
     assertNotNull(info, actual);
     Constructor<?>[] actualConstructors = actual.getDeclaredConstructors();
     Constructor<?>[] protectedConstructors = getConstructorsByModifier(actualConstructors,
       "protected");
 
-    assertConstructors(info, actual, parameters,protectedConstructors);
+    assertConstructors(info, actual, parameters, protectedConstructors);
   }
+
   /**
    * Verifies that the actual {@code Class} has the private {@code Constructor}.
    *
-   * @param info    contains information about the assertion.
-   * @param actual  the "actual" {@code Class}.
+   * @param info       contains information about the assertion.
+   * @param actual     the "actual" {@code Class}.
    * @param parameters the class list of parameters.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the given
-   * parameters.
+   * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the
+   *                        given parameters.
    */
   public void assertHasPrivateConstuctors(WritableAssertionInfo info, Class<?> actual,
-                                          Class<?>... parameters) {
+    Class<?>... parameters) {
     assertNotNull(info, actual);
     Constructor<?>[] actualConstructors = actual.getDeclaredConstructors();
     Constructor<?>[] privateConstructors = getConstructorsByModifier(actualConstructors,
@@ -642,72 +707,76 @@ public class Classes {
   /**
    * Verifies that the actual {@code Class} has the {@code Constructor}.
    *
-   * @param info    contains information about the assertion.
-   * @param actual  the "actual" {@code Class}.
+   * @param info       contains information about the assertion.
+   * @param actual     the "actual" {@code Class}.
    * @param parameters the class list of parameters.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the
-   * given parameters.
+   *                        given parameters.
    */
   public void assertHasConstuctors(WritableAssertionInfo info, Class<?> actual,
-                                   Class<?>... parameters) {
+    Class<?>... parameters) {
     assertNotNull(info, actual);
     Constructor<?>[] actualConstructors = actual.getDeclaredConstructors();
     assertConstructors(info, actual, parameters, actualConstructors);
   }
 
   private Constructor<?>[] getConstructorsByModifier(Constructor<?>[] actualConstructors,
-                                                        String modifier) {
+    String modifier) {
     ArrayList<Constructor<?>> constructors = new ArrayList<>();
 
     switch (modifier) {
       case "public":
         for (Constructor<?> constructor : actualConstructors) {
-          if (Modifier.isPublic(constructor.getModifiers()))
+          if (Modifier.isPublic(constructor.getModifiers())) {
             constructors.add(constructor);
+          }
         }
         break;
       case "protected":
         for (Constructor<?> constructor : actualConstructors) {
-          if (Modifier.isProtected(constructor.getModifiers()))
+          if (Modifier.isProtected(constructor.getModifiers())) {
             constructors.add(constructor);
+          }
         }
         break;
       case "private":
         for (Constructor<?> constructor : actualConstructors) {
-          if (Modifier.isPrivate(constructor.getModifiers()))
+          if (Modifier.isPrivate(constructor.getModifiers())) {
             constructors.add(constructor);
+          }
         }
         break;
     }
-    Constructor<?>[] a=new Constructor<?>[constructors.size()];
+    Constructor<?>[] a = new Constructor<?>[constructors.size()];
     for (int i = 0; i < a.length; i++) {
-      a[i]=constructors.get(i);
+      a[i] = constructors.get(i);
     }
     return a;
   }
 
   private void assertConstructors(WritableAssertionInfo info, Class<?> actual,
-                                  Class<?>[] parameters, Constructor<?>[] actualConstructors) {
+    Class<?>[] parameters, Constructor<?>[] actualConstructors) {
     LinkedHashSet<Class<?>[]> expectedParameter = new LinkedHashSet<>();
     expectedParameter.add(parameters);
     LinkedHashSet<Class<?>[]> missingParameters = new LinkedHashSet<>();
     for (int i = 0; i < actualConstructors.length; i++) {
       Class<?>[] parameterTypes = actualConstructors[i].getParameterTypes();
-      Class<?>[] parametersMiss = new Class<?>[parameterTypes.length - 1];
-      if (parameters.length != parameterTypes.length - 1)
+      if (parameters.length != parameterTypes.length) {
+        missingParameters.add(parameterTypes);
         continue;
+      }
       boolean miss = false;
-      for (int j = 1; j < parameterTypes.length; j++) {
-        parametersMiss[j - 1] = parameterTypes[j];
-        if (!parameterTypes[j].getName().equals(parameters[j - 1].getName())) {
+      for (int j = 0; j < parameterTypes.length; j++) {
+        if (!parameterTypes[j].getName().equals(parameters[j].getName())) {
           miss = true;
         }
       }
-      if (miss)
-        missingParameters.add(parametersMiss);
-      else
+      if (miss) {
+        missingParameters.add(parameterTypes);
+      } else {
         return;
+      }
     }
     throw failures.failure(info, ShouldHaveConstructors(actual, expectedParameter,
       missingParameters));

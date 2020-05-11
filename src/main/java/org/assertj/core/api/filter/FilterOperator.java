@@ -18,8 +18,9 @@ public abstract class FilterOperator<T> {
   protected final T filterParameter;
 
   protected FilterOperator(T filterValue) {
-    if (filterValue instanceof FilterOperator<?>)
+    if (filterValue instanceof FilterOperator<?>) {
       throw new UnsupportedOperationException(COMBINING_OPERATOR_IS_NOT_SUPPORTED);
+    }
     this.filterParameter = filterValue;
   }
 
