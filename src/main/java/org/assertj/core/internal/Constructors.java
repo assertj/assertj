@@ -49,7 +49,7 @@ public class Constructors {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Constructor} is not public.
    */
-  public <ACTUAL extends Constructor> void assertIsPublic(AssertionInfo info, Constructor actual) {
+  public void assertIsPublic(AssertionInfo info, Constructor actual) {
     assertModifier(info, actual, "PUBLIC");
   }
 
@@ -61,7 +61,7 @@ public class Constructors {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Constructor} is not private.
    */
-  public <ACTUAL extends Constructor> void assertIsPrivate(AssertionInfo info, ACTUAL actual) {
+  public void assertIsPrivate(AssertionInfo info, Constructor actual) {
     assertModifier(info, actual, "PRIVATE");
   }
 
@@ -73,7 +73,7 @@ public class Constructors {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Constructor} is not protected.
    */
-  public <ACTUAL extends Constructor> void assertIsProtected(AssertionInfo info, ACTUAL actual) {
+  public void assertIsProtected(AssertionInfo info, Constructor actual) {
     assertModifier(info, actual, "PROTECTED");
   }
 

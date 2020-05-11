@@ -31,6 +31,8 @@ public class ShouldBePrivate extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldBePrivate}</code>.
    *
    * @param actual the actual Constructor.
+   * @param modifier the actual modifier of Constructor.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBePrivate(Constructor actual, String modifier) {
     return new ShouldBePrivate(actual, modifier);

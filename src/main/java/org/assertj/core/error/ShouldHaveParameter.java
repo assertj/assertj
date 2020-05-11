@@ -22,18 +22,21 @@ import java.lang.reflect.Constructor;
  */
 public class ShouldHaveParameter extends BasicErrorMessageFactory {
 
-  public ShouldHaveParameter(Constructor actual, Class<?>[] expect, Class<?>[] miss) {
-    super("%nExpecting <%s> to have parameters <%s>%nbut the parameters are <%s>", actual, expect,
-      miss);
+  public ShouldHaveParameter(Constructor actual, Class<?>[] expected, Class<?>[] missing) {
+    super("%nExpecting <%s> to have parameters <%s>%nbut the parameters are <%s>", actual, expected,
+      missing);
   }
 
   /**
    * Creates a new <code>{@link ShouldHaveParameter}</code>.
    *
    * @param actual the actual Constructor.
+   * @param expected expected parameters for this construction
+   * @param missing missing parameters of the constructions for this class
+   * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveParameter(Constructor actual, Class<?>[] expect,
-    Class<?>... miss) {
-    return new ShouldHaveParameter(actual, expect, miss);
+  public static ErrorMessageFactory shouldHaveParameter(Constructor actual, Class<?>[] expected,
+    Class<?>... missing) {
+    return new ShouldHaveParameter(actual, expected, missing);
   }
 }

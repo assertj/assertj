@@ -63,7 +63,7 @@ import org.assertj.core.util.Arrays;
 /**
  * Reusable assertions for <code>{@link Class}</code>s.
  *
- * @authorWilliam Delanoue
+ * @author William Delanoue
  */
 public class Classes {
 

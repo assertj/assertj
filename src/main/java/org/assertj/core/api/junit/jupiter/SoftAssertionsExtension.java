@@ -42,7 +42,10 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * <h2>Applicability</h2>
  *
  * <p>
- * In this context, the term "test method" refers to any method annotated with {@code @Test}, {@code
+ * In this context, the term "test method" refers to any method annotated with {@code @Test},
+ * {@code
+ *
+ * @author Sam Brannen
  * @RepeatedTest}, {@code @ParameterizedTest}, {@code @TestFactory}, or {@code @TestTemplate}.<br>
  * This extension does not inject {@code SoftAssertionsProvider} arguments into test constructors or
  * lifecycle methods.
@@ -84,14 +87,21 @@ import org.junit.platform.commons.support.ReflectionSupport;
  *    }
  * }</code>
  * </pre>
- *
- * @author Sam Brannen
  * @since 3.13
  */
 public class SoftAssertionsExtension implements ParameterResolver, AfterTestExecutionCallback {
 
   private static final Namespace SOFT_ASSERTIONS_EXTENSION_NAMESPACE = Namespace
     .create(SoftAssertionsExtension.class);
+
+  private static boolean isUnsupportedParameterType(Parameter parameter) {
+    Class<?> type = parameter.getType();
+    return !SoftAssertionsProvider.class.isAssignableFrom(type);
+  }
+
+  private static Store getStore(ExtensionContext extensionContext) {
+    return extensionContext.getStore(SOFT_ASSERTIONS_EXTENSION_NAMESPACE);
+  }
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext,
@@ -144,15 +154,6 @@ public class SoftAssertionsExtension implements ParameterResolver, AfterTestExec
     Optional.ofNullable(
       getStore(extensionContext).remove(SoftAssertionsProvider.class, SoftAssertionsProvider.class))
       .ifPresent(SoftAssertionsProvider::assertAll);
-  }
-
-  private static boolean isUnsupportedParameterType(Parameter parameter) {
-    Class<?> type = parameter.getType();
-    return !SoftAssertionsProvider.class.isAssignableFrom(type);
-  }
-
-  private static Store getStore(ExtensionContext extensionContext) {
-    return extensionContext.getStore(SOFT_ASSERTIONS_EXTENSION_NAMESPACE);
   }
 
 }
