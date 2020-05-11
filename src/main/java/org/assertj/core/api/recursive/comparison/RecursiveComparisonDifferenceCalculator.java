@@ -65,145 +65,6 @@ public class RecursiveComparisonDifferenceCalculator {
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
   private static final Map<Class<?>, Boolean> customHash = new ConcurrentHashMap<>();
 
-  private static class ComparisonState {
-
-    // Not using a Set as we want to precisely track visited values, a set would remove duplicates
-    List<DualValue> visitedDualValues;
-    List<ComparisonDifference> differences = new ArrayList<>();
-    DualValueDeque dualValuesToCompare;
-    RecursiveComparisonConfiguration recursiveComparisonConfiguration;
-
-    public ComparisonState(List<DualValue> visited,
-      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-      this.visitedDualValues = visited;
-      this.dualValuesToCompare = new DualValueDeque(recursiveComparisonConfiguration);
-      this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
-    }
-
-    void addDifference(DualValue dualValue) {
-      differences
-        .add(new ComparisonDifference(dualValue.getPath(), dualValue.actual, dualValue.expected));
-    }
-
-    void addDifference(DualValue dualValue, String description, Object... args) {
-      differences
-        .add(new ComparisonDifference(dualValue.getPath(), dualValue.actual, dualValue.expected,
-          format(description, args)));
-    }
-
-    public List<ComparisonDifference> getDifferences() {
-      Collections.sort(differences);
-      return differences;
-    }
-
-    public boolean hasDualValuesToCompare() {
-      return !dualValuesToCompare.isEmpty();
-    }
-
-    public DualValue pickDualValueToCompare() {
-      final DualValue dualValue = dualValuesToCompare.removeFirst();
-      visitedDualValues.add(dualValue);
-      return dualValue;
-    }
-
-    private void registerForComparison(DualValue dualValue) {
-      if (!visitedDualValues.contains(dualValue)) {
-        dualValuesToCompare.addFirst(dualValue);
-      }
-    }
-
-    private void initDualValuesToCompare(Object actual, Object expected, List<String> parentPath,
-      boolean isRootObject) {
-      DualValue dualValue = new DualValue(parentPath, actual, expected);
-      boolean mustCompareFieldsRecursively = mustCompareFieldsRecursively(isRootObject, dualValue);
-      if (dualValue.hasNoNullValues() && dualValue.hasNoContainerValues()
-        && mustCompareFieldsRecursively) {
-        // disregard the equals method and start comparing fields
-        Set<String> nonIgnoredActualFieldsNames = recursiveComparisonConfiguration
-          .getNonIgnoredActualFieldNames(dualValue);
-        if (!nonIgnoredActualFieldsNames.isEmpty()) {
-          // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
-          // ignored fields according to recursiveComparisonConfiguration
-          Set<String> expectedFieldsNames = getFieldsNames(expected.getClass());
-          if (expectedFieldsNames.containsAll(nonIgnoredActualFieldsNames)) {
-            // we compare actual fields vs expected, ingoring expected additional fields
-            for (String nonIgnoredActualFieldName : nonIgnoredActualFieldsNames) {
-              DualValue fieldDualValue = new DualValue(parentPath, nonIgnoredActualFieldName,
-                COMPARISON.getSimpleValue(nonIgnoredActualFieldName, actual),
-                COMPARISON.getSimpleValue(nonIgnoredActualFieldName, expected));
-              dualValuesToCompare.addFirst(fieldDualValue);
-            }
-          } else {
-            dualValuesToCompare.addFirst(dualValue);
-          }
-        } else {
-          dualValuesToCompare.addFirst(dualValue);
-        }
-      } else {
-        dualValuesToCompare.addFirst(dualValue);
-      }
-      // We need to remove already visited fields pair to avoid infinite recursion in case
-      // parent -> set{child} with child having a reference back to parent
-      // it occurs to unordered collection where we compare all possible combination of the collection elements recursively
-      // --
-      // Don't use removeAll which uses equals to compare values, comparison must be done by reference otherwise we could remove
-      // values too agressively, that occurs when we add a duplicate of a value already visited.
-      // Example:
-      // - a and a are duplicates but are not the same object, i.e. a equals a' but a' != a
-      // - visitedDualValues = {a , b , c}
-      // - dualValuesToCompare = {a'}
-      // dualValuesToCompare.removeAll(visitedDualValues) would remove it which is incorrect
-      // If we compare references then a' won't be removed from dualValuesToCompare
-      visitedDualValues.forEach(visitedDualValue -> {
-        dualValuesToCompare.stream()
-          .filter(dualValueToCompare -> dualValueToCompare.equals(visitedDualValue))
-          .findFirst()
-          .ifPresent(dualValuesToCompare::remove);
-      });
-    }
-
-    private boolean mustCompareFieldsRecursively(boolean isRootObject, DualValue dualValue) {
-      boolean noCustomComparisonForDualValue =
-        !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
-          && !shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
-      return isRootObject || noCustomComparisonForDualValue;
-    }
-
-  }
-
-  /**
-   * Compare two objects for differences by doing a 'deep' comparison. This will traverse the Object
-   * graph and perform either a field-by-field comparison on each object (if not .equals() method
-   * has been overridden from Object), or it will call the customized .equals() method if it
-   * exists.
-   * <p>
-   * <p>
-   * This method handles cycles correctly, for example A-&gt;B-&gt;C-&gt;A. Suppose a and a' are two
-   * separate instances of the A with the same values for all fields on A, B, and C. Then
-   * a.deepEquals(a') will return an empty list. It uses cycle detection storing visited objects in
-   * a Set to prevent endless loops.
-   *
-   * @param actual                           Object one to compare
-   * @param expected                         Object two to compare
-   * @param recursiveComparisonConfiguration the recursive comparison configuration
-   * @return the list of differences found or an empty list if objects are equivalent. Equivalent
-   * means that all field values of both subgraphs are the same, either at the field level or via
-   * the respectively encountered overridden .equals() methods during traversal.
-   */
-  public List<ComparisonDifference> determineDifferences(Object actual, Object expected,
-    RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode()
-      && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
-      return list(expectedAndActualTypeDifference(actual, expected));
-    }
-    List<String> rootPath = list();
-    List<DualValue> visited = list();
-    return determineDifferences(actual, expected, rootPath, true, visited,
-      recursiveComparisonConfiguration);
-  }
-
-  // TODO keep track of ignored fields in an RecursiveComparisonExecution class ?
-
   private static List<ComparisonDifference> determineDifferences(Object actual, Object expected,
     List<String> parentPath,
     boolean isRootObject, List<DualValue> visited,
@@ -352,6 +213,8 @@ public class RecursiveComparisonDifferenceCalculator {
       comparisonState.addDifference(dualValue);
     }
   }
+
+  // TODO keep track of ignored fields in an RecursiveComparisonExecution class ?
 
   private static boolean shouldHonorOverriddenEquals(DualValue dualValue,
     RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
@@ -739,5 +602,135 @@ public class RecursiveComparisonDifferenceCalculator {
     return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES)
       .map(Class::getName)
       .collect(joining(", ", "[", "]"));
+  }
+
+  /**
+   * Compare two objects for differences by doing a 'deep' comparison. This will traverse the Object
+   * graph and perform either a field-by-field comparison on each object (if not .equals() method
+   * has been overridden from Object), or it will call the customized .equals() method if it
+   * exists.
+   * <p>
+   * <p>
+   * This method handles cycles correctly, for example A-&gt;B-&gt;C-&gt;A. Suppose a and a' are two
+   * separate instances of the A with the same values for all fields on A, B, and C. Then
+   * a.deepEquals(a') will return an empty list. It uses cycle detection storing visited objects in
+   * a Set to prevent endless loops.
+   *
+   * @param actual                           Object one to compare
+   * @param expected                         Object two to compare
+   * @param recursiveComparisonConfiguration the recursive comparison configuration
+   * @return the list of differences found or an empty list if objects are equivalent. Equivalent
+   * means that all field values of both subgraphs are the same, either at the field level or via
+   * the respectively encountered overridden .equals() methods during traversal.
+   */
+  public List<ComparisonDifference> determineDifferences(Object actual, Object expected,
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode()
+      && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
+      return list(expectedAndActualTypeDifference(actual, expected));
+    }
+    List<String> rootPath = list();
+    List<DualValue> visited = list();
+    return determineDifferences(actual, expected, rootPath, true, visited,
+      recursiveComparisonConfiguration);
+  }
+
+  private static class ComparisonState {
+
+    // Not using a Set as we want to precisely track visited values, a set would remove duplicates
+    List<DualValue> visitedDualValues;
+    List<ComparisonDifference> differences = new ArrayList<>();
+    DualValueDeque dualValuesToCompare;
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration;
+
+    public ComparisonState(List<DualValue> visited,
+      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+      this.visitedDualValues = visited;
+      this.dualValuesToCompare = new DualValueDeque(recursiveComparisonConfiguration);
+      this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
+    }
+
+    void addDifference(DualValue dualValue) {
+      differences
+        .add(new ComparisonDifference(dualValue.getPath(), dualValue.actual, dualValue.expected));
+    }
+
+    void addDifference(DualValue dualValue, String description, Object... args) {
+      differences
+        .add(new ComparisonDifference(dualValue.getPath(), dualValue.actual, dualValue.expected,
+          format(description, args)));
+    }
+
+    public List<ComparisonDifference> getDifferences() {
+      Collections.sort(differences);
+      return differences;
+    }
+
+    public boolean hasDualValuesToCompare() {
+      return !dualValuesToCompare.isEmpty();
+    }
+
+    public DualValue pickDualValueToCompare() {
+      final DualValue dualValue = dualValuesToCompare.removeFirst();
+      visitedDualValues.add(dualValue);
+      return dualValue;
+    }
+
+    private void registerForComparison(DualValue dualValue) {
+      if (!visitedDualValues.contains(dualValue)) {
+        dualValuesToCompare.addFirst(dualValue);
+      }
+    }
+
+    private void initDualValuesToCompare(Object actual, Object expected, List<String> parentPath,
+      boolean isRootObject) {
+      DualValue dualValue = new DualValue(parentPath, actual, expected);
+      boolean mustCompareFieldsRecursively = mustCompareFieldsRecursively(isRootObject, dualValue);
+      if (dualValue.hasNoNullValues() && dualValue.hasNoContainerValues()
+        && mustCompareFieldsRecursively) {
+        // disregard the equals method and start comparing fields
+        Set<String> nonIgnoredActualFieldsNames = recursiveComparisonConfiguration
+          .getNonIgnoredActualFieldNames(dualValue);
+        if (!nonIgnoredActualFieldsNames.isEmpty()) {
+          // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
+          // ignored fields according to recursiveComparisonConfiguration
+          Set<String> expectedFieldsNames = getFieldsNames(expected.getClass());
+          if (expectedFieldsNames.containsAll(nonIgnoredActualFieldsNames)) {
+            // we compare actual fields vs expected, ingoring expected additional fields
+            for (String nonIgnoredActualFieldName : nonIgnoredActualFieldsNames) {
+              DualValue fieldDualValue = new DualValue(parentPath, nonIgnoredActualFieldName,
+                COMPARISON.getSimpleValue(nonIgnoredActualFieldName, actual),
+                COMPARISON.getSimpleValue(nonIgnoredActualFieldName, expected));
+              dualValuesToCompare.addFirst(fieldDualValue);
+            }
+          } else {
+            dualValuesToCompare.addFirst(dualValue);
+          }
+        } else {
+          dualValuesToCompare.addFirst(dualValue);
+        }
+      } else {
+        dualValuesToCompare.addFirst(dualValue);
+      }
+      // We need to remove already visited fields pair to avoid infinite recursion in case
+      // parent -> set{child} with child having a reference back to parent
+      // it occurs to unordered collection where we compare all possible combination of the collection elements recursively
+      // --
+      // remove visited values one by one, DualValue.equals correctly compare respective actual and expected fields by reference
+      visitedDualValues.forEach(visitedDualValue -> {
+        dualValuesToCompare.stream()
+          .filter(dualValueToCompare -> dualValueToCompare.equals(visitedDualValue))
+          .findFirst()
+          .ifPresent(dualValuesToCompare::remove);
+      });
+    }
+
+    private boolean mustCompareFieldsRecursively(boolean isRootObject, DualValue dualValue) {
+      boolean noCustomComparisonForDualValue =
+        !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
+          && !shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
+      return isRootObject || noCustomComparisonForDualValue;
+    }
+
   }
 }
