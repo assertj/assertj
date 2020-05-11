@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="IsOdd_Test" type="JUnit" factoryName="JUnit" folderName="Issue#1807: Add isEven/isOdd" singleton="false">
+    <module name="assertj-core" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="pattern" />
+    <option name="PARAMETERS" value="" />
+    <patterns>
+      <pattern testClass=".*(?i)isOdd_Test.*$" />
+    </patterns>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -17,6 +17,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import java.io.File;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
@@ -585,6 +586,13 @@ public class AssertionsForClassTypes {
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
     return new ThrowableAssert(actual);
   }
+
+
+  public static ConstructorAssert assertThat(Constructor actual){
+    return new ConstructorAssert(actual);
+  }
+
+
 
   /**
    * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).

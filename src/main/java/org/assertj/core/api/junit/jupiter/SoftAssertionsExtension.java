@@ -20,7 +20,6 @@ import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Optional;
-
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.SoftAssertionsProvider;
@@ -35,30 +34,26 @@ import org.junit.platform.commons.annotation.Testable;
 import org.junit.platform.commons.support.ReflectionSupport;
 
 /**
- * Extension for JUnit Jupiter that provides support for injecting a concrete
- * implementation of {@link SoftAssertionsProvider} into test methods. Two examples that
- * come packaged with AssertJ are {@link SoftAssertions} and
- * {@link BDDSoftAssertions}, but custom implementations are also supported as
- * long as they have a default constructor.
+ * Extension for JUnit Jupiter that provides support for injecting a concrete implementation of
+ * {@link SoftAssertionsProvider} into test methods. Two examples that come packaged with AssertJ
+ * are {@link SoftAssertions} and {@link BDDSoftAssertions}, but custom implementations are also
+ * supported as long as they have a default constructor.
  *
  * <h2>Applicability</h2>
  *
  * <p>
- * In this context, the term "test method" refers to any method annotated with
- * {@code @Test}, {@code @RepeatedTest}, {@code @ParameterizedTest},
- * {@code @TestFactory}, or {@code @TestTemplate}.<br>
- * This extension does not inject {@code SoftAssertionsProvider} arguments into test
- * constructors or lifecycle methods.
+ * In this context, the term "test method" refers to any method annotated with {@code @Test}, {@code
+ * @RepeatedTest}, {@code @ParameterizedTest}, {@code @TestFactory}, or {@code @TestTemplate}.<br>
+ * This extension does not inject {@code SoftAssertionsProvider} arguments into test constructors or
+ * lifecycle methods.
  *
  * <h2>Scope</h2>
  *
  * <p>
- * The scope of the {@code SoftAssertionsProvider} instance managed by this extension
- * begins when a parameter of type {@code SoftAssertionsProvider} is resolved for a test
- * method.<br>
- * The scope of the instance ends after the test method has been executed, this
- * is when {@code assertAll()} will be invoked on the instance to verify that no
- * soft assertions failed.
+ * The scope of the {@code SoftAssertionsProvider} instance managed by this extension begins when a
+ * parameter of type {@code SoftAssertionsProvider} is resolved for a test method.<br> The scope of
+ * the instance ends after the test method has been executed, this is when {@code assertAll()} will
+ * be invoked on the instance to verify that no soft assertions failed.
  *
  * <h3>Example with {@code SoftAssertions}</h3>
  *
@@ -95,49 +90,60 @@ import org.junit.platform.commons.support.ReflectionSupport;
  */
 public class SoftAssertionsExtension implements ParameterResolver, AfterTestExecutionCallback {
 
-  private static final Namespace SOFT_ASSERTIONS_EXTENSION_NAMESPACE = Namespace.create(SoftAssertionsExtension.class);
+  private static final Namespace SOFT_ASSERTIONS_EXTENSION_NAMESPACE = Namespace
+    .create(SoftAssertionsExtension.class);
 
   @Override
-  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+  public boolean supportsParameter(ParameterContext parameterContext,
+    ExtensionContext extensionContext) {
     // Abort if parameter type is unsupported.
-    if (isUnsupportedParameterType(parameterContext.getParameter())) return false;
+    if (isUnsupportedParameterType(parameterContext.getParameter())) {
+      return false;
+    }
 
     Executable executable = parameterContext.getDeclaringExecutable();
     // @Testable is used as a meta-annotation on @Test, @TestFactory, @TestTemplate, etc.
-    boolean isTestableMethod = executable instanceof Method && isAnnotated(executable, Testable.class);
+    boolean isTestableMethod =
+      executable instanceof Method && isAnnotated(executable, Testable.class);
     if (!isTestableMethod) {
-      throw new ParameterResolutionException(format("Configuration error: cannot resolve SoftAssertionsProvider instances for [%s]. Only test methods are supported.",
-                                                    executable));
+      throw new ParameterResolutionException(format(
+        "Configuration error: cannot resolve SoftAssertionsProvider instances for [%s]. Only test methods are supported.",
+        executable));
     }
     Class<?> parameterType = parameterContext.getParameter().getType();
     if (isAbstract(parameterType.getModifiers())) {
-      throw new ParameterResolutionException(format("Configuration error: the resolved SoftAssertionsProvider implementation [%s] is abstract and cannot be instantiated.",
-                                                    executable));
+      throw new ParameterResolutionException(format(
+        "Configuration error: the resolved SoftAssertionsProvider implementation [%s] is abstract and cannot be instantiated.",
+        executable));
     }
     try {
       parameterType.getDeclaredConstructor();
     } catch (@SuppressWarnings("unused") Exception e) {
-      throw new ParameterResolutionException(format("Configuration error: the resolved SoftAssertionsProvider implementation [%s] has no default constructor and cannot be instantiated.",
-                                                    executable));
+      throw new ParameterResolutionException(format(
+        "Configuration error: the resolved SoftAssertionsProvider implementation [%s] has no default constructor and cannot be instantiated.",
+        executable));
     }
     return true;
   }
 
   @Override
-  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+  public Object resolveParameter(ParameterContext parameterContext,
+    ExtensionContext extensionContext) {
     // The parameter type is guaranteed to be an instance of SoftAssertionsProvider
     @SuppressWarnings("unchecked")
-    Class<? extends SoftAssertionsProvider> concreteSoftAssertionsProviderType = (Class<? extends SoftAssertionsProvider>) parameterContext.getParameter()
-                                                                                                                                           .getType();
+    Class<? extends SoftAssertionsProvider> concreteSoftAssertionsProviderType = (Class<? extends SoftAssertionsProvider>) parameterContext
+      .getParameter()
+      .getType();
     return getStore(extensionContext).getOrComputeIfAbsent(SoftAssertionsProvider.class,
-                                                           unused -> ReflectionSupport.newInstance(concreteSoftAssertionsProviderType),
-                                                           SoftAssertionsProvider.class);
+      unused -> ReflectionSupport.newInstance(concreteSoftAssertionsProviderType),
+      SoftAssertionsProvider.class);
   }
 
   @Override
   public void afterTestExecution(ExtensionContext extensionContext) {
-    Optional.ofNullable(getStore(extensionContext).remove(SoftAssertionsProvider.class, SoftAssertionsProvider.class))
-            .ifPresent(SoftAssertionsProvider::assertAll);
+    Optional.ofNullable(
+      getStore(extensionContext).remove(SoftAssertionsProvider.class, SoftAssertionsProvider.class))
+      .ifPresent(SoftAssertionsProvider::assertAll);
   }
 
   private static boolean isUnsupportedParameterType(Parameter parameter) {

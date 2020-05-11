@@ -10,7 +10,6 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-
 package org.assertj.core.api;
 
 import java.lang.annotation.Annotation;
@@ -20,7 +19,7 @@ import java.lang.annotation.Annotation;
  * <p>
  * To create a new instance of this class, invoke <code>{@link org.assertj.core.api.Assertions#assertThat(Class)}</code>
  * </p>
- * 
+ *
  * @author William Delanoue
  * @author Mikhail Mazursky
  */
@@ -29,11 +28,11 @@ public class ClassAssert extends AbstractClassAssert<ClassAssert> {
   public ClassAssert(Class<?> actual) {
     super(actual, ClassAssert.class);
   }
-  
+
   // override method to annotate it with @SafeVarargs, we unfortunately can't do that in AbstractClassAssert as it is
   // used in soft assertions which need to be able to proxy method - @SafeVarargs requiring method to be final prevents
   // using proxies.
-  
+
   @SafeVarargs
   @Override
   public final ClassAssert hasAnnotations(Class<? extends Annotation>... annotations) {

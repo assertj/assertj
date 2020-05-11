@@ -13,18 +13,17 @@
 package org.assertj.core.api.iterable;
 
 import java.util.function.Function;
-
+import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.AtomicReferenceArrayAssert;
 
 /**
- * Function converting an element to another element. Used in {@link ListAssert#extracting(ThrowingExtractor)},
- * {@link ObjectArrayAssert#extracting(ThrowingExtractor)} and
- * {@link AtomicReferenceArrayAssert#extracting(ThrowingExtractor)}.
+ * Function converting an element to another element. Used in {@link
+ * ListAssert#extracting(ThrowingExtractor)}, {@link ObjectArrayAssert#extracting(ThrowingExtractor)}
+ * and {@link AtomicReferenceArrayAssert#extracting(ThrowingExtractor)}.
  *
- * @param <F> type of element from which the conversion happens
- * @param <T> target element type
+ * @param <F>         type of element from which the conversion happens
+ * @param <T>         target element type
  * @param <EXCEPTION> type of exception which might be thrown during conversion
  */
 @FunctionalInterface
