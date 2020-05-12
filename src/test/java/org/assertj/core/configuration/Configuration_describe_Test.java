@@ -13,8 +13,11 @@
 package org.assertj.core.configuration;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
+import java.util.function.Consumer;
+
+import org.assertj.core.description.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,19 +27,32 @@ public class Configuration_describe_Test {
   public void should_give_a_human_readable_description() throws Exception {
     // GIVEN
     Configuration configuration = new NonDefaultConfiguration();
+    configuration.setConsumerDescription(new Consumer<Description>() {
+      @Override
+      public void accept(Description t) {
+        System.out.println(t);
+      }
+
+      @Override
+      public String toString() {
+        return "sysout";
+      }
+    });
     // WHEN
     String description = configuration.describe();
     // THEN
-    assertThat(description).isEqualTo(format("Applying configuration org.assertj.core.configuration.NonDefaultConfiguration%n" +
-                                             "- representation .................................. = BinaryRepresentation%n" +
-                                             "- comparingPrivateFieldsEnabled ................... = false%n" +
-                                             "- extractingPrivateFieldsEnabled .................. = false%n" +
-                                             "- bareNamePropertyExtractionEnabled ............... = false%n" +
-                                             "- lenientDateParsingEnabled ....................... = true%n" +
-                                             "- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]%n" +
-                                             "- maxLengthForSingleLineDescription ............... = 81%n" +
-                                             "- maxElementsForPrinting .......................... = 1001%n" +
-                                             "- removeAssertJRelatedElementsFromStackTraceEnabled = false%n"));
+    then(description).isEqualTo(format("Applying configuration org.assertj.core.configuration.NonDefaultConfiguration%n" +
+                                       "- representation .................................. = BinaryRepresentation%n" +
+                                       "- comparingPrivateFieldsEnabled ................... = false%n" +
+                                       "- extractingPrivateFieldsEnabled .................. = false%n" +
+                                       "- bareNamePropertyExtractionEnabled ............... = false%n" +
+                                       "- lenientDateParsingEnabled ....................... = true%n" +
+                                       "- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]%n" +
+                                       "- maxLengthForSingleLineDescription ............... = 81%n" +
+                                       "- maxElementsForPrinting .......................... = 1001%n" +
+                                       "- printAssertionsDescription ...................... = false%n" +
+                                       "- consumerDescription ............................. = sysout%n" +
+                                       "- removeAssertJRelatedElementsFromStackTraceEnabled = false%n"));
   }
 
   @AfterEach

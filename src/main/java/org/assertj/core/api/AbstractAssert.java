@@ -88,6 +88,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @VisibleForTesting
   AssertionErrorCreator assertionErrorCreator;
 
+  private static boolean printAssertionsDescription;
+
+  private static Consumer<Description> descriptionConsumer;
+
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
@@ -291,7 +295,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public SELF describedAs(Description description) {
     info.description(description);
+    if (printAssertionsDescription) printDescriptionText();
+    if (descriptionConsumer != null) descriptionConsumer.accept(description);
     return myself;
+  }
+
+  private void printDescriptionText() {
+    String descriptionText = info.descriptionText();
+    if (!descriptionText.isEmpty()) System.out.println(descriptionText);
   }
 
   /** {@inheritDoc} */
@@ -870,6 +881,15 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   public static void setCustomRepresentation(Representation customRepresentation) {
     ConfigurationProvider.loadRegisteredConfiguration();
     AbstractAssert.customRepresentation = customRepresentation;
+  }
+
+  public static void setPrintAssertionsDescription(boolean printAssertionsDescription) {
+    ConfigurationProvider.loadRegisteredConfiguration();
+    AbstractAssert.printAssertionsDescription = printAssertionsDescription;
+  }
+
+  public static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
+    AbstractAssert.descriptionConsumer = descriptionConsumer;
   }
 
   /** {@inheritDoc} */
