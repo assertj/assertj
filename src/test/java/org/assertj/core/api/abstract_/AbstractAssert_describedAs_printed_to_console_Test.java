@@ -33,7 +33,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("AbstractAssert describedAs")
-public class AbstractAssert_describedAs_printed_to_console_Test {
+class AbstractAssert_describedAs_printed_to_console_Test {
 
   private static ByteArrayOutputStream systemOutContent;
   private final static PrintStream originalSystemOut = System.out;
@@ -46,23 +46,23 @@ public class AbstractAssert_describedAs_printed_to_console_Test {
   }
 
   @BeforeEach
-  public void setUpStreams() {
+  void setUpStreams() {
     Assertions.setPrintAssertionsDescription(true);
     systemOutContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(systemOutContent));
   }
 
   @AfterEach
-  public void restoreOriginalState() {
+  void restoreOriginalState() {
     System.setOut(originalSystemOut);
     Assertions.setPrintAssertionsDescription(originalIsPrintAssertionsDescriptionEnabled);
     Assertions.setConsumerDescription(originalConsumerDescription);
   }
 
   @Test
-  public void should_print_successful_assertions_description_to_console_with_new_line() {
+  void should_print_successful_assertions_description_to_console_with_new_line() {
     // GIVEN
-    String description = RandomStringUtils.random(20);
+    String description = RandomStringUtils.randomAlphanumeric(20);
     // WHEN
     assertThat("abc").as(description + "1")
                      .startsWith("a")
@@ -75,9 +75,9 @@ public class AbstractAssert_describedAs_printed_to_console_Test {
   }
 
   @Test
-  public void should_print_successful_assertions_description_to_console_with_new_line_until_first_failed_assertion_included() {
+  void should_print_successful_assertions_description_to_console_with_new_line_until_first_failed_assertion_included() {
     // GIVEN
-    String description = RandomStringUtils.random(20);
+    String description = RandomStringUtils.randomAlphanumeric(20);
     // WHEN
     Throwable throwable = catchThrowable(() -> assertThat("abc").as(description + "1")
                                                                 .startsWith("a")
@@ -91,9 +91,9 @@ public class AbstractAssert_describedAs_printed_to_console_Test {
   }
 
   @Test
-  public void should_print_all_soft_assertions_failed_or_successful() {
+  void should_print_all_soft_assertions_failed_or_successful() {
     // GIVEN
-    String description = RandomStringUtils.random(20);
+    String description = RandomStringUtils.randomAlphanumeric(20);
     SoftAssertions softly = new SoftAssertions();
     // WHEN
     softly.assertThat("abc").as("1" + description)
@@ -110,10 +110,10 @@ public class AbstractAssert_describedAs_printed_to_console_Test {
   }
 
   @Test
-  public void should_be_printed_and_consumed_by_configured_description_consumer() {
+  void should_be_printed_and_consumed_by_configured_description_consumer() {
     final StringBuffer consumedDescription = new StringBuffer("");
     Assertions.setConsumerDescription(description -> consumedDescription.append(description.toString()));
-    String description = RandomStringUtils.random(20);
+    String description = RandomStringUtils.randomAlphanumeric(20);
     // WHEN
     assertThat("abc").as("1" + description)
                      .startsWith("a")
@@ -127,10 +127,10 @@ public class AbstractAssert_describedAs_printed_to_console_Test {
   }
 
   @Test
-  public void should_not_print_assertions_description_to_console_by_default() {
+  void should_not_print_assertions_description_to_console_by_default() {
     // GIVEN
     Assertions.setPrintAssertionsDescription(originalIsPrintAssertionsDescriptionEnabled);
-    String description = RandomStringUtils.random(20);
+    String description = RandomStringUtils.randomAlphanumeric(20);
     // WHEN
     assertThat("abc").as(description + "1")
                      .startsWith("a")
