@@ -216,7 +216,6 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <!--suppress UnresolvedMavenProperty -->
           <argLine>${argLine}</argLine>
           <trimStackTrace>false</trimStackTrace>
         </configuration>

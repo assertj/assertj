@@ -12,21 +12,13 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
-import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
-import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.URI;
-import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +31,7 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
     String expectedAuthority = "http://www.helloworld.org";
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() ->  uris.assertHasAuthority(info, uri, expectedAuthority));
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -47,7 +39,7 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
   @Test
   public void should_pass_if_actual_uri_has_the_expected_authority() {
     // GIVEN
-    URI uri=URI.create("http://www.helloworld.org:8080");
+    URI uri = URI.create("http://www.helloworld.org:8080");
     String expectedAuthority = "www.helloworld.org:8080";
 
     // WHEN/THEN
@@ -57,8 +49,8 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
   @Test
   public void should_pass_if_actual_uri_with_path_has_the_expected_authority() {
     // GIVEN
-    URI uri=URI.create("http://www.helloworld.org:8080/pages");
-    String expectedAuthority ="www.helloworld.org:8080";
+    URI uri = URI.create("http://www.helloworld.org:8080/pages");
+    String expectedAuthority = "www.helloworld.org:8080";
 
     // WHEN/THEN
     uris.assertHasAuthority(info, uri, expectedAuthority);
@@ -71,7 +63,7 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
     String expectedAuthority = "example.com:8888";
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() ->  uris.assertHasAuthority(info, uri, expectedAuthority));
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(shouldHaveAuthority(uri, expectedAuthority).create());
   }
@@ -83,7 +75,7 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
     String expectedAuthority = "example.org:8080";
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() ->  uris.assertHasAuthority(info, uri, expectedAuthority));
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(shouldHaveAuthority(uri, expectedAuthority).create());
   }
