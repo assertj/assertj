@@ -35,7 +35,7 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
   @Test
   public void should_pass_if_actual_url_has_the_expected_query() throws MalformedURLException {
     // GIVEN
-    URL url = new URL("http://example.com/pages/");
+    URL url = new URL("http://example.com/pages/?type=test");
     String expectedQuery = "type=test";
 
     // WHEN/THEN
