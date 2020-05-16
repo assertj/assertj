@@ -12,80 +12,92 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
 
-  @Test
-  public void should_pass_if_actual_url_has_the_given_anchor() throws MalformedURLException {
-    urls.assertHasAnchor(info, new URL("http://www.helloworld.org/pages/index.html#print"), "print");
-    urls.assertHasAnchor(info, new URL("http://www.helloworld.org/index.html#print"), "print");
+  @ParameterizedTest
+  @CsvSource({
+      "http://www.helloworld.org/pages/index.html#print,   print",
+      "http://www.helloworld.org/index.html#print,         print"
+  })
+  public void should_pass_if_actual_url_has_the_given_anchor(URL url, String expectedAnchor) {
+    // WHEN/THEN
+    urls.assertHasAnchor(info, url, expectedAnchor);
   }
 
   @Test
   public void should_pass_if_actual_url_has_no_anchor_and_given_is_null() throws MalformedURLException {
-    urls.assertHasAnchor(info, new URL("http://www.helloworld.org/index.html"), null);
+    // GIVEN
+    URL url = new URL("http://www.helloworld.org/index.html");
+    String expectedAnchor = null;
+    // WHEN/THEN
+    urls.assertHasAnchor(info, url, expectedAnchor);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasAnchor(info, null, "http://www.helloworld.org/index.html#print"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URL url = null;
+    String expectedAnchor = "http://www.helloworld.org/index.html#print";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_URL_has_not_the_expected_anchor() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://example.com/index.html#print");
     String expectedAnchor = "foo";
-
-    Throwable error = catchThrowable(() -> urls.assertHasAnchor(info, url, expectedAnchor));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveAnchor(url, expectedAnchor).create());
   }
 
   @Test
   public void should_fail_if_actual_URL_has_no_anchor_and_expected_anchor_is_not_null() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://example.com/index.html");
     String expectedAnchor = "print";
-
-    Throwable error = catchThrowable(() -> urls.assertHasAnchor(info, url, expectedAnchor));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveAnchor(url, expectedAnchor).create());
   }
 
   @Test
   public void should_fail_if_actual_URL_has_anchor_and_expected_anchor_is_null() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://example.com/index.html#print");
     String expectedAnchor = null;
-
-    Throwable error = catchThrowable(() -> urls.assertHasAnchor(info, url, expectedAnchor));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveAnchor(url, expectedAnchor));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveAnchor(url, expectedAnchor).create());
   }
 
   @Test
-  public void should_throw_error_if_actual_url_has_no_anchor() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasAnchor(info,
-                                                                                                new URL("http://www.helloworld.org/index.html"),
-                                                                                                "print"));
+  public void should_throw_error_if_actual_url_has_no_anchor() throws MalformedURLException {
+    // GIVEN
+    URL url = new URL("http://www.helloworld.org/index.html");
+    String expectedAnchor = "print";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveAnchor(url, expectedAnchor).create());
   }
 }

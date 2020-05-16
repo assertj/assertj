@@ -34,8 +34,9 @@ class Uris_getParameters_Test extends UrisBaseTest {
 
   @Test
   void should_accept_parameter_with_no_value() {
+    // GIVEN
     Map<String, List<String>> parameters = getParameters("foo");
-
+    // WHEN/THEN
     assertThat(parameters).containsKey("foo");
     assertThat(parameters.get("foo")).hasSize(1)
                                      .containsNull();
@@ -43,8 +44,9 @@ class Uris_getParameters_Test extends UrisBaseTest {
 
   @Test
   void should_accept_parameter_with_value() {
+    // GIVEN
     Map<String, List<String>> parameters = getParameters("foo=bar");
-
+    // WHEN/THEN
     assertThat(parameters).containsKey("foo");
     assertThat(parameters.get("foo")).containsExactly("bar");
   }
@@ -61,16 +63,18 @@ class Uris_getParameters_Test extends UrisBaseTest {
 
   @Test
   void should_accept_duplicate_names() {
+    // GIVEN
     Map<String, List<String>> parameters = getParameters("foo&foo=bar");
-
+    // WHEN/THEN
     assertThat(parameters).containsKey("foo");
     assertThat(parameters.get("foo")).containsOnly(null, "bar");
   }
 
   @Test
   void should_accept_duplicate_values() {
+    // GIVEN
     Map<String, List<String>> parameters = getParameters("foo=bar&foo=bar");
-
+    // WHEN/THEN
     assertThat(parameters).containsKey("foo");
     assertThat(parameters.get("foo")).containsExactly("bar", "bar");
   }

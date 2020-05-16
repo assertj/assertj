@@ -12,18 +12,14 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -31,44 +27,53 @@ public class Urls_assertHasAuthority_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasAuthority(info, null, "http://www.helloworld.org"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URL url = null;
+    String expectedAuthority = "http://www.helloworld.org";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_pass_if_actual_url_has_the_expected_authority() throws MalformedURLException {
-    urls.assertHasAuthority(info, new URL("http://www.helloworld.org:8080"), "www.helloworld.org:8080");
+    // GIVEN
+    URL url = new URL("http://www.helloworld.org:8080");
+    String expectedAuthority = "www.helloworld.org:8080";
+    // WHEN/THEN
+    urls.assertHasAuthority(info, url, expectedAuthority);
   }
 
   @Test
   public void should_pass_if_actual_url_with_path_has_the_expected_authority() throws MalformedURLException {
-    urls.assertHasAuthority(info, new URL("http://www.helloworld.org:8080/pages"), "www.helloworld.org:8080");
+    // GIVEN
+    URL url = new URL("http://www.helloworld.org:8080/pages");
+    String expectedAuthority = "www.helloworld.org:8080";
+    // WHEN/THEN
+    urls.assertHasAuthority(info, url, expectedAuthority);
   }
 
   @Test
-  public void should_fail_if_actual_authority_is_not_the_expected_one_because_ports_differ()
-      throws MalformedURLException {
-    AssertionInfo info = someInfo();
+  public void should_fail_if_actual_authority_is_not_the_expected_one_because_ports_differ() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://example.com:8080/pages/");
     String expectedAuthority = "example.com:8888";
-
-    Throwable error = catchThrowable(() -> urls.assertHasAuthority(info, url, expectedAuthority));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveAuthority(url, expectedAuthority));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveAuthority(url, expectedAuthority).create());
   }
 
   @Test
-  public void should_fail_if_actual_authority_is_not_the_expected_one_because_hosts_differ()
-      throws MalformedURLException {
-    AssertionInfo info = someInfo();
+  public void should_fail_if_actual_authority_is_not_the_expected_one_because_hosts_differ() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://example.com:8080/pages/");
     String expectedAuthority = "example.org:8080";
-
-    Throwable error = catchThrowable(() -> urls.assertHasAuthority(info, url, expectedAuthority));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveAuthority(url, expectedAuthority));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveAuthority(url, expectedAuthority).create());
   }
 
 }

@@ -12,19 +12,17 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.URI;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for
@@ -35,63 +33,76 @@ import org.junit.jupiter.api.Test;
  */
 public class Uris_assertHasFragment_Test extends UrisBaseTest {
 
-  @Test
-  public void should_pass_if_actual_uri_has_the_given_fragment() {
-    uris.assertHasFragment(info, URI.create("http://www.helloworld.org/pages/index.html#print"), "print");
-    uris.assertHasFragment(info, URI.create("http://www.helloworld.org/index.html#print"), "print");
+  @ParameterizedTest
+  @CsvSource({
+      "http://www.helloworld.org/pages/index.html#print,     print",
+      "http://www.helloworld.org/index.html#print,   print"
+  })
+  public void should_pass_if_actual_uri_has_the_given_fragment(URI uri, String expectedFragment) {
+    // WHEN/THEN
+    uris.assertHasFragment(info, uri, expectedFragment);
   }
 
   @Test
   public void should_pass_if_actual_uri_has_no_fragment_and_given_is_null() {
-    uris.assertHasFragment(info, URI.create("http://www.helloworld.org/index.html"), null);
+    // GIVEN
+    URI uri = URI.create("http://www.helloworld.org/index.html");
+    // WHEN/THEN
+    uris.assertHasFragment(info, uri, null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasFragment(info, null, "http://www.helloworld.org/index.html#print"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URI uri = null;
+    String expectedFragment = "http://www.helloworld.org/index.html#print";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_URI_has_not_the_expected_fragment() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://example.com/index.html#print");
     String expectedFragment = "foo";
-
-    Throwable error = catchThrowable(() -> uris.assertHasFragment(info, uri, expectedFragment));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveFragment(uri, expectedFragment));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveFragment(uri, expectedFragment).create());
   }
 
   @Test
   public void should_fail_if_actual_URI_has_no_fragment_and_expected_fragment_is_not_null() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://example.com/index.html");
     String expectedFragment = "print";
-
-    Throwable error = catchThrowable(() -> uris.assertHasFragment(info, uri, expectedFragment));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveFragment(uri, expectedFragment));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveFragment(uri, expectedFragment).create());
   }
 
   @Test
   public void should_fail_if_actual_URI_has_fragment_and_expected_fragment_is_null() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://example.com/index.html#print");
     String expectedFragment = null;
-
-    Throwable error = catchThrowable(() -> uris.assertHasFragment(info, uri, expectedFragment));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveFragment(uri, expectedFragment));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveFragment(uri, expectedFragment).create());
   }
 
   @Test
   public void should_throw_error_if_actual_uri_has_no_fragment() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasFragment(info,
-                                                                                                  URI.create("http://www.helloworld.org/index.html"),
-                                                                                                  "print"));
+    // GIVEN
+    URI uri = URI.create("http://www.helloworld.org/index.html");
+    String expectedFragment = "print";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveFragment(uri, expectedFragment).create());
   }
 }

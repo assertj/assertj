@@ -12,11 +12,10 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,121 +28,139 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_parameter_is_missing() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news");
     String name = "article";
-
-    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParameter(url, name));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(url, name).create());
   }
 
   @Test
   public void should_pass_if_parameter_has_no_value() throws MalformedURLException {
-    urls.assertHasParameter(info, new URL("http://assertj.org/news?article"), "article");
+    // GIVEN
+    URL url = new URL("http://assertj.org/news?article");
+    String name = "article";
+    // WHEN/THEN
+    urls.assertHasParameter(info, url, name);
   }
 
   @Test
   public void should_pass_if_parameter_has_value() throws MalformedURLException {
-    urls.assertHasParameter(info, new URL("http://assertj.org/news?article=10"), "article");
+    // GIVEN
+    URL url = new URL("http://assertj.org/news?article=10");
+    String name = "article";
+    // WHEN/THEN
+    urls.assertHasParameter(info, url, name);
   }
 
   @Test
   public void should_fail_if_parameter_without_value_is_missing() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news");
     String name = "article";
     String expectedValue = null;
-
-    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue).create());
   }
 
   @Test
   public void should_pass_if_parameter_without_value_is_found() throws MalformedURLException {
-    urls.assertHasParameter(info, new URL("http://assertj.org/news?article"), "article", null);
+    // GIVEN
+    URL url = new URL("http://assertj.org/news?article");
+    String name = "article";
+    String value = null;
+    // WHEN/THEN
+    urls.assertHasParameter(info, url, name, value);
   }
 
   @Test
   public void should_fail_if_parameter_without_value_has_value() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news?article=11");
     String name = "article";
     String expectedValue = null;
     List<String> actualValues = newArrayList("11");
-
-    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
 
   @Test
   public void should_fail_if_parameter_without_value_has_multiple_values() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news?article=11&article=12");
     String name = "article";
     String expectedValue = null;
     List<String> actualValues = newArrayList("11", "12");
-
-    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
 
   @Test
   public void should_fail_if_parameter_with_value_is_missing() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news");
     String name = "article";
     String expectedValue = "10";
-
-    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue).create());
   }
 
   @Test
   public void should_fail_if_parameter_with_value_has_no_value() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news?article");
     String name = "article";
     String expectedValue = "10";
-    List<String> actualValues = newArrayList((String)null);
-
-    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
+    List<String> actualValues = newArrayList((String) null);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
 
   @Test
   public void should_fail_if_parameter_with_value_has_multiple_no_values() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news?article&article");
     String name = "article";
     String expectedValue = "10";
     List<String> actualValues = newArrayList(null, null);
-
-    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
 
   @Test
   public void should_fail_if_parameter_with_value_is_wrong() throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news?article=11");
     String name = "article";
     String expectedValue = "10";
     List<String> actualValues = newArrayList("11");
-
-    Throwable error = catchThrowable(() -> urls.assertHasParameter(info, url, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParameter(url, name, expectedValue, actualValues));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
 
   @Test
   public void should_pass_if_parameter_with_value_is_found() throws MalformedURLException {
-    urls.assertHasParameter(info, new URL("http://assertj.org/news?article=10"), "article", "10");
+    // GIVEN
+    URL url = new URL("http://assertj.org/news?article=10");
+    String name = "article";
+    String value = "10";
+    // WHEN/THEN
+    urls.assertHasParameter(info, url, name, value);
   }
 }

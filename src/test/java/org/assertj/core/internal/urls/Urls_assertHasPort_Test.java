@@ -12,18 +12,14 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -31,25 +27,34 @@ public class Urls_assertHasPort_Test extends UrlsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasPort(info, null, 8080))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URL url = null;
+    int expectedPort = 8080;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPort(info, url, expectedPort));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_pass_if_actual_url_has_the_given_port() throws MalformedURLException {
-    urls.assertHasPort(info, new URL("http://example.com:8080/pages/"), 8080);
+    // GIVEN
+    URL url = new URL("http://example.com:8080/pages/");
+    int expectedPort = 8080;
+
+    // WHEN/THEN
+    urls.assertHasPort(info, url, expectedPort);
   }
 
   @Test
   public void should_fail_if_actual_URL_port_is_not_the_given_port() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://example.com:8080/pages/");
     int expectedPort = 8888;
-
-    Throwable error = catchThrowable(() -> urls.assertHasPort(info, url, expectedPort));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHavePort(url, expectedPort));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPort(info, url, expectedPort));
+    // THEN
+    then(assertionError).hasMessage(shouldHavePort(url, expectedPort).create());
   }
 
 }
