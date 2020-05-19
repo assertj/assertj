@@ -26,6 +26,7 @@ import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.UnicodeRepresentation;
 
+import java.util.function.Supplier;
 
 /**
  * Writable information about an assertion.
@@ -40,6 +41,11 @@ public class WritableAssertionInfo implements AssertionInfo {
   private Description description;
   private Representation representation;
 
+  // TODO: maybe need more description in javadoc
+  private Supplier<String> overridingErrorMessageSupplier;
+
+
+
   public WritableAssertionInfo(Representation customRepresentation) {
     useRepresentation(customRepresentation == null ? CONFIGURATION_PROVIDER.representation() : customRepresentation);
   }
@@ -53,7 +59,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   @Override
   public String overridingErrorMessage() {
-    return overridingErrorMessage;
+    return overridingErrorMessageSupplier != null ? (String)overridingErrorMessageSupplier.get() : overridingErrorMessage;
   }
 
   /**
@@ -63,6 +69,11 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   public void overridingErrorMessage(String newErrorMessage) {
     overridingErrorMessage = newErrorMessage;
+  }
+
+  // TODO: add java
+  public void overridingErrorMessage(Supplier<String> supplier) {
+    overridingErrorMessageSupplier = supplier;
   }
 
   /**
