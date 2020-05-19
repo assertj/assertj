@@ -12,6 +12,24 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
+import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
+import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
@@ -79,24 +97,6 @@ import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Condition;
-import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
-import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
-import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Iterable}</code>s.
@@ -1083,7 +1083,7 @@ public class Iterables {
     if (!diff.differencesFound()) {
       // actual and values have the same elements but are they in the same order ?
       int i = 0;
-      for (Object elementFromActual : actual) {
+      for (Object elementFromActual : actualAsList) {
         if (!areEqual(elementFromActual, values[i])) {
           throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
         }
