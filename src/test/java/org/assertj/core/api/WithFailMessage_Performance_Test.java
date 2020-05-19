@@ -27,13 +27,8 @@ public class WithFailMessage_Performance_Test {
 
   @Test
   public void withFailMessage_performance_test() {
-<<<<<<< HEAD
-    String error = "hyb";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-=======
     int i = 100000;
     while (i != 0) {
->>>>>>> 39b15c511aeb7f32b7981ffb3b7d40a347a857de
       AtomicReference<String> actual = new AtomicReference<>("foo");
       try {
         String error = "error";
@@ -45,19 +40,5 @@ public class WithFailMessage_Performance_Test {
     }
   }
 
-<<<<<<< HEAD
-  @Test
-  public void test1() {
-    long startTime = System.nanoTime();
-    try {
-      String error = "hyb";
-      assertThat(error).withFailMessage("my error").isEqualTo("wy");
-    }catch (AssertionError e){
-      long endTime = System.nanoTime();
-      System.out.println("程序运行时间： " + (endTime - startTime)/1000000 + "ms");
-    }
-  }
-=======
->>>>>>> 39b15c511aeb7f32b7981ffb3b7d40a347a857de
 
 }
