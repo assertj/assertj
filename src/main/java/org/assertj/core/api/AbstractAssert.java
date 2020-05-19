@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -545,6 +546,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
+  // TODO: add java doc
+  @CheckReturnValue
+  public SELF overridingErrorMessage(Supplier<String> supplier) {
+    info.overridingErrorMessage(supplier);
+    return myself;
+  }
+
   /**
    * Alternative method for {@link AbstractAssert#overridingErrorMessage}
    * <p>
@@ -561,6 +569,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
     return overridingErrorMessage(newErrorMessage, args);
+  }
+
+
+  // TODO: add java doc
+  @CheckReturnValue
+  public SELF withFailMessage(Supplier<String> supplier) {
+    return overridingErrorMessage(supplier);
   }
 
   /** {@inheritDoc} */
