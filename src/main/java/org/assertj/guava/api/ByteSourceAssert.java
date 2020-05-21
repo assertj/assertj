@@ -41,7 +41,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
   }
 
   /**
-   * Verifies that the actual {@link ByteSource} contains has the same content as the provided one.<br>
+   * Verifies that the actual {@link ByteSource} has the same content as the provided one.<br>
    * <p>
    * Example :
    * <pre><code class='java'> ByteSource actual = ByteSource.wrap(new byte[1]);
