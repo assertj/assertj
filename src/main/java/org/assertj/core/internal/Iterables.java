@@ -1150,7 +1150,7 @@ public class Iterables {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
-    List<UnsatisfiedRequirement> unsatisfiedRequirements =  new ArrayList<>();
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = new ArrayList<>();
     for (E element : actual) {
       Optional<UnsatisfiedRequirement> result = failsRequirements(requirements, element);
       if (!result.isPresent()) return; // element satisfied the requirements
@@ -1200,9 +1200,7 @@ public class Iterables {
     predicates.assertIsNotNull(predicate);
     stream(actual).filter(predicate)
                   .findFirst()
-                  .orElseGet(() -> {
-                    throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
-                  });
+                  .orElseThrow(() -> failures.failure(info, anyElementShouldMatch(actual, predicateDescription)));
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
