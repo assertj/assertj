@@ -30,14 +30,14 @@ import java.util.UUID;
 
 /**
  * Utility methods related to files.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
 public class Files {
   /**
    * Returns the names of the files inside the specified directory.
-   * 
+   *
    * @param dirName the name of the directory to start the search from.
    * @param recurse if {@code true}, we will look in subdirectories.
    * @return the names of the files inside the specified directory.
@@ -51,7 +51,7 @@ public class Files {
 
   /**
    * Returns the names of the files inside the specified directory.
-   * 
+   *
    * @param dir the name of the directory to start the search from.
    * @param recurse if {@code true}, we will look in subdirectories.
    * @return the names of the files inside the specified directory.
@@ -79,7 +79,7 @@ public class Files {
 
   /**
    * Returns the system's temporary directory.
-   * 
+   *
    * @return the system's temporary directory.
    * @throws RuntimeException if this method cannot find or create the system's temporary directory.
    *
@@ -97,7 +97,7 @@ public class Files {
   /**
    * Returns the path of the system's temporary directory. This method appends the system's file separator at the end of
    * the path.
-   * 
+   *
    * @return the path of the system's temporary directory.
    */
   public static String temporaryFolderPath() {
@@ -107,7 +107,7 @@ public class Files {
   /**
    * Creates a new file in the system's temporary directory. The name of the file will be the result of:
    * <pre><code class='java'> concat(UUID.randomUUID().toString(), &quot;.txt&quot;);</code></pre>
-   * 
+   *
    * @return the created file.
    */
   public static File newTemporaryFile() {
@@ -118,7 +118,7 @@ public class Files {
   /**
    * Creates a new directory in the system's temporary directory. The name of the directory will be the result of:
    * <pre><code class='java'> UUID.randomUUID().toString();</code></pre>
-   * 
+   *
    * @return the created file.
    */
   public static File newTemporaryFolder() {
@@ -128,7 +128,7 @@ public class Files {
 
   /**
    * Creates a new file using the given path.
-   * 
+   *
    * @param path the path of the new file.
    * @return the new created file.
    * @throws RuntimeException if the path belongs to an existing non-empty directory.
@@ -149,7 +149,7 @@ public class Files {
 
   /**
    * Creates a new directory using the given path.
-   * 
+   *
    * @param path the path of the new directory.
    * @return the new created directory.
    * @throws RuntimeException if the path belongs to an existing non-empty directory.
@@ -200,7 +200,7 @@ public class Files {
 
   /**
    * Returns the current directory.
-   * 
+   *
    * @return the current directory.
    * @throws UncheckedIOException if the current directory cannot be obtained.
    */
@@ -214,12 +214,17 @@ public class Files {
 
   /**
    * Deletes the given file or directory.
-   * 
+   *
    * @param file the file or directory to delete.
+   *
+   * @deprecated use https://commons.apache.org/proper/commons-io/javadocs/api-release/org/apache/commons/io/FileUtils.html#forceDelete-java.io.File- instead
    */
+  @Deprecated
   public static void delete(File file) {
     if (file.isFile()) {
-      file.delete();
+      if (!file.delete()) {
+        System.out.println("Fail to delete " + file);
+      }
       return;
     }
     if (!file.isDirectory()) {
@@ -231,12 +236,14 @@ public class Files {
         delete(f);
       }
     }
-    file.delete();
+    if (!file.delete()) {
+      System.out.println("Fail to delete " + file);
+    }
   }
 
   /**
    * Loads the text content of a file into a character string.
-   * 
+   *
    * @param file the file.
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
@@ -250,7 +257,7 @@ public class Files {
 
   /**
    * Loads the text content of a file into a character string.
-   * 
+   *
    * @param file the file.
    * @param charset the character set to use.
    * @return the content of the file.
@@ -269,7 +276,7 @@ public class Files {
   /**
    * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
-   * 
+   *
    * @param file the file.
    * @param charset the character set to use.
    * @return the content of the file.
@@ -288,7 +295,7 @@ public class Files {
   /**
    * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
-   * 
+   *
    * @param file the file.
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
@@ -304,7 +311,6 @@ public class Files {
     checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
   }
 
-  private Files() {
-  }
+  private Files() {}
 
 }
