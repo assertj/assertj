@@ -221,6 +221,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  public static Boolean2DArrayAssert assumeThat(boolean[][] actual) {
+    return asAssumption(Boolean2DArrayAssert.class, boolean[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -254,6 +265,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  public static Byte2DArrayAssert assumeThat(byte[][] actual) {
+    return asAssumption(Byte2DArrayAssert.class, byte[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -284,6 +306,17 @@ public class Assumptions {
    */
   public static AbstractCharArrayAssert<?> assumeThat(char[] actual) {
     return asAssumption(CharArrayAssert.class, char[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  public static Char2DArrayAssert assumeThat(char[][] actual) {
+    return asAssumption(Char2DArrayAssert.class, char[][].class, actual);
   }
 
   /**
@@ -353,6 +386,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  public static Short2DArrayAssert assumeThat(short[][] actual) {
+    return asAssumption(Short2DArrayAssert.class, short[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -383,6 +427,17 @@ public class Assumptions {
    */
   public static AbstractIntArrayAssert<?> assumeThat(int[] actual) {
     return asAssumption(IntArrayAssert.class, int[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  public static Int2DArrayAssert assumeThat(int[][] actual) {
+    return asAssumption(Int2DArrayAssert.class, int[][].class, actual);
   }
 
   /**
@@ -419,6 +474,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  public static Long2DArrayAssert assumeThat(long[][] actual) {
+    return asAssumption(Long2DArrayAssert.class, long[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FloatAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -452,6 +518,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  public static Float2DArrayAssert assumeThat(float[][] actual) {
+    return asAssumption(Float2DArrayAssert.class, float[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link DoubleAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -482,6 +559,17 @@ public class Assumptions {
    */
   public static AbstractDoubleArrayAssert<?> assumeThat(double[] actual) {
     return asAssumption(DoubleArrayAssert.class, double[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  public static Double2DArrayAssert assumeThat(double[][] actual) {
+    return asAssumption(Double2DArrayAssert.class, double[][].class, actual);
   }
 
   /**
@@ -764,6 +852,19 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <T> ProxyableObjectArrayAssert<T> assumeThat(T[] actual) {
     return asAssumption(ProxyableObjectArrayAssert.class, Object[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code> assumption.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> Object2DArrayAssert<T> assumeThat(T[][] actual) {
+    return asAssumption(Object2DArrayAssert.class, Object[][].class, actual);
   }
 
   /**

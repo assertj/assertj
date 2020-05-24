@@ -191,6 +191,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Boolean2DArrayAssert assertThat(boolean[][] actual) {
+    return new Boolean2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
    *
    * @param actual the actual value.
@@ -221,6 +231,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Byte2DArrayAssert assertThat(byte[][] actual) {
+    return new Byte2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
    *
    * @param actual the actual value.
@@ -238,6 +258,16 @@ public class AssertionsForClassTypes {
    */
   public static AbstractCharArrayAssert<?> assertThat(char[] actual) {
     return new CharArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Char2DArrayAssert assertThat(char[][] actual) {
+    return new Char2DArrayAssert(actual);
   }
 
   /**
@@ -291,6 +321,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Double2DArrayAssert assertThat(double[][] actual) {
+    return new Double2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FileAssert}</code>.
    *
    * @param actual the actual value.
@@ -341,6 +381,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Float2DArrayAssert assertThat(float[][] actual) {
+    return new Float2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code>.
    *
    * @param actual the actual value.
@@ -358,6 +408,16 @@ public class AssertionsForClassTypes {
    */
   public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
     return new IntArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Int2DArrayAssert assertThat(int[][] actual) {
+    return new Int2DArrayAssert(actual);
   }
 
   /**
@@ -401,6 +461,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Long2DArrayAssert assertThat(long[][] actual) {
+    return new Long2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param <T> the actual value type.
@@ -420,6 +490,17 @@ public class AssertionsForClassTypes {
    */
   public static <T> ObjectArrayAssert<T> assertThat(T[] actual) {
     return new ObjectArrayAssert<>(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual elements type.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
+    return new Object2DArrayAssert<>(actual);
   }
 
   /**
@@ -450,6 +531,16 @@ public class AssertionsForClassTypes {
    */
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
     return new ShortArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Short2DArrayAssert assertThat(short[][] actual) {
+    return new Short2DArrayAssert(actual);
   }
 
   /**

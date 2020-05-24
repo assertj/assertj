@@ -16,6 +16,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY_2D;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_ARRAY;
@@ -29,10 +30,13 @@ import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_STAMPED_REFE
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
+import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
+import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
+import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
@@ -40,17 +44,20 @@ import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
+import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
+import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static org.assertj.core.api.InstanceOfAssertFactories.INT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
@@ -60,6 +67,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
+import static org.assertj.core.api.InstanceOfAssertFactories.LONG_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ADDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
@@ -74,6 +82,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
+import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
@@ -189,10 +198,13 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(BigInteger.ONE, BIG_INTEGER),
                      arguments(true, BOOLEAN),
                      arguments(new boolean[0], BOOLEAN_ARRAY),
+                     arguments(new boolean[0][0], BOOLEAN_2D_ARRAY),
                      arguments((byte) 1, BYTE),
                      arguments(Byte.valueOf("1"), BYTE),
                      arguments(new byte[0], BYTE_ARRAY),
+                     arguments(new byte[0][0], BYTE_2D_ARRAY),
                      arguments(new char[0], CHAR_ARRAY),
+                     arguments(new char[0][0], CHAR_2D_ARRAY),
                      arguments(charSequence, CHAR_SEQUENCE),
                      arguments('a', CHARACTER),
                      arguments(Character.valueOf('a'), CHARACTER),
@@ -203,16 +215,19 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(0d, DOUBLE),
                      arguments(Double.valueOf(0d), DOUBLE),
                      arguments(new double[0], DOUBLE_ARRAY),
+                     arguments(new double[0][0], DOUBLE_2D_ARRAY),
                      arguments((DoublePredicate) d -> d == 0.0, DOUBLE_PREDICATE),
                      arguments(DoubleStream.empty(), DOUBLE_STREAM),
                      arguments(Duration.ZERO, DURATION),
                      arguments(new File("foo"), FILE),
                      arguments(Float.valueOf("0.0"), FLOAT),
                      arguments(new float[0], FLOAT_ARRAY),
+                     arguments(new float[0][0], FLOAT_2D_ARRAY),
                      arguments(future, FUTURE),
                      arguments(new ByteArrayInputStream("stream".getBytes()), INPUT_STREAM),
                      arguments(Instant.now(), INSTANT),
                      arguments(new int[0], INT_ARRAY),
+                     arguments(new int[0][0], INT_2D_ARRAY),
                      arguments((IntPredicate) i -> i == 0, INT_PREDICATE),
                      arguments(IntStream.empty(), INT_STREAM),
                      arguments(1, INTEGER),
@@ -224,6 +239,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(5L, LONG),
                      arguments(new LongAdder(), LONG_ADDER),
                      arguments(new long[0], LONG_ARRAY),
+                     arguments(new long[0][0], LONG_2D_ARRAY),
                      arguments((LongPredicate) l -> l == 0, LONG_PREDICATE),
                      arguments(LongStream.empty(), LONG_STREAM),
                      arguments(newHashMap("k", "v"), MAP),
@@ -237,6 +253,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments((Predicate<String>) s -> s.isEmpty(), PREDICATE),
                      arguments(Short.MIN_VALUE, SHORT),
                      arguments(new short[0], SHORT_ARRAY),
+                     arguments(new short[0][0], SHORT_2D_ARRAY),
                      arguments(Stream.empty(), STREAM),
                      arguments("foo", STRING),
                      arguments(new StringBuffer(), STRING_BUFFER),

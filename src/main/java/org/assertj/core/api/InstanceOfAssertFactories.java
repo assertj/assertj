@@ -240,6 +240,12 @@ public interface InstanceOfAssertFactories {
                                                                                                                   Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code boolean} two-dimensional array.
+   */
+  InstanceOfAssertFactory<boolean[][], Boolean2DArrayAssert> BOOLEAN_2D_ARRAY = new InstanceOfAssertFactory<>(boolean[][].class,
+    Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@code byte} or its corresponding boxed type {@link Byte}.
    */
   InstanceOfAssertFactory<Byte, AbstractByteAssert<?>> BYTE = new InstanceOfAssertFactory<>(Byte.class,
@@ -252,6 +258,12 @@ public interface InstanceOfAssertFactories {
                                                                                                          Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code byte} two-dimensional array.
+   */
+  InstanceOfAssertFactory<byte[][], Byte2DArrayAssert> BYTE_2D_ARRAY = new InstanceOfAssertFactory<>(byte[][].class,
+                                                                                                         Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@code char} or its corresponding boxed type {@link Character}.
    */
   InstanceOfAssertFactory<Character, AbstractCharacterAssert<?>> CHARACTER = new InstanceOfAssertFactory<>(Character.class,
@@ -261,6 +273,12 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for a {@code char} array.
    */
   InstanceOfAssertFactory<char[], AbstractCharArrayAssert<?>> CHAR_ARRAY = new InstanceOfAssertFactory<>(char[].class,
+                                                                                                         Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@code char} two-dimensional array.
+   */
+  InstanceOfAssertFactory<char[][], Char2DArrayAssert> CHAR_2D_ARRAY = new InstanceOfAssertFactory<>(char[][].class,
                                                                                                          Assertions::assertThat);
 
   /**
@@ -280,6 +298,12 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for a {@code double} array.
    */
   InstanceOfAssertFactory<double[], AbstractDoubleArrayAssert<?>> DOUBLE_ARRAY = new InstanceOfAssertFactory<>(double[].class,
+                                                                                                               Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@code double} two-dimensional array.
+   */
+  InstanceOfAssertFactory<double[][], Double2DArrayAssert> DOUBLE_2D_ARRAY = new InstanceOfAssertFactory<>(double[][].class,
                                                                                                                Assertions::assertThat);
 
   /**
@@ -329,6 +353,12 @@ public interface InstanceOfAssertFactories {
                                                                                                             Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code float} two-dimensional array.
+   */
+  InstanceOfAssertFactory<float[][], Float2DArrayAssert> FLOAT_2D_ARRAY = new InstanceOfAssertFactory<>(float[][].class,
+                                                                                                            Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for an {@code integer} or its corresponding boxed type {@link Integer}.
    */
   InstanceOfAssertFactory<Integer, AbstractIntegerAssert<?>> INTEGER = new InstanceOfAssertFactory<>(Integer.class,
@@ -341,6 +371,12 @@ public interface InstanceOfAssertFactories {
                                                                                                       Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for an {@code int} two-dimensional array.
+   */
+  InstanceOfAssertFactory<int[][], Int2DArrayAssert> INT_2D_ARRAY = new InstanceOfAssertFactory<>(int[][].class,
+                                                                                                      Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@code long} or its corresponding boxed type {@link Long}.
    */
   InstanceOfAssertFactory<Long, AbstractLongAssert<?>> LONG = new InstanceOfAssertFactory<>(Long.class,
@@ -350,6 +386,12 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for a {@code long} array.
    */
   InstanceOfAssertFactory<long[], AbstractLongArrayAssert<?>> LONG_ARRAY = new InstanceOfAssertFactory<>(long[].class,
+                                                                                                         Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@code long} two-dimensional array.
+   */
+  InstanceOfAssertFactory<long[][], Long2DArrayAssert> LONG_2D_ARRAY = new InstanceOfAssertFactory<>(long[][].class,
                                                                                                          Assertions::assertThat);
 
   /**
@@ -374,6 +416,13 @@ public interface InstanceOfAssertFactories {
   InstanceOfAssertFactory<Object[], ObjectArrayAssert<Object>> ARRAY = array(Object[].class);
 
   /**
+   * {@link InstanceOfAssertFactory} for an two-dimensional array of {@link Object}.
+   *
+   * @see #array(Class)
+   */
+  InstanceOfAssertFactory<Object[][], Object2DArrayAssert<Object>> ARRAY_2D = array2D(Object[][].class);
+
+  /**
    * {@link InstanceOfAssertFactory} for an array of elements.
    *
    * @param <ELEMENT> the element type.
@@ -387,6 +436,19 @@ public interface InstanceOfAssertFactories {
   }
 
   /**
+   * {@link InstanceOfAssertFactory} for an two-dimensional array of elements.
+   *
+   * @param <ELEMENT> the element type.
+   * @param arrayType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #ARRAY
+   */
+  static <ELEMENT> InstanceOfAssertFactory<ELEMENT[][], Object2DArrayAssert<ELEMENT>> array2D(Class<ELEMENT[][]> arrayType) {
+    return new InstanceOfAssertFactory<>(arrayType, Assertions::assertThat);
+  }
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@code short} or its corresponding boxed type {@link Short}.
    */
   InstanceOfAssertFactory<Short, AbstractShortAssert<?>> SHORT = new InstanceOfAssertFactory<>(Short.class,
@@ -396,6 +458,12 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for a {@code short} array.
    */
   InstanceOfAssertFactory<short[], AbstractShortArrayAssert<?>> SHORT_ARRAY = new InstanceOfAssertFactory<>(short[].class,
+                                                                                                            Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@code short} two-dimensional array.
+   */
+  InstanceOfAssertFactory<short[][], Short2DArrayAssert> SHORT_2D_ARRAY = new InstanceOfAssertFactory<>(short[][].class,
                                                                                                             Assertions::assertThat);
 
   /**

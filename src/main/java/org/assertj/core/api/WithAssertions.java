@@ -245,6 +245,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual's elements type.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default <T> Object2DArrayAssert<T> assertThat(final T[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Returns the given assertion. This method improves code readability by surrounding the given assertion with
    * <code>assertThat</code>.
    * <p>
@@ -351,6 +362,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractLongArrayAssert<?> assertThat(final long[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Long2DArrayAssert assertThat(final long[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -610,6 +631,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Short2DArrayAssert assertThat(final short[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortAssert}</code>.
    *
    * @param actual the actual value.
@@ -646,6 +677,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractCharArrayAssert<?> assertThat(final char[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Char2DArrayAssert assertThat(final char[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -800,6 +841,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Boolean2DArrayAssert assertThat(final boolean[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
    *
    * @param actual the actual value.
@@ -826,6 +877,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractByteArrayAssert<?> assertThat(final byte[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Byte2DArrayAssert assertThat(final byte[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -903,6 +964,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Int2DArrayAssert assertThat(final int[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
    *
    * @param actual the actual value.
@@ -929,6 +1000,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractFloatArrayAssert<?> assertThat(final float[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Float2DArrayAssert assertThat(final float[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1175,6 +1256,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractDoubleArrayAssert<?> assertThat(final double[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Double2DArrayAssert assertThat(final double[][] actual) {
     return Assertions.assertThat(actual);
   }
 

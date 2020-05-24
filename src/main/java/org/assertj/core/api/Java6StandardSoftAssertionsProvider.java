@@ -103,6 +103,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Boolean2DArrayAssert assertThat(boolean[][] actual) {
+    return proxy(Boolean2DArrayAssert.class, boolean[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
    *
    * @param actual the actual value.
@@ -133,6 +143,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Byte2DArrayAssert assertThat(byte[][] actual) {
+    return proxy(Byte2DArrayAssert.class, byte[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
    *
    * @param actual the actual value.
@@ -150,6 +170,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    */
   default CharArrayAssert assertThat(char[] actual) {
     return proxy(CharArrayAssert.class, char[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Char2DArrayAssert assertThat(char[][] actual) {
+    return proxy(Char2DArrayAssert.class, char[][].class, actual);
   }
 
   /**
@@ -246,6 +276,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Double2DArrayAssert assertThat(double[][] actual) {
+    return proxy(Double2DArrayAssert.class, double[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FileAssert}</code>.
    *
    * @param actual the actual value.
@@ -308,6 +348,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Float2DArrayAssert assertThat(float[][] actual) {
+    return proxy(Float2DArrayAssert.class, float[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code>.
    *
    * @param actual the actual value.
@@ -325,6 +375,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    */
   default IntArrayAssert assertThat(int[] actual) {
     return proxy(IntArrayAssert.class, int[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Int2DArrayAssert assertThat(int[][] actual) {
+    return proxy(Int2DArrayAssert.class, int[][].class, actual);
   }
 
   /**
@@ -382,6 +442,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Long2DArrayAssert assertThat(long[][] actual) {
+    return proxy(Long2DArrayAssert.class, long[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param actual the actual value.
@@ -403,6 +473,18 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   @SuppressWarnings("unchecked")
   default <T> ProxyableObjectArrayAssert<T> assertThat(T[] actual) {
     return proxy(ProxyableObjectArrayAssert.class, Object[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @param <T> the type values of the actual array.
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  default <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
+    return proxy(Object2DArrayAssert.class, Object[].class, actual);
   }
 
   /**
@@ -448,6 +530,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    */
   default ShortArrayAssert assertThat(short[] actual) {
     return proxy(ShortArrayAssert.class, short[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default Short2DArrayAssert assertThat(short[][] actual) {
+    return proxy(Short2DArrayAssert.class, short[][].class, actual);
   }
 
   /**
