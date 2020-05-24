@@ -32,15 +32,18 @@ public class AtomicBooleanAssert_overridingErrorMessage_Test {
   @Test
   public void should_honor_custom_error_message_set_with_overridingErrorMessage() {
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).overridingErrorMessage(error)
-                                                                                                        .isFalse())
-                                                   .withMessageContaining(error);
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(new AtomicBoolean(true)).overridingErrorMessage(error)
+                                                           .isFalse())
+      .withMessageContaining(error);
   }
 
   @Test
   public void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).withFailMessage(()->{return error;})
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).withFailMessage(() -> {
+      return error;
+    })
                                                                                                         .isFalse())
                                                    .withMessageContaining(error);
   }
@@ -48,8 +51,11 @@ public class AtomicBooleanAssert_overridingErrorMessage_Test {
   @Test
   public void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).overridingErrorMessage(()->{return error;})
-                                                                                                        .isFalse())
-                                                   .withMessageContaining(error);
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(new AtomicBoolean(true)).overridingErrorMessage(() -> {
+        return error;
+      })
+                                                           .isFalse())
+      .withMessageContaining(error);
   }
 }

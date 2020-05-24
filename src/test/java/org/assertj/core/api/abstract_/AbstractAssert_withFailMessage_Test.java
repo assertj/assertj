@@ -40,7 +40,9 @@ public class AbstractAssert_withFailMessage_Test {
   @Test
   public void should_delegate_to_overridingErrorMessage_using_supplier() {
     AbstractAssert<?, ?> suT = spy(Assertions.assertThat("test"));
-    Supplier<String> supplier = ()->{return "test";};
+    Supplier<String> supplier = () -> {
+      return "test";
+    };
     suT.withFailMessage(supplier);
     verify(suT).overridingErrorMessage(supplier);
   }

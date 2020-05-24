@@ -45,20 +45,22 @@ public class AbstractAssert_overridingErrorMessage_Test {
 
   @Test
   public void should_fail_with_overridden_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertions.overridingErrorMessage("new error message").isEqualTo(8L))
-                                                   .withMessage("new error message");
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertions.overridingErrorMessage("new error message").isEqualTo(8L))
+      .withMessage("new error message");
   }
 
   @Test
   public void should_fail_with_overridden_error_message_not_interpreted_with_string_format_feature_as_no_args_are_given() {
     // % has to be escaped as %% because expectAssertionError used String.format on the message
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertions.overridingErrorMessage("new error message with special character like (%)").isEqualTo(8L))
-                                                   .withMessage(format("new error message with special character like (%%)"));
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertions.overridingErrorMessage("new error message with special character like (%)").isEqualTo(8L))
+      .withMessage(format("new error message with special character like (%%)"));
   }
-  
+
   @Test
   public void should_fail_with_overridden_error_message_interpreted_with_string_format_feature() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       long expected = 8L;
       assertions.overridingErrorMessage("new error message, expected value was : '%s'", expected).isEqualTo(expected);
     }).withMessage("new error message, expected value was : '8'");
@@ -66,7 +68,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
 
   @Test
   public void should_fail_with_description_and_overridden_error_message_using_string_format_feature() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       long expected = 8L;
       assertions.as("test").overridingErrorMessage("new error message, expected value was : '%s'", expected).isEqualTo(expected);
     }).withMessage("[test] new error message, expected value was : '8'");
@@ -74,17 +76,21 @@ public class AbstractAssert_overridingErrorMessage_Test {
 
   @Test
   public void should_fail_with_overridden_error_message_interpreted_using_supplier() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       long expected = 8L;
-      assertions.overridingErrorMessage(()->{ return format("new error message, expected value was : '%s'", expected);}).isEqualTo(expected);
+      assertions.overridingErrorMessage(() -> {
+        return format("new error message, expected value was : '%s'", expected);
+      }).isEqualTo(expected);
     }).withMessage("new error message, expected value was : '8'");
   }
 
   @Test
   public void should_fail_with_description_and_overridden_error_message_using_supplier() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       long expected = 8L;
-      assertions.as("test").overridingErrorMessage(()->{ return format("new error message, expected value was : '%s'", expected);}).isEqualTo(expected);
+      assertions.as("test").overridingErrorMessage(() -> {
+        return format("new error message, expected value was : '%s'", expected);
+      }).isEqualTo(expected);
     }).withMessage("[test] new error message, expected value was : '8'");
   }
 

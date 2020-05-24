@@ -44,7 +44,9 @@ public class AtomicReferenceAssert_overridingErrorMessage_Test {
     String error = "ssss";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       AtomicReference<String> actual = new AtomicReference<>("foo");
-      assertThat(actual).withFailMessage(()->{return error;}).hasValue("bar");
+      assertThat(actual).withFailMessage(() -> {
+        return error;
+      }).hasValue("bar");
     }).withMessageContaining(error);
   }
 
@@ -53,8 +55,10 @@ public class AtomicReferenceAssert_overridingErrorMessage_Test {
     String error = "ssss";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       AtomicReference<String> actual = new AtomicReference<>("foo");
-      assertThat(actual).withFailMessage(()->{return error;}).hasValue("bar");
+      assertThat(actual).withFailMessage(() -> {
+        return error;
+      }).hasValue("bar");
     }).withMessageContaining(error);
   }
-  
+
 }

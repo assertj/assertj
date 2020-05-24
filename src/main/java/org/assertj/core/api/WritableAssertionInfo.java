@@ -42,8 +42,6 @@ public class WritableAssertionInfo implements AssertionInfo {
   private Description description;
   private Representation representation;
 
-
-
   public WritableAssertionInfo(Representation customRepresentation) {
     useRepresentation(customRepresentation == null ? CONFIGURATION_PROVIDER.representation() : customRepresentation);
   }
@@ -58,7 +56,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   @Override
   public String overridingErrorMessage() {
     // TODO: consider the situation that `overridingErrorMessageSupplier` and `overridingErrorMessageSupplier` are all not null, what should this behave.
-    return overridingErrorMessageSupplier != null ? (String)overridingErrorMessageSupplier.get() : overridingErrorMessage;
+    return overridingErrorMessageSupplier != null ? (String) overridingErrorMessageSupplier.get() : overridingErrorMessage;
   }
 
   /**

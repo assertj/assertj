@@ -585,7 +585,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return overridingErrorMessage(newErrorMessage, args);
   }
 
-
   /**
    * Alternative method for {@link AbstractAssert#overridingErrorMessage}
    * <p>
@@ -898,7 +897,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     } catch (AssertionError assertionError) {
       return assertionError;
     }
-    throw new IllegalStateException("Shouldn't arrived here, assertions should have raised an AssertionError (please file a bug)");
+    throw new IllegalStateException(
+      "Shouldn't arrived here, assertions should have raised an AssertionError (please file a bug)");
   }
 
   private SELF matches(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {
@@ -949,7 +949,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   // this method is meant to be overridden and made public in subclasses that want to expose it
   // this would avoid duplicating this code in all subclasses
-  protected RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  protected RecursiveComparisonAssert<?> usingRecursiveComparison(
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself);
   }
 
