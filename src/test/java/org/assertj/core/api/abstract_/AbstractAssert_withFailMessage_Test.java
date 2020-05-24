@@ -19,6 +19,8 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Supplier;
+
 /**
  * Tests for <code>{@link org.assertj.core.api.AbstractAssert#withFailMessage(String, Object...)}</code>.
  *
@@ -33,5 +35,13 @@ public class AbstractAssert_withFailMessage_Test {
     suT.withFailMessage("test", "eins");
 
     verify(suT).overridingErrorMessage("test", "eins");
+  }
+
+  @Test
+  public void should_delegate_to_overridingErrorMessage_using_supplier() {
+    AbstractAssert<?, ?> suT = spy(Assertions.assertThat("test"));
+    Supplier<String> supplier = ()->{return "test";};
+    suT.withFailMessage(supplier);
+    verify(suT).overridingErrorMessage(supplier);
   }
 }

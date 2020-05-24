@@ -37,4 +37,20 @@ class LongAdderAssert_overridingErrorMessage_Test {
                                                    .withMessageContaining(error);
   }
 
+  @Test
+  void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
+    String error = "ssss";
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new LongAdder()).withFailMessage(()->{return error;})
+                                                                                                .isLessThan(-1L))
+                                                   .withMessageContaining(error);
+  }
+
+  @Test
+  void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
+    String error = "ssss";
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new LongAdder()).overridingErrorMessage(()->{return error;})
+                                                                                                .isLessThan(-1L))
+                                                   .withMessageContaining(error);
+  }
+
 }

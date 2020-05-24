@@ -21,10 +21,12 @@ import org.assertj.core.api.ConcreteAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Supplier;
 
 /**
  * Tests for <code>{@link AbstractAssert#overridingErrorMessage(String, Object...)}</code>.
- * 
+ * Tests for <code>{@link AbstractAssert#overridingErrorMessage(Supplier)}</code>.
+ *
  * @author Joel Costigliola
  */
 public class AbstractAssert_overridingErrorMessage_Test {
@@ -67,6 +69,22 @@ public class AbstractAssert_overridingErrorMessage_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       long expected = 8L;
       assertions.as("test").overridingErrorMessage("new error message, expected value was : '%s'", expected).isEqualTo(expected);
+    }).withMessage("[test] new error message, expected value was : '8'");
+  }
+
+  @Test
+  public void should_fail_with_overridden_error_message_interpreted_using_supplier() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      long expected = 8L;
+      assertions.overridingErrorMessage(()->{ return format("new error message, expected value was : '%s'", expected);}).isEqualTo(expected);
+    }).withMessage("new error message, expected value was : '8'");
+  }
+
+  @Test
+  public void should_fail_with_description_and_overridden_error_message_using_supplier() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+      long expected = 8L;
+      assertions.as("test").overridingErrorMessage(()->{ return format("new error message, expected value was : '%s'", expected);}).isEqualTo(expected);
     }).withMessage("[test] new error message, expected value was : '8'");
   }
 

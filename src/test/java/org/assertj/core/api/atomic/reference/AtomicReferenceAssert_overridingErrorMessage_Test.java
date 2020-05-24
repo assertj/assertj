@@ -38,5 +38,23 @@ public class AtomicReferenceAssert_overridingErrorMessage_Test {
       assertThat(actual).withFailMessage(error).hasValue("bar");
     }).withMessageContaining(error);
   }
+
+  @Test
+  public void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
+    String error = "ssss";
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      AtomicReference<String> actual = new AtomicReference<>("foo");
+      assertThat(actual).withFailMessage(()->{return error;}).hasValue("bar");
+    }).withMessageContaining(error);
+  }
+
+  @Test
+  public void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
+    String error = "ssss";
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      AtomicReference<String> actual = new AtomicReference<>("foo");
+      assertThat(actual).withFailMessage(()->{return error;}).hasValue("bar");
+    }).withMessageContaining(error);
+  }
   
 }
