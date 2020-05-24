@@ -1,4 +1,4 @@
-package org.assertj.core.api;
+package org.assertj.core.api.abstract_;
 
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class WithFailMessage_Performance_Test {
+public class AbstractAssert_withFailMessage_performance_Test {
 
   @Test
   public void withFailMessage_performance_improved_test() {
