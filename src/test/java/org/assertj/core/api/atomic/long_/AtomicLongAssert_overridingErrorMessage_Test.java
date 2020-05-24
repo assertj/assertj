@@ -37,4 +37,19 @@ public class AtomicLongAssert_overridingErrorMessage_Test {
                                                    .withMessageContaining(error);
   }
 
+  @Test
+  public void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
+    String error = "ssss";
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicLong(0)).withFailMessage(()->{return error;})
+                                                                                                  .hasValueLessThan(-1))
+                                                   .withMessageContaining(error);
+  }
+
+  @Test
+  public void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
+    String error = "ssss";
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicLong(0)).overridingErrorMessage(()->{return error;})
+                                                                                                  .hasValueLessThan(-1))
+                                                   .withMessageContaining(error);
+  }
 }
