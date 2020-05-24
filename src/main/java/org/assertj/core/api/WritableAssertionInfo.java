@@ -37,12 +37,10 @@ import java.util.function.Supplier;
 public class WritableAssertionInfo implements AssertionInfo {
 
   private static final String EMPTY_STRING = "";
+  private Supplier<String> overridingErrorMessageSupplier;
   private String overridingErrorMessage;
   private Description description;
   private Representation representation;
-
-  // TODO: maybe need more description in javadoc
-  private Supplier<String> overridingErrorMessageSupplier;
 
 
 
@@ -59,6 +57,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   @Override
   public String overridingErrorMessage() {
+    // TODO: consider the situation that `overridingErrorMessageSupplier` and `overridingErrorMessageSupplier` are all not null, what should this behave.
     return overridingErrorMessageSupplier != null ? (String)overridingErrorMessageSupplier.get() : overridingErrorMessage;
   }
 
@@ -71,7 +70,11 @@ public class WritableAssertionInfo implements AssertionInfo {
     overridingErrorMessage = newErrorMessage;
   }
 
-  // TODO: add java
+  /**
+   * Sets the lazy fail message that will replace the default message of an assertion failure by using a supplier.
+   *
+   * @param supplier the new message by a supplier. It can be {@code null}.
+   */
   public void overridingErrorMessage(Supplier<String> supplier) {
     overridingErrorMessageSupplier = supplier;
   }

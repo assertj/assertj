@@ -546,7 +546,21 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  // TODO: add java doc
+  /**
+   * Overrides AssertJ default error message by the given one.
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * The new error message is built using a supplier.
+   * <p>
+   * Example :
+   * <pre><code class='java'>assertThat(player.isRookie()).overridingErrorMessage(()->{return &quot;Expecting Player to be a rookie but was not.&quot;;})
+   *                              .isTrue();</code></pre>
+   *
+   * @param supplier the supplier supplies error message that will replace the default one provided by Assertj.
+   * @return this assertion object.
+   */
   @CheckReturnValue
   public SELF overridingErrorMessage(Supplier<String> supplier) {
     info.overridingErrorMessage(supplier);
@@ -572,7 +586,18 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
 
-  // TODO: add java doc
+  /**
+   * Alternative method for {@link AbstractAssert#overridingErrorMessage}
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat(player.isRookie()).withFailMessage(()->{return &quot;Expecting Player to be a rookie but was not.&quot;;})
+   *                              .isTrue();</code></pre>
+   * @param supplier the supplier supplies error message that will replace the default one provided by Assertj.
+   * @return this assertion object.
+   */
   @CheckReturnValue
   public SELF withFailMessage(Supplier<String> supplier) {
     return overridingErrorMessage(supplier);
