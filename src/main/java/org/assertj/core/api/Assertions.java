@@ -83,6 +83,7 @@ import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
@@ -1387,20 +1388,18 @@ public class Assertions implements InstanceOfAssertFactories {
 
   /**
    * In error messages, sets the threshold when iterable/array formatting will be on one line (if their String description
-   * is less than this parameter) or it will be formatted with one element per line.
+   * lenght &lt;= this parameter) or it will be formatted with one element per line.
    * <p>
-   * The following array will be formatted on one line as its length &lt; 80:
+   * The default value for maxLengthForSingleLineDescription is {@value Configuration#MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION}.
+   * <p>
+   * The following array will be formatted on one line as its length &lt;= 80:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
    * whereas this array is formatted on multiple lines (one element per line)
    *
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones",
    *  "The Lord of the Rings",
    *  "Assassin's Apprentice",
@@ -1416,7 +1415,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * In error messages, sets the threshold for how many elements from one iterable/array/map will be included in the
    * in the description.
    *
-   * E.q. When this method is called with a value of {@code 3}.
+   * Example with a value of {@code 3}.
    * <p>
    * The following array will be formatted entirely as it's length is &lt;= 3:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");

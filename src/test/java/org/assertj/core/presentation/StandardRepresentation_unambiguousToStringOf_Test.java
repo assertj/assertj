@@ -119,10 +119,12 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   @Test
   public void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
     List<Boolean[]> collection = list(array(true, false),
-                                      array(true, false, true),
+                                      array(true),
+                                      array(true, false),
+                                      array(true, false, true, false, true),
                                       array(true, true));
-    StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[true, false], [true, false, ...], ...] (ArrayList@%s)",
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[true, false], [true], ... [true, false, ... false, true], [true, true]] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
   }
 
@@ -138,10 +140,12 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   @Test
   public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
     Collection<List<String>> collection = list(list("s1", "s2"),
-                                               list("s3", "s4", "s5"),
-                                               list("s6", "s7"));
+                                               list("s3", "s4", "s5", "s6", "s7"),
+                                               list("s8", "s9"),
+                                               list("s10", "s11"),
+                                               list("s12"));
     StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...] (ArrayList@%s)",
+    assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[\"s1\", \"s2\"], ... [\"s12\"]] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
   }
 
@@ -172,10 +176,12 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   @Test
   public void should_return_toString_of_array_of_arrays_up_to_the_maximum_allowed_elements() {
     String[][] array = array(array("s1", "s2"),
-                             array("s3", "s4", "s5"),
-                             array("s6", "s7"));
-    StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(unambiguousToStringOf(array)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...] (String[][]@%s)",
+                             array("s3", "s4", "s5", "s6", "s7"),
+                             array("s8", "s9"),
+                             array("s10", "s11"),
+                             array("s12"));
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    assertThat(unambiguousToStringOf(array)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ... \"s6\", \"s7\"], ... [\"s10\", \"s11\"], [\"s12\"]] (String[][]@%s)",
                                                               toHexString(System.identityHashCode(array))));
   }
 
@@ -357,8 +363,8 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   @Test
   public void should_format_tuples_up_to_the_maximum_allowed_elements() {
     StandardRepresentation.setMaxElementsForPrinting(2);
-    Tuple tuple = tuple(1, 2, 3);
-    assertThat(unambiguousToStringOf(tuple)).isEqualTo(format("(1, 2, ...) (Tuple@%s)",
+    Tuple tuple = tuple(1, 2, 3, 4, 5);
+    assertThat(unambiguousToStringOf(tuple)).isEqualTo(format("(1, ... 5) (Tuple@%s)",
                                                               toHexString(System.identityHashCode(tuple))));
   }
 

@@ -266,9 +266,9 @@ public class Configuration {
   }
 
   /**
-   * Returns the maximum length for an iterable/array to be displayed on one line.
+   * Returns the maximum number of elements that will be displayed for a group of values (iterables and arrays).
    * <p>
-   * See {@link Assertions#setMaxLengthForSingleLineDescription(int)} for a detailed description.
+   * See {@link Assertions#setMaxElementsForPrinting(int)} for a detailed description.
    * <p>
    * Note that this change will only be effective once {@link #apply()} or {@link #applyAndDisplay()} is called.
    *

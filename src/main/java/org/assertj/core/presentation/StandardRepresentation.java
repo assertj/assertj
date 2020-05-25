@@ -13,19 +13,22 @@
 package org.assertj.core.presentation;
 
 import static java.lang.Integer.toHexString;
+import static java.lang.reflect.Array.get;
 import static java.lang.reflect.Array.getLength;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 import static org.assertj.core.util.Arrays.isObjectArray;
 import static org.assertj.core.util.DateUtil.formatAsDatetime;
 import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
+import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Streams.stream;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -59,6 +62,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -78,10 +82,10 @@ import org.assertj.core.util.diff.InsertDelta;
  */
 public class StandardRepresentation implements Representation {
 
+  private static final String ALREADY_VISITED = "(element already visited)";
+
   // can share this as StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
-
-  private static final String NULL = "null";
 
   private static final String TUPLE_START = "(";
   private static final String TUPLE_END = ")";
@@ -105,6 +109,20 @@ public class StandardRepresentation implements Representation {
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
       OffsetDateTime.class, Calendar.class };
+
+  protected enum GroupType {
+    ITERABLE("iterable"), ARRAY("array");
+
+    private String description;
+
+    GroupType(String value) {
+      this.description = value;
+    }
+
+    public String description() {
+      return description;
+    }
+  }
 
   /**
    * It resets the static defaults for the standard representation.
@@ -468,103 +486,100 @@ public class StandardRepresentation implements Representation {
     return isObjectArray(o) ? smartFormat((Object[]) o) : formatPrimitiveArray(o);
   }
 
-  protected String multiLineFormat(Object[] iterable, Set<Object[]> alreadyFormatted) {
-    return format(iterable, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyFormatted);
+  protected String multiLineFormat(Object[] array, Set<Object> alreadyVisited) {
+    return format(array, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyVisited);
   }
 
-  protected String singleLineFormat(Object[] iterable, Set<Object[]> alreadyFormatted) {
-    return format(iterable, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, alreadyFormatted);
+  protected String singleLineFormat(Object[] array, Set<Object> alreadyVisited) {
+    return format(array, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, alreadyVisited);
   }
 
-  protected String smartFormat(Object[] iterable) {
-    Set<Object[]> alreadyFormatted = new HashSet<>();
-    String singleLineDescription = singleLineFormat(iterable, alreadyFormatted);
-    return doesDescriptionFitOnSingleLine(singleLineDescription)
-        ? singleLineDescription
-        : multiLineFormat(iterable, alreadyFormatted);
+  protected String smartFormat(Object[] array) {
+    Set<Object> alreadyVisited = new HashSet<>();
+    String description = singleLineFormat(array, alreadyVisited);
+    return doesDescriptionFitOnSingleLine(description) ? description : multiLineFormat(array, alreadyVisited);
   }
 
-  protected String format(Object[] array, String elementSeparator,
-                          String indentation, Set<Object[]> alreadyFormatted) {
+  protected String format(Object[] array, String elementSeparator, String indentation, Set<Object> alreadyVisited) {
     if (array == null) return null;
     if (array.length == 0) return DEFAULT_START + DEFAULT_END;
-    // iterable has some elements
-    StringBuilder desc = new StringBuilder();
-    desc.append(DEFAULT_START);
-    alreadyFormatted.add(array); // used to avoid infinite recursion when array contains itself
-    int i = 0;
-    while (true) {
-      Object element = array[i];
-      // do not indent first element
-      if (i != 0) desc.append(indentation);
-      if (i == maxElementsForPrinting) {
-        desc.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
-        alreadyFormatted.remove(array);
-        return desc.append(DEFAULT_END).toString();
-      }
-      // add element representation
-      if (!isArray(element)) desc.append(element == null ? NULL : toStringOf(element));
-      else if (isArrayTypePrimitive(element)) desc.append(formatPrimitiveArray(element));
-      else if (alreadyFormatted.contains(element)) desc.append("(this array)");
-      else desc.append(format((Object[]) element, elementSeparator, indentation, alreadyFormatted));
-      // manage end description
-      if (i == array.length - 1) {
-        alreadyFormatted.remove(array);
-        return desc.append(DEFAULT_END).toString();
-      }
-      // there are still elements to describe
-      desc.append(elementSeparator);
-      i++;
-    }
+
+    // deal with auto references to avoid infinite recursion
+    alreadyVisited.add(array);
+    List<String> list = Stream.of(array)
+                              .map(element -> alreadyVisited.contains(element) ? ALREADY_VISITED : toStringOf(element))
+                              .collect(toList());
+    return extracted(list, DEFAULT_START, DEFAULT_END, elementSeparator, indentation, list);
+  }
+
+  private String toStringOf(Object element, Set<Object> alreadyVisited) {
+    alreadyVisited.add(element);
+    return toStringOf(element);
   }
 
   protected String formatPrimitiveArray(Object o) {
     if (!isArray(o)) return null;
     if (!isArrayTypePrimitive(o)) throw Arrays.notAnArrayOfPrimitives(o);
-    int size = getLength(o);
-    if (size == 0) return DEFAULT_START + DEFAULT_END;
-    StringBuilder buffer = new StringBuilder();
-    buffer.append(DEFAULT_START);
-    buffer.append(toStringOf(Array.get(o, 0)));
-    for (int i = 1; i < size; i++) {
-      buffer.append(ELEMENT_SEPARATOR)
-            .append(INDENTATION_FOR_SINGLE_LINE);
-      if (i == maxElementsForPrinting) {
-        buffer.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
-        break;
-      }
 
-      buffer.append(toStringOf(Array.get(o, i)));
+    int length = getLength(o);
+    Object[] array = new Object[length];
+    for (int i = 0; i < length; i++) {
+      array[i] = get(o, i);
     }
-    buffer.append(DEFAULT_END);
-    return buffer.toString();
+    return format(array, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, new HashSet<>());
   }
 
   public String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
     if (iterable == null) return null;
     Iterator<?> iterator = iterable.iterator();
     if (!iterator.hasNext()) return start + end;
-    // iterable has some elements
+
+    // deal with auto references to avoid infinite recursion
+    List<String> list = stream(iterable).map(element -> element == iterable ? "(this iterable)" : toStringOf(element))
+                                        .collect(toList());
+    return extracted(iterable, start, end, elementSeparator, indentation, list);
+  }
+
+  private String extracted(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation,
+                           List<String> list) {
+    int size = sizeOf(iterable);
     StringBuilder desc = new StringBuilder(start);
-    boolean firstElement = true;
-    int printedElements = 0;
-    while (true) {
-      Object element = iterator.next();
-      // do not indent first element
-      if (firstElement) firstElement = false;
-      else desc.append(indentation);
-      // add element representation
-      if (printedElements == maxElementsForPrinting) {
-        desc.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
-        return desc.append(end).toString();
+    if (size <= maxElementsForPrinting) {
+      // display all elements
+      for (int i = 0; i < size; i++) {
+        if (i != 0) desc.append(indentation);
+        desc.append(list.get(i));
+        if (i != size - 1) desc.append(elementSeparator);
       }
-      desc.append(element == iterable ? "(this Collection)" : toStringOf(element));
-      printedElements++;
-      // manage end description
-      if (!iterator.hasNext()) return desc.append(end).toString();
-      // there are still elements to be describe
-      desc.append(elementSeparator);
+      return desc.append(end).toString();
     }
+    // we can't display all elements, picks the first and last maxElementsForPrinting/2 elements
+    // if maxElementsForPrinting is odd, display one more first elements than last, ex: 9 => display 5 first elements and 4 last
+    int maxFirstElementsToPrint = (maxElementsForPrinting + 1) / 2;
+    for (int i = 0; i < maxFirstElementsToPrint; i++) {
+      desc.append(list.get(i)).append(elementSeparator).append(indentation);
+    }
+    desc.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
+    // we only append a new line if the separator had one ",\n"
+    if (elementSeparator.contains(System.lineSeparator())) {
+      // we just want a new line after DEFAULT_MAX_ELEMENTS_EXCEEDED but no char separator ','
+      // we want:
+      // first elements,
+      // ...
+      // last elements
+      // and not:
+      // first elements,
+      // ...,
+      // last elements
+      desc.append(System.lineSeparator());
+    }
+    // display last elements
+    int maxLastElementsToPrint = maxElementsForPrinting / 2;
+    for (int i = size - maxLastElementsToPrint; i < size; i++) {
+      if (i != size - maxLastElementsToPrint) desc.append(elementSeparator);
+      desc.append(indentation).append(list.get(i));
+    }
+    return desc.append(end).toString();
   }
 
   protected String multiLineFormat(Iterable<?> iterable) {
@@ -591,7 +606,7 @@ public class StandardRepresentation implements Representation {
   }
 
   private static boolean doesDescriptionFitOnSingleLine(String singleLineDescription) {
-    return singleLineDescription == null || singleLineDescription.length() < maxLengthForSingleLineDescription;
+    return singleLineDescription == null || singleLineDescription.length() <= maxLengthForSingleLineDescription;
   }
 
   private static String identityHexCodeOf(Object obj) {
