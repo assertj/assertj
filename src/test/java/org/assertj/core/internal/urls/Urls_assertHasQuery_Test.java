@@ -12,18 +12,14 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -38,53 +34,65 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
 
   @Test
   public void should_pass_if_actual_url_has_the_expected_query() throws MalformedURLException {
-    urls.assertHasQuery(info, new URL("http://www.helloworld.org/index.html?type=test"), "type=test");
+    // GIVEN
+    URL url = new URL("http://example.com/pages/?type=test");
+    String expectedQuery = "type=test";
+
+    // WHEN/THEN
+    urls.assertHasQuery(info, url, expectedQuery);
   }
 
   @Test
   public void should_pass_if_actual_url_has_no_query_and_given_is_null() throws MalformedURLException {
-    urls.assertHasQuery(info, new URL("http://www.helloworld.org/index.html"), null);
+    // GIVEN
+    URL url = new URL("http://www.helloworld.org/index.html");
+    String expectedQuery = null;
+
+    // WHEN/THEN
+    urls.assertHasQuery(info, url, expectedQuery);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasQuery(info, null, "http://www.helloworld.org/index.html?type=test"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URL url = null;
+    String expectedQuery = "http://www.helloworld.org/index.html?type=test";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_URL_query_is_not_the_given_query() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://assertj.org/news?type=beta");
     String expectedQuery = "type=final";
-
-    Throwable error = catchThrowable(() -> urls.assertHasQuery(info, url, expectedQuery));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveQuery(url, expectedQuery));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveQuery(url, expectedQuery).create());
   }
 
   @Test
   public void should_fail_if_actual_URL_has_no_query_and_expected_query_is_not_null() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://assertj.org/news");
     String expectedQuery = "type=final";
-
-    Throwable error = catchThrowable(() -> urls.assertHasQuery(info, url, expectedQuery));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveQuery(url, expectedQuery));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveQuery(url, expectedQuery).create());
   }
 
   @Test
   public void should_fail_if_actual_URL_has_a_query_and_expected_query_is_null() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://assertj.org/news?type=beta");
     String expectedQuery = null;
-
-    Throwable error = catchThrowable(() -> urls.assertHasQuery(info, url, expectedQuery));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveQuery(url, expectedQuery));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveQuery(url, expectedQuery).create());
   }
 }

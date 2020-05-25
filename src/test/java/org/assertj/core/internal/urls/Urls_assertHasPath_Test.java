@@ -12,63 +12,72 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class Urls_assertHasPath_Test extends UrlsBaseTest {
 
-  @Test
-  public void should_pass_if_actual_url_has_the_given_path() throws MalformedURLException {
-    urls.assertHasPath(info, new URL("http://example.com/pages/"), "/pages/");
-    urls.assertHasPath(info, new URL("http://example.com"), "");
+  @ParameterizedTest
+  @CsvSource({
+      "http://example.com/pages/,   /pages/",
+      "http://example.com,          ''"
+  })
+  public void should_pass_if_actual_url_has_the_given_path(URL url, String expectedPath) {
+    // WHEN/THEN
+    urls.assertHasPath(info, url, expectedPath);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasPath(info, null, "path"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URL url = null;
+    String expectedPath = "path";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_an_exception_fail_if_given_path_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> urls.assertHasPath(info, new URL("http://example.com"), null))
-                                        .withMessage("Expecting given path not to be null");
+  public void should_throw_an_exception_fail_if_given_path_is_null() throws MalformedURLException {
+    // GIVEN
+    URL url = new URL("http://example.com");
+    String expectedPath = null;
+    String erroeMessage = "Expecting given path not to be null";
+    // WHEN/THEN
+    assertThatIllegalArgumentException().isThrownBy(() -> urls.assertHasPath(info, url, expectedPath)).withMessage(erroeMessage);
   }
 
   @Test
   public void should_fail_if_actual_URL_path_is_not_the_given_path() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://example.com/pages/");
     String expectedPath = "/news/";
-
-    Throwable error = catchThrowable(() -> urls.assertHasPath(info, url, expectedPath));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHavePath(url, expectedPath));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
+    // THEN
+    then(assertionError).hasMessage(shouldHavePath(url, expectedPath).create());
   }
 
   @Test
   public void should_fail_if_actual_URL_has_no_path_and_the_given_path_is_not_null() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://example.com");
     String expectedPath = "/news";
-
-    Throwable error = catchThrowable(() -> urls.assertHasPath(info, url, expectedPath));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHavePath(url, expectedPath));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
+    // THEN
+    then(assertionError).hasMessage(shouldHavePath(url, expectedPath).create());
   }
 }

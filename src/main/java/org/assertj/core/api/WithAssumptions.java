@@ -418,7 +418,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
+   * Creates a new instance of <code>{@link ClassAssert}</code> assumption.
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.

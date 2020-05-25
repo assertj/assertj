@@ -12,72 +12,81 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.URI;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class Uris_assertHasPath_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasPath(info, null, "path"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URI uri = null;
+    String expectedPath = "path";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
-  @Test
-  public void should_pass_if_actual_uri_has_the_given_path() {
-    uris.assertHasPath(info, URI.create("http://example.com/pages/"), "/pages/");
-    uris.assertHasPath(info, URI.create("http://example.com"), "");
+  @ParameterizedTest
+  @CsvSource({
+    "http://example.com/pages/,   /pages/",
+    "http://example.com,          ''"
+  })
+  public void should_pass_if_actual_uri_has_the_given_path(URI uri,  String expectedPath) {
+    // WHEN/THEN
+    uris.assertHasPath(info, uri, expectedPath);
   }
 
   @Test
   public void should_pass_if_actual_uri_has_no_path_and_the_given_path_is_null() {
-    uris.assertHasPath(info, URI.create("mailto:java-net@java.sun.com"), null);
+    // GIVEN
+    URI uri = URI.create("mailto:java-net@java.sun.com");
+    String expectedPath = null;
+
+    // WHEN/THEN
+    uris.assertHasPath(info, uri, expectedPath);
   }
 
   @Test
   public void should_fail_if_actual_URI_path_is_not_the_given_path() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://example.com/pages/");
     String expectedPath = "/news/";
-
-    Throwable error = catchThrowable(() -> uris.assertHasPath(info, uri, expectedPath));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHavePath(uri, expectedPath));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    // THEN
+    then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
   }
 
   @Test
   public void should_fail_if_actual_URI_has_path_and_the_given_path_null() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://example.com/pages/");
     String expectedPath = null;
-
-    Throwable error = catchThrowable(() -> uris.assertHasPath(info, uri, expectedPath));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHavePath(uri, expectedPath));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    // THEN
+    then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
   }
 
   @Test
   public void should_fail_if_actual_URI_has_no_path_and_the_given_path_is_not_null() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("mailto:java-net@java.sun.com");
     String expectedPath = "";
-
-    Throwable error = catchThrowable(() -> uris.assertHasPath(info, uri, expectedPath));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHavePath(uri, expectedPath));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    // THEN
+    then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
   }
 }

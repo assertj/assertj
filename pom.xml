@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
-  <version>3.16.0-SNAPSHOT</version>
+  <version>3.16.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
@@ -170,7 +170,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.1.13</version>
+      <version>3.3</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -433,6 +433,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <!-- Explicitly set Javadoc locale to English -->
+          <locale>en_US</locale>
           <!-- needed to fix javadoc on java 11+ https://github.com/joel-costigliola/assertj-core/issues/1403 -->
           <source>8</source>
           <!-- (1) CSS file location -->

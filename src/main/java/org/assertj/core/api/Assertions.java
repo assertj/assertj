@@ -62,6 +62,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
+import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -90,6 +91,7 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.data.TemporalUnitLessThanOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.data.TemporalUnitWithinOffset;
+import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.BinaryRepresentation;
@@ -859,7 +861,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link InstantAssert}</code>.
+   * Creates a new instance of <code>{@link DurationAssert}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion object.
@@ -1435,6 +1437,32 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
+  }
+
+  /**
+   * Enable/disable printing assertions description to the console (disabled by default).
+   * <p>
+   * The printed assertions description include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
+   * <p>
+   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setConsumerDescription(Consumer)}.
+   *
+   * @param printAssertionsDescription whether to print assertions description.
+   * @since 3.17.0
+   */
+  public static void setPrintAssertionsDescription(boolean printAssertionsDescription) {
+    AbstractAssert.setPrintAssertionsDescription(printAssertionsDescription);
+  }
+
+  /**
+   * All assertions description will be consumed by the given {@link Consumer Consumer&lt;Description&gt;} allowing for example to record them in a file.
+   * <p>
+   * The consumed descriptions include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
+   *
+   * @param descriptionConsumer the {@link Description} consumer
+   * @since 3.17.0
+   */
+  public static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
+    AbstractAssert.setConsumerDescription(descriptionConsumer);
   }
 
   // ------------------------------------------------------------------------------------------------------

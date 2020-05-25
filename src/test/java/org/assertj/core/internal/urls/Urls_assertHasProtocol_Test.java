@@ -12,18 +12,14 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -31,25 +27,34 @@ public class Urls_assertHasProtocol_Test extends UrlsBaseTest {
 
   @Test
   public void should_pass_if_actual_uri_has_the_given_protocol() throws MalformedURLException {
-    urls.assertHasProtocol(info, new URL("http://example.com/pages/"), "http");
+    // GIVEN
+    URL url = new URL("http://example.com/pages/");
+    String expectedProtocol = "http";
+
+    // WHEN/THEN
+    urls.assertHasProtocol(info, url, expectedProtocol);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasProtocol(info, null, "http"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URL url = null;
+    String expectedProtocol = "http";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasProtocol(info, url, expectedProtocol));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_protocol_is_not_the_expected_protocol() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://example.com/pages/");
     String expectedProtocol = "ftp";
-
-    Throwable error = catchThrowable(() -> urls.assertHasProtocol(info, url, expectedProtocol));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveProtocol(url, expectedProtocol));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasProtocol(info, url, expectedProtocol));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveProtocol(url, expectedProtocol).create());
   }
 
 }

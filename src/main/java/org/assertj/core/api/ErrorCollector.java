@@ -34,8 +34,9 @@ public class ErrorCollector {
   private static final String INTERCEPT_METHOD_NAME = "intercept";
   private static final String CLASS_NAME = ErrorCollector.class.getName();
 
+  // The list is synchronized in case errors arrive from more than a single thread.
   // scope : the current softassertion object
-  private final List<AssertionError> errors = new ArrayList<>();
+  private final List<AssertionError> errors = Collections.synchronizedList(new ArrayList<>());
   // scope : the last assertion call (might be nested)
   private final LastResult lastResult = new LastResult();
 
@@ -103,8 +104,11 @@ public class ErrorCollector {
   }
 
   private static class LastResult {
-    private boolean wasSuccess = true;
-    private boolean errorFound = false;
+    // Marking these fields as volatile doesn't ensure complete thread safety
+    // (mutual exclusion, race-free behaviour), but guarantees eventual
+    // visibility (in case #recordError() was invoked from another thread).
+    private volatile boolean wasSuccess = true;
+    private volatile boolean errorFound = false;
 
     private boolean wasSuccess() {
       return wasSuccess;

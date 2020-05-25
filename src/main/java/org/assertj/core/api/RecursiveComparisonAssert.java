@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
+import static org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively.shouldNotBeEqualComparingFieldByFieldRecursively;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -28,6 +29,7 @@ import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
+// import org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
@@ -57,7 +59,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * This is typically useful when actual's {@code equals} was not overridden.
    * <p>
    * The comparison is <b>not symmetrical</b> since it is <b>limited to actual's fields</b>, the algorithm gather all actual's fields
-   * and then compare them to the corresponding expected's fields.
+   * and then compare them to the corresponding expected's fields.<br>
    * It is then possible for the expected object to have more fields than actual which is handy when comparing a base type to a subtype.
    * <p>
    * <strong>Strict/lenient recursive comparison</strong>
@@ -162,6 +164,61 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
                                                                                                                           differences,
                                                                                                                           recursiveComparisonConfiguration,
                                                                                                                           info.representation()));
+    return myself;
+  }
+
+  /**
+   * Asserts that actual object is not equal to the given object based on a recursive property/field by property/field comparison
+   * (including inherited ones).
+   * <p>
+   * This is typically useful when actual's {@code equals} was not overridden.
+   * <p>
+   * The comparison is <b>not symmetrical</b> since it is <b>limited to actual's fields</b>, the algorithm gather all
+   * actual's fields and then compare them to the corresponding expected's fields.<br>
+   * It is then possible for the expected object to have more fields than actual which is handy when comparing
+   * a base type to a subtype.
+   * <p>
+   * This method is based on {@link #isEqualTo(Object)}, you can check out more usages in that method.
+   * <p>
+   * Example
+   * <pre><code class='java'> // equals not overridden in TolkienCharacter
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter youngFrodo = new TolkienCharacter("Frodo", 22, HOBBIT);
+   *
+   * // Pass as equals compares object references
+   * assertThat(frodo).isNotEqualTo(frodoClone);
+   *
+   * // Fail as frodo and frodoClone are equals when doing a field by field comparison.
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .isNotEqualTo(frodoClone);
+   *
+   * // Pass as one the age fields differ between frodo and youngFrodo.
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .isNotEqualTo(youngFrodo);</code></pre>
+   *
+   * @param other the object to compare {@code actual} to.
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual object and the given objects are both {@code null}.
+   * @throws AssertionError if the actual and the given objects are equals property/field by property/field recursively.
+   * @see #isEqualTo(Object)
+   * @since 3.17.0
+   */
+  @Override
+  public SELF isNotEqualTo(Object other) {
+    if (actual == other) throw objects.getFailures().failure(info,
+                                                             shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
+                                                                                                              recursiveComparisonConfiguration,
+                                                                                                              info.representation()));
+    if (other != null && actual != null) {
+      List<ComparisonDifference> differences = determineDifferencesWith(other);
+      if (differences.isEmpty())
+        throw objects.getFailures().failure(info,
+                                            shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
+                                                                                             recursiveComparisonConfiguration,
+                                                                                             info.representation()));
+    }
+    // either one of actual or other was null (but not both) or there were no differences
     return myself;
   }
 

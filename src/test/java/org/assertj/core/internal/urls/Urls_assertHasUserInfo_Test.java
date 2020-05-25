@@ -12,18 +12,14 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -31,55 +27,67 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
 
   @Test
   public void should_pass_if_actual_url_has_no_user_info_and_given_user_info_is_null() throws MalformedURLException {
-    urls.assertHasUserInfo(info, new URL("http://www.helloworld.org/index.html"), null);
+    // GIVEN
+    URL url = new URL("http://www.helloworld.org/index.html");
+    String expectedUserInfo = null;
+
+    // WHEN/THEN
+    urls.assertHasUserInfo(info, url, expectedUserInfo);
   }
 
   @Test
   public void should_pass_if_actual_url_has_the_expected_user_info() throws MalformedURLException {
-    urls.assertHasUserInfo(info, new URL("http://test:pass@www.helloworld.org/index.html"), "test:pass");
+    // GIVEN
+    URL url = new URL("http://test:pass@www.helloworld.org/index.html");
+    String expectedUserInfo = "test:pass";
+
+    // WHEN/THEN
+    urls.assertHasUserInfo(info, url, expectedUserInfo);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> urls.assertHasUserInfo(info, null, "http://test:pass@www.helloworld.org/index.html"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URL url = null;
+    String expectedUserInfo = "http://test:pass@www.helloworld.org/index.html";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_URL_user_info_is_not_the_expected_user_info() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://test:pass@assertj.org/news");
     String expectedUserInfo = "test:ok";
-
-    Throwable error = catchThrowable(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveUserInfo(url, expectedUserInfo).create());
   }
 
   @Test
   public void should_fail_if_actual_URL_has_no_user_info_and_expected_user_info_is_not_null()
-      throws MalformedURLException {
-    AssertionInfo info = someInfo();
+                                                                                              throws MalformedURLException {
+    // GIVEN
     URL url = new URL("http://assertj.org/news");
     String expectedUserInfo = "test:pass";
-
-    Throwable error = catchThrowable(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveUserInfo(url, expectedUserInfo).create());
   }
 
   @Test
   public void should_fail_if_actual_URL_has_a_user_info_and_expected_user_info_is_null() throws MalformedURLException {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URL url = new URL("http://test:pass@assertj.org");
     String expectedUserInfo = null;
-
-    Throwable error = catchThrowable(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveUserInfo(url, expectedUserInfo));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveUserInfo(url, expectedUserInfo).create());
   }
 
 }

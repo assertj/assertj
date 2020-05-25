@@ -10,26 +10,14 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.internal.objects.data;
+package org.assertj.core.api.junit.jupiter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class FriendlyPerson extends Person {
-  public List<FriendlyPerson> friends = new ArrayList<>();
-  public Set<FriendlyPerson> otherFriends = new HashSet<>();
+@ExtendWith(SoftlyExtension.class)
+class WithSoftlyExtension {
 
-  public FriendlyPerson() {
-    super();
-  }
+  protected SoftAssertions softly;
 
-  public FriendlyPerson(String name) {
-    super(name);
-  }
-
-  public static FriendlyPerson friend(String name) {
-    return new FriendlyPerson(name);
-  }
 }

@@ -20,9 +20,11 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 
 /**
@@ -42,6 +44,7 @@ public class Configuration {
   public static final boolean ALLOW_EXTRACTING_PRIVATE_FIELDS = true;
   public static final boolean BARE_NAME_PROPERTY_EXTRACTION_ENABLED = true;
   public static final boolean LENIENT_DATE_PARSING = false;
+  public static final boolean PRINT_ASSERTIONS_DESCRIPTION_ENABLED = false;
 
   private boolean comparingPrivateFields = ALLOW_COMPARING_PRIVATE_FIELDS;
   private boolean extractingPrivateFields = ALLOW_EXTRACTING_PRIVATE_FIELDS;
@@ -51,6 +54,8 @@ public class Configuration {
   private List<DateFormat> additionalDateFormats = emptyList();
   private int maxLengthForSingleLineDescription = MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
   private int maxElementsForPrinting = MAX_ELEMENTS_FOR_PRINTING;
+  private boolean printAssertionsDescription = PRINT_ASSERTIONS_DESCRIPTION_ENABLED;
+  private Consumer<Description> consumerDescription = null;
 
   /**
    * @return the default {@link Representation} that is used within AssertJ.
@@ -273,6 +278,22 @@ public class Configuration {
     this.maxElementsForPrinting = maxElementsForPrinting;
   }
 
+  public boolean printAssertionsDescription() {
+    return printAssertionsDescription;
+  }
+
+  public void setPrintAssertionsDescriptionEnabled(boolean printAssertionsDescription) {
+    this.printAssertionsDescription = printAssertionsDescription;
+  }
+
+  public Consumer<Description> consumerDescription() {
+    return consumerDescription;
+  }
+
+  public void setConsumerDescription(Consumer<Description> consumerDescription) {
+    this.consumerDescription = consumerDescription;
+  }
+
   /**
    * Applies this configuration to AssertJ.
    */
@@ -285,6 +306,8 @@ public class Configuration {
     Assertions.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription());
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTraceEnabled());
     Assertions.useRepresentation(representation());
+    Assertions.setConsumerDescription(consumerDescription());
+    Assertions.setPrintAssertionsDescription(printAssertionsDescription());
     additionalDateFormats().forEach(Assertions::registerCustomDateFormat);
   }
 
@@ -306,6 +329,8 @@ public class Configuration {
                   "- additional date formats ......................... = %s%n" +
                   "- maxLengthForSingleLineDescription ............... = %s%n" +
                   "- maxElementsForPrinting .......................... = %s%n" +
+                  "- printAssertionsDescription ...................... = %s%n" +
+                  "- consumerDescription ............................. = %s%n" +
                   "- removeAssertJRelatedElementsFromStackTraceEnabled = %s%n",
                   getClass().getName(),
                   representation(),
@@ -316,6 +341,8 @@ public class Configuration {
                   describeAdditionalDateFormats(),
                   maxLengthForSingleLineDescription(),
                   maxElementsForPrinting(),
+                  printAssertionsDescription(),
+                  consumerDescription(),
                   removeAssertJRelatedElementsFromStackTraceEnabled());
   }
 
