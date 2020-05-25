@@ -79,7 +79,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[78, 66]");
   }
 
-  @Test  // 我改过了
+  @Test
   public void should_format_primitive_array_up_to_the_maximum_allowed_elements() {
     Object array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
     StandardRepresentation.setMaxElementsForPrinting(3);
@@ -160,7 +160,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"Hello\", null]");
   }
 
-  @Test  // 我改过的， 可以通过了
+  @Test
   public void should_format_array_up_to_the_maximum_allowed_elements() {
     StandardRepresentation.setMaxElementsForPrinting(3);
     Object[] array = { "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh" };
