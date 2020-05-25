@@ -74,20 +74,23 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   public void should_format_iterable_up_to_the_maximum_allowed_elements_multi_line() {
     StandardRepresentation.setMaxElementsForPrinting(3);
     StandardRepresentation.setMaxLengthForSingleLineDescription(10);
-    String formatted = STANDARD_REPRESENTATION.smartFormat(asList("First", 3, "foo", "bar"));
+    String formatted = STANDARD_REPRESENTATION.smartFormat(asList("First", 3, 4, "foo", "bar", 5, "another", 6));
     String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"First\",%n" +
                                                        "    3,%n" +
-                                                       "    \"foo\",%n" +
-                                                       "    ...]>"));
+                                                       "    4,%n" +
+                                                       "    ... ,%n" +
+                                                       "    5,%n" +
+                                                       "    \"another\",%n" +
+                                                       "    6]>"));
   }
 
   @Test
   public void should_format_iterable_up_to_the_maximum_allowed_elements_single_line() {
     StandardRepresentation.setMaxElementsForPrinting(3);
-    String formatted = STANDARD_REPRESENTATION.smartFormat(asList("First", 3, "foo", "bar"));
-    assertThat(formatted).isEqualTo("[\"First\", 3, \"foo\", ...]");
+    String formatted = STANDARD_REPRESENTATION.smartFormat(asList("First", 3, 4, "foo", "bar", 5, "another", 6));
+    assertThat(formatted).isEqualTo("[\"First\", 3, 4, ... , 5, \"another\", 6]");
   }
 
   @Test

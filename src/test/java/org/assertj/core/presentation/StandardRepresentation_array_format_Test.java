@@ -79,11 +79,11 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[78, 66]");
   }
 
-  @Test
+  @Test  // 我改过了
   public void should_format_primitive_array_up_to_the_maximum_allowed_elements() {
-    Object array = new int[] { 1, 2, 3, 4 };
+    Object array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
     StandardRepresentation.setMaxElementsForPrinting(3);
-    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[1, 2, 3, ...]");
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[1, 2, 3, ... , 6, 7, 8]");
   }
 
   @Test
@@ -129,8 +129,8 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   public void should_format_Object_array_on_new_line_smart() {
     StandardRepresentation.setMaxLengthForSingleLineDescription(11);
     assertThat(STANDARD_REPRESENTATION.formatArray(new Object[] { "Hello",
-      new Person("Anakin") })).isEqualTo(format("[\"Hello\",%n"
-                                                + "    'Anakin']"));
+        new Person("Anakin") })).isEqualTo(format("[\"Hello\",%n"
+                                                  + "    'Anakin']"));
   }
 
   @Test
@@ -160,11 +160,11 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"Hello\", null]");
   }
 
-  @Test
+  @Test  // 我改过的， 可以通过了
   public void should_format_array_up_to_the_maximum_allowed_elements() {
     StandardRepresentation.setMaxElementsForPrinting(3);
-    Object[] array = { "First", "Second", "Third", "Fourth" };
-    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"First\", \"Second\", \"Third\", ...]");
+    Object[] array = { "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh" };
+    assertThat(STANDARD_REPRESENTATION.formatArray(array)).isEqualTo("[\"First\", \"Second\", \"Third\", ... , \"Fifth\", \"Sixth\", \"Seventh\"]");
   }
 
   @Test
@@ -182,7 +182,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
 
   @Test
   public void should_format_array_up_to_the_maximum_allowed_elements_and_max_line_length() {
-    StandardRepresentation.setMaxElementsForPrinting(4);
+    StandardRepresentation.setMaxElementsForPrinting(2);
     StandardRepresentation.setMaxLengthForSingleLineDescription(25);
     Object[] array = { "1234567890", "1234567890", "1234567890", "1234567890", "1234567890" };
     String formatted = STANDARD_REPRESENTATION.formatArray(array);
@@ -190,9 +190,10 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"1234567890\",%n" +
                                                        "    \"1234567890\",%n" +
+                                                       "    ... ,%n" +
                                                        "    \"1234567890\",%n" +
-                                                       "    \"1234567890\",%n" +
-                                                       "    ...]>"));
+                                                       "    \"1234567890\"" +
+                                                       "]>"));
   }
 
   private static class Person {
