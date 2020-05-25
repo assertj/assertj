@@ -23,8 +23,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.Arrays;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.util.collections.Sets;
 
 /**
  * Tests for <code>{@link ShouldNotContainCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -81,4 +83,37 @@ public class ShouldNotContainString_create_Test {
                                    "but found:%n" +
                                    " <[\"ya\"]>%n"));
   }
+
+  @Test
+  public void should_create_error_message_for_ignoring_case() {
+    // GIVEN
+    ErrorMessageFactory factory = ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda", "OD");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <\"Yoda\">%n" +
+                                   "not to contain (ignoring case):%n" +
+                                   " <\"OD\">%n"));
+  }
+
+  @Test
+  public void should_create_error_message_for_ignoring_case_with_multiple_findings() {
+    // GIVEN
+    ErrorMessageFactory factory = ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda",
+                                                                                            Arrays.array("OD", "da", "Luke"),
+                                                                                            Sets.newSet("OD", "da"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <\"Yoda\">%n" +
+                                   "not to contain (ignoring case):%n" +
+                                   " <[\"OD\", \"da\", \"Luke\"]>%n" +
+                                   "but found:%n" +
+                                   " <[\"OD\", \"da\"]>%n"));
+  }
+
 }
