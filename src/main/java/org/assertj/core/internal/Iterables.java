@@ -1079,11 +1079,12 @@ public class Iterables {
     assertNotNull(info, actual);
 
     List<Object> actualAsList = newArrayList(actual);
+    List<Object> copyOfActual = newArrayList(actualAsList);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
     if (!diff.differencesFound()) {
       // actual and values have the same elements but are they in the same order ?
       int i = 0;
-      for (Object elementFromActual : actualAsList) {
+      for (Object elementFromActual : copyOfActual) {
         if (!areEqual(elementFromActual, values[i])) {
           throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
         }

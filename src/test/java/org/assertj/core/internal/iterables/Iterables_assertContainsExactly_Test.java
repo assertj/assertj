@@ -63,16 +63,16 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
           throw new IllegalArgumentException("Cannot create two iterators on a singly-iterable sequence");
         isIteratorCreated = true;
         return new Iterator<String>() {
-          private final Iterator<String> l_it = values.iterator();
+          private final Iterator<String> listIterator = values.iterator();
 
           @Override
           public boolean hasNext() {
-            return l_it.hasNext();
+            return listIterator.hasNext();
           }
 
           @Override
           public String next() {
-            return l_it.next();
+            return listIterator.next();
           }
         };
       }
