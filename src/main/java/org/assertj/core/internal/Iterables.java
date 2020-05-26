@@ -1083,7 +1083,8 @@ public class Iterables {
     if (!diff.differencesFound()) {
       // actual and values have the same elements but are they in the same order ?
       int i = 0;
-      for (Object elementFromActual : actual) {
+      // use actualAsList instead of actual in case actual is a singly-passable iterable
+      for (Object elementFromActual : actualAsList) {
         if (!areEqual(elementFromActual, values[i])) {
           throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
         }
