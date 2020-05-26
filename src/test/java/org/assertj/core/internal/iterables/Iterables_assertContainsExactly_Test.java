@@ -112,7 +112,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
-    Object[] expected = {"Luke", "Yoda", "Han"};
+    Object[] expected = { "Luke", "Yoda", "Han" };
 
     Throwable error = catchThrowable(() -> iterables.assertContainsExactly(info, actual, expected));
 
@@ -125,7 +125,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_contains_all_given_values_in_different_order() {
     AssertionInfo info = someInfo();
-    Object[] expected = {"Luke", "Leia", "Yoda"};
+    Object[] expected = { "Luke", "Leia", "Yoda" };
 
     Throwable error = catchThrowable(() -> iterables.assertContainsExactly(info, actual, expected));
 
@@ -137,7 +137,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Leia", "Luke");
-    Object[] expected = {"Luke", "Leia"};
+    Object[] expected = { "Luke", "Leia" };
 
     Throwable error = catchThrowable(() -> iterables.assertContainsExactly(info, actual, expected));
 
@@ -159,7 +159,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    Object[] expected = {"Luke", "Yoda", "Han"};
+    Object[] expected = { "Luke", "Yoda", "Han" };
 
     Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected));
 
@@ -172,7 +172,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    Object[] expected = {"Luke", "Leia", "Yoda"};
+    Object[] expected = { "Luke", "Leia", "Yoda" };
 
     Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected));
 
@@ -184,7 +184,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Leia", "Luke");
-    Object[] expected = {"LUKE", "Leia"};
+    Object[] expected = { "LUKE", "Leia" };
 
     Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected));
 

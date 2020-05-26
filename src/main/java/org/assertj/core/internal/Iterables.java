@@ -338,7 +338,7 @@ public class Iterables {
 
   private void assertIterableContainsGivenValues(Iterable<?> actual, Object[] values, AssertionInfo info) {
     Set<Object> notFound = stream(values).filter(value -> !iterableContains(actual, value))
-                                         .collect(toCollection(LinkedHashSet::new));
+      .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty())
       return;
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
@@ -387,8 +387,8 @@ public class Iterables {
 
     if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
       throw failures.failure(info, shouldContainOnly(actual, expectedValues,
-                                                     missingValues, unexpectedValues,
-                                                     comparisonStrategy));
+        missingValues, unexpectedValues,
+        comparisonStrategy));
     }
   }
 
@@ -568,7 +568,7 @@ public class Iterables {
     assertNotNull(info, actual);
     checkIterableIsNotNull(values);
     List<Object> extra = stream(actual).filter(actualElement -> !iterableContains(values, actualElement))
-                                       .collect(toList());
+      .collect(toList());
     if (extra.size() > 0) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
 
@@ -1079,12 +1079,11 @@ public class Iterables {
     assertNotNull(info, actual);
 
     List<Object> actualAsList = newArrayList(actual);
-    List<Object> copyOfActual = newArrayList(actualAsList);
     IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
     if (!diff.differencesFound()) {
       // actual and values have the same elements but are they in the same order ?
       int i = 0;
-      for (Object elementFromActual : copyOfActual) {
+      for (Object elementFromActual : actualAsList) {
         if (!areEqual(elementFromActual, values[i])) {
           throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
         }
@@ -1093,8 +1092,8 @@ public class Iterables {
       return;
     }
     throw failures.failure(info,
-                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
-                                                comparisonStrategy));
+      shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
+        comparisonStrategy));
   }
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
@@ -1102,9 +1101,9 @@ public class Iterables {
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
     List<UnsatisfiedRequirement> unsatisfiedRequirements = stream(actual).map(element -> failsRequirements(requirements, element))
-                                                                         .filter(Optional::isPresent)
-                                                                         .map(Optional::get)
-                                                                         .collect(toList());
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .collect(toList());
     if (!unsatisfiedRequirements.isEmpty())
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
@@ -1129,10 +1128,10 @@ public class Iterables {
     Iterator<OTHER_ELEMENT> otherIterator = other.iterator();
 
     List<ZipSatisfyError> errors = stream(actual).map(actualElement -> failsZipRequirements(actualElement, otherIterator.next(),
-                                                                                            zipRequirements))
-                                                 .filter(Optional::isPresent)
-                                                 .map(Optional::get)
-                                                 .collect(toList());
+      zipRequirements))
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .collect(toList());
     if (!errors.isEmpty()) throw failures.failure(info, zippedElementsShouldSatisfy(info, actual, other, errors));
   }
 
@@ -1169,8 +1168,8 @@ public class Iterables {
 
     if (!nonMatches.isEmpty()) {
       throw failures.failure(info, elementsShouldMatch(actual,
-                                                       nonMatches.size() == 1 ? nonMatches.get(0) : nonMatches,
-                                                       predicateDescription));
+        nonMatches.size() == 1 ? nonMatches.get(0) : nonMatches,
+        predicateDescription));
     }
   }
 
@@ -1178,9 +1177,9 @@ public class Iterables {
     assertNotNull(info, actual);
     requireNonNull(restrictions, "The Consumer<T> expressing the restrictions must not be null");
     List<E> erroneousElements = stream(actual).map(element -> failsRestrictions(element, restrictions))
-                                              .filter(Optional::isPresent)
-                                              .map(Optional::get)
-                                              .collect(toList());
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .collect(toList());
     if (erroneousElements.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
   }
 
@@ -1200,10 +1199,10 @@ public class Iterables {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
     stream(actual).filter(predicate)
-                  .findFirst()
-                  .orElseGet(() -> {
-                    throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
-                  });
+      .findFirst()
+      .orElseGet(() -> {
+        throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
+      });
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
@@ -1211,11 +1210,11 @@ public class Iterables {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
     stream(actual).filter(predicate)
-                  .findFirst()
-                  .ifPresent(e -> {
-                    throw failures.failure(info, noElementsShouldMatch(actual, e,
-                                                                       predicateDescription));
-                  });
+      .findFirst()
+      .ifPresent(e -> {
+        throw failures.failure(info, noElementsShouldMatch(actual, e,
+          predicateDescription));
+      });
   }
 
   /**
@@ -1256,7 +1255,7 @@ public class Iterables {
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
 
     throw failures.failure(info,
-                           shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+      shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
   void assertNotNull(AssertionInfo info, Iterable<?> actual) {
