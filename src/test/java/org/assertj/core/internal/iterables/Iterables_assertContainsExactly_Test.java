@@ -17,7 +17,6 @@ import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
@@ -100,13 +99,13 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsExactly(someInfo(), emptyList(), null))
-      .withMessage(valuesToLookForIsNull());
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactly(someInfo(), null, array("Yoda")))
-      .withMessage(actualIsNull());
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -143,7 +142,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-      newArrayList(), newArrayList("Luke")));
+                                                        newArrayList(), newArrayList("Luke")));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -153,7 +152,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(someInfo(), actual,
-      array("LUKE", "YODA", "Leia"));
+                                                                         array("LUKE", "YODA", "Leia"));
   }
 
   @Test
@@ -165,8 +164,8 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-      newArrayList("Han"), newArrayList("Leia"),
-      comparisonStrategy));
+                                                        newArrayList("Han"), newArrayList("Leia"),
+                                                        comparisonStrategy));
   }
 
   @Test
@@ -190,8 +189,8 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-      newArrayList(), newArrayList("Luke"),
-      comparisonStrategy));
+                                                        newArrayList(), newArrayList("Luke"),
+                                                        comparisonStrategy));
   }
 
 }
