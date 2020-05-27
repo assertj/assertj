@@ -51,6 +51,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static org.assertj.core.api.InstanceOfAssertFactories.INT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
@@ -86,6 +87,13 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
 import static org.assertj.core.util.Sets.newHashSet;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+
+import org.assertj.core.data.TolkienCharacter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -129,13 +137,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import org.assertj.core.data.TolkienCharacter;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest {
 
@@ -213,6 +214,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(new ByteArrayInputStream("stream".getBytes()), INPUT_STREAM),
                      arguments(Instant.now(), INSTANT),
                      arguments(new int[0], INT_ARRAY),
+                     arguments(new int[0][0], INT_2D_ARRAY),
                      arguments((IntPredicate) i -> i == 0, INT_PREDICATE),
                      arguments(IntStream.empty(), INT_STREAM),
                      arguments(1, INTEGER),

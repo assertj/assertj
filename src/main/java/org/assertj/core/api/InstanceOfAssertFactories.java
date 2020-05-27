@@ -341,6 +341,12 @@ public interface InstanceOfAssertFactories {
                                                                                                       Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for an {@code int} two-dimensional array.
+   */
+  InstanceOfAssertFactory<int[][], Int2DArrayAssert> INT_2D_ARRAY = new InstanceOfAssertFactory<>(int[][].class,
+                                                                                                      Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@code long} or its corresponding boxed type {@link Long}.
    */
   InstanceOfAssertFactory<Long, AbstractLongAssert<?>> LONG = new InstanceOfAssertFactory<>(Long.class,

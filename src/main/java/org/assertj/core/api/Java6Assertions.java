@@ -528,6 +528,16 @@ public class Java6Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Int2DArrayAssert assertThat(int[][] actual) {
+    return new Int2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code>.
    *
    * @param actual the actual value.

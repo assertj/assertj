@@ -54,6 +54,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static org.assertj.core.api.InstanceOfAssertFactories.INT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
@@ -111,6 +112,9 @@ import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.mockito.Mockito.mock;
 
+import org.assertj.core.util.Strings;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
@@ -157,9 +161,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import org.assertj.core.util.Strings;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author Stefano Cordio
@@ -514,6 +515,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractIntArrayAssert<?> result = assertThat(value).asInstanceOf(INT_ARRAY);
     // THEN
     result.containsExactly(0, 1);
+  }
+
+  @Test
+  void int_2d_array_factory_should_allow_int_2d_array_assertions() {
+    // GIVEN
+    Object value = new int[][] {{ 0, 1 }, { 2, 3 }};
+    // WHEN
+    Int2DArrayAssert result = assertThat(value).asInstanceOf(INT_2D_ARRAY);
+    // THEN
+    result.hasSize(2, 2);
   }
 
   @Test
