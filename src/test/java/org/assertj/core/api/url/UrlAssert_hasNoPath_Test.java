@@ -26,7 +26,6 @@ public class UrlAssert_hasNoPath_Test extends UrlAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(urls).assertHasPath(getInfo(assertions), getActual(assertions), null);
-    // verify(urls).assertHasPath(getInfo(assertions), getActual(assertions), "");
+    verify(urls).assertHasPath(getInfo(assertions), getActual(assertions), "");
   }
 }
