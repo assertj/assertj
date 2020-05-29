@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -557,6 +558,27 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
+   * Overrides AssertJ default error message by the given one.
+   * <p>
+   * The new error message is only built if the assertion fails (by consuming the given supplier), this is useful if building messages is expensive.
+   * <p>
+   * You must set the message <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the call chain by throwing an {@link AssertionError}.
+   * <p>
+   * Example :
+   * <pre><code class='java'>assertThat(player.isRookie()).overridingErrorMessage(() -&gt; &quot;Expecting Player to be a rookie but was not.&quot;)
+   *                             .isTrue();</code></pre>
+   *
+   * @param supplier the supplier supplies error message that will replace the default one provided by Assertj.
+   * @return this assertion object.
+   */
+  @CheckReturnValue
+  public SELF overridingErrorMessage(Supplier<String> supplier) {
+    info.overridingErrorMessage(supplier);
+    return myself;
+  }
+
+  /**
    * Alternative method for {@link AbstractAssert#overridingErrorMessage}
    * <p>
    * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
@@ -572,6 +594,25 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
     return overridingErrorMessage(newErrorMessage, args);
+  }
+
+  /**
+   * Alternative method for {@link AbstractAssert#overridingErrorMessage}
+   * <p>
+   * The new error message is only built if the assertion fails (by consuming the given supplier), this is useful if building messages is expensive.
+   * <p>
+   * You must set the message <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the call chain by throwing an {@link AssertionError}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat(player.isRookie()).withFailMessage(() -&gt; &quot;Expecting Player to be a rookie but was not.&quot;)
+   *                              .isTrue();</code></pre>
+   * @param supplier the supplier supplies error message that will replace the default one provided by Assertj.
+   * @return this assertion object.
+   */
+  @CheckReturnValue
+  public SELF withFailMessage(Supplier<String> supplier) {
+    return overridingErrorMessage(supplier);
   }
 
   /** {@inheritDoc} */
