@@ -23,10 +23,8 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 // import org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively;
@@ -956,9 +954,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    */
   @CheckReturnValue
   public SELF withComparatorForFields(Comparator<?> comparator, String... fieldLocations) {
-    Stream.of(fieldLocations)
-          .map(FieldLocation::new)
-          .forEach(fieldLocation -> recursiveComparisonConfiguration.registerComparatorForField(comparator, fieldLocation));
+    recursiveComparisonConfiguration.registerComparatorForFields(comparator, fieldLocations);
     return myself;
   }
 

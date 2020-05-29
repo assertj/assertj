@@ -13,7 +13,6 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
 
 import org.assertj.core.util.AbsValueComparator;
@@ -33,8 +32,8 @@ public class RecursiveComparisonConfiguration_fieldComparators_Test {
   public void should_register_given_field_comparators() {
     // GIVEN
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
-    recursiveComparisonConfiguration.registerComparatorForField(integerComparator, fielLocation("height"));
-    recursiveComparisonConfiguration.registerComparatorForField(ALWAY_EQUALS_TUPLE, fielLocation("weight"));
+    recursiveComparisonConfiguration.registerComparatorForFields(integerComparator, "height");
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "weight");
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForField("height")).isSameAs(integerComparator);
     assertThat(recursiveComparisonConfiguration.getComparatorForField("weight")).isSameAs(ALWAY_EQUALS_TUPLE);
@@ -43,8 +42,8 @@ public class RecursiveComparisonConfiguration_fieldComparators_Test {
   @Test
   public void should_replace_a_registered_field_comparator() {
     // GIVEN
-    recursiveComparisonConfiguration.registerComparatorForField(new AbsValueComparator<>(), fielLocation("height"));
-    recursiveComparisonConfiguration.registerComparatorForField(ALWAY_EQUALS_TUPLE, fielLocation("height"));
+    recursiveComparisonConfiguration.registerComparatorForFields(new AbsValueComparator<>(), "height");
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "height");
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForField("height")).isSameAs(ALWAY_EQUALS_TUPLE);
   }

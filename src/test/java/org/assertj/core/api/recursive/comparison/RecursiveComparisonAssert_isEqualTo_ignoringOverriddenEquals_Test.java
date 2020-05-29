@@ -140,7 +140,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("foo");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("bar", "baz");
     // THEN
-    List<Pattern> ignoredOverriddenEqualsRegexes = recursiveComparisonConfiguration.getIgnoredOverriddenEqualsRegexes();
+    List<Pattern> ignoredOverriddenEqualsRegexes = recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFieldsMatchingRegexes();
     assertThat(ignoredOverriddenEqualsRegexes).extracting(Pattern::pattern)
                                               .containsExactlyInAnyOrder("foo", "bar", "baz");
   }
