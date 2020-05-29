@@ -69,7 +69,7 @@ public class Urls {
 
   public void assertHasPath(AssertionInfo info, URL actual, String path) {
     assertNotNull(info, actual);
-    checkArgument(path != null, "Expecting given path not to be null");
+    // checkArgument(path != null, "Expecting given path not to be null");
     if (!Objects.equals(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
   }
 
