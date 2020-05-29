@@ -60,6 +60,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
@@ -1926,7 +1927,107 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
+   * Enable using a recursive field by field comparison strategy similar to {@link #usingRecursiveComparison()} but contrary to the latter <b>you can chain any iterable assertions after this method</b>, this is the reason this method exists.
+   * <p>
+   * The given {@link RecursiveComparisonConfiguration} is used to tweak the comparison behavior, for example  you can {@link RecursiveComparisonConfiguration#ignoreAllOverriddenEquals() ignore all overridden fields equals method}.
+   * <p>
+   * The comparison won't use any comparators set with {@link #withTypeComparators(TypeComparators)}, {@link #withComparatorsForElementPropertyOrFieldNames(Map)} or {@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}.<br>
+   * These features (and many more) are provided by {@link RecursiveComparisonConfiguration} with {@link RecursiveComparisonConfiguration#registerComparatorForType(Comparator, Class)} and
+   * {@link RecursiveComparisonConfiguration#registerComparatorForField(Comparator, org.assertj.core.api.recursive.comparison.FieldLocation) registerComparatorForField(Comparator, FieldLocation)}.
+   * <p>
+   * RecursiveComparisonConfiguration exposes a {@link RecursiveComparisonConfiguration.Builder builder} to ease setting the comparison behaviour,
+   * call {@link RecursiveComparisonConfiguration#builder() RecursiveComparisonConfiguration.builder} to start building your configuration.
+   * <p>
+   * There are differences between this approach and {@link #usingRecursiveComparison()}:
+   * <ul>
+   *   <li>contrary to {@link RecursiveComparisonAssert}, you can chain any iterable assertions after this method.</li>
+   *   <li>no comparators registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} will be used, you need to register them in the configuration object.</li>
+   *   <li>the assertion errors won't be as detailed as {@link RecursiveComparisonAssert#isEqualTo(Object)} which shows the field differences.</li>
+   * </ul>
+   * <p>
+   * This last point makes sense, take the {@link #contains(Object...)} assertion, it would not be relevant to report the differences of all the iterable's elements differing from the values to look for.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   boolean hasPhd;
+   * }
+   *
+   * public class Doctor {
+   *  String name;
+   *  boolean hasPhd;
+   * }
+   *
+   * Doctor drSheldon = new Doctor("Sheldon Cooper", true);
+   * Doctor drLeonard = new Doctor("Leonard Hofstadter", true);
+   * Doctor drRaj = new Doctor("Raj Koothrappali", true);
+   *
+   * Person sheldon = new Person("Sheldon Cooper", false);
+   * Person leonard = new Person("Leonard Hofstadter", false);
+   * Person raj = new Person("Raj Koothrappali", false);
+   * Person howard = new Person("Howard Wolowitz", false);
+   *
+   * List&lt;Doctor&gt; doctors = Arrays.asList(drSheldon, drLeonard, drRaj);
+   * List&lt;Person&gt; people = Arrays.asList(sheldon, leonard, raj);
+   *
+   * RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
+   *                                                                                  .withIgnoredFields​("hasPhd");
+   *
+   * // assertion succeeds as both lists contains equivalent items in order.
+   * assertThat(doctors).usingConfigurableRecursiveFieldByFieldElementComparator(configuration)
+   *                    .contains(sheldon);
+   *
+   * // assertion fails because leonard names are different.
+   * leonard.setName("Leonard Ofstater");
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .contains(leonard);
+   *
+   * // assertion fails because howard is missing and leonard is not expected.
+   * people = Arrays.asList(howard, sheldon, raj)
+   * assertThat(doctors).usingRecursiveComparison()
+   *                    .contains(howard);</code></pre>
+   *
+   * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
+   * <p>
+   * The default recursive comparison behavior is {@link RecursiveComparisonConfiguration configured} as follows:
+   * <ul>
+   *   <li> different types of iterable can be compared by default, this allows to compare for example an {@code List<Person>} and a {@code LinkedHashSet<PersonDto>}.<br>
+   *        This behavior can be turned off by calling {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking}.</li>
+   *   <li>overridden equals methods are used in the comparison (unless stated otherwise - see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals">https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals</a>)</li>
+   *   <li>the following types are compared with these comparators:
+   *     <ul>
+   *       <li>{@code java.lang.Double}: {@code DoubleComparator} with precision of 1.0E-15</li>
+   *       <li>{@code java.lang.Float}: {@code FloatComparator }with precision of 1.0E-6</li>
+   *     </ul>
+   *   </li>
+   * </ul>
+   * <p>
+   * Another point worth mentionning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
+   * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
+   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
+   *
+   * @param configuration the recursive comparison configuration.
+   *
+   * @return {@code this} assertion object.
+   * @since 3.17.0
+   * @see RecursiveComparisonConfiguration
+   */
+  public SELF usingConfigurableRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration configuration) {
+    return usingElementComparator(new ConfigurableRecursiveFieldByFieldComparator(configuration));
+  }
+
+  /**
    * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert},
+   * <p>
+   * There are differences between this approach and {@link #usingConfigurableRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)}:
+   * <ul>
+   *   <li>you can only chain {@link RecursiveComparisonAssert} assertions (basically {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo}), no iterable assertions.</li>
+   *   <li>{@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion error will report all field differences (very detailed).</li>
+   *   <li>no comparators registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} will be used, you need to register them in chained call like {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)}.</li>
+   * </ul>
+   * <p>
+   * If you need to chain iterable assertions using recursive comparisons call {@link #usingConfigurableRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} instead.
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {
@@ -1976,7 +2077,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *     <ul>
    *       <li>{@code java.lang.Double}: {@code DoubleComparator} with precision of 1.0E-15</li>
    *       <li>{@code java.lang.Float}: {@code FloatComparator }with precision of 1.0E-6</li>
-   *       <li>any comparators previously registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} </li>
    *     </ul>
    *   </li>
    * </ul>
@@ -2000,6 +2100,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /**
    * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
+   * <p>
+   * Another difference is that any comparators previously registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} will be used in the comparison.
+   *
    * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    *
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.

@@ -66,6 +66,27 @@ public class RecursiveComparisonConfiguration {
   private TypeComparators typeComparators = defaultTypeComparators();
   private FieldComparators fieldComparators = new FieldComparators();
 
+  private RecursiveComparisonConfiguration(Builder builder) {
+    this.strictTypeChecking = builder.strictTypeChecking;
+    this.ignoreAllActualNullFields = builder.ignoreAllActualNullFields;
+    this.ignoreAllActualEmptyOptionalFields = builder.ignoreAllActualEmptyOptionalFields;
+    this.ignoreAllExpectedNullFields = builder.ignoreAllExpectedNullFields;
+    this.ignoredFields = new LinkedHashSet<>(FieldLocation.from(builder.ignoredFields));
+    ignoreFieldsMatchingRegexes(builder.ignoredFieldsRegexes);
+    ignoreFieldsOfTypes(builder.ignoredTypes);
+    ignoreOverriddenEqualsForTypes(builder.ignoredOverriddenEqualsForTypes);
+    this.ignoredOverriddenEqualsForFields = new ArrayList<>(FieldLocation.from(builder.ignoredOverriddenEqualsForFields));
+    ignoreOverriddenEqualsForFieldsMatchingRegexes(builder.ignoredOverriddenEqualsRegexes);
+    this.ignoreAllOverriddenEquals = builder.ignoreAllOverriddenEquals;
+    this.ignoreCollectionOrder = builder.ignoreCollectionOrder;
+    this.ignoredCollectionOrderInFields = new LinkedHashSet<>(FieldLocation.from(builder.ignoredCollectionOrderInFields));
+    ignoreCollectionOrderInFieldsMatchingRegexes(builder.ignoredCollectionOrderInFieldsMatchingRegexes);
+    this.typeComparators = builder.typeComparators;
+    this.fieldComparators = builder.fieldComparators;
+  }
+
+  public RecursiveComparisonConfiguration() {}
+
   public boolean hasComparatorForField(String fieldName) {
     return fieldComparators.hasComparatorForField(new FieldLocation(fieldName));
   }
@@ -101,6 +122,16 @@ public class RecursiveComparisonConfiguration {
   @VisibleForTesting
   boolean getIgnoreAllActualNullFields() {
     return ignoreAllActualNullFields;
+  }
+
+  @VisibleForTesting
+  boolean getIgnoreAllExpectedNullFields() {
+    return ignoreAllExpectedNullFields;
+  }
+
+  @VisibleForTesting
+  boolean getIgnoreAllOverriddenEquals() {
+    return ignoreAllOverriddenEquals;
   }
 
   /**
@@ -172,7 +203,7 @@ public class RecursiveComparisonConfiguration {
    * <p>
    * Note that if some object under test fields are null, they are not ignored by this method as their type can't be evaluated.
    * <p>
-   * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFields(String...)} for examples.
+   * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...)} for examples.
    *
    * @param types the types of the object under test to ignore in the comparison.
    */
@@ -387,6 +418,39 @@ public class RecursiveComparisonConfiguration {
   @Override
   public String toString() {
     return multiLineDescription(CONFIGURATION_PROVIDER.representation());
+  }
+
+  @Override
+  public int hashCode() {
+    return java.util.Objects.hash(fieldComparators, ignoreAllActualEmptyOptionalFields, ignoreAllActualNullFields,
+                                  ignoreAllExpectedNullFields, ignoreAllOverriddenEquals, ignoreCollectionOrder,
+                                  ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes, ignoredFields,
+                                  ignoredFieldsRegexes, ignoredOverriddenEqualsForFields, ignoredOverriddenEqualsForTypes,
+                                  ignoredOverriddenEqualsRegexes, ignoredTypes, strictTypeChecking, typeComparators);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    RecursiveComparisonConfiguration other = (RecursiveComparisonConfiguration) obj;
+    return java.util.Objects.equals(fieldComparators, other.fieldComparators)
+           && ignoreAllActualEmptyOptionalFields == other.ignoreAllActualEmptyOptionalFields
+           && ignoreAllActualNullFields == other.ignoreAllActualNullFields
+           && ignoreAllExpectedNullFields == other.ignoreAllExpectedNullFields
+           && ignoreAllOverriddenEquals == other.ignoreAllOverriddenEquals
+           && ignoreCollectionOrder == other.ignoreCollectionOrder
+           && java.util.Objects.equals(ignoredCollectionOrderInFields, other.ignoredCollectionOrderInFields)
+           && java.util.Objects.equals(ignoredFields, other.ignoredFields)
+           && java.util.Objects.equals(ignoredFieldsRegexes, other.ignoredFieldsRegexes)
+           && java.util.Objects.equals(ignoredOverriddenEqualsForFields, other.ignoredOverriddenEqualsForFields)
+           && java.util.Objects.equals(ignoredOverriddenEqualsForTypes, other.ignoredOverriddenEqualsForTypes)
+           && java.util.Objects.equals(ignoredOverriddenEqualsRegexes, other.ignoredOverriddenEqualsRegexes)
+           && java.util.Objects.equals(ignoredTypes, other.ignoredTypes) && strictTypeChecking == other.strictTypeChecking
+           && java.util.Objects.equals(typeComparators, other.typeComparators)
+           && java.util.Objects.equals(ignoredCollectionOrderInFieldsMatchingRegexes,
+                                       other.ignoredCollectionOrderInFieldsMatchingRegexes);
   }
 
   public String multiLineDescription(Representation representation) {
@@ -708,6 +772,265 @@ public class RecursiveComparisonConfiguration {
         ? "- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
         : "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
     description.append(format(str));
+  }
+
+  /**
+   * Creates builder to build {@link RecursiveComparisonConfiguration}.
+   * @return created builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Builder to build {@link RecursiveComparisonConfiguration}.
+   */
+  public static final class Builder {
+    private boolean strictTypeChecking;
+    private boolean ignoreAllActualNullFields;
+    private boolean ignoreAllActualEmptyOptionalFields;
+    private boolean ignoreAllExpectedNullFields;
+    private String[] ignoredFields = {};
+    private String[] ignoredFieldsRegexes = {};
+    private Class<?>[] ignoredTypes = {};
+    private Class<?>[] ignoredOverriddenEqualsForTypes = {};
+    private String[] ignoredOverriddenEqualsForFields = {};
+    private String[] ignoredOverriddenEqualsRegexes = {};
+    private boolean ignoreAllOverriddenEquals;
+    private boolean ignoreCollectionOrder;
+    private String[] ignoredCollectionOrderInFields = {};
+    private String[] ignoredCollectionOrderInFieldsMatchingRegexes = {};
+    private TypeComparators typeComparators = new TypeComparators();
+    private FieldComparators fieldComparators = new FieldComparators();
+
+    private Builder() {}
+
+    /**
+     * Sets whether the recursive comparison will check that actual's type is compatible with expected's type (the same applies for each field).
+     * Compatible means that the expected's type is the same or a subclass of actual's type.
+     * <p>
+     * See {@link RecursiveComparisonAssert#withStrictTypeChecking()} for code examples.
+     *
+     * @param strictTypeChecking whether the recursive comparison will check that actual's type is compatible with expected's type.
+     * @return this builder.
+     */
+    public Builder withStrictTypeChecking(boolean strictTypeChecking) {
+      this.strictTypeChecking = strictTypeChecking;
+      return this;
+    }
+
+    /**
+     * Sets whether actual null fields are ignored in the recursive comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringActualNullFields()} for code examples.
+     *
+     * @param ignoreAllActualNullFields whether to ignore actual null fields in the recursive comparison
+     * @return this builder.
+     */
+    public Builder withIgnoreAllActualNullFields(boolean ignoreAllActualNullFields) {
+      this.ignoreAllActualNullFields = ignoreAllActualNullFields;
+      return this;
+    }
+
+    /**
+     * Sets whether actual empty optional fields are ignored in the recursive comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringActualNullFields()} for code examples.
+     *
+     * @param ignoreAllActualEmptyOptionalFields whether to ignore actual empty optional fields in the recursive comparison
+     * @return this builder.
+     */
+    public Builder withIgnoreAllActualEmptyOptionalFields(boolean ignoreAllActualEmptyOptionalFields) {
+      this.ignoreAllActualEmptyOptionalFields = ignoreAllActualEmptyOptionalFields;
+      return this;
+    }
+
+    /**
+     * Sets whether expected null fields are ignored in the recursive comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringExpectedNullFields()} for code examples.
+     *
+     * @param ignoreAllExpectedNullFields whether to ignore expected null fields in the recursive comparison
+     * @return this builder.
+     */
+    public Builder withIgnoreAllExpectedNullFields(boolean ignoreAllExpectedNullFields) {
+      this.ignoreAllExpectedNullFields = ignoreAllExpectedNullFields;
+      return this;
+    }
+
+    /**
+     * Adds the given fields to the list of the object under test fields to ignore in the recursive comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFields(String...)} for examples.
+     *
+     * @param fieldsToIgnore the fields of the object under test to ignore in the comparison.
+     * @return this builder.
+     */
+    public Builder withIgnoredFields(String... fieldsToIgnore) {
+      this.ignoredFields = fieldsToIgnore;
+      return this;
+    }
+
+    /**
+     * Allows to ignore in the recursive comparison the object under test fields matching the given regexes. The given regexes are added to the already registered ones.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...)} for examples.
+     *
+     * @param regexes regexes used to ignore fields in the comparison.
+     * @return this builder.
+     */
+    public Builder withIgnoredFieldsRegexes(String... regexes) {
+      this.ignoredFieldsRegexes = regexes;
+      return this;
+    }
+
+    /**
+     * Adds the given types to the list of the object under test fields types to ignore in the recursive comparison.
+     * The fields are ignored if their types exactly match one of the ignored types, if a field is a subtype of an ignored type it won't be ignored.
+     * <p>
+     * Note that if some object under test fields are null, they are not ignored by this method as their type can't be evaluated.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...)} for examples.
+     *
+     * @param types the types of the object under test to ignore in the comparison.
+     * @return this builder.
+     */
+    public Builder withIgnoredTypes(Class<?>... types) {
+      this.ignoredTypes = types;
+      return this;
+    }
+
+    /**
+     * Adds the given types to the list of types to force a recursive comparison on.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringOverriddenEqualsForTypes(Class...) RecursiveComparisonAssert#ignoringOverriddenEqualsForTypes(Class...)} for examples.
+     *
+     * @param types the types to the list of types to force a recursive comparison on.
+     * @return this builder.
+     */
+    public Builder withIgnoredOverriddenEqualsForTypes(Class<?>... types) {
+      this.ignoredOverriddenEqualsForTypes = types;
+      return this;
+    }
+
+    /**
+     * Adds the given fields to the list of fields to force a recursive comparison on.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringOverriddenEqualsForFields(String...) RecursiveComparisonAssert#ignoringOverriddenEqualsForFields(String...)} for examples.
+     *
+     * @param fields the fields to force a recursive comparison on.
+     * @return this builder.
+     */
+    public Builder withIgnoredOverriddenEqualsForFields(String... fields) {
+      this.ignoredOverriddenEqualsForFields = fields;
+      return this;
+    }
+
+    /**
+     * Adds the given regexes to the list of regexes used find the fields to force a recursive comparison on.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringOverriddenEqualsForFieldsMatchingRegexes(String...) RecursiveComparisonAssert#ignoringOverriddenEqualsForFieldsMatchingRegexes(String...)} for examples.
+     *
+     * @param regexes regexes used to specify the fields we want to force a recursive comparison on.
+     * @return this builder.
+     */
+    public Builder withIgnoredOverriddenEqualsRegexes(String... regexes) {
+      this.ignoredOverriddenEqualsRegexes = regexes;
+      return this;
+    }
+
+    /**
+     * Force a recursive comparison on all fields (except java types) if true.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringAllOverriddenEquals()} for examples.
+     *
+     * @param ignoreAllOverriddenEquals whether to force a recursive comparison on all fields (except java types) or not.
+     * @return this builder.
+     */
+    public Builder withIgnoreAllOverriddenEquals(boolean ignoreAllOverriddenEquals) {
+      this.ignoreAllOverriddenEquals = ignoreAllOverriddenEquals;
+      return this;
+    }
+
+    /**
+     * Sets whether to ignore collection order in the comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringCollectionOrder()} for code examples.
+     *
+     * @param ignoreCollectionOrder whether to ignore collection order in the comparison.
+     * @return this builder.
+     */
+    public Builder withIgnoreCollectionOrder(boolean ignoreCollectionOrder) {
+      this.ignoreCollectionOrder = ignoreCollectionOrder;
+      return this;
+    }
+
+    /**
+     * Adds the given fields to the list of the object under test fields to ignore collection order in the recursive comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...)} for examples.
+     *
+     * @param fieldsToIgnoreCollectionOrder the fields of the object under test to ignore collection order in the comparison.
+     * @return this builder.
+     */
+    public Builder withIgnoredCollectionOrderInFields(String... fieldsToIgnoreCollectionOrder) {
+      this.ignoredCollectionOrderInFields = fieldsToIgnoreCollectionOrder;
+      return this;
+    }
+
+    /**
+     * Adds the given regexes to the list of regexes used to find the object under test fields to ignore collection order in the recursive comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...)} for examples.
+     *
+     * @param regexes regexes used to find the object under test fields to ignore collection order in in the comparison.
+     * @return this builder.
+     */
+    public Builder withIgnoredCollectionOrderInFieldsMatchingRegexes(String... regexes) {
+      this.ignoredCollectionOrderInFieldsMatchingRegexes = regexes;
+      return this;
+    }
+
+    /**
+     * Registers the given {@link Comparator} to compare the fields with the given type.
+     * <p>
+     * Comparators specified by this method have less precedence than comparators added with {@link #registerComparatorForField(Comparator, FieldLocation)}.
+     * <p>
+     * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
+     *
+     * @param <T> the class type to register a comparator for
+     * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
+     * @param type the type to be compared with the given comparator.
+     * @return this builder.
+     */
+    public <T> Builder withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
+      this.typeComparators.put(type, comparator);
+      return this;
+    }
+
+    /**
+     * Registers the given {@link Comparator} to compare the fields with the given locations.
+     * <p>
+     * The field locations must be specified from the root object,
+     * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
+     * <pre><code class='java'> registerComparatorForField(new FieldLocation("bar.id"), idComparator)</code></pre>
+     * <p>
+     * Comparators specified by this method have precedence over comparators added with {@link #registerComparatorForType(Comparator, Class)}.
+     * <p>
+     * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)} for examples.
+     *
+     * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
+     * @param fieldLocation the location from the root object of the field the comparator should be used for
+     * @return this builder.
+     */
+    public Builder withComparatorForField(Comparator<?> comparator, FieldLocation fieldLocation) {
+      fieldComparators.registerComparator(fieldLocation, comparator);
+      return this;
+    }
+
+    public RecursiveComparisonConfiguration build() {
+      return new RecursiveComparisonConfiguration(this);
+    }
   }
 
 }
