@@ -37,41 +37,4 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     });
   }
 
-  // TODO: after the failure message part is discussed, finish "should fail" part.
-  // @Test
-  // public void should_fail_according_to_requirements() {
-  // // GIVEN
-  // Consumer<String> restrictions = s -> {
-  // assertThat(s.length()).isEqualTo(4);
-  // assertThat(s).startsWith("L");
-  // };
-  //
-  // // WHEN
-  // AssertionError assertionError =expectAssertionError(() -> iterables.assertSatisfy(info, actual, restrictions));
-  //
-  // // THEN
-  // List<UnsatisfiedRequirement> errors = list(new UnsatisfiedRequirement("Yoda", format("%n" +
-  // "Expecting:%n" +
-  // " <\"Yoda\">%n" +
-  // "to start with:%n" +
-  // " <\"L\">%n")));
-  // // verify(failures).failure(info, elementsShouldSatisfy(actual, errors, info));
-  //
-  // // THEN
-  // then(assertionError).hasMessage(elementsShouldSatisfy(actual, errors, info).create());
-  // }
-  //
-  // @Test
-  // public void should_fail_if_consumer_is_null() {
-  // assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(null))
-  // .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
-  // }
-  //
-  // @Test
-  // public void should_fail_if_actual_is_null() {
-  // assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-  // actual = null;
-  // assertThat(actual).satisfy(null);
-  // }).withMessage(actualIsNull());
-  // }
 }

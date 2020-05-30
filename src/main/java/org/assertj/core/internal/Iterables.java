@@ -1109,8 +1109,6 @@ public class Iterables {
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
-  // TODO: add javadoc here
-  // TODO: after this part is completely finished, create "satisfy" API for arrays
   @SafeVarargs
   public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
