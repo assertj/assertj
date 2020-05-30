@@ -2754,6 +2754,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  // TODO: add javadoc here
+  @SafeVarargs
+  public final SELF satisfy(Consumer<? super ELEMENT>... consumers) {
+    iterables.assertSatisfy(info, actual, consumers);
+    return myself;
+  }
+
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertAnyMatch(info, actual, predicate, PredicateDescription.GIVEN);

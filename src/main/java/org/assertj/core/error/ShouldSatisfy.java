@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import java.util.function.Consumer;
+
 import org.assertj.core.api.Condition;
 
 public class ShouldSatisfy extends BasicErrorMessageFactory {
@@ -20,7 +22,17 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
     return new ShouldSatisfy(actual, condition);
   }
 
+  @SafeVarargs
+  public static <T> ErrorMessageFactory shouldSatisfy(Iterable<T> actual, Consumer<? super T>... consumers) {
+    return new ShouldSatisfy(actual, consumers);
+  }
+
   private ShouldSatisfy(Object actual, Condition<?> condition) {
     super("%nExpecting:%n  <%s>%nto satisfy:%n  <%s>", actual, condition);
+  }
+
+  // TODO: reword
+  private ShouldSatisfy(Object actual, Consumer<?>... consumers) {
+    super("%nExpecting:%n  <%s>%nto satisfy all the conusmers:%n  <%s>", actual, consumers);
   }
 }

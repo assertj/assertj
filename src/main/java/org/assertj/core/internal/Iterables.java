@@ -55,6 +55,7 @@ import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.internal.Arrays.assertIsArray;
@@ -1106,6 +1107,42 @@ public class Iterables {
                                                                          .collect(toList());
     if (!unsatisfiedRequirements.isEmpty())
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
+  }
+
+  // TODO: add javadoc here
+  // TODO: after this part is completely finished, create "satisfy" API for arrays
+  @SafeVarargs
+  public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
+    assertNotNull(info, actual);
+    requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
+
+    List<E>[] stasfiedElementsLists = new ArrayList[consumers.length];
+    for (int i = 0; i < consumers.length; i++) {
+      Consumer<? super E> requirements = consumers[i];
+      stasfiedElementsLists[i] = stream(actual).filter(element -> {
+        try {
+          requirements.accept(element);
+        } catch (AssertionError ex) {
+          return false;
+        }
+        return true;
+      }).collect(toList());
+    }
+    if (!isSatisfiedOrNo(stasfiedElementsLists, 0))
+      throw failures.failure(info, shouldSatisfy(actual, consumers));
+  }
+
+  private static <E> boolean isSatisfiedOrNo(List<E>[] lists, int begin) {
+    if (begin == lists.length) return true;
+    if (lists[begin].size() == 0) return false;
+
+    for (E element : lists[begin]) {
+      List<E>[] listsCopy = lists.clone();
+      for (int i = begin + 1; i < lists.length; i++)
+        listsCopy[i].remove(element);
+      if (isSatisfiedOrNo(listsCopy, begin + 1)) return true;
+    }
+    return false;
   }
 
   private static <E> Optional<UnsatisfiedRequirement> failsRequirements(Consumer<? super E> requirements, E element) {
