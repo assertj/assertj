@@ -88,7 +88,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(new ByteArrayInputStream(new byte[] {})).isEmpty());
    *
    * // assertions will fail
-   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).isEmpty();
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).isEmpty(); </code></pre>
    *
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
@@ -108,7 +108,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(new ByteArrayInputStream(new byte[] {0xa})).isNotEmpty());
    *
    * // assertions will fail
-   * assertThat(new ByteArrayInputStream(new byte[] {})).isNotEmpty();
+   * assertThat(new ByteArrayInputStream(new byte[] {})).isNotEmpty();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
