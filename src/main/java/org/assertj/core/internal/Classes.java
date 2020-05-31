@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
+
 package org.assertj.core.internal;
 
 import static java.util.Objects.requireNonNull;
@@ -655,7 +656,7 @@ public class Classes {
    * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the
    *                        given parameters.
    */
-
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   public void assertHasPublicConstuctors(WritableAssertionInfo info, Class<?> actual,
     Class<?>... parameters) {
     assertNotNull(info, actual);
@@ -675,6 +676,7 @@ public class Classes {
    * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the
    *                        given parameters.
    */
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   public void assertHasProtectedConstuctors(WritableAssertionInfo info, Class<?> actual,
     Class<?>... parameters) {
     assertNotNull(info, actual);
@@ -695,6 +697,7 @@ public class Classes {
    * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the
    *                        given parameters.
    */
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   public void assertHasPrivateConstuctors(WritableAssertionInfo info, Class<?> actual,
     Class<?>... parameters) {
     assertNotNull(info, actual);
@@ -714,6 +717,7 @@ public class Classes {
    * @throws AssertionError if the constructors of actual {@code Class} doesn't contains all of the
    *                        given parameters.
    */
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   public void assertHasConstuctors(WritableAssertionInfo info, Class<?> actual,
     Class<?>... parameters) {
     assertNotNull(info, actual);
@@ -721,6 +725,7 @@ public class Classes {
     assertConstructors(info, actual, parameters, actualConstructors);
   }
 
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   private Constructor<?>[] getConstructorsByModifier(Constructor<?>[] actualConstructors,
     String modifier) {
     ArrayList<Constructor<?>> constructors = new ArrayList<>();
@@ -755,6 +760,7 @@ public class Classes {
     return a;
   }
 
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   private void assertConstructors(WritableAssertionInfo info, Class<?> actual,
     Class<?>[] parameters, Constructor<?>[] actualConstructors) {
     LinkedHashSet<Class<?>[]> expectedParameter = new LinkedHashSet<>();
@@ -781,6 +787,5 @@ public class Classes {
     throw failures.failure(info, shouldHaveConstructors(actual, expectedParameter,
       missingParameters));
   }
-
 
 }

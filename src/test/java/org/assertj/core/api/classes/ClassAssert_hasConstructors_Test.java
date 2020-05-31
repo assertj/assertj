@@ -27,6 +27,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author phx
  */
+//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
 
 public class ClassAssert_hasConstructors_Test extends ClassAssertBaseTest {
   @Override

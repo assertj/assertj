@@ -24,6 +24,7 @@ import org.assertj.core.internal.Constructors;
  *               Generics to simplify fluent API implementation</a>&quot; for more details.
  * @author phx
  */
+//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1869
 public abstract class AbstractConstructorAssert<SELF extends AbstractConstructorAssert<SELF, ACTUAL>,
     ACTUAL extends Constructor> extends AbstractAssert<SELF, ACTUAL> {
 

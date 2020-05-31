@@ -20,6 +20,8 @@ import org.assertj.core.api.ClassAssertBaseTest;
 /**
  * Tests for <code>{@link ClassAssert#isPublic()}</code>.
  */
+//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
+
 public class ClassAssert_isPublic_Test extends ClassAssertBaseTest {
 
   @Override

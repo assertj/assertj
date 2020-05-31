@@ -20,6 +20,8 @@ import static org.mockito.Mockito.verify;
 /**
  * Tests for <code>{@link ClassAssert#isProtected()} ()}</code>.
  */
+//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
+
 public class ClassAssert_isProtected_Test extends ClassAssertBaseTest {
 
   @Override

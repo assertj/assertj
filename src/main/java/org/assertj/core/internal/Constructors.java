@@ -10,7 +10,6 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-
 package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldBePrivate.shouldBePrivate;
@@ -26,6 +25,7 @@ import org.assertj.core.api.AssertionInfo;
  *
  * @author phx
  */
+//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1869
 public class Constructors {
 
   private static final Constructors INSTANCE = new Constructors();
@@ -121,8 +121,7 @@ public class Constructors {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Constructor} do not contain these arguments.
    */
-  public void hasArguments(AssertionInfo info, Constructor actual,
-      Class<?>... arguments) {
+  public void hasArguments(AssertionInfo info, Constructor actual, Class<?>... arguments) {
     assertNotNull(info, actual);
     Class<?>[] parameterTypes = actual.getParameterTypes();
     if (arguments.length != parameterTypes.length) {

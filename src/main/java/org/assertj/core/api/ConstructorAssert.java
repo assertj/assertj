@@ -23,6 +23,8 @@ import java.lang.reflect.Constructor;
  *
  * @author phx
  */
+//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1869
+
 public class ConstructorAssert extends AbstractConstructorAssert<ConstructorAssert, Constructor> {
 
   public ConstructorAssert(Constructor actual) {

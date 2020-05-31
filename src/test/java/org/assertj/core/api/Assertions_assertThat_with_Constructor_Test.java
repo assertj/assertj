@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author phx
  */
+//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1869
 public class Assertions_assertThat_with_Constructor_Test {
 
   @Test
@@ -55,6 +56,9 @@ public class Assertions_assertThat_with_Constructor_Test {
     assertThat(Person.class.getDeclaredConstructor(int.class)).isPrivate();
   }
 
-
+  @Test
+  public void should_pass_hasArguments() throws NoSuchMethodException {
+    assertThat(String.class.getDeclaredConstructor()).hasArguments();
+  }
 
 }

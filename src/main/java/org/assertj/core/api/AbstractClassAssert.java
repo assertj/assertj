@@ -35,9 +35,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} is assignable from others {@code Class}
-   * <p>
-   * Example:
+   * Verifies that the actual {@code Class} is assignable from others {@code Class}.
+   *
+   *<p>Example:
    * <pre><code class='java'> class Jedi {}
    * class HumanJedi extends Jedi {}
    *
@@ -62,8 +62,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is not an interface.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> interface Jedi {}
    * class HumanJedi implements Jedi {}
    *
@@ -84,8 +84,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is an interface.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> interface Jedi {}
    * class HumanJedi implements Jedi {}
    *
@@ -106,8 +106,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is abstract (has {@code abstract} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> public abstract class MyClass { }
    *
    * // this assertion succeeds:
@@ -128,8 +128,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is an annotation.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> public @interface Jedi {}
    *
    * // these assertions succeed:
@@ -151,8 +151,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is not an annotation.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> public @interface Jedi {}
    *
    * // this assertion succeeds:
@@ -174,8 +174,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is final (has {@code final} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> // these assertions succeed:
    * assertThat(String.class).isFinal();
    * assertThat(Math.class).isFinal();
@@ -195,8 +195,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is not final (does not have {@code final} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> // these assertions succeed:
    * assertThat(Object.class).isNotFinal();
    * assertThat(Throwable.class).isNotFinal();
@@ -216,8 +216,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is public (has {@code public} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> protected class MyClass { }
    *
    * // these assertions succeed:
@@ -239,8 +239,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is protected (has {@code protected} modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> public class MyClass { }
    *
    * // this assertion succeeds:
@@ -262,8 +262,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} is package-private (has no modifier).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass { }
    *
    * // this assertion succeeds:
@@ -285,8 +285,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> &#64;Target(ElementType.TYPE)
    * &#64;Retention(RetentionPolicy.RUNTIME)
    * private static @interface Force { }
@@ -314,15 +314,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
   public SELF hasAnnotations(
-    @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+      @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
     classes.assertContainsAnnotations(info, actual, annotations);
     return myself;
   }
 
   /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> &#64;Target(ElementType.TYPE)
    * &#64;Retention(RetentionPolicy.RUNTIME)
    * private static @interface Force { }
@@ -349,11 +349,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} has the given class as direct superclass (as in {@link
    * Class#getSuperclass()}).
-   * <p>
-   * The {@code superclass} should always be not {@code null}, use {@link #hasNoSuperclass()} to
+   *
+   * <p>The {@code superclass} should always be not {@code null}, use {@link #hasNoSuperclass()} to
    * verify the absence of the superclass.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> // this assertion succeeds:
    * assertThat(Integer.class).hasSuperclass(Number.class);
    *
@@ -386,8 +386,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} has no superclass (as in {@link Class#getSuperclass()},
    * when {@code null} is returned).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> // this assertion succeeds as Object has no superclass:
    * assertThat(Object.class).hasNoSuperclass();
    *
@@ -414,7 +414,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     return myself;
   }
 
-  /**
+  /**.
    * @param fields the fields who must be in the class.
    * @return {@code this} assertions object
    * @deprecated use {@link #hasPublicFields(String...)} instead.
@@ -427,8 +427,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} has the given accessible public fields (as in {@link
    * Class#getFields()}).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     protected String fieldTwo;
@@ -444,8 +444,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPublicFields("fieldThree");
    * assertThat(MyClass.class).hasPublicFields("fieldFour");
    * assertThat(MyClass.class).hasPublicFields("unknownField");</code></pre>
-   * <p>
-   * The assertion succeeds if no given fields are passed and the actual {@code Class} has no
+   *
+   * <p>The assertion succeeds if no given fields are passed and the actual {@code Class} has no
    * accessible public fields.
    *
    * @param fields the fields who must be in the class.
@@ -462,8 +462,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} <b>only</b> has the given accessible public fields (as
    * in {@link Class#getFields()}) and nothing more <b>in any order</b>.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     public String fieldTwo;
@@ -476,8 +476,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * // this assertion fails:
    * assertThat(MyClass.class).hasOnlyPublicFields("fieldOne");</code></pre>
-   * <p>
-   * The assertion succeeds if no given fields are passed and the actual {@code Class} has no
+   *
+   * <p>The assertion succeeds if no given fields are passed and the actual {@code Class} has no
    * accessible public fields.
    *
    * @param fields all the fields that are expected to be in the class.
@@ -496,8 +496,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} has the given declared fields (as in {@link
    * Class#getDeclaredFields()}).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     private String fieldTwo;
@@ -508,8 +508,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * // this assertion fails:
    * assertThat(MyClass.class).hasDeclaredFields("fieldThree");</code></pre>
-   * <p>
-   * The assertion succeeds if no given fields are passed and the actual {@code Class} has no
+   *
+   * <p>The assertion succeeds if no given fields are passed and the actual {@code Class} has no
    * declared fields.
    *
    * @param fields the fields who must be declared in the class.
@@ -526,8 +526,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} <b>only</b> has the given declared {@code fields} and
    * nothing more <b>in any order</b> (as in {@link Class#getDeclaredFields()}).
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public String fieldOne;
    *     public String fieldTwo;
@@ -540,8 +540,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * // this assertion fails:
    * assertThat(MyClass.class).hasOnlyDeclaredFields("fieldOne", "fieldThree");</code></pre>
-   * <p>
-   * The assertion succeeds if no given fields are passed and the actual {@code Class} has no
+   *
+   * <p>The assertion succeeds if no given fields are passed and the actual {@code Class} has no
    * declared fields.
    *
    * @param fields all the fields that are expected to be in the class.
@@ -559,8 +559,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} has the given methods (including inherited) whatever
    * their visibility are.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MySuperClass {
    *     public void superMethod() {}
    *     private void privateSuperMethod() {}
@@ -590,8 +590,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given declared methods.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MySuperClass {
    *     public void superMethod() {}
    * }
@@ -607,8 +607,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // these assertions fail:
    * assertThat(MyClass.class).hasDeclaredMethods("superMethod");
    * assertThat(MyClass.class).hasDeclaredMethods("methodThree");</code></pre>
-   * <p>
-   * The assertion succeeds if no given methods are passed and the actual {@code Class} has no
+   *
+   * <p>The assertion succeeds if no given methods are passed and the actual {@code Class} has no
    * declared methods.
    *
    * @param methodNames the method names which must be declared in the class.
@@ -624,8 +624,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given public methods.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public void methodOne() {}
    *     public void methodTwo() {}
@@ -645,7 +645,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the given public
    *                        methods.
-   * @since 2.7.0 / 3.7.0
    */
   public SELF hasPublicMethods(String... methodNames) {
     classes.assertHasPublicMethods(info, actual, methodNames);
@@ -654,8 +653,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given public methods.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public void constructor(String.class) {}
    *     public void constructor(String.class,int.class) {}
@@ -674,17 +673,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
    *                        parameters.
-   * @since 2.7.0 / 3.7.0
    */
-  protected SELF hasPublicConstructor(Class<?>[] parameters) {
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
+  public SELF hasPublicConstructor(Class<?>[] parameters) {
     classes.assertHasPublicConstuctors(info, actual, parameters);
     return myself;
   }
 
   /**
    * Verifies that the actual {@code Class} has the given public methods.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public void constructor(String.class) {}
    *     public void constructor(String.class,int.class) {}
@@ -703,17 +702,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
    *                        parameters.
-   * @since 2.7.0 / 3.7.0
    */
-  protected SELF hasProtectedConstructor(Class<?>[] parameters) {
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
+  public SELF hasProtectedConstructor(Class<?>[] parameters) {
     classes.assertHasProtectedConstuctors(info, actual, parameters);
     return myself;
   }
 
   /**
    * Verifies that the actual {@code Class} has the given public methods.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public void constructor(String.class) {}
    *     public void constructor(String.class,int.class) {}
@@ -733,17 +732,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
    *                        parameters.
-   * @since 2.7.0 / 3.7.0
    */
-  protected SELF hasPrivateConstructor(Class<?>[] parameters) {
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
+  public SELF hasPrivateConstructor(Class<?>[] parameters) {
     classes.assertHasPrivateConstuctors(info, actual, parameters);
     return myself;
   }
 
   /**
    * Verifies that the actual {@code Class} has the given public methods.
-   * <p>
-   * Example:
+   *
+   * <p>Example:
    * <pre><code class='java'> class MyClass {
    *     public void constructor(String.class) {}
    *     public void constructor(String.class,int.class) {}
@@ -765,9 +764,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the given
    *                        parameters.
-   * @since 2.7.0 / 3.7.0
    */
-  protected SELF hasConstructor(Class<?>[] parameters) {
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
+  public SELF hasConstructor(Class<?>[] parameters) {
     classes.assertHasConstuctors(info, actual, parameters);
     return myself;
   }

@@ -37,16 +37,19 @@ public class Assertions_assertThat_with_Class_Test {
     assertThat(assertions.actual).isSameAs(clazz);
   }
 
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   @Test
   public void should_pass_hasPublicConstructor() {
     assertThat(Person.class).hasPublicConstructor(String.class);
   }
 
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   @Test
   public void should_pass_hasPrivateConstructor() {
     assertThat(Person.class).hasPrivateConstructor(int.class);
   }
 
+  //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
   @Test
   public void should_pass_hasProtectedConstructor() {
     assertThat(Person.class).hasProtectedConstructor(char.class);

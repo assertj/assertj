@@ -10,16 +10,17 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-
 package org.assertj.core.error;
 
 import java.util.Collection;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a value satisfies a <code>{@link Class}</code>
+ * Creates an error message indicating that an assertion that verifies that a value satisfies a
+ * <code>{@link Class}</code>
  * failed.
  * @author phx
  */
+//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
 public class ShouldHaveConstructors extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldHaveConstructors}</code>.
