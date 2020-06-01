@@ -194,7 +194,6 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
                                      "    (this iterable)]"));
   }
 
-  @Disabled //
   @Test
   public void should_format_iterable_having_itself_as_element() {
     List<Object> list1 = list("Hello", "World");
