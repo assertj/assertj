@@ -117,7 +117,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       // comparison strategy is standard -> try to build an AssertionFailedError used in JUnit 5 that is nicely displayed in IDEs
       return creator.assertionError(message);
     }
-    AssertionError assertionFailedError = creator.assertionError(message);
+    AssertionError assertionFailedError = creator.assertionError(message, actual, expected);
     // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
     if (assertionFailedError != null) return assertionFailedError;
     // No JUnit in the classpath => fall back to default error message

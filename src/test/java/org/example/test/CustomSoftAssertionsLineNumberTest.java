@@ -30,10 +30,10 @@ class CustomSoftAssertionsLineNumberTest {
     MyProjectSoftAssertions softly = new MyProjectSoftAssertions();
     softly.assertThat(new MyProjectClass("v1")).hasValue("v2");
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(softly::assertAll, AssertionFailedError.class);
+    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
     // THEN
     // does not check the exact line number because it can vary (for example when Jacoco injects fields to check code coverage)
-    assertThat(error).hasStackTraceContaining​​("CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:3");
+    assertThat(error).hasStackTraceContaining("CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:3");
   }
 
 }

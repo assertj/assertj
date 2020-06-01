@@ -12,6 +12,14 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.description.Description;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.TestDescription;
+import org.junit.ComparisonFailure;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
+
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -22,14 +30,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
-import org.assertj.core.description.Description;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.TestDescription;
-import org.junit.ComparisonFailure;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for
@@ -75,9 +75,9 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
 
   private void check(AssertionError error) throws Exception {
     verify(constructorInvoker).newInstance(AssertionFailedError.class.getName(),
-      array(String.class, Object.class, Object.class),
-                                           format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
+      array(String.class),
+      format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
     assertThat(error).isNotInstanceOfAny(ComparisonFailure.class, AssertionFailedError.class)
-                     .hasMessage(format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
+      .hasMessage(format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }
 }
