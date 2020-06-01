@@ -41,12 +41,11 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -108,7 +107,7 @@ public class StandardRepresentation implements Representation {
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
-      OffsetDateTime.class, Calendar.class };
+    OffsetDateTime.class, Calendar.class };
 
   protected enum GroupType {
     ITERABLE("iterable"), ARRAY("array");
@@ -305,7 +304,7 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
     String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
     return comparatorDescription == null ? toStringOf(comparatorBasedComparisonStrategy.getComparator())
-        : quote(comparatorDescription);
+      : quote(comparatorDescription);
   }
 
   protected String toStringOf(Calendar calendar) {
@@ -486,46 +485,50 @@ public class StandardRepresentation implements Representation {
     return isObjectArray(o) ? smartFormat((Object[]) o) : formatPrimitiveArray(o);
   }
 
-  protected String multiLineFormat(Object[] array, Set<Object> alreadyVisited) {
+  protected String multiLineFormat(Object[] array, Map<Object, Boolean> alreadyVisited) {
     return format(array, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyVisited);
   }
 
-  protected String singleLineFormat(Object[] array, Set<Object> alreadyVisited) {
+  protected String singleLineFormat(Object[] array, Map<Object, Boolean> alreadyVisited) {
     return format(array, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, alreadyVisited);
   }
 
   protected String smartFormat(Object[] array) {
-    Set<Object> alreadyVisited = new HashSet<>();
+    Map<Object, Boolean> alreadyVisited = new IdentityHashMap<>();
     String description = singleLineFormat(array, alreadyVisited);
     return doesDescriptionFitOnSingleLine(description) ? description : multiLineFormat(array, alreadyVisited);
   }
 
-  private String toStringOf(Object origianlContainer, GroupType type, Object element, String elementSeparator, String indentation,
-                            Set<Object> alreadyFormatted) {
+  private String toStringOf(Object origianlContainer, GroupType type, Object element, String start, String end,
+                            String elementSeparator, String indentation,
+                            Map<Object, Boolean> alreadyFormatted) {
     if (origianlContainer == element)
       return "(this " + type.description + ")";
+    if (alreadyFormatted.get(element) != null && alreadyFormatted.get(element))
+      return ALREADY_VISITED;
+
+    if (element instanceof Iterable)
+      return format(origianlContainer, (Iterable<?>) element, start, end, elementSeparator, indentation, alreadyFormatted);
     if (!isArray(element))
       return element == null ? "null" : toStringOf(element);
     if (isArrayTypePrimitive(element))
       return formatPrimitiveArray(element);
-    if (alreadyFormatted.contains(element))
-      return ALREADY_VISITED;
     return format(origianlContainer, (Object[]) element, elementSeparator, indentation, alreadyFormatted);
   }
 
-  protected String format(Object[] array, String elementSeparator, String indentation, Set<Object> alreadyVisited) {
+  protected String format(Object[] array, String elementSeparator, String indentation, Map<Object, Boolean> alreadyVisited) {
     return format(array, array, elementSeparator, indentation, alreadyVisited);
   }
 
   protected String format(Object origianlContainer, Object[] array, String elementSeparator, String indentation,
-                          Set<Object> alreadyVisited) {
+                          Map<Object, Boolean> alreadyVisited) {
     if (array == null) return null;
     if (array.length == 0) return DEFAULT_START + DEFAULT_END;
 
-    alreadyVisited.add(array);
+    alreadyVisited.put(array, true);
     List<String> list = Stream.of(array)
-                              .map(element -> toStringOf(origianlContainer, GroupType.ARRAY, element, elementSeparator,
-                                                         indentation, alreadyVisited))
+                              .map(element -> toStringOf(origianlContainer, GroupType.ARRAY, element, DEFAULT_START, DEFAULT_END,
+                                                         elementSeparator, indentation, alreadyVisited))
                               .collect(toList());
     return extracted(list, DEFAULT_START, DEFAULT_END, elementSeparator, indentation, list);
   }
@@ -539,35 +542,25 @@ public class StandardRepresentation implements Representation {
     for (int i = 0; i < length; i++) {
       array[i] = get(o, i);
     }
-    return format(array, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, new HashSet<>());
+    return format(array, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, new IdentityHashMap<Object, Boolean>());
   }
 
-  // public String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
-  // return format(iterable, iterable, start, end, elementSeparator, indentation, new TreeSet<>());
-  // }
-  //
-  // public String format(Iterable<?> iterable,Object originalContainer, String start, String end, String elementSeparator, String
-  // indentation,Set<Object> alreadyVisited) {
-  // if (iterable == null) return null;
-  // Iterator<?> iterator = iterable.iterator();
-  // if (!iterator.hasNext()) return start + end;
-  //
-  // alreadyVisited.add(iterable);
-  // List<String> list = stream(iterable)
-  // .map(element ->toStringOf(originalContainer, GroupType.ITERABLE, element, elementSeparator,indentation, alreadyVisited))
-  // .collect(toList());
-  // return extracted(iterable, start, end, elementSeparator, indentation, list);
-  // }
+  protected String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
+    return format(iterable, iterable, start, end, elementSeparator, indentation, new IdentityHashMap<Object, Boolean>());
+  }
 
-  public String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
+  protected String format(Object originalContainer, Iterable<?> iterable, String start, String end, String elementSeparator,
+                          String indentation, Map<Object, Boolean> alreadyVisited) {
     if (iterable == null) return null;
     Iterator<?> iterator = iterable.iterator();
     if (!iterator.hasNext()) return start + end;
 
-    // deal with auto references to avoid infinite recursion
-    List<String> list = stream(iterable).map(element -> element == iterable ? "(this iterable)" : toStringOf(element))
-                                        .collect(toList());
-    return extracted(iterable, start, end, elementSeparator, indentation, list);
+    alreadyVisited.put(iterable, true);
+    List<String> list = stream(iterable)
+      .map(element -> toStringOf(originalContainer, GroupType.ITERABLE, element, start, end,
+                                 elementSeparator, indentation, alreadyVisited))
+      .collect(toList());
+    return extracted(list, start, end, elementSeparator, indentation, list);
   }
 
   private String extracted(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation,
