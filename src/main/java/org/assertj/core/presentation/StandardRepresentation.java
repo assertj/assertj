@@ -108,7 +108,7 @@ public class StandardRepresentation implements Representation {
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
-    OffsetDateTime.class, Calendar.class };
+      OffsetDateTime.class, Calendar.class };
 
   protected enum GroupType {
     ITERABLE("iterable"), ARRAY("array");
@@ -305,7 +305,7 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
     String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
     return comparatorDescription == null ? toStringOf(comparatorBasedComparisonStrategy.getComparator())
-      : quote(comparatorDescription);
+        : quote(comparatorDescription);
   }
 
   protected String toStringOf(Calendar calendar) {
@@ -543,19 +543,20 @@ public class StandardRepresentation implements Representation {
   }
 
   // public String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
-  //   return format(iterable, iterable, start, end, elementSeparator, indentation, new TreeSet<>());
+  // return format(iterable, iterable, start, end, elementSeparator, indentation, new TreeSet<>());
   // }
   //
-  // public String format(Iterable<?> iterable,Object originalContainer, String start, String end, String elementSeparator, String indentation,Set<Object> alreadyVisited) {
-  //   if (iterable == null) return null;
-  //   Iterator<?> iterator = iterable.iterator();
-  //   if (!iterator.hasNext()) return start + end;
+  // public String format(Iterable<?> iterable,Object originalContainer, String start, String end, String elementSeparator, String
+  // indentation,Set<Object> alreadyVisited) {
+  // if (iterable == null) return null;
+  // Iterator<?> iterator = iterable.iterator();
+  // if (!iterator.hasNext()) return start + end;
   //
-  //   alreadyVisited.add(iterable);
-  //   List<String> list = stream(iterable)
-  //     .map(element ->toStringOf(originalContainer, GroupType.ITERABLE, element, elementSeparator,indentation, alreadyVisited))
-  //                                       .collect(toList());
-  //   return extracted(iterable, start, end, elementSeparator, indentation, list);
+  // alreadyVisited.add(iterable);
+  // List<String> list = stream(iterable)
+  // .map(element ->toStringOf(originalContainer, GroupType.ITERABLE, element, elementSeparator,indentation, alreadyVisited))
+  // .collect(toList());
+  // return extracted(iterable, start, end, elementSeparator, indentation, list);
   // }
 
   public String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
