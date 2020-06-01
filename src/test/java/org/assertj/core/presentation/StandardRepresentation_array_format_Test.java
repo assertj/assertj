@@ -138,7 +138,6 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     then(formatted).isEqualTo("[\"Hello\", [true, false]]");
   }
 
-  @Disabled
   @Test
   public void should_format_Object_array_with_itself_as_element() {
     // GIVEN

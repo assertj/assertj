@@ -108,7 +108,7 @@ public class StandardRepresentation implements Representation {
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
-      OffsetDateTime.class, Calendar.class };
+    OffsetDateTime.class, Calendar.class };
 
   protected enum GroupType {
     ITERABLE("iterable"), ARRAY("array");
@@ -305,7 +305,7 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
     String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
     return comparatorDescription == null ? toStringOf(comparatorBasedComparisonStrategy.getComparator())
-        : quote(comparatorDescription);
+      : quote(comparatorDescription);
   }
 
   protected String toStringOf(Calendar calendar) {
@@ -500,21 +500,34 @@ public class StandardRepresentation implements Representation {
     return doesDescriptionFitOnSingleLine(description) ? description : multiLineFormat(array, alreadyVisited);
   }
 
+  private String toStringOf(Object origianlContainer, GroupType type, Object element, String elementSeparator, String indentation,
+                            Set<Object> alreadyFormatted) {
+    if (origianlContainer == element)
+      return "(this " + type.description + ")";
+    if (!isArray(element))
+      return element == null ? "null" : toStringOf(element);
+    if (isArrayTypePrimitive(element))
+      return formatPrimitiveArray(element);
+    if (alreadyFormatted.contains(element))
+      return ALREADY_VISITED;
+    return format(origianlContainer, (Object[]) element, elementSeparator, indentation, alreadyFormatted);
+  }
+
   protected String format(Object[] array, String elementSeparator, String indentation, Set<Object> alreadyVisited) {
+    return format(array, array, elementSeparator, indentation, alreadyVisited);
+  }
+
+  protected String format(Object origianlContainer, Object[] array, String elementSeparator, String indentation,
+                          Set<Object> alreadyVisited) {
     if (array == null) return null;
     if (array.length == 0) return DEFAULT_START + DEFAULT_END;
 
-    // deal with auto references to avoid infinite recursion
     alreadyVisited.add(array);
     List<String> list = Stream.of(array)
-                              .map(element -> alreadyVisited.contains(element) ? ALREADY_VISITED : toStringOf(element))
+                              .map(element -> toStringOf(origianlContainer, GroupType.ARRAY, element, elementSeparator,
+                                                         indentation, alreadyVisited))
                               .collect(toList());
     return extracted(list, DEFAULT_START, DEFAULT_END, elementSeparator, indentation, list);
-  }
-
-  private String toStringOf(Object element, Set<Object> alreadyVisited) {
-    alreadyVisited.add(element);
-    return toStringOf(element);
   }
 
   protected String formatPrimitiveArray(Object o) {
@@ -528,6 +541,22 @@ public class StandardRepresentation implements Representation {
     }
     return format(array, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, new HashSet<>());
   }
+
+  // public String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
+  //   return format(iterable, iterable, start, end, elementSeparator, indentation, new TreeSet<>());
+  // }
+  //
+  // public String format(Iterable<?> iterable,Object originalContainer, String start, String end, String elementSeparator, String indentation,Set<Object> alreadyVisited) {
+  //   if (iterable == null) return null;
+  //   Iterator<?> iterator = iterable.iterator();
+  //   if (!iterator.hasNext()) return start + end;
+  //
+  //   alreadyVisited.add(iterable);
+  //   List<String> list = stream(iterable)
+  //     .map(element ->toStringOf(originalContainer, GroupType.ITERABLE, element, elementSeparator,indentation, alreadyVisited))
+  //                                       .collect(toList());
+  //   return extracted(iterable, start, end, elementSeparator, indentation, list);
+  // }
 
   public String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
     if (iterable == null) return null;
