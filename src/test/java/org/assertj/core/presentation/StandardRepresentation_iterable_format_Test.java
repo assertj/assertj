@@ -200,7 +200,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
     List<Object> list1 = list("Hello", "World");
     List<Object> list2 = list(list1);
     list1.set(1, list2);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(list1)).isEqualTo("[[\"Hello\", (this iterable)]]");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(list2)).isEqualTo("[[\"Hello\", (this iterable)]]");
   }
 
   private static String stringOfLength(int length) {
