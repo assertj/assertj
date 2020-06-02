@@ -2755,14 +2755,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the all the given consumers can be met be at least one element in consumer with
+   * Verifies that the all the given consumers can be satisfied by elements in the iterable with
    * an element at most satisfies one consumer. No order requirement.
    * <p>
-   * This is useful to perform a group of assertions on a single object.
+   * This assertion is to test whether there are enough elements in the iterable that can satisfy all the consumers.
    * <p>
    * Grouping assertions example :
    * <pre><code class='java'> // second constructor parameter is the light saber color
-   * List<String> actual = newArrayList("Luke", "Leia", "Yoda");
+   * List&lt;String&gt; actual = newArrayList("Luke", "Leia", "Yoda");
    *
    * Consumer&lt;Jedi&gt; jediRequirements = jedi -&gt; {
    *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");

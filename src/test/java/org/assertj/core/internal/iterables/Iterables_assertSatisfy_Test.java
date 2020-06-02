@@ -57,6 +57,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> {
       assertThat(s).doesNotContain("a");
     };
+
     // WHEN/THEN
     iterables.assertSatisfy(info, actual, consumer1, consumer2);
   }
@@ -68,6 +69,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer = s -> {
       assertThat(s.length()).isEqualTo(4);
     };
+
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).satisfy(consumer));
     // THEN
@@ -102,6 +104,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> {
       assertThat(s).contains("o");
     };
+
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer1, consumer2));
     // THEN
