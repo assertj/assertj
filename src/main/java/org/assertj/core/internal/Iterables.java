@@ -1121,8 +1121,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
    */
-  @SafeVarargs
-  public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
+  public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>[] consumers) {
     assertNotNull(info, actual);
     checkArgument(consumers != null, "The Consumer<? super E>... expressing the assertions consumers must not be null");
 

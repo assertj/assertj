@@ -14,9 +14,9 @@ package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -27,6 +27,7 @@ import java.util.function.Consumer;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -34,6 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Ting Sun
  */
+@DisplayName("Iterables assertSatisfy")
 public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
 
   private List<String> actual = newArrayList("Luke", "Leia", "Yoda");
@@ -44,8 +46,10 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer = s -> {
       assertThat(s.length()).isEqualTo(4);
     };
+    Consumer<String>[] consumers = array(consumer);
+
     // WHEN/THEN
-    iterables.assertSatisfy(info, actual, consumer);
+    iterables.assertSatisfy(info, actual, consumers);
   }
 
   @Test
@@ -58,9 +62,10 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> {
       assertThat(s).doesNotContain("a");
     };
+    Consumer<String>[] consumers = array(consumer1, consumer2);
 
     // WHEN/THEN
-    iterables.assertSatisfy(info, actual, consumer1, consumer2);
+    iterables.assertSatisfy(info, actual, consumers);
   }
 
   @Test
@@ -79,9 +84,13 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_consumer_is_null() {
+    // GIVEN
+    Consumer<String>[] consumers = null;
+    String message = "The Consumer<? super E>... expressing the assertions consumers must not be null";
+
     // WHEN/THEN
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).satisfy(null))
-                                    .withMessage("The Consumer<? super E>... expressing the assertions consumers must not be null");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).satisfy(consumers))
+                                        .withMessage(message);
   }
 
   @Test
@@ -90,10 +99,12 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer = s -> {
       assertThat(s.length()).isEqualTo(5);
     };
+    Consumer<String>[] consumers = array(consumer);
+
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumers));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfy(actual, consumer).create());
+    then(assertionError).hasMessage(shouldSatisfy(actual, consumers).create());
   }
 
   @Test
@@ -105,11 +116,12 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> {
       assertThat(s).contains("o");
     };
+    Consumer<String>[] consumers = array(consumer1, consumer2);
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer1, consumer2));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumers));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfy(actual, consumer1, consumer2).create());
+    then(assertionError).hasMessage(shouldSatisfy(actual, consumers).create());
   }
 
   @Test
@@ -118,11 +130,12 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer = s -> {
       assertThat(s).doesNotContain("z");
     };
+    Consumer<String>[] consumers = array(consumer, consumer, consumer, consumer);
+
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer, consumer,
-                                                                                       consumer, consumer));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumers));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfy(actual, consumer, consumer, consumer, consumer).create());
+    then(assertionError).hasMessage(shouldSatisfy(actual, consumers).create());
   }
 
 }

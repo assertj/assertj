@@ -22,8 +22,7 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
     return new ShouldSatisfy(actual, condition);
   }
 
-  @SafeVarargs
-  public static <T> ErrorMessageFactory shouldSatisfy(Iterable<T> actual, Consumer<? super T>... consumers) {
+  public static <T> ErrorMessageFactory shouldSatisfy(Iterable<T> actual, Consumer<? super T>[] consumers) {
     return new ShouldSatisfy(actual, consumers);
   }
 
@@ -32,6 +31,6 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
   }
 
   private ShouldSatisfy(Object actual, Consumer<?>... consumers) {
-    super("%nExpecting:%n  <%s>%nto satisfy all the conusmers:%n  <%s>", actual, consumers);
+    super("%nExpecting:%n  <%s>%nto satisfy all the conusmers.", actual);
   }
 }
