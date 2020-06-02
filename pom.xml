@@ -26,7 +26,7 @@
     <url>git@github.com:joel-costigliola/assertj-core</url>
     <tag>HEAD</tag>
   </scm>
-  <issueManagement> 
+  <issueManagement>
     <system>github</system>
     <url>https://github.com/joel-costigliola/assertj-core/issues</url>
   </issueManagement>
