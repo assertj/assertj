@@ -2754,6 +2754,49 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  /**
+   * Verifies that the all the given consumers can be met be at least one element in consumer with
+   * an element at most satisfies one consumer. No order requirement.
+   * <p>
+   * This is useful to perform a group of assertions on a single object.
+   * <p>
+   * Grouping assertions example :
+   * <pre><code class='java'> // second constructor parameter is the light saber color
+   * List<String> actual = newArrayList("Luke", "Leia", "Yoda");
+   *
+   * Consumer&lt;Jedi&gt; jediRequirements = jedi -&gt; {
+   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   *   assertThat(jedi.getName()).doesNotContain("Dark");
+   * };
+   *
+   * // this assertion succeeds:
+   * assertThat(actual).satisfy((s -> {
+   *       assertThat(s).doesNotContain("L");
+   *     }, s -> {
+   *       assertThat(s.length()).isEqualTo(4);
+   *       assertThat(s).doesNotContain("a");
+   *     }));
+   *
+   * // these assertions fail:
+   * assertThat(actual).satisfy((s -> {
+   *       assertThat(s).doesNotContain("L");
+   *     }, s -> {
+   *       assertThat(s).doesNotContain("L");
+   *     }));
+   *
+   * assertThat(actual).satisfy((s -> {
+   *       assertThat(s).contains("L");
+   *     }, s -> {
+   *       assertThat(s).contains("L");
+   *     }, s -> {
+   *       assertThat(s).contains("L");
+   *     }));</code></pre>
+   *
+   * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   *
+   * @throws NullPointerException if given Consumer is null
+   */
   @SafeVarargs
   public final SELF satisfy(Consumer<? super ELEMENT>... consumers) {
     iterables.assertSatisfy(info, actual, consumers);

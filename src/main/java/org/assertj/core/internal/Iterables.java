@@ -1109,6 +1109,16 @@ public class Iterables {
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
+  /**
+   * Asserts that the given {@code Iterable} satisfy all the given values.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if any elements in the {@code Consumer} array cannot be satisfied by elements in the given {@code Iterable}.
+   */
   @SafeVarargs
   public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
@@ -1126,11 +1136,11 @@ public class Iterables {
         return true;
       }).collect(toList());
     }
-    if (!isSatisfiedOrNo(stasfiedElementsLists, 0))
+    if (!isSatisfied(stasfiedElementsLists, 0))
       throw failures.failure(info, shouldSatisfy(actual, consumers));
   }
 
-  private static <E> boolean isSatisfiedOrNo(List<E>[] lists, int begin) {
+  private static <E> boolean isSatisfied(List<E>[] lists, int begin) {
     if (begin == lists.length) return true;
     if (lists[begin].size() == 0) return false;
 
@@ -1138,7 +1148,7 @@ public class Iterables {
       List<E>[] listsCopy = lists.clone();
       for (int i = begin + 1; i < lists.length; i++)
         listsCopy[i].remove(element);
-      if (isSatisfiedOrNo(listsCopy, begin + 1)) return true;
+      if (isSatisfied(listsCopy, begin + 1)) return true;
     }
     return false;
   }
