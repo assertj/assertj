@@ -13,31 +13,22 @@
 package org.assertj.core.internal.inputstreams;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
-import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsBaseTest;
 import org.assertj.core.internal.InputStreamsException;
-import org.assertj.core.util.diff.Delta;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
@@ -46,44 +37,51 @@ import org.junit.jupiter.api.Test;
  *
  * @author Peng Weiyuan
  */
+@DisplayName("InputStreams assertIsNotEmpty")
 public class InputStreams_assertIsNotEmpty_Test extends InputStreamsBaseTest {
+
+  private InputStream actual;
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> inputStreams.assertIsEmpty(someInfo(), null))
-      .withMessage(actualIsNull());
+    // GIVEN
+    AssertionInfo info = someInfo();
+    actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> inputStreams.assertIsNotEmpty(info, actual));
+    // THEN
+    assertThat(error).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_wrapping_caught_IOException() throws IOException {
+    // GIVEN
     actual = mock(InputStream.class);
     IOException cause = new IOException();
     when(actual.read()).thenThrow(cause);
-
-    assertThatExceptionOfType(InputStreamsException.class).isThrownBy(() -> inputStreams.assertIsEmpty(someInfo(), actual))
-      .withCause(cause);
+    // WHEN
+    Throwable error = catchThrowable(() -> inputStreams.assertIsEmpty(someInfo(), actual));
+    // THEN
+    assertThat(error).isInstanceOf(InputStreamsException.class).hasCause(cause);
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty() throws IOException {
-    Random rand = new Random();
-    int n = rand.nextInt();
-    actual = mock(InputStream.class);
-    when(actual.read()).thenReturn(n);
-    inputStreams.assertIsNotEmpty(someInfo(), actual);
+  public void should_pass_if_actual_is_not_empty() {
+    // GIVEN
+    actual = new ByteArrayInputStream(new byte[]{'1', '2'});
+    // THEN
+    assertThat(actual).isNotEmpty();
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() throws IOException {
+  public void should_fail_if_actual_is_empty() {
     // GIVEN
     AssertionInfo info = someInfo();
-    actual = mock(InputStream.class);
+    actual = new ByteArrayInputStream(new byte[0]);
     // WHEN
-    when(actual.read()).thenReturn(-1);
-    Throwable error = catchThrowable(() -> inputStreams.assertIsNotEmpty(info, actual));
+    AssertionError error = expectAssertionError(() -> inputStreams.assertIsNotEmpty(info, actual));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEmpty());
+    assertThat(error).hasMessage(shouldNotBeEmpty().create());
   }
 
 }

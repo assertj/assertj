@@ -13,23 +13,24 @@
 package org.assertj.core.internal.inputstreams;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Random;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsBaseTest;
 import org.assertj.core.internal.InputStreamsException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
@@ -38,44 +39,50 @@ import org.junit.jupiter.api.Test;
  *
  * @author Peng Weiyuan
  */
+@DisplayName("InputStreams assertIsEmpty")
 public class InputStreams_assertIsEmpty_Test extends InputStreamsBaseTest {
+
+  private InputStream actual;
+
   @Test
   public void should_throw_error_if_expected_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> inputStreams.assertIsEmpty(someInfo(), null))
-      .withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> inputStreams.assertIsEmpty(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_throw_error_wrapping_caught_IOException() throws IOException {
+    // GIVEN
     actual = mock(InputStream.class);
     IOException cause = new IOException();
     when(actual.read()).thenThrow(cause);
-
-    assertThatExceptionOfType(InputStreamsException.class).isThrownBy(() -> inputStreams.assertIsEmpty(someInfo(), actual))
-      .withCause(cause);
+    // WHEN
+    Throwable error = catchThrowable(() -> inputStreams.assertIsEmpty(someInfo(), actual));
+    // THEN
+    assertThat(error).isInstanceOf(InputStreamsException.class).hasCause(cause);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() throws IOException{
-    actual = mock(InputStream.class);
-    when(actual.read()).thenReturn(-1);
-    inputStreams.assertIsEmpty(someInfo(), actual);
+  public void should_pass_if_actual_is_empty() {
+    // GIVEN
+    actual = new ByteArrayInputStream(new byte[0]);
+    // THEN
+    assertThat(actual).isEmpty();
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty() throws IOException{
+  public void should_fail_if_actual_is_not_empty() {
     // GIVEN
     AssertionInfo info = someInfo();
-    actual = mock(InputStream.class);
-    // https://stackoverflow.com/questions/49778335/set-mockito-return-to-be-any-integer-except-a-certain-value
-    Random rand = new Random();
-    int n = rand.nextInt();
+    actual = new ByteArrayInputStream(new byte[]{'1', '2'});
     // WHEN
-    when(actual.read()).thenReturn(n);
-    Throwable error = catchThrowable(() -> inputStreams.assertIsEmpty(info, actual));
+    AssertionError error = expectAssertionError(() -> inputStreams.assertIsEmpty(info, actual));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEmpty(actual));
+    assertThat(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
 }

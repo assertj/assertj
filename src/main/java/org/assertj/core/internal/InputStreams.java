@@ -102,7 +102,7 @@ public class InputStreams {
   }
 
   /**
-   * Asserts that the given InputStreams is empty.
+   * Asserts that the given InputStreams is not empty.
    *
    * @param info contains information about the assertion.
    * @param actual the "actual" InputStream.

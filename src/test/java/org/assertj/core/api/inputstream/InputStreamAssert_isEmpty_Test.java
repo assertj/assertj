@@ -16,17 +16,14 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.InputStreamAssert;
 import org.assertj.core.api.InputStreamAssertBaseTest;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 
 
 /**
  * Tests for <code>{@link InputStreamAssert#isEmpty()}</code>.
  */
+@DisplayName("InputStreamAssert isEmpty")
 public class InputStreamAssert_isEmpty_Test extends InputStreamAssertBaseTest {
-
-  @BeforeAll
-  public static void setUpOnce() {
-  }
 
   @Override
   protected InputStreamAssert invoke_api_method() {
