@@ -31,6 +31,6 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
   }
 
   private ShouldSatisfy(Object actual, Consumer<?>... consumers) {
-    super("%nExpecting:%n  <%s>%nto satisfy all the conusmers.", actual);
+    super("%nExpecting:%n  <%s>%nto satisfy all the consumers.", actual);
   }
 }
