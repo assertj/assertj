@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.inputstreams;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -63,15 +62,15 @@ public class InputStreams_assertIsEmpty_Test extends InputStreamsBaseTest {
     // WHEN
     Throwable error = catchThrowable(() -> inputStreams.assertIsEmpty(someInfo(), actual));
     // THEN
-    assertThat(error).isInstanceOf(InputStreamsException.class).hasCause(cause);
+    then(error).isInstanceOf(InputStreamsException.class).hasCause(cause);
   }
 
   @Test
   public void should_pass_if_actual_is_empty() {
     // GIVEN
     actual = new ByteArrayInputStream(new byte[0]);
-    // THEN
-    assertThat(actual).isEmpty();
+    // WHEN/THEN
+    inputStreams.assertIsEmpty(someInfo(), actual);
   }
 
   @Test
@@ -82,7 +81,7 @@ public class InputStreams_assertIsEmpty_Test extends InputStreamsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> inputStreams.assertIsEmpty(info, actual));
     // THEN
-    assertThat(error).hasMessage(shouldBeEmpty(actual).create());
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
 }
