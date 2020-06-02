@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertNotEmpty(AssertionInfo, Collection)}</code>.
- *  
+ * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
