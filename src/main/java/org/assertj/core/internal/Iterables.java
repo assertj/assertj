@@ -79,6 +79,7 @@ import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Streams.stream;
 
 import java.util.ArrayList;
@@ -1116,14 +1117,14 @@ public class Iterables {
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
-   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the given consumers is {@code null}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if any elements in the {@code Consumer} array cannot be satisfied by elements in the given {@code Iterable}.
+   * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
    */
   @SafeVarargs
   public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
-    requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
+    checkArgument(consumers != null, "The Consumer<? super E>... expressing the assertions consumers must not be null");
 
     List<E>[] stasfiedElementsLists = new ArrayList[consumers.length];
     for (int i = 0; i < consumers.length; i++) {
