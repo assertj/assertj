@@ -2764,11 +2764,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <pre><code class='java'> // second constructor parameter is the light saber color
    * List&lt;String&gt; actual = newArrayList("Luke", "Leia", "Yoda");
    *
-   * Consumer&lt;Jedi&gt; jediRequirements = jedi -&gt; {
-   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
-   *   assertThat(jedi.getName()).doesNotContain("Dark");
-   * };
-   *
    * // this assertion succeeds:
    * assertThat(actual).satisfy((s --&gt; {
    *       assertThat(s).doesNotContain("L");
