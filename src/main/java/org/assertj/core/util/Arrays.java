@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Utility methods related to arrays.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Florent Biville
@@ -37,7 +37,7 @@ public class Arrays {
 
   /**
    * Indicates whether the given object is not {@code null} and is an array.
-   * 
+   *
    * @param o the given object.
    * @return {@code true} if the given object is not {@code null} and is an array, otherwise {@code false}.
    */
@@ -47,7 +47,7 @@ public class Arrays {
 
   /**
    * Get the values of any array (primitive or not) into a {@code Object[]}.
-   * 
+   *
    * @param array array passed as an object to support both primitive and Object array
    * @return the values of the given Object as a {@code Object[]}.
    * @throws IllegalArgumentException it the given Object is not an array.
@@ -64,7 +64,7 @@ public class Arrays {
 
   /**
    * Get the values of any array (primitive or not) into a {@code List<Object>}.
-   * 
+   *
    * @param array array passed as an object to support both primitive and Object array
    * @return the values of the given Object as a {@code List<Object>}.
    * @throws IllegalArgumentException it the given Object is not an array.
@@ -75,7 +75,7 @@ public class Arrays {
 
   /**
    * Indicates whether the given array is {@code null} or empty.
-   * 
+   *
    * @param <T> the type of elements of the array.
    * @param array the array to check.
    * @return {@code true} if the given array is {@code null} or empty, otherwise {@code false}.
@@ -86,7 +86,7 @@ public class Arrays {
 
   /**
    * Returns an array containing the given arguments.
-   * 
+   *
    * @param <T> the type of the array to return.
    * @param values the values to store in the array.
    * @return an array containing the given arguments.
@@ -96,9 +96,9 @@ public class Arrays {
     return values;
   }
 
-  /** 
+  /**
    * Returns an int[] from the {@link AtomicIntegerArray}, null if the given atomic array is null.
-   * 
+   *
    * @param atomicIntegerArray the {@link AtomicIntegerArray} to convert to int[].
    * @return an int[].
    */
@@ -111,9 +111,9 @@ public class Arrays {
     return array;
   }
 
-  /** 
+  /**
    * Returns an long[] from the {@link AtomicLongArray}, null if the given atomic array is null.
-   * 
+   *
    * @param atomicLongArray the {@link AtomicLongArray} to convert to long[].
    * @return an long[].
    */
@@ -126,9 +126,9 @@ public class Arrays {
     return array;
   }
 
-  /** 
+  /**
    * Returns an T[] from the {@link AtomicReferenceArray}, null if the given atomic array is null.
-   * 
+   *
    * @param <T> the type of elements of the array.
    * @param atomicReferenceArray the {@link AtomicReferenceArray} to convert to T[].
    * @return an T[].
@@ -147,7 +147,7 @@ public class Arrays {
 
   /**
    * Returns all the non-{@code null} elements in the given array.
-   * 
+   *
    * @param <T> the type of elements of the array.
    * @param array the given array.
    * @return all the non-{@code null} elements in the given array. An empty list is returned if the given array is
@@ -161,7 +161,7 @@ public class Arrays {
   /**
    * Returns {@code true} if the given array has only {@code null} elements, {@code false} otherwise. If given array is
    * empty, this method returns {@code true}.
-   * 
+   *
    * @param <T> the type of elements of the array.
    * @param array the given array. <b>It must not be null</b>.
    * @return {@code true} if the given array has only {@code null} elements or is empty, {@code false} otherwise.
@@ -185,7 +185,7 @@ public class Arrays {
   }
 
   public static boolean isArrayTypePrimitive(Object o) {
-    return o != null && o.getClass().getComponentType().isPrimitive();
+    return o != null && isArray(o) && o.getClass().getComponentType().isPrimitive();
   }
 
   public static IllegalArgumentException notAnArrayOfPrimitives(Object o) {

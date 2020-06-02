@@ -24,6 +24,8 @@ import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -92,6 +94,12 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
       }
     };
     assertThat(STANDARD_REPRESENTATION.toStringOf(o)).isEqualTo(path);
+  }
+
+  @Test
+  public void should_return_toString_of_Path() {
+    final Path path = Paths.get("someFile.txt");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(path)).isEqualTo("someFile.txt");
   }
 
   @Test

@@ -13,10 +13,8 @@
 package org.assertj.core.presentation;
 
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.joining;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
@@ -24,7 +22,6 @@ import static org.assertj.core.util.Lists.list;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -76,9 +73,11 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
 
   @Test
   public void should_format_iterable_with_custom_start_and_end() {
-    List<? extends Object> list = asList("First", 3);
-    assertThat(STANDARD_REPRESENTATION.singleLineFormat(list, "{", "}")).isEqualTo("{\"First\", 3}");
-    assertThat(STANDARD_REPRESENTATION.singleLineFormat(asList(), "{", "}")).isEqualTo("{}");
+    // GIVEN
+    List<? extends Object> list = list("First", 3);
+    // THEN
+    then(STANDARD_REPRESENTATION.singleLineFormat(list, "{", "}")).isEqualTo("{\"First\", 3}");
+    then(STANDARD_REPRESENTATION.singleLineFormat(list(), "{", "}")).isEqualTo("{}");
   }
 
   @ParameterizedTest(name = "with printing {0} max, {1} should be formatted as {2}")
@@ -163,7 +162,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
     // GIVEN
     StandardRepresentation.setMaxElementsForPrinting(6);
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.smartFormat(list("First", 3, 4, "foo", "bar", 5, "another", 6));
+    String formatted = STANDARD_REPRESENTATION.toStringOf(list("First", 3, 4, "foo", "bar", 5, "another", 6));
     // THEN
     then(formatted).isEqualTo(format("[\"First\", 3, 4, ... 5, \"another\", 6]"));
   }
@@ -173,34 +172,42 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
     // GIVEN
     List<Integer> list = list(1, 2, 3);
     // WHEN
-    String formatted = new HexadecimalRepresentation().multiLineFormat(list);
+    String formatted = new HexadecimalRepresentation().toStringOf(list);
     // THEN
-    String formattedAfterNewLine = "  <" + formatted + ">";
-    then(formattedAfterNewLine).isEqualTo(format("  <[0x0000_0001,%n" +
-                                                 "    0x0000_0002,%n" +
-                                                 "    0x0000_0003]>"));
+    then(formatted).isEqualTo("[0x0000_0001, 0x0000_0002, 0x0000_0003]");
   }
 
   @Test
   public void should_format_recursive_iterable() {
     // GIVEN
-    List<Object> list = list();
-    list.add(list);
-    list.add(list);
+    List<Object> selfReferencingList = list();
+    selfReferencingList.add(selfReferencingList);
+    selfReferencingList.add(selfReferencingList);
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.multiLineFormat(list);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(selfReferencingList);
     // THEN
-    then(formatted).isEqualTo(format("[(this iterable),%n" +
-                                     "    (this iterable)]"));
+    then(formatted).isEqualTo(format("[(this iterable), (this iterable)]"));
   }
 
-  @Disabled //
   @Test
   public void should_format_iterable_having_itself_as_element() {
-    List<Object> list1 = list("Hello", "World");
-    List<Object> list2 = list(list1);
-    list1.set(1, list2);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(list1)).isEqualTo("[[\"Hello\", (this iterable)]]");
+    // GIVEN
+    List<Object> selfReferencingList = list("Hello");
+    selfReferencingList.add(selfReferencingList);
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.toStringOf(selfReferencingList);
+    // THEN
+    then(formatted).isEqualTo("[\"Hello\", (this iterable)]");
+  }
+
+  @Test
+  public void should_only_consider_root_object_for_cycles() {
+    List<Object> innerList = list(1, 2, 3);
+    List<Object> outerList = list(innerList, innerList);
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.toStringOf(outerList);
+    // THEN
+    then(formatted).isEqualTo("[[1, 2, 3], [1, 2, 3]]");
   }
 
   private static String stringOfLength(int length) {

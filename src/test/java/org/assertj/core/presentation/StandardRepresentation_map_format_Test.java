@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link StandardRepresentation#toStringOf(Map) StandardRepresentation#toStringOf(Map)}.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author gabga

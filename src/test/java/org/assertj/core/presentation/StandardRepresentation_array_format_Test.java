@@ -19,7 +19,6 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -138,17 +137,27 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
     then(formatted).isEqualTo("[\"Hello\", [true, false]]");
   }
 
-  @Disabled
   @Test
   public void should_format_Object_array_with_itself_as_element() {
     // GIVEN
-    Object[] array1 = { "Hello", "World" };
-    Object[] array2 = { array1 };
-    array1[1] = array2;
+    Object[] array = { "Hello", null };
+    array[1] = array;
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array2);
+    String formatted = STANDARD_REPRESENTATION.formatArray(array);
     // THEN
-    then(formatted).isEqualTo("[[\"Hello\", (this array)]]");
+    then(formatted).isEqualTo("[\"Hello\", (this array)]");
+  }
+
+  @Test
+  public void should_format_self_referencing_Object_array() {
+    // GIVEN
+    Object[] array = { null, null };
+    array[0] = array;
+    array[1] = array;
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    // THEN
+    then(formatted).isEqualTo("[(this array), (this array)]");
   }
 
   @Test
