@@ -1110,7 +1110,8 @@ public class Iterables {
   }
 
   /**
-   * Asserts that the given {@code Iterable} satisfy all the given values.
+   * Verifies that the all the given consumers can be satisfied by elements in the iterable with
+   * an element at most satisfies one consumer. No order requirement.
    *
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
