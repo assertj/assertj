@@ -1126,10 +1126,10 @@ public class Iterables {
 
     List<E>[] stasfiedElementsLists = new ArrayList[consumers.length];
     for (int i = 0; i < consumers.length; i++) {
-      Consumer<? super E> requirements = consumers[i];
+      Consumer<? super E> consumer = consumers[i];
       stasfiedElementsLists[i] = stream(actual).filter(element -> {
         try {
-          requirements.accept(element);
+          consumer.accept(element);
         } catch (AssertionError ex) {
           return false;
         }

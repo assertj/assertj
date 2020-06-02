@@ -2770,25 +2770,25 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * };
    *
    * // this assertion succeeds:
-   * assertThat(actual).satisfy((s --&gt {
+   * assertThat(actual).satisfy((s --&gt; {
    *       assertThat(s).doesNotContain("L");
-   *     }, s --&gt {
+   *     }, s --&gt; {
    *       assertThat(s.length()).isEqualTo(4);
    *       assertThat(s).doesNotContain("a");
    *     }));
    *
    * // these assertions fail:
-   * assertThat(actual).satisfy((s --&gt {
+   * assertThat(actual).satisfy((s --&gt; {
    *       assertThat(s).doesNotContain("L");
    *     }, s --&gt; {
    *       assertThat(s).doesNotContain("L");
    *     }));
    *
-   * assertThat(actual).satisfy((s --&gt {
+   * assertThat(actual).satisfy((s --&gt; {
    *       assertThat(s).contains("L");
-   *     }, s --&gt {
+   *     }, s --&gt; {
    *       assertThat(s).contains("L");
-   *     }, s --&gt {
+   *     }, s --&gt; {
    *       assertThat(s).contains("L");
    *     }));</code></pre>
    *
