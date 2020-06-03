@@ -76,6 +76,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_INT;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
+import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
@@ -126,6 +127,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Objects;
@@ -674,6 +676,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractDurationAssert<?> result = assertThat(value).asInstanceOf(DURATION);
     // THEN
     result.isPositive();
+  }
+
+  @Test
+  void period_factory_should_allow_period_assertions() {
+    // GIVEN
+    Object value = Period.of(1, 1, 1);
+    // WHEN
+    AbstractPeriodAssert<?> result = assertThat(value).asInstanceOf(PERIOD);
+    // THEN
+    result.hasDays(1);
   }
 
   @Test

@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.Date;
@@ -2252,6 +2253,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.15.0
    */
   default AbstractDurationAssert<?> assertThat(final Duration actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default AbstractPeriodAssert<?> assertThat(final Period actual) {
     return Assertions.assertThat(actual);
   }
 
