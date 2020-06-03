@@ -52,6 +52,7 @@ import java.net.URI;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Deque;
@@ -323,12 +324,13 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
       softly.assertThat(URI.create("http://assertj.org:80").toURL()).hasNoPort();
       softly.assertThat(Duration.ofHours(10)).hasHours(5);
+      softly.assertThat(Period.ofDays(1)).hasDays(2);
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (MultipleFailuresError e) {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
-      assertThat(errors).hasSize(54);
+      assertThat(errors).hasSize(55);
       assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
       assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
       assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -429,6 +431,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(53)).contains(format("%nExpecting Duration:%n"
                                                  + " <10H>%n"
                                                  + "to have 5L hours but had 10L"));
+      assertThat(errors.get(54)).contains(format("%nExpecting Period:%n <P1D>%nto have 2 days but had 1"));
     }
   }
 

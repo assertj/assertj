@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -2410,6 +2411,17 @@ public final class BDDAssumptions {
    * @since 3.15.0
    */
   public static AbstractDurationAssert<?> given(Duration actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link java.time.Period} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> given(Period actual) {
     return assumeThat(actual);
   }
 

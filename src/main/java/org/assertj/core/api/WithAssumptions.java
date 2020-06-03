@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -903,6 +904,17 @@ public interface WithAssumptions {
    */
   default AbstractDurationAssert<?> assumeThat(final Duration duration) {
     return Assumptions.assumeThat(duration);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code> assumption.
+   *
+   * @param period the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default AbstractPeriodAssert<?> assumeThat(final Period period) {
+    return Assumptions.assumeThat(period);
   }
 
   /**

@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -192,6 +193,18 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   @CheckReturnValue
   default DurationAssert then(Duration actual) {
     return proxy(DurationAssert.class, Duration.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  @CheckReturnValue
+  default PeriodAssert then(Period actual) {
+    return proxy(PeriodAssert.class, Period.class, actual);
   }
 
   /**
