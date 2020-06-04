@@ -10,28 +10,21 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api.classes;
-
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
+package org.assertj.core.api;
 
 /**
- * Tests for <code>{@link ClassAssert#isProtected()} ()}</code>.
+ * @author phx
  */
-//CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
+class Person {
 
-public class ClassAssert_isProtected_Test extends ClassAssertBaseTest {
-
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.isProtected();
+  public Person(String s) {
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertIsProtected(getInfo(assertions), getActual(assertions));
+  protected Person(char c){
+
   }
 
+  private Person(int i){
+
+  }
 }

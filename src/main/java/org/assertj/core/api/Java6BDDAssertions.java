@@ -17,6 +17,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -314,6 +315,16 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    */
   public static AbstractClassAssert<?> then(Class<?> actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.ConstructorAssert}</code>
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractConstructorAssert<ConstructorAssert, Constructor> then(Constructor actual) {
     return assertThat(actual);
   }
 

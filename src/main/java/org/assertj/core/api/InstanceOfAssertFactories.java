@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -269,6 +270,13 @@ public interface InstanceOfAssertFactories {
   @SuppressWarnings("rawtypes") // using Class instance
   InstanceOfAssertFactory<Class, ClassAssert> CLASS = new InstanceOfAssertFactory<>(Class.class,
                                                                                     Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link java.lang.reflect.Constructor}.
+   */
+  @SuppressWarnings("rawtypes") // using Class instance
+    InstanceOfAssertFactory<Constructor, ConstructorAssert> CONSTRUCTOR = new InstanceOfAssertFactory<>(Constructor.class,
+    Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code double} or its corresponding boxed type {@link Double}.

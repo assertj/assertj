@@ -345,9 +345,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF contains(@SuppressWarnings("unchecked") ELEMENT... values) {
-    arrays.assertContains(info, actual, values);
+      arrays.assertContains(info, actual, values);
     return myself;
   }
+
 
   /**
    * Verifies that the actual array contains only the given values and nothing else, in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
@@ -3160,4 +3161,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return filteredList.toArray(actualCopy);
   }
 
+//  public boolean hasPublicConstructor(List<ELEMENT> parameters){
+//
+//  }
 }

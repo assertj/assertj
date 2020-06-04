@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assumptions.assumeThatCode;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -973,6 +974,34 @@ public final class BDDAssumptions {
 
   /**
    * Creates a new assumption's instance for a {@link Class} value.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(String.class.getDeclaredConstructor()).isPublic;
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(String.class.getDeclaredConstructor()).isNull();
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual {@link java.lang.reflect.Constructor} value to be validated.
+   * @return the {@link AbstractConstructorAssert} assertion object to be used for validation.
+   */
+  public static AbstractConstructorAssert<ConstructorAssert, Constructor> given(Constructor actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link java.lang.reflect.Constructor} value.
    * <p>
    * Examples:
    * <p>

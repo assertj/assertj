@@ -132,5 +132,4 @@ public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<Object
   public final ObjectArrayAssert<ELEMENT> endsWith(ELEMENT first, ELEMENT... rest) {
     return super.endsWith(first, rest);
   }
-
 }

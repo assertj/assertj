@@ -655,6 +655,16 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   */
+  public static AbstractConstructorAssert<ConstructorAssert,Constructor> assumeThat(Constructor actual) {
+    return asAssumption(ConstructorAssert.class, Constructor.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link DateAssert}</code> assumption.
    *
    * @param actual the actual value.

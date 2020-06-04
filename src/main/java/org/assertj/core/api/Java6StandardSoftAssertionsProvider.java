@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -174,6 +175,16 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
     return proxy(ProxyableClassAssert.class, Class.class, actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion Constructor.
+   */
+  default ConstructorAssert assertThat(Constructor actual) {
+    return proxy(ConstructorAssert.class, Constructor.class, actual);
+  }
+  
   /**
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.

@@ -12,26 +12,33 @@
  */
 package org.assertj.core.api.classes;
 
+/**
+ * @author phx
+ */
+
 import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
+import org.assertj.core.api.WritableAssertionInfo;
 
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link ClassAssert#isProtected()} ()}</code>.
+ * Tests for <code>{@link org.assertj.core.api.ClassAssert#hasConstructor(Class[])}</code>.
+ *
+ * @author phx
  */
 //CS304 Issue link: https://github.com/joel-costigliola/assertj-core/issues/1693
 
-public class ClassAssert_isProtected_Test extends ClassAssertBaseTest {
-
+public class ClassAssert_hasConstructors_Test extends ClassAssertBaseTest {
   @Override
   protected ClassAssert invoke_api_method() {
-    return assertions.isProtected();
+    return assertions.hasConstructor(String.class,char.class);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(classes).assertIsProtected(getInfo(assertions), getActual(assertions));
+    verify(classes).assertHasConstuctors((WritableAssertionInfo) getInfo(assertions),
+      getActual(assertions), String.class,char.class);
   }
 
 }

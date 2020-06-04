@@ -17,6 +17,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import java.io.File;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -366,6 +367,16 @@ public class Java6Assertions {
    */
   public static AbstractClassAssert<?> assertThat(Class<?> actual) {
     return new ClassAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code>
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractConstructorAssert<ConstructorAssert, Constructor> assertThat(Constructor actual) {
+    return new ConstructorAssert(actual);
   }
 
   /**

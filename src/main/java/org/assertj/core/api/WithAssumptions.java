@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -425,6 +426,17 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default AbstractClassAssert<?> assumeThat(final Class<?> actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 2.9.0 / 3.9.0
+   */
+  default AbstractConstructorAssert<ConstructorAssert, Constructor> assumeThat(final Constructor actual) {
     return Assumptions.assumeThat(actual);
   }
 

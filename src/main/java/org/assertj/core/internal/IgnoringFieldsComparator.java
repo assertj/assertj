@@ -32,6 +32,7 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
     this.fields = fields;
   }
 
+
   public IgnoringFieldsComparator(String... fields) {
     this(new HashMap<String, Comparator<?>>(), defaultTypeComparators(), fields);
   }

@@ -20,7 +20,6 @@ import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Optional;
-
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.SoftAssertionsProvider;
@@ -95,50 +94,8 @@ import org.junit.platform.commons.support.ReflectionSupport;
  */
 public class SoftAssertionsExtension implements ParameterResolver, AfterTestExecutionCallback {
 
-  private static final Namespace SOFT_ASSERTIONS_EXTENSION_NAMESPACE = Namespace.create(SoftAssertionsExtension.class);
-
-  @Override
-  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
-    // Abort if parameter type is unsupported.
-    if (isUnsupportedParameterType(parameterContext.getParameter())) return false;
-
-    Executable executable = parameterContext.getDeclaringExecutable();
-    // @Testable is used as a meta-annotation on @Test, @TestFactory, @TestTemplate, etc.
-    boolean isTestableMethod = executable instanceof Method && isAnnotated(executable, Testable.class);
-    if (!isTestableMethod) {
-      throw new ParameterResolutionException(format("Configuration error: cannot resolve SoftAssertionsProvider instances for [%s]. Only test methods are supported.",
-                                                    executable));
-    }
-    Class<?> parameterType = parameterContext.getParameter().getType();
-    if (isAbstract(parameterType.getModifiers())) {
-      throw new ParameterResolutionException(format("Configuration error: the resolved SoftAssertionsProvider implementation [%s] is abstract and cannot be instantiated.",
-                                                    executable));
-    }
-    try {
-      parameterType.getDeclaredConstructor();
-    } catch (@SuppressWarnings("unused") Exception e) {
-      throw new ParameterResolutionException(format("Configuration error: the resolved SoftAssertionsProvider implementation [%s] has no default constructor and cannot be instantiated.",
-                                                    executable));
-    }
-    return true;
-  }
-
-  @Override
-  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
-    // The parameter type is guaranteed to be an instance of SoftAssertionsProvider
-    @SuppressWarnings("unchecked")
-    Class<? extends SoftAssertionsProvider> concreteSoftAssertionsProviderType = (Class<? extends SoftAssertionsProvider>) parameterContext.getParameter()
-                                                                                                                                           .getType();
-    return getStore(extensionContext).getOrComputeIfAbsent(SoftAssertionsProvider.class,
-                                                           unused -> ReflectionSupport.newInstance(concreteSoftAssertionsProviderType),
-                                                           SoftAssertionsProvider.class);
-  }
-
-  @Override
-  public void afterTestExecution(ExtensionContext extensionContext) {
-    Optional.ofNullable(getStore(extensionContext).remove(SoftAssertionsProvider.class, SoftAssertionsProvider.class))
-            .ifPresent(SoftAssertionsProvider::assertAll);
-  }
+  private static final Namespace SOFT_ASSERTIONS_EXTENSION_NAMESPACE = Namespace
+    .create(SoftAssertionsExtension.class);
 
   private static boolean isUnsupportedParameterType(Parameter parameter) {
     Class<?> type = parameter.getType();
@@ -147,6 +104,59 @@ public class SoftAssertionsExtension implements ParameterResolver, AfterTestExec
 
   private static Store getStore(ExtensionContext extensionContext) {
     return extensionContext.getStore(SOFT_ASSERTIONS_EXTENSION_NAMESPACE);
+  }
+
+  @Override
+  public boolean supportsParameter(ParameterContext parameterContext,
+    ExtensionContext extensionContext) {
+    // Abort if parameter type is unsupported.
+    if (isUnsupportedParameterType(parameterContext.getParameter())) {
+      return false;
+    }
+
+    Executable executable = parameterContext.getDeclaringExecutable();
+    // @Testable is used as a meta-annotation on @Test, @TestFactory, @TestTemplate, etc.
+    boolean isTestableMethod =
+      executable instanceof Method && isAnnotated(executable, Testable.class);
+    if (!isTestableMethod) {
+      throw new ParameterResolutionException(format(
+        "Configuration error: cannot resolve SoftAssertionsProvider instances for [%s]. Only test methods are supported.",
+        executable));
+    }
+    Class<?> parameterType = parameterContext.getParameter().getType();
+    if (isAbstract(parameterType.getModifiers())) {
+      throw new ParameterResolutionException(format(
+        "Configuration error: the resolved SoftAssertionsProvider implementation [%s] is abstract and cannot be instantiated.",
+        executable));
+    }
+    try {
+      parameterType.getDeclaredConstructor();
+    } catch (@SuppressWarnings("unused") Exception e) {
+      throw new ParameterResolutionException(format(
+        "Configuration error: the resolved SoftAssertionsProvider implementation [%s] has no default constructor and cannot be instantiated.",
+        executable));
+    }
+    return true;
+  }
+
+  @Override
+  public Object resolveParameter(ParameterContext parameterContext,
+    ExtensionContext extensionContext) {
+    // The parameter type is guaranteed to be an instance of SoftAssertionsProvider
+    @SuppressWarnings("unchecked")
+    Class<? extends SoftAssertionsProvider> concreteSoftAssertionsProviderType = (Class<? extends SoftAssertionsProvider>) parameterContext
+      .getParameter()
+      .getType();
+    return getStore(extensionContext).getOrComputeIfAbsent(SoftAssertionsProvider.class,
+      unused -> ReflectionSupport.newInstance(concreteSoftAssertionsProviderType),
+      SoftAssertionsProvider.class);
+  }
+
+  @Override
+  public void afterTestExecution(ExtensionContext extensionContext) {
+    Optional.ofNullable(
+      getStore(extensionContext).remove(SoftAssertionsProvider.class, SoftAssertionsProvider.class))
+      .ifPresent(SoftAssertionsProvider::assertAll);
   }
 
 }

@@ -29,14 +29,16 @@ public final class Fail {
    *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
-  public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
+  public static void setRemoveAssertJRelatedElementsFromStackTrace(
+    boolean removeAssertJRelatedElementsFromStackTrace) {
+    Failures.instance()
+      .setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   /**
    * Throws an {@link AssertionError} with the given message.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param failureMessage error message.
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom")));.
    * @throws AssertionError with the given message.
@@ -46,12 +48,14 @@ public final class Fail {
   }
 
   /**
-   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
+   * Throws an {@link AssertionError} with the given message built as {@link String#format(String,
+   * Object...)}.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param failureMessage error message.
-   * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
+   * @param args           Arguments referenced by the format specifiers in the format string.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s",
+   * ""oom)));.
    * @throws AssertionError with the given built message.
    */
   public static <T> T fail(String failureMessage, Object... args) {
@@ -59,13 +63,16 @@ public final class Fail {
   }
 
   /**
-   * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that caused the failure.
+   * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that
+   * caused the failure.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
-   * @param realCause cause of the error.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
-   * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
+   * @param realCause      cause of the error.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom",
+   * cause)));.
+   * @throws AssertionError with the given message and with the {@link Throwable} that caused the
+   *                        failure.
    */
   public static <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
@@ -74,38 +81,41 @@ public final class Fail {
   }
 
   /**
-   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
-   * but had not been.
+   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given
+   * class was expected to be thrown but had not been.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; failBecauseExceptionWasNotThrown(IOException.class)));.
-   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
-   *           not been.
-   *
-   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt;
+   * failBecauseExceptionWasNotThrown(IOException.class)));.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was
+   *                        expected to be thrown but had not been.
+   *                        <p>
+   *                        {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     return shouldHaveThrown(throwableClass);
   }
 
   /**
-   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
-   * but had not been.
+   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given
+   * class was expected to be thrown but had not been.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
-   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
-   *           not been.
+   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt;
+   * shouldHaveThrown(IOException.class)));.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was
+   *                        expected to be thrown but had not been.
    */
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     throw Failures.instance().expectedThrowableNotThrown(throwableClass);
   }
 
   /**
-   * This constructor is protected to make it possible to subclass this class. Since all its methods are static, there is no point
-   * on creating a new instance of it.
+   * This constructor is protected to make it possible to subclass this class. Since all its methods
+   * are static, there is no point on creating a new instance of it.
    */
-  protected Fail() {}
+  protected Fail() {
+  }
 }

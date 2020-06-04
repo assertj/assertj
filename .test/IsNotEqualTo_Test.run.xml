@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="IsNotEqualTo_Test" type="JUnit" factoryName="JUnit" folderName="Issue#1643: Add isNotEqualTo()">
+    <module name="assertj-core" />
+    <option name="PACKAGE_NAME" value="org.assertj.core.api.recursive.comparison" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="pattern" />
+    <option name="PARAMETERS" value="" />
+    <patterns>
+      <pattern testClass="^.*((RecursiveComparisonAssert_isNotEqualTo)|(ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test)).*$" />
+    </patterns>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
