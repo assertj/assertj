@@ -13,14 +13,10 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
-
-import java.util.function.Consumer;
 
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
@@ -51,10 +47,7 @@ public class ShouldSatisfy_create_Test {
   @Test
   public void should_create_error_message_if_consumers_are_not_all_satisfied() {
     // GIVEN
-    Consumer<String> consumer = s -> {
-      assertThat(s.length()).isEqualTo(5);
-    };
-    ErrorMessageFactory factory = shouldSatisfy(newArrayList("Luke", "Leia", "Yoda"), array(consumer));
+    ErrorMessageFactory factory = shouldSatisfy(newArrayList("Luke", "Leia", "Yoda"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

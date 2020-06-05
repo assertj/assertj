@@ -79,7 +79,6 @@ import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Streams.stream;
 
 import java.util.ArrayList;
@@ -1117,14 +1116,15 @@ public class Iterables {
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
-   * @throws IllegalArgumentException if the given consumers is {@code null}.
+   * @throws NullPointerException if the given consumers is {@code null}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
    */
-  public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>[] consumers) {
+  @SafeVarargs
+  public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
-    checkArgument(consumers != null, "The Consumer<? super E>... expressing the assertions consumers must not be null");
-
+    requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
+    requireNonNull(consumers[0], "The Consumer<? super E>... expressing the assertions consumers must not be null");
     List<E>[] stasfiedElementsLists = new ArrayList[consumers.length];
     for (int i = 0; i < consumers.length; i++) {
       Consumer<? super E> consumer = consumers[i];
@@ -1138,16 +1138,16 @@ public class Iterables {
       }).collect(toList());
     }
     if (!isSatisfied(stasfiedElementsLists, 0))
-      throw failures.failure(info, shouldSatisfy(actual, consumers));
+      throw failures.failure(info, shouldSatisfy(actual));
   }
 
-  private static <E> boolean isSatisfied(List<E>[] lists, int begin) {
-    if (begin == lists.length) return true;
-    if (lists[begin].size() == 0) return false;
+  private static <E> boolean isSatisfied(List<E>[] stasfiedElementsLists, int begin) {
+    if (begin == stasfiedElementsLists.length) return true;
+    if (stasfiedElementsLists[begin].size() == 0) return false;
 
-    for (E element : lists[begin]) {
-      List<E>[] listsCopy = lists.clone();
-      for (int i = begin + 1; i < lists.length; i++)
+    for (E element : stasfiedElementsLists[begin]) {
+      List<E>[] listsCopy = stasfiedElementsLists.clone();
+      for (int i = begin + 1; i < stasfiedElementsLists.length; i++)
         listsCopy[i].remove(element);
       if (isSatisfied(listsCopy, begin + 1)) return true;
     }

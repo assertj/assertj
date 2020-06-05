@@ -14,9 +14,9 @@ package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -46,10 +46,9 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer = s -> {
       assertThat(s.length()).isEqualTo(4);
     };
-    Consumer<String>[] consumers = array(consumer);
 
     // WHEN/THEN
-    iterables.assertSatisfy(info, actual, consumers);
+    iterables.assertSatisfy(info, actual, consumer);
   }
 
   @Test
@@ -62,10 +61,9 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> {
       assertThat(s).doesNotContain("a");
     };
-    Consumer<String>[] consumers = array(consumer1, consumer2);
 
     // WHEN/THEN
-    iterables.assertSatisfy(info, actual, consumers);
+    iterables.assertSatisfy(info, actual, consumer1, consumer2);
   }
 
   @Test
@@ -85,11 +83,11 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_consumer_is_null() {
     // GIVEN
-    Consumer<String>[] consumers = null;
+    Consumer<String> consumers = null;
     String message = "The Consumer<? super E>... expressing the assertions consumers must not be null";
 
     // WHEN/THEN
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).satisfy(consumers))
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(consumers))
                                         .withMessage(message);
   }
 
@@ -99,12 +97,11 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer = s -> {
       assertThat(s.length()).isEqualTo(5);
     };
-    Consumer<String>[] consumers = array(consumer);
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumers));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfy(actual, consumers).create());
+    then(assertionError).hasMessage(shouldSatisfy(actual).create());
   }
 
   @Test
@@ -116,12 +113,11 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> {
       assertThat(s).contains("o");
     };
-    Consumer<String>[] consumers = array(consumer1, consumer2);
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumers));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer1, consumer2));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfy(actual, consumers).create());
+    then(assertionError).hasMessage(shouldSatisfy(actual).create());
   }
 
   @Test
@@ -130,12 +126,12 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer = s -> {
       assertThat(s).doesNotContain("z");
     };
-    Consumer<String>[] consumers = array(consumer, consumer, consumer, consumer);
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumers));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer, consumer, consumer,
+                                                                                       consumer));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfy(actual, consumers).create());
+    then(assertionError).hasMessage(shouldSatisfy(actual).create());
   }
 
 }
