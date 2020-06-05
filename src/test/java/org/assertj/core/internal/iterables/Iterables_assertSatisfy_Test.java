@@ -13,7 +13,6 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
@@ -88,7 +87,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
 
     // WHEN/THEN
     assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(consumers))
-                                        .withMessage(message);
+                                    .withMessage(message);
   }
 
   @Test
