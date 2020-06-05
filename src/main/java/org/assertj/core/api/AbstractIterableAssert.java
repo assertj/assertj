@@ -2790,8 +2790,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
+   * @throws NullPointerException if the given consumers is {@code null}.
+   *
    * @since 3.17.0
-   * @throws IllegalArgumentException if the given consumers is {@code null}.
    */
   @SafeVarargs
   public final SELF satisfy(Consumer<? super ELEMENT>... consumers) {
