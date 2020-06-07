@@ -2760,8 +2760,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * This assertion is to test whether there are enough elements in the iterable that can satisfy all the consumers.
    * <p>
-   * Grouping assertions example :
-   * <pre><code class='java'> // second constructor parameter is the light saber color
+   * Examples:
+   * <pre><code class='java'>
    * List&lt;String&gt; starWarsCharacterNames = newArrayList("Luke", "Leia", "Yoda");
    *
    * // this assertion succeeds:
