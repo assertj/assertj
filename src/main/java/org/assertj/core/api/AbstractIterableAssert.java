@@ -2762,30 +2762,30 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * Grouping assertions example :
    * <pre><code class='java'> // second constructor parameter is the light saber color
-   * List&lt;String&gt; actual = newArrayList("Luke", "Leia", "Yoda");
+   * List&lt;String&gt; starWarsCharacterNames = newArrayList("Luke", "Leia", "Yoda");
    *
    * // this assertion succeeds:
-   * assertThat(actual).satisfy((s --&gt; {
-   *       assertThat(s).doesNotContain("L");
-   *     }, s --&gt; {
-   *       assertThat(s.length()).isEqualTo(4);
-   *       assertThat(s).doesNotContain("a");
-   *     }));
+   * assertThat(starWarsCharacterNames ).satisfy(name --&gt; {
+   *       assertThat(name).doesNotContain("L");
+   *     }, name --&gt; {
+   *       assertThat(name).hasSize(4);
+   *       assertThat(name).doesNotContain("a");
+   *     });
    *
    * // these assertions fail:
-   * assertThat(actual).satisfy((s --&gt; {
-   *       assertThat(s).doesNotContain("L");
-   *     }, s --&gt; {
-   *       assertThat(s).doesNotContain("L");
-   *     }));
+   * assertThat(starWarsCharacterNames ).satisfy(name --&gt; {
+   *       assertThat(name).doesNotContain("L");
+   *     }, name --&gt; {
+   *       assertThat(name).doesNotContain("L");
+   *     });
    *
-   * assertThat(actual).satisfy((s --&gt; {
-   *       assertThat(s).contains("L");
-   *     }, s --&gt; {
-   *       assertThat(s).contains("L");
-   *     }, s --&gt; {
-   *       assertThat(s).contains("L");
-   *     }));</code></pre>
+   * assertThat(starWarsCharacterNames ).satisfy(name --&gt; {
+   *       assertThat(name).contains("L");
+   *     }, name --&gt; {
+   *       assertThat(name).contains("L");
+   *     }, name --&gt; {
+   *       assertThat(name).contains("L");
+   *     });</code></pre>
    *
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
