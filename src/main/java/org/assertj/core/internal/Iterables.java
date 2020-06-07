@@ -1123,7 +1123,6 @@ public class Iterables {
   @SafeVarargs
   public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
-    requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
     requireNonNull(consumers[0], "The Consumer<? super E>... expressing the assertions consumers must not be null");
     List<E>[] satisfiedElementsLists = new ArrayList[consumers.length];
     for (int i = 0; i < consumers.length; i++) {
@@ -1142,14 +1141,22 @@ public class Iterables {
   }
 
   private static <E> boolean isSatisfied(List<E>[] satisfiedElementsLists, int begin) {
-    if (begin == satisfiedElementsLists.length) return true;
-    if (satisfiedElementsLists[begin].size() == 0) return false;
+    // recursively test whether we can find any specific matching strategy that can meet the requirements
+    if (begin == satisfiedElementsLists.length) return true;   // all consumers have been satisfied
+    if (satisfiedElementsLists[begin].size() == 0) return false;   // no satisfied element for consumers[begin]
 
     for (E element : satisfiedElementsLists[begin]) {
-      List<E>[] listsCopy = satisfiedElementsLists.clone();
-      for (int i = begin + 1; i < satisfiedElementsLists.length; i++)
-        listsCopy[i].remove(element);
-      if (isSatisfied(listsCopy, begin + 1)) return true;
+      List<Integer> indeces = newArrayList();
+      for (int i = begin + 1; i < satisfiedElementsLists.length; i++) {
+        if (satisfiedElementsLists[i].contains(element)) {
+          indeces.add(i);
+          satisfiedElementsLists[i].remove(element);
+        }
+      }
+
+      if (isSatisfied(satisfiedElementsLists, begin + 1)) return true;
+      for (int i : indeces)
+        satisfiedElementsLists[i].add(element); // restore the array
     }
     return false;
   }

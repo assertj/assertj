@@ -82,11 +82,11 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_consumer_is_null() {
     // GIVEN
-    Consumer<String> consumers = null;
+    Consumer<String> consumer = null;
     String message = "The Consumer<? super E>... expressing the assertions consumers must not be null";
 
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(consumers))
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(consumer))
                                     .withMessage(message);
   }
 
