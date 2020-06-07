@@ -1125,10 +1125,10 @@ public class Iterables {
     assertNotNull(info, actual);
     requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
     requireNonNull(consumers[0], "The Consumer<? super E>... expressing the assertions consumers must not be null");
-    List<E>[] stasfiedElementsLists = new ArrayList[consumers.length];
+    List<E>[] satisfiedElementsLists = new ArrayList[consumers.length];
     for (int i = 0; i < consumers.length; i++) {
       Consumer<? super E> consumer = consumers[i];
-      stasfiedElementsLists[i] = stream(actual).filter(element -> {
+      satisfiedElementsLists[i] = stream(actual).filter(element -> {
         try {
           consumer.accept(element);
         } catch (AssertionError ex) {
@@ -1137,7 +1137,7 @@ public class Iterables {
         return true;
       }).collect(toList());
     }
-    if (!isSatisfied(stasfiedElementsLists, 0))
+    if (!isSatisfied(satisfiedElementsLists, 0))
       throw failures.failure(info, shouldSatisfy(actual));
   }
 
