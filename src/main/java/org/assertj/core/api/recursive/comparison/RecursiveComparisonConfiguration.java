@@ -363,6 +363,8 @@ public class RecursiveComparisonConfiguration {
 
   /**
    * @deprecated Since 3.17.0 use {@link #registerComparatorForFields(Comparator, String...)} instead.
+   * @param comparator comparator to use
+   * @param fieldLocation the field location
    */
   @Deprecated
   public void registerComparatorForField(Comparator<?> comparator, FieldLocation fieldLocation) {
