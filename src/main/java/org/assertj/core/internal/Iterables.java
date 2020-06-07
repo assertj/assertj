@@ -1141,13 +1141,13 @@ public class Iterables {
       throw failures.failure(info, shouldSatisfy(actual));
   }
 
-  private static <E> boolean isSatisfied(List<E>[] stasfiedElementsLists, int begin) {
-    if (begin == stasfiedElementsLists.length) return true;
-    if (stasfiedElementsLists[begin].size() == 0) return false;
+  private static <E> boolean isSatisfied(List<E>[] satisfiedElementsLists, int begin) {
+    if (begin == satisfiedElementsLists.length) return true;
+    if (satisfiedElementsLists[begin].size() == 0) return false;
 
-    for (E element : stasfiedElementsLists[begin]) {
-      List<E>[] listsCopy = stasfiedElementsLists.clone();
-      for (int i = begin + 1; i < stasfiedElementsLists.length; i++)
+    for (E element : satisfiedElementsLists[begin]) {
+      List<E>[] listsCopy = satisfiedElementsLists.clone();
+      for (int i = begin + 1; i < satisfiedElementsLists.length; i++)
         listsCopy[i].remove(element);
       if (isSatisfied(listsCopy, begin + 1)) return true;
     }
