@@ -80,10 +80,22 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_consumer_is_null() {
+  public void should_throw_error_if_consumer_array_is_null() {
+    // GIVEN
+    Consumer<String>[] consumers = null;
+    Object o = null;
+    String message = "The Consumer<? super E>... expressing the assertions consumers must not be null";
+
+    // WHEN/THEN
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(consumers))
+                                    .withMessage(message);
+  }
+
+  @Test
+  public void should_fail_if_consumer_var_arg_is_null() {
     // GIVEN
     Consumer<String> consumer = null;
-    String message = "The Consumer<? super E>... expressing the assertions consumers must not be null";
+    String message = "The element in consumers must not be null";
 
     // WHEN/THEN
     assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(consumer))

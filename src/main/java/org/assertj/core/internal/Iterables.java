@@ -1116,14 +1116,17 @@ public class Iterables {
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
-   * @throws NullPointerException if the given consumers is {@code null}.
+   * @throws NullPointerException if the given consumers array or var args comsumers is {@code null}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
    */
   @SafeVarargs
   public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
-    requireNonNull(consumers[0], "The Consumer<? super E>... expressing the assertions consumers must not be null");
+    requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
+    for(Consumer<? super E> consumer: consumers)
+      requireNonNull(consumer, "The element in consumers must not be null");
+
     List<E>[] satisfiedElementsLists = new ArrayList[consumers.length];
     for (int i = 0; i < consumers.length; i++) {
       Consumer<? super E> consumer = consumers[i];
