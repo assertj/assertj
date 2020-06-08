@@ -2755,8 +2755,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the all the given consumers can be satisfied by elements in the iterable with
-   * an element at most satisfies one consumer. No order requirement.
+   * Verifies that all given consumers can be satisfied by elements in the iterable under test with
+   * an element at most satisfying one consumer. No order requirement.
    * <p>
    * This assertion is to test whether there are enough elements in the iterable that can satisfy all the consumers.
    * <p>
