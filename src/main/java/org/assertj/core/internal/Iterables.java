@@ -1148,9 +1148,8 @@ public class Iterables {
     for (E element : satisfiedElementsLists[begin]) {
       List<Integer> indeces = newArrayList();
       for (int i = begin + 1; i < satisfiedElementsLists.length; i++) {
-        if (satisfiedElementsLists[i].contains(element)) {
+        if (satisfiedElementsLists[i].remove(element)) {
           indeces.add(i);
-          satisfiedElementsLists[i].remove(element);
         }
       }
 
