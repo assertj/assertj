@@ -1143,7 +1143,7 @@ public class Iterables {
   private static <E> boolean isSatisfied(List<E>[] satisfiedElementsLists, int begin) {
     // recursively test whether we can find any specific matching strategy that can meet the requirements
     if (begin == satisfiedElementsLists.length) return true;   // all consumers have been satisfied
-    if (satisfiedElementsLists[begin].size() == 0) return false;   // no satisfied element for consumers[begin]
+    if (satisfiedElementsLists[begin].isEmpty()) return false;   // no satisfied element for consumers[begin]
 
     for (E element : satisfiedElementsLists[begin]) {
       List<Integer> indeces = newArrayList();
