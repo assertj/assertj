@@ -82,4 +82,34 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                                             actual, values, found, comparisonStrategy);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param sequence the sequence of values expected to be in {@code actual}, ignoring case
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldNotContainIgnoringCase(CharSequence actual, CharSequence sequence) {
+    return new ShouldNotContainCharSequence("%n" +
+                                            "Expecting:%n" +
+                                            " <%s>%n" +
+                                            "not to contain (ignoring case):%n" +
+                                            " <%s>%n" +
+                                            "%s",
+                                            actual, sequence, StandardComparisonStrategy.instance());
+  }
+
+  public static ErrorMessageFactory shouldNotContainIgnoringCase(CharSequence actual, CharSequence[] sequences,
+                                                                 Set<CharSequence> foundSequences) {
+    return new ShouldNotContainCharSequence("%n" +
+                                            "Expecting:%n" +
+                                            " <%s>%n" +
+                                            "not to contain (ignoring case):%n" +
+                                            " <%s>%n" +
+                                            "but found:%n" +
+                                            " <%s>%n" +
+                                            "%s",
+                                            actual, sequences, foundSequences, StandardComparisonStrategy.instance());
+  }
+
 }
