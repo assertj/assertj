@@ -14,81 +14,94 @@ package org.assertj.core.internal.strings;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.internal.util.collections.Sets.newSet;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldNotContainCharSequence;
 import org.assertj.core.internal.ErrorMessages;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.util.collections.Sets;
 
 /**
  * Tests for <code>{@link Strings#assertDoesNotContainIgnoringCase(AssertionInfo, CharSequence, CharSequence...)}</code>.
  * 
  * @author Brummolix
  */
+@DisplayName("Strings.assertDoesNotContainIgnoringCase")
 public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_actual_does_not_contain_sequence_ignoring_case() {
+  public void should_pass_if_actual_does_not_contain_value_ignoring_case() {
     strings.assertDoesNotContainIgnoringCase(someInfo(), "Yoda", "no");
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_sequences_ignoring_case() {
+  public void should_pass_if_actual_does_not_contain_values_ignoring_case() {
     strings.assertDoesNotContainIgnoringCase(someInfo(), "Yoda", "no", "also no");
   }
 
   @Test
-  public void should_fail_if_actual_contain_sequence() {
-    assertThatExceptionOfType(AssertionError.class)
-                                                   .isThrownBy(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), "Yoda",
-                                                                                                              "od"))
-                                                   .withMessage(ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda",
-                                                                                                                          "od")
-                                                                                            .create());
+  public void should_fail_if_actual_contains_value() {
+    // GIVEN
+    String actual = "Yoda";
+
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> {
+      strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "od");
+    });
+
+    // THEN
+    then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, "od").create());
   }
 
   @Test
-  public void should_fail_if_actual_contain_sequence_in_other_case() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), "Yoda",
-                                                                                                              "OD"))
-                                                   .withMessage(ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda",
-                                                                                                                          "OD")
-                                                                                            .create());
+  public void should_fail_if_actual_contains_value_in_different_case() {
+    // GIVEN
+    String actual = "Yoda";
+
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> {
+      strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "OD");
+    });
+
+    // THEN
+    then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, "OD").create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_one_of_several_sequences() {
+  public void should_fail_if_actual_contains_one_of_several_values() {
+    // GIVEN
+    String actual = "Yoda";
 
-    assertThatExceptionOfType(AssertionError.class)
-                                                   .isThrownBy(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), "Yoda",
-                                                                                                              "od", "Yo", "Luke"))
-                                                   .withMessage(ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda",
-                                                                                                                          new CharSequence[] {
-                                                                                                                              "od",
-                                                                                                                              "Yo",
-                                                                                                                              "Luke" },
-                                                                                                                          Sets.newSet("od",
-                                                                                                                                      "Yo"))
-                                                                                            .create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> {
+      strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "od", "Yo", "Luke");
+    });
+
+    // THEN
+    then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, new CharSequence[] { "od", "Yo", "Luke" },
+                                                                 newSet("od", "Yo")).create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_one_of_several_sequence_in_other_case() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), "Yoda",
-                                                                                                              "OD", "yo", "Luke"))
-                                                   .withMessage(ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda",
-                                                                                                                          new CharSequence[] {
-                                                                                                                              "OD",
-                                                                                                                              "yo",
-                                                                                                                              "Luke" },
-                                                                                                                          Sets.newSet("OD",
-                                                                                                                                      "yo"))
-                                                                                            .create());
+  public void should_fail_if_actual_contains_one_of_several_values_in_different_case() {
+    // GIVEN
+    String actual = "Yoda";
+
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> {
+      strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "OD", "yo", "Luke");
+    });
+
+    // THEN
+    then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, new CharSequence[] { "OD", "yo", "Luke" },
+                                                                 newSet("OD", "yo")).create());
   }
 
   @Test
@@ -100,13 +113,20 @@ public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTe
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), null,
-                                                                                                              "Yoda"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    String actual = null;
+
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> {
+      strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "Yoda");
+    });
+
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_values_is_empty() {
+  public void should_throw_error_if_values_are_empty() {
     assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> strings.assertDoesNotContainIgnoringCase(someInfo(),
                                                                                                                         "Yoda"))
                                                              .withMessage(ErrorMessages.arrayOfValuesToLookForIsEmpty());

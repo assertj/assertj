@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.internal.util.collections.Sets.newSet;
@@ -23,10 +24,8 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.Arrays;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.util.collections.Sets;
 
 /**
  * Tests for <code>{@link ShouldNotContainCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -101,9 +100,7 @@ public class ShouldNotContainString_create_Test {
   @Test
   public void should_create_error_message_for_ignoring_case_with_multiple_findings() {
     // GIVEN
-    ErrorMessageFactory factory = ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda",
-                                                                                            Arrays.array("OD", "da", "Luke"),
-                                                                                            Sets.newSet("OD", "da"));
+    ErrorMessageFactory factory = shouldNotContainIgnoringCase("Yoda", array("OD", "da", "Luke"), newSet("OD", "da"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

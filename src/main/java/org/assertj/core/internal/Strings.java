@@ -515,7 +515,6 @@ public class Strings {
       throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
-  
   /**
    * Verifies that the given {@code CharSequence} does not contain any one of the given values, ignoring case considerations.
    *
@@ -532,21 +531,18 @@ public class Strings {
   public void assertDoesNotContainIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
 
-    Set<CharSequence> foundSequences = new LinkedHashSet<>();
-    for (CharSequence sequence : values) {
-      if (actual.toString().toLowerCase().contains(sequence.toString().toLowerCase()))
-        foundSequences.add(sequence);
-    }
-    
-    if (foundSequences.isEmpty()) 
-      return;
-    
-    if (foundSequences.size() == 1 && values.length == 1) {
+    String actualLowerCase = actual.toString().toLowerCase();
+    Set<CharSequence> foundValues = stream(values).filter(value -> actualLowerCase.contains(value.toString().toLowerCase()))
+                                                  .collect(toCollection(LinkedHashSet::new));
+
+    if (foundValues.isEmpty()) return;
+
+    if (foundValues.size() == 1 && values.length == 1) {
       throw failures.failure(info, shouldNotContainIgnoringCase(actual, values[0]));
     }
-    throw failures.failure(info, shouldNotContainIgnoringCase(actual, values, foundSequences));
+    throw failures.failure(info, shouldNotContainIgnoringCase(actual, values, foundValues));
   }
-  
+
   /**
    * Verifies that the given {@code CharSequence} does not contain any one of the given values.
    *

@@ -14,8 +14,8 @@ package org.assertj.core.api.charsequence;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.assertj.core.util.Arrays;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -32,6 +32,6 @@ public class CharSequenceAssert_doesNotContainIgnoringCase_CharSequence_Test ext
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertDoesNotContainIgnoringCase(getInfo(assertions), getActual(assertions), Arrays.array("od", "do"));
+    verify(strings).assertDoesNotContainIgnoringCase(getInfo(assertions), getActual(assertions), array("od", "do"));
   }
 }

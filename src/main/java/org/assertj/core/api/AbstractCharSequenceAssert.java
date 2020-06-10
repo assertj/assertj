@@ -871,13 +871,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * Example :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(&quot;Frodo&quot;).doesNotContainIgnoringCase(&quot;pippin&quot;)
-   *                    .doesNotContainIgnoringCase(&quot;Merry&quot;, &quot;sam&quot;);
+   * assertThat(&quot;Frodo&quot;).doesNotContainIgnoringCase(&quot;pippin&quot;).doesNotContainIgnoringCase(&quot;Merry&quot;, &quot;sam&quot;);
    *
    *
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).doesNotContainIgnoringCase(&quot;Fro&quot;, &quot;Gimli&quot;, &quot;Legolas&quot;)
-   *                    .doesNotContainIgnoringCase(&quot;fro&quot;);
+   * assertThat(&quot;Frodo&quot;).doesNotContainIgnoringCase(&quot;Fro&quot;, &quot;Gimli&quot;, &quot;Legolas&quot;).doesNotContainIgnoringCase(&quot;fro&quot;);
    * </code></pre>
    *
    * @param values the CharSequences to search for.
@@ -893,7 +891,6 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     strings.assertDoesNotContainIgnoringCase(info, actual, values);
     return myself;
   }
-  
 
   /**
    * Verifies that the actual {@code CharSequence} does not contain the given regular expression.
