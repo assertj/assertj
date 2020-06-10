@@ -1149,15 +1149,17 @@ public class Iterables {
     if (satisfiedElementsLists[begin].isEmpty()) return false;   // no satisfied element for consumers[begin]
 
     for (E element : satisfiedElementsLists[begin]) {
-      List<Integer> indeces = newArrayList();
+      List<Integer> removedElementRowIndices = newArrayList();
       for (int i = begin + 1; i < satisfiedElementsLists.length; i++) {
         if (satisfiedElementsLists[i].remove(element)) {
-          indeces.add(i);
+          removedElementRowIndices.add(i);
         }
       }
 
+      // Check whether remaining consumers can be satisfied
       if (isSatisfied(satisfiedElementsLists, begin + 1)) return true;
-      for (int i : indeces)
+      
+      for (int i : removedElementRowIndices)
         satisfiedElementsLists[i].add(element); // restore the array
     }
     return false;
