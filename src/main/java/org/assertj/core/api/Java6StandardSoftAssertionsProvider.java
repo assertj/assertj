@@ -328,6 +328,17 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Int2DArrayAssert assertThat(int[][] actual) {
+    return proxy(Int2DArrayAssert.class, int[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code>.
    *
    * @param actual the actual value.

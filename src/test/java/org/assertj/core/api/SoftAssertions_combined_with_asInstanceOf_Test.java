@@ -51,6 +51,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static org.assertj.core.api.InstanceOfAssertFactories.INT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
@@ -213,6 +214,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(new ByteArrayInputStream("stream".getBytes()), INPUT_STREAM),
                      arguments(Instant.now(), INSTANT),
                      arguments(new int[0], INT_ARRAY),
+                     arguments(new int[0][0], INT_2D_ARRAY),
                      arguments((IntPredicate) i -> i == 0, INT_PREDICATE),
                      arguments(IntStream.empty(), INT_STREAM),
                      arguments(1, INTEGER),

@@ -450,6 +450,35 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance for an <code>int</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new int[][] {{1, 2}, {3, 4}}).contains(new int[] {1, 2}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new int[][] {{1, 2}, {3, 4}}).contains(new int[] {1, 2}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>int</code>s' two-dimensional array to be validated.
+   * @return the {@link Int2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert given(int[][] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a {@link BigInteger} value.
    * <p>
    * Examples:

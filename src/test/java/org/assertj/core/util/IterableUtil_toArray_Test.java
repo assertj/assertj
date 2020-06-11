@@ -17,12 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link IterableUtil#toArray(Iterable)}</code>.
- * 
+ *
  * @author Jean-Christophe Gay
  */
 public class IterableUtil_toArray_Test {
@@ -31,7 +32,7 @@ public class IterableUtil_toArray_Test {
 
   @Test
   public void should_return_null_when_given_iterable_is_null() {
-    assertThat(IterableUtil.toArray(null)).isNull();
+    assertThat(IterableUtil.toArray((Iterable<String>) null)).isNull();
     assertThat(IterableUtil.toArray(null, Object.class)).isNull();
   }
 
@@ -45,7 +46,7 @@ public class IterableUtil_toArray_Test {
 
   @Test
   public void should_return_empty_array_when_given_iterable_is_empty() {
-    assertThat(IterableUtil.toArray(emptyList())).isEmpty();
+    assertThat(IterableUtil.toArray(Collections.<Object> emptyList())).isEmpty();
     assertThat(IterableUtil.toArray(emptyList(), Object.class)).isEmpty();
   }
 

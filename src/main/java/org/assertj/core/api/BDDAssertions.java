@@ -692,6 +692,17 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert then(int[][] actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.IntegerAssert}</code>.
    *
    * @param actual the actual value.

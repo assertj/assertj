@@ -530,6 +530,17 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert assertThat(int[][] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code>.
    *
    * @param actual the actual value.

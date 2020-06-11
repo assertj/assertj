@@ -903,6 +903,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Int2DArrayAssert assertThat(final int[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
    *
    * @param actual the actual value.
