@@ -390,7 +390,7 @@ public class Assumptions {
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
-   * @since 2.9.0 / 3.9.0
+   * @since 3.17.0
    */
   public static Int2DArrayAssert assumeThat(int[][] actual) {
     return asAssumption(Int2DArrayAssert.class, int[][].class, actual);

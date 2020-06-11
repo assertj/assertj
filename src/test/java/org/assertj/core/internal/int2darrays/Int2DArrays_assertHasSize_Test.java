@@ -12,10 +12,11 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Int2DArrays;
@@ -25,29 +26,39 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Int2DArrays#assertHasSize(AssertionInfo, int[][], int, int)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
+ *
  * @author Maciej Wajcht
  */
 public class Int2DArrays_assertHasSize_Test extends Int2DArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), null, 2, 3))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    int[][] actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSize(someInfo(), actual, 2, 3));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
   @Test
   public void should_fail_if_first_dimension_size_of_actual_is_not_equal_to_expected_size() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), actual, 10, 3))
-                                                   .withMessage(shouldHaveSize(actual, actual.length, 10).create());
+    // GIVEN
+    int expectedFirstDimensionSize = 10;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSize(someInfo(), actual, expectedFirstDimensionSize, 3));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveSize(actual, actual.length, expectedFirstDimensionSize).create());
   }
 
   @Test
   public void should_fail_if_second_dimension_size_of_actual_is_not_equal_to_expected_size() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), actual, 2, 10))
-      .withMessage(shouldHaveSize(new int[] {0, 2, 4}, 3, 10, 0).create());
+    // GIVEN
+    int expectedSecondDimensionSize = 10;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSize(someInfo(), actual, 2, expectedSecondDimensionSize));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveSize(new int[] {0, 2, 4}, 3, expectedSecondDimensionSize, 0).create());
   }
 
   @Test

@@ -18,12 +18,62 @@ package org.assertj.core.api;
  * @param <SELF> the "self" type of this assertion class.
  * @param <ACTUAL> the type of the "actual" value which is a two-dimensional Array of ELEMENT.
  * @param <ELEMENT> the type of the "actual" array element.
- * @author Joel Costigliola
+ * @author Maciej Wajcht
+ * @since 3.17.0
  */
 public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
   extends AbstractAssert<SELF, ACTUAL> implements Array2DAssert<SELF, ELEMENT> {
 
   public Abstract2DArrayAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Verifies that the actual value is deeply equal to the given one.
+   * <p>
+   * Two array references are considered deeply equal if both
+   * are {@code null}, or if they refer to arrays that contain the same
+   * number of elements and all corresponding pairs of elements in the two
+   * arrays are deeply equal.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat(new int[][] {{1, 2}, {3, 4}}).isDeepEqualTo(new int[][] {{1, 2}, {3, 4}});
+   * assertThat(new String[][] {{&quot;a&quot;, &quot;b&quot;}, {&quot;c&quot;, &quot;d&quot;}}).isDeepEqualTo(new String[][] {{&quot;a&quot;, &quot;b&quot;}, {&quot;c&quot;, &quot;d&quot;}});
+   *
+   * // assertions will fail
+   * assertThat(new int[][] {{1, 2}, {3, 4}}).isDeepEqualTo(new int[][] {{1, 2}, {9, 10}});
+   * assertThat(new int[][] {{1, 2}, {3, 4}}).isDeepEqualTo(new int[][] {{1, 2, 3}, {4}});</code></pre>
+   *
+   * @param expected the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is not deeply equal to the given one.
+   */
+  public abstract SELF isDeepEqualTo(ACTUAL expected);
+
+  /**
+   * Verifies that the actual value is equal to the given one.
+   * <p>
+   * WARNING! This method will use {@code equals} to compare (it will compare arrays references only).
+   * It is advised to use {@link #isDeepEqualTo(ACTUAL)} instead.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat(&quot;abc&quot;).isEqualTo(&quot;abc&quot;);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isEqualTo(new HashMap&lt;String, Integer&gt;());
+   *
+   * // assertions will fail
+   * assertThat(&quot;abc&quot;).isEqualTo(&quot;123&quot;);
+   * assertThat(new ArrayList&lt;String&gt;()).isEqualTo(1);</code></pre>
+   *
+   * @param expected the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  @Override
+  public SELF isEqualTo(Object expected) {
+    return super.isEqualTo(expected);
   }
 }

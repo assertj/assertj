@@ -696,6 +696,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Int2DArrayAssert then(int[][] actual) {
     return assertThat(actual);

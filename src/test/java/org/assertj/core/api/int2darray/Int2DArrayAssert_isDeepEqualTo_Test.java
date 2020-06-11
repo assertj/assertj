@@ -15,9 +15,9 @@ package org.assertj.core.api.int2darray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.error.ShouldHaveSameSizeOfSubArrayAs.shouldHaveSameSizeOfSubarrayAs;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.error.array.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
+import static org.assertj.core.error.array.MultidimensionalArrayShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
@@ -39,8 +39,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     // GIVEN
     int[][] actual = null;
     int[][] expected = null;
-
-    // WHEN, THEN
+    // WHEN/THEN
     assertThat(actual).isDeepEqualTo(expected);
   }
 
@@ -49,8 +48,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     // GIVEN
     int[][] actual = new int[][]{{1, 2}, {3}, {4, 5, 6}};
     int[][] expected = actual;
-
-    // WHEN, THEN
+    // WHEN/THEN
     assertThat(actual).isDeepEqualTo(expected);
   }
 
@@ -59,8 +57,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     // GIVEN
     int[][] actual = new int[][]{{1, 2}, {3}, {4, 5, 6}};
     int[][] expected = new int[][]{{1, 2}, {3}, {4, 5, 6}};
-
-    // WHEN, THEN
+    // WHEN/THEN
     assertThat(actual).isDeepEqualTo(expected);
   }
 
@@ -69,10 +66,8 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     // GIVEN
     int[][] actual = null;
     int[][] expected = new int[][]{{1, 2}, {3}, {4, 5, 6}};
-
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
-
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -82,10 +77,8 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     // GIVEN
     int[][] actual = new int[][]{{1, 2}, null, {4, 5, 6}};
     int[][] expected = new int[][]{{1, 2}, {3}, {4, 5, 6}};
-
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
-
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull("actual[1]").create());
   }
@@ -95,10 +88,8 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     // GIVEN
     int[][] actual = new int[][]{{1, 2}, {3}};
     int[][] expected = new int[][]{{1, 2}, {3}, {4, 5, 6}};
-
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
-
     // THEN
     then(assertionError).hasMessage(shouldHaveSameSizeAs(actual, expected, actual.length, expected.length).create());
   }
@@ -110,13 +101,11 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     int[][] expected = new int[][]{{1, 2}, {3}, {4, 5, 6}};
     int[] actualSubArrayWithDifference = new int[] {3, 999};
     int[] expectedSubArrayWithDifference = new int[] {3};
-
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
-
     // THEN
-    then(assertionError).hasMessage(shouldHaveSameSizeOfSubarrayAs(actual, expected, actualSubArrayWithDifference,
-      expectedSubArrayWithDifference, actualSubArrayWithDifference.length, expectedSubArrayWithDifference.length, 1)
+    then(assertionError).hasMessage(subarraysShouldHaveSameSize(actual, expected, actualSubArrayWithDifference,
+      expectedSubArrayWithDifference, 1)
       .create());
   }
 
@@ -127,10 +116,8 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     int expectedValue = 3;
     int[][] actual = new int[][]{{1, 2}, {actualValue}, {4, 5, 6}};
     int[][] expected = new int[][]{{1, 2}, {expectedValue}, {4, 5, 6}};
-
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
-
     // THEN
     then(assertionError).hasMessage(shouldBeEqual(actualValue, expectedValue, STANDARD_REPRESENTATION, "[1][0]")
       .newAssertionError(EmptyTextDescription.emptyDescription(), STANDARD_REPRESENTATION).getMessage());

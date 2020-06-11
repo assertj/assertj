@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Int2DArrays#failures} appropriately.
  * 
- * @author Joel Costigliola
+ * @author Maciej Wajcht
  */
 public class Int2DArraysBaseTest {
 

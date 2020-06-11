@@ -638,7 +638,7 @@ public interface WithAssumptions {
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
-   * @since 2.9.0 / 3.9.0
+   * @since 3.17.0
    */
   default Int2DArrayAssert assumeThat(final int[][] actual) {
     return Assumptions.assumeThat(actual);

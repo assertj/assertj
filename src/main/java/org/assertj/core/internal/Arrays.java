@@ -758,7 +758,7 @@ public class Arrays {
     if (values == null) throw arrayOfValuesToLookForIsNull();
   }
 
-  private static boolean isArrayEmpty(Object array) {
+  static boolean isArrayEmpty(Object array) {
     return sizeOf(array) == 0;
   }
 
@@ -767,11 +767,11 @@ public class Arrays {
     return failures.failure(info, shouldEndWith(array, sequence, comparisonStrategy));
   }
 
-  private static void assertNotNull(AssertionInfo info, Object array) {
+  static void assertNotNull(AssertionInfo info, Object array) {
     Objects.instance().assertNotNull(info, array);
   }
 
-  private static int sizeOf(Object array) {
+  static int sizeOf(Object array) {
     if (array instanceof Object[]) return ((Object[]) array).length;
     return getLength(array);
   }

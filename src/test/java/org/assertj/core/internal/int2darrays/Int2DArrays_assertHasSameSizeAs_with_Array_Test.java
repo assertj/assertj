@@ -19,9 +19,15 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.internal.Int2DArrays;
 import org.assertj.core.internal.Int2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for <code>{@link Int2DArrays#assertHasSameSizeAs(AssertionInfo, int[][], Object)}}</code>.
+ *
+ * @author Maciej Wajcht
+ */
 public class Int2DArrays_assertHasSameSizeAs_with_Array_Test extends Int2DArraysBaseTest {
 
   @Test

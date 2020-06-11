@@ -13,9 +13,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.error.ShouldHaveSameSizeOfSubArrayAs.shouldHaveSameSizeOfSubarrayAs;
+import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.error.array.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.array.MultidimensionalArrayShouldBeEqual.shouldBeEqual;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
@@ -28,12 +28,8 @@ import org.assertj.core.util.VisibleForTesting;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(int[][])}</code>.
  * </p>
  *
- * @author Yvonne Wang
- * @author Alex Ruiz
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- * @author Nicolas François
  * @author Maciej Wajcht
+ * @since 3.17.0
  */
 public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, int[][], Integer> {
 
@@ -46,10 +42,10 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
     super(actual, Int2DArrayAssert.class);
   }
 
+  /** {@inheritDoc} */
+  @Override
   public Int2DArrayAssert isDeepEqualTo(int[][] expected) {
-    if (actual == expected) {
-      return myself;
-    }
+    if (actual == expected) return myself;
     isNotNull();
     if (expected.length != actual.length) {
       throw failures.failure(info, shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
@@ -59,15 +55,12 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
       int[] actualSubArray = actual[i];
       int[] expectedSubArray = expected[i];
 
-      if (actualSubArray == expectedSubArray) {
-        continue;
-      }
+      if (actualSubArray == expectedSubArray) continue;
       if (actualSubArray == null) {
         throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
       }
       if (expectedSubArray.length != actualSubArray.length) {
-        throw failures.failure(info, shouldHaveSameSizeOfSubarrayAs(actual, expected, actualSubArray, expectedSubArray, actualSubArray.length,
-          expectedSubArray.length, i));
+        throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, expectedSubArray, i));
       }
       for (int j = 0; j < actualSubArray.length; j++) {
         if (actualSubArray[j] != expectedSubArray[j]) {
@@ -113,10 +106,10 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
   }
 
   /**
-   * Verifies that the actual array contains the given value at the given index.
+   * Verifies that the actual array contains the given int[] at the given index.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).contains(new int[] {3,4}, atIndex(1));
    *
    * // assertions will fail
@@ -145,7 +138,7 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).doesNotContain(new int[] {3,4}, atIndex(0));
    * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).doesNotContain(new int[] {7,8}, atIndex(2));
    *
-   * // assertions will fail
+   * // assertion will fail
    * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).doesNotContain(new int[] {3,4}, atIndex(1));</code></pre>
    *
    * @param value the value to look for.

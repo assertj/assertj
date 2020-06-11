@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.error.ShouldNotBeEmpty.arrayNextDimensionShouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotBeEmpty.subarrayShouldNotBeEmpty;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
@@ -23,10 +23,6 @@ import java.util.Comparator;
 /**
  * Reusable assertions for two-dimensional arrays of {@code int}s.
  * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- * @author Nicolas François
  * @author Maciej Wajcht
  */
 public class Int2DArrays {
@@ -91,7 +87,7 @@ public class Int2DArrays {
   public void assertNotEmpty(AssertionInfo info, int[][] actual) {
     arrays.assertNotEmpty(info, failures, actual);
     for (int i = 0; i < actual.length; i++) {
-      arrays.assertNotEmpty(info, failures, actual[i], arrayNextDimensionShouldNotBeEmpty(i));
+      arrays.assertNotEmpty(info, failures, actual[i], subarrayShouldNotBeEmpty(i));
     }
   }
 

@@ -12,13 +12,11 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Int2DArrays;
@@ -29,26 +27,29 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Int2DArrays#assertEmpty(AssertionInfo, int[][])}</code>.
  * 
- * @author Alex Ruiz
- * @author Joel Costigliola
+ * @author Maciej Wajcht
  */
 public class Int2DArrays_assertEmpty_Test extends Int2DArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEmpty(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    int[][] actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
   @Test
   public void should_fail_if_actual_is_not_empty() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     int[][] actual = {{4}, {6, 8}};
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEmpty(actual).create());
 
-    Throwable error = catchThrowable(() -> arrays.assertEmpty(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEmpty(actual));
   }
 
   @Test

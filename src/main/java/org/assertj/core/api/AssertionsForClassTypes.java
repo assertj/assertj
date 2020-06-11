@@ -365,6 +365,7 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Int2DArrayAssert assertThat(int[][] actual) {
     return new Int2DArrayAssert(actual);

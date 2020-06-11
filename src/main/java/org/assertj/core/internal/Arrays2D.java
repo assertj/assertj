@@ -12,17 +12,18 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.reflect.Array.getLength;
-import static org.assertj.core.error.ShouldBeAnArray.shouldBeAnArray;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
+import static org.assertj.core.internal.Arrays.assertNotNull;
+import static org.assertj.core.internal.Arrays.isArrayEmpty;
+import static org.assertj.core.internal.Arrays.sizeOf;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
+import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-import static org.assertj.core.util.Arrays.isArray;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
@@ -35,10 +36,8 @@ import java.util.Comparator;
 /**
  * Assertions for object and primitive two-dimensional arrays. It trades off performance for DRY.
  *
- * @author Alex Ruiz
- * @author Joel Costigliola
- * @author Nicolas François
- * @author Florent Biville
+ * @author Maciej Wajcht
+ * @since 3.17.0
  */
 public class Arrays2D {
 
@@ -70,7 +69,7 @@ public class Arrays2D {
   }
 
   public static void assertIsArray(AssertionInfo info, Object array) {
-    if (!isArray(array)) throw Failures.instance().failure(info, shouldBeAnArray(array));
+    Arrays.assertIsArray(info, array);
   }
 
   void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
@@ -85,16 +84,16 @@ public class Arrays2D {
   void assertHasSize(AssertionInfo info, Object array, int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
-    CommonValidations.checkSizes(array, sizeOfActual, expectedSize, info);
+    checkSizes(array, sizeOfActual, expectedSize, info);
   }
 
   void assertHasSize(AssertionInfo info, Failures failures, Object array, int expectedSize, int firstDimensionIndex) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
-    checkSizes(array, failures, sizeOfActual, expectedSize, info, firstDimensionIndex);
+    checkArraySizes(array, failures, sizeOfActual, expectedSize, info, firstDimensionIndex);
   }
 
-  private void checkSizes(Object actual, Failures failures, int sizeOfActual, int sizeOfOther, AssertionInfo info,
+  private void checkArraySizes(Object actual, Failures failures, int sizeOfActual, int sizeOfOther, AssertionInfo info,
     int firstDimensionIndex) {
     if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther,
       firstDimensionIndex));
@@ -137,19 +136,6 @@ public class Arrays2D {
 
   private boolean areEqual(Object actual, Object other) {
     return comparisonStrategy.areEqual(actual, other);
-  }
-
-  private static boolean isArrayEmpty(Object array) {
-    return sizeOf(array) == 0;
-  }
-
-  private static void assertNotNull(AssertionInfo info, Object array) {
-    Objects.instance().assertNotNull(info, array);
-  }
-
-  private static int sizeOf(Object array) {
-    if (array instanceof Object[]) return ((Object[]) array).length;
-    return getLength(array);
   }
 
 }

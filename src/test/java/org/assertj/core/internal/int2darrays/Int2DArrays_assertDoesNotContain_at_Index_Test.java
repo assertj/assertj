@@ -12,16 +12,14 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.test.TestData.someIndex;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
@@ -32,17 +30,20 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Int2DArrays#assertDoesNotContain(AssertionInfo, int[][], int[], Index)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
+ *
  * @author Maciej Wajcht
  */
 public class Int2DArrays_assertDoesNotContain_at_Index_Test extends Int2DArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, new int[] {0, 2, 4}, someIndex()))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    int[][] actual = null;
+    int[] expectedElement = {0, 2, 4};
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertDoesNotContain(someInfo(), actual, expectedElement, someIndex()));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
   @Test
@@ -57,7 +58,10 @@ public class Int2DArrays_assertDoesNotContain_at_Index_Test extends Int2DArraysB
 
   @Test
   public void should_throw_error_if_Index_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, new int[] {0, 2, 4}, null))
+    // GIVEN
+    Index nullIndex = null;
+    // WHEN/THEN
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, new int[] {0, 2, 4}, nullIndex))
                                     .withMessage("Index should not be null");
   }
 
@@ -68,12 +72,12 @@ public class Int2DArrays_assertDoesNotContain_at_Index_Test extends Int2DArraysB
 
   @Test
   public void should_fail_if_actual_contains_value_at_index() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     Index index = atIndex(0);
-
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, new int[] {0, 2, 4}, index));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainAtIndex(actual, new int[] {0, 2, 4}, index));
+    int[] expectedElement = {0, 2, 4};
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertDoesNotContain(someInfo(), actual, expectedElement, index));
+    // THEN
+    then(assertionError).hasMessage(shouldNotContainAtIndex(actual, new int[] {0, 2, 4}, index).create());
   }
 }

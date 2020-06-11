@@ -472,6 +472,7 @@ public final class BDDAssumptions {
    *
    * @param actual the actual <code>int</code>s' two-dimensional array to be validated.
    * @return the {@link Int2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
    */
   public static Int2DArrayAssert given(int[][] actual) {
     return assumeThat(actual);

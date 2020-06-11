@@ -20,11 +20,8 @@ package org.assertj.core.api;
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <ELEMENT> the type of elements of the "actual" value.
  *
- * @author Yvonne Wang
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- * @author Nicolas François
  * @author Maciej Wajcht
+ * @since 3.17.0
  */
 public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMENT> {
 
@@ -72,15 +69,16 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
   SELF isNotEmpty();
 
   /**
-   * Verifies that the number of values in the actual group is equal to the given one.
+   * Verifies that the number of values in the actual array is equal to the given one.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6} }).hasSize(2, 3);
    *
    * // assertions will fail
    * assertThat(new int[][] { }).hasSize(1, 1);
    * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6} }).hasSize(3, 2);
+   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6, 7} }).hasSize(2, 3);
    * </code></pre>
    *
    * @param expectedFirstDimensionSize the expected number of values in first dimension of the actual group.

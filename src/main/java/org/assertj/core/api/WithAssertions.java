@@ -907,6 +907,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   default Int2DArrayAssert assertThat(final int[][] actual) {
     return Assertions.assertThat(actual);

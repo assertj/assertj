@@ -34,12 +34,10 @@ import org.assertj.core.util.VisibleForTesting;
  * string representation are the same (e.g. 42 float and 42 double). It also mentions the comparator in case of a custom
  * comparator is used (instead of equals method).
  *
- * @author Alex Ruiz
- * @author Yvonne Wang
- * @author Joel Costigliola
  * @author Maciej Wajcht
+ * @since 3.17.0
  */
-public class ShouldBeEqual extends org.assertj.core.error.ShouldBeEqual {
+public class MultidimensionalArrayShouldBeEqual extends org.assertj.core.error.ShouldBeEqual {
 
   private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting %s value to be equal to:%n <%s>%nbut " +
                                                          "was%n <%s>%n.";
@@ -49,7 +47,7 @@ public class ShouldBeEqual extends org.assertj.core.error.ShouldBeEqual {
   private final String index;
 
   /**
-   * Creates a new <code>{@link ShouldBeEqual}</code>.
+   * Creates a new <code>{@link MultidimensionalArrayShouldBeEqual}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
@@ -60,11 +58,11 @@ public class ShouldBeEqual extends org.assertj.core.error.ShouldBeEqual {
   public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected,
                                                     Representation representation,
                                                     String index) {
-    return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation, index);
+    return new MultidimensionalArrayShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation, index);
   }
 
   /**
-   * Creates a new <code>{@link ShouldBeEqual}</code>.
+   * Creates a new <code>{@link MultidimensionalArrayShouldBeEqual}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
@@ -77,11 +75,11 @@ public class ShouldBeEqual extends org.assertj.core.error.ShouldBeEqual {
                                                     ComparisonStrategy comparisonStrategy,
                                                     Representation representation,
                                                     String index) {
-    return new ShouldBeEqual(actual, expected, comparisonStrategy, representation, index);
+    return new MultidimensionalArrayShouldBeEqual(actual, expected, comparisonStrategy, representation, index);
   }
 
   @VisibleForTesting
-  ShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy, Representation representation,
+  MultidimensionalArrayShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy, Representation representation,
     String index) {
     super(actual, expected, comparisonStrategy, representation);
     this.index = index;
@@ -119,7 +117,7 @@ public class ShouldBeEqual extends org.assertj.core.error.ShouldBeEqual {
     if (this == o) return true;
     if (o == null) return false;
     if (getClass() != o.getClass()) return false;
-    ShouldBeEqual other = (ShouldBeEqual) o;
+    MultidimensionalArrayShouldBeEqual other = (MultidimensionalArrayShouldBeEqual) o;
     if (!areEqual(actual, other.actual)) return false;
     if (!areEqual(expected, other.expected)) return false;
     return areEqual(index, other.index);

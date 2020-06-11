@@ -12,11 +12,10 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Int2DArrays;
@@ -26,22 +25,19 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Int2DArrays#assertNullOrEmpty(AssertionInfo, int[][])}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
+ *
  * @author Maciej Wajcht
  */
 public class Int2DArrays_assertNullOrEmpty_Test extends Int2DArraysBaseTest {
 
   @Test
   public void should_fail_if_array_is_not_null_and_is_not_empty() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     int[][] actual = {{1, 2}, {6, 8}};
-
-    Throwable error = catchThrowable(() -> arrays.assertNullOrEmpty(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNullOrEmpty(actual));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertNullOrEmpty(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeNullOrEmpty(actual).create());
   }
 
   @Test
