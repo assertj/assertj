@@ -56,7 +56,7 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
    * Verifies that the actual value is equal to the given one.
    * <p>
    * WARNING! This method will use {@code equals} to compare (it will compare arrays references only).
-   * It is advised to use {@link #isDeepEqualTo(ACTUAL)} instead.
+   * It is advised to use {@link #isDeepEqualTo(Object)} instead.
    * <p>
    * Example:
    * <pre><code class='java'>

@@ -35,6 +35,7 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param actualSize the size of {@code actual}.
    * @param expectedSize the expected size.
+   * @param firstDimensionArrayIndex Index of first dimension of array
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveSize(Object actual, int actualSize, int expectedSize,
