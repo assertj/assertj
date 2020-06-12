@@ -83,7 +83,6 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   public void should_throw_error_if_consumer_array_is_null() {
     // GIVEN
     Consumer<String>[] consumers = null;
-    Object o = null;
     String message = "The Consumer<? super E>... expressing the assertions consumers must not be null";
 
     // WHEN/THEN
