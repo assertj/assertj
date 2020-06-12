@@ -90,6 +90,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
@@ -1124,17 +1125,17 @@ public class Iterables {
   public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
     requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
-    for(Consumer<? super E> consumer: consumers)
+    for (Consumer<? super E> consumer : consumers)
       requireNonNull(consumer, "The element in consumers must not be null");
 
-    List<E>[] satisfiedElementsLists = Arrays.stream(consumers)
-                                             .map(listFilteredBySatisfiedElements(actual))
-                                             .<List<E>>toArray(List[]::new);
-    
+    List<E>[] satisfiedElementsLists = stream(consumers)
+                                                        .map(listFilteredBySatisfiedElements(actual))
+                                                        .<List<E>> toArray(List[]::new);
+
     if (!isSatisfied(satisfiedElementsLists, 0))
       throw failures.failure(info, shouldSatisfy(actual));
   }
-  
+
   private <E> Function<? super Consumer<? super E>, List<E>> listFilteredBySatisfiedElements(Iterable<? extends E> actual) {
     return consumer -> stream(actual).filter(byPassingAssertions(consumer)).collect(toList());
   }
@@ -1154,7 +1155,7 @@ public class Iterables {
 
       // Check whether remaining consumers can be satisfied
       if (isSatisfied(satisfiedElementsLists, begin + 1)) return true;
-      
+
       for (int i : removedElementRowIndices)
         satisfiedElementsLists[i].add(element); // restore the array
     }
