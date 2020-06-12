@@ -42,9 +42,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   public void should_pass_if_there_is_only_one_consumer_and_can_be_satisfied() {
     // GIVEN
-    Consumer<String> consumer = s -> {
-      assertThat(s.length()).isEqualTo(4);
-    };
+    Consumer<String> consumer = s -> assertThat(s.length()).isEqualTo(4);
 
     // WHEN/THEN
     iterables.assertSatisfy(info, actual, consumer);
