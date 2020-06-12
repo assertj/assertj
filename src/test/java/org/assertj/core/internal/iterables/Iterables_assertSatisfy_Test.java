@@ -43,7 +43,6 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   public void should_pass_if_there_is_only_one_consumer_and_can_be_satisfied() {
     // GIVEN
     Consumer<String> consumer = s -> assertThat(s.length()).isEqualTo(4);
-
     // WHEN/THEN
     iterables.assertSatisfy(info, actual, consumer);
   }
@@ -55,9 +54,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
       assertThat(s.length()).isEqualTo(4);
       assertThat(s).doesNotContain("L");
     };
-    Consumer<String> consumer2 = s -> {
-      assertThat(s).doesNotContain("a");
-    };
+    Consumer<String> consumer2 = s -> assertThat(s).doesNotContain("a");
 
     // WHEN/THEN
     iterables.assertSatisfy(info, actual, consumer1, consumer2);
@@ -72,7 +69,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     // WHEN/THEN
     iterables.assertSatisfy(info, actual, consumer1, consumer2);
   }
-  
+
   @Test
   public void should_pass_if_iterable_contains_multiple_equal_elements() {
     // GIVEN
@@ -94,9 +91,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   public void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
-    Consumer<String> consumer = s -> {
-      assertThat(s.length()).isEqualTo(4);
-    };
+    Consumer<String> consumer = s -> assertThat(s.length()).isEqualTo(4);
 
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).satisfy(consumer));
@@ -129,10 +124,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_there_is_only_one_consumer_and_cannot_be_satisfied() {
     // GIVEN
-    Consumer<String> consumer = s -> {
-      assertThat(s.length()).isEqualTo(5);
-    };
-
+    Consumer<String> consumer = s -> assertThat(s.length()).isEqualTo(5);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer));
     // THEN
@@ -142,12 +134,8 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_there_are_multiple_consumers_and_cannot_be_all_satisfied() {
     // GIVEN
-    Consumer<String> consumer1 = s -> {
-      assertThat(s).startsWith("Y");
-    };
-    Consumer<String> consumer2 = s -> {
-      assertThat(s).contains("o");
-    };
+    Consumer<String> consumer1 = s -> assertThat(s).startsWith("Y");
+    Consumer<String> consumer2 = s -> assertThat(s).contains("o");
 
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer1, consumer2));
@@ -158,10 +146,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_consumers_are_more_than_elements() {
     // GIVEN
-    Consumer<String> consumer = s -> {
-      assertThat(s).doesNotContain("z");
-    };
-
+    Consumer<String> consumer = s -> assertThat(s).doesNotContain("z");
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer, consumer, consumer,
                                                                                        consumer));
