@@ -66,6 +66,33 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
+  public void should_pass_there_are_multiple_consumers_and_can_be_satisfied_in_any_order() {
+    // GIVEN
+    Consumer<String> consumer1 = s -> assertThat(s).contains("L"); // Matches "Luke" and "Leia"
+    Consumer<String> consumer2 = s -> assertThat(s).doesNotContain("a"); // Matches "Luke"
+
+    // WHEN/THEN
+    iterables.assertSatisfy(info, actual, consumer1, consumer2);
+  }
+  
+  @Test
+  public void should_pass_if_iterable_contains_multiple_equal_elements() {
+    // GIVEN
+    List<String> names = newArrayList("Luke", "Luke");
+    Consumer<String> consumer1 = s -> assertThat(s).contains("L");
+    Consumer<String> consumer2 = s -> assertThat(s).contains("u");
+
+    // WHEN/THEN
+    iterables.assertSatisfy(info, names, consumer1, consumer2);
+  }
+
+  @Test
+  public void should_pass_if_there_is_no_consumer() {
+    // WHEN/THEN
+    iterables.assertSatisfy(info, actual);
+  }
+
+  @Test
   public void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
