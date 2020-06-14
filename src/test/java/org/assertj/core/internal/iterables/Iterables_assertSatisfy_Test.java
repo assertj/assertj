@@ -42,7 +42,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   public void should_pass_if_there_is_only_one_consumer_and_can_be_satisfied() {
     // GIVEN
-    Consumer<String> consumer = s -> assertThat(s.length()).isEqualTo(4);
+    Consumer<String> consumer = s -> assertThat(s).hasSize(4);
     // WHEN/THEN
     iterables.assertSatisfy(info, actual, consumer);
   }
@@ -51,7 +51,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   public void should_pass_if_there_are_multiple_consumers_and_can_be_satisfied() {
     // GIVEN
     Consumer<String> consumer1 = s -> {
-      assertThat(s.length()).isEqualTo(4);
+      assertThat(s).hasSize(4);
       assertThat(s).doesNotContain("L");
     };
     Consumer<String> consumer2 = s -> assertThat(s).doesNotContain("a");
@@ -91,7 +91,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   public void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
-    Consumer<String> consumer = s -> assertThat(s.length()).isEqualTo(4);
+    Consumer<String> consumer = s -> assertThat(s).hasSize(4);
 
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).satisfy(consumer));
@@ -124,7 +124,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_there_is_only_one_consumer_and_cannot_be_satisfied() {
     // GIVEN
-    Consumer<String> consumer = s -> assertThat(s.length()).isEqualTo(5);
+    Consumer<String> consumer = s -> assertThat(s).hasSize(5);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer));
     // THEN
