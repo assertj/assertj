@@ -1156,8 +1156,9 @@ public class Iterables {
       // Check whether remaining consumers can be satisfied
       if (isSatisfied(satisfiedElementsLists, begin + 1)) return true;
 
-      for (int i : removedElementRowIndices)
+      for (int i : removedElementRowIndices) {
         satisfiedElementsLists[i].add(element); // restore the array
+      }
     }
     return false;
   }
