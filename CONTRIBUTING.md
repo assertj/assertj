@@ -45,7 +45,7 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
     // GIVEN
     Optional<String> optional = Optional.of("something");
     // WHEN/THEN
-    assertThat(optional).containsInstanceOf(String.class);
+    then(optional).containsInstanceOf(String.class);
   }
 
 }
