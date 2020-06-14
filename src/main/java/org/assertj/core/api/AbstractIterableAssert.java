@@ -2773,19 +2773,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *     });
    *
    * // these assertions fail:
-   * assertThat(starWarsCharacterNames ).satisfy(name --&gt; {
-   *       assertThat(name).doesNotContain("L");
-   *     }, name --&gt; {
-   *       assertThat(name).doesNotContain("L");
-   *     });
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).doesNotContain("L"), 
+   *     name --&gt; assertThat(name).doesNotContain("L"));
    *
-   * assertThat(starWarsCharacterNames ).satisfy(name --&gt; {
-   *       assertThat(name).contains("L");
-   *     }, name --&gt; {
-   *       assertThat(name).contains("L");
-   *     }, name --&gt; {
-   *       assertThat(name).contains("L");
-   *     });</code></pre>
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"));</code></pre>
    *
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
