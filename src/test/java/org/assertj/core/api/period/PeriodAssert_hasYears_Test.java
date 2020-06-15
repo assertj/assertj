@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.period;
 
-import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Period;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHavePeriod.shouldHaveYears;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
@@ -30,11 +30,11 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 class PeriodAssert_hasYears_Test {
 
   @Test
-  void should_pass_if_period_has_matching_years() {
+  void should_pass_if_period_has_expected_years() {
     // GIVEN
     Period period = Period.ofYears(10);
-    // WHEN
-    assertThat(period).hasYears(10);
+    // WHEN/THEN
+    then(period).hasYears(10);
   }
 
   @Test
@@ -42,18 +42,18 @@ class PeriodAssert_hasYears_Test {
     // GIVEN
     Period period = null;
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).hasYears(5);
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasYears(5));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(code).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_period_does_not_have_matching_years() {
+  void should_fail_if_period_does_not_have_expected_years() {
     // GIVEN
     Period period = Period.ofYears(10);
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).hasYears(15);
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasYears(15));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveYears(period, 10, 15).create());
+    then(code).hasMessage(shouldHaveYears(period, 10, 15).create());
   }
 }

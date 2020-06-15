@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.period;
 
-import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Period;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBePeriod.shouldBeNegative;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
@@ -33,8 +33,8 @@ class PeriodAssert_isNegative_Test {
   void should_pass_if_period_is_negative() {
     // GIVEN
     Period period = Period.ofMonths(-10);
-    // WHEN
-    assertThat(period).isNegative();
+    // WHEN/THEN
+    then(period).isNegative();
   }
 
   @Test
@@ -42,9 +42,9 @@ class PeriodAssert_isNegative_Test {
     // GIVEN
     Period period = null;
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).isNegative();
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isNegative());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(code).hasMessage(actualIsNull());
   }
 
   @Test
@@ -52,9 +52,9 @@ class PeriodAssert_isNegative_Test {
     // GIVEN
     Period period = Period.ofMonths(10);
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).isNegative();
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isNegative());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeNegative(period).create());
+    then(code).hasMessage(shouldBeNegative(period).create());
   }
 
   @Test
@@ -62,8 +62,8 @@ class PeriodAssert_isNegative_Test {
     // GIVEN
     Period period = Period.ofMonths(0);
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).isNegative();
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isNegative());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeNegative(period).create());
+    then(code).hasMessage(shouldBeNegative(period).create());
   }
 }

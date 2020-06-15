@@ -29,32 +29,17 @@ public class ShouldHavePeriod extends BasicErrorMessageFactory {
   }
 
   public static ShouldHavePeriod shouldHaveYears(Period actual, int actualYear, int expectedYear) {
-    String metric;
-    if (expectedYear == 1 || expectedYear == -1) {
-      metric = "year";
-    } else {
-      metric = "years";
-    }
+    final String metric = Math.abs(expectedYear) == 1 ? "year" : "years";
     return new ShouldHavePeriod(actual, actualYear, expectedYear, metric);
   }
 
   public static ShouldHavePeriod shouldHaveMonths(Period actual, int actualMonths, int expectedMonths) {
-    String metric;
-    if (expectedMonths == 1 || expectedMonths == -1) {
-      metric = "month";
-    } else {
-      metric = "months";
-    }
+    final String metric = Math.abs(expectedMonths) == 1 ? "month" : "months";
     return new ShouldHavePeriod(actual, actualMonths, expectedMonths, metric);
   }
 
   public static ShouldHavePeriod shouldHaveDays(Period actual, int actualDays, int expectedDays) {
-    String metric;
-    if (expectedDays == 1 || expectedDays == -1) {
-      metric = "day";
-    } else {
-      metric = "days";
-    }
+    final String metric = Math.abs(expectedDays) == 1 ? "day" : "days";
     return new ShouldHavePeriod(actual, actualDays, expectedDays, metric);
   }
 }

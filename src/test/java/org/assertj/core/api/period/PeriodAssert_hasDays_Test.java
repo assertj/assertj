@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.period;
 
-import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Period;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHavePeriod.shouldHaveDays;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
@@ -30,11 +30,11 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 class PeriodAssert_hasDays_Test {
 
   @Test
-  void should_pass_if_period_has_matching_days() {
+  void should_pass_if_period_has_expected_days() {
     // GIVEN
     Period period = Period.ofDays(10);
-    // WHEN
-    assertThat(period).hasDays(10);
+    // WHEN/THEN
+    then(period).hasDays(10);
   }
 
   @Test
@@ -42,18 +42,18 @@ class PeriodAssert_hasDays_Test {
     // GIVEN
     Period period = null;
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).hasDays(5);
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasDays(5));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(code).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_period_does_not_have_matching_days() {
+  void should_fail_if_period_does_not_have_expected_days() {
     // GIVEN
     Period period = Period.ofDays(10);
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).hasDays(15);
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasDays(15));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveDays(period, 10, 15).create());
+    then(code).hasMessage(shouldHaveDays(period, 10, 15).create());
   }
 }

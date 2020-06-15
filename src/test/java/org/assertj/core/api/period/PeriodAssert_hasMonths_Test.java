@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.period;
 
-import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Period;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHavePeriod.shouldHaveMonths;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
@@ -30,11 +30,11 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 class PeriodAssert_hasMonths_Test {
 
   @Test
-  void should_pass_if_period_has_matching_Months() {
+  void should_pass_if_period_has_expected_Months() {
     // GIVEN
     Period period = Period.ofMonths(10);
-    // WHEN
-    assertThat(period).hasMonths(10);
+    // WHEN/THEN
+    then(period).hasMonths(10);
   }
 
   @Test
@@ -42,18 +42,18 @@ class PeriodAssert_hasMonths_Test {
     // GIVEN
     Period period = null;
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).hasMonths(5);
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasMonths(5));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(code).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_period_does_not_have_matching_Months() {
+  void should_fail_if_period_does_not_have_expected_Months() {
     // GIVEN
     Period period = Period.ofMonths(10);
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).hasMonths(15);
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasMonths(15));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveMonths(period, 10, 15).create());
+    then(code).hasMessage(shouldHaveMonths(period, 10, 15).create());
   }
 }

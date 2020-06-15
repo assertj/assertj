@@ -25,8 +25,7 @@ import static org.assertj.core.error.ShouldHavePeriod.*;
  * @author Hayden Meloche
  * @since 3.17.0
  */
-public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SELF>>
-   extends AbstractAssert<SELF, Period> {
+public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SELF>> extends AbstractAssert<SELF, Period> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractPeriodAssert}</code>
@@ -42,7 +41,7 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
    * <p>
    * Example :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(Period.ofYears(5)).ofYears(5);
+   * assertThat(Period.ofYears(5)).hasYears(5);
    *
    * // assertion will fail
    * assertThat(Period.ofYears(5)).hasYears(1);</code></pre>
@@ -57,8 +56,7 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
     isNotNull();
     final int actualYears = actual.getYears();
     if (expectedYears != actualYears) {
-      throw Failures.instance().failure(info, shouldHaveYears(actual, actualYears, expectedYears),
-        actualYears, expectedYears);
+      throw Failures.instance().failure(info, shouldHaveYears(actual, actualYears, expectedYears), actualYears, expectedYears);
     }
     return myself;
   }
@@ -83,8 +81,7 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
     isNotNull();
     final int actualMonths = actual.getMonths();
     if (expectedMonths != actualMonths) {
-      throw Failures.instance().failure(info, shouldHaveMonths(actual, actualMonths, expectedMonths),
-        actualMonths, expectedMonths);
+      throw Failures.instance().failure(info, shouldHaveMonths(actual, actualMonths, expectedMonths), actualMonths, expectedMonths);
     }
     return myself;
   }
@@ -109,8 +106,7 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
     isNotNull();
     final int actualDays = actual.getDays();
     if (expectedDays != actualDays) {
-      throw Failures.instance().failure(info, shouldHaveDays(actual, actualDays, expectedDays),
-        actualDays, expectedDays);
+      throw Failures.instance().failure(info, shouldHaveDays(actual, actualDays, expectedDays), actualDays, expectedDays);
     }
     return myself;
   }
@@ -132,10 +128,7 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
   public SELF isPositive() {
     isNotNull();
     final boolean negative = actual.isNegative();
-    final int days = actual.getDays();
-    final int months = actual.getMonths();
-    final int years = actual.getYears();
-    if (negative || (days == 0 && months == 0 && years == 0)) {
+    if (negative || Period.ZERO.equals(actual)) {
       throw Failures.instance().failure(info, shouldBePositive(actual));
     }
     return myself;
@@ -158,10 +151,7 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
   public SELF isNegative() {
     isNotNull();
     final boolean negative = actual.isNegative();
-    final int days = actual.getDays();
-    final int months = actual.getMonths();
-    final int years = actual.getYears();
-    if (!negative || (days == 0 && months == 0 && years == 0)) {
+    if (!negative || Period.ZERO.equals(actual)) {
       throw Failures.instance().failure(info, shouldBeNegative(actual));
     }
     return myself;

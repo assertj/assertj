@@ -12,16 +12,15 @@
  */
 package org.assertj.core.api.period;
 
-import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Period;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBePeriod.shouldBePositive;
-import static org.assertj.core.error.ShouldHavePeriod.shouldHaveMonths;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
@@ -34,8 +33,8 @@ class PeriodAssert_isPositive_Test {
   void should_pass_if_period_is_positive() {
     // GIVEN
     Period period = Period.ofMonths(10);
-    // WHEN
-    assertThat(period).isPositive();
+    // WHEN/THEN
+    then(period).isPositive();
   }
 
   @Test
@@ -43,9 +42,9 @@ class PeriodAssert_isPositive_Test {
     // GIVEN
     Period period = null;
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).isPositive();
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isPositive());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(code).hasMessage(actualIsNull());
   }
 
   @Test
@@ -53,18 +52,18 @@ class PeriodAssert_isPositive_Test {
     // GIVEN
     Period period = Period.ofMonths(-10);
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).isPositive();
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isPositive());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBePositive(period).create());
+    then(code).hasMessage(shouldBePositive(period).create());
   }
 
   @Test
   void should_fail_if_period_is_zero() {
     // GIVEN
-    Period period = Period.ofMonths(0);
+    Period period = Period.ZERO;
     // WHEN
-    ThrowableAssert.ThrowingCallable code = () -> assertThat(period).isPositive();
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isPositive());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBePositive(period).create());
+    then(code).hasMessage(shouldBePositive(period).create());
   }
 }
