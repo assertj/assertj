@@ -33,7 +33,7 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
   /**
    * Verifies that the actual 2D array is deeply equal to the given one.
    * <p>
-   * Two array are considered deeply equal if both are {@code null}
+   * Two arrays are considered deeply equal if both are {@code null}
    * or if they refer to arrays that contain the same number of elements and
    * all corresponding pairs of elements in the two arrays are deeply equal.
    * <p>

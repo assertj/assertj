@@ -1246,6 +1246,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Double2DArrayAssert assertThat(final double[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point
    * to
    * all AssertJ features (but you can use {@link Properties} if you prefer).

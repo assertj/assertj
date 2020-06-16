@@ -46,6 +46,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
+import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
@@ -472,6 +473,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractDoubleArrayAssert<?> result = assertThat(value).asInstanceOf(DOUBLE_ARRAY);
     // THEN
     result.containsExactly(0.0, 1.0);
+  }
+
+  @Test
+  void double_2d_array_factory_should_allow_double_2d_array_assertions() {
+    // GIVEN
+    Object value = new double[][] {{ 0.0, 1.0 }, { 2.0, 3.0 }};
+    // WHEN
+    Double2DArrayAssert result = assertThat(value).asInstanceOf(DOUBLE_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test
