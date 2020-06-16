@@ -82,6 +82,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
+import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SPLITERATOR;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
@@ -619,6 +620,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractShortArrayAssert<?> result = assertThat(value).asInstanceOf(SHORT_ARRAY);
     // THEN
     result.containsExactly((short) 0, (short) 1);
+  }
+
+  @Test
+  void short_2d_array_factory_should_allow_short_2d_array_assertions() {
+    // GIVEN
+    Object value = new short[][] {{ 0, 1 }, { 2, 3 }};
+    // WHEN
+    Short2DArrayAssert result = assertThat(value).asInstanceOf(SHORT_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test

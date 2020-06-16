@@ -485,6 +485,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Short2DArrayAssert assertThat(short[][] actual) {
+    return new Short2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.

@@ -622,6 +622,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Short2DArrayAssert assertThat(final short[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortAssert}</code>.
    *
    * @param actual the actual value.

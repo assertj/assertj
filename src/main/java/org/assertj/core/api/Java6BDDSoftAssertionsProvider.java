@@ -483,6 +483,17 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Short2DArrayAssert then(short[][] actual) {
+    return proxy(Short2DArrayAssert.class, short[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
    *
    * @param actual the actual value.

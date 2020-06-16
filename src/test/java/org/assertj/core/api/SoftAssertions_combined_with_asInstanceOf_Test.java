@@ -78,6 +78,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
+import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
@@ -246,6 +247,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments((Predicate<String>) s -> s.isEmpty(), PREDICATE),
                      arguments(Short.MIN_VALUE, SHORT),
                      arguments(new short[0], SHORT_ARRAY),
+                     arguments(new short[0][0], SHORT_2D_ARRAY),
                      arguments(Stream.empty(), STREAM),
                      arguments("foo", STRING),
                      arguments(new StringBuffer(), STRING_BUFFER),
