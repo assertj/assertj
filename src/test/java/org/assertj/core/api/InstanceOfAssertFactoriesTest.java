@@ -50,6 +50,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
+import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
@@ -508,6 +509,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractFloatArrayAssert<?> result = assertThat(value).asInstanceOf(FLOAT_ARRAY);
     // THEN
     result.containsExactly(0.0f, 1.0f);
+  }
+
+  @Test
+  void float_2d_array_factory_should_allow_float_2d_array_assertions() {
+    // GIVEN
+    Object value = new float[][] {{ 0.0f, 1.0f }, { 2.0f, 3.0f }};
+    // WHEN
+    Float2DArrayAssert result = assertThat(value).asInstanceOf(FLOAT_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test

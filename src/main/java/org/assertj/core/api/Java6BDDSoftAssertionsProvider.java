@@ -320,6 +320,17 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Float2DArrayAssert then(float[][] actual) {
+    return proxy(Float2DArrayAssert.class, float[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code>.
    *
    * @param actual the actual value.
