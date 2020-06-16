@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -30,7 +29,7 @@ public class Int2DArrays_assertNullOrEmpty_Test extends Int2DArraysBaseTest {
   @Test
   public void should_delegate_to_Arrays2D() {
     // WHEN
-    int2DArrays.assertNullOrEmpty(someInfo(), actual);
+    int2DArrays.assertNullOrEmpty(info, actual);
     // THEN
     verify(arrays2d).assertNullOrEmpty(info, failures, actual);
   }

@@ -18,32 +18,32 @@ import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShould
 import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
 
 import org.assertj.core.data.Index;
+import org.assertj.core.internal.Boolean2DArrays;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Long2DArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
- * Assertion methods for two-dimensional arrays of {@code long}s.
+ * Assertion methods for two-dimensional arrays of {@code boolean}s.
  * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(long[][])}</code>.
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(boolean[][])}</code>.
  * </p>
  *
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, long[][], Long> {
+public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAssert, boolean[][], Boolean> {
 
   private final Failures failures = Failures.instance();
 
   @VisibleForTesting
-  protected Long2DArrays long2dArrays = Long2DArrays.instance();
+  protected Boolean2DArrays boolean2dArrays = Boolean2DArrays.instance();
 
-  public Long2DArrayAssert(long[][] actual) {
-    super(actual, Long2DArrayAssert.class);
+  public Boolean2DArrayAssert(boolean[][] actual) {
+    super(actual, Boolean2DArrayAssert.class);
   }
 
   /**
-   * Verifies that the actual 2D array is deeply equal to the given one.
+   * Verifies that the actual {@code boolean[][]} is deeply equal to the given one.
    * <p>
    * Two arrays are considered deeply equal if both are {@code null}
    * or if they refer to arrays that contain the same number of elements and
@@ -51,18 +51,19 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new long[][] {{1, 2}, {3, 4}}).isDeepEqualTo(new long[][] {{1, 2}, {3, 4}});
+   * assertThat(new boolean[][] {{true, false}, {false, true}}).isDeepEqualTo(new boolean[][] {{true, false}, {false, true}});
    *
    * // assertions will fail
-   * assertThat(new long[][] {{1, 2}, {3, 4}}).isDeepEqualTo(new long[][] {{1, 2}, {9, 10}});
-   * assertThat(new long[][] {{1, 2}, {3, 4}}).isDeepEqualTo(new long[][] {{1, 2, 3}, {4}});</code></pre>
+   * assertThat(new boolean[][] {{true, false}, {false, true}}).isDeepEqualTo(new boolean[][] {{true, false}, {true, true}});
+   * assertThat(new boolean[][] {{true, false}, {false, true}}).isDeepEqualTo(new boolean[][] {{true}, {false, false, true}});</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not deeply equal to the given one.
    */
   @Override
-  public Long2DArrayAssert isDeepEqualTo(long[][] expected) {
+  public Boolean2DArrayAssert isDeepEqualTo(boolean[][] expected) {
+    // boolean[][] actual = new boolean[][] { { true, false }, { false, true } };
     if (actual == expected) return myself;
     isNotNull();
     if (expected.length != actual.length) {
@@ -70,8 +71,8 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
     }
 
     for (int i = 0; i < actual.length; i++) {
-      long[] actualSubArray = actual[i];
-      long[] expectedSubArray = expected[i];
+      boolean[] actualSubArray = actual[i];
+      boolean[] expectedSubArray = expected[i];
 
       if (actualSubArray == expectedSubArray) continue;
       if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
@@ -96,12 +97,12 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * long[][] array = null;
+   * boolean[][] array = null;
    * assertThat(array).isNullOrEmpty();
-   * assertThat(new long[][] { }).isNullOrEmpty();
-   * assertThat(new long[][] {{ }}).isNullOrEmpty();
+   * assertThat(new boolean[][] { }).isNullOrEmpty();
+   * assertThat(new boolean[][] {{ }}).isNullOrEmpty();
    * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
-   * assertThat(new long[][] {{ }, { }, { }}).isNullOrEmpty();
+   * assertThat(new boolean[][] {{ }, { }, { }}).isNullOrEmpty();
    *
    * // assertion will fail
    * assertThat(new String[][] {{&quot;a&quot;}, {&quot;b&quot;}}).isNullOrEmpty();</code></pre>
@@ -110,7 +111,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    */
   @Override
   public void isNullOrEmpty() {
-    long2dArrays.assertNullOrEmpty(info, actual);
+    boolean2dArrays.assertNullOrEmpty(info, actual);
   }
 
   /**
@@ -118,22 +119,21 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * said otherwise it can have any number of rows but all rows must be empty.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new long[][] {{}}).isEmpty();
-   * assertThat(new long[][] {{ }}).isNullOrEmpty();
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new boolean[][] {{ }}).isEmpty();
    * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
-   * assertThat(new long[][] {{ }, { }, { }}).isNullOrEmpty();
+   * assertThat(new boolean[][] {{ }, { }, { }}).isEmpty();
    *
    * // assertions will fail
-   * assertThat(new long[][] {{ 1 }, { 2 }}).isEmpty();
-   * long[][] array = null;
+   * assertThat(new boolean[][] {{ true }, { false }}).isEmpty();
+   * boolean[][] array = null;
    * assertThat(array).isEmpty();</code></pre>
    *
    * @throws AssertionError if the actual array is not empty.
    */
   @Override
   public void isEmpty() {
-    long2dArrays.assertEmpty(info, actual);
+    boolean2dArrays.assertEmpty(info, actual);
   }
 
   /**
@@ -141,23 +141,23 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new long[][] {{ 1 }, { 2 }}).isNotEmpty();
-   * assertThat(new long[][] {{ }, { 2 }}).isNotEmpty();
+   * assertThat(new boolean[][] {{ true }, { false }}).isNotEmpty();
+   * assertThat(new boolean[][] {{ }, { false }}).isNotEmpty();
    *
    * // assertions will fail
-   * assertThat(new long[][] { }).isNotEmpty();
-   * assertThat(new long[][] {{ }}).isNotEmpty();
+   * assertThat(new boolean[][] { }).isNotEmpty();
+   * assertThat(new boolean[][] {{ }}).isNotEmpty();
    * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
-   * assertThat(new long[][] {{ }, { }, { }}).isNotEmpty();
-   * long[][] array = null;
+   * assertThat(new boolean[][] {{ }, { }, { }}).isNotEmpty();
+   * boolean[][] array = null;
    * assertThat(array).isNotEmpty();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is empty or null.
    */
   @Override
-  public Long2DArrayAssert isNotEmpty() {
-    long2dArrays.assertNotEmpty(info, actual);
+  public Boolean2DArrayAssert isNotEmpty() {
+    boolean2dArrays.assertNotEmpty(info, actual);
     return myself;
   }
 
@@ -166,12 +166,12 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new long[][] {{1, 2, 3}, {4, 5, 6}}).hasDimensions(2, 3);
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false}}).hasDimensions(2, 3);
    *
    * // assertions will fail
-   * assertThat(new long[][] { }).hasSize(1, 1);
-   * assertThat(new long[][] {{1, 2, 3}, {4, 5, 6}}).hasDimensions(3, 2);
-   * assertThat(new long[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasDimensions(2, 3); </code></pre>
+   * assertThat(new boolean[][] { }).hasSize(1, 1);
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false}}).hasDimensions(3, 2);
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false, false}}).hasDimensions(2, 3); </code></pre>
    *
    * @param expectedFirstDimension the expected number of values in first dimension of the actual array.
    * @param expectedSecondDimension the expected number of values in second dimension of the actual array.
@@ -179,50 +179,49 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws AssertionError if the actual array's dimensions are not equal to the given ones.
    */
   @Override
-  public Long2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
-    long2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
+  public Boolean2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
+    boolean2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
     return myself;
   }
 
   /**
-   * Verifies that the actual {@code long[][]} has the same dimensions as the given array.
+   * Verifies that the actual {@code boolean[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object and primitive arrays.
    * </p>
    * Example:
-   * <pre><code class='java'> long[][] longArray = {{1, 2, 3}, {4, 5, 6}};
+   * <pre><code class='java'> boolean[][] booleanArray = {{true, true, false}, {false, false, true}};
    * char[][] charArray = {{'a', 'b', 'c'}, {'d', 'e', 'f'}};
    *
    * // assertion will pass
-   * assertThat(longArray).hasSameDimensionsAs(charArray);
+   * assertThat(booleanArray).hasSameDimensionsAs(charArray);
    *
    * // assertions will fail
-   * assertThat(longArray).hasSameDimensionsAs(new char[][] {{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
-   * assertThat(longArray).hasSameDimensionsAs(new char[][] {{'a', 'b'}, {'c', 'd', 'e'}});
-   * assertThat(longArray).hasSameDimensionsAs(new char[][] {{'a', 'b', 'c'}, {'d', 'e'}});</code></pre>
+   * assertThat(booleanArray).hasSameDimensionsAs(new char[][] {{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
+   * assertThat(booleanArray).hasSameDimensionsAs(new char[][] {{'a', 'b'}, {'c', 'd', 'e'}});
+   * assertThat(booleanArray).hasSameDimensionsAs(new char[][] {{'a', 'b', 'c'}, {'d', 'e'}});</code></pre>
    *
-   * @param array the array to compare dimensions with actual {@code long[][]}.
+   * @param array the array to compare dimensions with actual {@code boolean[][]}.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code long[][]} is {@code null}.
+   * @throws AssertionError if the actual {@code boolean[][]} is {@code null}.
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
-   * @throws AssertionError if actual {@code long[][]} and given array don't have the same dimensions.
+   * @throws AssertionError if actual {@code boolean[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Long2DArrayAssert hasSameDimensionsAs(Object array) {
-    long2dArrays.assertHasSameDimensionsAs(info, actual, array);
+  public Boolean2DArrayAssert hasSameDimensionsAs(Object array) {
+    boolean2dArrays.assertHasSameDimensionsAs(info, actual, array);
     return myself;
   }
 
   /**
-   * Verifies that the actual array contains the given long[] at the given index.
+   * Verifies that the actual array contains the given boolean[] at the given index.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new long[][] {{1L, 2L}, {3L, 4L}, {5L, 6L}}).contains(new long[] {3L, 4L}, atIndex(1));
+   * assertThat(new boolean[][] {{true, false}, {false, true}}).contains(new boolean[] {true, false}, info);
    *
-   * // assertions will fail
-   * assertThat(new long[][] {{1L, 2L}, {3L, 4L}, {5L, 6L}}).contains(new long[] {3L, 4L}, atIndex(0));
-   * assertThat(new long[][] {{1L, 2L}, {3L, 4L}, {5L, 6L}}).contains(new long[] {7L, 8L}, atIndex(2));</code></pre>
+   * // assertion will fail
+   * assertThat(new boolean[][] {{true, false}, {false, true}}).contains(new boolean[] {true, false}, atIndex(1));</code></pre>
    *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -233,21 +232,20 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public Long2DArrayAssert contains(long[] value, Index index) {
-    long2dArrays.assertContains(info, actual, value, index);
+  public Boolean2DArrayAssert contains(boolean[] value, Index index) {
+    boolean2dArrays.assertContains(info, actual, value, index);
     return myself;
   }
 
   /**
-   * Verifies that the actual array does not contain the given long[] at the given index.
+   * Verifies that the actual array does not contain the given boolean[] at the given index.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(new long[][] {{1L, 2L}, {3L, 4L}, {5L, 6L}}).doesNotContain(new long[] {3L, 4L}, atIndex(0));
-   * assertThat(new long[][] {{1L, 2L}, {3L, 4L}, {5L, 6L}}).doesNotContain(new long[] {7L, 8L}, atIndex(2));
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new boolean[][] {{true, false}, {false, true}}).doesNotContain(new boolean[] {true, false}, atIndex(1));
    *
    * // assertion will fail
-   * assertThat(new long[][] {{1L, 2L}, {3L, 4L}, {5L, 6L}}).doesNotContain(new long[] {3L, 4L}, atIndex(1));</code></pre>
+   * assertThat(new boolean[][] {{true, false}, {false, true}}).doesNotContain(new boolean[] {true, false}, atIndex(0));</code></pre>
    *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -256,8 +254,8 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public Long2DArrayAssert doesNotContain(long[] value, Index index) {
-    long2dArrays.assertDoesNotContain(info, actual, value, index);
+  public Boolean2DArrayAssert doesNotContain(boolean[] value, Index index) {
+    boolean2dArrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
 }

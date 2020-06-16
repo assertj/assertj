@@ -39,7 +39,7 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
    * assertThat(new int[][] {{ }, { }, { }}).isNullOrEmpty();
    *
    * // assertion will fail
-   * assertThat(new String[][] {{&quot;a&quot;}, {&quot;b&quot;}}).isNullOrEmpty();</code></pre>
+   * assertThat(new int[][] {{ 1 }, { 2 }}).isNullOrEmpty();</code></pre>
    *
    * @throws AssertionError if the actual array is not {@code null} or not empty.
    */
@@ -50,11 +50,10 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
    * said otherwise it can have any number of rows but all rows must be empty.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new int[][] {{}}).isEmpty();
-   * assertThat(new int[][] {{ }}).isNullOrEmpty();
    * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
-   * assertThat(new int[][] {{ }, { }, { }}).isNullOrEmpty();
+   * assertThat(new int[][] {{ }, { }, { }}).isEmpty();
    *
    * // assertions will fail
    * assertThat(new int[][] {{ 1 }, { 2 }}).isEmpty();
@@ -69,7 +68,7 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
    * Verifies that the actual array is not empty, not empty means the array has at least one element.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new int[][] {{ 1 }, { 2 }}).isNotEmpty();
    * assertThat(new int[][] {{ }, { 2 }}).isNotEmpty();
    *

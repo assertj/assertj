@@ -147,11 +147,10 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * said otherwise it can have any number of rows but all rows must be empty.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new char[][] { {} }).isEmpty();
-   * assertThat(new char[][] { { } }).isNullOrEmpty();
    * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
-   * assertThat(new char[][] { { }, { }, { } }).isNullOrEmpty();
+   * assertThat(new char[][] { { }, { }, { } }).isEmpty();
    *
    * // assertions will fail
    * assertThat(new char[][] { {'a'}, {'b'} }).isEmpty();

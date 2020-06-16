@@ -105,6 +105,17 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Boolean2DArrayAssert then(boolean[][] actual) {
+    return proxy(Boolean2DArrayAssert.class, boolean[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
    *
    * @param actual the actual value.

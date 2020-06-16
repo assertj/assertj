@@ -139,7 +139,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * Verifies that the actual {@code short[][]} is not empty, not empty means the array has at least one element.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new short[][] {{ 1 }, { 2 }}).isNotEmpty();
    * assertThat(new short[][] {{ }, { 2 }}).isNotEmpty();
    *

@@ -29,6 +29,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_STAMPED_REFE
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
+import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
@@ -195,6 +196,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(BigInteger.ONE, BIG_INTEGER),
                      arguments(true, BOOLEAN),
                      arguments(new boolean[0], BOOLEAN_ARRAY),
+                     arguments(new boolean[0][0], BOOLEAN_2D_ARRAY),
                      arguments((byte) 1, BYTE),
                      arguments(Byte.valueOf("1"), BYTE),
                      arguments(new byte[0], BYTE_ARRAY),

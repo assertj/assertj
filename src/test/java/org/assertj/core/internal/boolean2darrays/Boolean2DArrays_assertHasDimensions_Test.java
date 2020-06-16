@@ -10,27 +10,27 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.internal.long2darrays;
+package org.assertj.core.internal.boolean2darrays;
 
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Long2DArrays;
-import org.assertj.core.internal.Long2DArraysBaseTest;
+import org.assertj.core.internal.Boolean2DArrays;
+import org.assertj.core.internal.Boolean2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Long2DArrays#assertEmpty(AssertionInfo, long[][])}</code>.
+ * Tests for <code>{@link Boolean2DArrays#assertHasDimensions(AssertionInfo, boolean[][], int, int)}</code>.
  *
  * @author Maciej Wajcht
  */
-public class Long2DArrays_assertEmpty_Test extends Long2DArraysBaseTest {
+public class Boolean2DArrays_assertHasDimensions_Test extends Boolean2DArraysBaseTest {
 
   @Test
   public void should_delegate_to_Arrays2D() {
     // WHEN
-    long2dArrays.assertEmpty(info, actual);
+    boolean2dArrays.assertHasDimensions(info, actual, 2, 3);
     // THEN
-    verify(arrays2d).assertEmpty(info, failures, actual);
+    verify(arrays2d).assertHasDimensions(info, failures, actual, 2, 3);
   }
 }
