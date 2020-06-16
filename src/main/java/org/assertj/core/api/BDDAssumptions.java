@@ -799,6 +799,35 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance for a <code>float</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}}).contains(new float[] {1.0f, 2.0f}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}}).contains(new float[] {1.0f, 2.0f}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>float</code>s' two-dimensional array to be validated.
+   * @return the {@link Float2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Float2DArrayAssert given(float[][] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a <code>double</code> value.
    * <p>
    * Examples:

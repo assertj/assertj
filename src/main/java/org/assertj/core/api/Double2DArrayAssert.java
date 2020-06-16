@@ -55,7 +55,7 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
    *
    * // assertions will fail
    * assertThat(new double[][] {{1.0, 2.0}, {3.0, 4.0}}).isDeepEqualTo(new double[][] {{1.0, 2.0}, {9.0, 10.0}});
-   * assertThat(new double[][] {{1.0, 2.0}, {3.0, 4.0}}).isDeepEqualTo(new double[][] {{1.0, 2.0, 3.0}, {4}});</code></pre>
+   * assertThat(new double[][] {{1.0, 2.0}, {3.0, 4.0}}).isDeepEqualTo(new double[][] {{1.0, 2.0, 3.0}, {4.0}});</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.

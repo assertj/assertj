@@ -712,6 +712,17 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Float2DArrayAssert assumeThat(final float[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code> assumption.
    *
    * @param actual the actual value.

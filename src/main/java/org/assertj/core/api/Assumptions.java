@@ -519,6 +519,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Float2DArrayAssert assumeThat(float[][] actual) {
+    return asAssumption(Float2DArrayAssert.class, float[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link DoubleAssert}</code> assumption.
    *
    * @param actual the actual value.

@@ -354,6 +354,12 @@ public interface InstanceOfAssertFactories {
                                                                                                             Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code float} two-dimensional array.
+   */
+  InstanceOfAssertFactory<float[][], Float2DArrayAssert> FLOAT_2D_ARRAY = new InstanceOfAssertFactory<>(float[][].class,
+                                                                                                        Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for an {@code integer} or its corresponding boxed type {@link Integer}.
    */
   InstanceOfAssertFactory<Integer, AbstractIntegerAssert<?>> INTEGER = new InstanceOfAssertFactory<>(Integer.class,
