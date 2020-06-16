@@ -12,82 +12,56 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.TestData.someHexInfo;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeEven.shouldBeEven;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Bytes#assertIsEven(AssertionInfo, Byte)}</code>.
+ * Tests for <code>{@link Bytes#assertIsEven(AssertionInfo, Number)}</code>.
  *
  * @author Cal027
  */
-public class Bytes_assertIsEven_Test extends BytesBaseTest {
-  @BeforeEach
-  @Override
-  public void setUp() {
-    super.setUp();
-    resetFailures();
+@DisplayName("Bytes assertIsEven")
+class Bytes_assertIsEven_Test extends BytesBaseTest {
+
+  @ParameterizedTest
+  @ValueSource(bytes = { 0, 2, -2, 0x04, -0x04 })
+  void should_pass_since_actual_is_even(byte actual) {
+    // WHEN/THEN
+    bytes.assertIsEven(someInfo(), actual);
   }
 
-  @Test
-  public void should_succeed_since_actual_is_even() {
-    bytes.assertIsEven(someInfo(), (byte) 2);
-    bytes.assertIsEven(someInfo(), (byte) -2);
+  @ParameterizedTest
+  @ValueSource(bytes = { 1, 3, -1, 0x05, -0x05 })
+  void should_fail_since_actual_is_not_even(byte actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsEven(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEven(actual).create());
   }
 
-  @Test
-  public void should_fail_since_actual_is_not_even() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsEven(someInfo(), (byte) 3))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsEven(someInfo(), (byte) -3))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
+  @ParameterizedTest
+  @ValueSource(bytes = { 0, 2, -2, 0x04, -0x04 })
+  void should_pass_since_actual_is_even_whatever_custom_comparison_strategy_is(byte actual) {
+    // WHEN/THEN
+    bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(), actual);
   }
 
-  @Test
-  public void should_fail_since_actual_is_not_even_with_hex_representation() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsEven(someHexInfo(), (byte) 0x03))
-                                                   .withMessage(format("%nExpecting:%n <0x01>%nto be equal to:%n <0x00>%nbut was not."));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsEven(someHexInfo(), (byte) -0x03))
-                                                   .withMessage(format("%nExpecting:%n <0x01>%nto be equal to:%n <0x00>%nbut was not."));
-  }
-
-  @Test
-  public void should_succeed_since_actual_is_even_whatever_custom_comparison_strategy_is() {
-    bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(), (byte) 2);
-    bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(), (byte) -2);
-  }
-
-  @Test
-  public void should_succeed_since_actual_is_even_whatever_custom_comparison_strategy_is_in_hex_representation() {
-    bytesWithAbsValueComparisonStrategy.assertIsEven(someHexInfo(), (byte) 0x02);
-    bytesWithAbsValueComparisonStrategy.assertIsEven(someHexInfo(), (byte) -0x02);
-  }
-
-  @Test
-  public void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
-                                                                                                                      (byte) 3))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
-                                                                                                                      (byte) -3))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
-  }
-
-  @Test
-  public void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is_in_hex_representation() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someHexInfo(),
-                                                                                                                      (byte) 0x03))
-                                                   .withMessage(format("%nExpecting:%n <0x01>%nto be equal to:%n <0x00>%nbut was not."));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someHexInfo(),
-                                                                                                                      (byte) -0x03))
-                                                   .withMessage(format("%nExpecting:%n <0x01>%nto be equal to:%n <0x00>%nbut was not."));
-
+  @ParameterizedTest
+  @ValueSource(bytes = { 1, 3, -1, 0x05, -0x05 })
+  void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is(byte actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
+                                                                                                                actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEven(actual).create());
   }
 }

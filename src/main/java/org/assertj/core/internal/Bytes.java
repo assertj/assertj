@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -23,7 +22,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Cal027
  */
-public class Bytes extends Numbers<Byte> {
+public class Bytes extends Numbers<Byte> implements WholeNumbers<Byte> {
 
   private static final Bytes INSTANCE = new Bytes();
 
@@ -65,29 +64,8 @@ public class Bytes extends Numbers<Byte> {
     return value > other;
   }
 
-  /**
-   * Asserts that the actual Byte value is even.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is negative.
-   */
-  public void assertIsEven(AssertionInfo info, Byte actual) {
-    Byte lastDigit = (byte) (actual & one());
-    assertIsZero(info, lastDigit);
-  }
-
-  /**
-   * Asserts that the actual Byte value is odd.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is negative.
-   */
-  public void assertIsOdd(AssertionInfo info, Byte actual) {
-    Byte lastDigit = (byte) (actual & one());
-    assertIsNotZero(info, lastDigit);
+  @Override
+  public boolean isEven(Byte number) {
+    return (number & one()) == zero();
   }
 }

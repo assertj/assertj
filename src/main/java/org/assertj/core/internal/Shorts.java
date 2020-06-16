@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -25,7 +24,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Cal027
  */
-public class Shorts extends Numbers<Short> {
+public class Shorts extends Numbers<Short> implements WholeNumbers<Short> {
 
   private static final Shorts INSTANCE = new Shorts();
 
@@ -67,29 +66,8 @@ public class Shorts extends Numbers<Short> {
     return value > other;
   }
 
-  /**
-   * Asserts that the actual Long value is even.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is negative.
-   */
-  public void assertIsEven(AssertionInfo info, Short actual) {
-    Short lastDigit = (short) (actual & one());
-    assertIsZero(info, lastDigit);
-  }
-
-  /**
-   * Asserts that the actual Long value is odd.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is negative.
-   */
-  public void assertIsOdd(AssertionInfo info, Short actual) {
-    Short lastDigit = (short) (actual & one());
-    assertIsNotZero(info, lastDigit);
+  @Override
+  public boolean isEven(Short number) {
+    return (number & one()) == zero();
   }
 }

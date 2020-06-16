@@ -12,50 +12,58 @@
  */
 package org.assertj.core.internal.longs;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeEven.shouldBeEven;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.LongsBaseTest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Longs#assertIsEven(AssertionInfo, Long)}</code>.
+ * Tests for <code>{@link Longs#assertIsEven(AssertionInfo, Number)}</code>.
  *
  * @author Cal027
  */
-public class Longs_assertIsEven_Test extends LongsBaseTest {
+@DisplayName("Longs assertIsEven")
+class Longs_assertIsEven_Test extends LongsBaseTest {
 
-  @Test
-  public void should_succeed_since_actual_is_even() {
-    longs.assertIsEven(someInfo(), 2L);
-    longs.assertIsEven(someInfo(), -2L);
+  @ParameterizedTest
+  @ValueSource(longs = { 0, 2, -4, 6 })
+  void should_pass_since_actual_is_even(long actual) {
+    // WHEN/THEN
+    longs.assertIsEven(someInfo(), actual);
   }
 
-  @Test
-  public void should_fail_since_actual_is_not_even() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsEven(someInfo(), 3L))
-                                                   .withMessage(format("%nExpecting:%n <1L>%nto be equal to:%n <0L>%nbut was not."));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsEven(someInfo(), -3L))
-                                                   .withMessage(format("%nExpecting:%n <1L>%nto be equal to:%n <0L>%nbut was not."));
+  @ParameterizedTest
+  @ValueSource(longs = { 1, 3, -5, 7 })
+  void should_fail_since_actual_is_not_even(long actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> longs.assertIsEven(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEven(actual).create());
+
   }
 
-  @Test
-  public void should_succeed_since_actual_is_even_whatever_custom_comparison_strategy_is() {
-    longsWithAbsValueComparisonStrategy.assertIsEven(someInfo(), 4L);
-    longsWithAbsValueComparisonStrategy.assertIsEven(someInfo(), -4L);
+  @ParameterizedTest
+  @ValueSource(longs = { 0, 2, -4, 6 })
+  void should_pass_since_actual_is_even_whatever_custom_comparison_strategy_is(long actual) {
+    // WHEN/THEN
+    longsWithAbsValueComparisonStrategy.assertIsEven(someInfo(), actual);
   }
 
-  @Test
-  public void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
-                                                                                                                      5L))
-                                                   .withMessage(format("%nExpecting:%n <1L>%nto be equal to:%n <0L>%nbut was not."));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
-                                                                                                                      -5L))
-                                                   .withMessage(format("%nExpecting:%n <1L>%nto be equal to:%n <0L>%nbut was not."));
+  @ParameterizedTest
+  @ValueSource(longs = { 1, 3, -5, 7 })
+  void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is(long actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
+                                                                                                                actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEven(actual).create());
   }
 
 }

@@ -155,7 +155,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
-   * @since 3.16.0
+   * @since 3.17.0
    */
   public SELF isEven() {
     longs.assertIsEven(info, actual);
@@ -177,7 +177,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
-   * @since 3.16.0
+   * @since 3.17.0
    */
   public SELF isOdd() {
     longs.assertIsOdd(info, actual);

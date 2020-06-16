@@ -12,50 +12,58 @@
  */
 package org.assertj.core.internal.integers;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeOdd.shouldBeOdd;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.internal.IntegersBaseTest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Integers#assertIsOdd(AssertionInfo, Integer)}</code>.
+ * Tests for <code>{@link Integers#assertIsOdd(AssertionInfo, Number)}</code>.
  *
  * @author Cal027
  */
-public class Integers_assertIsOdd_Test extends IntegersBaseTest {
+@DisplayName("Integers assertIsOdd")
+class Integers_assertIsOdd_Test extends IntegersBaseTest {
 
-  @Test
-  public void should_succeed_since_actual_is_odd() {
-    integers.assertIsOdd(someInfo(), 3);
-    integers.assertIsOdd(someInfo(), -3);
+  @ParameterizedTest
+  @ValueSource(ints = { 1, 3, -5, 7 })
+  void should_pass_since_actual_is_odd(int actual) {
+    // WHEN/THEN
+    integers.assertIsOdd(someInfo(), actual);
   }
 
-  @Test
-  public void should_fail_since_actual_is_not_odd() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsOdd(someInfo(), 6))
-                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsOdd(someInfo(), -6))
-                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+  @ParameterizedTest
+  @ValueSource(ints = { 0, 2, -4, 6 })
+  void should_fail_since_actual_is_not_odd(int actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> integers.assertIsOdd(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeOdd(actual).create());
+
   }
 
-  @Test
-  public void should_succeed_since_actual_is_odd_whatever_custom_comparison_strategy_is() {
-    integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(), 5);
-    integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(), -5);
+  @ParameterizedTest
+  @ValueSource(ints = { 1, 3, -5, 7 })
+  void should_pass_since_actual_is_odd_whatever_custom_comparison_strategy_is(int actual) {
+    // WHEN/THEN
+    integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(), actual);
   }
 
-  @Test
-  public void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-                                                                                                                        8))
-                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-                                                                                                                        -8))
-                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+  @ParameterizedTest
+  @ValueSource(ints = { 0, 2, -4, 6 })
+  void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is(int actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
+            actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }
 
 }

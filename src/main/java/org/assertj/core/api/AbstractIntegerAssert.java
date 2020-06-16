@@ -187,7 +187,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
-   * @since 3.16.0
+   * @since 3.17.0
    */
   public SELF isEven() {
     integers.assertIsEven(info, actual);
@@ -209,7 +209,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
-   * @since 3.16.0
+   * @since 3.17.0
    */
   public SELF isOdd() {
     integers.assertIsOdd(info, actual);

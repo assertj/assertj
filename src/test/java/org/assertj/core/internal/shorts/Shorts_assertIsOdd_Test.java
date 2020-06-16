@@ -12,50 +12,58 @@
  */
 package org.assertj.core.internal.shorts;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeOdd.shouldBeOdd;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Shorts#assertIsOdd(AssertionInfo, Short)}</code>.
+ * Tests for <code>{@link Shorts#assertIsOdd(AssertionInfo, Number)}</code>.
  *
  * @author Cal027
  */
-public class Shorts_assertIsOdd_Test extends ShortsBaseTest {
+@DisplayName("Shorts assertIsOdd")
+class Shorts_assertIsOdd_Test extends ShortsBaseTest {
 
-  @Test
-  public void should_succeed_since_actual_is_odd() {
-    shorts.assertIsOdd(someInfo(), (short) 3);
-    shorts.assertIsOdd(someInfo(), (short) -3);
+  @ParameterizedTest
+  @ValueSource(shorts = { 1, 3, -5, 7 })
+  void should_pass_since_actual_is_odd(short actual) {
+    // WHEN/THEN
+    shorts.assertIsOdd(someInfo(), actual);
   }
 
-  @Test
-  public void should_fail_since_actual_is_not_odd() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsOdd(someInfo(), (short) 4))
-                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsOdd(someInfo(), (short) -4))
-                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+  @ParameterizedTest
+  @ValueSource(shorts = { 0, 2, -4, 6 })
+  void should_fail_since_actual_is_not_odd(short actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> shorts.assertIsOdd(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeOdd(actual).create());
+
   }
 
-  @Test
-  public void should_succeed_since_actual_is_odd_whatever_custom_comparison_strategy_is() {
-    shortsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(), (short) 5);
-    shortsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(), (short) -5);
+  @ParameterizedTest
+  @ValueSource(shorts = { 1, 3, -5, 7 })
+  void should_pass_since_actual_is_odd_whatever_custom_comparison_strategy_is(short actual) {
+    // WHEN/THEN
+    shortsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(), actual);
   }
 
-  @Test
-  public void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-                                                                                                                      (short) 6))
-                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-                                                                                                                      (short) -6))
-                                                   .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+  @ParameterizedTest
+  @ValueSource(shorts = { 0, 2, -4, 6 })
+  void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is(short actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
+                                                                                                                actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }
 
 }

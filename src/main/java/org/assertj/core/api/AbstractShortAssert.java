@@ -151,7 +151,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
-   * @since 3.16.0
+   * @since 3.17.0
    */
   public SELF isEven() {
     shorts.assertIsEven(info, actual);
@@ -173,7 +173,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
-   * @since 3.16.0
+   * @since 3.17.0
    */
   public SELF isOdd() {
     shorts.assertIsOdd(info, actual);
