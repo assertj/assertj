@@ -851,6 +851,18 @@ public class Java6Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual elements type
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
+    return new Object2DArrayAssert<>(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
    * <p>
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding

@@ -773,6 +773,17 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual's elements type.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortAssert}</code>.
    *
    * @param actual the actual value.

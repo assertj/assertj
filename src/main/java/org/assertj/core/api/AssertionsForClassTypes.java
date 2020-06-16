@@ -445,6 +445,17 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual elements type.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
+    return new Object2DArrayAssert<>(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortAssert}</code>.
    *
    * @param actual the actual value.

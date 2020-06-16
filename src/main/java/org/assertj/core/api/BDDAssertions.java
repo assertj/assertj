@@ -788,6 +788,17 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.Object2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static <T> Object2DArrayAssert<T> then(T[][] actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.MapAssert}</code>.
    *
    * @param <K> the type of keys in the map.

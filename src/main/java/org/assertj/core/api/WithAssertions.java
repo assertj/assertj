@@ -246,6 +246,18 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual's elements type.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default <T> Object2DArrayAssert<T> assertThat(final T[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Returns the given assertion. This method improves code readability by surrounding the given assertion with
    * <code>assertThat</code>.
    * <p>

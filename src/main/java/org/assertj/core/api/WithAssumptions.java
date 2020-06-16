@@ -89,6 +89,18 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code> assumption.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default <T> Object2DArrayAssert<T> assumeThat(final T[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link MapAssert}</code> assumption.
    *
    * @param <K> the type of keys in the map.
