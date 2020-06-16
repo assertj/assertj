@@ -46,7 +46,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   }
 
   /**
-   * Verifies that the actual {@code char[][]} is deeply equal to the given one.
+   * Verifies that the actual {@code char[][]} is <b>deeply</b> equal to the given one.
    * <p>
    * Two array references are considered deeply equal if both
    * are {@code null} or if they refer to arrays that contain the same

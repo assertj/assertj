@@ -17,6 +17,8 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
 import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
 
+import java.util.Comparator;
+
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Float2DArrays;
@@ -40,7 +42,7 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
   }
 
   /**
-   * Verifies that the actual {@code float[][]} is deeply equal to the given one.
+   * Verifies that the actual {@code float[][]} is <b>deeply</b> equal to the given one.
    * <p>
    * Two arrays are considered deeply equal if both are {@code null}
    * or if they refer to arrays that contain the same number of elements and
@@ -85,6 +87,31 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
       }
     }
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code float[][]} is equal to the given one.
+   * <p>
+   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
+   * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
+   * {@link Double2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * <p>
+   * Example:
+   * <pre><code class='java'> float[][] array = {{1.0f, 2.0f}, {3.0f, 4.0f}};
+   *
+   * // assertion will pass
+   * assertThat(array).isEqualTo(array);
+   *
+   * // assertion will fail as isEqualTo calls equals which compares arrays references only.
+   * assertThat(array).isEqualTo(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});</code></pre>
+   *
+   * @param expected the given value to compare the actual {@code float[][]} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code float[][]} is not equal to the given one.
+   */
+  @Override
+  public Float2DArrayAssert isEqualTo(Object expected) {
+    return super.isEqualTo(expected);
   }
 
   /**

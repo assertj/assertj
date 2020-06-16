@@ -482,6 +482,19 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  @SuppressWarnings("unchecked")
+  default <T> Object2DArrayAssert<T> then(T[][] actual) {
+    return proxy(Object2DArrayAssert.class, Object[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
    * <p>
    * We don't return {@link MapAssert} as it has overridden methods to annotated with {@link SafeVarargs}.

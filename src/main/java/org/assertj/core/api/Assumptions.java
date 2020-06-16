@@ -856,6 +856,19 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code> assumption.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> Object2DArrayAssert<T> assumeThat(T[][] actual) {
+    return asAssumption(Object2DArrayAssert.class, Object[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link MapAssert}</code> assumption.
    *
    * @param <K> the type of keys in the map.

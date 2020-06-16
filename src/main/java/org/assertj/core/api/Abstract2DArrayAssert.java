@@ -20,6 +20,7 @@ import java.util.Comparator;
  * @param <SELF> the "self" type of this assertion class.
  * @param <ACTUAL> the type of the "actual" value which is a two-dimensional Array of ELEMENT.
  * @param <ELEMENT> the type of the "actual" array element.
+ *
  * @author Maciej Wajcht
  * @since 3.17.0
  */
@@ -31,7 +32,7 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
   }
 
   /**
-   * Verifies that the actual 2D array is deeply equal to the given one.
+   * Verifies that the actual 2D array is <b>deeply</b> equal to the given one.
    * <p>
    * Two arrays are considered deeply equal if both are {@code null}
    * or if they refer to arrays that contain the same number of elements and
@@ -52,11 +53,11 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
   public abstract SELF isDeepEqualTo(ACTUAL expected);
 
   /**
-   * Verifies that the actual value is equal to the given one.
+   * Verifies that the actual {@code int[][]} is equal to the given one.
    * <p>
    * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
    * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Int2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * {@link Abstract2DArrayAssert#isDeepEqualTo(Object)} instead.
    * <p>
    * Example:
    * <pre><code class='java'> int[][] array = {{1, 2}, {3, 4}};
@@ -67,9 +68,9 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
    * // assertion will fail as isEqualTo calls equals which compares arrays references only.
    * assertThat(array).isEqualTo(new int[][] {{1, 2}, {3, 4}});</code></pre>
    *
-   * @param expected the given value to compare the actual value to.
+   * @param expected the given value to compare the actual {@code int[][]} to.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is not equal to the given one.
+   * @throws AssertionError if the actual {@code int[][]} is not equal to the given one.
    */
   @Override
   public SELF isEqualTo(Object expected) {

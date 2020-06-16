@@ -417,6 +417,13 @@ public interface InstanceOfAssertFactories {
   InstanceOfAssertFactory<Object[], ObjectArrayAssert<Object>> ARRAY = array(Object[].class);
 
   /**
+   * {@link InstanceOfAssertFactory} for an two-dimensional array of {@link Object}.
+   *
+   * @see #array(Class)
+   */
+  InstanceOfAssertFactory<Object[][], Object2DArrayAssert<Object>> ARRAY_2D = array2D(Object[][].class);
+
+  /**
    * {@link InstanceOfAssertFactory} for an array of elements.
    *
    * @param <ELEMENT> the element type.
@@ -426,6 +433,19 @@ public interface InstanceOfAssertFactories {
    * @see #ARRAY
    */
   static <ELEMENT> InstanceOfAssertFactory<ELEMENT[], ObjectArrayAssert<ELEMENT>> array(Class<ELEMENT[]> arrayType) {
+    return new InstanceOfAssertFactory<>(arrayType, Assertions::assertThat);
+  }
+
+  /**
+   * {@link InstanceOfAssertFactory} for an two-dimensional array of elements.
+   *
+   * @param <ELEMENT> the element type.
+   * @param arrayType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #ARRAY
+   */
+  static <ELEMENT> InstanceOfAssertFactory<ELEMENT[][], Object2DArrayAssert<ELEMENT>> array2D(Class<ELEMENT[][]> arrayType) {
     return new InstanceOfAssertFactory<>(arrayType, Assertions::assertThat);
   }
 

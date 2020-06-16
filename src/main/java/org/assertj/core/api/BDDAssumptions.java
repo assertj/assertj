@@ -1298,6 +1298,36 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance for an objects' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new String[][] {{"A", "B"}, {"C", "D"}}).contains(new String[] {"A", "B"}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *  given(new String[][] {{"A", "B"}, {"C", "D"}}).contains(new String[] {"A", "B"}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param <T> the type of elements of the actual objects' two-dimensional array.
+   * @param actual the actual objects' two-dimensional array to be validated..
+   * @return the {@link Object2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static <T> Object2DArrayAssert<T> given(T[][] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for an object value.
    * <p>
    * This overload is useful, when an overloaded method of given(...) takes precedence over the generic {@link #given(Object) given(T)}, and the assumption requires to access some general assertion methods.

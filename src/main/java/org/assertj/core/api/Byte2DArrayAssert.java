@@ -17,6 +17,8 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
 import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
 
+import java.util.Comparator;
+
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Byte2DArrays;
 import org.assertj.core.internal.Failures;
@@ -43,7 +45,7 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
   }
 
   /**
-   * Verifies that the actual {@code byte[][]} is deeply equal to the given one.
+   * Verifies that the actual {@code byte[][]} is <b>deeply</b> equal to the given one.
    * <p>
    * Two arrays are considered deeply equal if both are {@code null}
    * or if they refer to arrays that contain the same number of elements and
@@ -90,6 +92,31 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
       }
     }
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code byte[][]} is equal to the given one.
+   * <p>
+   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
+   * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
+   * {@link Byte2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * <p>
+   * Example:
+   * <pre><code class='java'> byte[][] array = {{1, 2}, {3, 4}};
+   *
+   * // assertion will pass
+   * assertThat(array).isEqualTo(array);
+   *
+   * // assertion will fail as isEqualTo calls equals which compares arrays references only.
+   * assertThat(array).isEqualTo(new byte[][] {{1, 2}, {3, 4}});</code></pre>
+   *
+   * @param expected the given value to compare the actual {@code byte[][]} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code byte[][]} is not equal to the given one.
+   */
+  @Override
+  public Byte2DArrayAssert isEqualTo(Object expected) {
+    return super.isEqualTo(expected);
   }
 
   /**

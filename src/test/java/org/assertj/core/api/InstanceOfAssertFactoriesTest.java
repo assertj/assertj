@@ -17,6 +17,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY_2D;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_ARRAY;
@@ -634,6 +635,16 @@ class InstanceOfAssertFactoriesTest {
     ObjectArrayAssert<Object> result = assertThat(value).asInstanceOf(ARRAY);
     // THEN
     result.containsExactly(0, "");
+  }
+
+  @Test
+  void array_2d_factory_should_allow_2d_array_assertions() {
+    // GIVEN
+    Object value = new Object[][] {{ 0, "" }, { 3.0, 'b'}};
+    // WHEN
+    Object2DArrayAssert<Object> result = assertThat(value).asInstanceOf(ARRAY_2D);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test

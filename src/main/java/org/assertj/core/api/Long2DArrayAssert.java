@@ -17,6 +17,8 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
 import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
 
+import java.util.Comparator;
+
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Long2DArrays;
@@ -43,7 +45,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
   }
 
   /**
-   * Verifies that the actual 2D array is deeply equal to the given one.
+   * Verifies that the actual 2D array is <b>deeply</b> equal to the given one.
    * <p>
    * Two arrays are considered deeply equal if both are {@code null}
    * or if they refer to arrays that contain the same number of elements and
@@ -88,6 +90,31 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
       }
     }
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code long[][]} is equal to the given one.
+   * <p>
+   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
+   * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
+   * {@link Long2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * <p>
+   * Example:
+   * <pre><code class='java'> long[][] array = {{1, 2}, {3, 4}};
+   *
+   * // assertion will pass
+   * assertThat(array).isEqualTo(array);
+   *
+   * // assertion will fail as isEqualTo calls equals which compares arrays references only.
+   * assertThat(array).isEqualTo(new long[][] {{1, 2}, {3, 4}});</code></pre>
+   *
+   * @param expected the given value to compare the actual {@code long[][]} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code long[][]} is not equal to the given one.
+   */
+  @Override
+  public Long2DArrayAssert isEqualTo(Object expected) {
+    return super.isEqualTo(expected);
   }
 
   /**
