@@ -404,6 +404,17 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Long2DArrayAssert assertThat(long[][] actual) {
+    return proxy(Long2DArrayAssert.class, long[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param actual the actual value.

@@ -62,6 +62,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
+import static org.assertj.core.api.InstanceOfAssertFactories.LONG_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ADDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
@@ -231,6 +232,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(5L, LONG),
                      arguments(new LongAdder(), LONG_ADDER),
                      arguments(new long[0], LONG_ARRAY),
+                     arguments(new long[0][0], LONG_2D_ARRAY),
                      arguments((LongPredicate) l -> l == 0, LONG_PREDICATE),
                      arguments(LongStream.empty(), LONG_STREAM),
                      arguments(newHashMap("k", "v"), MAP),

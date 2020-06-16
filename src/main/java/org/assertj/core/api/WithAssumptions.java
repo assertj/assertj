@@ -146,6 +146,17 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Long2DArrayAssert assumeThat(final long[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectAssert}</code> assumption.
    *
    * @param actual the actual value.
