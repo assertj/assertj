@@ -803,6 +803,16 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Short2DArrayAssert assertThat(short[][] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link DateAssert}</code>.
    *
    * @param actual the actual value.

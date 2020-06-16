@@ -365,6 +365,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Short2DArrayAssert assumeThat(short[][] actual) {
+    return asAssumption(Short2DArrayAssert.class, short[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code> assumption.
    *
    * @param actual the actual value.

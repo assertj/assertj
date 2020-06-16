@@ -412,6 +412,12 @@ public interface InstanceOfAssertFactories {
                                                                                                             Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code short} two-dimensional array.
+   */
+  InstanceOfAssertFactory<short[][], Short2DArrayAssert> SHORT_2D_ARRAY = new InstanceOfAssertFactory<>(short[][].class,
+                                                                                                        Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@link Date}.
    */
   InstanceOfAssertFactory<Date, AbstractDateAssert<?>> DATE = new InstanceOfAssertFactory<>(Date.class,

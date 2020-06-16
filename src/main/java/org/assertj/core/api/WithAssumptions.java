@@ -408,6 +408,17 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Short2DArrayAssert assumeThat(final short[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortAssert}</code> assumption.
    *
    * @param actual the actual value.
