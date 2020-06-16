@@ -32,6 +32,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
+import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
@@ -200,6 +201,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments((byte) 1, BYTE),
                      arguments(Byte.valueOf("1"), BYTE),
                      arguments(new byte[0], BYTE_ARRAY),
+                     arguments(new byte[0][0], BYTE_2D_ARRAY),
                      arguments(new char[0], CHAR_ARRAY),
                      arguments(new char[0][0], CHAR_2D_ARRAY),
                      arguments(charSequence, CHAR_SEQUENCE),
