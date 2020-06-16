@@ -34,6 +34,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.BIG_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
+import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
@@ -388,6 +389,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractByteArrayAssert<?> result = assertThat(value).asInstanceOf(BYTE_ARRAY);
     // THEN
     result.containsExactly(0, 1);
+  }
+
+  @Test
+  void byte_2d_array_factory_should_allow_byte_2d_array_assertions() {
+    // GIVEN
+    Object value = new byte[][] {{ 0, 1 }, { 2, 3 }};
+    // WHEN
+    Byte2DArrayAssert result = assertThat(value).asInstanceOf(BYTE_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test

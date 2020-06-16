@@ -253,6 +253,12 @@ public interface InstanceOfAssertFactories {
                                                                                                          Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code byte} two-dimensional array.
+   */
+  InstanceOfAssertFactory<byte[][], Byte2DArrayAssert> BYTE_2D_ARRAY = new InstanceOfAssertFactory<>(byte[][].class,
+                                                                                                     Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@code char} or its corresponding boxed type {@link Character}.
    */
   InstanceOfAssertFactory<Character, AbstractCharacterAssert<?>> CHARACTER = new InstanceOfAssertFactory<>(Character.class,

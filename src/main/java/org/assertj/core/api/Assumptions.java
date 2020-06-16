@@ -255,6 +255,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Byte2DArrayAssert assumeThat(byte[][] actual) {
+    return asAssumption(Byte2DArrayAssert.class, byte[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code> assumption.
    *
    * @param actual the actual value.
