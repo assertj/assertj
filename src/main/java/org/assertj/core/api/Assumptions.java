@@ -287,6 +287,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Char2DArrayAssert assumeThat(char[][] actual) {
+    return asAssumption(Char2DArrayAssert.class, char[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
    *
    * @param actual the actual value.

@@ -36,6 +36,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
+import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
@@ -405,6 +406,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractCharArrayAssert<?> result = assertThat(value).asInstanceOf(CHAR_ARRAY);
     // THEN
     result.doesNotHaveDuplicates();
+  }
+
+  @Test
+  void char_2d_array_factory_should_allow_char_2d_array_assertions() {
+    // GIVEN
+    Object value = new char[][] {{ 'a', 'b' }, { 'c', 'd' }};
+    // WHEN
+    Char2DArrayAssert result = assertThat(value).asInstanceOf(CHAR_2D_ARRAY);
+    // THEN
+    result.hasSize(2, 2);
   }
 
   @Test

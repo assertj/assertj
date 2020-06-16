@@ -264,6 +264,12 @@ public interface InstanceOfAssertFactories {
                                                                                                          Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code char} two-dimensional array.
+   */
+  InstanceOfAssertFactory<char[][], Char2DArrayAssert> CHAR_2D_ARRAY = new InstanceOfAssertFactory<>(char[][].class,
+                                                                                                         Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@link Class}.
    */
   @SuppressWarnings("rawtypes") // using Class instance
