@@ -41,6 +41,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
+import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
@@ -208,6 +209,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(0d, DOUBLE),
                      arguments(Double.valueOf(0d), DOUBLE),
                      arguments(new double[0], DOUBLE_ARRAY),
+                     arguments(new double[0][0], DOUBLE_2D_ARRAY),
                      arguments((DoublePredicate) d -> d == 0.0, DOUBLE_PREDICATE),
                      arguments(DoubleStream.empty(), DOUBLE_STREAM),
                      arguments(Duration.ZERO, DURATION),

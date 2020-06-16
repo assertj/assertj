@@ -290,6 +290,12 @@ public interface InstanceOfAssertFactories {
                                                                                                                Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code double} two-dimensional array.
+   */
+  InstanceOfAssertFactory<double[][], Double2DArrayAssert> DOUBLE_2D_ARRAY = new InstanceOfAssertFactory<>(double[][].class,
+                                                                                                           Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@link File}.
    */
   InstanceOfAssertFactory<File, AbstractFileAssert<?>> FILE = new InstanceOfAssertFactory<>(File.class,

@@ -257,6 +257,17 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Double2DArrayAssert then(double[][] actual) {
+    return proxy(Double2DArrayAssert.class, double[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FileAssert}</code>.
    *
    * @param actual the actual value.

@@ -508,6 +508,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Double2DArrayAssert assumeThat(double[][] actual) {
+    return asAssumption(Double2DArrayAssert.class, double[][].class, actual);
+  }
+
+  /**
    * Create assumption for {@link AtomicBoolean}.
    *
    * @param actual the actual value.

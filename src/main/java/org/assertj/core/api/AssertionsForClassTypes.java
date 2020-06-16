@@ -302,6 +302,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Double2DArrayAssert assertThat(double[][] actual) {
+    return new Double2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FileAssert}</code>.
    *
    * @param actual the actual value.
