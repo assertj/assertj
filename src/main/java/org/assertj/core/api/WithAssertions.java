@@ -356,6 +356,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Long2DArrayAssert assertThat(final long[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param <T> the type of the actual value.

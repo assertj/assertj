@@ -442,6 +442,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Long2DArrayAssert assumeThat(long[][] actual) {
+    return asAssumption(Long2DArrayAssert.class, long[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FloatAssert}</code> assumption.
    *
    * @param actual the actual value.

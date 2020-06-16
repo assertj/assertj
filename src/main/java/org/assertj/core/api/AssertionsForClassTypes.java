@@ -423,6 +423,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Long2DArrayAssert assertThat(long[][] actual) {
+    return new Long2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param <T> the actual value type.

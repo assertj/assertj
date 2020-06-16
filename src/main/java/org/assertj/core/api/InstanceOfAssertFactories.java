@@ -366,6 +366,12 @@ public interface InstanceOfAssertFactories {
                                                                                                          Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code long} two-dimensional array.
+   */
+  InstanceOfAssertFactory<long[][], Long2DArrayAssert> LONG_2D_ARRAY = new InstanceOfAssertFactory<>(long[][].class,
+                                                                                                     Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for an object of a specific type.
    * <p>
    * <b>While this factory ensures that {@code actual} is an instance of the input type, it creates always

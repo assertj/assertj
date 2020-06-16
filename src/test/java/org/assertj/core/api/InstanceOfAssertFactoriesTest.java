@@ -66,6 +66,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
+import static org.assertj.core.api.InstanceOfAssertFactories.LONG_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ADDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
@@ -558,6 +559,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractLongArrayAssert<?> result = assertThat(value).asInstanceOf(LONG_ARRAY);
     // THEN
     result.containsExactly(0, 1);
+  }
+
+  @Test
+  void long_2d_array_factory_should_allow_long_2d_array_assertions() {
+    // GIVEN
+    Object value = new long[][] {{ 0L, 1L }, { 2L, 3L }};
+    // WHEN
+    Long2DArrayAssert result = assertThat(value).asInstanceOf(LONG_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test
