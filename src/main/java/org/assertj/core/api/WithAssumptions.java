@@ -534,6 +534,17 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Boolean2DArrayAssert assumeThat(final boolean[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code> assumption.
    *
    * @param actual the actual value.

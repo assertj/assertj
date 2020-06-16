@@ -222,6 +222,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Boolean2DArrayAssert assumeThat(boolean[][] actual) {
+    return asAssumption(Boolean2DArrayAssert.class, boolean[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code> assumption.
    *
    * @param actual the actual value.

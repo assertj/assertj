@@ -32,6 +32,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_STAMPED_REFE
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
+import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
@@ -368,6 +369,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractBooleanArrayAssert<?> result = assertThat(value).asInstanceOf(BOOLEAN_ARRAY);
     // THEN
     result.containsExactly(true, false);
+  }
+
+  @Test
+  void boolean_2d_array_factory_should_allow_boolean_2d_array_assertions() {
+    // GIVEN
+    Object value = new boolean[][] {{ true, false }, { false, true }};
+    // WHEN
+    Boolean2DArrayAssert result = assertThat(value).asInstanceOf(BOOLEAN_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test

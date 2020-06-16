@@ -241,6 +241,12 @@ public interface InstanceOfAssertFactories {
                                                                                                                   Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code boolean} two-dimensional array.
+   */
+  InstanceOfAssertFactory<boolean[][], Boolean2DArrayAssert> BOOLEAN_2D_ARRAY = new InstanceOfAssertFactory<>(boolean[][].class,
+                                                                                                              Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@code byte} or its corresponding boxed type {@link Byte}.
    */
   InstanceOfAssertFactory<Byte, AbstractByteAssert<?>> BYTE = new InstanceOfAssertFactory<>(Byte.class,

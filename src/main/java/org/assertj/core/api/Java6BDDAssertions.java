@@ -248,6 +248,17 @@ public class Java6BDDAssertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.Boolean2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Boolean2DArrayAssert then(boolean[][] actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ByteAssert}</code>.
    *
    * @param actual the actual value.
