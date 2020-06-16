@@ -23,7 +23,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Short}s.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
@@ -35,6 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author Cal027
  */
 public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>> extends AbstractComparableAssert<SELF, Short>
     implements NumberAssert<SELF, Short> {
@@ -52,7 +53,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * Example:
    * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isEqualTo((short) 1);
-   * 
+   *
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;-1&quot;)).isEqualTo((short) 1);</code></pre>
    *
@@ -72,7 +73,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * Example:
    * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf((&quot;-1&quot;)).isNotEqualTo((short) 1);
-   * 
+   *
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;1&quot;)).isNotEqualTo((short) 1);</code></pre>
    *
@@ -136,16 +137,60 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   }
 
   /**
+   * Verifies that the actual value is even.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat((short) 12).isEven();
+   * assertThat((short) -46).isEven();
+   *
+   * // assertions will fail
+   * assertThat((short) 3).isEven();
+   * assertThat((short) 15).isEven();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not positive.
+   * @since 3.17.0
+   */
+  public SELF isEven() {
+    shorts.assertIsEven(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual value is odd.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat((short) 3).isOdd();
+   * assertThat((short) -17).isOdd();
+   *
+   * // assertions will fail
+   * assertThat((short) 2).isOdd();
+   * assertThat((short) -24).isOdd();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not positive.
+   * @since 3.17.0
+   */
+  public SELF isOdd() {
+    shorts.assertIsOdd(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual value is less than the given one.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 2);
-   * 
+   *
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 0);
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 1);</code></pre>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -162,10 +207,10 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * Example:
    * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThanOrEqualTo((short) 1);
-   * 
+   *
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThanOrEqualTo((short) 0);</code></pre>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -182,11 +227,11 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * Example:
    * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isGreaterThan((short) 0);
-   * 
+   *
    * // assertions will fail:
    * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThan((short) 1);
    * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThan((short) 0);</code></pre>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -203,7 +248,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * Example:
    * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isGreaterThanOrEqualTo((short) 1);
-   * 
+   *
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThanOrEqualTo((short) 1);</code></pre>
    *
@@ -258,21 +303,21 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   /**
    * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(Short)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Short)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(Short)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(Short)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat((short) 5).isCloseTo((short) 7, within((short) 3));
    * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 3));
    *
-   * // if difference is exactly equals to the offset, it's ok ... 
+   * // if difference is exactly equals to the offset, it's ok ...
    * assertThat((short) 5).isCloseTo((short) 7, within((short) 2));
    * // ... but not with byLessThan which implies a strict comparison
    * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 2)); // FAIL
@@ -296,14 +341,14 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Short)} or {@link Offset#strictOffset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#within(Short)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(Short)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(Short)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions will pass:
@@ -332,21 +377,21 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   /**
    * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(Short)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Short)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(Short)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(Short)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat((short) 5).isCloseTo((short) 7, within((short) 3));
    * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 3));
    *
-   * // if difference is exactly equals to the offset, it's ok ... 
+   * // if difference is exactly equals to the offset, it's ok ...
    * assertThat((short) 5).isCloseTo((short) 7, within((short) 2));
    * // ... but not with byLessThan which implies a strict comparison
    * assertThat((short) 5).isCloseTo((short) 7, byLessThan((short) 2)); // FAIL
@@ -371,14 +416,14 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Short)} or {@link Offset#strictOffset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#within(Short)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(Short)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Short)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(Short)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions will pass:

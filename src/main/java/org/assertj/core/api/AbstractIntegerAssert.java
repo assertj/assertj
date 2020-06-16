@@ -23,11 +23,11 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Integer}s.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * 
+ *
  * @author Drummond Dawson
  * @author Yvonne Wang
  * @author David DIDIER
@@ -36,6 +36,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author Cal027
  */
 public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<SELF>> extends
     AbstractComparableAssert<SELF, Integer> implements NumberAssert<SELF, Integer> {
@@ -54,7 +55,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * <pre><code class='java'> // assertions will pass:
    * assertThat(1).isEqualTo(1);
    * assertThat(-1).isEqualTo(-1);
-   * 
+   *
    * // assertions will fail:
    * assertThat(1).isEqualTo(2);
    * assertThat(1).isEqualTo(-1);</code></pre>
@@ -89,8 +90,8 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @since 3.10.0
    */
   public SELF isEqualTo(long expected) {
-    if(canBeCastToInt(expected)) {
-      integers.assertEqual(info, actual, (int)expected);
+    if (canBeCastToInt(expected)) {
+      integers.assertEqual(info, actual, (int) expected);
     } else {
       integers.assertEqual(info, actual, expected);
     }
@@ -108,7 +109,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * <pre><code class='java'> // assertions will pass:
    * assertThat(1).isNotEqualTo(2);
    * assertThat(1).isNotEqualTo(-1);
-   * 
+   *
    * // assertion will fail:
    * assertThat(1).isNotEqualTo(1);</code></pre>
    *
@@ -172,13 +173,57 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   }
 
   /**
+   * Verifies that the actual value is even.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(12).isEven();
+   * assertThat(-46).isEven();
+   *
+   * // assertions will fail
+   * assertThat(3).isEven();
+   * assertThat(15).isEven();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not even.
+   * @since 3.17.0
+   */
+  public SELF isEven() {
+    integers.assertIsEven(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual value is odd.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(3).isOdd();
+   * assertThat(-17).isOdd();
+   *
+   * // assertions will fail
+   * assertThat(2).isOdd();
+   * assertThat(-24).isOdd();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not odd.
+   * @since 3.17.0
+   */
+  public SELF isOdd() {
+    integers.assertIsOdd(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual value is less than the given one.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(1).isLessThan(2);
    * assertThat(-2).isLessThan(-1);
-   * 
+   *
    * // assertions will fail:
    * assertThat(1).isLessThan(0);
    * assertThat(1).isLessThan(1);</code></pre>
@@ -201,7 +246,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * assertThat(1).isLessThanOrEqualTo(2);
    * assertThat(-1).isLessThanOrEqualTo(-2);
    * assertThat(1).isLessThanOrEqualTo(1);
-   * 
+   *
    * // assertions will fail:
    * assertThat(1).isLessThanOrEqualTo(2);
    * assertThat(-1).isLessThanOrEqualTo(-2);</code></pre>
@@ -223,7 +268,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * <pre><code class='java'> // assertions will pass:
    * assertThat(1).isGreaterThan(0);
    * assertThat(-1).isGreaterThan(-2);
-   * 
+   *
    * // assertions will fail:
    * assertThat(1).isGreaterThan(2);
    * assertThat(1).isGreaterThan(1);</code></pre>
@@ -245,7 +290,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * <pre><code class='java'> // assertions will pass:
    * assertThat(2).isGreaterThanOrEqualTo(1);
    * assertThat(1).isGreaterThanOrEqualTo(1);
-   * 
+   *
    * // assertions will fail:
    * assertThat(1).isGreaterThanOrEqualTo(2);
    * assertThat(-1).isGreaterThanOrEqualTo(1);</code></pre>
@@ -301,21 +346,21 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   /**
    * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(Integer)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(Integer)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions will pass:
    * assertThat(5).isCloseTo(7, within(3));
    * assertThat(5).isCloseTo(7, byLessThan(3));
    *
-   * // if difference is exactly equals to the offset, it's ok ... 
+   * // if difference is exactly equals to the offset, it's ok ...
    * assertThat(5).isCloseTo(7, within(2));
    * // ... but not with byLessThan which implies a strict comparison
    * assertThat(5).isCloseTo(7, byLessThan(2)); // FAIL
@@ -339,14 +384,14 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#within(Integer)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(Integer)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions will pass:
@@ -375,21 +420,21 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   /**
    * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(Integer)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(Integer)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed:
    * assertThat(5).isCloseTo(7, within(3));
    * assertThat(5).isCloseTo(7, byLessThan(3));
    *
-   * // if difference is exactly equals to the offset, it's ok ... 
+   * // if difference is exactly equals to the offset, it's ok ...
    * assertThat(5).isCloseTo(7, within(2));
    * // ... but not with byLessThan which implies a strict comparison
    * assertThat(5).isCloseTo(7, byLessThan(2)); // FAIL
@@ -414,14 +459,14 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(Integer)} or {@link Offset#strictOffset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#within(Integer)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(Integer)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(Integer)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(Integer)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions will pass:

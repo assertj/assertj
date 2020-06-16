@@ -20,8 +20,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Cal027
  */
-public class Longs extends Numbers<Long> {
+public class Longs extends Numbers<Long> implements WholeNumbers<Long> {
 
   private static final Longs INSTANCE = new Longs();
 
@@ -63,4 +64,8 @@ public class Longs extends Numbers<Long> {
     return value > other;
   }
 
+  @Override
+  public boolean isEven(Long number) {
+    return (number & one()) == zero();
+  }
 }
