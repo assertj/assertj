@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -1089,6 +1090,17 @@ public class Assumptions {
    */
   public static AbstractDurationAssert<?> assumeThat(Duration actual) {
     return asAssumption(DurationAssert.class, Duration.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link PeriodAssert} assumption.
+   *
+   * @param actual the Period to test
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> assumeThat(Period actual) {
+    return asAssumption(PeriodAssert.class, Period.class, actual);
   }
 
   /**

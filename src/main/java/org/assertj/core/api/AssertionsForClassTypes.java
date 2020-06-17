@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
@@ -585,6 +586,17 @@ public class AssertionsForClassTypes {
    */
   public static AbstractDurationAssert<?> assertThat(Duration duration) {
     return new DurationAssert(duration);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param period the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> assertThat(Period period) {
+    return new PeriodAssert(period);
   }
 
   /**

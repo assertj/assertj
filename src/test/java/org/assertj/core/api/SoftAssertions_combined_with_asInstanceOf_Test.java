@@ -73,6 +73,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_INT;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
+import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
@@ -101,6 +102,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
@@ -207,6 +209,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments((DoublePredicate) d -> d == 0.0, DOUBLE_PREDICATE),
                      arguments(DoubleStream.empty(), DOUBLE_STREAM),
                      arguments(Duration.ZERO, DURATION),
+                     arguments(Period.ZERO, PERIOD),
                      arguments(new File("foo"), FILE),
                      arguments(Float.valueOf("0.0"), FLOAT),
                      arguments(new float[0], FLOAT_ARRAY),

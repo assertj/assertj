@@ -12,22 +12,24 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
+import java.time.Period;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+/**
+ * @author Hayden Meloche
+ */
+public class ShouldBePeriod extends BasicErrorMessageFactory {
 
-@DisplayName("ShouldHaveCause create")
-public class ShouldHaveCause_create_Test {
+  private static final String EXPECTED_PREFIX = "%nExpecting Period:%n  <%s>%nto be ";
 
-  @Test
-  void should_create_error_message_for_actual_cause() {
-    // GIVEN
-    Throwable actual = new RuntimeException();
-    // WHEN
-    String message = shouldHaveCause(actual).create();
-    // THEN
-    then(message).isEqualTo("expecting java.lang.RuntimeException to have a cause but it did not");
+  private ShouldBePeriod(Period actual, String metric) {
+    super(EXPECTED_PREFIX + metric, actual);
+  }
+
+  public static ShouldBePeriod shouldBePositive(Period actual) {
+    return new ShouldBePeriod(actual, "positive");
+  }
+
+  public static ShouldBePeriod shouldBeNegative(Period actual) {
+    return new ShouldBePeriod(actual, "negative");
   }
 }
