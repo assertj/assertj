@@ -22,7 +22,6 @@ import org.assertj.core.internal.Char2DArrays;
 import org.assertj.core.internal.Char2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Char2DArrays#assertNullOrEmpty(AssertionInfo, char[][])}</code>.
  *

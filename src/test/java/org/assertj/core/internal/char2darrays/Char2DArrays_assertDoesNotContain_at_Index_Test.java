@@ -27,7 +27,6 @@ import org.assertj.core.internal.Char2DArrays;
 import org.assertj.core.internal.Char2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Char2DArrays#assertDoesNotContain(AssertionInfo, char[][], char[], Index)}</code>.
  *
@@ -42,7 +41,7 @@ public class Char2DArrays_assertDoesNotContain_at_Index_Test extends Char2DArray
     char[] expectedElement = { 'a', 'b', 'c' };
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> arrays.assertDoesNotContain(someInfo(), actual, expectedElement,
-      someIndex()));
+                                                                                           someIndex()));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -62,9 +61,10 @@ public class Char2DArrays_assertDoesNotContain_at_Index_Test extends Char2DArray
     // GIVEN
     Index nullIndex = null;
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, new char[] { 'a', 'b', 'c' },
-      nullIndex))
-      .withMessage("Index should not be null");
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual,
+                                                                                  new char[] { 'a', 'b', 'c' },
+                                                                                  nullIndex))
+                                    .withMessage("Index should not be null");
   }
 
   @Test
@@ -79,7 +79,7 @@ public class Char2DArrays_assertDoesNotContain_at_Index_Test extends Char2DArray
     char[] expectedElement = { 'a', 'b', 'c' };
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> arrays.assertDoesNotContain(someInfo(), actual, expectedElement,
-      index));
+                                                                                           index));
     // THEN
     then(assertionError).hasMessage(shouldNotContainAtIndex(actual, new char[] { 'a', 'b', 'c' }, index).create());
   }

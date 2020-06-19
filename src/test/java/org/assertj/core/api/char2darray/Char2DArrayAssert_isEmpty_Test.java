@@ -19,7 +19,6 @@ import org.assertj.core.api.Char2DArrayAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Char2DArrayAssert#isEmpty()}</code>.
  * 

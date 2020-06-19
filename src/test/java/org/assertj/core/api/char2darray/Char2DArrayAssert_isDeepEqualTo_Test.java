@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.char2darray;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -40,34 +39,34 @@ class Char2DArrayAssert_isDeepEqualTo_Test {
     char[][] actual = null;
     char[][] expected = null;
     // WHEN/THEN
-    assertThat(actual).isDeepEqualTo(expected);
+    then(actual).isDeepEqualTo(expected);
   }
 
   @Test
   void should_pass_if_both_actual_and_expected_are_same_arrays() {
     // GIVEN
-    char[][] actual = new char[][]{{'1', '2'}, {'3'}, {'4', '5', '6'}};
+    char[][] actual = new char[][] { { '1', '2' }, { '3' }, { '4', '5', '6' } };
     char[][] expected = actual;
     // WHEN/THEN
-    assertThat(actual).isDeepEqualTo(expected);
+    then(actual).isDeepEqualTo(expected);
   }
 
   @Test
   void should_pass_if_both_actual_and_expected_are_equal() {
     // GIVEN
-    char[][] actual = new char[][]{{'1', '2'}, {'3'}, {'4', '5', '6'}};
-    char[][] expected = new char[][]{{'1', '2'}, {'3'}, {'4', '5', '6'}};
+    char[][] actual = new char[][] { { '1', '2' }, { '3' }, { '4', '5', '6' } };
+    char[][] expected = new char[][] { { '1', '2' }, { '3' }, { '4', '5', '6' } };
     // WHEN/THEN
-    assertThat(actual).isDeepEqualTo(expected);
+    then(actual).isDeepEqualTo(expected);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     char[][] actual = null;
-    char[][] expected = new char[][]{{'1', '2'}, {'3'}, {'4', '5', '6'}};
+    char[][] expected = new char[][] { { '1', '2' }, { '3' }, { '4', '5', '6' } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -75,10 +74,10 @@ class Char2DArrayAssert_isDeepEqualTo_Test {
   @Test
   void should_fail_if_actual_in_second_dimension_is_null() {
     // GIVEN
-    char[][] actual = new char[][]{{'1', '2'}, null, {'4', '5', '6'}};
-    char[][] expected = new char[][]{{'1', '2'}, {'3'}, {'4', '5', '6'}};
+    char[][] actual = new char[][] { { '1', '2' }, null, { '4', '5', '6' } };
+    char[][] expected = new char[][] { { '1', '2' }, { '3' }, { '4', '5', '6' } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull("actual[1]").create());
   }
@@ -86,10 +85,10 @@ class Char2DArrayAssert_isDeepEqualTo_Test {
   @Test
   void should_fail_if_first_dimension_size_is_different() {
     // GIVEN
-    char[][] actual = new char[][]{{'1', '2'}, {'3'}};
-    char[][] expected = new char[][]{{'1', '2'}, {'3'}, {'4', '5', '6'}};
+    char[][] actual = new char[][] { { '1', '2' }, { '3' } };
+    char[][] expected = new char[][] { { '1', '2' }, { '3' }, { '4', '5', '6' } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameSizeAs(actual, expected, actual.length, expected.length).create());
   }
@@ -97,12 +96,12 @@ class Char2DArrayAssert_isDeepEqualTo_Test {
   @Test
   void should_fail_if_second_dimension_size_is_different() {
     // GIVEN
-    char[][] actual = new char[][]{{'1', '2'}, {'3', 'X'}, {'4', '5', '6'}};
-    char[][] expected = new char[][]{{'1', '2'}, {'3'}, {'4', '5', '6'}};
-    char[] actualSubArrayWithDifference = new char[] {'3', 'X'};
-    char[] expectedSubArrayWithDifference = new char[] {'3'};
+    char[][] actual = new char[][] { { '1', '2' }, { '3', 'X' }, { '4', '5', '6' } };
+    char[][] expected = new char[][] { { '1', '2' }, { '3' }, { '4', '5', '6' } };
+    char[] actualSubArrayWithDifference = new char[] { '3', 'X' };
+    char[] expectedSubArrayWithDifference = new char[] { '3' };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(subarraysShouldHaveSameSize(actual, expected, actualSubArrayWithDifference,
                                                                 expectedSubArrayWithDifference, 1)
@@ -114,10 +113,10 @@ class Char2DArrayAssert_isDeepEqualTo_Test {
     // GIVEN
     char actualValue = 'X';
     char expectedValue = '3';
-    char[][] actual = new char[][]{{'1', '2'}, {actualValue}, {'4', '5', '6'}};
-    char[][] expected = new char[][]{{'1', '2'}, {expectedValue}, {'4', '5', '6'}};
+    char[][] actual = new char[][] { { '1', '2' }, { actualValue }, { '4', '5', '6' } };
+    char[][] expected = new char[][] { { '1', '2' }, { expectedValue }, { '4', '5', '6' } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeEqual(actualValue, expectedValue, STANDARD_REPRESENTATION, "[1][0]")
                                                                                                                 .newAssertionError(EmptyTextDescription.emptyDescription(),

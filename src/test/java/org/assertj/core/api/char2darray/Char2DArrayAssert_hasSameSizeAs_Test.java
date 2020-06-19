@@ -18,7 +18,6 @@ import org.assertj.core.api.Char2DArrayAssert;
 import org.assertj.core.api.Char2DArrayAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
-
 /**
  * Tests for <code>{@link Char2DArrayAssert#hasSameSizeAs(Object)}</code>.
  * 
@@ -29,11 +28,11 @@ class Char2DArrayAssert_hasSameSizeAs_Test extends Char2DArrayAssertBaseTest {
 
   @Override
   protected Char2DArrayAssert invoke_api_method() {
-    return assertions.hasSameSizeAs(new String[] {"a", "b"});
+    return assertions.hasSameSizeAs(new String[] { "a", "b" });
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), new String[] {"a", "b"});
+    verify(arrays).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), new String[] { "a", "b" });
   }
 }

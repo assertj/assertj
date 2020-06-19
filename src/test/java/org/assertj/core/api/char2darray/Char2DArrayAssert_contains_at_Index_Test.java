@@ -20,7 +20,6 @@ import org.assertj.core.api.Char2DArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.DisplayName;
 
-
 /**
  * Tests for <code>{@link Char2DArrayAssert#contains(char[], Index)}</code>.
  * 

@@ -23,7 +23,6 @@ import org.assertj.core.internal.Char2DArrays;
 import org.assertj.core.internal.Char2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Char2DArrays#assertHasSize(AssertionInfo, char[][], int, int)}</code>.
  *
@@ -47,7 +46,7 @@ public class Char2DArrays_assertHasSize_Test extends Char2DArraysBaseTest {
     int expectedFirstDimensionSize = 10;
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSize(someInfo(), actual,
-      expectedFirstDimensionSize, 3));
+                                                                                    expectedFirstDimensionSize, 3));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(actual, actual.length, expectedFirstDimensionSize).create());
   }
@@ -58,7 +57,7 @@ public class Char2DArrays_assertHasSize_Test extends Char2DArraysBaseTest {
     int expectedSecondDimensionSize = 10;
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSize(someInfo(), actual, 2,
-      expectedSecondDimensionSize));
+                                                                                    expectedSecondDimensionSize));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(new char[] { 'a', 'b', 'c' }, 3, expectedSecondDimensionSize, 0).create());
   }

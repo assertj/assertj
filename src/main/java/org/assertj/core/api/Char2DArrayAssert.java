@@ -154,18 +154,22 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * Use unicode character representation instead of standard representation in error messages.
    * <p>
    * With standard error message:
-   * <pre><code class='java'> assertThat("a6c".toCharArray()).isEqualTo("abó".toCharArray());
+   * <pre><code class='java'> assertThat(new char[][] {{'a', 'b'}, {'ć', 'd'}}).isDeepEqualTo(new char[][] {{'a', 'b'}, {'c', 'd'}});
    *
-   * org.junit.ComparisonFailure:
-   * Expected :['a', 'b', 'ó']
-   * Actual   :[a, 6, c]</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * Expecting "actual[1][0]" value to be equal to:
+   *  <'c'>
+   * but was
+   *  <'ć'></code></pre>
    *
    * With unicode based error message:
-   * <pre><code class='java'> assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
+   * <pre><code class='java'> assertThat(new char[][] {{'a', 'b'}, {'ć', 'd'}}).inUnicode().isDeepEqualTo(new char[][] {{'a', 'b'}, {'c', 'd'}});
    *
-   * org.junit.ComparisonFailure:
-   * Expected :[a, b, \u00f3]
-   * Actual   :[a, 6, c]</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * Expecting actual[1][0] value to be equal to:
+   *  <c>
+   * but was
+   *  <\u0107></code></pre>
    *
    * @return {@code this} assertion object.
    */

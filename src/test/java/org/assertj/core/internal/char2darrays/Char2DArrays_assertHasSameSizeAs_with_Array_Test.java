@@ -36,7 +36,7 @@ public class Char2DArrays_assertHasSameSizeAs_with_Array_Test extends Char2DArra
     actual = null;
     // WHEN
     ThrowingCallable code = () -> arrays.assertHasSameSizeAs(someInfo(), actual,
-      new String[][] { { "a", "b", "c" }, { "d", "e", "f" } });
+                                                             new String[][] { { "a", "b", "c" }, { "d", "e", "f" } });
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
