@@ -9,7 +9,7 @@
 
   <name>AssertJ - Fluent assertions for java unit testing</name>
   <description>Parent POM for all AssertJ modules</description>
-  <url>http://assertj.org</url>
+  <url>https://assertj.github.io/doc/</url>
   <organization>
     <name>AssertJ</name>
     <url>https://assertj.github.io/doc/</url>
