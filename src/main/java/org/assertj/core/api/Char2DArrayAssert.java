@@ -158,18 +158,18 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    *
    * org.opentest4j.AssertionFailedError:
    * Expecting "actual[1][0]" value to be equal to:
-   *  <'c'>
+   *  &lt;'c'&gt;
    * but was
-   *  <'ć'></code></pre>
+   *  &lt;'ć'&gt;</code></pre>
    *
    * With unicode based error message:
    * <pre><code class='java'> assertThat(new char[][] {{'a', 'b'}, {'ć', 'd'}}).inUnicode().isDeepEqualTo(new char[][] {{'a', 'b'}, {'c', 'd'}});
    *
    * org.opentest4j.AssertionFailedError:
    * Expecting actual[1][0] value to be equal to:
-   *  <c>
+   *  &lt;c&gt;
    * but was
-   *  <\u0107></code></pre>
+   *  &lt;\u0107&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */
