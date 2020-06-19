@@ -104,9 +104,9 @@ public class MultidimensionalArrayShouldBeEqual extends org.assertj.core.error.S
       return defaultDetailedErrorMessage(description, representation);
     }
     return comparisonStrategy.isStandard()
-        ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, "actual" + index, actual, expected)
+        ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, "actual" + index, expected, actual)
         : messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
-                                  "actual" + index, actual, expected, comparisonStrategy);
+                                  "actual" + index, expected, actual, comparisonStrategy);
   }
 
   @Override
