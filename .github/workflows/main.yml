@@ -18,7 +18,7 @@ jobs:
         with:
           java-version: 11
       - name: Cache Maven Repository
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -37,7 +37,7 @@ jobs:
         with:
           java-version: 11
       - name: Cache Maven Repository
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
