@@ -92,8 +92,8 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
 
   /** {@inheritDoc} */
   @Override
-  public Char2DArrayAssert hasDimensions(int expectedFirstDimensionSize, int expectedSecondDimensionSize) {
-    arrays.assertHasDimensions(info, actual, expectedFirstDimensionSize, expectedSecondDimensionSize);
+  public Char2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
+    arrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
     return myself;
   }
 

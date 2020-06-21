@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Int2DArrays_assertHasSize_Test extends Int2DArraysBaseTest {
+public class Int2DArrays_assertHasDimensions_Test extends Int2DArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
