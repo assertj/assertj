@@ -19,20 +19,20 @@ import org.assertj.core.api.Char2DArrayAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
 /**
- * Tests for <code>{@link Char2DArrayAssert#hasSize(int, int)}</code>.
+ * Tests for <code>{@link Char2DArrayAssert#hasDimensions(int, int)}</code>.
  * 
  * @author Maciej Wajcht
  */
 @DisplayName("Char2DArrayAssert hasSize")
-class Char2DArrayAssert_hasSize_Test extends Char2DArrayAssertBaseTest {
+class Char2DArrayAssert_hasDimensions_Test extends Char2DArrayAssertBaseTest {
 
   @Override
   protected Char2DArrayAssert invoke_api_method() {
-    return assertions.hasSize(1, 2);
+    return assertions.hasDimensions(1, 2);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasSize(getInfo(assertions), getActual(assertions), 1, 2);
+    verify(arrays).assertHasDimensions(getInfo(assertions), getActual(assertions), 1, 2);
   }
 }

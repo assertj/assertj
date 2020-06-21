@@ -417,7 +417,7 @@ class InstanceOfAssertFactoriesTest {
     // WHEN
     Char2DArrayAssert result = assertThat(value).asInstanceOf(CHAR_2D_ARRAY);
     // THEN
-    result.hasSize(2, 2);
+    result.hasDimensions(2, 2);
   }
 
   @Test
@@ -537,7 +537,7 @@ class InstanceOfAssertFactoriesTest {
     // WHEN
     Int2DArrayAssert result = assertThat(value).asInstanceOf(INT_2D_ARRAY);
     // THEN
-    result.hasSize(2, 2);
+    result.hasDimensions(2, 2);
   }
 
   @Test

@@ -24,7 +24,7 @@ import org.assertj.core.internal.Char2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Char2DArrays#assertHasSize(AssertionInfo, char[][], int, int)}</code>.
+ * Tests for <code>{@link Char2DArrays#assertHasDimensions(AssertionInfo, char[][], int, int)}</code>.
  *
  * @author Maciej Wajcht
  */
@@ -35,7 +35,7 @@ public class Char2DArrays_assertHasSize_Test extends Char2DArraysBaseTest {
     // GIVEN
     char[][] actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSize(someInfo(), actual, 2, 3));
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), actual, 2, 3));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -45,7 +45,7 @@ public class Char2DArrays_assertHasSize_Test extends Char2DArraysBaseTest {
     // GIVEN
     int expectedFirstDimensionSize = 10;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSize(someInfo(), actual,
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), actual,
                                                                                     expectedFirstDimensionSize, 3));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(actual, actual.length, expectedFirstDimensionSize).create());
@@ -56,7 +56,7 @@ public class Char2DArrays_assertHasSize_Test extends Char2DArraysBaseTest {
     // GIVEN
     int expectedSecondDimensionSize = 10;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSize(someInfo(), actual, 2,
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), actual, 2,
                                                                                     expectedSecondDimensionSize));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(new char[] { 'a', 'b', 'c' }, 3, expectedSecondDimensionSize, 0).create());
@@ -64,6 +64,6 @@ public class Char2DArrays_assertHasSize_Test extends Char2DArraysBaseTest {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSize(someInfo(), actual, 2, 3);
+    arrays.assertHasDimensions(someInfo(), actual, 2, 3);
   }
 }
