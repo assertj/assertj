@@ -96,16 +96,15 @@ public class Char2DArrays {
    *
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param expectedFirstDimensionSize the expected first dimension size of {@code actual}.
-   * @param expectedSecondDimensionSize the expected second dimension size of {@code actual}.
+   * @param expectedFirstDimension the expected first dimension size of {@code actual}.
+   * @param expectedSecondDimension the expected second dimension size of {@code actual}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the number of elements in the given array is different than the expected one.
+   * @throws AssertionError if the actual array's dimensions are not equal to the given ones.
    */
-  public void assertHasSize(AssertionInfo info, char[][] actual, int expectedFirstDimensionSize,
-                            int expectedSecondDimensionSize) {
-    arrays.assertHasSize(info, actual, expectedFirstDimensionSize);
+  public void assertHasDimensions(AssertionInfo info, char[][] actual, int expectedFirstDimension, int expectedSecondDimension) {
+    arrays.assertHasSize(info, actual, expectedFirstDimension);
     for (int i = 0; i < actual.length; i++) {
-      arrays.assertHasSize(info, failures, actual[i], expectedSecondDimensionSize, i);
+      arrays.assertHasSize(info, failures, actual[i], expectedSecondDimension, i);
     }
   }
 

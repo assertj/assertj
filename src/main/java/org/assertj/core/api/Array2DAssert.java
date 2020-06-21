@@ -75,24 +75,24 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
   SELF isNotEmpty();
 
   /**
-   * Verifies that the number of values in the actual array is equal to the given one.
+   * Verifies that the actual 2D array has the given dimensions.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6} }).hasSize(2, 3);
+   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6} }).hasDimensions(2, 3);
    *
    * // assertions will fail
    * assertThat(new int[][] { }).hasSize(1, 1);
-   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6} }).hasSize(3, 2);
-   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6, 7} }).hasSize(2, 3);
+   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6} }).hasDimensions(3, 2);
+   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6, 7} }).hasDimensions(2, 3);
    * </code></pre>
    *
-   * @param expectedFirstDimensionSize the expected number of values in first dimension of the actual array.
-   * @param expectedSecondDimensionSize the expected number of values in second dimension of the actual array.
+   * @param expectedFirstDimension the expected number of values in first dimension of the actual array.
+   * @param expectedSecondDimension the expected number of values in second dimension of the actual array.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the number of values of the actual array is not equal to the given one.
+   * @throws AssertionError if the actual array's dimensions are not equal to the given ones.
    */
-  SELF hasSize(int expectedFirstDimensionSize, int expectedSecondDimensionSize);
+  SELF hasDimensions(int expectedFirstDimension, int expectedSecondDimension);
 
   /**
    * Verifies that the actual array has the same size as given array.

@@ -174,26 +174,26 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   }
 
   /**
-   * Verifies that the number of values in the actual {@code char[][]} is equal to the given one.
+   * Verifies that the actual {@code char[][]} has the the given dimensions.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6'} }).hasSize(2, 3);
+   * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6'} }).hasDimensions(2, 3);
    *
    * // assertions will fail
-   * assertThat(new char[][] { }).hasSize(1, 1);
-   * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6'} }).hasSize(3, 2);
-   * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6', '7'} }).hasSize(2, 3);
+   * assertThat(new char[][] { }).hasDimensions(1, 1);
+   * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6'} }).hasDimensions(3, 2);
+   * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6', '7'} }).hasDimensions(2, 3);
    * </code></pre>
    *
-   * @param expectedFirstDimensionSize the expected number of values in first dimension of the actual {@code char[][]}.
-   * @param expectedSecondDimensionSize the expected number of values in second dimension of the actual {@code char[][]}.
+   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code char[][]}.
+   * @param expectedSecondDimension the expected number of values in second dimension of the actual {@code char[][]}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual {@code char[][]} is not equal to the given one.
    */
   @Override
-  public Char2DArrayAssert hasSize(int expectedFirstDimensionSize, int expectedSecondDimensionSize) {
-    arrays.assertHasSize(info, actual, expectedFirstDimensionSize, expectedSecondDimensionSize);
+  public Char2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
+    arrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
     return myself;
   }
 
