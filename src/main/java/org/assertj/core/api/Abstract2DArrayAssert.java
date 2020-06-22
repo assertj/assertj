@@ -29,12 +29,11 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
   }
 
   /**
-   * Verifies that the actual value is deeply equal to the given one.
+   * Verifies that the actual 2D array is deeply equal to the given one.
    * <p>
-   * Two array references are considered deeply equal if both
-   * are {@code null}, or if they refer to arrays that contain the same
-   * number of elements and all corresponding pairs of elements in the two
-   * arrays are deeply equal.
+   * Two array references are considered deeply equal if both are {@code null}
+   * or if they refer to arrays that contain the same number of elements and
+   * all corresponding pairs of elements in the two arrays are deeply equal.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -54,7 +53,7 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
   /**
    * Verifies that the actual value is equal to the given one.
    * <p>
-   * WARNING! This method will use {@code equals} to compare (it will compare arrays references only).
+   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).
    * It is advised to use {@link #isDeepEqualTo(Object)} instead.
    * <p>
    * Example:

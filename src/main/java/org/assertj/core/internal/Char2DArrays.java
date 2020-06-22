@@ -14,15 +14,15 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldNotBeEmpty.subarrayShouldNotBeEmpty;
 
+import java.util.Comparator;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
 
-import java.util.Comparator;
-
 /**
  * Reusable assertions for two-dimensional arrays of {@code char}s.
- * 
+ *
  * @author Maciej Wajcht
  */
 public class Char2DArrays {
@@ -31,7 +31,7 @@ public class Char2DArrays {
 
   /**
    * Returns the singleton instance of this class.
-   * 
+   *
    * @return the singleton instance of this class.
    */
   public static Char2DArrays instance() {
@@ -55,7 +55,7 @@ public class Char2DArrays {
 
   /**
    * Asserts that the given array is {@code null} or empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
@@ -66,7 +66,7 @@ public class Char2DArrays {
 
   /**
    * Asserts that the given array is empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -78,7 +78,7 @@ public class Char2DArrays {
 
   /**
    * Asserts that the given array is not empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -102,7 +102,7 @@ public class Char2DArrays {
    * @throws AssertionError if the number of elements in the given array is different than the expected one.
    */
   public void assertHasSize(AssertionInfo info, char[][] actual, int expectedFirstDimensionSize,
-    int expectedSecondDimensionSize) {
+                            int expectedSecondDimensionSize) {
     arrays.assertHasSize(info, actual, expectedFirstDimensionSize);
     for (int i = 0; i < actual.length; i++) {
       arrays.assertHasSize(info, failures, actual[i], expectedSecondDimensionSize, i);
@@ -111,7 +111,7 @@ public class Char2DArrays {
 
   /**
    * Assert that the actual array has the same size as the other array.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param other the group to compare
@@ -125,7 +125,7 @@ public class Char2DArrays {
 
   /**
    * Verifies that the given array contains the given value at the given index.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param value the value to look for.
@@ -142,7 +142,7 @@ public class Char2DArrays {
 
   /**
    * Verifies that the given array does not contain the given value at the given index.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param value the value to look for.

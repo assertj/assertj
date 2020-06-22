@@ -16,7 +16,6 @@ import static org.mockito.Mockito.spy;
 
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
  * Base class for testing <code>{@link Char2DArrays}</code>.
  * <p>
@@ -42,7 +41,7 @@ public class Char2DArraysBaseTest {
   }
 
   protected void initActualArray() {
-    actual = new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}};
+    actual = new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
   }
 
 }
