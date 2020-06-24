@@ -13,8 +13,11 @@
 package org.assertj.core.api.assumptions;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
 
 import java.time.Duration;
@@ -27,13 +30,15 @@ import org.junit.jupiter.api.Test;
 @DisplayName("assumeThat after succeedsWithin")
 public class Assumptions_assumeThat_with_succeedsWithin_Test {
 
+  private static final Duration ONE_MILLIS = Duration.ofMillis(1);
+
   @Test
   public void should_run_test_when_assumption_after_succeedsWithin_passes() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    ThrowingCallable code = () -> assumeThat(future).succeedsWithin(Duration.ofMillis(1))
+    ThrowingCallable code = () -> assumeThat(future).succeedsWithin(1, MILLISECONDS)
                                                     .isEqualTo(value);
     // THEN
     assertThatCode(code).doesNotThrowAnyException();
@@ -45,7 +50,73 @@ public class Assumptions_assumeThat_with_succeedsWithin_Test {
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(Duration.ofMillis(1))
+    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(1, MILLISECONDS)
                                                               .isEqualTo("eeek!"));
+  }
+
+  @Test
+  public void should_run_test_when_assumption_after_succeedsWithin_asString_passes() {
+    // GIVEN
+    String value = "ook!";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    ThrowingCallable code = () -> assumeThat(future).succeedsWithin(1, MILLISECONDS, as(STRING))
+                                                    .startsWith("oo");
+    // THEN
+    assertThatCode(code).doesNotThrowAnyException();
+  }
+
+  @Test
+  public void should_ignore_test_when_assumption_after_succeedsWithin_asString_fails() {
+    // GIVEN
+    String value = "ook!";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(1, MILLISECONDS, as(STRING))
+                                                              .startsWith("eek"));
+  }
+
+  @Test
+  public void should_run_test_when_assumption_after_succeedsWithin_with_Duration_passes() {
+    // GIVEN
+    String value = "ook!";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    ThrowingCallable code = () -> assumeThat(future).succeedsWithin(ONE_MILLIS)
+                                                    .isEqualTo(value);
+    // THEN
+    assertThatCode(code).doesNotThrowAnyException();
+  }
+
+  @Test
+  public void should_ignore_test_when_assumption_after_succeedsWithin_with_Duration_fails() {
+    // GIVEN
+    String value = "ook!";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(ONE_MILLIS)
+                                                              .isEqualTo("eeek!"));
+  }
+
+  @Test
+  public void should_run_test_when_assumption_after_succeedsWithin_with_Duration_asString_passes() {
+    // GIVEN
+    String value = "ook!";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    ThrowingCallable code = () -> assumeThat(future).succeedsWithin(ONE_MILLIS, as(STRING))
+                                                    .startsWith("oo");
+    // THEN
+    assertThatCode(code).doesNotThrowAnyException();
+  }
+
+  @Test
+  public void should_ignore_test_when_assumption_after_succeedsWithin_with_Duration_asString_fails() {
+    // GIVEN
+    String value = "ook!";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(ONE_MILLIS, as(STRING))
+                                                              .startsWith("eek"));
   }
 }

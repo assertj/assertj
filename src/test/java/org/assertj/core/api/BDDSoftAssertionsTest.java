@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Spliterators.emptySpliterator;
-import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,7 +64,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -684,21 +682,6 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(1)).hasMessageContaining("6");
     assertThat(errorsCollected.get(2)).hasMessageContaining("-3");
     assertThat(errorsCollected.get(3)).hasMessageContaining("30.0");
-  }
-
-  @Test
-  public void should_work_with_CompletionStage() {
-    // GIVEN
-    CompletionStage<String> completionStage = completedFuture("done");
-    // WHEN
-    softly.then(completionStage).isDone();
-    softly.then(completionStage).hasNotFailed();
-    softly.then(completionStage).isCancelled();
-    completionStage = null;
-    softly.then(completionStage).isNull();
-    // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageContaining("cancelled");
   }
 
   @Test

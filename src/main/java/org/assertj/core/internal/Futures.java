@@ -13,11 +13,17 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
+import static org.assertj.core.error.future.ShouldBeCompletedWithin.shouldBeCompletedWithin;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
 
+import java.time.Duration;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -85,6 +91,24 @@ public class Futures {
     assertNotNull(info, actual);
     if (actual.isDone())
       throw failures.failure(info, shouldNotBeDone(actual));
+  }
+
+  public <RESULT> RESULT assertSucceededWithin(AssertionInfo info, Future<RESULT> actual, long timeout, TimeUnit unit) {
+    assertNotNull(info, actual);
+    try {
+      return actual.get(timeout, unit);
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      throw failures.failure(info, shouldBeCompletedWithin(actual, timeout, unit, e));
+    }
+  }
+
+  public <RESULT> RESULT assertSucceededWithin(AssertionInfo info, Future<RESULT> actual, Duration timeout) {
+    assertNotNull(info, actual);
+    try {
+      return actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      throw failures.failure(info, shouldBeCompletedWithin(actual, timeout, e));
+    }
   }
 
   private void assertNotNull(AssertionInfo info, Future<?> actual) {

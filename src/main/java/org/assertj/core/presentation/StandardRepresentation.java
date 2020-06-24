@@ -47,8 +47,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
@@ -213,7 +213,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
     if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
     if (object instanceof PredicateDescription) return toStringOf((PredicateDescription) object);
-    if (object instanceof CompletableFuture) return toStringOf((CompletableFuture<?>) object);
+    if (object instanceof Future) return toStringOf((Future<?>) object);
     if (isArray(object)) return formatArray(object);
     if (object instanceof Iterable<?>) return smartFormat((Iterable<?>) object);
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
@@ -372,20 +372,22 @@ public class StandardRepresentation implements Representation {
     return dateFormat.toPattern();
   }
 
-  protected String toStringOf(CompletableFuture<?> future) {
+  protected String toStringOf(Future<?> future) {
     String className = future.getClass().getSimpleName();
     if (!future.isDone()) return concat(className, "[Incomplete]");
     try {
-      Object joinResult = future.join();
+      Object joinResult = future.get();
       // avoid stack overflow error if future join on itself or another future that cycles back to the first
-      Object joinResultRepresentation = joinResult instanceof CompletableFuture ? joinResult : toStringOf(joinResult);
+      Object joinResultRepresentation = joinResult instanceof Future ? joinResult : toStringOf(joinResult);
       return concat(className, "[Completed: ", joinResultRepresentation, "]");
-    } catch (CompletionException e) {
+    } catch (CancellationException e) {
+      return concat(className, "[Cancelled]");
+    } catch (InterruptedException e) {
+      return concat(className, "[Interrupted]");
+    } catch (ExecutionException e) {
       // get the stack trace of the cause (if any) to avoid polluting it with the exception from trying to join the future
       String stackTrace = e.getCause() != null ? getStackTrace(e.getCause()) : getStackTrace(e);
       return concat(className, "[Failed with the following stack trace:", String.format("%n%s", stackTrace), "]");
-    } catch (CancellationException e) {
-      return concat(className, "[Cancelled]");
     }
   }
 

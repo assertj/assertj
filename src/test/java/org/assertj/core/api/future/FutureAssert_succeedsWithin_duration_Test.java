@@ -14,7 +14,7 @@ package org.assertj.core.api.future;
 
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -22,22 +22,23 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("CompletableFutureAssert succeedsWithin")
-public class CompletableFutureAssert_succeedsWithin_Test {
+@DisplayName("FutureAssert succeedsWithin(Duration)")
+public class FutureAssert_succeedsWithin_duration_Test {
 
   @Test
   public void should_allow_assertion_on_future_result_when_completed_normally() {
     // GIVEN
     String value = "done";
-    CompletableFuture<String> future = completedFuture(value);
+    Future<String> future = completedFuture(value);
     // WHEN/THEN
-    assertThat(future).succeedsWithin(1, MILLISECONDS)
+    assertThat(future).succeedsWithin(Duration.ofMillis(1))
                       .isEqualTo(value);
   }
 
@@ -46,10 +47,10 @@ public class CompletableFutureAssert_succeedsWithin_Test {
     // GIVEN
     String value = "done";
     int sleepDuration = 10;
-    CompletableFuture<String> future = completedFutureAfter(value, sleepDuration);
+    Future<String> future = futureAfter(value, sleepDuration);
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
-    assertThat(future).succeedsWithin(sleepDuration + 100, MILLISECONDS)
+    assertThat(future).succeedsWithin(Duration.ofMillis(sleepDuration + 100))
                       .isEqualTo(value);
   }
 
@@ -57,70 +58,54 @@ public class CompletableFutureAssert_succeedsWithin_Test {
   public void should_allow_narrowed_assertion_on_future_result() {
     // GIVEN
     String value = "done";
-    CompletableFuture<String> future = completedFuture(value);
+    Future<String> future = completedFuture(value);
     // WHEN/THEN
-    assertThat(future).succeedsWithin(1, MILLISECONDS, as(STRING))
+    assertThat(future).succeedsWithin(Duration.ofMillis(1), as(STRING))
                       .startsWith("don");
   }
 
   @Test
-  public void should_fail_if_completable_future_does_not_succeed_within_given_timeout() {
+  public void should_fail_if_future_does_not_succeed_within_given_timeout() {
     // GIVEN
-    int sleepDuration = 100000;
-    CompletableFuture<String> future = completedFutureAfter("ook!", sleepDuration);
+    int sleepDuration = 100_000;
+    Future<String> future = futureAfter("ook!", sleepDuration);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(10, MILLISECONDS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(10)));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
-                                                       "  <CompletableFuture[Incomplete]>%n" +
-                                                       "to be completed within 10L Millis.%n"));
+                                                       "  <FutureTask[Incomplete]>%n" +
+                                                       "to be completed within 0.01S.%n"));
   }
 
   @Test
-  public void should_fail_if_completable_future_is_cancelled() {
+  public void should_fail_if_future_is_cancelled() {
     // GIVEN
-    CompletableFuture<String> future = new CompletableFuture<>();
+    Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(1)));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Cancelled]>%n" +
-                                                       "to be completed within 1L Millis.%n" +
+                                                       "to be completed within 0.001S.%n" +
                                                        "%n" +
                                                        "exception caught while trying to get the future result: java.util.concurrent.CancellationException"));
   }
 
   @Test
-  public void should_fail_when_completable_future_is_null() {
+  public void should_fail_when_future_is_null() {
     // GIVEN
-    CompletableFuture<String> future = null;
+    Future<String> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(1)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
-  @Test
-  public void should_fail_if_completable_future_is_completed_exceptionally() {
-    // GIVEN
-    CompletableFuture<String> future = new CompletableFuture<>();
-    future.completeExceptionally(new RuntimeException("boom%s%n"));
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
-    // THEN
-    then(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n"))
-                        .hasMessageContaining("to be completed within 1L Millis.");
-  }
-
-  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration) {
-    CompletableFuture<U> completableFuture = new CompletableFuture<>();
-    Executors.newSingleThreadExecutor().submit(() -> {
+  private static <U> Future<U> futureAfter(U value, long sleepDuration) {
+    return newSingleThreadExecutor().submit(() -> {
       Thread.sleep(sleepDuration);
-      completableFuture.complete(value);
-      return null;
+      return value;
     });
-    return completableFuture;
   }
-
 }

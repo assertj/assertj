@@ -26,15 +26,9 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
-import org.assertj.core.api.AbstractCompletableFutureAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * tests both {@link AbstractCompletableFutureAssert#succeedsWithin(Duration)} and
- * {@link AbstractCompletableFutureAssert#succeedsWithin(long, java.util.concurrent.TimeUnit)}
- * since the former call the latter.
- */
 @DisplayName("CompletableFutureAssert succeedsWithin(Duration)")
 public class CompletableFutureAssert_succeedsWithin_duration_Test {
 
