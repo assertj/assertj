@@ -12,10 +12,14 @@
  */
 package org.assertj.core.api;
 
-import java.util.concurrent.Future;
-
 import org.assertj.core.internal.Futures;
 import org.assertj.core.util.VisibleForTesting;
+
+import java.time.Duration;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SELF, ACTUAL, RESULT>, ACTUAL extends Future<RESULT>, RESULT> extends
     AbstractAssert<SELF, ACTUAL> {
@@ -159,5 +163,165 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   public SELF isNotDone() {
     futures.assertIsNotDone(info, actual);
     return myself;
+  }
+
+  /**
+   * Waits if necessary for at most the given time for this future to complete, and then returns its result for further assertions.
+   * <p>
+   * If the future's result is not available for any reason an assertion error is thrown.
+   * <p>
+   * To get assertions for the future result's type use {@link #succeedsWithin(Duration, InstanceOfAssertFactory)} instead.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
+   *
+   * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
+   *   {@literal @}Override
+   *   public String call() throws Exception {
+   *     Thread.sleep(1000);
+   *     return "done";
+   *   }
+   * });
+   *
+   * // assertion succeeds
+   * assertThat(future).succeedsWithin(timeout)
+   *                   .isEqualTo("ook!");
+   *
+   * // fails assuming the future is not done after the given timeout
+   * Future&lt;String&gt; future = ... ; // future too long to complete
+   * assertThat(future).succeedsWithin(timeout);
+   *
+   * // fails as the future is cancelled
+   * Future&lt;String&gt; future = ... ;
+   * future.cancel(false);
+   * assertThat(future).succeedsWithin(timeout);</code></pre>
+   *
+   * @param timeout the maximum time to wait
+   * @return a new assertion object on the the future's result.
+   * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
+   * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
+   */
+  public ObjectAssert<RESULT> succeedsWithin(Duration timeout) {
+    RESULT result = futures.assertSucceededWithin(info, actual, timeout);
+    return assertThat(result);
+  }
+
+  /**
+   * Waits if necessary for at most the given time for this future to complete, and then returns its result for further assertions.
+   * <p>
+   * If the future's result is not available for any reason an assertion error is thrown.
+   * <p>
+   * To get assertions for the future result's type use {@link #succeedsWithin(long, TimeUnit, InstanceOfAssertFactory)} instead.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
+   *
+   * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
+   *   {@literal @}Override
+   *   public String call() throws Exception {
+   *     Thread.sleep(1000);
+   *     return "done";
+   *   }
+   * });
+   *
+   * // assertion succeeds
+   * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS)
+   *                   .isEqualTo("ook!");
+   *
+   * // fails assuming the future is not done after the given timeout
+   * Future&lt;String&gt; future = ... ; // future too long to complete
+   * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS);
+   *
+   * // fails as the future is cancelled
+   * Future&lt;String&gt; future = ... ;
+   * future.cancel(false);
+   * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS);</code></pre>
+   *
+   * @param timeout the maximum time to wait
+   * @param unit the time unit of the timeout argument
+   * @return a new assertion object on the the future's result.
+   * @throws AssertionError if the actual {@code Future} is {@code null}.
+   * @throws AssertionError if the actual {@code Future} does not succeed within the given timeout.
+   */
+  public ObjectAssert<RESULT> succeedsWithin(long timeout, TimeUnit unit) {
+    RESULT result = futures.assertSucceededWithin(info, actual, timeout, unit);
+    return assertThat(result);
+  }
+
+  /**
+   * Waits if necessary for at most the given time for this future to complete, the {@link InstanceOfAssertFactory}
+   * parameter is used to return assertions specific to the the future's result type.
+   * <p>
+   * If the future's result is not available for any reason an assertion error is thrown.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
+   *
+   * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
+   *   {@literal @}Override
+   *   public String call() throws Exception {
+   *     Thread.sleep(1000);
+   *     return "done";
+   *   }
+   * });
+   *
+   * // assertion succeeds
+   * // using asInstanceOf is recommended to get assertions for the future result's type
+   * assertThat(future).succeedsWithin(timeout, InstanceOfAssertFactories.STRING)
+   *                   .contains("ok");
+   *
+   * // assertion fails if the narrowed type for assertions is incompatible with the future's result type.
+   * assertThat(future).succeedsWithin(timeout, InstanceOfAssertFactories.DATE)
+   *                   .isToday();</code></pre>
+   *
+   * @param <ASSERT> the type of the resulting {@code Assert}
+   * @param timeout the maximum time to wait
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the {@link Future}
+   * @throws AssertionError if the actual {@code Future} is {@code null}.
+   * @throws IllegalStateException if the actual {@code Future} does not succeed within the given timeout.
+   */
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(Duration timeout,
+                                                                     InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
+    return succeedsWithin(timeout).asInstanceOf(assertFactory);
+  }
+
+  /**
+   * Waits if necessary for at most the given time for this future to complete, the {@link InstanceOfAssertFactory}
+   * parameter is used to return assertions specific to the the future's result type.
+   * <p>
+   * If the future's result is not available for any reason an assertion error is thrown.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
+   *
+   * Future&lt;String&gt; future = executorService.submit(new Callable&lt;String&gt;() {
+   *   {@literal @}Override
+   *   public String call() throws Exception {
+   *     Thread.sleep(1000);
+   *     return "done";
+   *   }
+   * });
+   *
+   * // assertion succeeds
+   * // using asInstanceOf is recommended to get assertions for the future result's type
+   * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS, InstanceOfAssertFactories.STRING)
+   *                   .contains("ok");
+   *
+   * // assertion  fails if the narrowed type for assertions is incompatible with the future's result type.
+   * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS, InstanceOfAssertFactories.DATE)
+   *                   .isToday();</code></pre>
+   *
+   * @param <ASSERT> the type of the resulting {@code Assert}
+   * @param timeout the maximum time to wait
+   * @param unit the time unit of the timeout argument
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the {@link Future}
+   * @throws AssertionError if the actual {@code Future} is {@code null}.
+   * @throws AssertionError if the actual {@code Future} does not succeed within the given timeout.
+   */
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(long timeout, TimeUnit unit,
+                                                                     InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
+    return succeedsWithin(timeout, unit).asInstanceOf(assertFactory);
   }
 }

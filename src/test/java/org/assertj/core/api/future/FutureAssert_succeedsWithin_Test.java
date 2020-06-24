@@ -28,8 +28,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-@DisplayName("CompletableFutureAssert succeedsWithin")
-public class CompletableFutureAssert_succeedsWithin_Test {
+@DisplayName("FutureAssert succeedsWithin")
+public class FutureAssert_succeedsWithin_Test {
 
   @Test
   public void should_allow_assertion_on_future_result_when_completed_normally() {

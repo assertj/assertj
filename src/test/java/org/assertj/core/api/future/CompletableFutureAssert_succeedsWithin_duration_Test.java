@@ -12,6 +12,13 @@
  */
 package org.assertj.core.api.future;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+
 import static java.lang.String.format;
 import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.util.concurrent.CompletableFuture.completedFuture;
@@ -22,19 +29,6 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.time.Duration;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
-
-import org.assertj.core.api.AbstractCompletableFutureAssert;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-/**
- * tests both {@link AbstractCompletableFutureAssert#succeedsWithin(Duration)} and
- * {@link AbstractCompletableFutureAssert#succeedsWithin(long, java.util.concurrent.TimeUnit)}
- * since the former call the latter.
- */
 @DisplayName("CompletableFutureAssert succeedsWithin(Duration)")
 public class CompletableFutureAssert_succeedsWithin_duration_Test {
 

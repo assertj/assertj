@@ -12,6 +12,16 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Futures;
+import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.time.Duration;
+import java.util.Objects;
+import java.util.concurrent.*;
+import java.util.function.Predicate;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
@@ -27,19 +37,6 @@ import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.sh
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
 import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
 
-import java.time.Duration;
-import java.util.Objects;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.function.Predicate;
-
-import org.assertj.core.internal.Failures;
-import org.assertj.core.presentation.PredicateDescription;
-
 /**
  * Assertions for {@link CompletableFuture}.
  *
@@ -48,6 +45,9 @@ import org.assertj.core.presentation.PredicateDescription;
 // TODO deprecate completed for succeeds?
 public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
     AbstractAssert<SELF, CompletableFuture<RESULT>> {
+
+  @VisibleForTesting
+  Futures futures = Futures.instance();
 
   protected AbstractCompletableFutureAssert(CompletableFuture<RESULT> actual, Class<?> selfType) {
     super(actual, selfType);
@@ -366,13 +366,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public ObjectAssert<RESULT> succeedsWithin(Duration timeout) {
-    isNotNull();
-    try {
-      RESULT result = actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
-      return assertThat(result);
-    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
-      throw assertionError(shouldBeCompletedWithin(actual, timeout, e));
-    }
+    RESULT result = futures.assertSucceededWithin(info, actual, timeout);
+    return assertThat(result);
   }
 
   /**
@@ -405,13 +400,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public ObjectAssert<RESULT> succeedsWithin(long timeout, TimeUnit unit) {
-    isNotNull();
-    try {
-      RESULT result = actual.get(timeout, unit);
-      return assertThat(result);
-    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
-      throw assertionError(shouldBeCompletedWithin(actual, timeout, unit, e));
-    }
+    RESULT result = futures.assertSucceededWithin(info, actual, timeout, unit);
+    return assertThat(result);
   }
 
   /**
@@ -442,13 +432,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(Duration timeout,
                                                                      InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
-    isNotNull();
-    try {
-      RESULT result = actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
-      return assertThat(result).asInstanceOf(assertFactory);
-    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
-      throw assertionError(shouldBeCompletedWithin(actual, timeout, e));
-    }
+    return succeedsWithin(timeout).asInstanceOf(assertFactory);
   }
 
   /**
@@ -479,13 +463,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(long timeout, TimeUnit unit,
                                                                      InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
-    isNotNull();
-    try {
-      RESULT result = actual.get(timeout, unit);
-      return assertThat(result).asInstanceOf(assertFactory);
-    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
-      throw assertionError(shouldBeCompletedWithin(actual, timeout, unit, e));
-    }
+    return succeedsWithin(timeout, unit).asInstanceOf(assertFactory);
   }
 
   /**
