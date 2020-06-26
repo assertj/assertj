@@ -13,20 +13,24 @@
 package org.assertj.core.presentation;
 
 import static java.lang.Integer.toHexString;
+import static java.lang.reflect.Array.get;
 import static java.lang.reflect.Array.getLength;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 import static org.assertj.core.util.Arrays.isObjectArray;
+import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
 import static org.assertj.core.util.DateUtil.formatAsDatetime;
 import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Streams.stream;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -34,16 +38,13 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -59,13 +60,13 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.Arrays;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
@@ -78,10 +79,10 @@ import org.assertj.core.util.diff.InsertDelta;
  */
 public class StandardRepresentation implements Representation {
 
+  private static final String NULL = "null";
+
   // can share this as StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
-
-  private static final String NULL = "null";
 
   private static final String TUPLE_START = "(";
   private static final String TUPLE_END = ")";
@@ -105,6 +106,20 @@ public class StandardRepresentation implements Representation {
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
       OffsetDateTime.class, Calendar.class };
+
+  protected enum GroupType {
+    ITERABLE("iterable"), ARRAY("array");
+
+    private String description;
+
+    GroupType(String value) {
+      this.description = value;
+    }
+
+    public String description() {
+      return description;
+    }
+  }
 
   /**
    * It resets the static defaults for the standard representation.
@@ -192,6 +207,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
     if (object instanceof Number) return toStringOf((Number) object);
     if (object instanceof File) return toStringOf((File) object);
+    if (object instanceof Path) return fallbackToStringOf(object);
     if (object instanceof String) return toStringOf((String) object);
     if (object instanceof Character) return toStringOf((Character) object);
     if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
@@ -199,7 +215,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof PredicateDescription) return toStringOf((PredicateDescription) object);
     if (object instanceof CompletableFuture) return toStringOf((CompletableFuture<?>) object);
     if (isArray(object)) return formatArray(object);
-    if (object instanceof Collection<?>) return smartFormat((Collection<?>) object);
+    if (object instanceof Iterable<?>) return smartFormat((Iterable<?>) object);
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
@@ -208,6 +224,18 @@ public class StandardRepresentation implements Representation {
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
     return fallbackToStringOf(object);
+  }
+
+  @Override
+  public String unambiguousToStringOf(Object obj) {
+    // some types have already an unambiguous toString, no need to double down
+    if (hasAlreadyAnUnambiguousToStringOf(obj)) return toStringOf(obj);
+    return obj == null ? null : String.format("%s (%s@%s)", toStringOf(obj), classNameOf(obj), identityHexCodeOf(obj));
+  }
+
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName();
   }
 
   @SuppressWarnings("unchecked")
@@ -219,13 +247,6 @@ public class StandardRepresentation implements Representation {
   protected boolean hasCustomFormatterFor(Object object) {
     if (object == null) return false;
     return customFormatterByType.containsKey(object.getClass());
-  }
-
-  @Override
-  public String unambiguousToStringOf(Object obj) {
-    // some types have already an unambiguous toString, no need to double down
-    if (hasAlreadyAnUnambiguousToStringOf(obj)) return toStringOf(obj);
-    return obj == null ? null : String.format("%s (%s@%s)", toStringOf(obj), classNameOf(obj), identityHexCodeOf(obj));
   }
 
   /**
@@ -335,10 +356,6 @@ public class StandardRepresentation implements Representation {
     return String.format(" (%s)", o.getClass().getName());
   }
 
-  private String defaultToStringWithClassNameDisambiguation(Object o) {
-    return o.toString() + classNameDisambiguation(o);
-  }
-
   protected String toStringOf(Float f) {
     return String.format("%sf", f);
   }
@@ -400,18 +417,6 @@ public class StandardRepresentation implements Representation {
     }
   }
 
-  private static Map<?, ?> toSortedMapIfPossible(Map<?, ?> map) {
-    try {
-      return new TreeMap<>(map);
-    } catch (ClassCastException | NullPointerException e) {
-      return map;
-    }
-  }
-
-  private String format(Map<?, ?> map, Object o) {
-    return o == map ? "(this Map)" : toStringOf(o);
-  }
-
   protected String toStringOf(AtomicReference<?> atomicReference) {
     return String.format("AtomicReference[%s]", toStringOf(atomicReference.get()));
   }
@@ -424,6 +429,148 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
     return String.format("AtomicStampedReference[stamp=%s, reference=%s]", atomicStampedReference.getStamp(),
                          toStringOf(atomicStampedReference.getReference()));
+  }
+
+  protected String multiLineFormat(Iterable<?> iterable) {
+    return format(iterable, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, iterable);
+  }
+
+  protected String singleLineFormat(Iterable<?> iterable, String start, String end) {
+    return format(iterable, start, end, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, iterable);
+  }
+
+  /**
+   * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
+   * {@code Iterable} is {@code null}.
+   * <p>
+   * The {@code Iterable} will be formatted to a single line if it does not exceed 100 char, otherwise each elements
+   * will be formatted on a new line with 4 space indentation.
+   *
+   * @param iterable the {@code Iterable} to format.
+   * @return the {@code String} representation of the given {@code Iterable}.
+   */
+  protected String smartFormat(Iterable<?> iterable) {
+    String singleLineDescription = singleLineFormat(iterable, DEFAULT_START, DEFAULT_END);
+    return doesDescriptionFitOnSingleLine(singleLineDescription) ? singleLineDescription : multiLineFormat(iterable);
+  }
+
+  /**
+   * Returns the {@code String} representation of the given array, or {@code null} if the given object is either
+   * {@code null} or not an array. This method supports arrays having other arrays as elements.
+   *
+   * @param o the object that is expected to be an array.
+   * @return the {@code String} representation of the given array.
+   */
+  protected String formatArray(Object o) {
+    if (!isArray(o)) return null;
+    return isObjectArray(o) ? smartFormat((Object[]) o) : formatPrimitiveArray(o);
+  }
+
+  protected String smartFormat(Object[] array) {
+    String description = singleLineFormat(array, array);
+    return doesDescriptionFitOnSingleLine(description) ? description : multiLineFormat(array, array);
+  }
+
+  protected String formatPrimitiveArray(Object o) {
+    if (!isArray(o)) return null;
+    if (!isArrayTypePrimitive(o)) throw notAnArrayOfPrimitives(o);
+    Object[] array = toObjectArray(o);
+    return format(array, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, array);
+  }
+
+  protected String multiLineFormat(Object[] array, Object root) {
+    return format(array, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, root);
+  }
+
+  protected String singleLineFormat(Object[] array, Object root) {
+    return format(array, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, root);
+  }
+
+  protected String format(Object[] array, String start, String end, String elementSeparator, String indentation, Object root) {
+    if (array == null) return null;
+    // root is used to avoid infinite recursion in case one element refers to it.
+    List<String> representedElements = representElements(Stream.of(array), start, end, elementSeparator, indentation, root);
+    return representGroup(representedElements, start, end, elementSeparator, indentation);
+  }
+
+  protected String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation,
+                          Object root) {
+    if (iterable == null) return null;
+    Iterator<?> iterator = iterable.iterator();
+    if (!iterator.hasNext()) return start + end;
+    // alreadyVisited is used to avoid infinite recursion when one element is a container already visited
+    List<String> representedElements = representElements(stream(iterable), start, end, elementSeparator, indentation, root);
+    return representGroup(representedElements, start, end, elementSeparator, indentation);
+  }
+
+  protected String safeStringOf(Object element, String start, String end, String elementSeparator, String indentation,
+                                Object root) {
+    if (element == root) return isArray(root) ? "(this array)" : "(this iterable)";
+    // primitive array elements can't cycle back to already represented containers
+    if (isArrayTypePrimitive(element)) return formatPrimitiveArray(element);
+    // object array/iterable elements can cycle back to root, we pass the latter to check for it
+    if (isArray(element)) return format((Object[]) element, start, end, elementSeparator, indentation, root);
+    if (element instanceof Iterable && !(element instanceof Path))
+      return format((Iterable) element, start, end, elementSeparator, indentation, root);
+    // Since potentially self referencing containers have been handled, it is reasonably safe to use toStringOf.
+    // What we don't track are cycles like A -> B -> A but that should be rare enough thus this solution is good enough
+    // To fully avoid all cycles we would need to track all visited elements but the issue is that:
+    // List<Object> innerList = list(1, 2, 3);
+    // List<Object> outerList = list(innerList, innerList);
+    // outerList would be represented as [[1, 2, 3], (already visited)] instead of [[1, 2, 3], [1, 2, 3]]
+    // Final word, the approach used here is the same as the toString implementation in AbstractCollection
+    return element == null ? NULL : toStringOf(element);
+  }
+
+  // private methods
+
+  private List<String> representElements(Stream<?> elements, String start, String end, String elementSeparator,
+                                         String indentation, Object root) {
+    return elements.map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
+                   .collect(toList());
+  }
+
+  // this method only deals with max number of elements to display, the elements representation is already computed
+  private static String representGroup(List<String> representedElements, String start, String end, String elementSeparator,
+                                       String indentation) {
+    int size = representedElements.size();
+    StringBuilder desc = new StringBuilder(start);
+    if (size <= maxElementsForPrinting) {
+      // display all elements
+      for (int i = 0; i < size; i++) {
+        if (i != 0) desc.append(indentation);
+        desc.append(representedElements.get(i));
+        if (i != size - 1) desc.append(elementSeparator);
+      }
+      return desc.append(end).toString();
+    }
+    // we can't display all elements, picks the first and last maxElementsForPrinting/2 elements
+    // if maxElementsForPrinting is odd, display one more first elements than last, ex: 9 => display 5 first elements and 4 last
+    int maxFirstElementsToPrint = (maxElementsForPrinting + 1) / 2;
+    for (int i = 0; i < maxFirstElementsToPrint; i++) {
+      desc.append(representedElements.get(i)).append(elementSeparator).append(indentation);
+    }
+    desc.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
+    // we only append a new line if the separator had one ",\n"
+    if (elementSeparator.contains(System.lineSeparator())) {
+      // we just want a new line after DEFAULT_MAX_ELEMENTS_EXCEEDED but no char separator ','
+      // we want:
+      // first elements,
+      // ...
+      // last elements
+      // and not:
+      // first elements,
+      // ...,
+      // last elements
+      desc.append(System.lineSeparator());
+    }
+    // display last elements
+    int maxLastElementsToPrint = maxElementsForPrinting / 2;
+    for (int i = size - maxLastElementsToPrint; i < size; i++) {
+      if (i != size - maxLastElementsToPrint) desc.append(elementSeparator);
+      desc.append(indentation).append(representedElements.get(i));
+    }
+    return desc.append(end).toString();
   }
 
   private String toStringOf(ChangeDelta<?> changeDelta) {
@@ -448,150 +595,11 @@ public class StandardRepresentation implements Representation {
   }
 
   private String formatLines(List<?> lines) {
-    return format(lines, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, "   ");
-  }
-
-  @Override
-  public String toString() {
-    return this.getClass().getSimpleName();
-  }
-
-  /**
-   * Returns the {@code String} representation of the given array, or {@code null} if the given object is either
-   * {@code null} or not an array. This method supports arrays having other arrays as elements.
-   *
-   * @param o the object that is expected to be an array.
-   * @return the {@code String} representation of the given array.
-   */
-  protected String formatArray(Object o) {
-    if (!isArray(o)) return null;
-    return isObjectArray(o) ? smartFormat((Object[]) o) : formatPrimitiveArray(o);
-  }
-
-  protected String multiLineFormat(Object[] iterable, Set<Object[]> alreadyFormatted) {
-    return format(iterable, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, alreadyFormatted);
-  }
-
-  protected String singleLineFormat(Object[] iterable, Set<Object[]> alreadyFormatted) {
-    return format(iterable, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, alreadyFormatted);
-  }
-
-  protected String smartFormat(Object[] iterable) {
-    Set<Object[]> alreadyFormatted = new HashSet<>();
-    String singleLineDescription = singleLineFormat(iterable, alreadyFormatted);
-    return doesDescriptionFitOnSingleLine(singleLineDescription)
-        ? singleLineDescription
-        : multiLineFormat(iterable, alreadyFormatted);
-  }
-
-  protected String format(Object[] array, String elementSeparator,
-                          String indentation, Set<Object[]> alreadyFormatted) {
-    if (array == null) return null;
-    if (array.length == 0) return DEFAULT_START + DEFAULT_END;
-    // iterable has some elements
-    StringBuilder desc = new StringBuilder();
-    desc.append(DEFAULT_START);
-    alreadyFormatted.add(array); // used to avoid infinite recursion when array contains itself
-    int i = 0;
-    while (true) {
-      Object element = array[i];
-      // do not indent first element
-      if (i != 0) desc.append(indentation);
-      if (i == maxElementsForPrinting) {
-        desc.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
-        alreadyFormatted.remove(array);
-        return desc.append(DEFAULT_END).toString();
-      }
-      // add element representation
-      if (!isArray(element)) desc.append(element == null ? NULL : toStringOf(element));
-      else if (isArrayTypePrimitive(element)) desc.append(formatPrimitiveArray(element));
-      else if (alreadyFormatted.contains(element)) desc.append("(this array)");
-      else desc.append(format((Object[]) element, elementSeparator, indentation, alreadyFormatted));
-      // manage end description
-      if (i == array.length - 1) {
-        alreadyFormatted.remove(array);
-        return desc.append(DEFAULT_END).toString();
-      }
-      // there are still elements to describe
-      desc.append(elementSeparator);
-      i++;
-    }
-  }
-
-  protected String formatPrimitiveArray(Object o) {
-    if (!isArray(o)) return null;
-    if (!isArrayTypePrimitive(o)) throw Arrays.notAnArrayOfPrimitives(o);
-    int size = getLength(o);
-    if (size == 0) return DEFAULT_START + DEFAULT_END;
-    StringBuilder buffer = new StringBuilder();
-    buffer.append(DEFAULT_START);
-    buffer.append(toStringOf(Array.get(o, 0)));
-    for (int i = 1; i < size; i++) {
-      buffer.append(ELEMENT_SEPARATOR)
-            .append(INDENTATION_FOR_SINGLE_LINE);
-      if (i == maxElementsForPrinting) {
-        buffer.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
-        break;
-      }
-
-      buffer.append(toStringOf(Array.get(o, i)));
-    }
-    buffer.append(DEFAULT_END);
-    return buffer.toString();
-  }
-
-  public String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation) {
-    if (iterable == null) return null;
-    Iterator<?> iterator = iterable.iterator();
-    if (!iterator.hasNext()) return start + end;
-    // iterable has some elements
-    StringBuilder desc = new StringBuilder(start);
-    boolean firstElement = true;
-    int printedElements = 0;
-    while (true) {
-      Object element = iterator.next();
-      // do not indent first element
-      if (firstElement) firstElement = false;
-      else desc.append(indentation);
-      // add element representation
-      if (printedElements == maxElementsForPrinting) {
-        desc.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
-        return desc.append(end).toString();
-      }
-      desc.append(element == iterable ? "(this Collection)" : toStringOf(element));
-      printedElements++;
-      // manage end description
-      if (!iterator.hasNext()) return desc.append(end).toString();
-      // there are still elements to be describe
-      desc.append(elementSeparator);
-    }
-  }
-
-  protected String multiLineFormat(Iterable<?> iterable) {
-    return format(iterable, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE);
-  }
-
-  protected String singleLineFormat(Iterable<?> iterable, String start, String end) {
-    return format(iterable, start, end, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE);
-  }
-
-  /**
-   * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
-   * {@code Iterable} is {@code null}.
-   * <p>
-   * The {@code Iterable} will be formatted to a single line if it does not exceed 100 char, otherwise each elements
-   * will be formatted on a new line with 4 space indentation.
-   *
-   * @param iterable the {@code Iterable} to format.
-   * @return the {@code String} representation of the given {@code Iterable}.
-   */
-  protected String smartFormat(Iterable<?> iterable) {
-    String singleLineDescription = singleLineFormat(iterable, DEFAULT_START, DEFAULT_END);
-    return doesDescriptionFitOnSingleLine(singleLineDescription) ? singleLineDescription : multiLineFormat(iterable);
+    return format(lines, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, "   ", lines);
   }
 
   private static boolean doesDescriptionFitOnSingleLine(String singleLineDescription) {
-    return singleLineDescription == null || singleLineDescription.length() < maxLengthForSingleLineDescription;
+    return singleLineDescription == null || singleLineDescription.length() <= maxLengthForSingleLineDescription;
   }
 
   private static String identityHexCodeOf(Object obj) {
@@ -600,6 +608,31 @@ public class StandardRepresentation implements Representation {
 
   private static Object classNameOf(Object obj) {
     return obj.getClass().isAnonymousClass() ? obj.getClass().getName() : obj.getClass().getSimpleName();
+  }
+
+  private String defaultToStringWithClassNameDisambiguation(Object o) {
+    return o.toString() + classNameDisambiguation(o);
+  }
+
+  private static Map<?, ?> toSortedMapIfPossible(Map<?, ?> map) {
+    try {
+      return new TreeMap<>(map);
+    } catch (ClassCastException | NullPointerException e) {
+      return map;
+    }
+  }
+
+  private String format(Map<?, ?> map, Object o) {
+    return o == map ? "(this Map)" : toStringOf(o);
+  }
+
+  private static Object[] toObjectArray(Object o) {
+    int length = getLength(o);
+    Object[] array = new Object[length];
+    for (int i = 0; i < length; i++) {
+      array[i] = get(o, i);
+    }
+    return array;
   }
 
 }

@@ -35,6 +35,19 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param actualSize the size of {@code actual}.
    * @param expectedSize the expected size.
+   * @param firstDimensionArrayIndex Index of first dimension of array
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveSize(Object actual, int actualSize, int expectedSize,
+                                                   int firstDimensionArrayIndex) {
+    return new ShouldHaveSize(actual, actualSize, expectedSize, firstDimensionArrayIndex);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldHaveSize}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param actualSize the size of {@code actual}.
+   * @param expectedSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveSize(Object actual, int actualSize, int expectedSize) {
@@ -45,6 +58,14 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%nExpected size:<%s> but was:<%s> in:%n<%s>", expectedSize, actualSize, "%s"), actual);
+  }
+
+  private ShouldHaveSize(Object actual, int actualSize, int expectedSize, int firstDimensionArrayIndex) {
+    // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
+    // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
+    // @format:off
+    super(format("%nExpected size:<%s> but was:<%s> in actual[%d]:%n<%s>", expectedSize, actualSize, firstDimensionArrayIndex, "%s"), actual);
+    // @format:on
   }
 
   /**

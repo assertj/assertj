@@ -33,6 +33,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
+import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
@@ -51,6 +52,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static org.assertj.core.api.InstanceOfAssertFactories.INT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
@@ -72,6 +74,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_INT;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
+import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
@@ -100,6 +103,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
@@ -193,6 +197,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(Byte.valueOf("1"), BYTE),
                      arguments(new byte[0], BYTE_ARRAY),
                      arguments(new char[0], CHAR_ARRAY),
+                     arguments(new char[0][0], CHAR_2D_ARRAY),
                      arguments(charSequence, CHAR_SEQUENCE),
                      arguments('a', CHARACTER),
                      arguments(Character.valueOf('a'), CHARACTER),
@@ -206,6 +211,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments((DoublePredicate) d -> d == 0.0, DOUBLE_PREDICATE),
                      arguments(DoubleStream.empty(), DOUBLE_STREAM),
                      arguments(Duration.ZERO, DURATION),
+                     arguments(Period.ZERO, PERIOD),
                      arguments(new File("foo"), FILE),
                      arguments(Float.valueOf("0.0"), FLOAT),
                      arguments(new float[0], FLOAT_ARRAY),
@@ -213,6 +219,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(new ByteArrayInputStream("stream".getBytes()), INPUT_STREAM),
                      arguments(Instant.now(), INSTANT),
                      arguments(new int[0], INT_ARRAY),
+                     arguments(new int[0][0], INT_2D_ARRAY),
                      arguments((IntPredicate) i -> i == 0, INT_PREDICATE),
                      arguments(IntStream.empty(), INT_STREAM),
                      arguments(1, INTEGER),

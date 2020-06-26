@@ -12,10 +12,9 @@
  */
 package org.assertj.core.api.junit.jupiter;
 
+import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD;
-
-import java.util.Arrays;
 
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
@@ -83,7 +82,7 @@ class BDDSoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsEx
     @Order(2)
     void allAssertionsShouldPass(BDDSoftAssertions softly) {
       softly.then(1).isEqualTo(1);
-      softly.then(Arrays.asList(1, 2)).containsOnly(1, 2);
+      softly.then(list(1, 2)).containsOnly(1, 2);
     }
 
     @ParameterizedTest

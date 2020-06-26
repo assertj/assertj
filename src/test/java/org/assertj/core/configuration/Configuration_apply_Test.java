@@ -12,7 +12,7 @@
  */
 package org.assertj.core.configuration;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,25 +33,25 @@ public class Configuration_apply_Test {
     // WHEN
     configuration.apply();
     // THEN
-    assertThat(FieldSupport.extraction().isAllowedToUsePrivateFields()).isEqualTo(configuration.extractingPrivateFieldsEnabled());
-    assertThat(FieldSupport.comparison().isAllowedToUsePrivateFields()).isEqualTo(configuration.comparingPrivateFieldsEnabled());
-    assertThat(Introspection.canIntrospectExtractBareNamePropertyMethods()).isEqualTo(configuration.bareNamePropertyExtractionEnabled());
-    assertThat(configuration.hasCustomRepresentation()).isTrue();
+    then(FieldSupport.extraction().isAllowedToUsePrivateFields()).isEqualTo(configuration.extractingPrivateFieldsEnabled());
+    then(FieldSupport.comparison().isAllowedToUsePrivateFields()).isEqualTo(configuration.comparingPrivateFieldsEnabled());
+    then(Introspection.canIntrospectExtractBareNamePropertyMethods()).isEqualTo(configuration.bareNamePropertyExtractionEnabled());
+    then(configuration.hasCustomRepresentation()).isTrue();
     // a bit dodgy but since our custom representation inherits StandardRepresentation, changing maxElementsForPrinting amd
     // maxLengthForSingleLineDescription will be effective.
-    assertThat(StandardRepresentation.getMaxElementsForPrinting()).isEqualTo(configuration.maxElementsForPrinting());
-    assertThat(StandardRepresentation.getMaxLengthForSingleLineDescription()).isEqualTo(configuration.maxLengthForSingleLineDescription());
+    then(StandardRepresentation.getMaxElementsForPrinting()).isEqualTo(configuration.maxElementsForPrinting());
+    then(StandardRepresentation.getMaxLengthForSingleLineDescription()).isEqualTo(configuration.maxLengthForSingleLineDescription());
     boolean removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
-    assertThat(removeAssertJRelatedElementsFromStackTrace).isEqualTo(configuration.removeAssertJRelatedElementsFromStackTraceEnabled());
+    then(removeAssertJRelatedElementsFromStackTrace).isEqualTo(configuration.removeAssertJRelatedElementsFromStackTraceEnabled());
     // check lenient is honored by parsing a string that would fail if the DateFormat was not lenient.
-    assertThat(configuration.lenientDateParsingEnabled()).isTrue();
+    then(configuration.lenientDateParsingEnabled()).isTrue();
     Date dateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse("2001-02-03T04:05:06");
-    assertThat(dateTime).isEqualTo("2001-02-03T04:05:06") // passes whether the lenient flag is enabled or not
-                        .isEqualTo("2001-01-34T04:05:06"); // passes only when the lenient flag is enabled
+    then(dateTime).isEqualTo("2001-02-03T04:05:06") // passes whether the lenient flag is enabled or not
+                  .isEqualTo("2001-01-34T04:05:06"); // passes only when the lenient flag is enabled
     // check that additional date formats can be used
     Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2001-02-03");
-    assertThat(date).isEqualTo("2001_02_03")
-                    .isEqualTo("2001|02|03");
+    then(date).isEqualTo("2001_02_03")
+              .isEqualTo("2001|02|03");
   }
 
   @AfterEach

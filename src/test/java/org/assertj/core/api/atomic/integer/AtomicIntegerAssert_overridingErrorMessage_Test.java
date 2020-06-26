@@ -13,28 +13,57 @@
 package org.assertj.core.api.atomic.integer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 public class AtomicIntegerAssert_overridingErrorMessage_Test {
 
   @Test
   public void should_honor_custom_error_message_set_with_withFailMessage() {
+    // GIVEN
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicInteger(0)).withFailMessage(error)
-                                                                                                     .hasValueLessThan(-1))
-                                                   .withMessageContaining(error);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new AtomicInteger(0)).withFailMessage(error)
+                                                                  .hasValueLessThan(-1);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
   }
 
   @Test
   public void should_honor_custom_error_message_set_with_overridingErrorMessage() {
+    // GIVEN
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicInteger(0)).overridingErrorMessage(error)
-                                                                                                     .hasValueLessThan(-1))
-                                                   .withMessageContaining(error);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new AtomicInteger(0)).overridingErrorMessage(error)
+                                                                  .hasValueLessThan(-1);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
+  }
+
+  @Test
+  public void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
+    // GIVEN
+    String error = "ssss";
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new AtomicInteger(0)).withFailMessage(() -> error)
+                                                                  .hasValueLessThan(-1);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
+  }
+
+  @Test
+  public void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
+    // GIVEN
+    String error = "ssss";
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new AtomicInteger(0)).overridingErrorMessage(() -> error)
+                                                                  .hasValueLessThan(-1);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
   }
 
 }

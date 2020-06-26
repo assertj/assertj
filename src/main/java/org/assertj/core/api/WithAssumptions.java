@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -418,7 +419,7 @@ public interface WithAssumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
+   * Creates a new instance of <code>{@link ClassAssert}</code> assumption.
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
@@ -447,6 +448,17 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default AbstractCharArrayAssert<?> assumeThat(final char[] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Char2DArrayAssert assumeThat(final char[][] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -630,6 +642,17 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default AbstractIntArrayAssert<?> assumeThat(final int[] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Int2DArrayAssert assumeThat(final int[][] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -903,6 +926,17 @@ public interface WithAssumptions {
    */
   default AbstractDurationAssert<?> assumeThat(final Duration duration) {
     return Assumptions.assumeThat(duration);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code> assumption.
+   *
+   * @param period the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default AbstractPeriodAssert<?> assumeThat(final Period period) {
+    return Assumptions.assumeThat(period);
   }
 
   /**

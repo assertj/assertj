@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.function.Supplier;
+
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,10 +30,22 @@ public class AbstractAssert_withFailMessage_Test {
 
   @Test
   public void should_delegate_to_overridingErrorMessage() {
-    AbstractAssert<?, ?> suT = spy(Assertions.assertThat("test"));
-
+    // GIVEN
+    AbstractAssert<?, ?> suT = spy(assertThat("test"));
+    // WHEN
     suT.withFailMessage("test", "eins");
-
+    // THEN
     verify(suT).overridingErrorMessage("test", "eins");
+  }
+
+  @Test
+  public void should_delegate_to_overridingErrorMessage_using_supplier() {
+    // GIVEN
+    AbstractAssert<?, ?> suT = spy(assertThat("test"));
+    Supplier<String> supplier = () -> "test";
+    // WHEN
+    suT.withFailMessage(supplier);
+    // THEN
+    verify(suT).overridingErrorMessage(supplier);
   }
 }

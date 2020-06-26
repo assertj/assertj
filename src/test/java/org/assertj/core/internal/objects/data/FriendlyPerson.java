@@ -22,11 +22,11 @@ public class FriendlyPerson extends Person {
   public Set<FriendlyPerson> otherFriends = new HashSet<>();
 
   public FriendlyPerson() {
-      super();
+    super();
   }
 
   public FriendlyPerson(String name) {
-      super(name);
+    super(name);
   }
 
   public static FriendlyPerson friend(String name) {

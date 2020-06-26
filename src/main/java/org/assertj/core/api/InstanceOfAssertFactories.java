@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -264,6 +265,12 @@ public interface InstanceOfAssertFactories {
                                                                                                          Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@code char} two-dimensional array.
+   */
+  InstanceOfAssertFactory<char[][], Char2DArrayAssert> CHAR_2D_ARRAY = new InstanceOfAssertFactory<>(char[][].class,
+                                                                                                     Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@link Class}.
    */
   @SuppressWarnings("rawtypes") // using Class instance
@@ -339,6 +346,12 @@ public interface InstanceOfAssertFactories {
    */
   InstanceOfAssertFactory<int[], AbstractIntArrayAssert<?>> INT_ARRAY = new InstanceOfAssertFactory<>(int[].class,
                                                                                                       Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for an {@code int} two-dimensional array.
+   */
+  InstanceOfAssertFactory<int[][], Int2DArrayAssert> INT_2D_ARRAY = new InstanceOfAssertFactory<>(int[][].class,
+                                                                                                  Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code long} or its corresponding boxed type {@link Long}.
@@ -453,6 +466,13 @@ public interface InstanceOfAssertFactories {
    */
   InstanceOfAssertFactory<Duration, AbstractDurationAssert<?>> DURATION = new InstanceOfAssertFactory<>(Duration.class,
                                                                                                         Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link java.time.Period}.
+   *
+   * @since 3.17.0
+   */
+  InstanceOfAssertFactory<Period, AbstractPeriodAssert<?>> PERIOD = new InstanceOfAssertFactory<>(Period.class, Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicBoolean}.

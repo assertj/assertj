@@ -13,28 +13,57 @@
 package org.assertj.core.api.atomic.longadder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.util.concurrent.atomic.LongAdder;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 class LongAdderAssert_overridingErrorMessage_Test {
 
   @Test
   void should_honor_custom_error_message_set_with_withFailMessage() {
+    // GIVEN
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new LongAdder()).withFailMessage(error)
-                                                                                                .isLessThan(-1L))
-                                                   .withMessageContaining(error);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new LongAdder()).withFailMessage(error)
+                                                             .isLessThan(-1L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
   }
 
   @Test
   void should_honor_custom_error_message_set_with_overridingErrorMessage() {
+    // GIVEN
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new LongAdder()).overridingErrorMessage(error)
-                                                                                                .isLessThan(-1L))
-                                                   .withMessageContaining(error);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new LongAdder()).overridingErrorMessage(error)
+                                                             .isLessThan(-1L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
+  }
+
+  @Test
+  void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
+    // GIVEN
+    String error = "ssss";
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new LongAdder()).withFailMessage(() -> error)
+                                                             .isLessThan(-1L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
+  }
+
+  @Test
+  void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
+    // GIVEN
+    String error = "ssss";
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new LongAdder()).overridingErrorMessage(() -> error)
+                                                             .isLessThan(-1L);
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
   }
 
 }

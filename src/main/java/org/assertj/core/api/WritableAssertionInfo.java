@@ -15,8 +15,11 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.util.Preconditions.checkState;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
+
+import java.util.function.Supplier;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.EmptyTextDescription;
@@ -25,7 +28,6 @@ import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.UnicodeRepresentation;
-
 
 /**
  * Writable information about an assertion.
@@ -36,6 +38,7 @@ import org.assertj.core.presentation.UnicodeRepresentation;
 public class WritableAssertionInfo implements AssertionInfo {
 
   private static final String EMPTY_STRING = "";
+  private Supplier<String> overridingErrorMessageSupplier;
   private String overridingErrorMessage;
   private Description description;
   private Representation representation;
@@ -53,16 +56,32 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   @Override
   public String overridingErrorMessage() {
-    return overridingErrorMessage;
+    // at this point we can have only one of overridingErrorMessageSupplier or overridingErrorMessage
+    return overridingErrorMessageSupplier != null ? (String) overridingErrorMessageSupplier.get() : overridingErrorMessage;
   }
 
   /**
    * Sets the message that will replace the default message of an assertion failure.
    *
    * @param newErrorMessage the new message. It can be {@code null}.
+   * @throws IllegalStateException if the message has already been overridden with {@link #overridingErrorMessage(Supplier)}.
    */
   public void overridingErrorMessage(String newErrorMessage) {
+    checkState(overridingErrorMessageSupplier == null,
+               "An error message has already been set with overridingErrorMessage(Supplier<String> supplier)");
     overridingErrorMessage = newErrorMessage;
+  }
+
+  /**
+   * Sets the lazy fail message that will replace the default message of an assertion failure by using a supplier.
+   *
+   * @param supplier the new message by a supplier. It can be {@code null}.
+   * @throws IllegalStateException if the message has already been overridden with {@link #overridingErrorMessage(String)}.
+   */
+  public void overridingErrorMessage(Supplier<String> supplier) {
+    checkState(overridingErrorMessage == null,
+               "An error message has already been set with overridingErrorMessage(String newErrorMessage)");
+    overridingErrorMessageSupplier = supplier;
   }
 
   /**
@@ -104,7 +123,7 @@ public class WritableAssertionInfo implements AssertionInfo {
 
   /**
    * Sets the description of an assertion, if given null an empty {@link Description} is set.
-   * <p> 
+   * <p>
    * To remove or clear the description, pass a <code>{@link EmptyTextDescription}</code> as
    * argument.
    *

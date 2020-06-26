@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -344,6 +345,17 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharArrayAssert<?> then(char[] actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Char2DArrayAssert then(char[][] actual) {
     return assertThat(actual);
   }
 
@@ -688,6 +700,17 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractIntArrayAssert<?> then(int[] actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert then(int[][] actual) {
     return assertThat(actual);
   }
 
@@ -1224,6 +1247,17 @@ public class BDDAssertions extends Assertions {
    * @since 3.15.0
    */
   public static AbstractDurationAssert<?> then(Duration actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> then(Period actual) {
     return assertThat(actual);
   }
 

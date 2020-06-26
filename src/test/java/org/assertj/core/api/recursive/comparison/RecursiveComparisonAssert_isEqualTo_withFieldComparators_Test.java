@@ -13,7 +13,6 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
@@ -102,8 +101,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     expected.neighbour = new Person("Jack");
     expected.neighbour.home.address.number = 123;
     // register comparators for some fields that will fail the comparison
-    recursiveComparisonConfiguration.registerComparatorForField(alwaysDifferent(), fielLocation("dateOfBirth"));
-    recursiveComparisonConfiguration.registerComparatorForField(alwaysDifferent(), fielLocation("neighbour.home.address"));
+    recursiveComparisonConfiguration.registerComparatorForFields(alwaysDifferent(), "dateOfBirth", "neighbour.home.address");
 
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);

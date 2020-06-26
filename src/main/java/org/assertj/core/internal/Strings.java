@@ -54,6 +54,7 @@ import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNo
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
 import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
@@ -512,6 +513,32 @@ public class Strings {
     assertNotNull(info, actual);
     if (!actual.toString().toLowerCase().contains(sequence.toString().toLowerCase()))
       throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} does not contain any one of the given values, ignoring case considerations.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param values the sequences to search for.
+   *
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException if any one of the given values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} contains any one of the given values, ignoring case considerations.
+   */
+  public void assertDoesNotContainIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+
+    String actualLowerCase = actual.toString().toLowerCase();
+    Set<CharSequence> foundValues = stream(values).filter(value -> actualLowerCase.contains(value.toString().toLowerCase()))
+                                                  .collect(toCollection(LinkedHashSet::new));
+    if (foundValues.isEmpty()) return;
+    if (foundValues.size() == 1 && values.length == 1) {
+      throw failures.failure(info, shouldNotContainIgnoringCase(actual, values[0]));
+    }
+    throw failures.failure(info, shouldNotContainIgnoringCase(actual, values, foundValues));
   }
 
   /**

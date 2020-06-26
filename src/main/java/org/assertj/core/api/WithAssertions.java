@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.Date;
@@ -57,6 +58,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
+import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -82,6 +84,7 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.data.TemporalUnitOffset;
+import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.BinaryRepresentation;
@@ -648,6 +651,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Char2DArrayAssert assertThat(final char[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
    *
    * @param actual the actual value.
@@ -897,6 +911,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractIntArrayAssert<?> assertThat(final int[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Int2DArrayAssert assertThat(final int[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1904,6 +1929,32 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Enable/disable printing assertions description to the console (disabled by default).
+   * <p>
+   * The printed assertions description include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
+   * <p>
+   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setConsumerDescription(Consumer)}.
+   *
+   * @param printAssertionsDescription whether to print assertions description.
+   * @since 3.17.0
+   */
+  static void setPrintAssertionsDescription(boolean printAssertionsDescription) {
+    Assertions.setPrintAssertionsDescription(printAssertionsDescription);
+  }
+
+  /**
+   * All assertions description will be consumed by the given {@link Consumer Consumer&lt;Description&gt;} allowing for example to record them in a file.
+   * <p>
+   * The consumed descriptions include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
+   *
+   * @param descriptionConsumer the {@link Description} consumer
+   * @since 3.17.0
+   */
+  static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
+    Assertions.setConsumerDescription(descriptionConsumer);
+  }
+
+  /**
    * Globally sets whether
    * <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code>
    * and
@@ -2224,6 +2275,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.15.0
    */
   default AbstractDurationAssert<?> assertThat(final Duration actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default AbstractPeriodAssert<?> assertThat(final Period actual) {
     return Assertions.assertThat(actual);
   }
 

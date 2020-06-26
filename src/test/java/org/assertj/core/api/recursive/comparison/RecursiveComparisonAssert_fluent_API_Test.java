@@ -56,7 +56,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     assertThat(recursiveComparisonConfiguration.getIgnoredFieldsRegexes()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForTypes()).isEmpty();
-    assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsRegexes()).isEmpty();
+    assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFieldsMatchingRegexes()).isEmpty();
     assertThat(recursiveComparisonConfiguration.hasCustomComparators()).isTrue();
   }
 
@@ -166,7 +166,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .ignoringOverriddenEqualsForFieldsMatchingRegexes(regex1, regex2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getIgnoredOverriddenEqualsRegexes()).extracting(Pattern::pattern)
+    assertThat(configuration.getIgnoredOverriddenEqualsForFieldsMatchingRegexes()).extracting(Pattern::pattern)
                                                                  .containsExactly(regex1, regex2);
   }
 

@@ -21,12 +21,13 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Files#delete(File)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
 public class Files_delete_Test extends Files_TestCase {
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_delete_folder() throws IOException {
     FolderFixture dir3 = new FolderFixture("dir_3");

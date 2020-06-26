@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
@@ -241,6 +242,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Char2DArrayAssert assertThat(char[][] actual) {
+    return new Char2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
    *
    * @param actual the actual value.
@@ -358,6 +369,17 @@ public class AssertionsForClassTypes {
    */
   public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
     return new IntArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert assertThat(int[][] actual) {
+    return new Int2DArrayAssert(actual);
   }
 
   /**
@@ -574,6 +596,17 @@ public class AssertionsForClassTypes {
    */
   public static AbstractDurationAssert<?> assertThat(Duration duration) {
     return new DurationAssert(duration);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param period the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> assertThat(Period period) {
+    return new PeriodAssert(period);
   }
 
   /**

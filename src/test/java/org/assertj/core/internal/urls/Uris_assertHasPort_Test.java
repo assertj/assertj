@@ -12,17 +12,13 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.URI;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -30,25 +26,33 @@ public class Uris_assertHasPort_Test extends UrisBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasPort(info, null, 8080))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URI uri = null;
+    int expectedPort = 8080;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPort(info, uri, expectedPort));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_pass_if_actual_uri_has_the_given_port() {
-    uris.assertHasPort(info, URI.create("http://example.com:8080/pages/"), 8080);
+    // GIVEN
+    URI uri = URI.create("http://example.com:8080/pages/");
+    int expectedPort = 8080;
+    // WHEN/THEN
+    uris.assertHasPort(info, uri, expectedPort);
   }
 
   @Test
   public void should_fail_if_actual_URI_port_is_not_the_given_port() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://example.com:8080/pages/");
     int expectedPort = 8888;
-
-    Throwable error = catchThrowable(() -> uris.assertHasPort(info, uri, expectedPort));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHavePort(uri, expectedPort));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPort(info, uri, expectedPort));
+    // THEN
+    then(assertionError).hasMessage(shouldHavePort(uri, expectedPort).create());
   }
 
 }

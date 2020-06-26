@@ -12,23 +12,22 @@
  */
 package org.assertj.core.error;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 @DisplayName("ShouldHaveCause create")
 public class ShouldHaveCause_create_Test {
 
-
   @Test
   void should_create_error_message_for_actual_cause() {
-    //GIVEN
+    // GIVEN
     Throwable actual = new RuntimeException();
-    //WHEN
+    // WHEN
     String message = shouldHaveCause(actual).create();
-    //THEN
+    // THEN
     then(message).isEqualTo("expecting java.lang.RuntimeException to have a cause but it did not");
   }
 }

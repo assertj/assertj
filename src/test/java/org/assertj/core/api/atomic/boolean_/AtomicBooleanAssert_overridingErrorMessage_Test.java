@@ -13,28 +13,56 @@
 package org.assertj.core.api.atomic.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 public class AtomicBooleanAssert_overridingErrorMessage_Test {
 
   @Test
   public void should_honor_custom_error_message_set_with_withFailMessage() {
+    // GIVEN
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).withFailMessage(error)
-                                                                                                        .isFalse())
-                                                   .withMessageContaining(error);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new AtomicBoolean(true)).withFailMessage(error)
+                                                                     .isFalse();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
   }
 
   @Test
   public void should_honor_custom_error_message_set_with_overridingErrorMessage() {
+    // GIVEN
     String error = "ssss";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).overridingErrorMessage(error)
-                                                                                                        .isFalse())
-                                                   .withMessageContaining(error);
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new AtomicBoolean(true)).overridingErrorMessage(error)
+                                                                     .isFalse();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
   }
 
+  @Test
+  public void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
+    // GIVEN
+    String error = "ssss";
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new AtomicBoolean(true)).withFailMessage(() -> error)
+                                                                     .isFalse();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
+  }
+
+  @Test
+  public void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
+    // GIVEN
+    String error = "ssss";
+    // WHEN
+    ThrowingCallable code = () -> assertThat(new AtomicBoolean(true)).overridingErrorMessage(() -> error)
+                                                                     .isFalse();
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessageContaining(error);
+  }
 }

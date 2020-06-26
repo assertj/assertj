@@ -12,16 +12,16 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
@@ -30,118 +30,152 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
 
   @Test
   public void should_pass_if_parameter_is_missing() {
-    uris.assertHasNoParameter(info, URI.create("http://assertj.org/news"), "article");
+    // GIVEN
+    URI uri = URI.create("http://assertj.org/news");
+    String name = "article";
+    // WHEN/THEN
+    uris.assertHasNoParameter(info, uri, name);
   }
 
   @Test
   public void should_fail_if_parameter_is_present_without_value() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?article");
     String name = "article";
-    List<String> actualValues = newArrayList((String)null);
-
-    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValues));
+    List<String> actualValues = newArrayList((String) null);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, actualValues).create());
   }
 
   @Test
   public void should_fail_if_parameter_is_present_with_value() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     String name = "article";
     List<String> actualValue = newArrayList("10");
-
-    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValue));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, actualValue).create());
   }
 
   @Test
   public void should_fail_if_parameter_is_present_multiple_times() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?article&article=10");
     String name = "article";
     List<String> actualValues = newArrayList(null, "10");
-
-    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParameter(uri, name, actualValues));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, actualValues).create());
   }
 
   @Test
   public void should_pass_if_parameter_without_value_is_missing() {
-    uris.assertHasNoParameter(info, URI.create("http://assertj.org/news"), "article", null);
+    // GIVEN
+    URI uri = URI.create("http://assertj.org/news");
+    String name = "article";
+    String unwantedValue = null;
+    // WHEN/THEN
+    uris.assertHasNoParameter(info, uri, name, unwantedValue);
   }
 
   @Test
   public void should_fail_if_parameter_without_value_is_present() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?article");
     String name = "article";
     String expectedValue = null;
-    List<String> actualValues = newArrayList((String)null);
-
-    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValues));
+    List<String> actualValues = newArrayList((String) null);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, expectedValue, actualValues).create());
   }
 
   @Test
   public void should_pass_if_parameter_without_value_is_present_with_value() {
-    uris.assertHasNoParameter(info, URI.create("http://assertj.org/news=10"), "article", null);
+    // GIVEN
+    URI uri = URI.create("http://assertj.org/news=10");
+    String name = "article";
+    String unwantedValue = null;
+    // WHEN/THEN
+    uris.assertHasNoParameter(info, uri, name, unwantedValue);
   }
 
   @Test
   public void should_pass_if_parameter_with_value_is_missing() {
-    uris.assertHasNoParameter(info, URI.create("http://assertj.org/news"), "article", "10");
+    // GIVEN
+    URI uri = URI.create("http://assertj.org/news");
+    String name = "article";
+    String unwantedValue = "10";
+    // WHEN/THEN
+    uris.assertHasNoParameter(info, uri, name, unwantedValue);
   }
 
   @Test
   public void should_pass_if_parameter_with_value_is_present_without_value() {
-    uris.assertHasNoParameter(info, URI.create("http://assertj.org/news?article"), "article", "10");
+    // GIVEN
+    URI uri = URI.create("http://assertj.org/news?article");
+    String name = "article";
+    String unwantedValue = "10";
+    // WHEN/THEN
+    uris.assertHasNoParameter(info, uri, name, unwantedValue);
   }
 
   @Test
   public void should_pass_if_parameter_with_value_is_present_with_wrong_value() {
-    uris.assertHasNoParameter(info, URI.create("http://assertj.org/news?article=11"), "article", "10");
+    // GIVEN
+    URI uri = URI.create("http://assertj.org/news?article=11");
+    String name = "article";
+    String unwantedValue = "10";
+    // WHEN/THEN
+    uris.assertHasNoParameter(info, uri, name, unwantedValue);
   }
 
   @Test
   public void should_fail_if_parameter_with_value_is_present() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     String name = "article";
     String expectedValue = "10";
     List<String> actualValue = newArrayList("10");
-
-    Throwable error = catchThrowable(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParameter(uri, name, expectedValue, actualValue));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, expectedValue, actualValue).create());
   }
 
   @Test
   public void should_pass_if_uri_has_no_parameters() {
-    uris.assertHasNoParameters(info, URI.create("http://assertj.org/news"));
+    // GIVEN
+    URI uri = URI.create("http://assertj.org/news");
+    // WHEN/THEN
+    uris.assertHasNoParameters(info, uri);
   }
 
   @Test
   public void should_fail_if_uri_has_some_parameters() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10&locked=false");
-
-    Throwable error = catchThrowable(() -> uris.assertHasNoParameters(info, uri));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParameters(uri, newLinkedHashSet("article", "locked")));
+    Set<String> actualValues = newLinkedHashSet("article", "locked");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameters(info, uri));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoParameters(uri, actualValues).create());
   }
 
   @Test
   public void should_fail_if_uri_has_one_parameter() {
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
-
-    Throwable error = catchThrowable(() -> uris.assertHasNoParameters(info, uri));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParameters(uri, newLinkedHashSet("article")));
+    Set<String> actualValues = newLinkedHashSet("article");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameters(info, uri));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoParameters(uri, actualValues).create());
   }
 }

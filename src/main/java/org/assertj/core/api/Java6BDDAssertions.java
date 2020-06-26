@@ -298,6 +298,17 @@ public class Java6BDDAssertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Char2DArrayAssert then(char[][] actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.CharacterAssert}</code>.
    *
    * @param actual the actual value.
@@ -627,6 +638,16 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    */
   public static AbstractIntArrayAssert<?> then(int[] actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Int2DArrayAssert then(int[][] actual) {
     return assertThat(actual);
   }
 

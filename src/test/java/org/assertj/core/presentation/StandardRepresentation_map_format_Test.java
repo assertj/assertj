@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link StandardRepresentation#toStringOf(Map) StandardRepresentation#toStringOf(Map)}.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author gabga
@@ -33,7 +33,7 @@ public class StandardRepresentation_map_format_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_null_if_Map_is_null() {
-    Map<?,?> map = null;
+    Map<?, ?> map = null;
     assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isNull();
   }
 

@@ -20,8 +20,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Cal027
  */
-public class Bytes extends Numbers<Byte> {
+public class Bytes extends Numbers<Byte> implements WholeNumbers<Byte> {
 
   private static final Bytes INSTANCE = new Bytes();
 
@@ -63,4 +64,8 @@ public class Bytes extends Numbers<Byte> {
     return value > other;
   }
 
+  @Override
+  public boolean isEven(Byte number) {
+    return (number & one()) == zero();
+  }
 }

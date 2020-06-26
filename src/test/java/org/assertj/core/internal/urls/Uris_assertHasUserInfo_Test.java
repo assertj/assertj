@@ -12,17 +12,13 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.URI;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -30,54 +26,64 @@ public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
 
   @Test
   public void should_pass_if_actual_uri_has_no_user_info_and_given_user_info_is_null() {
-    uris.assertHasUserInfo(info, URI.create("http://www.helloworld.org/index.html"), null);
+    // GIVEN
+    URI uri = URI.create("http://www.helloworld.org/index.html");
+    String expectedUserInfo = null;
+    // WHEN/THEN
+    uris.assertHasUserInfo(info, uri, expectedUserInfo);
   }
 
   @Test
   public void should_pass_if_actual_uri_has_the_expected_user_info() {
-    uris.assertHasUserInfo(info, URI.create("http://test:pass@www.helloworld.org/index.html"), "test:pass");
+    // GIVEN
+    URI uri = URI.create("http://test:pass@www.helloworld.org/index.html");
+    String expectedUserInfo = "test:pass";
+    // WHEN/THEN
+    uris.assertHasUserInfo(info, uri, expectedUserInfo);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasUserInfo(info, null, "http://test:pass@www.helloworld.org/index.html"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URI uri = null;
+    String expectedUserInfo = "http://test:pass@www.helloworld.org/index.html";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_URI_user_info_is_not_the_expected_user_info() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://test:pass@assertj.org/news");
     String expectedUserInfo = "test:ok";
-
-    Throwable error = catchThrowable(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveUserInfo(uri, expectedUserInfo));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }
 
   @Test
   public void should_fail_if_actual_URI_has_no_user_info_and_expected_user_info_is_not_null() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     String expectedUserInfo = "test:pass";
-
-    Throwable error = catchThrowable(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveUserInfo(uri, expectedUserInfo));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }
 
   @Test
   public void should_fail_if_actual_URI_has_a_user_info_and_expected_user_info_is_null() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://test:pass@assertj.org");
     String expectedUserInfo = null;
-
-    Throwable error = catchThrowable(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveUserInfo(uri, expectedUserInfo));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }
 
 }

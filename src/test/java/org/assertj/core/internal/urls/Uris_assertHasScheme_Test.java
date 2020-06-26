@@ -12,44 +12,50 @@
  */
 package org.assertj.core.internal.urls;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.net.URI;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class Uris_assertHasScheme_Test extends UrisBaseTest {
 
-  @Test
-  public void should_pass_if_actual_uri_has_the_given_scheme() {
-    uris.assertHasScheme(info, URI.create("http://example.com/pages/"), "http");
-    uris.assertHasScheme(info, URI.create("example.com/pages/"), null);
+  @ParameterizedTest
+  @CsvSource({
+      "http://example.com/pages/,   http",
+      "example.com/pages/,          "
+  })
+  public void should_pass_if_actual_uri_has_the_given_scheme(URI uri, String expectedScheme) {
+    // WHEN/THEN
+    uris.assertHasScheme(info, uri, expectedScheme);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> uris.assertHasScheme(info, null, "http"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    URI uri = null;
+    String expectedScheme = "http";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasScheme(info, uri, expectedScheme));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_scheme_is_not_the_expected_scheme() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     URI uri = URI.create("http://example.com/pages/");
     String expectedScheme = "ftp";
-
-    Throwable error = catchThrowable(() -> uris.assertHasScheme(info, uri, expectedScheme));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveScheme(uri, expectedScheme));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasScheme(info, uri, expectedScheme));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveScheme(uri, expectedScheme).create());
   }
 
 }

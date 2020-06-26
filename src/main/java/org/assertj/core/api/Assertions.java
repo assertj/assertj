@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.Comparator;
@@ -62,6 +63,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
+import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -82,6 +84,7 @@ import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
@@ -90,6 +93,7 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.data.TemporalUnitLessThanOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.data.TemporalUnitWithinOffset;
+import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.BinaryRepresentation;
@@ -394,6 +398,16 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static Char2DArrayAssert assertThat(char[][] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
    *
    * @param actual the actual value.
@@ -523,6 +537,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert assertThat(int[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -866,6 +891,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.15.0
    */
   public static AbstractDurationAssert<?> assertThat(Duration actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> assertThat(Period actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1385,20 +1421,18 @@ public class Assertions implements InstanceOfAssertFactories {
 
   /**
    * In error messages, sets the threshold when iterable/array formatting will be on one line (if their String description
-   * is less than this parameter) or it will be formatted with one element per line.
+   * lenght &lt;= this parameter) or it will be formatted with one element per line.
    * <p>
-   * The following array will be formatted on one line as its length &lt; 80:
+   * The default value for maxLengthForSingleLineDescription is {@value Configuration#MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION}.
+   * <p>
+   * The following array will be formatted on one line as its length &lt;= 80:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
    * whereas this array is formatted on multiple lines (one element per line)
    *
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones",
    *  "The Lord of the Rings",
    *  "Assassin's Apprentice",
@@ -1414,7 +1448,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * In error messages, sets the threshold for how many elements from one iterable/array/map will be included in the
    * in the description.
    *
-   * E.q. When this method is called with a value of {@code 3}.
+   * Example with a value of {@code 3}.
    * <p>
    * The following array will be formatted entirely as it's length is &lt;= 3:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
@@ -1435,6 +1469,32 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
+  }
+
+  /**
+   * Enable/disable printing assertions description to the console (disabled by default).
+   * <p>
+   * The printed assertions description include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
+   * <p>
+   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setConsumerDescription(Consumer)}.
+   *
+   * @param printAssertionsDescription whether to print assertions description.
+   * @since 3.17.0
+   */
+  public static void setPrintAssertionsDescription(boolean printAssertionsDescription) {
+    AbstractAssert.setPrintAssertionsDescription(printAssertionsDescription);
+  }
+
+  /**
+   * All assertions description will be consumed by the given {@link Consumer Consumer&lt;Description&gt;} allowing for example to record them in a file.
+   * <p>
+   * The consumed descriptions include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
+   *
+   * @param descriptionConsumer the {@link Description} consumer
+   * @since 3.17.0
+   */
+  public static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
+    AbstractAssert.setConsumerDescription(descriptionConsumer);
   }
 
   // ------------------------------------------------------------------------------------------------------

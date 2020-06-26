@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.Color.BLUE;
 import static org.assertj.core.api.recursive.comparison.Color.GREEN;
+import static org.assertj.core.api.recursive.comparison.ColorWithCode.RED;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -171,6 +172,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     return Stream.of(arguments(person1, person2, "same data, same type"),
                      arguments(person2, person1, "same data, same type reversed"),
                      arguments(person3, person4, "same data, different type"),
+                     arguments(new Theme(RED), new Theme(RED), "same data with enum overriding methods - covers #1866"),
                      arguments(person4, person3, "same data, different type"));
   }
 

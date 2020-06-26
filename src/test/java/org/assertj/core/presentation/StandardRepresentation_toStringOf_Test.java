@@ -24,6 +24,8 @@ import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -95,6 +97,12 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   }
 
   @Test
+  public void should_return_toString_of_Path() {
+    final Path path = Paths.get("someFile.txt");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(path)).isEqualTo("someFile.txt");
+  }
+
+  @Test
   public void should_return_toString_of_Class_with_its_name() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(Object.class)).isEqualTo("java.lang.Object");
   }
@@ -102,8 +110,6 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
   @Test
   public void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = list("s1", "s2");
-    // assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\",%n" +
-    // " \"s2\"]"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\", \"s2\"]"));
   }
 
@@ -115,9 +121,13 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
-    List<Boolean[]> collection = list(array(true, false), array(true, false, true), array(true, true));
-    StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true, false], [true, false, ...], ...]");
+    List<Boolean[]> collection = list(array(true),
+                                      array(true, false, true, false, true),
+                                      array(true, true),
+                                      array(true),
+                                      array(true));
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true], [true, false, ... false, true], ... [true], [true]]");
   }
 
   @Test
@@ -128,10 +138,13 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
-    Collection<List<String>> collection = list(list("s1", "s2"), list("s3", "s4", "s5"), list("s6", "s7"));
-    StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(collection))
-                                                              .isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
+    Collection<List<String>> collection = list(list("s1"),
+                                               list("s2", "s3", "s4", "s5", "s6"),
+                                               list("s7", "s8"),
+                                               list("s9"),
+                                               list("s10"));
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[\"s1\"], [\"s2\", \"s3\", ... \"s5\", \"s6\"], ... [\"s9\"], [\"s10\"]]");
   }
 
   @Test
@@ -155,9 +168,13 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_return_toString_of_array_of_arrays_up_to_the_maximum_allowed_elements() {
-    String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"), array("s6", "s7"));
-    StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...]");
+    String[][] array = array(array("s1", "s2"),
+                             array("s3", "s4", "s5", "s6", "s7"),
+                             array("s8"),
+                             array("s9"),
+                             array("s10"));
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ... \"s6\", \"s7\"], ... [\"s9\"], [\"s10\"]]");
   }
 
   @Test
@@ -336,8 +353,8 @@ public class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresen
 
   @Test
   public void should_format_tuples_up_to_the_maximum_allowed_elements() {
-    StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(toStringOf(tuple(1, 2, 3))).isEqualTo("(1, 2, ...)");
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    assertThat(toStringOf(tuple(1, 2, 3, 4, 5))).isEqualTo("(1, 2, ... 4, 5)");
   }
 
   @Test

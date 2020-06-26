@@ -36,6 +36,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
+import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
@@ -54,6 +55,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static org.assertj.core.api.InstanceOfAssertFactories.INT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
@@ -76,6 +78,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_INT;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
+import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
@@ -111,6 +114,9 @@ import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.mockito.Mockito.mock;
 
+import org.assertj.core.util.Strings;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
@@ -126,6 +132,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Objects;
@@ -157,9 +164,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import org.assertj.core.util.Strings;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author Stefano Cordio
@@ -407,6 +411,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void char_2d_array_factory_should_allow_char_2d_array_assertions() {
+    // GIVEN
+    Object value = new char[][] {{ 'a', 'b' }, { 'c', 'd' }};
+    // WHEN
+    Char2DArrayAssert result = assertThat(value).asInstanceOf(CHAR_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
+  }
+
+  @Test
   void class_factory_should_allow_class_assertions() {
     // GIVEN
     Object value = Function.class;
@@ -514,6 +528,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractIntArrayAssert<?> result = assertThat(value).asInstanceOf(INT_ARRAY);
     // THEN
     result.containsExactly(0, 1);
+  }
+
+  @Test
+  void int_2d_array_factory_should_allow_int_2d_array_assertions() {
+    // GIVEN
+    Object value = new int[][] {{ 0, 1 }, { 2, 3 }};
+    // WHEN
+    Int2DArrayAssert result = assertThat(value).asInstanceOf(INT_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test
@@ -674,6 +698,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractDurationAssert<?> result = assertThat(value).asInstanceOf(DURATION);
     // THEN
     result.isPositive();
+  }
+
+  @Test
+  void period_factory_should_allow_period_assertions() {
+    // GIVEN
+    Object value = Period.of(1, 1, 1);
+    // WHEN
+    AbstractPeriodAssert<?> result = assertThat(value).asInstanceOf(PERIOD);
+    // THEN
+    result.hasDays(1);
   }
 
   @Test

@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -287,6 +288,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Char2DArrayAssert assumeThat(char[][] actual) {
+    return asAssumption(Char2DArrayAssert.class, char[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -383,6 +395,17 @@ public class Assumptions {
    */
   public static AbstractIntArrayAssert<?> assumeThat(int[] actual) {
     return asAssumption(IntArrayAssert.class, int[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert assumeThat(int[][] actual) {
+    return asAssumption(Int2DArrayAssert.class, int[][].class, actual);
   }
 
   /**
@@ -1078,6 +1101,17 @@ public class Assumptions {
    */
   public static AbstractDurationAssert<?> assumeThat(Duration actual) {
     return asAssumption(DurationAssert.class, Duration.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link PeriodAssert} assumption.
+   *
+   * @param actual the Period to test
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> assumeThat(Period actual) {
+    return asAssumption(PeriodAssert.class, Period.class, actual);
   }
 
   /**
