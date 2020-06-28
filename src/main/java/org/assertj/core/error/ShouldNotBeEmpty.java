@@ -41,10 +41,6 @@ public class ShouldNotBeEmpty extends BasicErrorMessageFactory {
     return new ShouldNotBeEmpty("%nExpecting file <%s> not to be empty", actual);
   }
 
-  public static ErrorMessageFactory subarrayShouldNotBeEmpty(int firstDimensionIndex) {
-    return new ShouldNotBeEmpty("%nExpecting actual[%s] not to be empty", firstDimensionIndex);
-  }
-
   private ShouldNotBeEmpty(String format, Object... arguments) {
     super(format, arguments);
   }

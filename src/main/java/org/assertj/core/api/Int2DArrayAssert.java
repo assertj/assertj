@@ -15,7 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
-import static org.assertj.core.error.array.MultidimensionalArrayShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
@@ -64,8 +64,8 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
       }
       for (int j = 0; j < actualSubArray.length; j++) {
         if (actualSubArray[j] != expectedSubArray[j]) {
-          throw failures.failure(info, shouldBeEqual(actualSubArray[j], expectedSubArray[j],
-                                                     info.representation(), "[" + i + "][" + j + "]"));
+          throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+                                 info.representation().toStringOf(actual), info.representation().toStringOf(expected));
         }
       }
     }

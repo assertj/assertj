@@ -17,12 +17,11 @@ import static org.assertj.core.description.EmptyTextDescription.emptyDescription
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
-import static org.assertj.core.error.array.MultidimensionalArrayShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.Char2DArrayAssert;
-import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -124,8 +123,7 @@ class Char2DArrayAssert_isDeepEqualTo_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
-    AssertionErrorFactory shouldBeEqual = shouldBeEqual(actualValue, expectedValue, STANDARD_REPRESENTATION, "[1][0]");
-    then(assertionError).hasMessage(shouldBeEqual.newAssertionError(emptyDescription(), STANDARD_REPRESENTATION)
-                                                 .getMessage());
+    ErrorMessageFactory elementShouldBeEqual = elementShouldBeEqual(actualValue, expectedValue, 1, 0);
+    then(assertionError).hasMessage(elementShouldBeEqual.create(emptyDescription(), STANDARD_REPRESENTATION));
   }
 }
