@@ -12,10 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.error.ShouldNotBeEmpty.subarrayShouldNotBeEmpty;
-
-import java.util.Comparator;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
@@ -42,11 +38,6 @@ public class Char2DArrays {
 
   @VisibleForTesting
   Failures failures = Failures.instance();
-
-  @VisibleForTesting
-  public Comparator<?> getComparator() {
-    return arrays.getComparator();
-  }
 
   @VisibleForTesting
   public void setArrays(Arrays2D arrays) {
@@ -86,9 +77,6 @@ public class Char2DArrays {
    */
   public void assertNotEmpty(AssertionInfo info, char[][] actual) {
     arrays.assertNotEmpty(info, failures, actual);
-    for (int i = 0; i < actual.length; i++) {
-      arrays.assertNotEmpty(info, failures, actual[i], subarrayShouldNotBeEmpty(i));
-    }
   }
 
   /**
@@ -102,24 +90,21 @@ public class Char2DArrays {
    * @throws AssertionError if the actual array's dimensions are not equal to the given ones.
    */
   public void assertHasDimensions(AssertionInfo info, char[][] actual, int expectedFirstDimension, int expectedSecondDimension) {
-    arrays.assertHasSize(info, actual, expectedFirstDimension);
-    for (int i = 0; i < actual.length; i++) {
-      arrays.assertHasSize(info, failures, actual[i], expectedSecondDimension, i);
-    }
+    arrays.assertHasDimensions(info, failures, actual, expectedFirstDimension, expectedSecondDimension);
   }
 
   /**
-   * Assert that the actual array has the same size as the other array.
+   * Assert that the actual array has the same dimensions as the other array.
    *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param other the group to compare
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
-   * @throws AssertionError if the actual group does not have the same size.
+   * @throws AssertionError if the actual group does not have the same dimensions.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, char[][] actual, Object other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
+  public void assertHasSameDimensionsAs(AssertionInfo info, char[][] actual, Object other) {
+    arrays.assertHasSameDimensionsAs(info, actual, other);
   }
 
   /**

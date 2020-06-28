@@ -34,7 +34,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, int[][], Integer> {
 
   @VisibleForTesting
-  protected Int2DArrays arrays = Int2DArrays.instance();
+  protected Int2DArrays int2dArrays = Int2DArrays.instance();
 
   private final Failures failures = Failures.instance();
 
@@ -58,7 +58,9 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
       if (actualSubArray == expectedSubArray) continue;
       if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
       if (expectedSubArray.length != actualSubArray.length) {
-        throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, expectedSubArray, i));
+        throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
+                                                                 expectedSubArray, expectedSubArray.length, i),
+                               info.representation().toStringOf(actual), info.representation().toStringOf(expected));
       }
       for (int j = 0; j < actualSubArray.length; j++) {
         if (actualSubArray[j] != expectedSubArray[j]) {
@@ -73,33 +75,55 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
   /** {@inheritDoc} */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    int2dArrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    int2dArrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
   @Override
   public Int2DArrayAssert isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
+    int2dArrays.assertNotEmpty(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public Int2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
-    arrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
+    int2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual {@code int[][]} has the same dimensions as the given array.
+   * <p>
+   * Parameter is declared as Object to accept both Object and primitive arrays.
+   * </p>
+   * Example:
+   * <pre><code class='java'> int[][] intArray = {{1, 2, 3}, {4, 5, 6}};
+   * char[][] charArray = {{'a', 'b', 'c'}, {'d', 'e', 'f'}};
+   *
+   * // assertion will pass
+   * assertThat(intArray).hasSameDimensionsAs(charArray);
+   *
+   * // assertions will fail
+   * assertThat(intArray).hasSameDimensionsAs(new int[][] {{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
+   * assertThat(intArray).hasSameDimensionsAs(new int[][] {{'a', 'b'}, {'c', 'd', 'e'}});
+   * assertThat(intArray).hasSameDimensionsAs(new int[][] {{'a', 'b', 'c'}, {'d', 'e'}});</code></pre>
+   *
+   * @param array the array to compare dimensions with actual {@code int[][]}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code int[][]} is {@code null}.
+   * @throws AssertionError if the array parameter is {@code null} or is not a true array.
+   * @throws AssertionError if actual {@code int[][]} and given array don't have the same dimensions.
+   */
   @Override
-  public Int2DArrayAssert hasSameSizeAs(Object other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
+  public Int2DArrayAssert hasSameDimensionsAs(Object array) {
+    int2dArrays.assertHasSameDimensionsAs(info, actual, array);
     return myself;
   }
 
@@ -108,11 +132,11 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).contains(new int[] {3,4}, atIndex(1));
+   * assertThat(new int[][] {{1, 2}, {3, 4}, {5, 6}}).contains(new int[] {3, 4}, atIndex(1));
    *
    * // assertions will fail
-   * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).contains(new int[] {3,4}, atIndex(0));
-   * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).contains(new int[] {7,8}, atIndex(2));</code></pre>
+   * assertThat(new int[][] {{1, 2}, {3, 4}, {5, 6}}).contains(new int[] {3, 4}, atIndex(0));
+   * assertThat(new int[][] {{1, 2}, {3, 4}, {5, 6}}).contains(new int[] {7, 8}, atIndex(2));</code></pre>
    *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -124,7 +148,7 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public Int2DArrayAssert contains(int[] value, Index index) {
-    arrays.assertContains(info, actual, value, index);
+    int2dArrays.assertContains(info, actual, value, index);
     return myself;
   }
 
@@ -133,11 +157,11 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).doesNotContain(new int[] {3,4}, atIndex(0));
-   * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).doesNotContain(new int[] {7,8}, atIndex(2));
+   * assertThat(new int[][] {{1, 2}, {3, 4}, {5, 6}}).doesNotContain(new int[] {3, 4}, atIndex(0));
+   * assertThat(new int[][] {{1, 2}, {3, 4}, {5, 6}}).doesNotContain(new int[] {7, 8}, atIndex(2));
    *
    * // assertion will fail
-   * assertThat(new int[][] {{1,2}, {3,4}, {5,6}}).doesNotContain(new int[] {3,4}, atIndex(1));</code></pre>
+   * assertThat(new int[][] {{1, 2}, {3, 4}, {5, 6}}).doesNotContain(new int[] {3, 4}, atIndex(1));</code></pre>
    *
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -147,7 +171,7 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
   public Int2DArrayAssert doesNotContain(int[] value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
+    int2dArrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
 

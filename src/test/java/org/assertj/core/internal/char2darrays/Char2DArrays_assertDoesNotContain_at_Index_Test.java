@@ -12,14 +12,8 @@
  */
 package org.assertj.core.internal.char2darrays;
 
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
-import static org.assertj.core.test.TestData.someIndex;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
@@ -35,52 +29,12 @@ import org.junit.jupiter.api.Test;
 public class Char2DArrays_assertDoesNotContain_at_Index_Test extends Char2DArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  public void should_delegate_to_Arrays2D() {
     // GIVEN
-    char[][] actual = null;
-    char[] expectedElement = { 'a', 'b', 'c' };
+    char[] chars = { 'd', 'e', 'f' };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertDoesNotContain(someInfo(), actual, expectedElement,
-                                                                                           someIndex()));
+    char2DArrays.assertDoesNotContain(info, actual, chars, atIndex(1));
     // THEN
-    then(assertionError).hasMessage(shouldNotBeNull().create());
-  }
-
-  @Test
-  public void should_pass_if_actual_does_not_contain_value_at_Index() {
-    arrays.assertDoesNotContain(someInfo(), actual, new char[] { 'a', 'b', 'c' }, atIndex(1));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_empty() {
-    arrays.assertDoesNotContain(someInfo(), new char[][] {}, new char[] { 'a', 'b', 'c' }, someIndex());
-  }
-
-  @Test
-  public void should_throw_error_if_Index_is_null() {
-    // GIVEN
-    Index nullIndex = null;
-    // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual,
-                                                                                  new char[] { 'a', 'b', 'c' },
-                                                                                  nullIndex))
-                                    .withMessage("Index should not be null");
-  }
-
-  @Test
-  public void should_pass_if_Index_is_out_of_bounds() {
-    arrays.assertDoesNotContain(someInfo(), actual, new char[] { 'a', 'b', 'c' }, atIndex(6));
-  }
-
-  @Test
-  public void should_fail_if_actual_contains_value_at_index() {
-    // GIVEN
-    Index index = atIndex(0);
-    char[] expectedElement = { 'a', 'b', 'c' };
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertDoesNotContain(someInfo(), actual, expectedElement,
-                                                                                           index));
-    // THEN
-    then(assertionError).hasMessage(shouldNotContainAtIndex(actual, new char[] { 'a', 'b', 'c' }, index).create());
+    verify(arrays2d).assertDoesNotContain(info, failures, actual, chars, atIndex(1));
   }
 }

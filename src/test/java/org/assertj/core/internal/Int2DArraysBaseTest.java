@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal;
 
-import static org.mockito.Mockito.spy;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.mockito.Mockito.mock;
 
+import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -30,13 +32,17 @@ public class Int2DArraysBaseTest {
    */
   protected int[][] actual;
   protected Failures failures;
-  protected Int2DArrays arrays;
+  protected Int2DArrays int2DArrays;
+  protected Arrays2D arrays2d;
+  protected AssertionInfo info = someInfo();
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
-    arrays = new Int2DArrays();
-    arrays.failures = failures;
+    failures = new Failures();
+    int2DArrays = new Int2DArrays();
+    int2DArrays.failures = failures;
+    arrays2d = mock(Arrays2D.class);
+    int2DArrays.setArrays(arrays2d);
     initActualArray();
   }
 

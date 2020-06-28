@@ -12,27 +12,34 @@
  */
 package org.assertj.core.api.char2darray;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.Char2DArrayAssert;
 import org.assertj.core.api.Char2DArrayAssertBaseTest;
+import org.assertj.core.test.AlwaysEqualComparator;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Char2DArrayAssert#hasSameSizeAs(Object)}</code>.
- * 
- * @author Maciej Wajcht
- */
-@DisplayName("Char2DArrayAssert hasSameSizeAs")
-class Char2DArrayAssert_hasSameSizeAs_Test extends Char2DArrayAssertBaseTest {
+@DisplayName("Char2DArrayAssert usingCustomComparator")
+class Char2DArrayAssert_usingCustomComparator_Test extends Char2DArrayAssertBaseTest {
+
+  private static final AlwaysEqualComparator<char[][]> ALWAYS_EQUAL = alwaysEqual();
 
   @Override
   protected Char2DArrayAssert invoke_api_method() {
-    return assertions.hasSameSizeAs(new String[] { "a", "b" });
+    return assertions.usingComparator(ALWAYS_EQUAL);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), new String[] { "a", "b" });
+    assertThat(getObjects(assertions).getComparator()).isSameAs(ALWAYS_EQUAL);
   }
+
+  @Test
+  public void should_honor_comparator() {
+    assertThat(new char[][] {}).usingComparator(ALWAYS_EQUAL)
+                               .isEqualTo(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
+  }
+
 }
