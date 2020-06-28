@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import java.util.Comparator;
+
 /**
  * Base class for all two-dimensional array assertions.
  *
@@ -36,9 +38,8 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
    * all corresponding pairs of elements in the two arrays are deeply equal.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new int[][] {{1, 2}, {3, 4}}).isDeepEqualTo(new int[][] {{1, 2}, {3, 4}});
-   * assertThat(new String[][] {{&quot;a&quot;, &quot;b&quot;}, {&quot;c&quot;, &quot;d&quot;}}).isDeepEqualTo(new String[][] {{&quot;a&quot;, &quot;b&quot;}, {&quot;c&quot;, &quot;d&quot;}});
    *
    * // assertions will fail
    * assertThat(new int[][] {{1, 2}, {3, 4}}).isDeepEqualTo(new int[][] {{1, 2}, {9, 10}});
@@ -53,8 +54,9 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
   /**
    * Verifies that the actual value is equal to the given one.
    * <p>
-   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).
-   * It is advised to use {@link #isDeepEqualTo(Object)} instead.
+   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
+   * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
+   * {@link Int2DArrayAssert#isDeepEqualTo(Object)} instead.
    * <p>
    * Example:
    * <pre><code class='java'> int[][] array = {{1, 2}, {3, 4}};

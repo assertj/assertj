@@ -12,17 +12,13 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.error.ShouldNotBeEmpty.subarrayShouldNotBeEmpty;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
 
-import java.util.Comparator;
-
 /**
  * Reusable assertions for two-dimensional arrays of {@code int}s.
- * 
+ *
  * @author Maciej Wajcht
  */
 public class Int2DArrays {
@@ -48,14 +44,9 @@ public class Int2DArrays {
     this.arrays = arrays;
   }
 
-  @VisibleForTesting
-  public Comparator<?> getComparator() {
-    return arrays.getComparator();
-  }
-
   /**
    * Asserts that the given array is {@code null} or empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
@@ -66,7 +57,7 @@ public class Int2DArrays {
 
   /**
    * Asserts that the given array is empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -78,7 +69,7 @@ public class Int2DArrays {
 
   /**
    * Asserts that the given array is not empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -86,9 +77,6 @@ public class Int2DArrays {
    */
   public void assertNotEmpty(AssertionInfo info, int[][] actual) {
     arrays.assertNotEmpty(info, failures, actual);
-    for (int i = 0; i < actual.length; i++) {
-      arrays.assertNotEmpty(info, failures, actual[i], subarrayShouldNotBeEmpty(i));
-    }
   }
 
   /**
@@ -96,36 +84,32 @@ public class Int2DArrays {
    *
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param expectedFirstDimensionSize the expected first dimension size of {@code actual}.
-   * @param expectedSecondDimensionSize the expected second dimension size of {@code actual}.
+   * @param expectedFirstDimension the expected first dimension size of {@code actual}.
+   * @param expectedSecondDimension the expected second dimension size of {@code actual}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array's dimensions are not equal to the given ones.
    */
-  public void assertHasDimensions(AssertionInfo info, int[][] actual, int expectedFirstDimensionSize,
-                                  int expectedSecondDimensionSize) {
-    arrays.assertHasSize(info, actual, expectedFirstDimensionSize);
-    for (int i = 0; i < actual.length; i++) {
-      arrays.assertHasSize(info, failures, actual[i], expectedSecondDimensionSize, i);
-    }
+  public void assertHasDimensions(AssertionInfo info, int[][] actual, int expectedFirstDimension, int expectedSecondDimension) {
+    arrays.assertHasDimensions(info, failures, actual, expectedFirstDimension, expectedSecondDimension);
   }
 
   /**
-   * Assert that the actual array has the same size as the other array.
-   * 
+   * Assert that the actual array has the same dimensions as the other array.
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param other the group to compare
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
-   * @throws AssertionError if the actual group does not have the same size.
+   * @throws AssertionError if the actual group does not have the same dimensions.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, int[][] actual, Object other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
+  public void assertHasSameDimensionsAs(AssertionInfo info, int[][] actual, Object other) {
+    arrays.assertHasSameDimensionsAs(info, actual, other);
   }
 
   /**
    * Verifies that the given array contains the given value at the given index.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param value the value to look for.
@@ -142,7 +126,7 @@ public class Int2DArrays {
 
   /**
    * Verifies that the given array does not contain the given value at the given index.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param value the value to look for.

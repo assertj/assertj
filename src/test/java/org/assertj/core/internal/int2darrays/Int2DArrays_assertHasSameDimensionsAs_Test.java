@@ -12,29 +12,28 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.data.Index.atIndex;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Index;
 import org.assertj.core.internal.Int2DArrays;
 import org.assertj.core.internal.Int2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Int2DArrays#assertDoesNotContain(AssertionInfo, int[][], int[], Index)}</code>.
+ * Tests for <code>{@link Int2DArrays#assertHasSameDimensionsAs(AssertionInfo, int[][], Object)}}</code>.
  *
  * @author Maciej Wajcht
  */
-public class Int2DArrays_assertDoesNotContain_at_Index_Test extends Int2DArraysBaseTest {
+public class Int2DArrays_assertHasSameDimensionsAs_Test extends Int2DArraysBaseTest {
 
   @Test
   public void should_delegate_to_Arrays2D() {
     // GIVEN
-    int[] ints = new int[] { 0, 2, 4 };
+    int[][] other = new int[][] { { 0, 4 }, { 8, 12 } };
     // WHEN
-    int2DArrays.assertDoesNotContain(info, actual, ints, atIndex(1));
+    int2DArrays.assertHasSameDimensionsAs(info, actual, other);
     // THEN
-    verify(arrays2d).assertDoesNotContain(info, failures, actual, ints, atIndex(1));
+    verify(arrays2d).assertHasSameDimensionsAs(info, actual, other);
   }
+
 }

@@ -14,15 +14,16 @@ package org.assertj.core.api.int2darray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
-import static org.assertj.core.error.array.MultidimensionalArrayShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.Int2DArrayAssert;
-import org.assertj.core.description.EmptyTextDescription;
+import org.assertj.core.error.ErrorMessageFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -104,9 +105,13 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
     // THEN
-    then(assertionError).hasMessage(subarraysShouldHaveSameSize(actual, expected, actualSubArrayWithDifference,
-                                                                expectedSubArrayWithDifference, 1)
-                                                                                                  .create());
+    ErrorMessageFactory subarraysShouldHaveSameSize = subarraysShouldHaveSameSize(actual, expected,
+                                                                                  actualSubArrayWithDifference,
+                                                                                  actualSubArrayWithDifference.length,
+                                                                                  expectedSubArrayWithDifference,
+                                                                                  expectedSubArrayWithDifference.length,
+                                                                                  1);
+    then(assertionError).hasMessage(subarraysShouldHaveSameSize.create());
   }
 
   @Test
@@ -119,9 +124,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
     // THEN
-    then(assertionError).hasMessage(shouldBeEqual(actualValue, expectedValue, STANDARD_REPRESENTATION, "[1][0]")
-                                                                                                                .newAssertionError(EmptyTextDescription.emptyDescription(),
-                                                                                                                                   STANDARD_REPRESENTATION)
-                                                                                                                .getMessage());
+    ErrorMessageFactory elementShouldBeEqual = elementShouldBeEqual(actualValue, expectedValue, 1, 0);
+    then(assertionError).hasMessage(elementShouldBeEqual.create(emptyDescription(), STANDARD_REPRESENTATION));
   }
 }
