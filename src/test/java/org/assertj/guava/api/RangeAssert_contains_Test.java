@@ -78,11 +78,11 @@ public class RangeAssert_contains_Test {
     AssertionError assertionError = catchThrowableOfType(() -> assertThat(actual).contains(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
                                                          AssertionError.class);
     // THEN
-    assertThat(assertionError).hasMessage(format("%nExpecting:%n" +
+    assertThat(assertionError).hasMessage(format("%nExpecting Range:%n" +
                                                  " <[1..10)>%n" +
                                                  "to contain:%n" +
                                                  " <[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]>%n" +
-                                                 "but could not find:%n" +
+                                                 "but could not find the following element(s):%n" +
                                                  " <[10]>%n"));
   }
 

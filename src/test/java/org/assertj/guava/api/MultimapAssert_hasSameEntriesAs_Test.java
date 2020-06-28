@@ -91,11 +91,11 @@ public class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest
     // @format:off
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format(
-                             "%nExpecting:%n" +
+                             "%nExpecting LinkedListMultimap:%n" +
                              "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n" +
                              "to contain only:%n" +
                              "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose]}>%n" +
-                             "but the following elements were unexpected:%n" +
+                             "but the following element(s) were unexpected:%n" +
                              "  <[Spurs=Tony Parker, Spurs=Tim Duncan, Spurs=Manu Ginobili]>%n"));
     // @format:on
   }
@@ -113,11 +113,11 @@ public class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest
     // @format:off
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format(
-                               "%nExpecting:%n" +
+                               "%nExpecting LinkedListMultimap:%n" +
                                "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n" +
                                "to contain only:%n" +
                                "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili], Warriors=[Stephen Curry, Klay Thompson]}>%n" +
-                               "but could not find the following elements:%n" +
+                               "but could not find the following element(s):%n" +
                                "  <[Warriors=Stephen Curry, Warriors=Klay Thompson]>%n"));
     // @format:on
   }
