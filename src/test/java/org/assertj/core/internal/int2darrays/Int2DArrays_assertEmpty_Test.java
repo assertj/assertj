@@ -12,11 +12,8 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Int2DArrays;
@@ -25,34 +22,16 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Int2DArrays#assertEmpty(AssertionInfo, int[][])}</code>.
- * 
+ *
  * @author Maciej Wajcht
  */
 public class Int2DArrays_assertEmpty_Test extends Int2DArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    // GIVEN
-    int[][] actual = null;
+  public void should_delegate_to_Arrays2D() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), actual));
+    int2DArrays.assertEmpty(someInfo(), actual);
     // THEN
-    then(assertionError).hasMessage(shouldNotBeNull().create());
-  }
-
-  @Test
-  public void should_fail_if_actual_is_not_empty() {
-    // GIVEN
-    int[][] actual = { { 4 }, { 6, 8 } };
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), actual));
-    // THEN
-    then(assertionError).hasMessage(shouldBeEmpty(actual).create());
-
-  }
-
-  @Test
-  public void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(someInfo(), new int[][] {});
+    verify(arrays2d).assertEmpty(info, failures, actual);
   }
 }

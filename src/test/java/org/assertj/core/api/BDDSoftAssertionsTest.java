@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Spliterators.emptySpliterator;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.as;
@@ -41,9 +42,16 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedHashMap;
@@ -65,6 +73,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
@@ -288,11 +297,20 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then((LongPredicate) s -> s == 1).accepts(2);
     softly.then((DoublePredicate) s -> s == 1).accepts(2);
     softly.then(URI.create("http://assertj.org:80").toURL()).hasNoPort();
+    softly.then(Paths.get("does-not-exist")).exists();
+    softly.then(Period.ZERO).hasYears(2000);
+    softly.then(Duration.ZERO).withFailMessage("duration check").hasHours(23);
+    softly.then(Instant.now()).withFailMessage("instant check").isBefore(Instant.now().minusSeconds(10));
+    softly.then(ZonedDateTime.now()).withFailMessage("ZonedDateTime check").isBefore(ZonedDateTime.now().minusSeconds(10));
+    softly.then(LocalDateTime.now()).withFailMessage("LocalDateTime check").isBefore(LocalDateTime.now().minusSeconds(10));
+    softly.then(LocalDate.now()).withFailMessage("LocalDate check").isBefore(LocalDate.now().minusDays(1));
+    softly.then(emptySpliterator()).withFailMessage("Spliterator check").hasCharacteristics(123);
+    softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123l);
     // WHEN
     MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
     // THEN
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
-    assertThat(errors).hasSize(53);
+    assertThat(errors).hasSize(62);
     assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
     assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
     assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
@@ -369,6 +387,15 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  <http://assertj.org:80>%n"
                                                + "not to have a port but had:%n"
                                                + "  <80>"));
+    assertThat(errors.get(53)).contains(format("<does-not-exist>"));
+    assertThat(errors.get(54)).contains(format("2000"));
+    assertThat(errors.get(55)).contains("duration check");
+    assertThat(errors.get(56)).contains("instant check");
+    assertThat(errors.get(57)).contains("ZonedDateTime check");
+    assertThat(errors.get(58)).contains("LocalDateTime check");
+    assertThat(errors.get(59)).contains("LocalDate check");
+    assertThat(errors.get(60)).contains("Spliterator check");
+    assertThat(errors.get(61)).contains("LongAdder check");
   }
 
   @SuppressWarnings("unchecked")

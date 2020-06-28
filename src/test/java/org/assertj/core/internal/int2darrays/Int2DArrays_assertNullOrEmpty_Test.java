@@ -12,10 +12,8 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Int2DArrays;
@@ -30,22 +28,10 @@ import org.junit.jupiter.api.Test;
 public class Int2DArrays_assertNullOrEmpty_Test extends Int2DArraysBaseTest {
 
   @Test
-  public void should_fail_if_array_is_not_null_and_is_not_empty() {
-    // GIVEN
-    int[][] actual = { { 1, 2 }, { 6, 8 } };
+  public void should_delegate_to_Arrays2D() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertNullOrEmpty(someInfo(), actual));
+    int2DArrays.assertNullOrEmpty(someInfo(), actual);
     // THEN
-    then(assertionError).hasMessage(shouldBeNullOrEmpty(actual).create());
-  }
-
-  @Test
-  public void should_pass_if_array_is_null() {
-    arrays.assertNullOrEmpty(someInfo(), null);
-  }
-
-  @Test
-  public void should_pass_if_array_is_empty() {
-    arrays.assertNullOrEmpty(someInfo(), new int[][] {});
+    verify(arrays2d).assertNullOrEmpty(info, failures, actual);
   }
 }

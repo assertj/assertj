@@ -26,30 +26,38 @@ package org.assertj.core.api;
 public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMENT> {
 
   /**
-   * Verifies that the actual array is {@code null} or empty.
+   * Verifies that the actual array is {@code null} or empty, empty means the array has no elements,
+   * said otherwise it can have any number of rows but all rows must be empty.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new int[][] { }).isNullOrEmpty();
    * int[][] array = null;
    * assertThat(array).isNullOrEmpty();
+   * assertThat(new int[][] { }).isNullOrEmpty();
+   * assertThat(new int[][] {{ }}).isNullOrEmpty();
+   * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
+   * assertThat(new int[][] {{ }, { }, { }}).isNullOrEmpty();
    *
    * // assertion will fail
-   * assertThat(new String[][] { {&quot;a&quot;}, {&quot;b&quot;} }).isNullOrEmpty();</code></pre>
+   * assertThat(new String[][] {{&quot;a&quot;}, {&quot;b&quot;}}).isNullOrEmpty();</code></pre>
    *
    * @throws AssertionError if the actual array is not {@code null} or not empty.
    */
   void isNullOrEmpty();
 
   /**
-   * Verifies that the actual array is empty.
+   * Verifies that the actual array is empty, empty means the array has no elements,
+   * said otherwise it can have any number of rows but all rows must be empty.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new int[][] { {} }).isEmpty();
+   * assertThat(new int[][] {{}}).isEmpty();
+   * assertThat(new int[][] {{ }}).isNullOrEmpty();
+   * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
+   * assertThat(new int[][] {{ }, { }, { }}).isNullOrEmpty();
    *
    * // assertions will fail
-   * assertThat(new String[][] { {&quot;a&quot;}, {&quot;b&quot;} }).isEmpty();
+   * assertThat(new int[][] {{ 1 }, { 2 }}).isEmpty();
    * int[][] array = null;
    * assertThat(array).isEmpty();</code></pre>
    *
@@ -58,14 +66,18 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
   void isEmpty();
 
   /**
-   * Verifies that the actual array is not empty.
+   * Verifies that the actual array is not empty, not empty means the array has at least one element.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new String[][] { {&quot;a&quot;}, {&quot;b&quot;} }).isNotEmpty();
+   * assertThat(new int[][] {{ 1 }, { 2 }}).isNotEmpty();
+   * assertThat(new int[][] {{ }, { 2 }}).isNotEmpty();
    *
    * // assertions will fail
    * assertThat(new int[][] { }).isNotEmpty();
+   * assertThat(new int[][] {{ }}).isNotEmpty();
+   * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
+   * assertThat(new int[][] {{ }, { }, { }}).isNotEmpty();
    * int[][] array = null;
    * assertThat(array).isNotEmpty();</code></pre>
    *
@@ -79,13 +91,12 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6} }).hasDimensions(2, 3);
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasDimensions(2, 3);
    *
    * // assertions will fail
    * assertThat(new int[][] { }).hasSize(1, 1);
-   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6} }).hasDimensions(3, 2);
-   * assertThat(new int[][] { {1, 2, 3}, {4, 5, 6, 7} }).hasDimensions(2, 3);
-   * </code></pre>
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasDimensions(3, 2);
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasDimensions(2, 3); </code></pre>
    *
    * @param expectedFirstDimension the expected number of values in first dimension of the actual array.
    * @param expectedSecondDimension the expected number of values in second dimension of the actual array.
@@ -95,26 +106,27 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
   SELF hasDimensions(int expectedFirstDimension, int expectedSecondDimension);
 
   /**
-   * Verifies that the actual array has the same size as given array.
+   * Verifies that the actual array has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
    * </p>
    * Example:
-   * <pre><code class='java'> int[][] intArray = {{1, 2, 3}, {4, 5, 6}};
-   * String[][] stringArray = new String[][] {{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}, {&quot;d&quot;, &quot;e&quot;, &quot;f&quot;}};
+   * <pre><code class='java'> String[][] stringArray = {{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}, {&quot;d&quot;, &quot;e&quot;, &quot;f&quot;}};
+   * int[][] intArray = {{1, 2, 3}, {4, 5, 6}};
    *
    * // assertion will pass
-   * assertThat(stringArray).hasSameSizeAs(intArray);
+   * assertThat(stringArray).hasSameDimensionsAs(intArray);
    *
    * // assertions will fail
-   * assertThat(stringArray).hasSameSizeAs(new int[][] {{1, 2}, {3, 4}, {5, 6}});
-   * assertThat(stringArray).hasSameSizeAs(new int[][] {{1, 2, 3}, {4, 5}});</code></pre>
+   * assertThat(stringArray).hasSameDimensionsAs(new int[][] {{1, 2}, {3, 4}, {5, 6}});
+   * assertThat(stringArray).hasSameDimensionsAs(new int[][] {{1, 2}, {3, 4, 5}});
+   * assertThat(stringArray).hasSameDimensionsAs(new int[][] {{1, 2, 3}, {4, 5}});</code></pre>
    *
-   * @param array the array to compare size with actual array.
+   * @param array the array to compare dimensions with actual array.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
-   * @throws AssertionError if actual array and given array don't have the same size.
+   * @throws AssertionError if actual array and given array don't have the same dimensions.
    */
-  SELF hasSameSizeAs(Object array);
+  SELF hasSameDimensionsAs(Object array);
 }

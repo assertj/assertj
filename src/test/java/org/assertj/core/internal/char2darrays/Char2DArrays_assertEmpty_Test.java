@@ -12,11 +12,8 @@
  */
 package org.assertj.core.internal.char2darrays;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Char2DArrays;
@@ -31,28 +28,10 @@ import org.junit.jupiter.api.Test;
 public class Char2DArrays_assertEmpty_Test extends Char2DArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    // GIVEN
-    char[][] actual = null;
+  public void should_delegate_to_Arrays2D() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), actual));
+    char2DArrays.assertEmpty(someInfo(), actual);
     // THEN
-    then(assertionError).hasMessage(shouldNotBeNull().create());
-  }
-
-  @Test
-  public void should_fail_if_actual_is_not_empty() {
-    // GIVEN
-    char[][] actual = { { 'a' }, { 'b', 'c' } };
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), actual));
-    // THEN
-    then(assertionError).hasMessage(shouldBeEmpty(actual).create());
-
-  }
-
-  @Test
-  public void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(someInfo(), new char[][] {});
+    verify(arrays2d).assertEmpty(info, failures, actual);
   }
 }

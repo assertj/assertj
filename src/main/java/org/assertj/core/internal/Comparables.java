@@ -92,11 +92,7 @@ public class Comparables {
     if (comparisonStrategy == null) {
       if (other.comparisonStrategy != null) return false;
     } else if (!comparisonStrategy.equals(other.comparisonStrategy)) return false;
-
-    if (failures == null) {
-      return other.failures == null;
-    } else return failures.equals(other.failures);
-
+    return failures == null ? other.failures == null : failures.equals(other.failures);
   }
 
   @Override

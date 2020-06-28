@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.int2darray;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Int2DArrayAssert;
@@ -19,20 +20,20 @@ import org.assertj.core.api.Int2DArrayAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
 /**
- * Tests for <code>{@link Int2DArrayAssert#hasSameSizeAs(Object)}</code>.
- * 
+ * Tests for <code>{@link Int2DArrayAssert#hasSameDimensionsAs(Object)}</code>.
+ *
  * @author Maciej Wajcht
  */
-@DisplayName("Int2DArrayAssert hasSameSizeAs")
-class Int2DArrayAssert_hasSameSizeAs_Test extends Int2DArrayAssertBaseTest {
+@DisplayName("Int2DArrayAssert hasSameDimensionsAs")
+class Int2DArrayAssert_hasSameDimensionsAs_Test extends Int2DArrayAssertBaseTest {
 
   @Override
   protected Int2DArrayAssert invoke_api_method() {
-    return assertions.hasSameSizeAs(new String[] { "a", "b" });
+    return assertions.hasSameDimensionsAs(array("a", "b"));
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), new String[] { "a", "b" });
+    verify(arrays).assertHasSameDimensionsAs(getInfo(assertions), getActual(assertions), array("a", "b"));
   }
 }
