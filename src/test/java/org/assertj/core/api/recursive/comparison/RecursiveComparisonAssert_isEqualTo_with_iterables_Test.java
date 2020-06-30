@@ -43,6 +43,8 @@ public class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends Rec
   @MethodSource("container_values")
   public void should_fail_as_Person_overridden_equals_should_be_honored(Object actual, Object expected,
                                                                         ComparisonDifference difference) {
+    // GIVEN
+    recursiveComparisonConfiguration.useOverriddenEquals();
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN

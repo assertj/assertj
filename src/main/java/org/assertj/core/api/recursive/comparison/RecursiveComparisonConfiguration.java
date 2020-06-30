@@ -55,7 +55,7 @@ public class RecursiveComparisonConfiguration {
   private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
   private List<FieldLocation> ignoredOverriddenEqualsForFields = new ArrayList<>();
   private List<Pattern> ignoredOverriddenEqualsForFieldsMatchingRegexes = new ArrayList<>();
-  private boolean ignoreAllOverriddenEquals = false;
+  private boolean ignoreAllOverriddenEquals = true;
 
   // ignore order in collections section
   private boolean ignoreCollectionOrder = false;
@@ -249,6 +249,15 @@ public class RecursiveComparisonConfiguration {
    */
   public void ignoreAllOverriddenEquals() {
     ignoreAllOverriddenEquals = true;
+  }
+
+  /**
+   * Force a recursive comparison on all fields (except java types).
+   * <p>
+   * See {@link RecursiveComparisonAssert#usingOverriddenEquals()} for examples.
+   */
+  public void useOverriddenEquals() {
+    ignoreAllOverriddenEquals = false;
   }
 
   /**
@@ -598,13 +607,12 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
-    boolean isConfiguredToIgnoreSomeOverriddenEqualsMethods = isConfiguredToIgnoreSomeOverriddenEqualsMethods();
     String header = ignoreAllOverriddenEquals
-        ? "- no overridden equals methods were used in the comparison except for java types"
+        ? "- no overridden equals methods were used in the comparison (except for java types)"
         : "- overridden equals methods were used in the comparison";
     description.append(header);
-    if (isConfiguredToIgnoreSomeOverriddenEqualsMethods) {
-      description.append(format(ignoreAllOverriddenEquals ? " and:%n" : ", except for:%n"));
+    if (isConfiguredToIgnoreSomeButNotAllOverriddenEqualsMethods()) {
+      description.append(format(" except for:%n"));
       describeIgnoredOverriddenEqualsMethods(description, representation);
     } else {
       description.append(format("%n"));
@@ -738,10 +746,11 @@ public class RecursiveComparisonConfiguration {
     return join(fieldsDescription).with(", ");
   }
 
-  private boolean isConfiguredToIgnoreSomeOverriddenEqualsMethods() {
-    return !ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()
-           || !ignoredOverriddenEqualsForTypes.isEmpty()
-           || !ignoredOverriddenEqualsForFields.isEmpty();
+  private boolean isConfiguredToIgnoreSomeButNotAllOverriddenEqualsMethods() {
+    boolean ignoreSomeOverriddenEqualsMethods = !ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()
+                                                || !ignoredOverriddenEqualsForTypes.isEmpty()
+                                                || !ignoredOverriddenEqualsForFields.isEmpty();
+    return !ignoreAllOverriddenEquals && ignoreSomeOverriddenEqualsMethods;
   }
 
   private void describeRegisteredComparatorByTypes(StringBuilder description) {
