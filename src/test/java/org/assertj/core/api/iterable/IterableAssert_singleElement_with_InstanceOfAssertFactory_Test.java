@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.iterable;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -21,6 +20,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
@@ -36,8 +36,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("IterableAssert singleElement(InstanceOfAssertFactory)")
 class IterableAssert_singleElement_with_InstanceOfAssertFactory_Test {
 
-  private final Iterable<String> babySimpsons = asList("Maggie");
-  private final Iterable<String> simpsons = asList("Homer", "Marge", "Lisa", "Bart", "Maggie");
+  private final Iterable<String> babySimpsons = list("Maggie");
+  private final Iterable<String> simpsons = list("Homer", "Marge", "Lisa", "Bart", "Maggie");
 
   @Test
   void should_fail_if_iterable_is_empty() {

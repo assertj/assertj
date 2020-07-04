@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api.iterable;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.IterableAssert;
@@ -33,8 +33,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("IterableAssert singleElement")
 class IterableAssert_singleElement_Test {
 
-  private final Iterable<String> babySimpsons = asList("Maggie");
-  private final Iterable<String> simpsons = asList("Homer", "Marge", "Lisa", "Bart", "Maggie");
+  private final Iterable<String> babySimpsons = list("Maggie");
+  private final Iterable<String> simpsons = list("Homer", "Marge", "Lisa", "Bart", "Maggie");
 
   @Test
   void should_fail_if_iterable_is_empty() {
