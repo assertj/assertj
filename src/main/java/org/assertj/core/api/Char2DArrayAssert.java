@@ -15,7 +15,9 @@ package org.assertj.core.api;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShouldHaveSameSize;
-import static org.assertj.core.error.array.MultidimensionalArrayShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
+
+import java.util.Comparator;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Char2DArrays;
@@ -37,7 +39,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   private final Failures failures = Failures.instance();
 
   @VisibleForTesting
-  protected Char2DArrays arrays = Char2DArrays.instance();
+  protected Char2DArrays char2dArrays = Char2DArrays.instance();
 
   public Char2DArrayAssert(char[][] actual) {
     super(actual, Char2DArrayAssert.class);
@@ -78,12 +80,14 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
       if (actualSubArray == expectedSubArray) continue;
       if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
       if (expectedSubArray.length != actualSubArray.length) {
-        throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, expectedSubArray, i));
+        throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
+                                                                 expectedSubArray, expectedSubArray.length, i),
+                               info.representation().toStringOf(actual), info.representation().toStringOf(expected));
       }
       for (int j = 0; j < actualSubArray.length; j++) {
         if (actualSubArray[j] != expectedSubArray[j]) {
-          throw failures.failure(info, shouldBeEqual(actualSubArray[j], expectedSubArray[j],
-                                                     info.representation(), "[" + i + "][" + j + "]"));
+          throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+                                 info.representation().toStringOf(actual), info.representation().toStringOf(expected));
         }
       }
     }
@@ -93,8 +97,9 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   /**
    * Verifies that the actual {@code char[][]} is equal to the given one.
    * <p>
-   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).
-   * It is advised to use {@link Char2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
+   * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
+   * {@link Char2DArrayAssert#isDeepEqualTo(Object)} instead.
    * <p>
    * Example:
    * <pre><code class='java'> char[][] array = {{'1', '2'}, {'3', '4'}}
@@ -115,13 +120,17 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   }
 
   /**
-   * Verifies that the actual {@code char[][]} is {@code null} or empty.
+   * Verifies that the actual {@code char[][]} is {@code null} or empty, empty means the array has no elements,
+   * said otherwise it can have any number of rows but all rows must be empty.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new char[][] { }).isNullOrEmpty();
    * char[][] array = null;
    * assertThat(array).isNullOrEmpty();
+   * assertThat(new char[][] { }).isNullOrEmpty();
+   * assertThat(new char[][] { { } }).isNullOrEmpty();
+   * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
+   * assertThat(new char[][] { { }, { }, { } }).isNullOrEmpty();
    *
    * // assertion will fail
    * assertThat(new char[][] { {'a'}, {'b'} }).isNullOrEmpty();</code></pre>
@@ -130,15 +139,19 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    char2dArrays.assertNullOrEmpty(info, actual);
   }
 
   /**
-   * Verifies that the actual {@code char[][]} is empty.
+   * Verifies that the actual {@code char[][]} is empty, empty means the array has no elements,
+   * said otherwise it can have any number of rows but all rows must be empty.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new char[][] { {} }).isEmpty();
+   * assertThat(new char[][] { { } }).isNullOrEmpty();
+   * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
+   * assertThat(new char[][] { { }, { }, { } }).isNullOrEmpty();
    *
    * // assertions will fail
    * assertThat(new char[][] { {'a'}, {'b'} }).isEmpty();
@@ -149,18 +162,22 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    char2dArrays.assertEmpty(info, actual);
   }
 
   /**
-   * Verifies that the actual {@code char[][]} is not empty.
+   * Verifies that the actual {@code char[][]} is not empty, not empty means the array has at least one char element.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new char[][] { {'a'}, {'b'} }).isNotEmpty();
+   * assertThat(new char[][] { { }, {'b'} }).isNotEmpty();
    *
    * // assertions will fail
    * assertThat(new char[][] { }).isNotEmpty();
+   * assertThat(new char[][] { { } }).isNotEmpty();
+   * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
+   * assertThat(new char[][] { { }, { }, { } }).isNotEmpty();
    * char[][] array = null;
    * assertThat(array).isNotEmpty();</code></pre>
    *
@@ -169,7 +186,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    */
   @Override
   public Char2DArrayAssert isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
+    char2dArrays.assertNotEmpty(info, actual);
     return myself;
   }
 
@@ -183,8 +200,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * // assertions will fail
    * assertThat(new char[][] { }).hasDimensions(1, 1);
    * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6'} }).hasDimensions(3, 2);
-   * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6', '7'} }).hasDimensions(2, 3);
-   * </code></pre>
+   * assertThat(new char[][] { {'1', '2', '3'}, {'4', '5', '6', '7'} }).hasDimensions(2, 3); </code></pre>
    *
    * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code char[][]}.
    * @param expectedSecondDimension the expected number of values in second dimension of the actual {@code char[][]}.
@@ -193,35 +209,36 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    */
   @Override
   public Char2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
-    arrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
+    char2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
     return myself;
   }
 
   /**
-   * Verifies that the actual {@code char[][]} has the same size as given array.
+   * Verifies that the actual {@code char[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
    * </p>
    * Example:
-   * <pre><code class='java'> char[][] charArray = {{'1', '2', '3'}, {'4', '5', '6'}};
-   * char[][] stringArray = new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}};
+   * <pre><code class='java'> char[][] charArray = {{'a', 'b', 'c'}, {'d', 'e', 'f'}};
+   * int[][] intArray = {{1, 2, 3}, {4, 5, 6}};
    *
    * // assertion will pass
-   * assertThat(charArray).hasSameSizeAs(stringArray);
+   * assertThat(charArray).hasSameDimensionsAs(intArray);
    *
    * // assertions will fail
-   * assertThat(new char[][] {{'1', '2'}, {'3', '4'}, {'5', '6'}}).hasSameSizeAs(stringArray);
-   * assertThat(new char[][] {{'1', '2', '3'}, {'4', '5'}}).hasSameSizeAs(stringArray);</code></pre>
+   * assertThat(charArray).hasSameDimensionsAs(new int[][] {{1, 2}, {3, 4}, {5, 6}});
+   * assertThat(charArray).hasSameDimensionsAs(new int[][] {{1, 2}, {3, 4, 5}});
+   * assertThat(charArray).hasSameDimensionsAs(new int[][] {{1, 2, 3}, {4, 5}});</code></pre>
    *
-   * @param array the array to compare size with actual {@code char[][]}.
+   * @param array the array to compare dimensions with actual {@code char[][]}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code char[][]} is {@code null}.
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
-   * @throws AssertionError if actual {@code char[][]} and given array don't have the same size.
+   * @throws AssertionError if actual {@code char[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Char2DArrayAssert hasSameSizeAs(Object array) {
-    arrays.assertHasSameSizeAs(info, actual, array);
+  public Char2DArrayAssert hasSameDimensionsAs(Object array) {
+    char2dArrays.assertHasSameDimensionsAs(info, actual, array);
     return myself;
   }
 
@@ -245,7 +262,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * @throws AssertionError if the actual {@code char[][]} does not contain the given value at the given index.
    */
   public Char2DArrayAssert contains(char[] value, Index index) {
-    arrays.assertContains(info, actual, value, index);
+    char2dArrays.assertContains(info, actual, value, index);
     return myself;
   }
 
@@ -267,7 +284,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * @throws AssertionError if the actual {@code char[][]} contains the given value at the given index.
    */
   public Char2DArrayAssert doesNotContain(char[] value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
+    char2dArrays.assertDoesNotContain(info, actual, value, index);
     return myself;
   }
 

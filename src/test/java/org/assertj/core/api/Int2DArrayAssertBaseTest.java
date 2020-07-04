@@ -34,10 +34,10 @@ public abstract class Int2DArrayAssertBaseTest extends BaseTestTemplate<Int2DArr
   protected void inject_internal_objects() {
     super.inject_internal_objects();
     arrays = mock(Int2DArrays.class);
-    assertions.arrays = arrays;
+    assertions.int2dArrays = arrays;
   }
   
   protected Int2DArrays getArrays(Int2DArrayAssert someAssertions) {
-    return someAssertions.arrays;
+    return someAssertions.int2dArrays;
   }
 }
