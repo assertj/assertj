@@ -313,7 +313,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws AssertionError if the {@link Iterable}'s unique element does not satisfy the given assertions.
    *
    * @since 3.5.0
+   * @deprecated use {@link #singleElement()} instead
    */
+  @Deprecated
   @Override
   public SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions) {
     iterables.assertHasSize(info, actual, 1);
