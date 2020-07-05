@@ -32,11 +32,9 @@ public class Percentage {
    *
    * @param value the value of the percentage.
    * @return the created {@code Percentage}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withPercentage(double value) {
-    requireNonNull(value);
     checkArgument(value >= 0, "The percentage value <%s> should be greater than or equal to zero", value);
     return new Percentage(value);
   }
