@@ -14,27 +14,17 @@ package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.internal.ErrorMessages.percentageValueIsInRange;
 
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link Percentage#withPercentage(Number)}.
+ * Tests for {@link Percentage#withPercentage(double)}.
  *
  * @author Alexander Bischof
  */
-public class Percentage_withPercentage_with_Double_Test {
-
-  @SuppressWarnings("null")
-  @Test
-  public void should_throw_error_if_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      Double value = null;
-      withPercentage(value);
-    });
-  }
+public class Percentage_withPercentage_Test {
 
   @Test
   public void should_throw_error_if_value_is_negative() {
@@ -45,7 +35,7 @@ public class Percentage_withPercentage_with_Double_Test {
 
   @Test
   public void should_create_Percentage() {
-    Double value = 0.8d;
+    double value = 0.8d;
     assertThat(withPercentage(value).value).isEqualTo(value);
     value = 200d;
     assertThat(withPercentage(value).value).isEqualTo(value);
