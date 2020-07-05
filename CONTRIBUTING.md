@@ -55,9 +55,9 @@ It's ok not to follow some of the rules described above if you have a good reaso
 
 [assertj-examples](https://github.com/joel-costigliola/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it can be seen as AssertJs living documentation.
 
-## Rebase your PR on master (no merge!)
+## Rebase your PR on main (no merge!)
 
-We prefer integrating PR by squashing all the commits and rebase it to master, if you PR has diverged and needs to integrate with master, please rebase on master but do not merge as it will prevent rebasing later on.
+We prefer integrating PR by squashing all the commits and rebase it to main, if you PR has diverged and needs to integrate with main, please rebase on main but do not merge as it will prevent rebasing later on.
 
 ## Naming conventions with some examples:
 
