@@ -132,7 +132,19 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     actual = newArrayList("a", "-", "b", "-", "c");
     iterables.assertContainsSequence(someInfo(), actual, array("a", "-", "b", "-", "c"));
   }
-  
+
+  @Test
+  public void should_pass_if_actual_is_an_infinite_sequence_and_contains_sequence() {
+    Iterable<String> actual = com.google.common.collect.Iterables.cycle("Leia", "Luke", "Yoda", "Obi-Wan");
+    iterables.assertContainsSequence(someInfo(), actual, array("Luke", "Yoda", "Obi-Wan", "Leia"));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_a_singly_traversable_sequence_and_contains_sequence() {
+    Iterable<String> actual = Iterables_assertContainsExactly_Test.createSinglyIterable(newArrayList("Leia", "Luke", "Yoda", "Obi-Wan"));
+    iterables.assertContainsSequence(someInfo(), actual, array("Leia", "Luke", "Yoda", "Obi-Wan"));
+  }
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
