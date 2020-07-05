@@ -53,7 +53,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     iterables.assertContainsExactly(someInfo(), createSinglyIterable(actual), array("Luke", "Yoda", "Leia"));
   }
 
-  private Iterable<String> createSinglyIterable(final List<String> values) {
+  static Iterable<String> createSinglyIterable(final List<String> values) {
     return new Iterable<String>() {
       private boolean isIteratorCreated = false;
 

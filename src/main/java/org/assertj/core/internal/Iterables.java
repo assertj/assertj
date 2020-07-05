@@ -453,14 +453,60 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given sequence of objects.
    */
   public void assertContainsSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
-    // check for elements in values that are missing in actual.
-    List<?> actualAsList = newArrayList(actual);
-    for (int i = 0; i < actualAsList.size(); i++) {
-      // look for given sequence in actual starting from current index (i)
-      if (containsSequenceAtGivenIndex(actualAsList, sequence, i)) return;
+    // perform the checks that would have been done in commonCheckThatIterableAssertionSucceeds
+    // but do them explicitly without having to create a new iterator on actual - which would
+    // break if actual were only singly-traversable.
+    checkNotNullIterables(info, actual, sequence);
+    // store the elements from actual that have been visited (because we don't know we can look ahead - the 'actual'
+    // might be singly-traversable) in a cyclic list, which can then be rolled for each new element
+    // until a match is found or until the 'actual' is exhausted. Of course if 'actual' really is infinite then this could
+    // take a while :-D
+    // once it's full, check if it equals sequence for each new element
+    RingBuffer buffer = new RingBuffer(sequence.length);
+    int howMany=0;
+    final Iterator<?> actual_iterator = actual.iterator();
+    // ... perform the remaining "normal" checks explicitly
+    if(!actual_iterator.hasNext() && sequence.length==0) return;
+    failIfEmptySinceActualIsNotEmpty(sequence);
+    while(actual_iterator.hasNext()) {
+      final Object next = actual_iterator.next();
+      buffer.add(next);
+      howMany++;
+      if(howMany>=sequence.length && buffer.equals(sequence)) return;
     }
     throw actualDoesNotContainSequence(info, actual, sequence);
+  }
+
+  class RingBuffer<T> {
+    private int writePosition;
+    private int length;
+    private Object[] buffer;
+
+    public RingBuffer(int length) {
+      this.length = length;
+      this.buffer = new Object[length];
+      this.writePosition =0;
+    }
+
+    public boolean add(final T t) {
+      if(writePosition==length) { // ie we've already filled the buffer
+        writePosition--;
+        for (int i = 0; i < length - 1; ++i) {
+          buffer[i] = buffer[i + 1];
+        }
+      }
+      buffer[writePosition++]=t;
+      return true;
+    }
+
+    // NB we could have done this with a traditional equals() function but for the comparisonStrategy
+    public boolean equals(Object[] sequence) {
+      if (buffer.length != sequence.length) return false;
+      for (int i = 0; i < sequence.length; i++) {
+        if (!areEqual(buffer[i], sequence[i])) return false;
+      }
+      return true;
+    }
   }
 
   /**
