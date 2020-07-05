@@ -12,6 +12,14 @@
  */
 package org.assertj.core.internal.iterables;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Iterables;
+import org.assertj.core.internal.IterablesBaseTest;
+import org.junit.jupiter.api.Test;
+
+import java.util.Iterator;
+import java.util.List;
+
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -27,14 +35,6 @@ import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
-
-import java.util.List;
-import java.util.Iterator;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Iterables;
-import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertContainsExactly(AssertionInfo, Iterable, Object[])}</code>.
