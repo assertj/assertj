@@ -905,6 +905,10 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(emptyList()).last();
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.assertThat(emptyList()).last(as(STRING));
+    // the nested proxied call to assertHasSize() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).singleElement();
+    // the nested proxied call to assertHasSize() throw an Assertion error that must be propagated to the caller.
+    softly.assertThat(emptyList()).singleElement(as(STRING));
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.assertThat(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
@@ -918,7 +922,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     // nested proxied call to isGreaterThan
     softly.assertThat(Duration.ofDays(-1)).isPositive();
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(12);
+    assertThat(softly.errorsCollected()).hasSize(14);
   }
 
   @Test
@@ -1167,6 +1171,50 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(6)).hasMessage("[element(0) as Name] error message");
     assertThat(errorsCollected.get(7)).hasMessage("[last element] error message");
     assertThat(errorsCollected.get(8)).hasMessage("[last element as Name] error message");
+  }
+
+  @Test
+  public void iterable_soft_assertions_should_work_with_singleElement_navigation() {
+    // GIVEN
+    Iterable<Name> names = asList(name("Jane", "Doe"));
+    // WHEN
+    softly.assertThat(names)
+          .as("single element")
+          .overridingErrorMessage("error message")
+          .singleElement()
+          .isNull();
+    softly.assertThat(names)
+          .as("single element as Name")
+          .overridingErrorMessage("error message")
+          .singleElement(as(type(Name.class)))
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessage("[single element] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[single element as Name] error message");
+  }
+
+  @Test
+  public void list_soft_assertions_should_work_with_singleElement_navigation() {
+    // GIVEN
+    List<Name> names = asList(name("Jane", "Doe"));
+    // WHEN
+    softly.assertThat(names)
+          .as("single element")
+          .overridingErrorMessage("error message")
+          .singleElement()
+          .isNull();
+    softly.assertThat(names)
+          .as("single element as Name")
+          .overridingErrorMessage("error message")
+          .singleElement(as(type(Name.class)))
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(2);
+    assertThat(errorsCollected.get(0)).hasMessage("[single element] error message");
+    assertThat(errorsCollected.get(1)).hasMessage("[single element as Name] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

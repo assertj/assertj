@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -780,6 +781,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(emptyList()).element(1);
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.then(emptyList()).element(1, as(STRING));
+    // the nested proxied call to assertHasSize() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).singleElement();
+    // the nested proxied call to assertHasSize() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).singleElement(as(STRING));
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.then(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
@@ -787,7 +792,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // nested proxied call to isCompleted
     softly.then(new CompletableFuture<String>()).isCompletedWithValue("done");
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(9);
+    assertThat(softly.errorsCollected()).hasSize(11);
   }
 
   // bug #447
@@ -1028,6 +1033,36 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(3)).hasMessageContaining("first element");
     assertThat(errorsCollected.get(4)).hasMessageContaining("element(0)");
     assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
+  }
+
+  @Test
+  public void iterable_soft_assertions_should_work_with_singleElement_navigation() {
+    // GIVEN
+    Iterable<Name> names = asList(name("Jane", "Doe"));
+    // WHEN
+    softly.then(names)
+          .singleElement()
+          .as("single element")
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).singleElement(as(THROWABLE))
+                               .hasMessageContaining("single element");
+  }
+
+  @Test
+  public void list_soft_assertions_should_work_with_singleElement_navigation() {
+    // GIVEN
+    List<Name> names = asList(name("Jane", "Doe"));
+    // WHEN
+    softly.then(names)
+          .singleElement()
+          .as("single element")
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).singleElement(as(THROWABLE))
+                               .hasMessageContaining("single element");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
