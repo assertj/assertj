@@ -54,13 +54,13 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   static Iterable<String> createSinglyIterable(final List<String> values) {
+    // can't use Iterable<> for anonymous class in java 8
     return new Iterable<String>() {
       private boolean isIteratorCreated = false;
 
       @Override
       public Iterator<String> iterator() {
-        if (isIteratorCreated)
-          throw new IllegalArgumentException("Cannot create two iterators on a singly-iterable sequence");
+        if (isIteratorCreated) throw new IllegalArgumentException("Cannot create two iterators on a singly-iterable sequence");
         isIteratorCreated = true;
         return new Iterator<String>() {
           private final Iterator<String> listIterator = values.iterator();

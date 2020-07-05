@@ -477,7 +477,7 @@ public class Iterables {
     throw actualDoesNotContainSequence(info, actual, sequence);
   }
 
-  class RingBuffer<T> {
+  class RingBuffer {
     private int writePosition;
     private int length;
     private Object[] buffer;
@@ -485,10 +485,10 @@ public class Iterables {
     public RingBuffer(int length) {
       this.length = length;
       this.buffer = new Object[length];
-      this.writePosition =0;
+      this.writePosition = 0;
     }
 
-    public boolean add(final T t) {
+    public boolean add(final Object t) {
       if(writePosition==length) { // ie we've already filled the buffer
         writePosition--;
         for (int i = 0; i < length - 1; ++i) {
@@ -1129,7 +1129,8 @@ public class Iterables {
     if (!diff.differencesFound()) {
       // actual and values have the same elements but are they in the same order ?
       int i = 0;
-      for (Object elementFromActual : actualAsList) {
+      // use actualAsList instead of actual in case actual is a singly-passable iterable
+        for (Object elementFromActual : actualAsList) {
         if (!areEqual(elementFromActual, values[i])) {
           throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
         }
@@ -1196,7 +1197,7 @@ public class Iterables {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
-    List<UnsatisfiedRequirement> unsatisfiedRequirements =  new ArrayList<>();
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = new ArrayList<>();
     for (E element : actual) {
       Optional<UnsatisfiedRequirement> result = failsRequirements(requirements, element);
       if (!result.isPresent()) return; // element satisfied the requirements
@@ -1246,9 +1247,7 @@ public class Iterables {
     predicates.assertIsNotNull(predicate);
     stream(actual).filter(predicate)
                   .findFirst()
-                  .orElseGet(() -> {
-                    throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
-                  });
+                  .orElseThrow(() -> failures.failure(info, anyElementShouldMatch(actual, predicateDescription)));
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
