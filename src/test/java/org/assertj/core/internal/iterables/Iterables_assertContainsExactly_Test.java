@@ -28,7 +28,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Iterator;
 
@@ -55,13 +54,13 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   static Iterable<String> createSinglyIterable(final List<String> values) {
-    // can't use Iterable<> for anonymous class in java 8
     return new Iterable<String>() {
       private boolean isIteratorCreated = false;
 
       @Override
       public Iterator<String> iterator() {
-        if (isIteratorCreated) throw new IllegalArgumentException("Cannot create two iterators on a singly-iterable sequence");
+        if (isIteratorCreated)
+          throw new IllegalArgumentException("Cannot create two iterators on a singly-iterable sequence");
         isIteratorCreated = true;
         return new Iterator<String>() {
           private final Iterator<String> listIterator = values.iterator();
@@ -95,8 +94,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactly(someInfo(), actual,
-                                                                                                     emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactly(someInfo(), actual, emptyArray()));
   }
 
   @Test
@@ -107,8 +105,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactly(someInfo(), null,
-                                                                                                     array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactly(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -164,8 +161,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual,
-                                                                                                                expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
@@ -178,8 +174,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual,
-                                                                                                                expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1, comparisonStrategy));
@@ -191,8 +186,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     actual = newArrayList("Luke", "Leia", "Luke");
     Object[] expected = { "LUKE", "Leia" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual,
-                                                                                                                expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),

@@ -1129,7 +1129,6 @@ public class Iterables {
     if (!diff.differencesFound()) {
       // actual and values have the same elements but are they in the same order ?
       int i = 0;
-      // use actualAsList instead of actual in case actual is a singly-passable iterable
       for (Object elementFromActual : actualAsList) {
         if (!areEqual(elementFromActual, values[i])) {
           throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
@@ -1197,7 +1196,7 @@ public class Iterables {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = new ArrayList<>();
+    List<UnsatisfiedRequirement> unsatisfiedRequirements =  new ArrayList<>();
     for (E element : actual) {
       Optional<UnsatisfiedRequirement> result = failsRequirements(requirements, element);
       if (!result.isPresent()) return; // element satisfied the requirements
@@ -1247,7 +1246,9 @@ public class Iterables {
     predicates.assertIsNotNull(predicate);
     stream(actual).filter(predicate)
                   .findFirst()
-                  .orElseThrow(() -> failures.failure(info, anyElementShouldMatch(actual, predicateDescription)));
+                  .orElseGet(() -> {
+                    throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
+                  });
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
