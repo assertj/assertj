@@ -35,7 +35,7 @@ import org.assertj.core.api.Assertions;
  * {@link StandardRepresentation#fallbackToStringOf(Object)}. By doing this all the defaults of AssertJ would be applied and you can apply your own customization</li>
  * </ul>
  * <p>
- * The <a href="https://github.com/joel-costigliola/assertj-examples/tree/master/assertions-examples">assertj-examples</a> project provides a working example of registering a custom representation.
+ * The <a href="https://github.com/joel-costigliola/assertj-examples/tree/main/assertions-examples">assertj-examples</a> project provides a working example of registering a custom representation.
  * <p>
  * Registering a representation has been introduced in AssertJ 2.9.0/3.9.0.  
  * 
