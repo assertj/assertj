@@ -95,7 +95,16 @@ class SoftProxies {
 
   private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
 
-  private final ErrorCollector collector = new ErrorCollector();
+  private ErrorCollector collector;
+
+  public SoftProxies(AfterAssertionErrorCollected afterAssertionErrorCollected) {
+    collector = new ErrorCollector();
+    setAfterAssertionErrorCollected(afterAssertionErrorCollected);
+  }
+
+  void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
+    collector.setAfterAssertionErrorCollected(afterAssertionErrorCollected);
+  }
 
   public boolean wasSuccess() {
     return collector.wasSuccess();

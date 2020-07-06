@@ -854,6 +854,11 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     public TolkienHeroesAssert then(TolkienHero actual) {
       return proxy(TolkienHeroesAssert.class, TolkienHero.class, actual);
     }
+
+    @Override
+    public void onAssertionErrorCollected(AssertionError assertionError) {
+      System.out.println(assertionError);
+    }
   }
 
   @Test

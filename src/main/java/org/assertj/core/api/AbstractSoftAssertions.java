@@ -26,7 +26,33 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
   protected final SoftProxies proxies;
 
   public AbstractSoftAssertions() {
-    proxies = new SoftProxies();
+    // pass itself as a AfterAssertionErrorCollected instance
+    proxies = new SoftProxies(this);
+  }
+
+  /**
+   * Register a callback allowing to react after an {@link AssertionError} is collected by the current soft assertion.
+   * <p>
+   * The callback is an instance of {@link AfterAssertionErrorCollected} which can be expressed as lambda.
+   * <p>
+   * If you have defined your own SoftAssertions class and inherited from {@link AbstractSoftAssertions}, the only thing you
+   * have to do is to override {@link AfterAssertionErrorCollected#onAssertionErrorCollected(AssertionError)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
+   *
+   * // register our callback
+   * softly.setAfterAssertionErrorCollected(error -&gt; System.out.println(error));
+   *
+   * // the AssertionError corresponding to this failing assertion is printed to the console.
+   * softly.assertThat("The Beatles").isEqualTo("The Rolling Stones");</code></pre>
+   *
+   * @param afterAssertionErrorCollected the callback.
+   *
+   * @since 3.17.0
+   */
+  public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
+    proxies.setAfterAssertionErrorCollected(afterAssertionErrorCollected);
   }
 
   private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
@@ -143,7 +169,7 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
   /**
    * Returns the result of last soft assertion which can be used to decide what the next one should be.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> Person person = ...
    * SoftAssertions soft = new SoftAssertions();
    * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {

@@ -32,8 +32,7 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
   /**
    * Creates a proxied assertion class of the given type. The returned value
    * is an assertion object compatible with the supplied assertion class, but
-   * instead of throwing errors it will collect them and store them using
-   * {@link #collectAssertionError(AssertionError) collectAssertionError()}.
+   * instead of throwing errors it will collect them and store.
    *
    * @param <SELF> The type of the assertion class
    * @param <ACTUAL> The type of the object-under-test
@@ -133,5 +132,4 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
     softly.accept(assertions);
     assertions.assertAll();
   }
-
 }

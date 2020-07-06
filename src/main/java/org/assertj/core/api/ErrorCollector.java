@@ -40,6 +40,12 @@ public class ErrorCollector {
   // scope : the last assertion call (might be nested)
   private final LastResult lastResult = new LastResult();
 
+  private AfterAssertionErrorCollected afterAssertionErrorCollected;
+
+  void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
+    this.afterAssertionErrorCollected = afterAssertionErrorCollected;
+  }
+
   /**
    * @param errorCollector the {@link ErrorCollector} to gather assertions error for the assertion instance
    * @param assertion The instance of the method, the this reference.
@@ -77,6 +83,9 @@ public class ErrorCollector {
   void addError(AssertionError error) {
     errors.add(error);
     lastResult.setSuccess(false);
+    if (afterAssertionErrorCollected != null) {
+      afterAssertionErrorCollected.onAssertionErrorCollected(error);
+    }
   }
 
   public List<AssertionError> errors() {
@@ -100,8 +109,7 @@ public class ErrorCollector {
 
   private static class LastResult {
     // Marking these fields as volatile doesn't ensure complete thread safety
-    // (mutual exclusion, race-free behaviour), but guarantees eventual
-    // visibility (in case #recordError() was invoked from another thread).
+    // (mutual exclusion, race-free behaviour), but guarantees eventual visibility
     private volatile boolean wasSuccess = true;
     private volatile boolean errorFound = false;
 

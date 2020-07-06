@@ -14,9 +14,24 @@ package org.assertj.core.api;
 
 import java.util.List;
 
-public interface AssertionErrorCollector {
+public interface AssertionErrorCollector extends AfterAssertionErrorCollected {
 
+  /**
+   * This method can be used to collect soft assertion errors.
+   * <p>
+   * <b>Warning:</b> this is not the method used internally by AssertJ to collect all of them, overriding it to react to each
+   * collected assertion error will not work.
+   * <p>
+   * To be able to react after an assertion error is collected, use @{@link #onAssertionErrorCollected(AssertionError)} instead.
+   *
+   * @param error the {@link AssertionError} to collect.
+   */
   void collectAssertionError(AssertionError error);
 
   List<AssertionError> assertionErrorsCollected();
+
+  @Override
+  default void onAssertionErrorCollected(AssertionError assertionError) {
+    // nothing by default
+  }
 }
