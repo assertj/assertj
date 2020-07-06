@@ -64,7 +64,7 @@ public class ErrorCollector {
         // let the most outer call handle the assertion error
         throw assertionError;
       }
-      collectAssertionError(assertionError, errorCollector);
+      errorCollector.addError(assertionError);
     }
     if (method != null && !method.getReturnType().isInstance(assertion)) {
       // In case the object is not an instance of the return type, just default value for the return type:
@@ -74,14 +74,9 @@ public class ErrorCollector {
     return assertion;
   }
 
-  protected static void collectAssertionError(AssertionError error, ErrorCollector errorCollector) {
-    errorCollector.lastResult.setSuccess(false);
-    errorCollector.errors.add(error);
-  }
-
-  public void addError(AssertionError error) {
+  void addError(AssertionError error) {
     errors.add(error);
-    lastResult.recordError();
+    lastResult.setSuccess(false);
   }
 
   public List<AssertionError> errors() {
@@ -114,11 +109,6 @@ public class ErrorCollector {
       return wasSuccess;
     }
 
-    private void recordError() {
-      errorFound = true;
-      wasSuccess = false;
-    }
-
     private void setSuccess(boolean success) {
 
       // errorFound must be true if any nested call ends up in error
@@ -128,12 +118,10 @@ public class ErrorCollector {
       // ----- proxied isFalse() -> calls isEqualTo(false) which is proxied
       // ------- proxied isEqualTo(false) : catch AssertionError => last result success = false, back to outer call
       // ---- proxied isFalse() : no AssertionError caught => last result success = true
-      // The overall last result success should not be true as one of the nested calls was not a success.
       errorFound |= !success;
+      wasSuccess = success;
 
       if (resolvingOutermostErrorCollectorProxyNestedCall()) {
-        // we are resolving the last nested call (if any), we can set a relevant value for wasSuccess
-        wasSuccess = !errorFound;
         // need to reset errorFound for the next soft assertion
         errorFound = false;
       }
