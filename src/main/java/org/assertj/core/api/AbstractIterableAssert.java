@@ -313,7 +313,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws AssertionError if the {@link Iterable}'s unique element does not satisfy the given assertions.
    *
    * @since 3.5.0
+   * @deprecated use {@link #singleElement()} instead
    */
+  @Deprecated
   @Override
   public SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions) {
     iterables.assertHasSize(info, actual, 1);
@@ -2802,6 +2804,123 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     }
 
     return toAssert(elementAtIndex, navigationDescription("element at index " + index));
+  }
+
+  /**
+   * Verifies that the {@link Iterable} under test contains a single element and allow to perform assertions that element.
+   * <p>
+   * This is a shorthand for <code>hasSize(1).first()</code>.
+   * <p>
+   * By default available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
+   * get more specific assertions if you create {@code IterableAssert} with either:
+   * <ul>
+   * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
+   * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
+   * <li>the general <code>assertThat(Iterable)</code> and narrow down the single element with an assert factory, see: {@link #singleElement(InstanceOfAssertFactory) singleElement(element assert factory)}</li>
+   * </ul>
+   * <p>
+   * Example: default {@code Object} assertions
+   * <pre><code class='java'> List&lt;String&gt; babySimpsons = list("Maggie");
+   *
+   * // assertion succeeds, only Object assertions are available after singleElement()
+   * assertThat(babySimpsons).singleElement()
+   *                         .isEqualTo("Maggie");
+   *
+   * // assertion fails
+   * assertThat(babySimpsons).singleElement()
+   *                         .isEqualTo("Homer");
+   *
+   * // assertion fails because list contains no elements
+   * assertThat(emptyList()).singleElement();
+   *
+   *
+   * // assertion fails because list contains more than one element
+   *  List&lt;String&gt; simpsons = list("Homer", "Marge", "Lisa", "Bart", "Maggie");
+   * assertThat(simpsons).singleElement();</code></pre>
+   * <p>
+   * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class,
+   * you will be able to chain {@code singleElement()} with more specific typed assertion.
+   * <p>
+   * Example: use of {@code String} assertions after {@code singleElement()}
+   * <pre><code class='java'> List&lt;String&gt; babySimpsons = list("Maggie");
+   *
+   * // assertion succeeds
+   * // String assertions are available after singleElement()
+   * assertThat(babySimpsons, StringAssert.class).singleElement()
+   *                                             .startsWith("Mag");
+   *
+   * // InstanceOfAssertFactories.STRING is an AssertFactory for String assertions
+   * assertThat(babySimpsons, InstanceOfAssertFactories.STRING).singleElement()
+   *                                                           .startsWith("Mag");
+   * // better readability with static import InstanceOfAssertFactories.STRING and Assertions.as
+   * assertThat(babySimpsons, as(STRING)).singleElement()
+   *                                     .startsWith("Mag");
+   *
+   * // assertions fail
+   * assertThat(babySimpsons, StringAssert.class).singleElement()
+   *                                             .startsWith("Lis");
+   * // failure as the single element is not an int/Integer
+   * assertThat(babySimpsons, IntegerAssert.class).singleElement()
+   *                                              .startsWith("Lis");</code></pre>
+   *
+   * @return the assertion on the first element
+   * @throws AssertionError if the actual {@link Iterable} does not contain exactly one element.
+   * @since 3.17.0
+   * @see #singleElement(InstanceOfAssertFactory)
+   */
+  @CheckReturnValue
+  public ELEMENT_ASSERT singleElement() {
+    return internalSingleElement();
+  }
+
+  /**
+   * Verifies that the {@link Iterable} under test contains a single element and allow to perform assertions on that element.<br>
+   * The assertions are strongly typed according to the given {@link AssertFactory} parameter.
+   * <p>
+   * This is a shorthand for <code>hasSize(1).first(assertFactory)</code>.
+   * <p>
+   * Example: use of {@code String} assertions after {@code singleElement(as(STRING)}
+   * <pre><code class='java'> static import org.assertj.core.api.InstanceOfAssertFactories.STRING;
+   * static import org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+   * static import org.assertj.core.api.Assertions.as; // syntactic sugar
+   *
+   * List&lt;String&gt; babySimpsons = list("Maggie");
+   *
+   * // assertion succeeds
+   * assertThat(babySimpsons).singleElement(as(STRING))
+   *                         .startsWith("Mag");
+   *
+   * // assertion fails
+   * assertThat(babySimpsons).singleElement(as(STRING))
+   *                         .startsWith("Lis");
+   *
+   * // assertion fails because of wrong factory type
+   * assertThat(babySimpsons).singleElement(as(INTEGER))
+   *                         .isZero();
+   *
+   * // assertion fails because list contains no elements
+   * assertThat(emptyList()).singleElement(as(STRING));
+   *
+   *
+   * // assertion fails because list contains more than one element
+   * List&lt;String&gt; simpsons = list("Homer", "Marge", "Lisa", "Bart", "Maggie");
+   * assertThat(simpsons).singleElement(as(STRING));</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the single element
+   * @throws AssertionError if the actual {@link Iterable} does not contain exactly one element.
+   * @throws NullPointerException if the given factory is {@code null}.
+   * @since 3.17.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT singleElement(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalSingleElement().asInstanceOf(assertFactory);
+  }
+
+  private ELEMENT_ASSERT internalSingleElement() {
+    iterables.assertHasSize(info, actual, 1);
+    return internalFirst();
   }
 
   protected abstract ELEMENT_ASSERT toAssert(ELEMENT value, String description);

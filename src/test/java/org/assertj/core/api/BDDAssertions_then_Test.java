@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.BDDAssertions.and;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenExceptionOfType;
@@ -23,6 +23,9 @@ import static org.assertj.core.api.BDDAssertions.thenIllegalStateException;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.api.BDDAssertions.thenObject;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
+import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.util.Lists.list;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -111,6 +114,8 @@ public class BDDAssertions_then_Test {
     then(iterable).contains("1");
     then(iterable, StringAssert.class).first().startsWith("1");
     then(iterable, stringAssertFactory).first().startsWith("1");
+    then(iterable).first(as(STRING)).startsWith("1");
+    then(iterable).singleElement(as(STRING)).startsWith("1");
   }
 
   @Test
@@ -251,10 +256,12 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_List() {
-    List<Integer> list = asList(5, 6);
+    List<Integer> list = list(5, 6);
     then(list).hasSize(2);
     then(list, IntegerAssert.class).first().isLessThan(10);
     then(list, integerAssertFactory).first().isLessThan(10);
+    then(list).first(as(INTEGER)).isEqualTo(5);
+    then(list(5)).singleElement(as(INTEGER)).isEqualTo(5);
   }
 
   @Test

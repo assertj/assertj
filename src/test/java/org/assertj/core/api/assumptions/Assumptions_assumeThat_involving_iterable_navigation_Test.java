@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -119,6 +120,20 @@ class Assumptions_assumeThat_involving_iterable_navigation_Test {
     expectAssumptionViolatedException(() -> assumeThat(jedis).element(1, as(type(Jedi.class)))
                                                              .as("check element at index 1")
                                                              .isEqualTo(yoda));
+  }
+
+  @Test
+  void should_ignore_test_when_assumption_after_navigating_to_singleElement_fails() {
+    expectAssumptionViolatedException(() -> assumeThat(list(yoda)).singleElement()
+                                                                  .as("check single element")
+                                                                  .isEqualTo(luke));
+  }
+
+  @Test
+  void should_ignore_test_when_assumption_after_navigating_to_singleElement_with_InstanceOfAssertFactory_fails() {
+    expectAssumptionViolatedException(() -> assumeThat(list(yoda)).singleElement(as(type(Jedi.class)))
+                                                                  .as("check single element")
+                                                                  .isEqualTo(luke));
   }
 
 }
