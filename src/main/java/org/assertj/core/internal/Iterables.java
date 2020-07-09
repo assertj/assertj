@@ -458,31 +458,30 @@ public class Iterables {
     // break if actual were only singly-traversable.
     checkNotNullIterables(info, actual, sequence);
     // store the elements from actual that have been visited (because we don't know we can look ahead - the 'actual'
-    // might be singly-traversable) in a cyclic list, which can then be rolled for each new element
-    // until a match is found or until the 'actual' is exhausted. Of course if 'actual' really is infinite then this could
-    // take a while :-D
-    // once it's full, check if it equals sequence for each new element
-    RingBuffer buffer = new RingBuffer(sequence.length);
-    int howMany=0;
-    final Iterator<?> actual_iterator = actual.iterator();
+    // might be singly-traversable) in a fixed-length buffer having what is in effect a sliding window.
+    // So we store each element and slide for each new element until a match is found or until the 'actual' is
+    // exhausted. Of course if 'actual' really is infinite then this could take a while :-D
+    // Note that we only ever store sequence.length entries from actual in the buffer. Once it's full, check if it
+    // equals sequence for each new element
+    final Iterator<?> actualIterator = actual.iterator();
     // ... perform the remaining "normal" checks explicitly
-    if(!actual_iterator.hasNext() && sequence.length==0) return;
+    if(!actualIterator.hasNext() && sequence.length==0) return;
     failIfEmptySinceActualIsNotEmpty(sequence);
-    while(actual_iterator.hasNext()) {
-      final Object next = actual_iterator.next();
+    Lifo buffer = new Lifo(sequence.length);
+    while(actualIterator.hasNext()) {
+      final Object next = actualIterator.next();
       buffer.add(next);
-      howMany++;
-      if(howMany>=sequence.length && buffer.equals(sequence)) return;
+      if(buffer.equals(sequence)) return;
     }
     throw actualDoesNotContainSequence(info, actual, sequence);
   }
 
-  class RingBuffer {
+  private class Lifo {
     private int writePosition;
     private int length;
     private Object[] buffer;
 
-    public RingBuffer(int length) {
+    public Lifo(int length) {
       this.length = length;
       this.buffer = new Object[length];
       this.writePosition = 0;
@@ -495,7 +494,7 @@ public class Iterables {
           buffer[i] = buffer[i + 1];
         }
       }
-      buffer[writePosition++]=t;
+      buffer[writePosition++] = t;
       return true;
     }
 
