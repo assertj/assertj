@@ -18,10 +18,12 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.iterables.Iterables_assertContainsExactly_Test.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -33,10 +35,9 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Iterables#assertContainsSequence(AssertionInfo, Collection, Object[])}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -62,15 +63,17 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     actual.clear();
     iterables.assertContainsSequence(someInfo(), actual, array());
   }
-  
+
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsSequence(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsSequence(someInfo(), actual,
+                                                                                                      emptyArray()));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsSequence(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsSequence(someInfo(), null,
+                                                                                                      array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -132,7 +135,21 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     actual = newArrayList("a", "-", "b", "-", "c");
     iterables.assertContainsSequence(someInfo(), actual, array("a", "-", "b", "-", "c"));
   }
-  
+
+  @Test
+  public void should_pass_if_actual_is_an_infinite_sequence_and_contains_sequence() {
+    Iterable<String> actual = com.google.common.collect.Iterables.cycle("Leia", "Luke", "Yoda", "Obi-Wan");
+    iterables.assertContainsSequence(someInfo(), actual, array("Luke", "Yoda", "Obi-Wan", "Leia"));
+    iterables.assertContainsSequence(someInfo(), actual, array("Luke", "Yoda"));
+    iterables.assertContainsSequence(someInfo(), actual, array("Luke", "Yoda", "Obi-Wan", "Leia", "Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_pass_if_actual_is_a_singly_traversable_sequence_and_contains_sequence() {
+    Iterable<String> actual = createSinglyIterable(list("Leia", "Luke", "Yoda", "Obi-Wan"));
+    iterables.assertContainsSequence(someInfo(), actual, array("Leia", "Luke", "Yoda", "Obi-Wan"));
+  }
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
@@ -142,7 +159,8 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual,
+                                                                                                                 sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
@@ -153,7 +171,8 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual, sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual,
+                                                                                                                 sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
@@ -167,7 +186,7 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
   @Test
   public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), actual,
-        array("YODA", "luke", "lEIA", "Obi-wan"));
+                                                                          array("YODA", "luke", "lEIA", "Obi-wan"));
   }
 
 }
