@@ -54,7 +54,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @ParameterizedTest
   @MethodSource("ignoringAllOverriddenEqualsExceptBasicTypes")
-  public void should_ignore_all_overridden_equals_except_java_types(Object value) {
+  public void should_ignore_all_overridden_equals_except_basic_types(Object value) {
     // GIVEN
     DualValue dualValue = new DualValue(list("foo"), value, value);
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
@@ -66,7 +66,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
   }
 
   private static Stream<Object> ignoringAllOverriddenEqualsExceptBasicTypes() {
-    return Stream.of("foo", 23, 2.0, 123L, true, Byte.MIN_VALUE, new Object(), new Date());
+    return Stream.of("foo", 23, 2.0, 123L, true, Byte.MIN_VALUE, new Object(), new Date(), Color.BLUE);
   }
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored with these regexes {1}")

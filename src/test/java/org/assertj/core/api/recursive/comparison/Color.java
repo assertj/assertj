@@ -13,5 +13,5 @@
 package org.assertj.core.api.recursive.comparison;
 
 enum Color {
-  RED, GREEN, BLUE
+  RED, GREEN, BLUE;
 }

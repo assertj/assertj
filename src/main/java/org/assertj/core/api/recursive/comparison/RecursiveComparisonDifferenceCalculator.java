@@ -218,7 +218,7 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (dualValue.isEnum()) {
+      if (dualValue.isExpectedAnEnum()) {
         compareAsEnums(dualValue, comparisonState, recursiveComparisonConfiguration);
         continue;
       }
@@ -260,13 +260,12 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      Class<?> actualFieldValueClass = actualFieldValue.getClass();
-      if (!recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue)
-          && hasOverriddenEquals(actualFieldValueClass)) {
+      if (shouldCompareDualValue(recursiveComparisonConfiguration, dualValue)) {
         if (!actualFieldValue.equals(expectedFieldValue)) comparisonState.addDifference(dualValue);
         continue;
       }
 
+      Class<?> actualFieldValueClass = actualFieldValue.getClass();
       Class<?> expectedFieldClass = expectedFieldValue.getClass();
       if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(dualValue)) {
         comparisonState.addDifference(dualValue, STRICT_TYPE_ERROR, expectedFieldClass.getName(),
@@ -304,6 +303,12 @@ public class RecursiveComparisonDifferenceCalculator {
     return comparisonState.getDifferences();
   }
 
+  private static boolean shouldCompareDualValue(RecursiveComparisonConfiguration recursiveComparisonConfiguration,
+                                                final DualValue dualValue) {
+    return !recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue)
+           && hasOverriddenEquals(dualValue.actual.getClass());
+  }
+
   // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison
   // this would make different field enum value to be considered the same!
   private static void compareAsEnums(final DualValue dualValue,
@@ -314,7 +319,7 @@ public class RecursiveComparisonDifferenceCalculator {
       if (dualValue.actual != dualValue.expected) comparisonState.addDifference(dualValue);
       return;
     }
-    if (!dualValue.isActualFieldAnEnum()) {
+    if (!dualValue.isActualAnEnum()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an enum"));
       return;
     }

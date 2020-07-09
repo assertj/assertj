@@ -88,7 +88,7 @@ final class DualValue {
     return path.get(path.size() - 1);
   }
 
-  public boolean isJavaType() {
+  public boolean isActualJavaType() {
     if (actual == null) return false;
     return actual.getClass().getName().startsWith("java.");
   }
@@ -185,12 +185,12 @@ final class DualValue {
     return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES).anyMatch(type -> type.isInstance(value));
   }
 
-  public boolean isEnum() {
+  public boolean isExpectedAnEnum() {
     return expected.getClass().isEnum();
   }
 
-  public boolean isActualFieldAnEnum() {
-    return actual.getClass().isEnum();
+  public boolean isActualAnEnum() {
+    return actual != null && actual.getClass().isEnum();
   }
 
   public boolean hasNoContainerValues() {

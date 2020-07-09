@@ -20,26 +20,36 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
-public class DualValue_isJavaType_Test {
+public class DualValue_isActualJavaType_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @Test
-  public void isJavaType_should_return_true_when_actual_is_a_java_type() {
+  public void isActualJavaType_should_return_true_when_actual_is_a_java_type() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", "");
     // WHEN
-    boolean expectedFieldIsArray = dualValue.isJavaType();
+    boolean expectedFieldIsArray = dualValue.isActualJavaType();
     // THEN
     assertThat(expectedFieldIsArray).isTrue();
   }
 
   @Test
-  public void isJavaType_should_return_false_when_expected_is_not_a_java_type() {
+  public void isActualJavaType_should_return_false_when_actual_is_not_a_java_type() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), "");
     // WHEN
-    boolean expectedFieldIsArray = dualValue.isJavaType();
+    boolean expectedFieldIsArray = dualValue.isActualJavaType();
+    // THEN
+    assertThat(expectedFieldIsArray).isFalse();
+  }
+
+  @Test
+  public void isActualJavaType_should_return_false_when_actual_is_null() {
+    // GIVEN
+    DualValue dualValue = new DualValue(PATH, null, "");
+    // WHEN
+    boolean expectedFieldIsArray = dualValue.isActualJavaType();
     // THEN
     assertThat(expectedFieldIsArray).isFalse();
   }

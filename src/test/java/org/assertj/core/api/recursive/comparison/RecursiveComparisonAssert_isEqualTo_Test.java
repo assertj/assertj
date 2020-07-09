@@ -18,6 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.Color.BLUE;
 import static org.assertj.core.api.recursive.comparison.Color.GREEN;
 import static org.assertj.core.api.recursive.comparison.ColorWithCode.RED;
+import static org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_Test.EmployeeDTO.JobTitle.QA_ENGINEER;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -335,6 +336,20 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
+  @Test
+  public void should_fail_when_actual_is_an_enum_and_expected_is_not() {
+    // GIVEN
+    Employee devPerson = new Employee("Example Name", "SOFTWARE_DEVELOPER");
+    BlogPost devBlogPost = new BlogPost(devPerson);
+    EmployeeDTO qaPersonDTO = new EmployeeDTO("Example Name", QA_ENGINEER);
+    BlogPostDTO qaBlogPostDTO = new BlogPostDTO(qaPersonDTO);
+    // WHEN
+    compareRecursivelyFailsAsExpected(qaBlogPostDTO, devBlogPost);
+    // THEN
+    ComparisonDifference difference = diff("author.jobTitle", QA_ENGINEER, "SOFTWARE_DEVELOPER");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(qaBlogPostDTO, devBlogPost, difference);
+  }
+
   static class LightString {
     public String color;
 
@@ -364,6 +379,46 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
     public Path getPath() {
       return path;
+    }
+  }
+
+  public static class BlogPost {
+    Employee author;
+
+    public BlogPost(Employee author) {
+      this.author = author;
+    }
+
+  }
+  public static class BlogPostDTO {
+    EmployeeDTO author;
+
+    public BlogPostDTO(EmployeeDTO author) {
+      this.author = author;
+    }
+
+  }
+  public static class Employee {
+    String name;
+    String jobTitle;
+
+    public Employee(String name, String jobTitle) {
+      this.name = name;
+      this.jobTitle = jobTitle;
+    }
+
+  }
+  public static class EmployeeDTO {
+    String name;
+    JobTitle jobTitle;
+
+    public EmployeeDTO(String name, JobTitle jobTitle) {
+      this.name = name;
+      this.jobTitle = jobTitle;
+    }
+
+    public enum JobTitle {
+      SOFTWARE_DEVELOPER, QA_ENGINEER
     }
   }
 

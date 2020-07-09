@@ -560,7 +560,10 @@ public class RecursiveComparisonConfiguration {
   }
 
   boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
-    if (dualValue.isJavaType()) return false; // we must compare basic types otherwise the recursive comparison loops infinitely!
+    // we must compare java basic types otherwise the recursive comparison loops infinitely!
+    if (dualValue.isActualJavaType()) return false;
+    // enums don't have fields, comparing them field by field has no sense, we need to use equals which is overridden and final
+    if (dualValue.isActualAnEnum()) return false;
     return ignoreAllOverriddenEquals
            || matchesAnIgnoredOverriddenEqualsField(dualValue)
            || (dualValue.actual != null && shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass()));
