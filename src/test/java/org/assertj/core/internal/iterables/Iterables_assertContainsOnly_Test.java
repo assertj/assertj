@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.iterables.Iterables_assertContainsExactly_Test.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -170,4 +171,8 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
                                                      comparisonStrategy));
   }
 
+  @Test
+  public void should_pass_if_nonrestartable_actual_contains_only_given_values() {
+    iterables.assertContainsOnly(someInfo(), createSinglyIterable(actual), array("Luke", "Yoda", "Leia"));
+  }
 }

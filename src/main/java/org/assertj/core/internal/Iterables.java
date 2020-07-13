@@ -332,9 +332,10 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
+    final List<?> actualAsList = newArrayList(actual);
+    if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, values)) return;
     // check for elements in values that are missing in actual.
-    assertIterableContainsGivenValues(actual, values, info);
+    assertIterableContainsGivenValues(actualAsList, values, info);
   }
 
   private void assertIterableContainsGivenValues(Iterable<?> actual, Object[] values, AssertionInfo info) {
@@ -370,14 +371,15 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] expectedValues) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, expectedValues)) return;
+    final List<?> actualAsList = newArrayList(actual);
+    if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, expectedValues)) return;
 
     // after the for loop, unexpected = expectedValues - actual
-    List<Object> unexpectedValues = newArrayList(actual);
+    List<Object> unexpectedValues = newArrayList(actualAsList);
     // after the for loop, missing = actual - expectedValues
     List<Object> missingValues = newArrayList(expectedValues);
     for (Object expected : expectedValues) {
-      if (iterableContains(actual, expected)) {
+      if (iterableContains(actualAsList, expected)) {
         // since expected was found in actual:
         // -- it does not belong to the missing elements
         iterablesRemove(missingValues, expected);
@@ -387,7 +389,7 @@ public class Iterables {
     }
 
     if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
-      throw failures.failure(info, shouldContainOnly(actual, expectedValues,
+      throw failures.failure(info, shouldContainOnly(actualAsList, expectedValues,
                                                      missingValues, unexpectedValues,
                                                      comparisonStrategy));
     }
