@@ -30,7 +30,6 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Iterator;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
