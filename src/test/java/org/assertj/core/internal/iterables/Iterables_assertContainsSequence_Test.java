@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.internal.iterables.Iterables_assertContainsExactly_Test.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -146,7 +145,7 @@ class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
 
   @Test
   void should_pass_if_actual_is_a_singly_traversable_sequence_and_contains_sequence() {
-    Iterable<String> actual = createSinglyIterable(list("Leia", "Luke", "Yoda", "Obi-Wan"));
+    Iterable<String> actual = SinglyIterableFactory.createSinglyIterable(list("Leia", "Luke", "Yoda", "Obi-Wan"));
     iterables.assertContainsSequence(someInfo(), actual, array("Leia", "Luke", "Yoda", "Obi-Wan"));
   }
 

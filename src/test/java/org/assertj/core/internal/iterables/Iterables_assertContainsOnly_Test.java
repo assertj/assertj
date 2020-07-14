@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -35,7 +36,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertContainsOnly(AssertionInfo, Collection, Object[])}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -77,7 +78,8 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnly(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnly(someInfo(), actual,
+                                                                                                  emptyArray()));
   }
 
   @Test
@@ -88,7 +90,8 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnly(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnly(someInfo(), null,
+                                                                                                  array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -163,11 +166,16 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual,
+                                                                                                             expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
                                                      comparisonStrategy));
   }
 
+  @Test
+  void should_pass_if_nonrestartable_actual_contains_only_given_values() {
+    iterables.assertContainsOnly(someInfo(), createSinglyIterable(actual), array("Luke", "Yoda", "Leia"));
+  }
 }

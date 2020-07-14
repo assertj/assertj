@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -28,7 +29,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -51,32 +51,6 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   @Test
   void should_pass_if_nonrestartable_actual_contains_exactly_given_values() {
     iterables.assertContainsExactly(someInfo(), createSinglyIterable(actual), array("Luke", "Yoda", "Leia"));
-  }
-
-  static Iterable<String> createSinglyIterable(final List<String> values) {
-    // can't use Iterable<> for anonymous class in java 8
-    return new Iterable<String>() {
-      private boolean isIteratorCreated = false;
-
-      @Override
-      public Iterator<String> iterator() {
-        if (isIteratorCreated) throw new IllegalArgumentException("Cannot create two iterators on a singly-iterable sequence");
-        isIteratorCreated = true;
-        return new Iterator<String>() {
-          private final Iterator<String> listIterator = values.iterator();
-
-          @Override
-          public boolean hasNext() {
-            return listIterator.hasNext();
-          }
-
-          @Override
-          public String next() {
-            return listIterator.next();
-          }
-        };
-      }
-    };
   }
 
   @Test

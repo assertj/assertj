@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -35,7 +36,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertContains(AssertionInfo, Collection, Object[])}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -72,7 +73,12 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
     actual.clear();
     iterables.assertContains(someInfo(), actual, array());
   }
-  
+
+  @Test
+  void should_pass_if_nonrestartable_actual_contains_given_values() {
+    iterables.assertContains(someInfo(), createSinglyIterable(actual), array("Luke", "Yoda", "Leia"));
+  }
+
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContains(someInfo(), actual, emptyArray()));
