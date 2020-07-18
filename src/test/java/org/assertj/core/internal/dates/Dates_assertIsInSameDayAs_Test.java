@@ -23,7 +23,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Dates;

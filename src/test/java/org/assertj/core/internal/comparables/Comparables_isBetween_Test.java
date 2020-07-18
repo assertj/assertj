@@ -28,7 +28,6 @@ import java.math.BigInteger;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparablesBaseTest;
-import org.assertj.core.test.Person;
 import org.junit.jupiter.api.Test;
 
 public class Comparables_isBetween_Test extends ComparablesBaseTest {
