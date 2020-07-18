@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicIntegerAssert_info_Test {
+class AtomicIntegerAssert_info_Test {
 
   @Test
   public void should_honor_info_update() {

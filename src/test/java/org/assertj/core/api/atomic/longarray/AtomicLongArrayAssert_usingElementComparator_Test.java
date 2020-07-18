@@ -26,7 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-public class AtomicLongArrayAssert_usingElementComparator_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_usingElementComparator_Test extends AtomicLongArrayAssertBaseTest {
 
   @Mock
   private Comparator<Long> comparator;
@@ -34,7 +34,7 @@ public class AtomicLongArrayAssert_usingElementComparator_Test extends AtomicLon
   private Objects objectsBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     objectsBefore = getObjects(assertions);
   }
@@ -52,7 +52,7 @@ public class AtomicLongArrayAssert_usingElementComparator_Test extends AtomicLon
   }
 
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     AtomicLongArray actual = new AtomicLongArray(new long[] { 1, 2, 3, 4 });
     assertThat(actual).usingElementComparator(new AbsValueComparator<Long>()).containsExactly(-1, 2, 3, -4);
   }

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicIntegerAssert;
 import org.assertj.core.api.AtomicIntegerAssertBaseTest;
 
-public class AtomicIntegerAssert_hasValueCloseTo_Test extends AtomicIntegerAssertBaseTest {
+class AtomicIntegerAssert_hasValueCloseTo_Test extends AtomicIntegerAssertBaseTest {
 
   @Override
   protected AtomicIntegerAssert invoke_api_method() {

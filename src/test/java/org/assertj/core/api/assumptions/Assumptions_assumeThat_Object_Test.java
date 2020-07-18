@@ -20,41 +20,41 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
 
-public class Assumptions_assumeThat_Object_Test {
+class Assumptions_assumeThat_Object_Test {
 
   private static final Object STRING_OBJECT = "test";
 
   @Test
-  public void should_run_test_when_assumption_passes() {
+  void should_run_test_when_assumption_passes() {
     assertThatCode(() -> assumeThat(STRING_OBJECT).isNotNull().isEqualTo("test")).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_run_test_when_assumption_for_internally_created_string_passes() {
+  void should_run_test_when_assumption_for_internally_created_string_passes() {
     assertThatCode(() -> assumeThat(STRING_OBJECT).isNotNull().asString().startsWith("te")).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_run_test_when_assumption_for_internally_created_list_passes() {
+  void should_run_test_when_assumption_for_internally_created_list_passes() {
     Object listObject = asList(1, 2, 3);
     assertThatCode(() -> assumeThat(listObject).isNotNull().asList().hasSize(3)).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_ignore_test_when_assumption_fails() {
+  void should_ignore_test_when_assumption_fails() {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(STRING_OBJECT).isNotNull()
                                                                                                            .isEqualTo("other"));
   }
 
   @Test
-  public void should_ignore_test_when_assumption_for_internally_created_string_assertion_fails() {
+  void should_ignore_test_when_assumption_for_internally_created_string_assertion_fails() {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(STRING_OBJECT).isNotNull()
                                                                                                            .asString()
                                                                                                            .isEqualTo("other"));
   }
 
   @Test
-  public void should_ignore_test_when_assumption_for_internally_created_list_assertion_fails() {
+  void should_ignore_test_when_assumption_for_internally_created_list_assertion_fails() {
     Object listObject = asList(1, 2, 3);
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(listObject).isNotNull()
                                                                                                         .asList()

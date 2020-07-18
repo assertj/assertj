@@ -26,7 +26,7 @@ import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Assumptions_assumeThat_Numbers_Test {
+class Assumptions_assumeThat_Numbers_Test {
 
   static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(
@@ -255,13 +255,13 @@ public class Assumptions_assumeThat_Numbers_Test {
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
-  public void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
+  void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumptionRunner.runFailingAssumption());
   }
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
-  public void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
+  void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
     assertThatCode(() -> assumptionRunner.runPassingAssumption()).doesNotThrowAnyException();
   }
 }

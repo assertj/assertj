@@ -36,7 +36,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("AtomicReferenceArrayAssert usingComparatorForType")
-public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;
 
@@ -44,7 +44,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   private Jedi other = new Jedi("Luke", "blue");
 
   @BeforeEach
-  public void before() {
+  void before() {
     arraysBefore = getArrays(assertions);
   }
 
@@ -63,7 +63,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_types() {
+  void should_be_able_to_use_a_comparator_for_specified_types() {
     // GIVEN
     Object[] array = array("some", "other", new BigDecimal(42));
     AtomicReferenceArray<Object> atomicArray = new AtomicReferenceArray<>(array);
@@ -74,7 +74,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_use_comparator_for_type_when_using_element_comparator_ignoring_fields() {
+  void should_use_comparator_for_type_when_using_element_comparator_ignoring_fields() {
     // GIVEN
     Object[] array = array(actual, "some");
     AtomicReferenceArray<Object> atomicArray = new AtomicReferenceArray<>(array);
@@ -85,7 +85,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_use_comparator_for_type_when_using_element_comparator_on_fields() {
+  void should_use_comparator_for_type_when_using_element_comparator_on_fields() {
     // GIVEN
     Object[] array = array(actual, "some");
     AtomicReferenceArray<Object> atomicArray = new AtomicReferenceArray<>(array);
@@ -96,7 +96,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_use_comparator_for_type_when_using_field_by_field_element_comparator() {
+  void should_use_comparator_for_type_when_using_field_by_field_element_comparator() {
     // GIVEN
     Object[] array = array(actual, "some");
     AtomicReferenceArray<Object> atomicArray = new AtomicReferenceArray<>(array);
@@ -107,7 +107,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_use_comparator_for_type_when_using_recursive_field_by_field_element_comparator() {
+  void should_use_comparator_for_type_when_using_recursive_field_by_field_element_comparator() {
     // GIVEN
     Object[] array = array(actual, "some");
     AtomicReferenceArray<Object> atomicArray = new AtomicReferenceArray<>(array);
@@ -118,7 +118,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_not_use_comparator_on_fields_level_for_elements() {
+  void should_not_use_comparator_on_fields_level_for_elements() {
     // GIVEN
     Object[] array = array(actual, "some");
     AtomicReferenceArray<Object> atomicArray = new AtomicReferenceArray<>(array);
@@ -142,7 +142,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_use_comparator_set_last_on_elements() {
+  void should_use_comparator_set_last_on_elements() {
     // GIVEN
     AtomicReferenceArray<Jedi> atomicArray = atomicArrayOf(actual, actual);
     // THEN
@@ -153,7 +153,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_be_able_to_replace_a_registered_comparator_by_type() {
+  void should_be_able_to_replace_a_registered_comparator_by_type() {
     assertThat(asList(actual, actual)).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
                                       .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                       .usingFieldByFieldElementComparator()
@@ -161,7 +161,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_be_able_to_replace_a_registered_comparator_by_field() {
+  void should_be_able_to_replace_a_registered_comparator_by_field() {
     // @format:off
     assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithNames(NEVER_EQUALS_STRING, "name", "lightSaberColor")
                                       .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name", "lightSaberColor")
@@ -171,7 +171,7 @@ public class AtomicReferenceArrayAssert_usingComparatorForType_Test extends Atom
   }
 
   @Test
-  public void should_fail_because_of_comparator_set_last() {
+  void should_fail_because_of_comparator_set_last() {
     // GIVEN
     AtomicReferenceArray<Jedi> atomicArray = atomicArrayOf(actual, actual);
     // WHEN

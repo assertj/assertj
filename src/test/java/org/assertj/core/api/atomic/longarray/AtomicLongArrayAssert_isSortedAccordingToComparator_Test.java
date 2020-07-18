@@ -23,13 +23,13 @@ import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
-public class AtomicLongArrayAssert_isSortedAccordingToComparator_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_isSortedAccordingToComparator_Test extends AtomicLongArrayAssertBaseTest {
 
   @Mock
   private Comparator<Long> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

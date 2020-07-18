@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicLongAssert_info_Test {
+class AtomicLongAssert_info_Test {
 
   @Test
   public void should_honor_info_update() {

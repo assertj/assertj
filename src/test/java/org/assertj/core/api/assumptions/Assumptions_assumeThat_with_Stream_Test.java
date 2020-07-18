@@ -22,17 +22,17 @@ import java.util.stream.Stream;
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
 
-public class Assumptions_assumeThat_with_Stream_Test {
+class Assumptions_assumeThat_with_Stream_Test {
 
   @Test
-  public void stream_test() {
+  void stream_test() {
     Stream<String> stream = Stream.of("test");
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(stream).containsAnyOf("other",
                                                                                                                    "foo"));
   }
 
   @Test
-  public void list_test() {
+  void list_test() {
     List<String> list = newArrayList("test");
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(list).contains("other",
                                                                                                             "foo"));

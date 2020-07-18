@@ -23,7 +23,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class AtomicReferenceArrayAssert_isSubsetOf_with_Array_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_isSubsetOf_with_Array_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private final Object [] values = array("Yoda", "Luke");
 
@@ -38,7 +38,7 @@ public class AtomicReferenceArrayAssert_isSubsetOf_with_Array_Test extends Atomi
   }
   
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new AtomicReferenceArray<>(array("Luke", "Yoda"))).isSubsetOf("Yoda", "Luke", "Chewbacca");
   }
 }

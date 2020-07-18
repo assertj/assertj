@@ -25,7 +25,7 @@ import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
-public class AtomicLongArrayAssert_usingDefaultComparator_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_usingDefaultComparator_Test extends AtomicLongArrayAssertBaseTest {
 
   @Mock
   private Comparator<AtomicLongArray> comparator;
@@ -33,7 +33,7 @@ public class AtomicLongArrayAssert_usingDefaultComparator_Test extends AtomicLon
   private LongArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
     arraysBefore = getArrays(assertions);

@@ -20,7 +20,7 @@ import java.util.List;
 import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 
-public class AtomicIntegerArrayAssert_hasSameSizeAs_with_Iterable_Test extends AtomicIntegerArrayAssertBaseTest {
+class AtomicIntegerArrayAssert_hasSameSizeAs_with_Iterable_Test extends AtomicIntegerArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

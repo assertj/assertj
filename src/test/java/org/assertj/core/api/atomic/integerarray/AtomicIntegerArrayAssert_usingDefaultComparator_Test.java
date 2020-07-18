@@ -25,7 +25,7 @@ import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
-public class AtomicIntegerArrayAssert_usingDefaultComparator_Test extends AtomicIntegerArrayAssertBaseTest {
+class AtomicIntegerArrayAssert_usingDefaultComparator_Test extends AtomicIntegerArrayAssertBaseTest {
 
   @Mock
   private Comparator<AtomicIntegerArray> comparator;
@@ -33,7 +33,7 @@ public class AtomicIntegerArrayAssert_usingDefaultComparator_Test extends Atomic
   private IntArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
     arraysBefore = getArrays(assertions);

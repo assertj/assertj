@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Billy Yuan
  */
-public class AtomicReferenceArrayAssert_containsOnlyNulls_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_containsOnlyNulls_Test extends AtomicReferenceArrayAssertBaseTest {
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
     return assertions.containsOnlyNulls();

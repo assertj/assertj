@@ -22,16 +22,16 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
 
-public class Assumptions_assumeThat_Test {
+class Assumptions_assumeThat_Test {
 
   @Test
-  public void should_ignore_test_when_one_of_the_assumption_fails() {
+  void should_ignore_test_when_one_of_the_assumption_fails() {
     assumeThat("foo").isNotEmpty();
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat("bar").isEmpty());
   }
 
   @Test
-  public void should_run_test_when_all_assumptions_are_met() {
+  void should_run_test_when_all_assumptions_are_met() {
     assertThatCode(() -> {
       assumeThat("foo").isNotNull()
                        .isNotEmpty()

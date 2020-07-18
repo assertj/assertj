@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  * verify that assertions final methods or methods changing the object under test in {@link ListAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableListAssert}).
  */
-public class List_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
+class List_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(

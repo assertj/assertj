@@ -22,13 +22,13 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
-public class AtomicReferenceArrayAssert_usingElementComparator_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_usingElementComparator_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Mock
   private Comparator<Object> elementComparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

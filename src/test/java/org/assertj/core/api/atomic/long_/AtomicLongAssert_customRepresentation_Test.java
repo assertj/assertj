@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class AtomicLongAssert_customRepresentation_Test {
+class AtomicLongAssert_customRepresentation_Test {
 
   @Test
-  public void should_honor_custom_representation() {
+  void should_honor_custom_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicLong(0L)).withRepresentation(new CustomRepresentation())
                                                                                                    .isEqualTo(-1))
                                                    .withMessageContaining("@0L@");

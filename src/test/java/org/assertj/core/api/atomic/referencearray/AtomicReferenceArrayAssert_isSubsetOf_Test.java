@@ -20,7 +20,7 @@ import java.util.List;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 
-public class AtomicReferenceArrayAssert_isSubsetOf_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_isSubsetOf_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
 

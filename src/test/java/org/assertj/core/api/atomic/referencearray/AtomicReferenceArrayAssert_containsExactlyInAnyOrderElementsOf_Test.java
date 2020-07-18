@@ -22,7 +22,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
  * Test for {@link AtomicReferenceArrayAssert#containsExactlyInAnyOrderElementsOf(Iterable)}
  * @author Filip Hrisafov
  */
-public class AtomicReferenceArrayAssert_containsExactlyInAnyOrderElementsOf_Test
+class AtomicReferenceArrayAssert_containsExactlyInAnyOrderElementsOf_Test
   extends AtomicReferenceArrayAssertBaseTest {
 
   @Override

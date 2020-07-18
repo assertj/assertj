@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 /**
  * verify that assertions final methods in {@link ClassAssert} work with assumptions (i.e. that they are proxied correctly in {@link ProxyableClassAssert}).
  */
-public class Class_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
+class Class_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(

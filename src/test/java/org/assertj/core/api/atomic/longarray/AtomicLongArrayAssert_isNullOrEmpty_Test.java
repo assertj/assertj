@@ -21,7 +21,7 @@ import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class AtomicLongArrayAssert_isNullOrEmpty_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_isNullOrEmpty_Test extends AtomicLongArrayAssertBaseTest {
 
   @Override
   protected AtomicLongArrayAssert invoke_api_method() {
@@ -41,7 +41,7 @@ public class AtomicLongArrayAssert_isNullOrEmpty_Test extends AtomicLongArrayAss
   }
   
   @Test
-  public void should_pass_if_AtomicLongArray_is_null() {
+  void should_pass_if_AtomicLongArray_is_null() {
     AtomicLongArray array = null;
     assertThat(array).isNullOrEmpty();
   }

@@ -22,12 +22,12 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.util.function.Consumer;
 
-public class AtomicReferenceArrayAssert_allSatisfy_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_allSatisfy_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private Consumer<Object> restrictions;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     restrictions = o -> assertThat(o).isNotNull();
   }
 

@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class AtomicIntegerAssert_customRepresentation_Test {
+class AtomicIntegerAssert_customRepresentation_Test {
 
   @Test
-  public void should_honor_customRepresentation() {
+  void should_honor_customRepresentation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicInteger(0)).withRepresentation(new CustomRepresentation())
                                                                                                      .isEqualTo(-1))
                                                    .withMessageContaining("@0@");

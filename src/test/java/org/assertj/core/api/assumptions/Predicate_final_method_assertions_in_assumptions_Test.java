@@ -26,7 +26,7 @@ import org.assertj.core.data.MapEntry;
 /**
  * verify that assertions final methods in {@link ClassAssert} work with assumptions (i.e. that they are proxied correctly in {@link ProxyableClassAssert}).
  */
-public class Predicate_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
+class Predicate_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     Predicate<MapEntry<String, String>> ballSportPredicate = sport -> sport.value.contains("ball");

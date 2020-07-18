@@ -34,7 +34,7 @@ import org.assertj.core.api.ProxyableMapAssert;
  * Verify that assertions final methods or methods changing the object under test in {@link MapAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableMapAssert}).
  */
-public class Map_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
+class Map_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
 

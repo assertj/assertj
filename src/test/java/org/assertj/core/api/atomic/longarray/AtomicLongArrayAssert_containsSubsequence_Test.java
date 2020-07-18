@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
 
-public class AtomicLongArrayAssert_containsSubsequence_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_containsSubsequence_Test extends AtomicLongArrayAssertBaseTest {
 
   @Override
   protected AtomicLongArrayAssert invoke_api_method() {

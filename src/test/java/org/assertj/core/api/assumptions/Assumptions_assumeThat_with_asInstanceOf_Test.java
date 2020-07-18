@@ -22,22 +22,22 @@ import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Assumptions_assumeThat_with_asInstanceOf_Test {
+class Assumptions_assumeThat_with_asInstanceOf_Test {
 
   private Object value;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     value = "string";
   }
 
   @Test
-  public void should_run_test_when_assumption_with_as_instance_of_passes() {
+  void should_run_test_when_assumption_with_as_instance_of_passes() {
     assertThatCode(() -> assumeThat(value).asInstanceOf(STRING).startsWith("str")).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_ignore_test_when_assumption_with_as_instance_of_fails() {
+  void should_ignore_test_when_assumption_with_as_instance_of_fails() {
     assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(value).asInstanceOf(INTEGER)
                                                                                                    .isZero());
   }

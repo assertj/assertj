@@ -28,12 +28,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("assumeThat after succeedsWithin")
-public class Assumptions_assumeThat_with_succeedsWithin_Test {
+class Assumptions_assumeThat_with_succeedsWithin_Test {
 
   private static final Duration ONE_MILLIS = Duration.ofMillis(1);
 
   @Test
-  public void should_run_test_when_assumption_after_succeedsWithin_passes() {
+  void should_run_test_when_assumption_after_succeedsWithin_passes() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
@@ -45,7 +45,7 @@ public class Assumptions_assumeThat_with_succeedsWithin_Test {
   }
 
   @Test
-  public void should_ignore_test_when_assumption_after_succeedsWithin_fails() {
+  void should_ignore_test_when_assumption_after_succeedsWithin_fails() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
@@ -55,7 +55,7 @@ public class Assumptions_assumeThat_with_succeedsWithin_Test {
   }
 
   @Test
-  public void should_run_test_when_assumption_after_succeedsWithin_asString_passes() {
+  void should_run_test_when_assumption_after_succeedsWithin_asString_passes() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
@@ -67,7 +67,7 @@ public class Assumptions_assumeThat_with_succeedsWithin_Test {
   }
 
   @Test
-  public void should_ignore_test_when_assumption_after_succeedsWithin_asString_fails() {
+  void should_ignore_test_when_assumption_after_succeedsWithin_asString_fails() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
@@ -77,7 +77,7 @@ public class Assumptions_assumeThat_with_succeedsWithin_Test {
   }
 
   @Test
-  public void should_run_test_when_assumption_after_succeedsWithin_with_Duration_passes() {
+  void should_run_test_when_assumption_after_succeedsWithin_with_Duration_passes() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
@@ -89,7 +89,7 @@ public class Assumptions_assumeThat_with_succeedsWithin_Test {
   }
 
   @Test
-  public void should_ignore_test_when_assumption_after_succeedsWithin_with_Duration_fails() {
+  void should_ignore_test_when_assumption_after_succeedsWithin_with_Duration_fails() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
@@ -99,7 +99,7 @@ public class Assumptions_assumeThat_with_succeedsWithin_Test {
   }
 
   @Test
-  public void should_run_test_when_assumption_after_succeedsWithin_with_Duration_asString_passes() {
+  void should_run_test_when_assumption_after_succeedsWithin_with_Duration_asString_passes() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
@@ -111,7 +111,7 @@ public class Assumptions_assumeThat_with_succeedsWithin_Test {
   }
 
   @Test
-  public void should_ignore_test_when_assumption_after_succeedsWithin_with_Duration_asString_fails() {
+  void should_ignore_test_when_assumption_after_succeedsWithin_with_Duration_asString_fails() {
     // GIVEN
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);

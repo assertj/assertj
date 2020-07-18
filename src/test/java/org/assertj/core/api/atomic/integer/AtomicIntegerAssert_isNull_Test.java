@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicIntegerAssert_isNull_Test {
+class AtomicIntegerAssert_isNull_Test {
 
   @Test
   public void should_be_able_to_use_isNull_assertion() {

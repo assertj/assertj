@@ -31,7 +31,7 @@ import org.assertj.core.test.CartoonCharacter;
  * verify that assertions final methods or methods changing the object under test in {@link IterableAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableIterableAssert}).
  */
-public class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
+class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(

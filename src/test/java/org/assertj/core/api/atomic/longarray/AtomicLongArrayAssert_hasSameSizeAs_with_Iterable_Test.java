@@ -20,7 +20,7 @@ import java.util.List;
 import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
 
-public class AtomicLongArrayAssert_hasSameSizeAs_with_Iterable_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_hasSameSizeAs_with_Iterable_Test extends AtomicLongArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

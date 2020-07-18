@@ -31,7 +31,7 @@ import org.assertj.core.test.CartoonCharacter;
  * verify that assertions final methods or methods changing the object under test in {@link ObjectArrayAssert} work with assumptions
  * (i.e. that they are proxied correctly in {@link ProxyableObjectArrayAssert}).
  */
-public class ObjectArray_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
+class ObjectArray_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
   @SuppressWarnings("unchecked")
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {

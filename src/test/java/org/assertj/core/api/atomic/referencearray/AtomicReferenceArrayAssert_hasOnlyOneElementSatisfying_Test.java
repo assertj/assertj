@@ -28,7 +28,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  *
  * @author Vladimir Chernikov
  */
-public class AtomicReferenceArrayAssert_hasOnlyOneElementSatisfying_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_hasOnlyOneElementSatisfying_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Mock
   private Consumer<Object> consumer;

@@ -18,7 +18,7 @@ import org.assertj.core.api.AtomicLongAssert;
 import org.assertj.core.api.AtomicLongAssertBaseTest;
 
 
-public class AtomicLongAssert_hasValueBetween_Test extends AtomicLongAssertBaseTest {
+class AtomicLongAssert_hasValueBetween_Test extends AtomicLongAssertBaseTest {
 
   @Override
   protected AtomicLongAssert invoke_api_method() {

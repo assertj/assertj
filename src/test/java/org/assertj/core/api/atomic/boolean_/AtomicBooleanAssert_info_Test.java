@@ -19,10 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicBooleanAssert_info_Test {
+class AtomicBooleanAssert_info_Test {
 
   @Test
-  public void should_honor_info_update() {
+  void should_honor_info_update() {
     String assertionDescription = "ssss";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).as(assertionDescription)
                                                                                                         .isFalse())
