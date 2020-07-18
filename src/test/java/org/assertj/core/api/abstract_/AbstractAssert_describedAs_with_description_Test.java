@@ -26,30 +26,30 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class AbstractAssert_describedAs_with_description_Test {
+class AbstractAssert_describedAs_with_description_Test {
 
   private ConcreteAssert assertions;
   private Description description;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     assertions = new ConcreteAssert(6L);
     description = someDescription();
   }
 
   @Test
-  public void should_set_description() {
+  void should_set_description() {
     assertions.describedAs(description);
     assertThat(assertions.descriptionText()).isEqualTo(description.value());
   }
 
   @Test
-  public void should_return_this() {
+  void should_return_this() {
     assertThat(assertions.describedAs(description)).isSameAs(assertions);
   }
 
   @Test
-  public void should_set_empty_description_if_description_is_null() {
+  void should_set_empty_description_if_description_is_null() {
     Description description = null;
     assertions.describedAs(description);
     assertThat(assertions.descriptionText()).isEmpty();

@@ -30,27 +30,27 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class AbstractAssert_overridingErrorMessage_Test {
+class AbstractAssert_overridingErrorMessage_Test {
 
   private ConcreteAssert assertions;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     assertions = new ConcreteAssert(6L);
   }
 
   @Test
-  public void should_return_this() {
+  void should_return_this() {
     then(assertions.overridingErrorMessage("")).isSameAs(assertions);
   }
 
   @Test
-  public void should_pass_with_error_message_overridden() {
+  void should_pass_with_error_message_overridden() {
     assertions.overridingErrorMessage("new error message").isEqualTo(6L);
   }
 
   @Test
-  public void should_fail_with_overridden_error_message() {
+  void should_fail_with_overridden_error_message() {
     // GIVEN
     ThrowingCallable code = () -> assertions.overridingErrorMessage("new error message")
                                             .isEqualTo(8L);
@@ -59,7 +59,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_fail_with_overridden_error_message_not_interpreted_with_string_format_feature_as_no_args_are_given() {
+  void should_fail_with_overridden_error_message_not_interpreted_with_string_format_feature_as_no_args_are_given() {
     // GIVEN
     ThrowingCallable code = () -> assertions.overridingErrorMessage("new error message with special character like (%)")
                                             .isEqualTo(8L);
@@ -68,7 +68,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_fail_with_overridden_error_message_interpreted_with_string_format_feature() {
+  void should_fail_with_overridden_error_message_interpreted_with_string_format_feature() {
     // GIVEN
     long expected = 8L;
     ThrowingCallable code = () -> assertions.overridingErrorMessage("new error message, expected value was : '%s'", expected)
@@ -78,7 +78,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_fail_with_description_and_overridden_error_message_using_string_format_feature() {
+  void should_fail_with_description_and_overridden_error_message_using_string_format_feature() {
     // GIVEN
     long expected = 8L;
     ThrowingCallable code = () -> assertions.as("test")
@@ -89,7 +89,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_fail_with_overridden_error_message_interpreted_using_supplier() {
+  void should_fail_with_overridden_error_message_interpreted_using_supplier() {
     // GIVEN
     long expected = 8L;
     // WHEN
@@ -101,7 +101,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_fail_with_description_and_overridden_error_message_using_supplier() {
+  void should_fail_with_description_and_overridden_error_message_using_supplier() {
     // GIVEN
     long expected = 8L;
     // WHEN

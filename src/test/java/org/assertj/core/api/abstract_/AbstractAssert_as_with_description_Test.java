@@ -26,31 +26,31 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class AbstractAssert_as_with_description_Test {
+class AbstractAssert_as_with_description_Test {
 
   private ConcreteAssert assertions;
   private Description d;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     assertions = new ConcreteAssert(6L);
     d = someDescription();
   }
 
   @Test
-  public void should_set_description() {
+  void should_set_description() {
     assertions.as(d);
     assertThat(assertions.descriptionText()).isEqualTo(d.value());
   }
 
   @Test
-  public void should_return_this() {
+  void should_return_this() {
     ConcreteAssert descriptable = assertions.as(d);
     assertThat(descriptable).isSameAs(assertions);
   }
 
   @Test
-  public void should_replace_null_description_by_an_empty_one() {
+  void should_replace_null_description_by_an_empty_one() {
     ConcreteAssert concreteAssert = assertions.as(null);
     assertThat(concreteAssert.info.descriptionText()).isEmpty();
   }

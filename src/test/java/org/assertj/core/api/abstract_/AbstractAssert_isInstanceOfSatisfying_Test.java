@@ -26,7 +26,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest {
+class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest {
 
   // init here to make it available in create_assertions()
   private Jedi yoda = new Jedi("Yoda", "Green");
@@ -34,7 +34,7 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
   private Consumer<Jedi> jediRequirements;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     jediRequirements = jedi -> {
       assertThat(jedi.lightSaberColor).as("check light saber").isEqualTo("Green");
       assertThat(jedi.getName()).as("check name").doesNotContain("Dark");
@@ -62,25 +62,25 @@ public class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBa
   }
 
   @Test
-  public void should_satisfy_multiple_requirements() {
+  void should_satisfy_multiple_requirements() {
     assertThat(yoda).isInstanceOfSatisfying(Jedi.class, jediRequirements);
     assertThat(luke).isInstanceOfSatisfying(Jedi.class, jediRequirements);
   }
 
   @Test
-  public void should_fail_according_to_requirements() {
+  void should_fail_according_to_requirements() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements))
                                                    .withMessage(format("[check light saber] %nExpecting:%n <\"Red\">%nto be equal to:%n <\"Green\">%nbut was not."));
   }
 
   @Test
-  public void should_fail_if_consumer_is_null() {
+  void should_fail_if_consumer_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).isInstanceOfSatisfying(Jedi.class, null))
                                     .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 
   @Test
-  public void should_fail_if_type_is_null() {
+  void should_fail_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).isInstanceOfSatisfying(null, jediRequirements))
                                     .withMessage("The given type should not be null");
   }

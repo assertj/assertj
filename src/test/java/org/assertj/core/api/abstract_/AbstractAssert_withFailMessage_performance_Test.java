@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 
 // only run for perf metrics
 @Disabled
-public class AbstractAssert_withFailMessage_performance_Test {
+class AbstractAssert_withFailMessage_performance_Test {
 
   @Test
-  public void withFailMessage_performance_improved_test() {
+  void withFailMessage_performance_improved_test() {
     int i = 1000000;
     while (i != 0) {
       AtomicReference<String> actual = new AtomicReference<>("foo");
@@ -40,7 +40,7 @@ public class AbstractAssert_withFailMessage_performance_Test {
   }
 
   @Test
-  public void withFailMessage_performance_test() {
+  void withFailMessage_performance_test() {
     int i = 1000000;
     while (i != 0) {
       AtomicReference<String> actual = new AtomicReference<>("foo");

@@ -23,7 +23,7 @@ import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.junit.jupiter.api.Test;
 
-public class SoftAssertions_overriding_afterAssertionErrorCollected_Test {
+class SoftAssertions_overriding_afterAssertionErrorCollected_Test {
 
   static class RecordingSoftAssertions extends SoftAssertions {
 
@@ -40,7 +40,7 @@ public class SoftAssertions_overriding_afterAssertionErrorCollected_Test {
   }
 
   @Test
-  public void should_collect_all_assertion_errors_by_implementing_AfterAssertionErrorCollected() {
+  void should_collect_all_assertion_errors_by_implementing_AfterAssertionErrorCollected() {
     // GIVEN
     RecordingSoftAssertions recordingSoftly = new RecordingSoftAssertions();
     TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);

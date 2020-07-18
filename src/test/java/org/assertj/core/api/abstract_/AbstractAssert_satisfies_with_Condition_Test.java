@@ -20,12 +20,12 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.BeforeAll;
 
-public class AbstractAssert_satisfies_with_Condition_Test extends AbstractAssertBaseTest {
+class AbstractAssert_satisfies_with_Condition_Test extends AbstractAssertBaseTest {
 
   private static Condition<Object> condition;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     condition = new TestCondition<>();
   }
 

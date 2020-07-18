@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class AbstractAssert_failWithMessage_Test {
+class AbstractAssert_failWithMessage_Test {
 
   private ConcreteAssert assertion;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     assertion = new ConcreteAssert("foo");
   }
 
   @Test
-  public void should_fail_with_simple_message() {
+  void should_fail_with_simple_message() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertion.failWithMessage("fail"));
     // THEN
@@ -42,7 +42,7 @@ public class AbstractAssert_failWithMessage_Test {
   }
 
   @Test
-  public void should_fail_with_message_having_args() {
+  void should_fail_with_message_having_args() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertion.failWithMessage("fail %d %s", 5, "times"));
     // THEN
@@ -50,7 +50,7 @@ public class AbstractAssert_failWithMessage_Test {
   }
 
   @Test
-  public void should_keep_description_set_by_user() {
+  void should_keep_description_set_by_user() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertion.as("user description").failWithMessage("fail %d %s", 5, "times"));
     // THEN
@@ -58,7 +58,7 @@ public class AbstractAssert_failWithMessage_Test {
   }
 
   @Test
-  public void should_keep_specific_error_message_and_description_set_by_user() {
+  void should_keep_specific_error_message_and_description_set_by_user() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertion.as("test context")
                                                                .overridingErrorMessage("my %d errors %s %%s", 5, "!")

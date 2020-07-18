@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class AbstractAssert_get_writable_info_Test {
+class AbstractAssert_get_writable_info_Test {
 
   @Test
-  public void should_keep_specific_error_message_and_description_set_by_user() {
+  void should_keep_specific_error_message_and_description_set_by_user() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> new ConcreteAssert(6L).as("user description").checkNull())
                                                    .withMessage("[user description] specific error message");
   }

@@ -21,7 +21,7 @@ import org.assertj.core.api.AfterAssertionErrorCollected;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-public class SoftAssertions_setAfterAssertionErrorCollected_Test {
+class SoftAssertions_setAfterAssertionErrorCollected_Test {
 
   static class AssertionErrorRecorder implements AfterAssertionErrorCollected {
     List<AssertionError> recordedErrors = list();
@@ -33,7 +33,7 @@ public class SoftAssertions_setAfterAssertionErrorCollected_Test {
   }
 
   @Test
-  public void should_collect_all_assertion_errors_by_implementing_AfterAssertionErrorCollected() {
+  void should_collect_all_assertion_errors_by_implementing_AfterAssertionErrorCollected() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     AssertionErrorRecorder assertionErrorRecorder = new AssertionErrorRecorder();
