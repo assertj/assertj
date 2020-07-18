@@ -25,36 +25,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-/**
- * Tests for <code>{@link org.assertj.core.api.ByteArrayAssert#asHexString()}</code>.
- */
-@DisplayName("ByteArrayAssert asHexString")
-public class ByteArrayAssert_asHexString_Test {
-
-  private static final byte[] BYTES = new byte[] { -1, 0, 1 };
+@DisplayName("ByteArrayAssert asString")
+public class ByteArrayAssert_asString_Test {
 
   @Test
-  public void should_pass() {
+  public void should_convert_bytes_array_to_a_proper_string_with_default_encoding() {
     // GIVEN
-    // WHEN / THEN
-    assertThat(BYTES).asHexString()
-                     .startsWith("FF")
-                     .isEqualTo("FF0001");
-  }
-
-  @Test
-  public void should_fail_if_actual_does_not_match() {
-    // GIVEN
-    byte[] actual = new byte[] { -1, 0, 1 };
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).asHexString().isEqualTo("010203"));
-    // THEN
-    assertThat(assertionError).hasMessageContainingAll("Expecting:",
-                                                       "<\"FF0001\">",
-                                                       "to be equal to:",
-                                                       "<\"010203\">",
-                                                       "but was not.")
-                              .isExactlyInstanceOf(AssertionFailedError.class);
+    String foo = "foo";
+    // WHEN/THEN
+    assertThat(foo.getBytes()).asString()
+                              .isEqualTo(foo);
   }
 
   @Test
@@ -62,17 +42,33 @@ public class ByteArrayAssert_asHexString_Test {
     // GIVEN
     byte[] bytes = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(bytes).asHexString());
+    AssertionError error = expectAssertionError(() -> assertThat(bytes).asString());
     // THEN
     assertThat(error).hasMessage(actualIsNull());
+  }
+
+  @Test
+  public void should_fail_if_actual_does_not_match() {
+    // GIVEN
+    String foo = "foo";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(foo.getBytes()).asString().isEqualTo("bar"));
+    // THEN
+    assertThat(assertionError).hasMessageContainingAll("Expecting:",
+                                                       "<\"foo\">",
+                                                       "to be equal to:",
+                                                       "<\"bar\">",
+                                                       "but was not.")
+                              .isExactlyInstanceOf(AssertionFailedError.class);
   }
 
   @Test
   public void should_pass_with_soft_assertions() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
-    // WHEN / THEN
-    softly.assertThat(BYTES).asHexString().isEqualTo("FF0001");
+    String foo = "foo";
+    // WHEN/THEN
+    softly.assertThat(foo.getBytes()).asString().isEqualTo(foo);
     softly.assertAll();
   }
 
@@ -80,33 +76,40 @@ public class ByteArrayAssert_asHexString_Test {
   public void should_fail_with_soft_assertions_capturing_all_errors() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
+    String foo = "foo";
     // WHEN
-    softly.assertThat(BYTES)
-          .asHexString()
-          .isEqualTo("010203")
+    softly.assertThat(foo.getBytes())
+          .asString()
+          .isEqualTo("bar")
           .isBlank();
     AssertionError assertionError = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
                                                        "-- failure 1 --",
                                                        "Expecting:",
-                                                       "<\"FF0001\">",
+                                                       "<\"foo\">",
                                                        "to be equal to:",
-                                                       "<\"010203\">",
+                                                       "<\"bar\">",
                                                        "but was not.",
                                                        "-- failure 2 --",
-                                                       "Expecting blank but was:<\"FF0001\">")
+                                                       "Expecting blank but was:<\"foo\">")
                               .isExactlyInstanceOf(AssertJMultipleFailuresError.class);
   }
 
   @Test
   public void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(BYTES).asHexString().isEqualTo("other"));
+    // GIVEN
+    String foo = "foo";
+    // WHEN/THEN
+    expectAssumptionViolatedException(() -> assumeThat(foo.getBytes()).asString().isEqualTo("bar"));
   }
 
   @Test
   public void should_run_test_when_assumption_for_internally_created_string_passes() {
-    assertThatCode(() -> assumeThat(BYTES).asHexString().startsWith("FF")).doesNotThrowAnyException();
+    // GIVEN
+    String foo = "foo";
+    // WHEN/THEN
+    assertThatCode(() -> assumeThat(foo.getBytes()).asString().startsWith("fo")).doesNotThrowAnyException();
   }
 
 }

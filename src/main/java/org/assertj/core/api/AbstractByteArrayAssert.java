@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Hexadecimals.toHexString;
 
+import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
@@ -940,6 +941,66 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   public AbstractStringAssert<?> asHexString() {
     objects.assertNotNull(info, actual);
     return assertThat(toHexString(actual));
+  }
+
+  /**
+   * Converts the actual byte[] under test to a String and returns assertions for the computed String
+   * allowing String specific assertions from this call.
+   * <p>
+   * The byte[] conversion to a String by decoding the specified bytes using the platform's default charset.
+   * <p>
+   * Example :
+   * <pre><code class='java'> byte[] bytes = new byte[] { -1, 0, 1 };
+   *
+   * // assertions will pass
+   * assertThat(bytes).asString()
+   *                  .startsWith("FF")
+   *                  .isEqualTo("FF0001");
+   *
+   * // assertion will fail
+   * assertThat(bytes).asString()
+   *                  .isEqualTo("FF0000");</code></pre>
+   *
+   * @return a String assertion object
+   *
+   * @since 3.17.0
+   */
+  @Override
+  @CheckReturnValue
+  public AbstractStringAssert<?> asString() {
+    objects.assertNotNull(info, actual);
+    String actualAsString = new String(actual);
+    return assertThat(actualAsString);
+  }
+
+  /**
+   * Converts the actual byte[] under test to a String by decoding the specified bytes using the given charset
+   * and returns assertions for the computed String
+   * allowing String specific assertions from this call.
+   * <p>
+   * The byte[] conversion to a String by decoding the specified bytes using the platform's default charset.
+   * <p>
+   * Example :
+   * <pre><code class='java'> byte[] bytes = new byte[] { -1, 0, 1 };
+   *
+   * // assertions will pass
+   * assertThat(bytes).asString()
+   *                  .startsWith("FF")
+   *                  .isEqualTo("FF0001");
+   *
+   * // assertion will fail
+   * assertThat(bytes).asString()
+   *                  .isEqualTo("FF0000");</code></pre>
+   *
+   * @return a String assertion object
+   *
+   * @since 3.17.0
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> asString(Charset charset) {
+    objects.assertNotNull(info, actual);
+    String actualAsString = new String(actual, charset);
+    return assertThat(actualAsString);
   }
 
   /**

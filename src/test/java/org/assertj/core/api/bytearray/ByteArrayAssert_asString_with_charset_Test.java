@@ -19,42 +19,27 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.nio.charset.Charset;
+
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.error.AssertJMultipleFailuresError;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-/**
- * Tests for <code>{@link org.assertj.core.api.ByteArrayAssert#asHexString()}</code>.
- */
-@DisplayName("ByteArrayAssert asHexString")
-public class ByteArrayAssert_asHexString_Test {
+@DisplayName("ByteArrayAssert asString")
+public class ByteArrayAssert_asString_with_charset_Test {
 
-  private static final byte[] BYTES = new byte[] { -1, 0, 1 };
+  private static final Charset TURKISH_CHARSET = Charset.forName("windows-1254");
 
   @Test
-  public void should_pass() {
+  public void should_convert_bytes_array_to_a_proper_string_with_specific_encoding() {
     // GIVEN
-    // WHEN / THEN
-    assertThat(BYTES).asHexString()
-                     .startsWith("FF")
-                     .isEqualTo("FF0001");
-  }
-
-  @Test
-  public void should_fail_if_actual_does_not_match() {
-    // GIVEN
-    byte[] actual = new byte[] { -1, 0, 1 };
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).asHexString().isEqualTo("010203"));
-    // THEN
-    assertThat(assertionError).hasMessageContainingAll("Expecting:",
-                                                       "<\"FF0001\">",
-                                                       "to be equal to:",
-                                                       "<\"010203\">",
-                                                       "but was not.")
-                              .isExactlyInstanceOf(AssertionFailedError.class);
+    String real = "Gerçek";
+    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    // WHEN/THEN
+    assertThat(bytes).asString(TURKISH_CHARSET)
+                     .isEqualTo(real);
   }
 
   @Test
@@ -62,17 +47,35 @@ public class ByteArrayAssert_asHexString_Test {
     // GIVEN
     byte[] bytes = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(bytes).asHexString());
+    AssertionError error = expectAssertionError(() -> assertThat(bytes).asString(TURKISH_CHARSET));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
+  }
+
+  @Test
+  public void should_fail_if_actual_does_not_match() {
+    // GIVEN
+    String real = "Gerçek";
+    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(bytes).asString(TURKISH_CHARSET).isEqualTo("bar"));
+    // THEN
+    assertThat(assertionError).hasMessageContainingAll("Expecting:",
+                                                       "<\"Gerçek\">",
+                                                       "to be equal to:",
+                                                       "<\"bar\">",
+                                                       "but was not.")
+                              .isExactlyInstanceOf(AssertionFailedError.class);
   }
 
   @Test
   public void should_pass_with_soft_assertions() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
-    // WHEN / THEN
-    softly.assertThat(BYTES).asHexString().isEqualTo("FF0001");
+    String real = "Gerçek";
+    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    // WHEN/THEN
+    softly.assertThat(bytes).asString(TURKISH_CHARSET).isEqualTo(real);
     softly.assertAll();
   }
 
@@ -80,33 +83,43 @@ public class ByteArrayAssert_asHexString_Test {
   public void should_fail_with_soft_assertions_capturing_all_errors() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
+    String real = "Gerçek";
+    byte[] bytes = real.getBytes(TURKISH_CHARSET);
     // WHEN
-    softly.assertThat(BYTES)
-          .asHexString()
-          .isEqualTo("010203")
+    softly.assertThat(bytes)
+          .asString(TURKISH_CHARSET)
+          .isEqualTo("bar")
           .isBlank();
     AssertionError assertionError = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
                                                        "-- failure 1 --",
                                                        "Expecting:",
-                                                       "<\"FF0001\">",
+                                                       "<\"Gerçek\">",
                                                        "to be equal to:",
-                                                       "<\"010203\">",
+                                                       "<\"bar\">",
                                                        "but was not.",
                                                        "-- failure 2 --",
-                                                       "Expecting blank but was:<\"FF0001\">")
+                                                       "Expecting blank but was:<\"Gerçek\">")
                               .isExactlyInstanceOf(AssertJMultipleFailuresError.class);
   }
 
   @Test
   public void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(BYTES).asHexString().isEqualTo("other"));
+    // GIVEN
+    String real = "Gerçek";
+    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    // WHEN/THEN
+    expectAssumptionViolatedException(() -> assumeThat(bytes).asString(TURKISH_CHARSET).isEqualTo("bar"));
   }
 
   @Test
   public void should_run_test_when_assumption_for_internally_created_string_passes() {
-    assertThatCode(() -> assumeThat(BYTES).asHexString().startsWith("FF")).doesNotThrowAnyException();
+    // GIVEN
+    String real = "Gerçek";
+    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    // WHEN/THEN
+    assertThatCode(() -> assumeThat(bytes).asString(TURKISH_CHARSET).startsWith("Gerç")).doesNotThrowAnyException();
   }
 
 }
