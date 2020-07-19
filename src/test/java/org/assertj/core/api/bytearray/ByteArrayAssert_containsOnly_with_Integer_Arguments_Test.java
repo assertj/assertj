@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ByteArrayAssert#containsOnly(int...)}</code>.
  */
-public class ByteArrayAssert_containsOnly_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsOnly_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new byte[] { 1, 2, 3 }).containsOnly(3, 2, 1);
   }
 

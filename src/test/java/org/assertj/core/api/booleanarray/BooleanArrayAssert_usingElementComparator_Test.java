@@ -28,7 +28,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BooleanArrayAssert_usingElementComparator_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_usingElementComparator_Test extends BooleanArrayAssertBaseTest {
 
   @Mock
   private Comparator<Boolean> comparator;

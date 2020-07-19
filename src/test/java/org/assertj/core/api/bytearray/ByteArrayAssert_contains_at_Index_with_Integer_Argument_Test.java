@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ByteArrayAssert#contains(int, Index)}</code>.
  */
-public class ByteArrayAssert_contains_at_Index_with_Integer_Argument_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_contains_at_Index_with_Integer_Argument_Test extends ByteArrayAssertBaseTest {
 
   private Index index = someIndex();
 
@@ -41,7 +41,7 @@ public class ByteArrayAssert_contains_at_Index_with_Integer_Argument_Test extend
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new byte[] { 1 }).contains(1, atIndex(0));
   }
 }

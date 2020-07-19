@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert_contains_at_Index_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_contains_at_Index_Test extends BooleanArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

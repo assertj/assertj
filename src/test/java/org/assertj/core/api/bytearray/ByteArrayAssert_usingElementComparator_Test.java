@@ -30,7 +30,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ByteArrayAssert_usingElementComparator_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_usingElementComparator_Test extends ByteArrayAssertBaseTest {
 
   @Mock
   private Comparator<Byte> comparator;
@@ -38,7 +38,7 @@ public class ByteArrayAssert_usingElementComparator_Test extends ByteArrayAssert
   private Objects objectsBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     objectsBefore = getObjects(assertions);
   }

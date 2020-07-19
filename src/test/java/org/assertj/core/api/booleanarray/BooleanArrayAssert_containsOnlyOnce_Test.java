@@ -23,7 +23,7 @@ import org.assertj.core.api.BooleanArrayAssertBaseTest;
  * 
  * @author William Delanoue
  */
-public class BooleanArrayAssert_containsOnlyOnce_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_containsOnlyOnce_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

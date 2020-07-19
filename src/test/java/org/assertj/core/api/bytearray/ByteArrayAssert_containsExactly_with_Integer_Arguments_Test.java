@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.api.ByteArrayAssert#containsExactly(int...)}</code>.
  */
-public class ByteArrayAssert_containsExactly_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsExactly_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new byte[] { 1, 2, 3 }).containsExactly(1, 2, 3);
   }
 
@@ -45,7 +45,7 @@ public class ByteArrayAssert_containsExactly_with_Integer_Arguments_Test extends
   }
   
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     byte[] actual = new byte[] { 1, 2, 3, 4 };
     assertThat(actual).usingElementComparator(new AbsValueComparator<Byte>()).containsExactly(-1, 2, 3, -4);
   }

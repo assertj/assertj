@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jean-Christophe Gay
  */
-public class ByteArrayAssert_containsExactly_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsExactly_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
@@ -39,12 +39,12 @@ public class ByteArrayAssert_containsExactly_Test extends ByteArrayAssertBaseTes
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new byte[] { 1, 2, 3 }).containsExactly((byte) 1, (byte) 2, (byte) 3);
   }
 
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     byte[] actual = new byte[] { 1, 2, 3, 4 };
     assertThat(actual).usingElementComparator(new AbsValueComparator<Byte>())
                       .containsExactly((byte) -1, (byte) 2, (byte) 3, (byte) -4);

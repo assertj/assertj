@@ -30,7 +30,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BooleanArrayAssert_usingComparator_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_usingComparator_Test extends BooleanArrayAssertBaseTest {
 
   @Mock
   private Comparator<boolean[]> comparator;
@@ -38,7 +38,7 @@ public class BooleanArrayAssert_usingComparator_Test extends BooleanArrayAssertB
   private BooleanArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     arraysBefore = getArrays(assertions);
   }

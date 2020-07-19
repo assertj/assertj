@@ -28,13 +28,13 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class BooleanArrayAssert_isSortedAccordingToComparator_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_isSortedAccordingToComparator_Test extends BooleanArrayAssertBaseTest {
 
   @Mock
   private Comparator<Boolean> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

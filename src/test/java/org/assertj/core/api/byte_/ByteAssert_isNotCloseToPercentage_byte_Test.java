@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class ByteAssert_isNotCloseToPercentage_byte_Test extends ByteAssertBaseTest {
+class ByteAssert_isNotCloseToPercentage_byte_Test extends ByteAssertBaseTest {
 
     private final Percentage percentage = withPercentage((byte) 5);
     private final Byte value = 10;

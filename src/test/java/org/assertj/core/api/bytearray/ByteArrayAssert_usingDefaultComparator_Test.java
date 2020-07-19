@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ByteArrayAssert_usingDefaultComparator_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_usingDefaultComparator_Test extends ByteArrayAssertBaseTest {
 
   @Mock
   private Comparator<byte[]> comparator;
@@ -39,7 +39,7 @@ public class ByteArrayAssert_usingDefaultComparator_Test extends ByteArrayAssert
   private ByteArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
     arraysBefore = getArrays(assertions);

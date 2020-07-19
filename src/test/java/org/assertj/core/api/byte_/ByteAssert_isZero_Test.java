@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class ByteAssert_isZero_Test extends ByteAssertBaseTest {
+class ByteAssert_isZero_Test extends ByteAssertBaseTest {
 
   @Override
   protected ByteAssert invoke_api_method() {

@@ -28,12 +28,12 @@ import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 @DisplayName("ByteArrayAssert asString")
-public class ByteArrayAssert_asString_with_charset_Test {
+class ByteArrayAssert_asString_with_charset_Test {
 
   private static final Charset TURKISH_CHARSET = Charset.forName("windows-1254");
 
   @Test
-  public void should_convert_bytes_array_to_a_proper_string_with_specific_encoding() {
+  void should_convert_bytes_array_to_a_proper_string_with_specific_encoding() {
     // GIVEN
     String real = "Gerçek";
     byte[] bytes = real.getBytes(TURKISH_CHARSET);
@@ -43,7 +43,7 @@ public class ByteArrayAssert_asString_with_charset_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     byte[] bytes = null;
     // WHEN
@@ -53,7 +53,7 @@ public class ByteArrayAssert_asString_with_charset_Test {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_match() {
+  void should_fail_if_actual_does_not_match() {
     // GIVEN
     String real = "Gerçek";
     byte[] bytes = real.getBytes(TURKISH_CHARSET);
@@ -69,7 +69,7 @@ public class ByteArrayAssert_asString_with_charset_Test {
   }
 
   @Test
-  public void should_pass_with_soft_assertions() {
+  void should_pass_with_soft_assertions() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     String real = "Gerçek";
@@ -80,7 +80,7 @@ public class ByteArrayAssert_asString_with_charset_Test {
   }
 
   @Test
-  public void should_fail_with_soft_assertions_capturing_all_errors() {
+  void should_fail_with_soft_assertions_capturing_all_errors() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     String real = "Gerçek";
@@ -105,7 +105,7 @@ public class ByteArrayAssert_asString_with_charset_Test {
   }
 
   @Test
-  public void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
+  void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
     // GIVEN
     String real = "Gerçek";
     byte[] bytes = real.getBytes(TURKISH_CHARSET);
@@ -114,7 +114,7 @@ public class ByteArrayAssert_asString_with_charset_Test {
   }
 
   @Test
-  public void should_run_test_when_assumption_for_internally_created_string_passes() {
+  void should_run_test_when_assumption_for_internally_created_string_passes() {
     // GIVEN
     String real = "Gerçek";
     byte[] bytes = real.getBytes(TURKISH_CHARSET);

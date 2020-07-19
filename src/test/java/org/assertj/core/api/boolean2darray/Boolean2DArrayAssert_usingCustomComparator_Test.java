@@ -37,7 +37,7 @@ class Boolean2DArrayAssert_usingCustomComparator_Test extends Boolean2DArrayAsse
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new boolean[][] {}).usingComparator(ALWAYS_EQUAL)
                                   .isEqualTo(new boolean[][] { { true, false }, { false, true } });
   }

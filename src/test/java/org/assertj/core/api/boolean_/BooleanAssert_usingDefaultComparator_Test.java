@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * 
  * @author Joel Costigliola
  */
-public class BooleanAssert_usingDefaultComparator_Test extends BooleanAssertBaseTest {
+class BooleanAssert_usingDefaultComparator_Test extends BooleanAssertBaseTest {
 
   @Override
   protected BooleanAssert invoke_api_method() {

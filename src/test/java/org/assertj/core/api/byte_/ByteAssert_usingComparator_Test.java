@@ -28,13 +28,13 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class ByteAssert_usingComparator_Test extends ByteAssertBaseTest {
+class ByteAssert_usingComparator_Test extends ByteAssertBaseTest {
 
   @Mock
   private Comparator<Byte> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

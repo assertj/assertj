@@ -37,7 +37,7 @@ class Byte2DArrayAssert_usingCustomComparator_Test extends Byte2DArrayAssertBase
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new byte[][] {}).usingComparator(ALWAYS_EQUAL)
                                .isEqualTo(new byte[][] { { 1, 2 }, { 3, 4 } });
   }

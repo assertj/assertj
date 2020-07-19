@@ -18,7 +18,7 @@ import org.assertj.core.api.BigIntegerAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class BigIntegerAssert_isPositive_Test extends BigIntegerAssertBaseTest {
+class BigIntegerAssert_isPositive_Test extends BigIntegerAssertBaseTest {
 
   @Override
   protected BigIntegerAssert invoke_api_method() {

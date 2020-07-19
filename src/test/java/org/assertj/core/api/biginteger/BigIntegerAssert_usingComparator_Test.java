@@ -24,13 +24,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-public class BigIntegerAssert_usingComparator_Test extends BigIntegerAssertBaseTest {
+class BigIntegerAssert_usingComparator_Test extends BigIntegerAssertBaseTest {
 
   @Mock
   private Comparator<BigInteger> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

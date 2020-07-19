@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class ByteArrayAssert_contains_at_Index_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_contains_at_Index_Test extends ByteArrayAssertBaseTest {
 
   private Index index = someIndex();
 

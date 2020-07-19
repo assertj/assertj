@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ByteArrayAssert#containsSubsequence(int...)}</code>.
  */
-public class ByteArrayAssert_containsSubsequence_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsSubsequence_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class ByteArrayAssert_containsSubsequence_with_Integer_Arguments_Test ext
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(1, 3);
   }
 }

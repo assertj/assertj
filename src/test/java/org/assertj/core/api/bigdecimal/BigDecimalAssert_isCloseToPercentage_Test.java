@@ -21,18 +21,18 @@ import org.assertj.core.api.BigDecimalAssert;
 import org.assertj.core.api.BigDecimalAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
-public class BigDecimalAssert_isCloseToPercentage_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_isCloseToPercentage_Test extends BigDecimalAssertBaseTest {
 
   private final Percentage percentage = withPercentage(5);
-    private final BigDecimal value = BigDecimal.TEN;
+  private final BigDecimal value = BigDecimal.TEN;
 
-    @Override
-    protected BigDecimalAssert invoke_api_method() {
-        return assertions.isCloseTo(value, percentage);
-    }
+  @Override
+  protected BigDecimalAssert invoke_api_method() {
+    return assertions.isCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(bigDecimals).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(bigDecimals).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }

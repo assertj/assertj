@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 @DisplayName("ByteArrayAssert asString")
-public class ByteArrayAssert_asString_Test {
+class ByteArrayAssert_asString_Test {
 
   @Test
-  public void should_convert_bytes_array_to_a_proper_string_with_default_encoding() {
+  void should_convert_bytes_array_to_a_proper_string_with_default_encoding() {
     // GIVEN
     String foo = "foo";
     // WHEN/THEN
@@ -38,7 +38,7 @@ public class ByteArrayAssert_asString_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     byte[] bytes = null;
     // WHEN
@@ -48,7 +48,7 @@ public class ByteArrayAssert_asString_Test {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_match() {
+  void should_fail_if_actual_does_not_match() {
     // GIVEN
     String foo = "foo";
     // WHEN
@@ -63,7 +63,7 @@ public class ByteArrayAssert_asString_Test {
   }
 
   @Test
-  public void should_pass_with_soft_assertions() {
+  void should_pass_with_soft_assertions() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     String foo = "foo";
@@ -73,7 +73,7 @@ public class ByteArrayAssert_asString_Test {
   }
 
   @Test
-  public void should_fail_with_soft_assertions_capturing_all_errors() {
+  void should_fail_with_soft_assertions_capturing_all_errors() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     String foo = "foo";
@@ -97,7 +97,7 @@ public class ByteArrayAssert_asString_Test {
   }
 
   @Test
-  public void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
+  void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
     // GIVEN
     String foo = "foo";
     // WHEN/THEN
@@ -105,7 +105,7 @@ public class ByteArrayAssert_asString_Test {
   }
 
   @Test
-  public void should_run_test_when_assumption_for_internally_created_string_passes() {
+  void should_run_test_when_assumption_for_internally_created_string_passes() {
     // GIVEN
     String foo = "foo";
     // WHEN/THEN

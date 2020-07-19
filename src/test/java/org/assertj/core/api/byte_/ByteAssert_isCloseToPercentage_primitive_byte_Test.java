@@ -19,7 +19,7 @@ import org.assertj.core.data.Percentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-public class ByteAssert_isCloseToPercentage_primitive_byte_Test extends ByteAssertBaseTest {
+class ByteAssert_isCloseToPercentage_primitive_byte_Test extends ByteAssertBaseTest {
 
     private final Percentage percentage = withPercentage((byte) 5);
     private final byte value = 10;

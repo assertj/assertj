@@ -22,7 +22,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
 
-public class BigIntegerAssert_isCloseToPercentage_Test extends BigIntegerAssertBaseTest {
+class BigIntegerAssert_isCloseToPercentage_Test extends BigIntegerAssertBaseTest {
 
   private final Percentage percentage = withPercentage(5);
   private final BigInteger value = BigInteger.TEN;

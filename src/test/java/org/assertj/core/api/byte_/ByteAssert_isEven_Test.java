@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Cal027
  */
-public class ByteAssert_isEven_Test extends ByteAssertBaseTest {
+class ByteAssert_isEven_Test extends ByteAssertBaseTest {
 
   @Override
   protected ByteAssert invoke_api_method() {

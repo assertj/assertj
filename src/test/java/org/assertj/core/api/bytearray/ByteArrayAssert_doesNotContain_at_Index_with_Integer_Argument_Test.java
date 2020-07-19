@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Tests for <code>{@link ByteArrayAssert#doesNotContain(int, Index)}</code>.
  */
-public class ByteArrayAssert_doesNotContain_at_Index_with_Integer_Argument_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_doesNotContain_at_Index_with_Integer_Argument_Test extends ByteArrayAssertBaseTest {
 
   private final Index index = someIndex();
 
@@ -42,7 +42,7 @@ public class ByteArrayAssert_doesNotContain_at_Index_with_Integer_Argument_Test 
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new byte[] { 1 }).doesNotContain(2, atIndex(0));
   }
 }

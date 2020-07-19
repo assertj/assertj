@@ -32,13 +32,13 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BigDecimalAssert_usingDefaultComparator_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_usingDefaultComparator_Test extends BigDecimalAssertBaseTest {
 
   @Mock
   private Comparator<BigDecimal> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
   }

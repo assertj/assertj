@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class ByteAssert_isGreaterThanOrEqualTo_byte_Test extends ByteAssertBaseTest {
+class ByteAssert_isGreaterThanOrEqualTo_byte_Test extends ByteAssertBaseTest {
 
   @Override
   protected ByteAssert invoke_api_method() {

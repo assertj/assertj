@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.api.ByteArrayAssert#containsExactlyInAnyOrder(byte...)}</code>.
  */
-public class ByteArrayAssert_containsExactlyInAnyOrder_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsExactlyInAnyOrder_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class ByteArrayAssert_containsExactlyInAnyOrder_Test extends ByteArrayAss
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(new byte[] { 1, 2, 2 }).containsExactlyInAnyOrder((byte) 2, (byte) 2, (byte) 1);
   }
 }

@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-public class BigIntegerAssert_usingDefaultComparator_Test extends BigIntegerAssertBaseTest {
+class BigIntegerAssert_usingDefaultComparator_Test extends BigIntegerAssertBaseTest {
 
   @Mock
   private Comparator<BigInteger> comparator;
