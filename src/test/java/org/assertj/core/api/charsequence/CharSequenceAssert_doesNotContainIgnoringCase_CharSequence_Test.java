@@ -23,7 +23,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  *
  * @author Brummolix
  */
-public class CharSequenceAssert_doesNotContainIgnoringCase_CharSequence_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_doesNotContainIgnoringCase_CharSequence_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

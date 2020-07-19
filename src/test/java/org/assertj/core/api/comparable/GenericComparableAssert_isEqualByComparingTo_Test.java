@@ -22,7 +22,7 @@ import org.assertj.core.api.GenericComparableAssertBaseTest;
  *
  * @author Michal Kordas
  */
-public class GenericComparableAssert_isEqualByComparingTo_Test extends GenericComparableAssertBaseTest {
+class GenericComparableAssert_isEqualByComparingTo_Test extends GenericComparableAssertBaseTest {
 
   @Override
   protected GenericComparableAssert<Integer> invoke_api_method() {

@@ -37,7 +37,7 @@ class Char2DArrayAssert_usingCustomComparator_Test extends Char2DArrayAssertBase
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new char[][] {}).usingComparator(ALWAYS_EQUAL)
                                .isEqualTo(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
   }

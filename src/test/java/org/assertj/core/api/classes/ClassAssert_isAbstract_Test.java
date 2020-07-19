@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
 
-public class ClassAssert_isAbstract_Test extends ClassAssertBaseTest {
+class ClassAssert_isAbstract_Test extends ClassAssertBaseTest {
 
   @Override
   protected ClassAssert invoke_api_method() {

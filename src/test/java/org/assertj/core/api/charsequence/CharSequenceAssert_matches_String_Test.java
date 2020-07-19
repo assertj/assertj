@@ -25,12 +25,12 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Alex Ruiz
  */
-public class CharSequenceAssert_matches_String_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_matches_String_Test extends CharSequenceAssertBaseTest {
 
   private static CharSequence regex;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     regex = matchAnything().pattern();
   }
 

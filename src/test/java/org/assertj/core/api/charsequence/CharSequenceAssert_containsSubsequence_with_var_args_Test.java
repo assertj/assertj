@@ -23,7 +23,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  * 
  * @author Filip Hrisafov
  */
-public class CharSequenceAssert_containsSubsequence_with_var_args_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_containsSubsequence_with_var_args_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

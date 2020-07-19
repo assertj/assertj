@@ -20,7 +20,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 /**
  * Created by harisha talanki on 2/29/20
  */
-public class CharSequenceAssert_isEqualToNormalizingPunctuationAndWhitespace_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_isEqualToNormalizingPunctuationAndWhitespace_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

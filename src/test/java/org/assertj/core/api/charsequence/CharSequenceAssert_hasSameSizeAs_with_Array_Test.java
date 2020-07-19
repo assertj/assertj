@@ -24,11 +24,11 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Nicolas François
  */
-public class CharSequenceAssert_hasSameSizeAs_with_Array_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_hasSameSizeAs_with_Array_Test extends CharSequenceAssertBaseTest {
   private static Object[] other;
   
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     other = new Object[] { "Luke" };
   }
 

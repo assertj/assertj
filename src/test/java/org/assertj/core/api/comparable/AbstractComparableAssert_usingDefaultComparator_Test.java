@@ -30,13 +30,13 @@ import org.mockito.Mock;
  * 
  * @author Filip Hrisafov
  */
-public class AbstractComparableAssert_usingDefaultComparator_Test extends AbstractComparableAssertBaseTest {
+class AbstractComparableAssert_usingDefaultComparator_Test extends AbstractComparableAssertBaseTest {
 
   @Mock
   private Comparator<Integer> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
   }

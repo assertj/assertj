@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Alexander Bischof
  */
-public class CharSequenceAssert_isNotEqualToIgnoringCase_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_isNotEqualToIgnoringCase_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

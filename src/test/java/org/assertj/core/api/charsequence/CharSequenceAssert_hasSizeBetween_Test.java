@@ -17,7 +17,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class CharSequenceAssert_hasSizeBetween_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_hasSizeBetween_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

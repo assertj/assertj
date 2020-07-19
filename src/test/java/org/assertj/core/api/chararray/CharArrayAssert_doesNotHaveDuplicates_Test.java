@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class CharArrayAssert_doesNotHaveDuplicates_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_doesNotHaveDuplicates_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {

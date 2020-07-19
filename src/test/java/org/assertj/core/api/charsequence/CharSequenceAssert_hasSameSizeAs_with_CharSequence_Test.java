@@ -21,11 +21,11 @@ import org.junit.jupiter.api.BeforeAll;
 /**
  * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#hasSameSizeAs(CharSequence)}</code>.
  */
-public class CharSequenceAssert_hasSameSizeAs_with_CharSequence_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_hasSameSizeAs_with_CharSequence_Test extends CharSequenceAssertBaseTest {
   private static CharSequence other;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     other = "Luke";
   }
 

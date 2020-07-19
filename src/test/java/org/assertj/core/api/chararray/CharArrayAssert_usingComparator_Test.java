@@ -30,7 +30,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class CharArrayAssert_usingComparator_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_usingComparator_Test extends CharArrayAssertBaseTest {
 
   @Mock
   private Comparator<char[]> comparator;
@@ -38,7 +38,7 @@ public class CharArrayAssert_usingComparator_Test extends CharArrayAssertBaseTes
   private CharArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     arraysBefore = getArrays(assertions);
   }

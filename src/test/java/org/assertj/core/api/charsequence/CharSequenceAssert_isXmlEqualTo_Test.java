@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Joel Costigliola
  */
-public class CharSequenceAssert_isXmlEqualTo_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_isXmlEqualTo_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

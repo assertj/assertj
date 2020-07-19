@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class CharArrayAssert_isSorted_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_isSorted_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {

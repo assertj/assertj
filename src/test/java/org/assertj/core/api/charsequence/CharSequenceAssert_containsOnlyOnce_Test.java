@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * @author Pauline Iogna
  * @author Joel Costigliola
  */
-public class CharSequenceAssert_containsOnlyOnce_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_containsOnlyOnce_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

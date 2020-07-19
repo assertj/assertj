@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class CharSequenceAssert_usingCustomComparator_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_usingCustomComparator_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

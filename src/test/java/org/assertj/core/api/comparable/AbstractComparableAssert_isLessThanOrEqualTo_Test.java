@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class AbstractComparableAssert_isLessThanOrEqualTo_Test extends AbstractComparableAssertBaseTest {
+class AbstractComparableAssert_isLessThanOrEqualTo_Test extends AbstractComparableAssertBaseTest {
 
   @Override
   protected ConcreteComparableAssert invoke_api_method() {

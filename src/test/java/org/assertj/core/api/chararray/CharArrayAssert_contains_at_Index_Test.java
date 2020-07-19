@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class CharArrayAssert_contains_at_Index_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_contains_at_Index_Test extends CharArrayAssertBaseTest {
   private final Index index = someIndex();
 
   @Override

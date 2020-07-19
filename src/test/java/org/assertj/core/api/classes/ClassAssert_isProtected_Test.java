@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Tests for <code>{@link ClassAssert#isProtected()} ()}</code>.
  */
-public class ClassAssert_isProtected_Test extends ClassAssertBaseTest {
+class ClassAssert_isProtected_Test extends ClassAssertBaseTest {
 
   @Override
   protected ClassAssert invoke_api_method() {

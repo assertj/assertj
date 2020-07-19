@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * @author Sandra Parsick
  * @author Georg Berky
  */
-public class CharSequenceAssert_hasSizeGreaterThanOrEqualTo_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_hasSizeGreaterThanOrEqualTo_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

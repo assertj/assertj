@@ -25,7 +25,7 @@ import org.assertj.core.api.ObjectAssert;
 /**
  * Test that {@link ObjectAssert} methods are available from {@link AbstractComparableAssert}
  */
-public class AbstractComparableAssert_canCallObjectAssertMethod_Test extends AbstractComparableAssertBaseTest {
+class AbstractComparableAssert_canCallObjectAssertMethod_Test extends AbstractComparableAssertBaseTest {
   @Override
   protected ConcreteComparableAssert invoke_api_method() {
     return assertions.isEqualToComparingFieldByField(6);

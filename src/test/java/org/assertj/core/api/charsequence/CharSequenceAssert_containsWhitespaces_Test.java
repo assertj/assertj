@@ -22,7 +22,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  * 
  * @author Stephan Windmüller
  */
-public class CharSequenceAssert_containsWhitespaces_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_containsWhitespaces_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

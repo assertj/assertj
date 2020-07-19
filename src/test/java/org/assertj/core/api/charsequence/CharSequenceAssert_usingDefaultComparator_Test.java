@@ -27,10 +27,10 @@ import org.junit.jupiter.api.BeforeEach;
  * 
  * @author Joel Costigliola
  */
-public class CharSequenceAssert_usingDefaultComparator_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_usingDefaultComparator_Test extends CharSequenceAssertBaseTest {
 
   @BeforeEach
-  public void before() {
+  void before() {
     assertions.usingComparator(CaseInsensitiveCharSequenceComparator.instance);
   }
 

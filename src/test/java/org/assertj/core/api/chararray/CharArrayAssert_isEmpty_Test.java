@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class CharArrayAssert_isEmpty_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_isEmpty_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {
