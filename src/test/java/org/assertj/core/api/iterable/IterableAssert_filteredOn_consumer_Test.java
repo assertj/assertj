@@ -49,7 +49,7 @@ class IterableAssert_filteredOn_consumer_Test extends IterableAssert_filtered_ba
   }
 
   @Test
-  void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
@@ -66,7 +66,7 @@ class IterableAssert_filteredOn_consumer_Test extends IterableAssert_filtered_ba
   }
 
   @Test
-  void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     // THEN
