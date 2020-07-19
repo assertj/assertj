@@ -12,8 +12,10 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -71,19 +73,20 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   private void check(AssertionError error) throws Exception {
     verify(constructorInvoker).newInstance(AssertionFailedError.class.getName(),
                                            new Class<?>[] { String.class, Object.class, Object.class },
-                                           String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
-                                           "Yoda", "Luke");
+                                           format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
+                                           STANDARD_REPRESENTATION.toStringOf("Yoda"),
+                                           STANDARD_REPRESENTATION.toStringOf("Luke"));
     assertThat(error).isNotInstanceOf(ComparisonFailure.class)
                      .isInstanceOf(AssertionFailedError.class);
     AssertionFailedError assertionFailedError = (AssertionFailedError) error;
-    assertThat(assertionFailedError.getActual().getValue()).isEqualTo("Luke");
-    assertThat(assertionFailedError.getExpected().getValue()).isEqualTo("Yoda");
-    assertThat(error).hasMessage(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
+    assertThat(assertionFailedError.getActual().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Luke"));
+    assertThat(assertionFailedError.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Yoda"));
+    assertThat(error).hasMessage(format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }
 
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {
     return invoker.newInstance(ComparisonFailure.class.getName(),
                                new Class<?>[] { String.class, String.class, String.class },
-                               "[Jedi]", "\"Yoda\"", "\"Luke\"");
+                               "[Jedi]", STANDARD_REPRESENTATION.toStringOf("Yoda"), STANDARD_REPRESENTATION.toStringOf("Luke"));
   }
 }

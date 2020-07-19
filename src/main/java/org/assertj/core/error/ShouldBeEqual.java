@@ -118,15 +118,15 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     // comparison strategy in the assertion error message to make it clear to the user it was used.
     if (comparisonStrategy.isStandard() && !actualAndExpectedHaveSameStringRepresentation()) {
       // comparison strategy is standard -> try to build an AssertionFailedError used in JUnit 5 that is nicely displayed in IDEs
-      AssertionError assertionFailedError = assertionFailedError(message);
-      // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
+      AssertionError assertionFailedError = assertionFailedError(message, representation);
+      // assertionFailedError != null means that JUnit 5 and opentest4j are in the classpath
       if (assertionFailedError != null) return assertionFailedError;
-      // Junit5 was not used, try to build a JUnit ComparisonFailure that is nicely displayed in IDEs
+      // Junit5 was not used, try to build a JUnit 4 ComparisonFailure that is nicely displayed in IDEs
       AssertionError error = comparisonFailure(description);
       // error != null means that JUnit 4 was in the classpath and we build a ComparisonFailure.
       if (error != null) return error;
     }
-    AssertionError assertionFailedError = assertionFailedError(message);
+    AssertionError assertionFailedError = assertionFailedError(message, representation);
     // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
     if (assertionFailedError != null) return assertionFailedError;
     // No JUnit in the classpath => fall back to default error message
@@ -182,13 +182,13 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                    detailedExpected());
   }
 
-  private AssertionError assertionFailedError(String message) {
+  private AssertionError assertionFailedError(String message, Representation representation) {
     try {
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
                                                 message,
-                                                expected,
-                                                actual);
+                                                representation.toStringOf(expected),
+                                                representation.toStringOf(actual));
       if (o instanceof AssertionError) {
         AssertionError assertionError = (AssertionError) o;
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);

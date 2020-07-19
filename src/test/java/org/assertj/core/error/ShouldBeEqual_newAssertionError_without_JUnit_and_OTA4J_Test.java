@@ -78,10 +78,13 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
     verify(constructorInvoker, times(2)).newInstance(AssertionFailedError.class.getName(),
                                                      array(String.class, Object.class, Object.class),
                                                      format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
-                                                     "Yoda", "Luke");
+                                                     STANDARD_REPRESENTATION.toStringOf("Yoda"),
+                                                     STANDARD_REPRESENTATION.toStringOf("Luke"));
     verify(constructorInvoker).newInstance(ComparisonFailure.class.getName(),
                                            new Class<?>[] { String.class, String.class, String.class },
-                                           "[Jedi]", "\"Yoda\"", "\"Luke\"");
+                                           "[Jedi]",
+                                           STANDARD_REPRESENTATION.toStringOf("Yoda"),
+                                           STANDARD_REPRESENTATION.toStringOf("Luke"));
     assertThat(error).isNotInstanceOfAny(ComparisonFailure.class, AssertionFailedError.class)
                      .hasMessage(format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }
