@@ -24,7 +24,7 @@ import org.assertj.core.api.DateAssert;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isInSameYearAs_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isInSameYearAs_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {

@@ -30,10 +30,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("FutureAssert succeedsWithin")
-public class FutureAssert_succeedsWithin_Test {
+class FutureAssert_succeedsWithin_Test {
 
   @Test
-  public void should_allow_assertion_on_future_result_when_completed_normally() {
+  void should_allow_assertion_on_future_result_when_completed_normally() {
     // GIVEN
     String value = "done";
     Future<String> future = completedFuture(value);
@@ -43,7 +43,7 @@ public class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
-  public void should_allow_assertion_on_future_result_when_completed_normally_within_timeout() {
+  void should_allow_assertion_on_future_result_when_completed_normally_within_timeout() {
     // GIVEN
     String value = "done";
     int sleepDuration = 10;
@@ -55,7 +55,7 @@ public class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
-  public void should_allow_narrowed_assertion_on_future_result() {
+  void should_allow_narrowed_assertion_on_future_result() {
     // GIVEN
     String value = "done";
     Future<String> future = completedFuture(value);
@@ -65,7 +65,7 @@ public class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
-  public void should_fail_if_future_does_not_succeed_within_given_timeout() {
+  void should_fail_if_future_does_not_succeed_within_given_timeout() {
     // GIVEN
     int sleepDuration = 100_000;
     Future<String> future = completedFutureAfter("ook!", sleepDuration);
@@ -78,7 +78,7 @@ public class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
-  public void should_fail_if_future_is_cancelled() {
+  void should_fail_if_future_is_cancelled() {
     // GIVEN
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
@@ -93,7 +93,7 @@ public class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
-  public void should_fail_when_future_is_null() {
+  void should_fail_when_future_is_null() {
     // GIVEN
     Future<String> future = null;
     // WHEN

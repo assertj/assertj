@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  * @author Alex Ruiz
  */
 @DisplayName("FloatAssert isGreaterThanOrEqualTo with float")
-public class FloatAssert_isGreaterThanOrEqualTo_float_Test extends FloatAssertBaseTest {
+class FloatAssert_isGreaterThanOrEqualTo_float_Test extends FloatAssertBaseTest {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
@@ -54,12 +54,12 @@ public class FloatAssert_isGreaterThanOrEqualTo_float_Test extends FloatAssertBa
 
   @ParameterizedTest(name = "verify {0} >= {1} assertion succeeds")
   @CsvSource({ "1.0d, 1.0d", "0.0d, -0.0d", "-0.0d, 0.0d", "1.0d, 0.0d" })
-  public void should_pass_using_primitive_comparison(float actual, float expected) {
+  void should_pass_using_primitive_comparison(float actual, float expected) {
     assertThat(actual).isGreaterThanOrEqualTo(expected);
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final float one = 1.0f;
     // THEN
@@ -68,7 +68,7 @@ public class FloatAssert_isGreaterThanOrEqualTo_float_Test extends FloatAssertBa
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_expected() {
+  void should_fail_if_actual_is_less_than_expected() {
     // GIVEN
     float actual = 6.0f;
     float expected = 7.0f;

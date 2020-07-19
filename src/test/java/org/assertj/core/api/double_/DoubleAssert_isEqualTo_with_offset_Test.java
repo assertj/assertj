@@ -25,7 +25,7 @@ import org.assertj.core.data.Offset;
  *
  * @author Alex Ruiz
  */
-public class DoubleAssert_isEqualTo_with_offset_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isEqualTo_with_offset_Test extends DoubleAssertBaseTest {
 
   private final Offset<Double> offset = offset(5d);
   private final Double expected = 8d;

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Jean-Christophe Gay
  */
-public class FileAssert_hasParent_Test extends FileAssertBaseTest {
+class FileAssert_hasParent_Test extends FileAssertBaseTest {
 
   private File parent = mock(File.class);
 

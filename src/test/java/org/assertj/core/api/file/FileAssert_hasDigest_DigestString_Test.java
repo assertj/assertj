@@ -25,7 +25,7 @@ import org.assertj.core.api.FileAssertBaseTest;
  *
  * @author Valeriy Vyrva
  */
-public class FileAssert_hasDigest_DigestString_Test extends FileAssertBaseTest {
+class FileAssert_hasDigest_DigestString_Test extends FileAssertBaseTest {
 
   private final MessageDigest digest = mock(MessageDigest.class);
   private final String expected = "";

@@ -24,12 +24,12 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_hasContent_Test extends FileAssertBaseTest {
+class FileAssert_hasContent_Test extends FileAssertBaseTest {
 
   private static String expected;
 
   @BeforeAll
-  public static void beforeOnce() {
+  static void beforeOnce() {
     expected = "xyz";
   }
 

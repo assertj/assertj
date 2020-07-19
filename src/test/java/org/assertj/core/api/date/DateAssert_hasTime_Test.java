@@ -26,16 +26,16 @@ import org.junit.jupiter.api.Test;
  * @author Guillaume Girou
  * @author Nicolas François
  */
-public class DateAssert_hasTime_Test extends DateAssertBaseTest {
+class DateAssert_hasTime_Test extends DateAssertBaseTest {
 
   @Test
-  public void should_verify_that_actual_has_time_equals_to_expected() {
+  void should_verify_that_actual_has_time_equals_to_expected() {
     assertions.hasTime(42L);
     verify(dates).assertHasTime(getInfo(assertions), getActual(assertions), 42L);
   }
 
   @Test
-  public void should_return_this() {
+  void should_return_this() {
     DateAssert returned = assertions.hasTime(42L);
     assertThat(returned).isSameAs(assertions);
   }

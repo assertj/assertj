@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author William Delanoue
  */
-public class DateAssert_isEqualToIgnoringHours_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isEqualToIgnoringHours_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {

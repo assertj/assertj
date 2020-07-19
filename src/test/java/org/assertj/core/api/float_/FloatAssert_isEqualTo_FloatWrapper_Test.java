@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class FloatAssert_isEqualTo_FloatWrapper_Test extends FloatAssertBaseTest {
+class FloatAssert_isEqualTo_FloatWrapper_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {
@@ -39,12 +39,12 @@ public class FloatAssert_isEqualTo_FloatWrapper_Test extends FloatAssertBaseTest
 
   @ParameterizedTest
   @CsvSource({ "1.0f, 1.0f", "0.0f, 0.0f" })
-  public void should_pass_using_primitive_comparison(Float actual, Float expected) {
+  void should_pass_using_primitive_comparison(Float actual, Float expected) {
     assertThat(actual).isEqualTo(expected);
   }
 
   @Test
-  public void should_fail_when_comparing_negative_zero_to_positive_zero() {
+  void should_fail_when_comparing_negative_zero_to_positive_zero() {
     // GIVEN
     final Float positiveZero = 0.0f;
     final float negativeZero = -0.0f;
@@ -53,7 +53,7 @@ public class FloatAssert_isEqualTo_FloatWrapper_Test extends FloatAssertBaseTest
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final Float one = 1.0f;
     // THEN

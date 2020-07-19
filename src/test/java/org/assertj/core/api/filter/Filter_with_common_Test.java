@@ -23,10 +23,10 @@ import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.test.Player;
 import org.junit.jupiter.api.Test;
 
-public class Filter_with_common_Test extends WithPlayerData {
+class Filter_with_common_Test extends WithPlayerData {
 
   @Test
-  public void filter_does_not_modify_given_iterable() {
+  void filter_does_not_modify_given_iterable() {
     List<Player> playersCopy = newArrayList(players);
     // filter players
     filter(players).with("reboundsPerGame").equalsTo(5).get();
@@ -34,14 +34,14 @@ public class Filter_with_common_Test extends WithPlayerData {
   }
 
   @Test
-  public void should_fail_if_property_or_field_to_filter_on_is_null() {
+  void should_fail_if_property_or_field_to_filter_on_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with("reboundsPerGame").equalsTo(5).and(null)
                                                                          .equalsTo("OKC"))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
-  public void should_fail_if_property_or_field_to_filter_on_is_empty() {
+  void should_fail_if_property_or_field_to_filter_on_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with("").equalsTo("OKC"))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }

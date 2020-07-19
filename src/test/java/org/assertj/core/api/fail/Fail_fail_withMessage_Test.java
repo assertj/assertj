@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Fail_fail_withMessage_Test {
+class Fail_fail_withMessage_Test {
 
   @Test
-  public void shouldIncludeMessageWhenFailing() {
+  void shouldIncludeMessageWhenFailing() {
     String message = "Failed :(";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Fail.fail(message))
                                                    .withMessage(message);

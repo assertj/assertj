@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Valeriy Vyrva
  */
-public class FileAssert_isNotEmptyDirectory_Test extends FileAssertBaseTest {
+class FileAssert_isNotEmptyDirectory_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

@@ -22,7 +22,7 @@ import org.assertj.core.api.DoubleAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
 
-public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {
@@ -35,7 +35,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  public void should_pass_with_primitive_negative_zero() {
+  void should_pass_with_primitive_negative_zero() {
     // GIVEN
     final double negativeZero = -0.0;
     // THEN
@@ -43,7 +43,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  public void should_pass_with_primitive_positive_zero() {
+  void should_pass_with_primitive_positive_zero() {
     // GIVEN
     final double positiveZero = 0.0;
     // THEN
@@ -51,7 +51,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  public void should_pass_with_Double_positive_zero() {
+  void should_pass_with_Double_positive_zero() {
     // GIVEN
     final Double positiveZero = 0.0;
     // THEN
@@ -59,7 +59,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  public void should_fail_with_non_zero() {
+  void should_fail_with_non_zero() {
     // GIVEN
     final double notZero = 1.0;
 
@@ -72,7 +72,7 @@ public class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  public void should_fail_with_Double_negative_zero() {
+  void should_fail_with_Double_negative_zero() {
     // GIVEN
     final Double negativeZero = -0.0;
 

@@ -30,13 +30,13 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class DoubleAssert_usingDefaultComparator_Test extends DoubleAssertBaseTest {
+class DoubleAssert_usingDefaultComparator_Test extends DoubleAssertBaseTest {
 
   @Mock
   private Comparator<Double> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
   }

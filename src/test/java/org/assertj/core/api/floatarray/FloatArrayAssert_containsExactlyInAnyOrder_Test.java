@@ -21,9 +21,9 @@ import org.assertj.core.api.FloatArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.FloatArrayAssert#containsExactlyInAnyOrderfloat...)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.FloatArrayAssert#containsExactlyInAnyOrder(float...)}</code>.
  */
-public class FloatArrayAssert_containsExactlyInAnyOrder_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_containsExactlyInAnyOrder_Test extends FloatArrayAssertBaseTest {
 
   @Override
   protected FloatArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class FloatArrayAssert_containsExactlyInAnyOrder_Test extends FloatArrayA
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(new float[] { 1.0F, 2.0F, 2.0F }).containsExactlyInAnyOrder(2.0F, 2.0F, 1.0F);
   }
 

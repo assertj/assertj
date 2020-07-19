@@ -25,10 +25,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("CompletableFutureAssert hasFailedWithThrowableThat")
-public class CompletableFutureAssert_hasFailedWithThrowableThat_Test {
+class CompletableFutureAssert_hasFailedWithThrowableThat_Test {
 
   @Test
-  public void should_pass_if_completable_future_has_failed() {
+  void should_pass_if_completable_future_has_failed() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
@@ -40,7 +40,7 @@ public class CompletableFutureAssert_hasFailedWithThrowableThat_Test {
   }
 
   @Test
-  public void should_fail_when_completable_future_is_null() {
+  void should_fail_when_completable_future_is_null() {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
@@ -50,7 +50,7 @@ public class CompletableFutureAssert_hasFailedWithThrowableThat_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_has_failed_with_wrong_throwable() {
+  void should_fail_if_completable_future_has_failed_with_wrong_throwable() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     RuntimeException exception = new RuntimeException("some random error");
@@ -62,7 +62,7 @@ public class CompletableFutureAssert_hasFailedWithThrowableThat_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_is_incomplete() {
+  void should_fail_if_completable_future_is_incomplete() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
@@ -72,7 +72,7 @@ public class CompletableFutureAssert_hasFailedWithThrowableThat_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_is_completed() {
+  void should_fail_if_completable_future_is_completed() {
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
@@ -82,7 +82,7 @@ public class CompletableFutureAssert_hasFailedWithThrowableThat_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_was_cancelled() {
+  void should_fail_if_completable_future_was_cancelled() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);

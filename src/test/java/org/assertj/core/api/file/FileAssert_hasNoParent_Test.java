@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Jean-Christophe Gay
  */
-public class FileAssert_hasNoParent_Test extends FileAssertBaseTest {
+class FileAssert_hasNoParent_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

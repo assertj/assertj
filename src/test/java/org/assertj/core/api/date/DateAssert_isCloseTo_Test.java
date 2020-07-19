@@ -24,7 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isCloseTo_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isCloseTo_Test extends AbstractDateAssertWithDateArg_Test {
 
   private long delta;
 

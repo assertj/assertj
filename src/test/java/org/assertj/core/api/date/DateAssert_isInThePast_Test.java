@@ -25,16 +25,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isInThePast_Test extends DateAssertBaseTest {
+class DateAssert_isInThePast_Test extends DateAssertBaseTest {
 
   @Test
-  public void should_verify_that_actual_is_in_the_past() {
+  void should_verify_that_actual_is_in_the_past() {
     assertions.isInThePast();
     verify(dates).assertIsInThePast(getInfo(assertions), getActual(assertions));
   }
 
   @Test
-  public void should_return_this() {
+  void should_return_this() {
     DateAssert returned = assertions.isInThePast();
     assertThat(returned).isSameAs(assertions);
   }

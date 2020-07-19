@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
 
-public class DoubleArrayAssert_containsAnyOf_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_containsAnyOf_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

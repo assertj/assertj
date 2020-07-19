@@ -22,7 +22,7 @@ import org.assertj.core.api.DoubleAssertBaseTest;
  *
  * @author Drummond Dawson
  */
-public class DoubleAssert_isOne_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isOne_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {

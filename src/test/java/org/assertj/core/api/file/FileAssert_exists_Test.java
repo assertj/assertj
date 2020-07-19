@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Yvonne Wang
  */
-public class FileAssert_exists_Test extends FileAssertBaseTest {
+class FileAssert_exists_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

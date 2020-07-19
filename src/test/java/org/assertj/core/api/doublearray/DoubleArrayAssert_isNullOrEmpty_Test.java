@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_isNullOrEmpty_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_isNullOrEmpty_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

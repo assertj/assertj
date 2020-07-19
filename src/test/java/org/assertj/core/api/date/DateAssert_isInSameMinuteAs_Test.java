@@ -24,7 +24,7 @@ import org.assertj.core.api.DateAssert;
  *
  * @author Joel Costigliola
  */
-public class DateAssert_isInSameMinuteAs_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isInSameMinuteAs_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {

@@ -25,7 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isBetweenSpecifyingBoundariesInclusion_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isBetweenSpecifyingBoundariesInclusion_Test extends AbstractDateAssertWithDateArg_Test {
 
   private boolean inclusiveStart;
   private boolean inclusiveEnd;

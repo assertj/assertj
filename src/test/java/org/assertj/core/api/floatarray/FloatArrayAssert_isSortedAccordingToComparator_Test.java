@@ -28,13 +28,13 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class FloatArrayAssert_isSortedAccordingToComparator_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_isSortedAccordingToComparator_Test extends FloatArrayAssertBaseTest {
 
   @Mock
   private Comparator<Float> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

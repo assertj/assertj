@@ -20,7 +20,7 @@ import org.assertj.core.test.Player;
 import org.junit.jupiter.api.Test;
 
 
-public class Filter_with_property_equals_to_null_value_Test extends WithPlayerData {
+class Filter_with_property_equals_to_null_value_Test extends WithPlayerData {
 
   @Test
   public void should_filter_iterable_elements_with_property_in_given_values() {

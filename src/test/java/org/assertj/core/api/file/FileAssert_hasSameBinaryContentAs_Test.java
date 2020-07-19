@@ -30,12 +30,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nikolaos Georgiou
  */
-public class FileAssert_hasSameBinaryContentAs_Test extends FileAssertBaseTest {
+class FileAssert_hasSameBinaryContentAs_Test extends FileAssertBaseTest {
 
   private static File expected;
 
   @BeforeAll
-  public static void beforeOnce() {
+  static void beforeOnce() {
     expected = new File("xyz");
   }
 
@@ -50,7 +50,7 @@ public class FileAssert_hasSameBinaryContentAs_Test extends FileAssertBaseTest {
   }
 
   @Test
-  public void should_pass_on_equal_files() throws Exception {
+  void should_pass_on_equal_files() throws Exception {
     // GIVEN
     File actual = createTempFileWithContent("assertJ");
     File expected = createTempFileWithContent("assertJ");
@@ -59,7 +59,7 @@ public class FileAssert_hasSameBinaryContentAs_Test extends FileAssertBaseTest {
   }
 
   @Test
-  public void should_fail_on_different_files() throws Exception {
+  void should_fail_on_different_files() throws Exception {
     // GIVEN
     File actual = createTempFileWithContent("assertJ");
     File expected = createTempFileWithContent("assertJ++");

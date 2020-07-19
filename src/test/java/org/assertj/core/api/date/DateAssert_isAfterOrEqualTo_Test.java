@@ -23,7 +23,7 @@ import org.assertj.core.api.DateAssert;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isAfterOrEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isAfterOrEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {

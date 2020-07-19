@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_hasSize_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_hasSize_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

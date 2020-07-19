@@ -28,13 +28,13 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class DoubleArrayAssert_isSortedAccordingToComparator_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_isSortedAccordingToComparator_Test extends DoubleArrayAssertBaseTest {
 
   @Mock
   private Comparator<Double> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

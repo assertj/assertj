@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class FloatAssert_isPositive_Test extends FloatAssertBaseTest {
+class FloatAssert_isPositive_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {

@@ -33,25 +33,25 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_usingComparator_Test extends DateAssertBaseTest {
+class DateAssert_usingComparator_Test extends DateAssertBaseTest {
 
   @Mock
   private Comparator<Date> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 
   @Test
-  public void using_default_comparator_test() {
+  void using_default_comparator_test() {
     assertions.usingDefaultComparator();
     assertThat(Objects.instance()).isSameAs(getObjects(assertions));
     assertThat(Dates.instance()).isSameAs(getDates(assertions));
   }
 
   @Test
-  public void using_custom_comparator_test() {
+  void using_custom_comparator_test() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     assertions.usingComparator(comparator);
     assertThat(comparator).isSameAs(getObjects(assertions).getComparator());

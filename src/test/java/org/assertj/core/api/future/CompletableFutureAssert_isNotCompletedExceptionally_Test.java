@@ -24,10 +24,10 @@ import java.util.concurrent.CompletableFuture;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-public class CompletableFutureAssert_isNotCompletedExceptionally_Test {
+class CompletableFutureAssert_isNotCompletedExceptionally_Test {
 
   @Test
-  public void should_pass_if_completable_future_is_not_completed_exceptionally() {
+  void should_pass_if_completable_future_is_not_completed_exceptionally() {
     // GIVEN
     CompletableFuture<String> completedFuture = completedFuture("done");
     // THEN
@@ -35,7 +35,7 @@ public class CompletableFutureAssert_isNotCompletedExceptionally_Test {
   }
 
   @Test
-  public void should_fail_when_completable_future_is_null() {
+  void should_fail_when_completable_future_is_null() {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
@@ -45,7 +45,7 @@ public class CompletableFutureAssert_isNotCompletedExceptionally_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_is_completed_exceptionally() {
+  void should_fail_if_completable_future_is_completed_exceptionally() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());

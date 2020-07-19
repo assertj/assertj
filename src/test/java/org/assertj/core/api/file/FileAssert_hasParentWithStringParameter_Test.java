@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Jean-Christophe Gay
  */
-public class FileAssert_hasParentWithStringParameter_Test extends FileAssertBaseTest {
+class FileAssert_hasParentWithStringParameter_Test extends FileAssertBaseTest {
 
   private String parent = "parent";
 

@@ -37,7 +37,7 @@ class Double2DArrayAssert_usingCustomComparator_Test extends Double2DArrayAssert
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new double[][] {}).usingComparator(ALWAYS_EQUAL)
                                  .isEqualTo(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
   }

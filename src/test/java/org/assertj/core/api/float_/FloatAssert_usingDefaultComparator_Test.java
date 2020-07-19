@@ -30,13 +30,13 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class FloatAssert_usingDefaultComparator_Test extends FloatAssertBaseTest {
+class FloatAssert_usingDefaultComparator_Test extends FloatAssertBaseTest {
 
   @Mock
   private Comparator<Float> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
   }

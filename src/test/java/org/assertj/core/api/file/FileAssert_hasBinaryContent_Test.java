@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_hasBinaryContent_Test extends FileAssertBaseTest {
+class FileAssert_hasBinaryContent_Test extends FileAssertBaseTest {
 
   private byte[] content = new byte[0];
 

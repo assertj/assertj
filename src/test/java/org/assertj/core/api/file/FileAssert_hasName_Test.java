@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Jean-Christophe Gay
  */
-public class FileAssert_hasName_Test extends FileAssertBaseTest {
+class FileAssert_hasName_Test extends FileAssertBaseTest {
 
   private String expected = "name";
 

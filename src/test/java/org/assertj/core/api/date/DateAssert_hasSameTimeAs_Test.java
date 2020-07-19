@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michal Kordas
  */
-public class DateAssert_hasSameTimeAs_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_hasSameTimeAs_Test extends AbstractDateAssertWithDateArg_Test {
 
     @Override
     protected DateAssert assertionInvocationWithDateArg() {

@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Fail_fail_withMessageAndCause_Test {
+class Fail_fail_withMessageAndCause_Test {
 
   @Test
-  public void shouldThrowErrorWithGivenMessageAndCause() {
+  void shouldThrowErrorWithGivenMessageAndCause() {
     String message = "Some Throwable";
     Throwable cause = new Throwable();
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Fail.fail(message, cause))

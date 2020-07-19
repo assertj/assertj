@@ -25,7 +25,7 @@ import org.assertj.core.data.Offset;
  * 
  * @author Alex Ruiz
  */
-public class FloatAssert_isEqualTo_float_with_offset_Test extends FloatAssertBaseTest {
+class FloatAssert_isEqualTo_float_with_offset_Test extends FloatAssertBaseTest {
 
   private final Offset<Float> offset = offset(5f);
 

@@ -19,7 +19,7 @@ import org.assertj.core.data.Percentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-public class FloatAssert_isCloseToPercentage_Test extends FloatAssertBaseTest {
+class FloatAssert_isCloseToPercentage_Test extends FloatAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5.0f);
     private final Float value = 10.0f;

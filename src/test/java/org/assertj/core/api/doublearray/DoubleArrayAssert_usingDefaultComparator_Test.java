@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class DoubleArrayAssert_usingDefaultComparator_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_usingDefaultComparator_Test extends DoubleArrayAssertBaseTest {
 
   @Mock
   private Comparator<double[]> comparator;
@@ -39,7 +39,7 @@ public class DoubleArrayAssert_usingDefaultComparator_Test extends DoubleArrayAs
   private DoubleArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
     arraysBefore = getArrays(assertions);

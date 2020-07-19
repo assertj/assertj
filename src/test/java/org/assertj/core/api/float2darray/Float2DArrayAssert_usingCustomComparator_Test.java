@@ -37,7 +37,7 @@ class Float2DArrayAssert_usingCustomComparator_Test extends Float2DArrayAssertBa
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new float[][] {}).usingComparator(ALWAYS_EQUAL)
                                 .isEqualTo(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
   }

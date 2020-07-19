@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class FloatArrayAssert_isNullOrEmpty_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_isNullOrEmpty_Test extends FloatArrayAssertBaseTest {
 
   @Override
   protected FloatArrayAssert invoke_api_method() {

@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class FloatArrayAssert_usingDefaultComparator_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_usingDefaultComparator_Test extends FloatArrayAssertBaseTest {
 
   @Mock
   private Comparator<float[]> comparator;
@@ -39,7 +39,7 @@ public class FloatArrayAssert_usingDefaultComparator_Test extends FloatArrayAsse
   private FloatArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
     arraysBefore = getArrays(assertions);

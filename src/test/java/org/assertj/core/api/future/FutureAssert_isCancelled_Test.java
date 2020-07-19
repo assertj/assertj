@@ -24,7 +24,7 @@ import org.assertj.core.api.FutureAssert;
 import org.assertj.core.api.FutureAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class FutureAssert_isCancelled_Test extends FutureAssertBaseTest {
+class FutureAssert_isCancelled_Test extends FutureAssertBaseTest {
 
   @Override
   protected FutureAssert<String> invoke_api_method() {
@@ -37,7 +37,7 @@ public class FutureAssert_isCancelled_Test extends FutureAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_cancelled() {
+  void should_fail_if_actual_is_not_cancelled() {
     Future<?> actual = mock(Future.class);
     when(actual.isCancelled()).thenReturn(false);
 

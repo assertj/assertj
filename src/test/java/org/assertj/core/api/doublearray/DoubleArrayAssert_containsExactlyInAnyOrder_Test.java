@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.api.DoubleArrayAssert#containsExactlyInAnyOrder(double...)}</code>.
  */
-public class DoubleArrayAssert_containsExactlyInAnyOrder_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_containsExactlyInAnyOrder_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class DoubleArrayAssert_containsExactlyInAnyOrder_Test extends DoubleArra
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(new double[] { 1.0, 2.0, 2.0 }).containsExactlyInAnyOrder(2.0, 2.0, 1.0);
   }
 
