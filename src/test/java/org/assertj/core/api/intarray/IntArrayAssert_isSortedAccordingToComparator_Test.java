@@ -28,7 +28,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class IntArrayAssert_isSortedAccordingToComparator_Test extends IntArrayAssertBaseTest {
+class IntArrayAssert_isSortedAccordingToComparator_Test extends IntArrayAssertBaseTest {
 
   @Mock
   private Comparator<Integer> comparator;

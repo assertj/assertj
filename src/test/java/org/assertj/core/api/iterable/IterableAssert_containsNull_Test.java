@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class IterableAssert_containsNull_Test extends IterableAssertBaseTest {
+class IterableAssert_containsNull_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

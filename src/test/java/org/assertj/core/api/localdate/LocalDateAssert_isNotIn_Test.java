@@ -28,15 +28,15 @@ import org.junit.jupiter.api.Test;
  * Only test String based assertion (tests with {@link LocalDate} are already defined in assertj-core)
  */
 @DisplayName("LocalDateAssert isNotIn")
-public class LocalDateAssert_isNotIn_Test extends LocalDateAssertBaseTest {
+class LocalDateAssert_isNotIn_Test extends LocalDateAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_not_in_dates_as_string_array_parameter() {
+  void should_pass_if_actual_is_not_in_dates_as_string_array_parameter() {
     assertThat(REFERENCE).isNotIn(AFTER.toString(), BEFORE.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_in_dates_as_string_array_parameter() {
+  void should_fail_if_actual_is_in_dates_as_string_array_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString());
     // THEN
@@ -44,7 +44,7 @@ public class LocalDateAssert_isNotIn_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_dates_as_string_array_parameter_is_null() {
+  void should_fail_if_dates_as_string_array_parameter_is_null() {
     // GIVEN
     String[] otherLocalDatesAsString = null;
     // WHEN
@@ -55,7 +55,7 @@ public class LocalDateAssert_isNotIn_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_dates_as_string_array_parameter_is_empty() {
+  void should_fail_if_dates_as_string_array_parameter_is_empty() {
     // GIVEN
     String[] otherLocalDatesAsString = new String[0];
     // WHEN

@@ -30,13 +30,13 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class IntegerAssert_usingDefaultComparator_Test extends IntegerAssertBaseTest {
+class IntegerAssert_usingDefaultComparator_Test extends IntegerAssertBaseTest {
 
   @Mock
   private Comparator<Integer> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
   }

@@ -25,7 +25,7 @@ import org.assertj.core.api.InputStreamAssertBaseTest;
  *
  * @author Valeriy Vyrva
  */
-public class InputStreamAssert_hasDigest_DigestString_Test extends InputStreamAssertBaseTest {
+class InputStreamAssert_hasDigest_DigestString_Test extends InputStreamAssertBaseTest {
 
   private final MessageDigest digest = mock(MessageDigest.class);
   private final String expected = "";

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Christopher Arnott
  */
-public class IterableAssert_hasSameElementsAs_Test extends IterableAssertBaseTest {
+class IterableAssert_hasSameElementsAs_Test extends IterableAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
 

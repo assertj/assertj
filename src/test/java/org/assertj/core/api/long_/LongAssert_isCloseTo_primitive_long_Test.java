@@ -19,7 +19,7 @@ import org.assertj.core.data.Offset;
 import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
-public class LongAssert_isCloseTo_primitive_long_Test extends LongAssertBaseTest {
+class LongAssert_isCloseTo_primitive_long_Test extends LongAssertBaseTest {
 
   private final Offset<Long> offset = offset(5L);
   private final long value = 8L;

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Filip Hrisafov
  */
-public class LongAssert_isNotCloseTo_primitive_long_Test extends LongAssertBaseTest {
+class LongAssert_isNotCloseTo_primitive_long_Test extends LongAssertBaseTest {
 
   private final Offset<Long> offset = offset(5L);
   private final long value = 8L;

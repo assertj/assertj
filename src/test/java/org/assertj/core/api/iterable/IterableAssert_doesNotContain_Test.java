@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IterableAssert_doesNotContain_Test extends IterableAssertBaseTest {
+class IterableAssert_doesNotContain_Test extends IterableAssertBaseTest {
 
   private final Object[] values = { "Yoda", "Luke" };
 

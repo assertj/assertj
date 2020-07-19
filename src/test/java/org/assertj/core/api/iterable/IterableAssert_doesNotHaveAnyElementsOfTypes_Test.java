@@ -24,10 +24,10 @@ import static org.assertj.core.util.Lists.newArrayList;
 /**
  * Tests for {@link AbstractIterableAssert#doesNotHaveAnyElementsOfTypes(Class[])}.
  */
-public class IterableAssert_doesNotHaveAnyElementsOfTypes_Test {
+class IterableAssert_doesNotHaveAnyElementsOfTypes_Test {
 
   @Test
-  public void should_pass_if_actual_has_one_element_of_the_expected_type() {
+  void should_pass_if_actual_has_one_element_of_the_expected_type() {
     List<Integer> list = newArrayList(1, 2);
     assertThat(list).doesNotHaveAnyElementsOfTypes(Long.class, Float.class);
   }

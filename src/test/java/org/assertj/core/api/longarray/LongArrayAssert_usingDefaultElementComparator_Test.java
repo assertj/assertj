@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class LongArrayAssert_usingDefaultElementComparator_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_usingDefaultElementComparator_Test extends LongArrayAssertBaseTest {
 
   @Mock
   private Comparator<Long> comparator;
@@ -39,7 +39,7 @@ public class LongArrayAssert_usingDefaultElementComparator_Test extends LongArra
   private Objects objectsBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     objectsBefore = getObjects(assertions);
     assertions.usingElementComparator(comparator);

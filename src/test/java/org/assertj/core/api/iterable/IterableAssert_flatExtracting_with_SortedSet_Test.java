@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Mateusz Haligowski
  */
-public class IterableAssert_flatExtracting_with_SortedSet_Test {
+class IterableAssert_flatExtracting_with_SortedSet_Test {
 
   private CartoonCharacter bart;
   private CartoonCharacter lisa;
@@ -72,7 +72,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   };
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     bart = new CartoonCharacter("Bart Simpson");
     lisa = new CartoonCharacter("Lisa Simpson");
     maggie = new CartoonCharacter("Maggie Simpson");
@@ -86,41 +86,41 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
     assertThat(newSortedSet(homer, fred)).flatExtracting(childrenExtractor)
                                          .containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children() {
     assertThat(newSortedSet(homer, fred)).flatExtracting(children)
                                          .containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists_with_extractor() {
+  void should_allow_assertions_on_empty_result_lists_with_extractor() {
     assertThat(newSortedSet(bart, lisa, maggie)).flatExtracting(childrenExtractor)
                                                 .isEmpty();
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists() {
+  void should_allow_assertions_on_empty_result_lists() {
     assertThat(newSortedSet(bart, lisa, maggie)).flatExtracting(children)
                                                 .isEmpty();
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
+  void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(newSortedSet(homer, null)).flatExtracting(childrenExtractor));
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null() {
+  void should_throw_null_pointer_exception_when_extracting_from_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(newSortedSet(homer, null)).flatExtracting(children));
   }
 
   @Test
-  public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
+  void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     SortedSet<CartoonCharacter> childCharacters = newSortedSet(bart, lisa, maggie);
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
@@ -129,7 +129,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_let_throwing_extractor_runtime_exception_bubble_up() {
+  void should_let_throwing_extractor_runtime_exception_bubble_up() {
     SortedSet<CartoonCharacter> childCharacters = newSortedSet(bart, lisa, maggie);
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new RuntimeException("no children");
@@ -138,7 +138,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_throwing_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_throwing_extractor() {
     SortedSet<CartoonCharacter> cartoonCharacters = newSortedSet(homer, fred);
     assertThat(cartoonCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
@@ -147,7 +147,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
     SortedSet<CartoonCharacter> cartoonCharacters = newSortedSet(homer, fred);
     assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
       @Override
@@ -159,7 +159,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
+  void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newSortedSet(homer)).as("expected description")
                                                                                                     .flatExtracting(childrenExtractor)
                                                                                                     .isEmpty())
@@ -167,7 +167,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_function() {
+  void should_keep_existing_description_if_set_when_extracting_using_function() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newSortedSet(homer)).as("expected description")
                                                                                                     .flatExtracting(children)
                                                                                                     .isEmpty())
@@ -175,7 +175,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_single_field_name() {
+  void should_keep_existing_description_if_set_when_extracting_using_single_field_name() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newSortedSet(homer)).as("expected description")
                                                                                                     .flatExtracting("children")
                                                                                                     .isEmpty())
@@ -183,7 +183,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_multiple_field_names() {
+  void should_keep_existing_description_if_set_when_extracting_using_multiple_field_names() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newSortedSet(homer)).as("expected description")
                                                                                                     .flatExtracting("children",
                                                                                                                     "name")
@@ -192,7 +192,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_multiple_function_varargs() {
+  void should_keep_existing_description_if_set_when_extracting_using_multiple_function_varargs() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newSortedSet(homer)).as("expected description")
                                                                                                     .flatExtracting(children,
                                                                                                                     children)
@@ -201,7 +201,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_multiple_throwing_extractors_varargs() {
+  void should_keep_existing_description_if_set_when_extracting_using_multiple_throwing_extractors_varargs() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(newSortedSet(homer)).as("expected description")
                                                                                                     .flatExtracting(throwingExtractor,
                                                                                                                     throwingExtractor)
@@ -210,7 +210,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void flatExtracting_should_keep_assertion_state_with_extractor() {
+  void flatExtracting_should_keep_assertion_state_with_extractor() {
     // GIVEN
     AlwaysEqualComparator<CartoonCharacter> cartoonCharacterAlwaysEqualComparator = alwaysEqual();
     // WHEN
@@ -237,7 +237,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
 
 
   @Test
-  public void flatExtracting_should_keep_assertion_state() {
+  void flatExtracting_should_keep_assertion_state() {
     // GIVEN
     AlwaysEqualComparator<CartoonCharacter> cartoonCharacterAlwaysEqualComparator = alwaysEqual();
     // WHEN
@@ -263,7 +263,7 @@ public class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  public void flatExtracting_with_ThrowingExtractor_should_keep_assertion_state() {
+  void flatExtracting_with_ThrowingExtractor_should_keep_assertion_state() {
     // GIVEN
     AlwaysEqualComparator<CartoonCharacter> cartoonCharacterAlwaysEqualComparator = alwaysEqual();
     // WHEN

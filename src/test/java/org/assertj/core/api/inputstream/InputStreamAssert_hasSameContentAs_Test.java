@@ -28,12 +28,12 @@ import org.junit.jupiter.api.BeforeAll;
  * @author Matthieu Baechler
  * @author Joel Costigliola
  */
-public class InputStreamAssert_hasSameContentAs_Test extends InputStreamAssertBaseTest {
+class InputStreamAssert_hasSameContentAs_Test extends InputStreamAssertBaseTest {
 
   private static InputStream expected;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     expected = new ByteArrayInputStream(new byte[] { 'b' });
   }
 

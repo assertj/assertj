@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class IntegerAssert_isNotCloseTo_integer_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isNotCloseTo_integer_Test extends IntegerAssertBaseTest {
 
   private final Offset<Integer> offset = offset(5);
   private final Integer value = 8;

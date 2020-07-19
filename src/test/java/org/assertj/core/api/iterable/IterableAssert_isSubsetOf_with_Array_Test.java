@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link AbstractIterableAssert#isSubsetOf(Object[])}</code>.
  */
-public class IterableAssert_isSubsetOf_with_Array_Test extends IterableAssertBaseTest {
+class IterableAssert_isSubsetOf_with_Array_Test extends IterableAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
   
@@ -42,7 +42,7 @@ public class IterableAssert_isSubsetOf_with_Array_Test extends IterableAssertBas
   }
   
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(newArrayList("Luke", "Yoda")).isSubsetOf("Yoda", "Luke", "Chewbacca");
   }
 }

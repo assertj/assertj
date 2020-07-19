@@ -37,7 +37,7 @@ class Long2DArrayAssert_usingCustomComparator_Test extends Long2DArrayAssertBase
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new long[][] {}).usingComparator(ALWAYS_EQUAL)
                                .isEqualTo(new long[][] { { 1L, 2L }, { 3L, 4L } });
   }

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Jean-Christophe Gay
  */
-public class LongArrayAssert_containsExactly_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_containsExactly_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

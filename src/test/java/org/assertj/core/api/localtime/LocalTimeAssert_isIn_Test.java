@@ -31,15 +31,15 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalTimeAssert isIn")
-public class LocalTimeAssert_isIn_Test extends LocalTimeAssertBaseTest {
+class LocalTimeAssert_isIn_Test extends LocalTimeAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_in_localTimes_as_string_array_parameter() {
+  void should_pass_if_actual_is_in_localTimes_as_string_array_parameter() {
     assertThat(REFERENCE).isIn(REFERENCE.toString(), AFTER.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_localTimes_as_string_array_parameter() {
+  void should_fail_if_actual_is_not_in_localTimes_as_string_array_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isIn(AFTER.toString(), BEFORE.toString());
     // THEN
@@ -47,7 +47,7 @@ public class LocalTimeAssert_isIn_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_localTimes_as_string_array_parameter_is_null() {
+  void should_fail_if_localTimes_as_string_array_parameter_is_null() {
     // GIVEN
     String[] otherLocalTimesAsString = null;
     // WHEN
@@ -58,7 +58,7 @@ public class LocalTimeAssert_isIn_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_localTimes_as_string_array_parameter_is_empty() {
+  void should_fail_if_localTimes_as_string_array_parameter_is_empty() {
     // GIVEN
     String[] otherLocalTimesAsString = new String[0];
     // WHEN

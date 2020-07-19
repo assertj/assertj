@@ -17,7 +17,7 @@ import org.assertj.core.api.LongArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class LongArrayAssert_hasSizeBetween_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_hasSizeBetween_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

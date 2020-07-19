@@ -29,13 +29,13 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Bo Gotthardt
  */
-public class ListAssert_is_at_Index_Test extends ListAssertBaseTest {
+class ListAssert_is_at_Index_Test extends ListAssertBaseTest {
 
   private static Condition<Object> condition;
   private static Index index;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     condition = new TestCondition<>();
     index = someIndex();
   }

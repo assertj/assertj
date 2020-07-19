@@ -19,7 +19,7 @@ import org.assertj.core.data.Percentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-public class LongAssert_isCloseToPercentage_primitive_long_Test extends LongAssertBaseTest {
+class LongAssert_isCloseToPercentage_primitive_long_Test extends LongAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5L);
     private final long value = 10L;

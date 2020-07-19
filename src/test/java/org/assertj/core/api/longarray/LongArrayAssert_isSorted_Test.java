@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class LongArrayAssert_isSorted_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_isSorted_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

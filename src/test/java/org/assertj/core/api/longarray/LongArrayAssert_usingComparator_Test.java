@@ -30,7 +30,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class LongArrayAssert_usingComparator_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_usingComparator_Test extends LongArrayAssertBaseTest {
 
   @Mock
   private Comparator<long[]> comparator;
@@ -38,7 +38,7 @@ public class LongArrayAssert_usingComparator_Test extends LongArrayAssertBaseTes
   private LongArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     arraysBefore = getArrays(assertions);
   }

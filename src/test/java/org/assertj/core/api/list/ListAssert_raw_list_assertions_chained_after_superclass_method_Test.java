@@ -24,7 +24,7 @@ import org.assertj.core.description.Description;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class ListAssert_raw_list_assertions_chained_after_superclass_method_Test {
+class ListAssert_raw_list_assertions_chained_after_superclass_method_Test {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Disabled
@@ -79,7 +79,7 @@ public class ListAssert_raw_list_assertions_chained_after_superclass_method_Test
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
-  public void test_bug_485() {
+  void test_bug_485() {
     // https://github.com/joel-costigliola/assertj-core/issues/485
     List list = new java.util.ArrayList<>();
     list.add("Key1");

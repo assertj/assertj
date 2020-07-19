@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalDateTimeAssert isEqualTo")
-public class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAssertBaseTest {
+class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   private Object otherType = new Object();
 
@@ -57,7 +57,7 @@ public class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAss
   }
 
   @Test
-  public void should_fail_if_localDateTime_as_string_parameter_is_null() {
+  void should_fail_if_localDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherDateTimeAsString = null;
     // WHEN
@@ -68,12 +68,12 @@ public class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAss
   }
 
   @Test
-  public void should_fail_if_given_localDateTime_as_string_parameter_cant_be_parsed() {
+  void should_fail_if_given_localDateTime_as_string_parameter_cant_be_parsed() {
     assertThatThrownBy(() -> assertions.isEqualTo("not a LocalDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 
   @Test
-  public void should_pass_if_actual_is_the_same_point_on_the_local_time_than_given_localDateTime_in_another_chronology() {
+  void should_pass_if_actual_is_the_same_point_on_the_local_time_than_given_localDateTime_in_another_chronology() {
     // GIVEN
     ChronoLocalDateTime<JapaneseDate> nowInJapaneseChronology = JapaneseChronology.INSTANCE.localDateTime(NOW);
     // WHEN/THEN
@@ -85,7 +85,7 @@ public class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAss
   }
 
   @Test
-  public void should_pass_if_given_localDateTime_passed_as_Object() {
+  void should_pass_if_given_localDateTime_passed_as_Object() {
     // GIVEN
     Object nowInJapaneseChronology = JapaneseChronology.INSTANCE.localDateTime(NOW);
     // WHEN/THEN

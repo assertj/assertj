@@ -28,18 +28,18 @@ import org.assertj.core.test.Employee;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_filtered_baseTest {
+class IterableAssert_filteredOn_predicate_Test extends IterableAssert_filtered_baseTest {
 
   private static Predicate<? super TolkienCharacter> nameStartingWithFro = hobbit -> hobbit.getName().startsWith("Fro");
 
   @Test
-  public void should_filter_iterable_under_test_on_predicate() {
+  void should_filter_iterable_under_test_on_predicate() {
     assertThat(employees).filteredOn(employee -> employee.getAge() > 100).containsOnly(yoda, obiwan);
     assertThat(newHashSet(employees)).filteredOn(employee -> employee.getAge() > 100).containsOnly(yoda, obiwan);
   }
 
   @Test
-  public void should_fail_if_given_predicate_is_null() {
+  void should_fail_if_given_predicate_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Predicate<? super Employee> predicate = null;
       assertThat(employees).filteredOn(predicate);
@@ -47,7 +47,7 @@ public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_fil
   }
 
   @Test
-  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
@@ -64,7 +64,7 @@ public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_fil
   }
 
   @Test
-  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     // THEN
@@ -80,7 +80,7 @@ public class IterableAssert_filteredOn_predicate_Test extends IterableAssert_fil
   }
 
   @Test
-  public void should_keep_assertion_state() {
+  void should_keep_assertion_state() {
     // GIVEN
     Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
     // WHEN

@@ -25,10 +25,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("InstantAssert isBeforeOrEqualTo")
-public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest {
+class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_before_date_parameter() {
+  void should_pass_if_actual_is_before_date_parameter() {
     assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
   }
 
@@ -38,17 +38,17 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_date_parameter() {
+  void should_pass_if_actual_is_equal_to_date_parameter() {
     assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_date_as_string_parameter() {
+  void should_pass_if_actual_is_equal_to_date_as_string_parameter() {
     assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_after_date_parameter() {
+  void should_fail_if_actual_is_after_date_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(AFTER).isBeforeOrEqualTo(REFERENCE);
     // THEN
@@ -56,7 +56,7 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
   }
 
   @Test
-  public void should_fail_if_actual_is_after_date_as_string_parameter() {
+  void should_fail_if_actual_is_after_date_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(AFTER).isBeforeOrEqualTo(REFERENCE.toString());
     // THEN
@@ -64,7 +64,7 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Instant instant = null;
     // WHEN
@@ -74,7 +74,7 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
   }
 
   @Test
-  public void should_fail_if_date_parameter_is_null() {
+  void should_fail_if_date_parameter_is_null() {
     // GIVEN
     Instant otherInstant = null;
     // WHEN
@@ -85,7 +85,7 @@ public class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest 
   }
 
   @Test
-  public void should_fail_if_date_as_string_parameter_is_null() {
+  void should_fail_if_date_as_string_parameter_is_null() {
     // GIVEN
     String otherInstantAsString = null;
     // WHEN

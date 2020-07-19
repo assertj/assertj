@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class ListAssert_isSorted_Test extends ListAssertBaseTest {
+class ListAssert_isSorted_Test extends ListAssertBaseTest {
 
   @Override
   protected ListAssert<String> invoke_api_method() {

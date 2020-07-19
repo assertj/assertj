@@ -32,13 +32,13 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ListAssert_usingDefaultComparator_Test extends ListAssertBaseTest {
+class ListAssert_usingDefaultComparator_Test extends ListAssertBaseTest {
 
   @Mock
   private Comparator<List<? extends String>> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingComparator(comparator);
   }

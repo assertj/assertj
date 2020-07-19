@@ -25,15 +25,15 @@ import static org.mockito.Mockito.verify;
  *
  * @author Harry Cummings
  */
-public class IterableAssert_containsSubsequence_Test extends IterableAssertBaseTest {
+class IterableAssert_containsSubsequence_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-	return assertions.containsSubsequence("Luke", "Leia");
+    return assertions.containsSubsequence("Luke", "Leia");
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(iterables).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
+    verify(iterables).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
   }
 }

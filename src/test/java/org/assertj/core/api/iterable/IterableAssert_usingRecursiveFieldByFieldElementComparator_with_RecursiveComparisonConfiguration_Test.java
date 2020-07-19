@@ -25,13 +25,13 @@ import org.assertj.core.internal.Iterables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_RecursiveComparisonConfiguration_Test extends IterableAssertBaseTest {
+class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_RecursiveComparisonConfiguration_Test extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
 
   @BeforeEach
-  public void before() {
+  void before() {
     iterablesBefore = getIterables(assertions);
   }
 
@@ -51,7 +51,7 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_Rec
   }
 
   @Test
-  public void should_be_able_to_use_specific_RecursiveComparisonConfiguration_when_using_recursive_field_by_field_element_comparator() {
+  void should_be_able_to_use_specific_RecursiveComparisonConfiguration_when_using_recursive_field_by_field_element_comparator() {
     // GIVEN
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("2", new Bar(1));

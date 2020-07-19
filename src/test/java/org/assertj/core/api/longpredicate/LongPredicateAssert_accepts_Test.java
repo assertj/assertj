@@ -31,16 +31,16 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTest {
+class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTest {
 
   @Test
-  public void should_fail_when_predicate_is_null() {
+  void should_fail_when_predicate_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((LongPredicate) null).accepts(1L, 2L))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_value() {
+  void should_fail_when_predicate_does_not_accept_value() {
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 3;
@@ -49,7 +49,7 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_value_with_string_description() {
+  void should_fail_when_predicate_does_not_accept_value_with_string_description() {
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 3;
@@ -58,7 +58,7 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_value() {
+  void should_pass_when_predicate_accepts_value() {
     LongPredicate predicate = val -> val <= 2;
 
     assertThat(predicate).accepts(1);
@@ -66,7 +66,7 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
 
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_values() {
+  void should_fail_when_predicate_does_not_accept_values() {
     LongPredicate predicate = val -> val <= 2;
     long[] matchValues = new long[] { 1L, 2L, 3L };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))
@@ -74,7 +74,7 @@ public class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTes
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_all_values() {
+  void should_pass_when_predicate_accepts_all_values() {
     LongPredicate predicate = val -> val <= 2;
 
     assertThat(predicate).accepts(1L, 2L);

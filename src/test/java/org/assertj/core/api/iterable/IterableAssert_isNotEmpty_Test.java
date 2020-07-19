@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class IterableAssert_isNotEmpty_Test extends IterableAssertBaseTest {
+class IterableAssert_isNotEmpty_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

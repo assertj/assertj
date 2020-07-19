@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class LongAssert_isNegative_Test extends LongAssertBaseTest {
+class LongAssert_isNegative_Test extends LongAssertBaseTest {
 
   @Override
   protected LongAssert invoke_api_method() {

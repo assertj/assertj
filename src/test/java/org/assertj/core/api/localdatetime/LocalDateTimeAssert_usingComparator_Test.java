@@ -20,7 +20,7 @@ import java.util.Comparator;
 import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 
-public class LocalDateTimeAssert_usingComparator_Test extends AbstractLocalDateTimeAssertBaseTest {
+class LocalDateTimeAssert_usingComparator_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   private Comparator<LocalDateTime> testComparator = LocalDateTime::compareTo;
 

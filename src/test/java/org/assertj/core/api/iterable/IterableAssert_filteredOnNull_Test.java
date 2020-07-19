@@ -28,26 +28,26 @@ import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_baseTest {
+class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_baseTest {
 
   @Test
-  public void should_filter_iterable_under_test_on_null_property_values() {
+  void should_filter_iterable_under_test_on_null_property_values() {
     assertThat(employees).filteredOnNull("name").containsOnly(noname);
   }
 
   @Test
-  public void should_filter_iterable_under_test_on_null_nested_property_values() {
+  void should_filter_iterable_under_test_on_null_nested_property_values() {
     assertThat(employees).filteredOnNull("name.last").containsOnly(yoda, obiwan, noname);
   }
 
   @Test
-  public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
+  void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOnNull("secret"))
                                                        .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test
-  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbitsWithoutNames();
     TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
@@ -64,7 +64,7 @@ public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_
   }
 
   @Test
-  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbitsWithoutNames();
     // THEN
@@ -80,7 +80,7 @@ public class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_
   }
 
   @Test
-  public void should_keep_assertion_state() {
+  void should_keep_assertion_state() {
     // GIVEN
     Iterable<Name> namesWithNullLast = asList(name("John", null), name("Jane", "Doe"));
     // WHEN

@@ -24,18 +24,18 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
+class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
 
   private final LocalDateTime refLocalDateTime = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 0);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_nanosecond_fields() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_nanosecond_fields() {
     assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.withNano(55));
     assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.plusNanos(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_localdatetime_with_nanoseconds_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_localdatetime_with_nanoseconds_ignored() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.plusSeconds(1)));
     // THEN
@@ -43,7 +43,7 @@ public class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
+  void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).isEqualToIgnoringNanos(refLocalDateTime.minusNanos(1)));
     // THEN
@@ -51,7 +51,7 @@ public class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
@@ -61,7 +61,7 @@ public class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_localdatetime_is_null() {
+  void should_throw_error_if_given_localdatetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalDateTime).isEqualToIgnoringNanos(null))
                                         .withMessage(NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
   }

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Cal027
  */
-public class IntegerAssert_isEven_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isEven_Test extends IntegerAssertBaseTest {
 
   @Override
   protected IntegerAssert invoke_api_method() {

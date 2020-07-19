@@ -29,13 +29,13 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class ListAssert_isSortedAccordingToComparator_Test extends ListAssertBaseTest {
+class ListAssert_isSortedAccordingToComparator_Test extends ListAssertBaseTest {
 
   @Mock
   private Comparator<String> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

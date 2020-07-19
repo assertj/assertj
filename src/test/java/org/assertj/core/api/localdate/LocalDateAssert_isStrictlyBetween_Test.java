@@ -18,7 +18,7 @@ import java.time.LocalDate;
 
 import org.assertj.core.api.LocalDateAssert;
 
-public class LocalDateAssert_isStrictlyBetween_Test extends org.assertj.core.api.LocalDateAssertBaseTest {
+class LocalDateAssert_isStrictlyBetween_Test extends org.assertj.core.api.LocalDateAssertBaseTest {
 
   private LocalDate before = now.minusDays(1);
   private LocalDate after = now.plusDays(1);

@@ -21,12 +21,12 @@ import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
-public class IterableAssert_anyMatch_Test extends IterableAssertBaseTest {
+class IterableAssert_anyMatch_Test extends IterableAssertBaseTest {
 
   private Consumer<Object> restrictions;
 
   @BeforeEach
-  public void beforeEach() {
+  void beforeEach() {
     restrictions = o -> assertThat(o).isNotNull();
   }
 

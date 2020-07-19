@@ -23,7 +23,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
  * 
  * @author Marko Bekhta
  */
-public class IterableAssert_containsAnyOf_Test extends IterableAssertBaseTest {
+class IterableAssert_containsAnyOf_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
  * 
  * @author Lovro Pandzic
  */
-public class IterableAssert_containsExactlyInAnyOrder_Test extends IterableAssertBaseTest {
+class IterableAssert_containsExactlyInAnyOrder_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

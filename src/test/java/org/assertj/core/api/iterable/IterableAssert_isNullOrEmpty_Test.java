@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class IterableAssert_isNullOrEmpty_Test extends IterableAssertBaseTest {
+class IterableAssert_isNullOrEmpty_Test extends IterableAssertBaseTest {
 
   @Test
   public void should_verify_actual_is_null_or_empty() {}

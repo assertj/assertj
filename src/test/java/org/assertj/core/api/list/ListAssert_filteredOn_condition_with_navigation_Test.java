@@ -20,13 +20,13 @@ import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.junit.jupiter.api.Test;
 
-public class ListAssert_filteredOn_condition_with_navigation_Test extends ListAssert_filteredOn_BaseTest {
+class ListAssert_filteredOn_condition_with_navigation_Test extends ListAssert_filteredOn_BaseTest {
 
   private static Condition<TolkienCharacter> nameStartingWithFro = new Condition<>(hobbit -> hobbit.getName().startsWith("Fro"),
                                                                                    "name starts with Fro");
 
   @Test
-  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
@@ -43,7 +43,7 @@ public class ListAssert_filteredOn_condition_with_navigation_Test extends ListAs
   }
 
   @Test
-  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     // THEN

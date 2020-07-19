@@ -29,7 +29,7 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_filteredOn_condition_Test extends IterableAssert_filtered_baseTest {
+class IterableAssert_filteredOn_condition_Test extends IterableAssert_filtered_baseTest {
 
   private Condition<Employee> oldEmployees;
   private Condition<TolkienCharacter> nameStartingWithFro;
@@ -43,17 +43,17 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
   }
 
   @Test
-  public void should_filter_iterable_under_test_on_condition() {
+  void should_filter_iterable_under_test_on_condition() {
     assertThat(employees).filteredOn(oldEmployees).containsOnly(yoda, obiwan);
   }
 
   @Test
-  public void should_filter_iterable_under_test_on_combined_condition() {
+  void should_filter_iterable_under_test_on_combined_condition() {
     assertThat(employees).filteredOn(not(oldEmployees)).contains(luke, noname);
   }
 
   @Test
-  public void should_fail_if_given_condition_is_null() {
+  void should_fail_if_given_condition_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       oldEmployees = null;
       assertThat(employees).filteredOn(oldEmployees);
@@ -61,7 +61,7 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
   }
 
   @Test
-  public void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
+  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
@@ -78,7 +78,7 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
   }
 
   @Test
-  public void should_honor_ClassBased_strongly_typed_navigation_assertions() {
+  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     // THEN
@@ -94,7 +94,7 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
   }
 
   @Test
-  public void should_keep_existing_assertion_contextual_information() {
+  void should_keep_existing_assertion_contextual_information() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     String description = "should find Frodo";
@@ -112,7 +112,7 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
   }
 
   @Test
-  public void should_keep_assertion_state() {
+  void should_keep_assertion_state() {
     // GIVEN
     Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
     // WHEN

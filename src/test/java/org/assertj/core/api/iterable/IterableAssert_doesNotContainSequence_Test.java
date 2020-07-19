@@ -24,7 +24,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
  *
  * @author Chris Arnott
  */
-public class IterableAssert_doesNotContainSequence_Test extends IterableAssertBaseTest {
+class IterableAssert_doesNotContainSequence_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
