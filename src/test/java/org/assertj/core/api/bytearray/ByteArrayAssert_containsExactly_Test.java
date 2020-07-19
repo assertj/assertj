@@ -14,6 +14,7 @@ package org.assertj.core.api.bytearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ByteArrays.arrayOf;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ByteArrayAssert;
@@ -35,18 +36,23 @@ class ByteArrayAssert_containsExactly_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), arrayOf(1, 2));
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), arrayOf(1, 2));
   }
 
   @Test
-  void invoke_api_like_user() {
-    assertThat(new byte[] { 1, 2, 3 }).containsExactly((byte) 1, (byte) 2, (byte) 3);
+  public void invoke_api_like_user() {
+    // GIVEN
+    byte[] actual = new byte[] { 1, 2, 3 };
+    // WHEN/THEN
+    assertThat(actual).containsExactly((byte) 1, (byte) 2, (byte) 3);
   }
 
   @Test
-  void should_honor_the_given_element_comparator() {
-    byte[] actual = new byte[] { 1, 2, 3, 4 };
-    assertThat(actual).usingElementComparator(new AbsValueComparator<Byte>())
-                      .containsExactly((byte) -1, (byte) 2, (byte) 3, (byte) -4);
+  public void does_not_honor_the_given_element_comparator() {
+    // GIVEN
+    byte[] actual = new byte[] { 1, 2, 3 };
+    // WHEN/THEN
+    expectAssertionError(() -> assertThat(actual).usingElementComparator(new AbsValueComparator<Byte>())
+                                                 .containsExactly((byte) -1, (byte) 2, (byte) 3));
   }
 }

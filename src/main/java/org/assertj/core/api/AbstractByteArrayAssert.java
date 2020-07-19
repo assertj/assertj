@@ -755,6 +755,9 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
    * <p>
+   * <b>Warning</b>: for performance reason, this assertion compares arrays directly meaning that <b>it does not honor element
+   * comparator</b> set with {@link #usingElementComparator(Comparator)}.
+   * <p>
    * Example :
    * <pre><code class='java'> // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsExactly((byte) 1, (byte) 2, (byte) 3);
@@ -773,7 +776,12 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                              or values are the same but the order is not.
    */
   public SELF containsExactly(byte... values) {
-    arrays.assertContainsExactly(info, actual, values);
+    // In #1801 we changed objects.assertEqual to arrays.assertContainsExactly to get a better error message but it came with
+    // significant performace degradation as #1898 showed.
+    // We can't get the best of both approaches even if we call assertContainsExactly only when assertEqual, assertContainsExactly
+    // would take a long time to compute the diff between both arrays.
+    // We can at least solve the representation of byte[] arrays so that they show the bytes
+    objects.assertEqual(info, actual, values);
     return myself;
   }
 
