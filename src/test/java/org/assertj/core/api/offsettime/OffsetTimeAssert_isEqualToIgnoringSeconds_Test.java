@@ -24,17 +24,17 @@ import java.time.ZoneOffset;
 
 import org.junit.jupiter.api.Test;
 
-public class OffsetTimeAssert_isEqualToIgnoringSeconds_Test {
+class OffsetTimeAssert_isEqualToIgnoringSeconds_Test {
 
   private final OffsetTime refOffsetTime = OffsetTime.of(23, 51, 0, 0, ZoneOffset.UTC);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_second_fields() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_second_fields() {
     assertThat(refOffsetTime).isEqualToIgnoringSeconds(refOffsetTime.plusSeconds(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_offsetTime_with_second_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_offsetTime_with_second_ignored() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).isEqualToIgnoringSeconds(refOffsetTime.plusMinutes(1)))
                                                    .withMessage(format("%nExpecting:%n" +
                                                                        "  <23:51Z>%n" +
@@ -44,7 +44,7 @@ public class OffsetTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
+  void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).isEqualToIgnoringSeconds(refOffsetTime.minusNanos(1)))
                                                    .withMessage(format("%nExpecting:%n" +
                                                                        "  <23:51Z>%n" +
@@ -54,7 +54,7 @@ public class OffsetTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       OffsetTime actual = null;
       assertThat(actual).isEqualToIgnoringSeconds(OffsetTime.now());
@@ -62,7 +62,7 @@ public class OffsetTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_offsetTime_is_null() {
+  void should_throw_error_if_given_offsetTime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refOffsetTime).isEqualToIgnoringSeconds(null))
                                         .withMessage(NULL_OFFSET_TIME_PARAMETER_MESSAGE);
   }

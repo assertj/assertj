@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class OffsetTimeAssert_isIn_Test extends OffsetTimeAssertBaseTest {
+class OffsetTimeAssert_isIn_Test extends OffsetTimeAssertBaseTest {
 
   @Test
-  public void test_isIn_assertion() {
+  void test_isIn_assertion() {
     // WHEN
     assertThat(REFERENCE).isIn(REFERENCE, REFERENCE.plusHours(1));
     assertThat(REFERENCE).isIn(REFERENCE.toString(), REFERENCE.plusHours(1).toString());
@@ -41,7 +41,7 @@ public class OffsetTimeAssert_isIn_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void test_isIn_assertion_error_message() {
+  void test_isIn_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
                                                                                               ZoneOffset.UTC)).isIn("03:03:03Z"))
                                                    .withMessage(format("%n" +
@@ -52,13 +52,13 @@ public class OffsetTimeAssert_isIn_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_offsetTimes_as_string_array_parameter_is_null() {
+  void should_fail_if_offsetTimes_as_string_array_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isIn((String[]) null))
                                         .withMessage("The given OffsetTime array should not be null");
   }
 
   @Test
-  public void should_fail_if_offsetTimes_as_string_array_parameter_is_empty() {
+  void should_fail_if_offsetTimes_as_string_array_parameter_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isIn(new String[0]))
                                         .withMessage("The given OffsetTime array should not be empty");
   }

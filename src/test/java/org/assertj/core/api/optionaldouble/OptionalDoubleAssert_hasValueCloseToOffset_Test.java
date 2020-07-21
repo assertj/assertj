@@ -25,16 +25,16 @@ import java.util.OptionalDouble;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 
-public class OptionalDoubleAssert_hasValueCloseToOffset_Test {
+class OptionalDoubleAssert_hasValueCloseToOffset_Test {
 
   @Test
-  public void should_fail_when_optionaldouble_is_null() {
+  void should_fail_when_optionaldouble_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalDouble) null).hasValueCloseTo(10.0, within(2.0)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_optionaldouble_is_empty() {
+  void should_fail_if_optionaldouble_is_empty() {
     double expectedValue = 10.0;
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalDouble.empty()).hasValueCloseTo(expectedValue, within(2.0)))
@@ -42,7 +42,7 @@ public class OptionalDoubleAssert_hasValueCloseToOffset_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     double expectedValue = 10.0;
     Offset<Double> offset = within(1.0);
     OptionalDouble actual = OptionalDouble.of(1.0);
@@ -55,24 +55,24 @@ public class OptionalDoubleAssert_hasValueCloseToOffset_Test {
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     Offset<Double> offset = null;
     assertThatNullPointerException().isThrownBy(() -> assertThat(OptionalDouble.of(10.0)).hasValueCloseTo(10.0, offset));
   }
 
   @Test
-  public void should_pass_if_optionaldouble_has_expected_value_close_to() {
+  void should_pass_if_optionaldouble_has_expected_value_close_to() {
     assertThat(OptionalDouble.of(10.0)).hasValueCloseTo(10.0, within(2.0));
   }
 
   @Test
-  public void should_pass_if_optionaldouble_has_expected_value_with_less_than_given_offset() {
+  void should_pass_if_optionaldouble_has_expected_value_with_less_than_given_offset() {
     assertThat(OptionalDouble.of(1.0)).hasValueCloseTo(1.0, within(1.0));
     assertThat(OptionalDouble.of(1.0)).hasValueCloseTo(2.0, within(10.0));
   }
 
   @Test
-  public void should_pass_if_optionaldouble_has_expected_value_equal_given_offset() {
+  void should_pass_if_optionaldouble_has_expected_value_equal_given_offset() {
     assertThat(OptionalDouble.of(1.0)).hasValueCloseTo(1.0, within(0.0));
     assertThat(OptionalDouble.of(1.0)).hasValueCloseTo(0.0, within(1.0));
     assertThat(OptionalDouble.of(1.0)).hasValueCloseTo(2.0, within(1.0));

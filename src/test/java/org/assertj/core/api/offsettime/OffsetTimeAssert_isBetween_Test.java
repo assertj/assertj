@@ -18,7 +18,7 @@ import java.time.OffsetTime;
 
 import org.assertj.core.api.OffsetTimeAssert;
 
-public class OffsetTimeAssert_isBetween_Test extends org.assertj.core.api.OffsetTimeAssertBaseTest {
+class OffsetTimeAssert_isBetween_Test extends org.assertj.core.api.OffsetTimeAssertBaseTest {
 
   private OffsetTime before = now.minusSeconds(1);
   private OffsetTime after = now.plusSeconds(1);

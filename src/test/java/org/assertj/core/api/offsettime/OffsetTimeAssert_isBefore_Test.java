@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
+class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
 
   @Test
-  public void test_isBefore_assertion() {
+  void test_isBefore_assertion() {
     // WHEN
     assertThat(BEFORE).isBefore(REFERENCE);
     assertThat(BEFORE).isBefore(REFERENCE.toString());
@@ -42,7 +42,7 @@ public class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void test_isBefore_assertion_error_message() {
+  void test_isBefore_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
                                                                                               ZoneOffset.UTC)).isBefore(OffsetTime.of(3,
                                                                                                                                       0,
@@ -57,7 +57,7 @@ public class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       OffsetTime actual = null;
       assertThat(actual).isBefore(OffsetTime.now());
@@ -65,13 +65,13 @@ public class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_offsetTime_parameter_is_null() {
+  void should_fail_if_offsetTime_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isBefore((OffsetTime) null))
                                         .withMessage("The OffsetTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_offsetTime_as_string_parameter_is_null() {
+  void should_fail_if_offsetTime_as_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isBefore((String) null))
                                         .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }

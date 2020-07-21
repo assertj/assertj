@@ -22,7 +22,7 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.api.OffsetTimeAssert;
 import org.junit.jupiter.api.Test;
 
-public class OffsetTimeAssert_isBetween_with_String_parameters_Test
+class OffsetTimeAssert_isBetween_with_String_parameters_Test
     extends org.assertj.core.api.OffsetTimeAssertBaseTest {
 
   private OffsetTime before = now.minusSeconds(1);
@@ -39,7 +39,7 @@ public class OffsetTimeAssert_isBetween_with_String_parameters_Test
   }
 
   @Test
-  public void should_throw_a_TimeParseException_if_start_String_parameter_cant_be_converted() {
+  void should_throw_a_TimeParseException_if_start_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN
@@ -49,7 +49,7 @@ public class OffsetTimeAssert_isBetween_with_String_parameters_Test
   }
 
   @Test
-  public void should_throw_a_TimeParseException_if_end_String_parameter_cant_be_converted() {
+  void should_throw_a_TimeParseException_if_end_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN

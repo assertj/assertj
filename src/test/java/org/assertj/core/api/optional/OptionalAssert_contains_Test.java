@@ -25,10 +25,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class OptionalAssert_contains_Test {
+class OptionalAssert_contains_Test {
 
   @Test
-  public void should_fail_when_optional_is_null() {
+  void should_fail_when_optional_is_null() {
     // GIVEN
     Optional<String> nullActual = null;
     // THEN
@@ -36,18 +36,18 @@ public class OptionalAssert_contains_Test {
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Optional.of("something")).contains(null))
                                         .withMessage("The expected value should not be <null>.");
   }
 
   @Test
-  public void should_pass_if_optional_contains_expected_value() {
+  void should_pass_if_optional_contains_expected_value() {
     assertThat(Optional.of("something")).contains("something");
   }
 
   @Test
-  public void should_fail_if_optional_does_not_contain_expected_value() {
+  void should_fail_if_optional_does_not_contain_expected_value() {
     // GIVEN
     Optional<String> actual = Optional.of("not-expected");
     String expectedValue = "something";
@@ -61,7 +61,7 @@ public class OptionalAssert_contains_Test {
   }
 
   @Test
-  public void should_fail_if_optional_is_empty() {
+  void should_fail_if_optional_is_empty() {
     // GIVEN
     String expectedValue = "something";
     // WHEN
