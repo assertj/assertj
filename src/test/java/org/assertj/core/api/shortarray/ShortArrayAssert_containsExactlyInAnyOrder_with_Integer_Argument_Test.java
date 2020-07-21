@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * @author Dan Avila
  */
 @DisplayName("ShortArrayAssert containsExactlyInAnyOrder (ints)")
-public class ShortArrayAssert_containsExactlyInAnyOrder_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
+class ShortArrayAssert_containsExactlyInAnyOrder_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
@@ -40,7 +40,7 @@ public class ShortArrayAssert_containsExactlyInAnyOrder_with_Integer_Argument_Te
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new short[] { 1, 2, 2 }).containsExactlyInAnyOrder(2, 2, 1);
   }
 

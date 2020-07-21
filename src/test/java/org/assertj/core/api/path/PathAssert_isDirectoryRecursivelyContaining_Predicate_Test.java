@@ -25,7 +25,7 @@ import org.assertj.core.api.PathAssertBaseTest;
  *
  * @author David Haccoun
  */
-public class PathAssert_isDirectoryRecursivelyContaining_Predicate_Test extends PathAssertBaseTest {
+class PathAssert_isDirectoryRecursivelyContaining_Predicate_Test extends PathAssertBaseTest {
 
   private final Predicate<Path> anyFilter = path -> true;
 

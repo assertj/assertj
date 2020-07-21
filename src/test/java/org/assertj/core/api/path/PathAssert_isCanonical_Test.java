@@ -17,15 +17,15 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-public class PathAssert_isCanonical_Test extends PathAssertBaseTest {
+class PathAssert_isCanonical_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.isCanonical();
+    return assertions.isCanonical();
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertIsCanonical(getInfo(assertions), getActual(assertions));
+    verify(paths).assertIsCanonical(getInfo(assertions), getActual(assertions));
   }
 }

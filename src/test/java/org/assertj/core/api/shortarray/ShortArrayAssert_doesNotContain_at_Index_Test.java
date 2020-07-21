@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_doesNotContain_at_Index_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_doesNotContain_at_Index_Test extends ShortArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

@@ -25,7 +25,7 @@ import org.junit.jupiter.api.DisplayName;
  * @author Dan Avila
  */
 @DisplayName("ShortArrayAssert containsSubsequence (ints)")
-public class ShortArrayAssert_containsSubsequence_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
+class ShortArrayAssert_containsSubsequence_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

@@ -17,7 +17,7 @@ import org.assertj.core.api.ShortArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class ShortArrayAssert_hasSizeLessThanOrEqualTo_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_hasSizeLessThanOrEqualTo_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

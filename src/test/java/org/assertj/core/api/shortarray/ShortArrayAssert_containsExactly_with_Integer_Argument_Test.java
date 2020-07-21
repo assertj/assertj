@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  * @author Dan Avila
  */
 @DisplayName("ShortArrayAssert containsExactly (ints)")
-public class ShortArrayAssert_containsExactly_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
+class ShortArrayAssert_containsExactly_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
@@ -41,7 +41,7 @@ public class ShortArrayAssert_containsExactly_with_Integer_Argument_Test extends
   }
 
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     short[] actual = new short[] { (short) 1, (short) 2, (short) 3 };
     assertThat(actual).usingElementComparator(new AbsValueComparator<Short>())
                       .containsExactly(-1, 2, 3);

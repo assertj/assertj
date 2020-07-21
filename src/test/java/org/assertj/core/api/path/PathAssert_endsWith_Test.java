@@ -20,17 +20,17 @@ import java.nio.file.Path;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-public class PathAssert_endsWith_Test extends PathAssertBaseTest {
+class PathAssert_endsWith_Test extends PathAssertBaseTest {
   
   private final Path other = mock(Path.class);
 
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.endsWith(other);
+    return assertions.endsWith(other);
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertEndsWith(getInfo(assertions), getActual(assertions), other);
+    verify(paths).assertEndsWith(getInfo(assertions), getActual(assertions), other);
   }
 }

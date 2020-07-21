@@ -17,15 +17,15 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-public class PathAssert_exists_Test extends PathAssertBaseTest {
+class PathAssert_exists_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.exists();
+    return assertions.exists();
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertExists(getInfo(assertions), getActual(assertions));
+    verify(paths).assertExists(getInfo(assertions), getActual(assertions));
   }
 }

@@ -34,16 +34,16 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
+class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
 
   @Test
-  public void should_fail_when_predicate_is_null() {
+  void should_fail_when_predicate_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).accepts("first", "second"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_values() {
+  void should_fail_when_predicate_does_not_accept_values() {
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ballSportPredicate).accepts("football",
                                                                                                             "basketball",
@@ -56,14 +56,14 @@ public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_all_values() {
+  void should_pass_when_predicate_accepts_all_values() {
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
 
     assertThat(ballSportPredicate).accepts("football", "basketball", "handball");
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_value() {
+  void should_fail_when_predicate_does_not_accept_value() {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(expectedValue))
@@ -71,7 +71,7 @@ public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_value_with_string_description() {
+  void should_fail_when_predicate_does_not_accept_value_with_string_description() {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").accepts(expectedValue))
@@ -79,14 +79,14 @@ public class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_value() {
+  void should_pass_when_predicate_accepts_value() {
     Predicate<String> predicate = val -> val.equals("something");
 
     assertThat(predicate).accepts("something");
   }
 
   @Test
-  public void should_pass_and_only_invoke_predicate_once_for_single_value() {
+  void should_pass_and_only_invoke_predicate_once_for_single_value() {
     // GIVEN
     Predicate<Object> predicate = mock(Predicate.class);
     when(predicate.test(any())).thenReturn(true);

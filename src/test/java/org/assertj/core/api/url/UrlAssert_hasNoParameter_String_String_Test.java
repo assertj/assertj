@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.UrlAssert;
 import org.assertj.core.api.UrlAssertBaseTest;
 
-public class UrlAssert_hasNoParameter_String_String_Test extends UrlAssertBaseTest {
+class UrlAssert_hasNoParameter_String_String_Test extends UrlAssertBaseTest {
   private final String name = "article";
   private final String value = "10";
 

@@ -20,7 +20,7 @@ import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 
-public class ZonedDateTimeAssert_usingDefaultComparator_Test extends AbstractZonedDateTimeAssertBaseTest {
+class ZonedDateTimeAssert_usingDefaultComparator_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   @Override
   protected ZonedDateTimeAssert invoke_api_method() {

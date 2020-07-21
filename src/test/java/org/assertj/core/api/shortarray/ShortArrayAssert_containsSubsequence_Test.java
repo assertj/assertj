@@ -23,7 +23,7 @@ import org.assertj.core.api.ShortArrayAssertBaseTest;
  * 
  * @author Marcin Mikosik
  */
-public class ShortArrayAssert_containsSubsequence_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_containsSubsequence_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

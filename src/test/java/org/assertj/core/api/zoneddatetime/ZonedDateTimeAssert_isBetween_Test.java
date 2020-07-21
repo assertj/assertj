@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 
-public class ZonedDateTimeAssert_isBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
+class ZonedDateTimeAssert_isBetween_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   @Override
   protected ZonedDateTimeAssert invoke_api_method() {

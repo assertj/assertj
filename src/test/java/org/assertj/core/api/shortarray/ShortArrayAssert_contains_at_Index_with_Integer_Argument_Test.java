@@ -26,7 +26,7 @@ import org.junit.jupiter.api.DisplayName;
  * @author Dan Avila
  */
 @DisplayName("ShortArrayAssert contains (int, @index)")
-public class ShortArrayAssert_contains_at_Index_with_Integer_Argument_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_contains_at_Index_with_Integer_Argument_Test extends ShortArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

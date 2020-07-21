@@ -21,7 +21,7 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ThrowableAssert_hasCause_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasCause_Test extends ThrowableAssertBaseTest {
 
   private Throwable npe = new NullPointerException();
 
@@ -36,7 +36,7 @@ public class ThrowableAssert_hasCause_Test extends ThrowableAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_cause_have_different_types() {
+  void should_fail_if_actual_and_expected_cause_have_different_types() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new IllegalArgumentException(new IllegalStateException())).hasCause(new NullPointerException()))
                                                    .withMessage(format("%n" +
                                                                        "Expecting a cause with type:%n" +

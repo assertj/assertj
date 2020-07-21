@@ -27,12 +27,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("PathAssert hasSameTextualContentAs")
-public class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest {
+class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest {
 
   private static Path expected;
 
   @BeforeAll
-  public static void beforeOnce() {
+  static void beforeOnce() {
     expected = mock(Path.class);
   }
 
@@ -47,7 +47,7 @@ public class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest 
   }
 
   @Test
-  public void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
+  void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
     // GIVEN
     Path actual = createTempPathWithContent("Gerçek", TURKISH_CHARSET);
     Path expected = createTempPathWithContent("Gerçek", defaultCharset);
@@ -56,7 +56,7 @@ public class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest 
   }
 
   @Test
-  public void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
+  void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
     // GIVEN
     Path actual = createTempPathWithContent("Gerçek", defaultCharset);
     Path expected = createTempPathWithContent("Gerçek", TURKISH_CHARSET);

@@ -37,7 +37,7 @@ class Short2DArrayAssert_usingCustomComparator_Test extends Short2DArrayAssertBa
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new short[][] {}).usingComparator(ALWAYS_EQUAL)
                                 .isEqualTo(new short[][] { { 1, 2 }, { 3, 4 } });
   }

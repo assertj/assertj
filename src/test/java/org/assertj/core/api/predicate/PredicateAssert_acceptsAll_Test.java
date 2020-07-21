@@ -29,16 +29,16 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class PredicateAssert_acceptsAll_Test extends PredicateAssertBaseTest {
+class PredicateAssert_acceptsAll_Test extends PredicateAssertBaseTest {
 
   @Test
-  public void should_fail_when_predicate_is_null() {
+  void should_fail_when_predicate_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).acceptsAll(newArrayList("first", "second")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_values() {
+  void should_fail_when_predicate_does_not_accept_values() {
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ballSportPredicate).acceptsAll(newArrayList("football",
                                                                                                                             "basketball",
@@ -51,7 +51,7 @@ public class PredicateAssert_acceptsAll_Test extends PredicateAssertBaseTest {
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_all_values() {
+  void should_pass_when_predicate_accepts_all_values() {
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
 
     assertThat(ballSportPredicate).acceptsAll(newArrayList("football", "basketball", "handball"));

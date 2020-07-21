@@ -17,15 +17,15 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-public class PathAssert_isAbsolute_Test extends PathAssertBaseTest {
+class PathAssert_isAbsolute_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.isAbsolute();
+    return assertions.isAbsolute();
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertIsAbsolute(getInfo(assertions), getActual(assertions));
+    verify(paths).assertIsAbsolute(getInfo(assertions), getActual(assertions));
   }
 }

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_doesNotHaveDuplicates_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_doesNotHaveDuplicates_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

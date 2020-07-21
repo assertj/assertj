@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.SpliteratorAssert;
 import org.assertj.core.api.SpliteratorAssertBaseTest;
 
-public class SpliteratorAssert_hasOnlyCharacteristics_Test extends SpliteratorAssertBaseTest {
+class SpliteratorAssert_hasOnlyCharacteristics_Test extends SpliteratorAssertBaseTest {
 
   @Override
   protected SpliteratorAssert<String> invoke_api_method() {

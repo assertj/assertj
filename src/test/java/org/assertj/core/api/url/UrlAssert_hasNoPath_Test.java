@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.UrlAssert;
 import org.assertj.core.api.UrlAssertBaseTest;
 
-public class UrlAssert_hasNoPath_Test extends UrlAssertBaseTest {
+class UrlAssert_hasNoPath_Test extends UrlAssertBaseTest {
 
   @Override
   protected UrlAssert invoke_api_method() {

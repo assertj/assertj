@@ -21,12 +21,12 @@ import org.junit.jupiter.api.BeforeAll;
 /**
  * Tests for <code>{@link PathAssert#hasContent(String)}</code>.
  */
-public class PathAssert_hasContent_Test extends PathAssertBaseTest {
+class PathAssert_hasContent_Test extends PathAssertBaseTest {
 
   private static String expected;
 
   @BeforeAll
-  public static void beforeOnce() {
+  static void beforeOnce() {
     expected = "xyz";
   }
 

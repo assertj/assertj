@@ -22,7 +22,7 @@ import org.assertj.core.api.PathAssertBaseTest;
  *
  * @author Valeriy Vyrva
  */
-public class PathAssert_hasDigest_AlgorithmString_Test extends PathAssertBaseTest {
+class PathAssert_hasDigest_AlgorithmString_Test extends PathAssertBaseTest {
 
   private final String algorithm = "MD5";
   private final String expected = "";

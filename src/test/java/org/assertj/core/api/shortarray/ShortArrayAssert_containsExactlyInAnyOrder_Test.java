@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.api.ShortArrayAssert#containsExactlyInAnyOrder(short...)}</code>.
  */
-public class ShortArrayAssert_containsExactlyInAnyOrder_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_containsExactlyInAnyOrder_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class ShortArrayAssert_containsExactlyInAnyOrder_Test extends ShortArrayA
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(new short[] { 1, 2, 2 }).containsExactlyInAnyOrder((short) 2, (short) 2, (short) 1);
   }
 }

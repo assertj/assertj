@@ -22,7 +22,7 @@ import org.assertj.core.api.PathAssertBaseTest;
  *
  * @author David Haccoun
  */
-public class PathAssert_isDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends PathAssertBaseTest {
+class PathAssert_isDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends PathAssertBaseTest {
 
   private final String syntaxAndPattern = "glob:*.java";
 

@@ -25,7 +25,7 @@ import org.junit.jupiter.api.DisplayName;
  * @author Dan Avila
  */
 @DisplayName("ShortArrayAssert endsWith (ints)")
-public class ShortArrayAssert_endsWith_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
+class ShortArrayAssert_endsWith_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

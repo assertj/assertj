@@ -26,7 +26,7 @@ import org.assertj.core.api.ShortArrayAssertBaseTest;
  * 
  * @author Nicolas François
  */
-public class ShortArrayAssert_hasSameSizeAs_with_Iterable_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_hasSameSizeAs_with_Iterable_Test extends ShortArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

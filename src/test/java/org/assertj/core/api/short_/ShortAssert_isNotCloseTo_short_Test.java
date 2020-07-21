@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class ShortAssert_isNotCloseTo_short_Test extends ShortAssertBaseTest {
+class ShortAssert_isNotCloseTo_short_Test extends ShortAssertBaseTest {
 
   private final Offset<Short> offset = offset((short)5);
   private final Short value = 8;
