@@ -20,7 +20,7 @@ import java.util.Comparator;
 import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 
-public class OffsetDateTimeAssert_usingComparator_Test extends AbstractOffsetDateTimeAssertBaseTest {
+class OffsetDateTimeAssert_usingComparator_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   private Comparator<OffsetDateTime> testComparator = OffsetDateTime::compareTo;
 

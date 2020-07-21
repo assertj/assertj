@@ -30,12 +30,12 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Daniel Weber
  */
-public class MapAssert_flatExtracting_Test {
+class MapAssert_flatExtracting_Test {
 
   private Map<String, Object> map;
 
   @BeforeEach
-  public void beforeEachTest() {
+  void beforeEachTest() {
     String[] names = array("Dave", "Jeff");
     LinkedHashSet<String> jobs = newLinkedHashSet("Plumber", "Builder");
     Iterable<String> cities = asList("Dover", "Boston", "Paris");
@@ -48,7 +48,7 @@ public class MapAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_flattened_values_extracted_from_given_map_keys() {
+  void should_allow_assertions_on_flattened_values_extracted_from_given_map_keys() {
     assertThat(map).flatExtracting("name", "job", "city", "rank")
                    .containsExactly("Dave", "Jeff", "Plumber", "Builder", "Dover", "Boston", "Paris", 1, 2, 3);
     // order of values is the order of key then key values
@@ -57,7 +57,7 @@ public class MapAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_extract_null_from_unknown_key() {
+  void should_extract_null_from_unknown_key() {
     assertThat(map).flatExtracting("name", "id", "city")
                    .containsExactly("Dave", "Jeff", null, "Dover", "Boston", "Paris");
     assertThat(map).flatExtracting("foo", "bar")
@@ -65,7 +65,7 @@ public class MapAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_extract_but_not_flatten_non_collection_values() {
+  void should_extract_but_not_flatten_non_collection_values() {
     map.put("year", 2017);
     assertThat(map).flatExtracting("name", "job", "year")
                    .containsExactly("Dave", "Jeff", "Plumber", "Builder", 2017);

@@ -25,7 +25,7 @@ import org.assertj.core.test.Jedi;
  * @author Rudolf Klassen
  * @author Matthias Balke
  */
-public class ObjectAssert_hasSameHashCodeAs_Test extends ObjectAssertBaseTest {
+class ObjectAssert_hasSameHashCodeAs_Test extends ObjectAssertBaseTest {
 
   public static final Jedi OTHER_JEDI = new Jedi("Yoda", "Green");
 

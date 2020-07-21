@@ -29,13 +29,13 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_usingDefaultElementComparator_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_usingDefaultElementComparator_Test extends ObjectArrayAssertBaseTest {
 
   @Mock
   private Comparator<Object> elementComparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
     assertions.usingElementComparator(elementComparator);
   }

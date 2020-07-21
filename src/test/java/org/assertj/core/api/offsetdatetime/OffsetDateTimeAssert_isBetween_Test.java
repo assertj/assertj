@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 
-public class OffsetDateTimeAssert_isBetween_Test extends AbstractOffsetDateTimeAssertBaseTest {
+class OffsetDateTimeAssert_isBetween_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {

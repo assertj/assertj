@@ -22,7 +22,7 @@ import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
-public class OffsetDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
+class OffsetDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
     extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override
@@ -36,7 +36,7 @@ public class OffsetDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN
@@ -46,7 +46,7 @@ public class OffsetDateTimeAssert_isStrictlyBetween_with_String_parameters_Test
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN

@@ -55,7 +55,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mateusz Haligowski
  */
-public class ObjectArrayAssert_extracting_Test {
+class ObjectArrayAssert_extracting_Test {
 
   private Employee yoda;
   private Employee luke;
@@ -63,7 +63,7 @@ public class ObjectArrayAssert_extracting_Test {
   private TolkienCharacter[] fellowshipOfTheRing;
 
   @BeforeEach
-  public void setUpOnce() {
+  void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     jedis = array(yoda, luke);
@@ -84,17 +84,17 @@ public class ObjectArrayAssert_extracting_Test {
   };
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable() {
+  void should_allow_assertions_on_property_values_extracted_from_given_iterable() {
     assertThat(jedis).extracting("age").containsOnly(800, 26);
   }
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
+  void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     assertThat(jedis).extracting("name", Name.class).containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
   @Test
-  public void should_allow_assertions_on_field_values_extracted_from_given_iterable() {
+  void should_allow_assertions_on_field_values_extracted_from_given_iterable() {
     // basic types
     assertThat(jedis).extracting("id").containsOnly(1L, 2L);
     // object
@@ -104,30 +104,30 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() {
+  void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(jedis).extracting("unknown"));
   }
 
   @Test
-  public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
+  void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
     assertThat(jedis).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
                                                                          tuple("Luke", 26, 2L));
   }
 
   @Test
-  public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
+  void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(jedis).extracting("unknown", "age", "id")
                                                                                           .containsOnly(tuple("Yoda", 800, 1L),
                                                                                                         tuple("Luke", 26, 2L)));
   }
 
   @Test
-  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility() {
+  void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility() {
     assertThat(jedis).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
-  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_RuntimeException() {
+  void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_RuntimeException() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(input -> {
       if (input.getAge() > 100) throw new RuntimeException("age > 100");
       return input.getName().getFirst();
@@ -135,12 +135,12 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
+  void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
     assertThat(jedis).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
-  public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
+  void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
       return employee.getName().getFirst();
@@ -148,7 +148,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_let_throwing_extractor_runtime_exception_bubble_up() {
+  void should_let_throwing_extractor_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
       return employee.getName().getFirst();
@@ -156,12 +156,12 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_extracting_with_throwing_extractor() {
+  void should_allow_extracting_with_throwing_extractor() {
     assertThat(jedis).extracting(THROWING_EXTRACTOR).containsOnly("Yoda", "Luke");
   }
 
   @Test
-  public void should_allow_extracting_with_anonymous_class_throwing_extractor() {
+  void should_allow_extracting_with_anonymous_class_throwing_extractor() {
     assertThat(jedis).extracting((ThrowingExtractor<Employee, Object, Exception>) employee -> {
       if (employee.getAge() < 20) throw new Exception("age < 20");
       return employee.getName().getFirst();
@@ -169,7 +169,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_generic_function() {
+  void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_generic_function() {
     Function<? super TolkienCharacter, String> name = TolkienCharacter::getName;
     Function<? super TolkienCharacter, Integer> age = TolkienCharacter::getAge;
 
@@ -186,7 +186,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_function() {
+  void should_allow_assertions_on_two_extracted_values_from_given_iterable_by_using_a_function() {
 
     assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
                                                TolkienCharacter::getAge)
@@ -201,7 +201,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_three_extracted_values_from_given_iterable_by_using_a_function() {
+  void should_allow_assertions_on_three_extracted_values_from_given_iterable_by_using_a_function() {
 
     assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
                                                TolkienCharacter::getAge,
@@ -217,7 +217,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_four_extracted_values_from_given_iterable_by_using_a_function() {
+  void should_allow_assertions_on_four_extracted_values_from_given_iterable_by_using_a_function() {
 
     assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
                                                TolkienCharacter::getAge,
@@ -234,7 +234,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_five_extracted_values_from_given_iterable_by_using_a_function() {
+  void should_allow_assertions_on_five_extracted_values_from_given_iterable_by_using_a_function() {
 
     assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
                                                TolkienCharacter::getAge,
@@ -252,7 +252,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_more_than_five_extracted_values_from_given_iterable_by_using_a_function() {
+  void should_allow_assertions_on_more_than_five_extracted_values_from_given_iterable_by_using_a_function() {
 
     assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
                                                TolkienCharacter::getAge,
@@ -272,7 +272,7 @@ public class ObjectArrayAssert_extracting_Test {
 
   // https://github.com/joel-costigliola/assertj-core/issues/880
   @Test
-  public void should_be_able_to_extract_values_returned_from_default_methods_from_given_iterable_elements() {
+  void should_be_able_to_extract_values_returned_from_default_methods_from_given_iterable_elements() {
     List<Person> people = asList(new Person());
 
     assertThat(people).extracting("name").containsOnly("John Doe");
@@ -288,27 +288,27 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
+  void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty())
                                                    .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
-  public void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
+  void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class)
                                                                                       .isEmpty())
                                                    .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
-  public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
+  void should_use_property_field_names_as_description_when_extracting_tuples_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", "name.last")
                                                                                       .isEmpty())
                                                    .withMessageContaining("[Extracted: name.first, name.last]");
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
+  void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
                                                                                       .extracting("name.first", String.class)
                                                                                       .isEmpty())
@@ -316,7 +316,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
+  void should_keep_existing_description_if_set_when_extracting_tuples_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees name")
                                                                                       .extracting("name.first", "name.last")
                                                                                       .isEmpty())
@@ -324,14 +324,14 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
+  void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
                                                                                       .extracting("name.first").isEmpty())
                                                    .withMessageContaining("[check employees first name]");
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
+  void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
                                                                                       .extracting(input -> input.getName()
                                                                                                                 .getFirst())
@@ -339,14 +339,15 @@ public class ObjectArrayAssert_extracting_Test {
                                                    .withMessageContaining("[check employees first name]");
   }
 
-  public void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
+  @Test
+  void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("expected exception")
                                                                                       .extracting(THROWING_EXTRACTOR).isEmpty())
                                                    .withMessageContaining("[expected exception]");
   }
 
   @Test
-  public void extracting_by_several_functions_should_keep_assertion_state() {
+  void extracting_by_several_functions_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -369,7 +370,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void extracting_by_name_should_keep_assertion_state() {
+  void extracting_by_name_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -392,7 +393,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void extracting_by_strongly_typed_name_should_keep_assertion_state() {
+  void extracting_by_strongly_typed_name_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -415,7 +416,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void extracting_by_multiple_names_should_keep_assertion_state() {
+  void extracting_by_multiple_names_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -438,7 +439,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void extracting_by_single_extractor_should_keep_assertion_state() {
+  void extracting_by_single_extractor_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -461,7 +462,7 @@ public class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
-  public void extracting_by_throwing_extractor_should_keep_assertion_state() {
+  void extracting_by_throwing_extractor_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")

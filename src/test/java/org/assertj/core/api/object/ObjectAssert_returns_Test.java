@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Takuya "Mura-Mi" Murakami
  */
-public class ObjectAssert_returns_Test extends ObjectAssertBaseTest {
+class ObjectAssert_returns_Test extends ObjectAssertBaseTest {
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
@@ -44,14 +44,14 @@ public class ObjectAssert_returns_Test extends ObjectAssertBaseTest {
   }
 
   @Test
-  public void should_fail_with_throwing_NullPointerException_if_method_is_null() {
+  void should_fail_with_throwing_NullPointerException_if_method_is_null() {
     ThrowingCallable code = () -> assertions.returns("May the force be with you.", null);
     assertThatThrownBy(code).isExactlyInstanceOf(NullPointerException.class)
                             .hasMessage("The given getter method/Function must not be null");
   }
 
   @Test
-  public void perform_assertion_like_users() {
+  void perform_assertion_like_users() {
 
     Jedi yoda = new Jedi("Yoda", "Green");
     assertThat(yoda).returns("Yoda", from(Jedi::getName))

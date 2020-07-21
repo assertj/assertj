@@ -24,7 +24,7 @@ import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ObjectArrayAssert_containsAnyElementsOf_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_containsAnyElementsOf_Test extends ObjectArrayAssertBaseTest {
 
   private final List<Object> iterable = Arrays.asList(new Object(), "bar");
 
@@ -39,7 +39,7 @@ public class ObjectArrayAssert_containsAnyElementsOf_Test extends ObjectArrayAss
   }
 
   @Test
-  public void should_allow_assertion_on_object_array() {
+  void should_allow_assertion_on_object_array() {
     // GIVEN
     Object[] objectArray = array("foo", "bar");
     String[] stringArray = array("foo", "bar");

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Alexander Bischof
  */
-public class MapAssert_containsValues_Test extends MapAssertBaseTest {
+class MapAssert_containsValues_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("OffsetDateTimeAssert isNotEqualTo")
-public class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTimeAssertBaseTest {
+class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   private Object otherType = new Object();
 
@@ -58,7 +58,7 @@ public class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTi
   }
 
   @Test
-  public void should_fail_if_actual_is_at_same_instant_as_offsetDateTime_with_different_offset() {
+  void should_fail_if_actual_is_at_same_instant_as_offsetDateTime_with_different_offset() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE_WITH_DIFFERENT_OFFSET));
     // THEN
@@ -67,7 +67,7 @@ public class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTi
   }
 
   @Test
-  public void should_fail_if_both_are_null() {
+  void should_fail_if_both_are_null() {
     // GIVEN
     OffsetDateTime nullActual = null;
     OffsetDateTime nullExpected = null;
@@ -78,7 +78,7 @@ public class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTi
   }
 
   @Test
-  public void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
+  void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherOffsetDateTimeAsString = null;
     // WHEN
@@ -89,7 +89,7 @@ public class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTi
   }
 
   @Test
-  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+  void should_fail_if_given_string_parameter_cant_be_parsed() {
     assertThatThrownBy(() -> assertions.isNotEqualTo("not an OffsetDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 

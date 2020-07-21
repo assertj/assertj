@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * @author Johannes Brodwall
  * @author Vladimir Chernikov
  */
-public class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest {
+class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest {
 
   private static final String FIELD_NAME = "color"; // field in org.assertj.core.test.Person
 

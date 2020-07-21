@@ -37,7 +37,7 @@ class Object2DArrayAssert_usingCustomComparator_Test extends Object2DArrayAssert
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new Object[][] {}).usingComparator(ALWAYS_EQUAL)
                                  .isEqualTo(new String[][] { { "1", "2" }, { "3", "4" } });
   }

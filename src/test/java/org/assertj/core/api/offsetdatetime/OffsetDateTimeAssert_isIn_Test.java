@@ -31,15 +31,15 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("OffsetDateTimeAssert isIn")
-public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest {
+class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_in_offsetDateTimes_as_string_array_parameter() {
+  void should_pass_if_actual_is_in_offsetDateTimes_as_string_array_parameter() {
     assertThat(REFERENCE).isIn(REFERENCE.toString(), AFTER.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_offsetDateTimes_as_string_array_parameter() {
+  void should_fail_if_actual_is_not_in_offsetDateTimes_as_string_array_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isIn(AFTER.toString(), REFERENCE.toString());
     // THEN
@@ -48,7 +48,7 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
   }
 
   @Test
-  public void should_fail_if_offsetDateTimes_as_string_array_parameter_is_null() {
+  void should_fail_if_offsetDateTimes_as_string_array_parameter_is_null() {
     // GIVEN
     String[] otherOffsetDateTimesAsString = null;
     // WHEN
@@ -59,7 +59,7 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
   }
 
   @Test
-  public void should_fail_if_offsetDateTimes_as_string_array_parameter_is_empty() {
+  void should_fail_if_offsetDateTimes_as_string_array_parameter_is_empty() {
     // GIVEN
     String[] otherOffsetDateTimesAsString = new String[0];
     // WHEN

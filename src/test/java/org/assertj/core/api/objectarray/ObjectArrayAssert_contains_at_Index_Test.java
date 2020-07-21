@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_contains_at_Index_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_contains_at_Index_Test extends ObjectArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class MapAssert_isNullOrEmpty_Test extends MapAssertBaseTest {
+class MapAssert_isNullOrEmpty_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

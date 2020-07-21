@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Christopher Arnott
  */
-public class MapAssert_containsOnlyKeys_Test extends MapAssertBaseTest {
+class MapAssert_containsOnlyKeys_Test extends MapAssertBaseTest {
     
   final Object[] keys = array("key1", "key2");
 

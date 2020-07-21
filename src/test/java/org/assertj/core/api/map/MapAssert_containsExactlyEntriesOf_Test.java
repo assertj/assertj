@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Filip Hrisafov
  */
-public class MapAssert_containsExactlyEntriesOf_Test extends MapAssertBaseTest {
+class MapAssert_containsExactlyEntriesOf_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
@@ -44,7 +44,7 @@ public class MapAssert_containsExactlyEntriesOf_Test extends MapAssertBaseTest {
   }
   
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     Map<String, String> actualMap = mapOf(entry("key1", "value1"), entry("key2", "value2"));
     Map<String, String> expectedMap = mapOf(entry("key1", "value1"), entry("key2", "value2"));
     assertThat(actualMap).containsExactlyEntriesOf(expectedMap);

@@ -25,7 +25,7 @@ import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.Test;
 
-public class MapAssert_hasEntrySatisfyingCondition_Test extends MapAssertBaseTest {
+class MapAssert_hasEntrySatisfyingCondition_Test extends MapAssertBaseTest {
 
   final MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
   Condition<Object> valueCondition = new Condition<>($ -> true, "");
@@ -41,7 +41,7 @@ public class MapAssert_hasEntrySatisfyingCondition_Test extends MapAssertBaseTes
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     Map<String, String> map = map("key1", "value1", "key2", "value2");
     assertThat(map).hasEntrySatisfying("key1", new Condition<>(v -> v.contains("val"), "test condition"));
   }

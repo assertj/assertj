@@ -22,12 +22,12 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#hasSameSizeAs(int)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#hasSameSizeAs(Iterable)}</code>.
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_hasSameSizeAs_with_Iterable_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_hasSameSizeAs_with_Iterable_Test extends ObjectArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda");
 

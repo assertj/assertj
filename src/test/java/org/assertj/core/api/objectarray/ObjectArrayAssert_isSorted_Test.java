@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_isSorted_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_isSorted_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

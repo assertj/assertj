@@ -30,13 +30,13 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectAssert_usingComparator_Test extends ObjectAssertBaseTest {
+class ObjectAssert_usingComparator_Test extends ObjectAssertBaseTest {
 
   @Mock
   private Comparator<Jedi> comparator;
 
   @BeforeEach
-  public void before() {
+  void before() {
     initMocks(this);
   }
 

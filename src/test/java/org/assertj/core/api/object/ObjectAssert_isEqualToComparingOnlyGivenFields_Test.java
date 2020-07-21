@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectAssertBaseTest {
+class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectAssertBaseTest {
 
   private Jedi other = new Jedi("Yoda", "Blue");
 
@@ -48,7 +48,7 @@ public class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectA
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_fields() {
+  void should_be_able_to_use_a_comparator_for_specified_fields() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Blue");
 
@@ -57,7 +57,7 @@ public class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectA
   }
 
   @Test
-  public void comparators_for_fields_should_have_precedence_over_comparators_for_types() {
+  void comparators_for_fields_should_have_precedence_over_comparators_for_types() {
     Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
@@ -68,7 +68,7 @@ public class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectA
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_type() {
+  void should_be_able_to_use_a_comparator_for_specified_type() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 

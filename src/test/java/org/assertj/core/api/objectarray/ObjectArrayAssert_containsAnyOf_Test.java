@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
-public class ObjectArrayAssert_containsAnyOf_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_containsAnyOf_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

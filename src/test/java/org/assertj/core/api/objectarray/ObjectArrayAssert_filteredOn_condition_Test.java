@@ -21,7 +21,7 @@ import org.assertj.core.test.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ObjectArrayAssert_filteredOn_condition_Test extends ObjectArrayAssert_filtered_baseTest {
+class ObjectArrayAssert_filteredOn_condition_Test extends ObjectArrayAssert_filtered_baseTest {
 
   protected Condition<Employee> oldEmployees;
 
@@ -38,17 +38,17 @@ public class ObjectArrayAssert_filteredOn_condition_Test extends ObjectArrayAsse
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_condition() {
+  void should_filter_object_array_under_test_on_condition() {
     assertThat(employees).filteredOn(oldEmployees).containsOnly(yoda, obiwan);
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_combined_condition() {
+  void should_filter_object_array_under_test_on_combined_condition() {
     assertThat(employees).filteredOn(not(oldEmployees)).contains(luke, noname);
   }
 
   @Test
-  public void should_fail_if_given_condition_is_null() {
+  void should_fail_if_given_condition_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       oldEmployees = null;
       assertThat(employees).filteredOn(oldEmployees);
