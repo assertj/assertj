@@ -19,17 +19,17 @@ import org.assertj.core.test.AlwaysEqualComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldComparators_registerComparator_Test {
+class FieldComparators_registerComparator_Test {
 
   private FieldComparators fieldComparators;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     fieldComparators = new FieldComparators();
   }
 
   @Test
-  public void should_register_comparator_for_a_given_fieldLocation() {
+  void should_register_comparator_for_a_given_fieldLocation() {
     // GIVEN
     FieldLocation fooLocation = new FieldLocation("foo");
     // WHEN
@@ -41,7 +41,7 @@ public class FieldComparators_registerComparator_Test {
   }
 
   @Test
-  public void hasComparatorForField_should_return_false_for_field_location_without_comparator() {
+  void hasComparatorForField_should_return_false_for_field_location_without_comparator() {
     // GIVEN
     FieldLocation fooLocation = new FieldLocation("foo");
     // THEN
@@ -49,7 +49,7 @@ public class FieldComparators_registerComparator_Test {
   }
 
   @Test
-  public void getComparatorForField_should_return_null_for_field_location_without_comparator() {
+  void getComparatorForField_should_return_null_for_field_location_without_comparator() {
     // GIVEN
     FieldLocation fooLocation = new FieldLocation("foo");
     // THEN

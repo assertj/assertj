@@ -36,12 +36,12 @@ import org.assertj.core.test.AlwaysDifferentComparator;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_fluent_API_Test {
+class RecursiveComparisonAssert_fluent_API_Test {
 
   private final static Object ACTUAL = "";
 
   @Test
-  public void usingRecursiveComparison_should_set_a_default_RecursiveComparisonConfiguration() {
+  void usingRecursiveComparison_should_set_a_default_RecursiveComparisonConfiguration() {
     // WHEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                                           .getRecursiveComparisonConfiguration();
@@ -61,7 +61,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_enable_strict_mode_comparison() {
+  void should_allow_to_enable_strict_mode_comparison() {
     // GIVEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     // WHEN
@@ -73,7 +73,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_use_its_own_RecursiveComparisonConfiguration() {
+  void should_allow_to_use_its_own_RecursiveComparisonConfiguration() {
     // GIVEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     // WHEN
@@ -84,7 +84,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_all_actual_null_fields() {
+  void should_allow_to_ignore_all_actual_null_fields() {
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                        .ignoringActualNullFields()
@@ -94,7 +94,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_all_actual_empty_optional_fields() {
+  void should_allow_to_ignore_all_actual_empty_optional_fields() {
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                        .ignoringActualEmptyOptionalFields()
@@ -104,7 +104,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_fields() {
+  void should_allow_to_ignore_fields() {
     // GIVEN
     String field1 = "foo";
     String field2 = "foo.bar";
@@ -117,7 +117,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_fields_matching_regexes() {
+  void should_allow_to_ignore_fields_matching_regexes() {
     // GIVEN
     String regex1 = "foo";
     String regex2 = ".*foo.*";
@@ -131,7 +131,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_fields_of_the_given_types() {
+  void should_allow_to_ignore_fields_of_the_given_types() {
     // GIVEN
     Class<?> type1 = UUID.class;
     Class<?> type2 = String.class;
@@ -144,7 +144,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_overridden_equals_for_fields() {
+  void should_allow_to_ignore_overridden_equals_for_fields() {
     // GIVEN
     String field1 = "foo";
     String field2 = "foo.bar";
@@ -157,7 +157,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_overridden_equals_by_regexes() {
+  void should_allow_to_ignore_overridden_equals_by_regexes() {
     // GIVEN
     String regex1 = "foo";
     String regex2 = ".*foo.*";
@@ -171,7 +171,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_overridden_equals_for_types() {
+  void should_allow_to_ignore_overridden_equals_for_types() {
     // GIVEN
     Class<String> type1 = String.class;
     Class<Date> type2 = Date.class;
@@ -184,7 +184,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_collection_order() {
+  void should_allow_to_ignore_collection_order() {
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                        .ignoringCollectionOrder()
@@ -194,7 +194,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_collection_order_in_fields() {
+  void should_allow_to_ignore_collection_order_in_fields() {
     // GIVEN
     String field1 = "foo";
     String field2 = "foo.bar";
@@ -207,7 +207,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_collection_order_in_fields_matching_regexes() {
+  void should_allow_to_ignore_collection_order_in_fields_matching_regexes() {
     // GIVEN
     String regex1 = "foo";
     String regex2 = ".*foo.*";
@@ -221,7 +221,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_register_field_comparators() {
+  void should_allow_to_register_field_comparators() {
     // GIVEN
     String field1 = "foo";
     String field2 = "foo.bar";
@@ -242,7 +242,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_register_type_comparators() {
+  void should_allow_to_register_type_comparators() {
     // GIVEN
     Class<String> type1 = String.class;
     Class<Timestamp> type2 = Timestamp.class;
@@ -262,7 +262,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_override_field_comparator() {
+  void should_allow_to_override_field_comparator() {
     // GIVEN
     String field = "foo.bar";
     AlwaysEqualComparator<?> alwaysEqualComparator = alwaysEqual();
@@ -277,7 +277,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_override_type_comparator() {
+  void should_allow_to_override_type_comparator() {
     // GIVEN
     Class<?> type = String.class;
     AlwaysEqualComparator<Object> alwaysEqualComparator = alwaysEqual();

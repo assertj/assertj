@@ -37,15 +37,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
+class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest implements PersonData {
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource("comparison_ignores_all_fields_overridden_equals_methods_data")
-  public void should_pass_when_comparison_ignores_all_fields_overridden_equals_methods(Object actual,
-                                                                                       Object expected,
-                                                                                       String testDescription) {
+  void should_pass_when_comparison_ignores_all_fields_overridden_equals_methods(Object actual,
+                                                                                Object expected,
+                                                                                String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringAllOverriddenEquals()
                       .isEqualTo(expected);
@@ -74,10 +74,10 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored overridden equals regexes={3}")
   @MethodSource("comparison_ignores_overridden_equals_methods_by_regexes_data")
-  public void should_pass_when_comparison_ignores_overridden_equals_methods_by_regexes(Object actual,
-                                                                                       Object expected,
-                                                                                       String testDescription,
-                                                                                       List<String> regexes) {
+  void should_pass_when_comparison_ignores_overridden_equals_methods_by_regexes(Object actual,
+                                                                                Object expected,
+                                                                                String testDescription,
+                                                                                List<String> regexes) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringOverriddenEqualsForFieldsMatchingRegexes(regexes.toArray(new String[0]))
                       .isEqualTo(expected);
@@ -106,7 +106,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_as_some_overridden_equals_methods_are_ignored_by_regexes() {
+  void should_fail_when_actual_differs_from_expected_as_some_overridden_equals_methods_are_ignored_by_regexes() {
     // GIVEN
     Person actual = new Person();
     actual.neighbour = new AlwaysEqualPerson();
@@ -135,7 +135,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  public void ignoring_overriden_equals_with_regexes_does_not_replace_previous_regexes() {
+  void ignoring_overriden_equals_with_regexes_does_not_replace_previous_regexes() {
     // WHEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("foo");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("bar", "baz");
@@ -150,10 +150,10 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored overridden equals types={3}")
   @MethodSource("comparison_ignores_overridden_equals_methods_by_types_data")
-  public void should_pass_when_comparison_ignores_overridden_equals_methods_by_types(Object actual,
-                                                                                     Object expected,
-                                                                                     String testDescription,
-                                                                                     List<Class<?>> types) {
+  void should_pass_when_comparison_ignores_overridden_equals_methods_by_types(Object actual,
+                                                                              Object expected,
+                                                                              String testDescription,
+                                                                              List<Class<?>> types) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringOverriddenEqualsForTypes(types.toArray(new Class[0]))
                       .isEqualTo(expected);
@@ -181,7 +181,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_as_some_overridden_equals_methods_are_ignored_by_types() {
+  void should_fail_when_actual_differs_from_expected_as_some_overridden_equals_methods_are_ignored_by_types() {
     // GIVEN
     Person actual = new Person();
     actual.neighbour = new AlwaysEqualPerson();
@@ -209,7 +209,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  public void ignoring_overriden_equals_by_types_does_not_replace_previous_types() {
+  void ignoring_overriden_equals_by_types_does_not_replace_previous_types() {
     // WHEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(Date.class);
@@ -222,10 +222,10 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored overridden equals fields={3}")
   @MethodSource("comparison_ignores_overridden_equals_methods_by_fields_data")
-  public void should_pass_when_comparison_ignores_overridden_equals_methods_by_fields(Object actual,
-                                                                                      Object expected,
-                                                                                      String testDescription,
-                                                                                      List<String> fields) {
+  void should_pass_when_comparison_ignores_overridden_equals_methods_by_fields(Object actual,
+                                                                               Object expected,
+                                                                               String testDescription,
+                                                                               List<String> fields) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringOverriddenEqualsForFields(fields.toArray(new String[0]))
                       .isEqualTo(expected);
@@ -252,7 +252,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_as_some_overridden_equals_methods_are_ignored_by_fields() {
+  void should_fail_when_actual_differs_from_expected_as_some_overridden_equals_methods_are_ignored_by_fields() {
     // GIVEN
     Person actual = new Person();
     actual.neighbour = new AlwaysEqualPerson();
@@ -280,7 +280,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  public void overridden_equals_is_not_used_on_the_object_under_test_itself() {
+  void overridden_equals_is_not_used_on_the_object_under_test_itself() {
     // GIVEN
     AlwaysEqualPerson actual = new AlwaysEqualPerson();
     actual.name = "John";
@@ -292,7 +292,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  public void ignoring_overriden_equals_for_fields_does_not_replace_previous_fields() {
+  void ignoring_overriden_equals_for_fields_does_not_replace_previous_fields() {
     // WHEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("bar", "baz");

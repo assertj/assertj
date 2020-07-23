@@ -30,17 +30,17 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Multimap;
 
-public class RecursiveComparisonConfiguration_multiLineDescription_Test {
+class RecursiveComparisonConfiguration_multiLineDescription_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_show_that_actual_null_fields_are_ignored() {
+  void should_show_that_actual_null_fields_are_ignored() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // WHEN
@@ -50,7 +50,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_that_actual_empty_optional_fields_are_ignored() {
+  void should_show_that_actual_empty_optional_fields_are_ignored() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
     // WHEN
@@ -60,7 +60,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_that_expected_null_fields_are_ignored() {
+  void should_show_that_expected_null_fields_are_ignored() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
     // WHEN
@@ -70,7 +70,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_that_some_given_fields_are_ignored() {
+  void should_show_that_some_given_fields_are_ignored() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     // WHEN
@@ -80,7 +80,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_regexes_used_to_ignore_fields() {
+  void should_show_the_regexes_used_to_ignore_fields() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("foo", "bar", "foo.bar");
     // WHEN
@@ -90,7 +90,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_that_some_given_types_are_ignored() {
+  void should_show_that_some_given_types_are_ignored() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
     // WHEN
@@ -100,7 +100,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_ignored_all_overridden_equals_methods_flag() {
+  void should_show_the_ignored_all_overridden_equals_methods_flag() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
@@ -110,7 +110,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_ignored_all_overridden_equals_methods_flag_and_additional_ones() {
+  void should_show_the_ignored_all_overridden_equals_methods_flag_and_additional_ones() {
     // GIVEN
     recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "bar", "foo.bar");
@@ -128,7 +128,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_ignored_overridden_equals_methods_regexes() {
+  void should_show_the_ignored_overridden_equals_methods_regexes() {
     // GIVEN
     recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("foo", "bar", "foo.bar");
@@ -142,7 +142,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_ignored_overridden_equals_methods_types() {
+  void should_show_the_ignored_overridden_equals_methods_types() {
     // GIVEN
     recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
@@ -156,7 +156,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_not_show_specific_ignored_overridden_equals_methods_when_all_are_ignored() {
+  void should_not_show_specific_ignored_overridden_equals_methods_when_all_are_ignored() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
@@ -168,7 +168,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_ignored_overridden_equals_methods_fields() {
+  void should_show_the_ignored_overridden_equals_methods_fields() {
     // GIVEN
     recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
@@ -183,7 +183,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_all_overridden_equals_methods_are_ignored_by_default() {
+  void should_show_all_overridden_equals_methods_are_ignored_by_default() {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
@@ -191,7 +191,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_ignored_collection_order() {
+  void should_show_the_ignored_collection_order() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrder(true);
     // WHEN
@@ -201,7 +201,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_ignored_collection_order_in_fields() {
+  void should_show_the_ignored_collection_order_in_fields() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar");
     // WHEN
@@ -211,7 +211,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_ignored_collection_order_in_fields_matching_regexes() {
+  void should_show_the_ignored_collection_order_in_fields_matching_regexes() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("f.*", "ba.", "foo.*");
     // WHEN
@@ -221,7 +221,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_registered_comparator_by_types_and_the_default_ones() {
+  void should_show_the_registered_comparator_by_types_and_the_default_ones() {
     // GIVEN
     recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
     recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAY_EQUALS_TUPLE, Tuple.class);
@@ -239,7 +239,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_the_registered_comparator_for_specific_fields_alphabetically() {
+  void should_show_the_registered_comparator_for_specific_fields_alphabetically() {
     // GIVEN
     recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "foo");
     recursiveComparisonConfiguration.registerComparatorForFields(alwaysDifferent(), "bar");
@@ -256,7 +256,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_when_strict_type_checking_is_used() {
+  void should_show_when_strict_type_checking_is_used() {
     // GIVEN
     recursiveComparisonConfiguration.strictTypeChecking(true);
     // WHEN
@@ -266,7 +266,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_when_lenient_type_checking_is_used() {
+  void should_show_when_lenient_type_checking_is_used() {
     // GIVEN
     recursiveComparisonConfiguration.strictTypeChecking(false);
     // WHEN
@@ -276,7 +276,7 @@ public class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  public void should_show_a_complete_multiline_description() {
+  void should_show_a_complete_multiline_description() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);

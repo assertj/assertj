@@ -36,13 +36,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest
+class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest
     implements PersonData {
 
   @ParameterizedTest(name = "actual {0} / expected {1}")
   @MethodSource("container_values")
-  public void should_fail_as_Person_overridden_equals_should_be_honored(Object actual, Object expected,
-                                                                        ComparisonDifference difference) {
+  void should_fail_as_Person_overridden_equals_should_be_honored(Object actual, Object expected,
+                                                                 ComparisonDifference difference) {
     // GIVEN
     recursiveComparisonConfiguration.useOverriddenEquals();
     // WHEN
@@ -69,7 +69,7 @@ public class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends Rec
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")
   @MethodSource("matchingCollections")
-  public void should_pass_when_comparing_same_collection_fields(Collection<Author> authors1, Collection<Author> authors2) {
+  void should_pass_when_comparing_same_collection_fields(Collection<Author> authors1, Collection<Author> authors2) {
     // GIVEN
     WithCollection<Author> actual = new WithCollection<>(authors1);
     WithCollection<Author> expected = new WithCollection<>(authors2);
@@ -115,8 +115,8 @@ public class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends Rec
 
   @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3} / value 2 {4}")
   @MethodSource("differentCollections")
-  public void should_fail_when_comparing_different_collection_fields(Collection<Author> authors1, Collection<Author> authors2,
-                                                                     String path, Object value1, Object value2, String desc) {
+  void should_fail_when_comparing_different_collection_fields(Collection<Author> authors1, Collection<Author> authors2,
+                                                              String path, Object value1, Object value2, String desc) {
     // GIVEN
     WithCollection<Author> actual = new WithCollection<>(authors1);
     WithCollection<Author> expected = new WithCollection<>(authors2);
@@ -164,8 +164,8 @@ public class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends Rec
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")
   @MethodSource("iterableWithNonIterables")
-  public void should_fail_when_comparing_iterable_to_non_iterable(Object actualFieldValue, Collection<Author> expectedFieldValue,
-                                                                  String path, Object value1, Object value2, String desc) {
+  void should_fail_when_comparing_iterable_to_non_iterable(Object actualFieldValue, Collection<Author> expectedFieldValue,
+                                                           String path, Object value1, Object value2, String desc) {
     // GIVEN
     WithObject actual = new WithObject(actualFieldValue);
     WithCollection<Author> expected = new WithCollection<>(expectedFieldValue);

@@ -18,7 +18,7 @@ import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
 
 
-public class StringAssert_isGreaterThan_Test extends StringAssertBaseTest {
+class StringAssert_isGreaterThan_Test extends StringAssertBaseTest {
   @Override
   protected StringAssert invoke_api_method() {
     return assertions.isGreaterThan("bar");

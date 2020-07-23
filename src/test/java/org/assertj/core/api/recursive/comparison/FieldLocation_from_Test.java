@@ -18,10 +18,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class FieldLocation_from_Test {
+class FieldLocation_from_Test {
 
   @Test
-  public void should_build_fieldLocations_from_given_strings() {
+  void should_build_fieldLocations_from_given_strings() {
     // GIVEN
     String[] locations = { "foo", "bar", "foo.bar" };
     // WHEN

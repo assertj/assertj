@@ -18,7 +18,7 @@ import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
 import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
 
-public class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
+class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
 
   private CaseInsensitiveCharSequenceComparator comparator = CaseInsensitiveCharSequenceComparator.instance;
 

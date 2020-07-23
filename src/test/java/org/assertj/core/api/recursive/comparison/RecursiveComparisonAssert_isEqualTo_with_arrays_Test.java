@@ -25,11 +25,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")
   @MethodSource("sameArrays")
-  public void should_pass_when_comparing_same_array_fields(Author[] authors1, Author[] authors2) {
+  void should_pass_when_comparing_same_array_fields(Author[] authors1, Author[] authors2) {
     // GIVEN
     WithArray<Author> actual = new WithArray<>(authors1);
     WithArray<Author> expected = new WithArray<>(authors2);
@@ -51,8 +51,8 @@ public class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends Recurs
 
   @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
   @MethodSource("differentArrays")
-  public void should_fail_when_comparing_different_array_fields(Author[] authors1, Author[] authors2,
-                                                                String path, Object value1, Object value2, String desc) {
+  void should_fail_when_comparing_different_array_fields(Author[] authors1, Author[] authors2,
+                                                         String path, Object value1, Object value2, String desc) {
     // GIVEN
     WithArray<Author> actual = new WithArray<>(authors1);
     WithArray<Author> expected = new WithArray<>(authors2);
@@ -77,8 +77,8 @@ public class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends Recurs
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")
   @MethodSource("arrayWithNonArrays")
-  public void should_fail_when_comparing_array_to_non_array(Object actualFieldValue, Author[] expectedFieldValue,
-                                                            String path, Object value1, Object value2, String desc) {
+  void should_fail_when_comparing_array_to_non_array(Object actualFieldValue, Author[] expectedFieldValue,
+                                                     String path, Object value1, Object value2, String desc) {
     // GIVEN
     WithObject actual = new WithObject(actualFieldValue);
     WithArray<Author> expected = new WithArray<>(expectedFieldValue);

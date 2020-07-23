@@ -20,12 +20,12 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
-public class DualValue_isActualJavaType_Test {
+class DualValue_isActualJavaType_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @Test
-  public void isActualJavaType_should_return_true_when_actual_is_a_java_type() {
+  void isActualJavaType_should_return_true_when_actual_is_a_java_type() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", "");
     // WHEN
@@ -35,7 +35,7 @@ public class DualValue_isActualJavaType_Test {
   }
 
   @Test
-  public void isActualJavaType_should_return_false_when_actual_is_not_a_java_type() {
+  void isActualJavaType_should_return_false_when_actual_is_not_a_java_type() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), "");
     // WHEN
@@ -45,7 +45,7 @@ public class DualValue_isActualJavaType_Test {
   }
 
   @Test
-  public void isActualJavaType_should_return_false_when_actual_is_null() {
+  void isActualJavaType_should_return_false_when_actual_is_null() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, null, "");
     // WHEN

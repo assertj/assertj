@@ -28,17 +28,17 @@ import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonConfiguration_comparatorByType_Test {
+class RecursiveComparisonConfiguration_comparatorByType_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_have_default_comparator_by_types() {
+  void should_have_default_comparator_by_types() {
     // WHEN
     TypeComparators typeComparators = recursiveComparisonConfiguration.getTypeComparators();
     // THEN
@@ -47,7 +47,7 @@ public class RecursiveComparisonConfiguration_comparatorByType_Test {
   }
 
   @Test
-  public void should_register_given_comparator_per_types() {
+  void should_register_given_comparator_per_types() {
     // GIVEN
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
     recursiveComparisonConfiguration.registerComparatorForType(integerComparator, Integer.class);

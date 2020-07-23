@@ -37,17 +37,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
+class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_register_fields_path_to_ignore_without_duplicates() {
+  void should_register_fields_path_to_ignore_without_duplicates() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar", "bar");
     // WHEN
@@ -60,7 +60,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored")
   @MethodSource("ignoringNullActualFieldsSource")
-  public void should_ignore_actual_null_fields(DualValue dualValue) {
+  void should_ignore_actual_null_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // WHEN
@@ -79,7 +79,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored")
   @MethodSource("ignoringActualOptionalEmptyFieldsSource")
-  public void should_ignore_actual_optional_empty_fields(DualValue dualValue) {
+  void should_ignore_actual_optional_empty_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
     // WHEN
@@ -99,7 +99,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored")
   @MethodSource("ignoringNullExpectedFieldsSource")
-  public void should_ignore_expected_null_fields(DualValue dualValue) {
+  void should_ignore_expected_null_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
     // WHEN
@@ -118,7 +118,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored with these ignored fields {1}")
   @MethodSource("ignoringSpecifiedFieldsSource")
-  public void should_ignore_specified_fields(DualValue dualValue, List<String> ignoredFields) {
+  void should_ignore_specified_fields(DualValue dualValue, List<String> ignoredFields) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFields(ignoredFields.toArray(new String[0]));
     // WHEN
@@ -136,7 +136,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void ignoring_fields_with_regex_does_not_replace_previous_regexes() {
+  void ignoring_fields_with_regex_does_not_replace_previous_regexes() {
     // WHEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("foo");
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("bar", "baz");
@@ -147,7 +147,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored with these regexes {1}")
   @MethodSource("ignoringRegexSpecifiedFieldsSource")
-  public void should_ignore_fields_matching_given_regexes(DualValue dualValue, List<String> regexes) {
+  void should_ignore_fields_matching_given_regexes(DualValue dualValue, List<String> regexes) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regexes.toArray(new String[0]));
     // WHEN
@@ -169,7 +169,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored")
   @MethodSource("ignoringFieldsSource")
-  public void should_ignore_fields(DualValue dualValue) {
+  void should_ignore_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*name");
     recursiveComparisonConfiguration.ignoreFields("number");
@@ -190,7 +190,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void ignoring_fields_for_types_does_not_replace_previous_ignored_types() {
+  void ignoring_fields_for_types_does_not_replace_previous_ignored_types() {
     // WHEN
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(ZonedDateTime.class, String.class);
@@ -201,7 +201,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored with these ignored types {1}")
   @MethodSource("ignoringSpecifiedTypesSource")
-  public void should_ignore_fields_for_specified_types(DualValue dualValue, List<Class<?>> ignoredTypes) {
+  void should_ignore_fields_for_specified_types(DualValue dualValue, List<Class<?>> ignoredTypes) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(ignoredTypes.toArray(new Class<?>[0]));
     // WHEN
@@ -217,7 +217,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_return_false_if_the_field_type_is_not_ignored() {
+  void should_return_false_if_the_field_type_is_not_ignored() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), "actual", "expected");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class);
@@ -228,7 +228,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_be_able_to_ignore_boolean() {
+  void should_be_able_to_ignore_boolean() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), true, false);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(boolean.class);
@@ -239,7 +239,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_be_able_to_ignore_byte() {
+  void should_be_able_to_ignore_byte() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), (byte) 0, (byte) 1);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(byte.class);
@@ -250,7 +250,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_be_able_to_ignore_char() {
+  void should_be_able_to_ignore_char() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), 'a', 'b');
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(char.class);
@@ -261,7 +261,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_be_able_to_ignore_short() {
+  void should_be_able_to_ignore_short() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), (short) 123, (short) 123);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(short.class);
@@ -272,7 +272,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_be_able_to_ignore_int() {
+  void should_be_able_to_ignore_int() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), 123, 123);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(int.class);
@@ -283,7 +283,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_be_able_to_ignore_float() {
+  void should_be_able_to_ignore_float() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), 123.0f, 123.0f);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(float.class);
@@ -294,7 +294,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_be_able_to_ignore_double() {
+  void should_be_able_to_ignore_double() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), 123.0, 123.0);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(double.class);
@@ -306,7 +306,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   @ParameterizedTest(name = "{0} should be ignored by specifying to ignore {1}")
   @MethodSource("ignoringPrimitiveWrapperFields")
-  public void should_be_able_to_ignore_primitive_field_by_specifying_their_wrapper_type(Object fieldValue, Class<?> wrapperType) {
+  void should_be_able_to_ignore_primitive_field_by_specifying_their_wrapper_type(Object fieldValue, Class<?> wrapperType) {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), fieldValue, fieldValue);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(wrapperType);
@@ -327,7 +327,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_return_false_if_the_field_type_is_subtype_of_an_ignored_type() {
+  void should_return_false_if_the_field_type_is_subtype_of_an_ignored_type() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), Double.MAX_VALUE, "expected");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(Number.class);
@@ -338,7 +338,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_not_ignore_actual_null_fields_for_specified_types_if_strictTypeChecking_is_disabled() {
+  void should_not_ignore_actual_null_fields_for_specified_types_if_strictTypeChecking_is_disabled() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), null, "expected");
     recursiveComparisonConfiguration.strictTypeChecking(false);
@@ -350,7 +350,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @Test
-  public void should_ignore_actual_null_fields_for_specified_types_if_strictTypeChecking_is_enabled_and_expected_is_not_null() {
+  void should_ignore_actual_null_fields_for_specified_types_if_strictTypeChecking_is_enabled_and_expected_is_not_null() {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), null, "expected");
     recursiveComparisonConfiguration.strictTypeChecking(true);

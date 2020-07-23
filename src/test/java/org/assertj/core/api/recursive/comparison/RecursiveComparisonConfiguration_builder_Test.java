@@ -21,10 +21,10 @@ import org.apache.commons.lang3.RandomUtils;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonConfiguration_builder_Test {
+class RecursiveComparisonConfiguration_builder_Test {
 
   @Test
-  public void should_set_ignoreAllActualNullFields() {
+  void should_set_ignoreAllActualNullFields() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -36,7 +36,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreAllActualEmptyOptionalFields() {
+  void should_set_ignoreAllActualEmptyOptionalFields() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -48,7 +48,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreAllExpectedNullFields() {
+  void should_set_ignoreAllExpectedNullFields() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -60,7 +60,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreAllOverriddenEquals() {
+  void should_set_ignoreAllOverriddenEquals() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -72,7 +72,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreCollectionOrder() {
+  void should_set_ignoreCollectionOrder() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -84,7 +84,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreCollectionOrderInFields() {
+  void should_set_ignoreCollectionOrderInFields() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -97,7 +97,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreCollectionOrderInFieldsMatchingRegexes() {
+  void should_set_ignoreCollectionOrderInFieldsMatchingRegexes() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -110,7 +110,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredFields() {
+  void should_set_ignoredFields() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -123,7 +123,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredFieldsRegexes() {
+  void should_set_ignoredFieldsRegexes() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -136,7 +136,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredOverriddenEqualsForFields() {
+  void should_set_ignoredOverriddenEqualsForFields() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -149,7 +149,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredOverriddenEqualsForTypes() {
+  void should_set_ignoredOverriddenEqualsForTypes() {
     // GIVEN
     Class<?>[] values = { String.class, Long.class, int.class };
     // WHEN
@@ -161,7 +161,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredOverriddenEqualsRegexes() {
+  void should_set_ignoredOverriddenEqualsRegexes() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -174,7 +174,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_strictTypeCheckingMode() {
+  void should_set_strictTypeCheckingMode() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -186,7 +186,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredTypes() {
+  void should_set_ignoredTypes() {
     // GIVEN
     Class<?>[] values = { String.class, Long.class, Object.class, int.class };
     // WHEN
@@ -198,7 +198,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_comparatorForField() {
+  void should_set_comparatorForField() {
     // GIVEN
     String fooLocation = "foo";
     String barLocation = "foo.bar";
@@ -217,7 +217,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_comparatorForType() {
+  void should_set_comparatorForType() {
     // GIVEN
     AlwaysEqualComparator<String> alwaysEqualComparator = alwaysEqual();
     // WHEN

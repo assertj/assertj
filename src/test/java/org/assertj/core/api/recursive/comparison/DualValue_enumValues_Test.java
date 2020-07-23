@@ -21,12 +21,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class DualValue_enumValues_Test {
+class DualValue_enumValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @Test
-  public void isExpectedAnEnum_should_return_true_when_expected_is_an_enum() {
+  void isExpectedAnEnum_should_return_true_when_expected_is_an_enum() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", BLUE);
     // WHEN
@@ -36,7 +36,7 @@ public class DualValue_enumValues_Test {
   }
 
   @Test
-  public void isExpectedAnEnum_should_return_false_when_expected_is_not_an_enum() {
+  void isExpectedAnEnum_should_return_false_when_expected_is_not_an_enum() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, RED, "");
     // WHEN
@@ -46,7 +46,7 @@ public class DualValue_enumValues_Test {
   }
 
   @Test
-  public void isExpectedAnEnum_should_return_false_when_expected_is_null() {
+  void isExpectedAnEnum_should_return_false_when_expected_is_null() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, null, "");
     // WHEN
@@ -56,7 +56,7 @@ public class DualValue_enumValues_Test {
   }
 
   @Test
-  public void isActualAnEnum_should_return_true_when_actual_is_an_enum() {
+  void isActualAnEnum_should_return_true_when_actual_is_an_enum() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, BLUE, "");
     // WHEN
@@ -66,7 +66,7 @@ public class DualValue_enumValues_Test {
   }
 
   @Test
-  public void isActualAnEnum_should_return_false_when_actual_is_not_an_enum() {
+  void isActualAnEnum_should_return_false_when_actual_is_not_an_enum() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", RED);
     // WHEN
@@ -76,7 +76,7 @@ public class DualValue_enumValues_Test {
   }
 
   @Test
-  public void isActualAnEnum_should_return_false_when_actual_is_null() {
+  void isActualAnEnum_should_return_false_when_actual_is_null() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, null, "");
     // WHEN

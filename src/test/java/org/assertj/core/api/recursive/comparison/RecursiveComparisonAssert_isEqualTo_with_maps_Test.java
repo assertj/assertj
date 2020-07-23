@@ -32,10 +32,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
-  public void should_fail_when_comparing_actual_unsorted_with_expected_sorted_map() {
+  void should_fail_when_comparing_actual_unsorted_with_expected_sorted_map() {
     WithMap<Long, Boolean> actual = new WithMap<>(new LinkedHashMap<>());
     actual.group.put(1L, true);
     actual.group.put(2L, false);
@@ -54,7 +54,7 @@ public class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends Recursiv
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")
   @MethodSource("sameMaps")
-  public void should_pass_when_comparing_same_map_fields(Map<String, Author> authors1, Map<String, Author> authors2) {
+  void should_pass_when_comparing_same_map_fields(Map<String, Author> authors1, Map<String, Author> authors2) {
     // GIVEN
     WithMap<String, Author> actual = new WithMap<>(authors1);
     WithMap<String, Author> expected = new WithMap<>(authors2);
@@ -87,8 +87,8 @@ public class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends Recursiv
 
   @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
   @MethodSource("differentMaps")
-  public void should_fail_when_comparing_different_map_fields(Map<String, Author> authors1, Map<String, Author> authors2,
-                                                              String path, Object value1, Object value2, String desc) {
+  void should_fail_when_comparing_different_map_fields(Map<String, Author> authors1, Map<String, Author> authors2,
+                                                       String path, Object value1, Object value2, String desc) {
     // GIVEN
     WithMap<String, Author> actual = new WithMap<>(authors1);
     WithMap<String, Author> expected = new WithMap<>(authors2);
@@ -132,8 +132,8 @@ public class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends Recursiv
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")
   @MethodSource("mapWithNonMaps")
-  public void should_fail_when_comparing_map_to_non_map(Object actualFieldValue, Map<String, Author> expectedFieldValue,
-                                                        String path, Object value1, Object value2, String desc) {
+  void should_fail_when_comparing_map_to_non_map(Object actualFieldValue, Map<String, Author> expectedFieldValue,
+                                                 String path, Object value1, Object value2, String desc) {
     // GIVEN
     WithObject actual = new WithObject(actualFieldValue);
     WithMap<String, Author> expected = new WithMap<>(expectedFieldValue);

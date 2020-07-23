@@ -21,10 +21,10 @@ import java.util.Set;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
-public class ComparisonDifference_compareTo_Test {
+class ComparisonDifference_compareTo_Test {
 
   @Test
-  public void should_order_differences_by_alphabetical_path_ignoring_dot_separator() {
+  void should_order_differences_by_alphabetical_path_ignoring_dot_separator() {
     // GIVEN
     ComparisonDifference diff1 = comparisonDifference("a", "b");
     ComparisonDifference diff2 = comparisonDifference("a", "c");

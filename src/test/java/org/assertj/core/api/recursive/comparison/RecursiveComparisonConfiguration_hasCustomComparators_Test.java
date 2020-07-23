@@ -18,22 +18,22 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonConfiguration_hasCustomComparators_Test {
+class RecursiveComparisonConfiguration_hasCustomComparators_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void has_custom_comparator_due_to_default_type_comparators() {
+  void has_custom_comparator_due_to_default_type_comparators() {
     assertThat(recursiveComparisonConfiguration.hasCustomComparators()).isTrue();
   }
 
   @Test
-  public void has_no_custom_comparator_when_clearing_type_comparators() {
+  void has_no_custom_comparator_when_clearing_type_comparators() {
     // WHEN
     recursiveComparisonConfiguration.getTypeComparators().clear();
     // THEN
@@ -41,7 +41,7 @@ public class RecursiveComparisonConfiguration_hasCustomComparators_Test {
   }
 
   @Test
-  public void has_custom_comparator_when_registering_a_field_comparator() {
+  void has_custom_comparator_when_registering_a_field_comparator() {
     // GIVEN
     recursiveComparisonConfiguration.getTypeComparators().clear();
     // WHEN

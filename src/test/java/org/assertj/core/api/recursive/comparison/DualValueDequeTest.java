@@ -21,17 +21,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("DualValueDeque")
-public class DualValueDequeTest {
+class DualValueDequeTest {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void beforeEachTest() {
+  void beforeEachTest() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_ignore_dual_values_with_a_null_first_value() {
+  void should_ignore_dual_values_with_a_null_first_value() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     DualValueDeque dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
@@ -54,7 +54,7 @@ public class DualValueDequeTest {
   }
 
   @Test
-  public void should_ignore_dual_values_with_a_null_second_value() {
+  void should_ignore_dual_values_with_a_null_second_value() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
     DualValueDeque dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
@@ -77,7 +77,7 @@ public class DualValueDequeTest {
   }
 
   @Test
-  public void should_not_ignore_any_dual_values() {
+  void should_not_ignore_any_dual_values() {
     // GIVEN
     DualValueDeque dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
     DualValue dualValueA = dualValue(null, "A");

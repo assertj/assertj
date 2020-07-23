@@ -21,10 +21,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class FieldLocation_compareTo_Test {
+class FieldLocation_compareTo_Test {
 
   @Test
-  public void should_order_field_location_by_alphabetical_path() {
+  void should_order_field_location_by_alphabetical_path() {
     // GIVEN
     FieldLocation fieldLocation1 = fielLocation("a");
     FieldLocation fieldLocation2 = fielLocation("a.b");

@@ -27,11 +27,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("RecursiveComparisonAssert isEqualTo in strictTypeChecking mode")
-public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
+class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
-  public void should_pass_by_default_when_objects_data_are_equals_whatever_their_types_are() {
+  void should_pass_by_default_when_objects_data_are_equals_whatever_their_types_are() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -55,7 +55,7 @@ public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
   }
 
   @Test
-  public void should_pass_in_strict_type_check_mode_when_objects_data_are_equals_and_expected_type_is_compatible_with_actual_type() {
+  void should_pass_in_strict_type_check_mode_when_objects_data_are_equals_and_expected_type_is_compatible_with_actual_type() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -94,7 +94,7 @@ public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
   }
 
   @Test
-  public void should_fail_in_strict_type_checking_mode_when_actual_and_expected_have_the_same_data_but_incompatible_types() {
+  void should_fail_in_strict_type_checking_mode_when_actual_and_expected_have_the_same_data_but_incompatible_types() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -120,7 +120,7 @@ public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
   }
 
   @Test
-  public void should_fail_in_strict_type_checking_mode_when_actual_and_expected_fields_have_the_same_data_but_incompatible_types() {
+  void should_fail_in_strict_type_checking_mode_when_actual_and_expected_fields_have_the_same_data_but_incompatible_types() {
     // GIVEN
     Something withA = new Something(new A(10));
     Something withB = new Something(new B(10));
@@ -138,7 +138,7 @@ public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
   }
 
   @Test
-  public void should_pass_when_enums_have_same_value_and_types() {
+  void should_pass_when_enums_have_same_value_and_types() {
     // GIVEN
     Light actual = new Light(GREEN);
     Light expected = new Light(GREEN);
@@ -149,7 +149,7 @@ public class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
   }
 
   @Test
-  public void should_fail_when_enums_have_same_value_but_different_types() {
+  void should_fail_when_enums_have_same_value_but_different_types() {
     // GIVEN
     Light actual = new Light(GREEN);
     LightDto expected = new LightDto(ColorDto.RED);

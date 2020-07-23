@@ -21,10 +21,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("DualValue constructor")
-public class DualValue_constructor_Test {
+class DualValue_constructor_Test {
 
   @Test
-  public void should_build_field_path() {
+  void should_build_field_path() {
     // GIVEN
     DualValue dualValue = new DualValue(list("foo"), "bar", "", "");
     // WHEN

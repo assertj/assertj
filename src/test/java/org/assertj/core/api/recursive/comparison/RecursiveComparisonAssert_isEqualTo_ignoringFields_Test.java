@@ -34,12 +34,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource("recursivelyEqualObjectsIgnoringActualNullValues")
-  public void should_pass_when_actual_null_fields_are_ignored(Object actual, Object expected,
-                                                              @SuppressWarnings("unused") String testDescription) {
+  void should_pass_when_actual_null_fields_are_ignored(Object actual, Object expected,
+                                                       @SuppressWarnings("unused") String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringActualNullFields()
                       .isEqualTo(expected);
@@ -97,9 +97,9 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource("recursivelyEqualObjectsIgnoringActualOptionalEmptyValues")
-  public void should_pass_when_actual_empty_optional_fields_are_ignored(Object actual,
-                                                                        Object expected,
-                                                                        @SuppressWarnings("unused") String testDescription) {
+  void should_pass_when_actual_empty_optional_fields_are_ignored(Object actual,
+                                                                 Object expected,
+                                                                 @SuppressWarnings("unused") String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringActualEmptyOptionalFields()
                       .isEqualTo(expected);
@@ -140,7 +140,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_all_empty_optional_actual_fields_are_ignored() {
+  void should_fail_when_actual_differs_from_expected_even_when_all_empty_optional_actual_fields_are_ignored() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -167,7 +167,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_all_null_actual_fields_are_ignored() {
+  void should_fail_when_actual_differs_from_expected_even_when_all_null_actual_fields_are_ignored() {
     // GIVEN
     Person actual = new Person(null);
     actual.home.address.number = 1;
@@ -184,7 +184,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_all_null_expected_fields_are_ignored() {
+  void should_fail_when_actual_differs_from_expected_even_when_all_null_expected_fields_are_ignored() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -205,10 +205,10 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields={3}")
   @MethodSource("recursivelyEqualObjectsIgnoringGivenFields")
-  public void should_pass_for_objects_with_the_same_data_when_given_fields_are_ignored(Object actual,
-                                                                                       Object expected,
-                                                                                       String testDescription,
-                                                                                       List<String> ignoredFields) {
+  void should_pass_for_objects_with_the_same_data_when_given_fields_are_ignored(Object actual,
+                                                                                Object expected,
+                                                                                String testDescription,
+                                                                                List<String> ignoredFields) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringFields(arrayOf(ignoredFields))
                       .isEqualTo(expected);
@@ -265,7 +265,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored() {
+  void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -301,10 +301,10 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields regex={3}")
   @MethodSource("recursivelyEqualObjectsWhenFieldsMatchingGivenRegexesAreIgnored")
-  public void should_pass_when_fields_matching_given_regexes_are_ignored(Object actual,
-                                                                         Object expected,
-                                                                         String testDescription,
-                                                                         List<String> ignoredFieldRegexes) {
+  void should_pass_when_fields_matching_given_regexes_are_ignored(Object actual,
+                                                                  Object expected,
+                                                                  String testDescription,
+                                                                  List<String> ignoredFieldRegexes) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringFieldsMatchingRegexes(arrayOf(ignoredFieldRegexes))
                       .isEqualTo(expected);
@@ -358,7 +358,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored_by_regexes() {
+  void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored_by_regexes() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -394,10 +394,10 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored types={3}")
   @MethodSource("recursivelyEqualObjectsIgnoringGivenTypes")
-  public void should_pass_when_fields_with_given_types_are_ignored(Object actual,
-                                                                   Object expected,
-                                                                   @SuppressWarnings("unused") String testDescription,
-                                                                   List<Class<?>> ignoredTypes) {
+  void should_pass_when_fields_with_given_types_are_ignored(Object actual,
+                                                            Object expected,
+                                                            @SuppressWarnings("unused") String testDescription,
+                                                            List<Class<?>> ignoredTypes) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringFieldsOfTypes(ignoredTypes.toArray(new Class<?>[0]))
                       .isEqualTo(expected);
@@ -441,7 +441,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored_for_types() {
+  void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored_for_types() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address = null;
@@ -473,8 +473,8 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends Rec
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource("recursivelyEqualObjectsIgnoringExpectedNullFields")
-  public void should_pass_when_expected_null_fields_are_ignored(Object actual, Object expected,
-                                                                @SuppressWarnings("unused") String testDescription) {
+  void should_pass_when_expected_null_fields_are_ignored(Object actual, Object expected,
+                                                         @SuppressWarnings("unused") String testDescription) {
 
     assertThat(actual).usingRecursiveComparison()
                       .ignoringExpectedNullFields()

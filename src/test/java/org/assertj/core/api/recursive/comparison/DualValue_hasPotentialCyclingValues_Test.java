@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("DualValue hasPotentialCyclingValues")
-public class DualValue_hasPotentialCyclingValues_Test {
+class DualValue_hasPotentialCyclingValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 

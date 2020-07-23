@@ -39,17 +39,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
+class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{4}: actual={0} / expected={1} - comparators {2} - fields {3}")
   @MethodSource("recursivelyEqualObjectsWhenUsingFieldComparators")
-  public void should_pass_for_objects_with_the_same_data_when_using_registered_comparators_by_fields(Object actual,
-                                                                                                     Object expected,
-                                                                                                     Comparator<Object> comparator,
-                                                                                                     String[] fields,
-                                                                                                     String testDescription) {
+  void should_pass_for_objects_with_the_same_data_when_using_registered_comparators_by_fields(Object actual,
+                                                                                              Object expected,
+                                                                                              Comparator<Object> comparator,
+                                                                                              String[] fields,
+                                                                                              String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .withComparatorForFields(comparator, fields)
                       .isEqualTo(expected);
@@ -87,7 +87,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_when_using_field_comparators() {
+  void should_fail_when_actual_differs_from_expected_when_using_field_comparators() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -116,7 +116,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  public void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_fields() {
+  void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_fields() {
     // GIVEN
     Giant goliath = new Giant();
     goliath.name = "Goliath";
@@ -133,7 +133,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  public void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_nested_field() {
+  void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_nested_field() {
     // GIVEN
     Giant goliath = new Giant();
     goliath.name = "Goliath";
@@ -153,7 +153,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  public void should_handle_null_field_with_field_comparator() {
+  void should_handle_null_field_with_field_comparator() {
     // GIVEN
     Patient actual = new Patient(null);
     Patient expected = new Patient(new Timestamp(3L));
@@ -164,7 +164,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  public void should_ignore_comparators_when_fields_are_the_same() {
+  void should_ignore_comparators_when_fields_are_the_same() {
     // GIVEN
     Timestamp dateOfBirth = new Timestamp(3L);
     Patient actual = new Patient(dateOfBirth);
@@ -176,7 +176,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  public void should_treat_timestamp_as_equal_to_date_when_registering_a_date_symmetric_comparator() {
+  void should_treat_timestamp_as_equal_to_date_when_registering_a_date_symmetric_comparator() {
     // GIVEN
     Person actual = new Person("Fred");
     actual.dateOfBirth = new Timestamp(1000L);
@@ -192,7 +192,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  public void field_comparator_should_take_precedence_over_type_comparator_whatever_their_order_of_registration() {
+  void field_comparator_should_take_precedence_over_type_comparator_whatever_their_order_of_registration() {
     // GIVEN
     Patient actual = new Patient(new Timestamp(1L));
     Patient expected = new Patient(new Timestamp(3L));
@@ -208,7 +208,7 @@ public class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  public void ignoringOverriddenEquals_should_not_interfere_with_field_comparators() {
+  void ignoringOverriddenEquals_should_not_interfere_with_field_comparators() {
     // GIVEN
     Person actual = new Person("Fred");
     actual.neighbour = new AlwaysEqualPerson();

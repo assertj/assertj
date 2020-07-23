@@ -21,9 +21,9 @@ import java.util.IllegalFormatException;
 
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
+class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
 
   @Override
   protected StringAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
   }
 
   @Test
-  public void should_not_interpret_string_with_String_format_semantics_when_given_a_single_string() {
+  void should_not_interpret_string_with_String_format_semantics_when_given_a_single_string() {
     // GIVEN
     String string = "12.3 %";
     // THEN
@@ -44,7 +44,7 @@ public class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
   }
 
   @Test
-  public void should_throw_IllegalFormatException_when_given_an_invalid_format() {
+  void should_throw_IllegalFormatException_when_given_an_invalid_format() {
     // GIVEN
     String template = "%s %s";
     // WHEN
@@ -54,7 +54,7 @@ public class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
   }
 
   @Test
-  public void should_throw_NullPointerException_when_given_a_null_template() {
+  void should_throw_NullPointerException_when_given_a_null_template() {
     // GIVEN
     String template = null;
     // WHEN
@@ -64,7 +64,7 @@ public class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_since_template_cant_be_null() {
+  void should_fail_if_actual_is_null_since_template_cant_be_null() {
     // GIVEN
     String actual = null;
     // THEN

@@ -47,10 +47,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("RecursiveComparisonAssert isEqualTo")
-public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
-  public void should_pass_when_actual_and_expected_are_null() {
+  void should_pass_when_actual_and_expected_are_null() {
     // GIVEN
     Person actual = null;
     Person expected = null;
@@ -60,7 +60,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_fail_when_actual_is_null_and_expected_is_not() {
+  void should_fail_when_actual_is_null_and_expected_is_not() {
     // GIVEN
     Person actual = null;
     Person expected = new Person();
@@ -71,7 +71,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_fail_when_actual_is_not_null_and_expected_is() {
+  void should_fail_when_actual_is_not_null_and_expected_is() {
     // GIVEN
     Person actual = new Person();
     Person expected = null;
@@ -82,7 +82,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_propagate_comparators_by_type() {
+  void should_propagate_comparators_by_type() {
     // GIVEN
     Person actual = new Person("John");
     // WHEN
@@ -94,7 +94,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_not_use_equal_implementation_of_root_objects_to_compare() {
+  void should_not_use_equal_implementation_of_root_objects_to_compare() {
     // GIVEN
     AlwaysEqualPerson actual = new AlwaysEqualPerson();
     actual.name = "John";
@@ -110,7 +110,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_treat_date_as_equal_to_timestamp() {
+  void should_treat_date_as_equal_to_timestamp() {
     // GIVEN
     Person actual = new Person("Fred");
     actual.dateOfBirth = new Date(1000L);
@@ -122,7 +122,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_be_able_to_compare_objects_with_percentages() {
+  void should_be_able_to_compare_objects_with_percentages() {
     // GIVEN
     Person actual = new Person("foo");
     Person expected = new Person("%foo");
@@ -134,7 +134,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_fail_when_fields_of_different_nesting_levels_differ() {
+  void should_fail_when_fields_of_different_nesting_levels_differ() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -151,9 +151,9 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource("recursivelyEqualObjects")
-  public void should_pass_for_objects_with_the_same_data_when_using_the_default_recursive_comparison(Object actual,
-                                                                                                     Object expected,
-                                                                                                     String testDescription) {
+  void should_pass_for_objects_with_the_same_data_when_using_the_default_recursive_comparison(Object actual,
+                                                                                              Object expected,
+                                                                                              String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .isEqualTo(expected);
   }
@@ -178,7 +178,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_be_able_to_compare_objects_with_direct_cycles() {
+  void should_be_able_to_compare_objects_with_direct_cycles() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -196,7 +196,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_be_able_to_compare_objects_with_cycles_in_ordered_collection() {
+  void should_be_able_to_compare_objects_with_cycles_in_ordered_collection() {
     // GIVEN
     FriendlyPerson actual = new FriendlyPerson();
     actual.name = "John";
@@ -225,7 +225,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_be_able_to_compare_objects_with_cycles_in_ordered_and_unordered_collection() {
+  void should_be_able_to_compare_objects_with_cycles_in_ordered_and_unordered_collection() {
     // GIVEN
     FriendlyPerson actual = new FriendlyPerson();
     actual.name = "John";
@@ -265,7 +265,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_report_difference_in_collection() {
+  void should_report_difference_in_collection() {
     // GIVEN
     FriendlyPerson actual = new FriendlyPerson();
     FriendlyPerson actualFriend = new FriendlyPerson();
@@ -286,7 +286,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_report_missing_property() {
+  void should_report_missing_property() {
     // GIVEN
     Giant actual = new Giant();
     actual.name = "joe";
@@ -302,7 +302,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_not_compare_enum_recursively() {
+  void should_not_compare_enum_recursively() {
     // GIVEN
     Light actual = new Light(GREEN);
     Light expected = new Light(BLUE);
@@ -314,7 +314,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_compare_enum_by_value_only_when_strictTypeChecking_mode_is_disabled() {
+  void should_compare_enum_by_value_only_when_strictTypeChecking_mode_is_disabled() {
     // GIVEN
     Light actual = new Light(GREEN);
     LightDto expected = new LightDto(ColorDto.GREEN);
@@ -324,7 +324,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_fail_when_expected_is_an_enum_and_actual_is_not() {
+  void should_fail_when_expected_is_an_enum_and_actual_is_not() {
     // GIVEN
     LightString actual = new LightString("GREEN");
     Light expected = new Light(GREEN);
@@ -337,7 +337,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
   }
 
   @Test
-  public void should_fail_when_actual_is_an_enum_and_expected_is_not() {
+  void should_fail_when_actual_is_an_enum_and_expected_is_not() {
     // GIVEN
     Employee devPerson = new Employee("Example Name", "SOFTWARE_DEVELOPER");
     BlogPost devBlogPost = new BlogPost(devPerson);
@@ -360,7 +360,7 @@ public class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveCompariso
 
   @Test
   @DisabledOnOs(WINDOWS)
-  public void should_not_treat_Path_as_Iterable_to_avoid_infinite_recursion() {
+  void should_not_treat_Path_as_Iterable_to_avoid_infinite_recursion() {
     final Container container1 = new Container("/tmp/example");
     final Container container2 = new Container("/tmp/example");
 

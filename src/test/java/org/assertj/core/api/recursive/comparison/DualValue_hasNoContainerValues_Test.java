@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("DualValue hasNoContainerType")
-public class DualValue_hasNoContainerValues_Test {
+class DualValue_hasNoContainerValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 

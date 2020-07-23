@@ -28,18 +28,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
+class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @ParameterizedTest(name = "{0} collection order should be ignored")
   @MethodSource("should_ignore_collection_order_source")
-  public void should_ignore_collection_order(DualValue dualValue) {
+  void should_ignore_collection_order(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrder(true);
     // WHEN
@@ -54,7 +54,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
   }
 
   @Test
-  public void should_register_ignore_collection_order_in_fields_without_duplicates() {
+  void should_register_ignore_collection_order_in_fields_without_duplicates() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar", "bar");
     // WHEN
@@ -67,7 +67,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
 
   @ParameterizedTest(name = "{0} collection order should be ignored with these fields {1}")
   @MethodSource("should_ignore_collection_order_in_specified_fields_source")
-  public void should_ignore_collection_order_in_specified_fields(DualValue dualValue, String[] ignoredFields) {
+  void should_ignore_collection_order_in_specified_fields(DualValue dualValue, String[] ignoredFields) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields(ignoredFields);
     // WHEN
@@ -85,7 +85,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
   }
 
   @Test
-  public void should_register_ignore_collection_order_in_fields_matching_regexes_without_replacing_previous() {
+  void should_register_ignore_collection_order_in_fields_matching_regexes_without_replacing_previous() {
     // WHEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("foo");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("bar", "baz");
@@ -97,7 +97,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
 
   @ParameterizedTest(name = "{0} collection order should be ignored with these regexes {1}")
   @MethodSource("should_ignore_collection_order_in_fields_matching_specified_regexes_source")
-  public void should_ignore_collection_order_in_fields_matching_specified_regexes(DualValue dualValue, String[] regexes) {
+  void should_ignore_collection_order_in_fields_matching_specified_regexes(DualValue dualValue, String[] regexes) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes(regexes);
     // WHEN
@@ -119,7 +119,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
 
   @ParameterizedTest(name = "{0} collection order should be ignored")
   @MethodSource("should_ignore_collection_order_in_fields_source")
-  public void should_ignore_collection_order_in_fields(DualValue dualValue) {
+  void should_ignore_collection_order_in_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes(".*name");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("number");

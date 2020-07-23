@@ -19,17 +19,17 @@ import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonConfiguration_fieldComparators_Test {
+class RecursiveComparisonConfiguration_fieldComparators_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_register_given_field_comparators() {
+  void should_register_given_field_comparators() {
     // GIVEN
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
     recursiveComparisonConfiguration.registerComparatorForFields(integerComparator, "height");
@@ -40,7 +40,7 @@ public class RecursiveComparisonConfiguration_fieldComparators_Test {
   }
 
   @Test
-  public void should_replace_a_registered_field_comparator() {
+  void should_replace_a_registered_field_comparator() {
     // GIVEN
     recursiveComparisonConfiguration.registerComparatorForFields(new AbsValueComparator<>(), "height");
     recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "height");

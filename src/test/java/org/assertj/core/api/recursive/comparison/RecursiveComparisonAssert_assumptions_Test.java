@@ -22,10 +22,10 @@ import org.assertj.core.internal.objects.data.Person;
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_assumptions_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_assumptions_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
-  public void should_ignore_test_when_one_of_the_assumption_fails() {
+  void should_ignore_test_when_one_of_the_assumption_fails() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -40,7 +40,7 @@ public class RecursiveComparisonAssert_assumptions_Test extends RecursiveCompari
   }
 
   @Test
-  public void should_run_test_when_all_assumptions_are_met() {
+  void should_run_test_when_all_assumptions_are_met() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
