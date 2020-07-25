@@ -1000,6 +1000,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * assertThat(bytes).asString()
    *                  .isEqualTo("FF0000");</code></pre>
    *
+   * @param charset the {@link Charset} to interpret the bytes to a String
    * @return a String assertion object
    *
    * @since 3.17.0
