@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
@@ -31,6 +32,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.Failures;
@@ -287,6 +289,58 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
     RESULT actualResult = actual.join();
     if (!predicate.test(actualResult))
       throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
+
+    return myself;
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} is completed normally with a result satisfied the given requirements
+   * expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to perform a group of assertions on a single object.
+   * <p>
+   * Grouping assertions example :
+   * <pre><code class='java'>
+   * // second constructor parameter is the light saber color
+   * Jedi yoda = new Jedi("Yoda", "Green");
+   * Jedi luke = new Jedi("Luke", "Green");
+   *
+   * Consumer&lt;Jedi&gt; jediRequirements = jedi -&gt; {
+   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   *   assertThat(jedi.getName()).doesNotContain("Dark");
+   * };
+   *
+   * // assertions succeed:
+   * assertThat(asyncLoadJedyByName("Yoda")).isCompletedWithValueSatisfies(jediRequirements);
+   * assertThat(asyncLoadJedyByName("Luke")).isCompletedWithValueSatisfies(jediRequirements);
+   *
+   * // assertions fails:
+   * Jedi vader = new Jedi("Vader", "Red");
+   * assertThat(asyncLoadJedyByName("Vader")).isCompletedWithValueSatisfies(jediRequirements);
+   * </code></pre>
+   * <p>
+   * In the following example, {@code satisfies} prevents the need of define a local variable in order to run multiple assertions:
+   * <pre><code class='java'>
+   * // no need to define team.getPlayers().get(0).getStats() as a local variable
+   * assertThat(asyncLoadStats()).isCompletedWithValueSatisfies(stats -&gt; {
+   *   assertThat(stats.pointPerGame).isGreaterThan(25.7);
+   *   assertThat(stats.assistsPerGame).isGreaterThan(7.2);
+   *   assertThat(stats.reboundsPerGame).isBetween(9, 12);
+   * };
+   * </code></pre>
+   *
+   * @param requirements to assert on the actual object - must not be null.
+   * @return this assertion object.
+   *
+   * @throws NullPointerException if given Consumer is null
+   */
+  public SELF isCompletedWithValueSatisfies(Consumer<? super RESULT> requirements) {
+    requireNonNull(requirements, "The Consumer<? super RESULT> expressing the assertions requirements must not be null");
+
+    isCompleted();
+
+    RESULT actualResult = actual.join();
+    requirements.accept(actualResult);
 
     return myself;
   }
