@@ -100,7 +100,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Note that the recursive comparison also allows to ignore actual's null fields with
    * {@link RecursiveComparisonAssert#ignoringActualNullFields() ignoringActualNullFields()}.
-   * <h2>Original javadoc</h2>
+   * <b>Original javadoc</b>
    * <p>
    * Asserts that the actual object is equal to the given one by comparing actual's properties/fields with other's
    * <b>not null</b> properties/fields only (including inherited ones).
@@ -175,7 +175,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
    *                   .ignoringFields(f3, f4)
    *                   .isEqualTo(expected);</code></pre>
-   * <h2>Original javadoc</h2>
+   * <b>Original javadoc</b>
    * <p>
    * Asserts that the actual object is equal to the given one using a property/field by property/field comparison <b>on the given properties/fields only</b>
    * (fields can be inherited fields or nested fields). This can be handy if {@code equals} implementation of objects to compare does not suit you.
@@ -251,7 +251,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Note that the recursive comparison also allows to ignore fields
    * {@link RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...) by type} or
    * {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) matching regexes}.
-   * <h2>Original javadoc</h2>
+   * <b>Original javadoc</b>
    * <p>
    * Asserts that the actual object is equal to the given one by comparing their properties/fields <b>except for the given ones</b>
    * (inherited ones are taken into account). This can be handy if {@code equals} implementation of objects to compare does not suit you.
@@ -439,7 +439,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * You should write:
    * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
    *                   .isEqualTo(expected);</code></pre>
-   * <h2>Original javadoc</h2>
+   * <b>Original javadoc</b>
    * <p>
    * Asserts that actual object is equal to the given object based on a property/field by property/field comparison (including
    * inherited ones). This can be handy if {@code equals} implementation of objects to compare does not suit you.
