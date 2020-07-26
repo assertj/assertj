@@ -96,7 +96,7 @@ class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
                                                                                                     EMPTY_STRING_SET).create()));
   }
 
-  @Test()
+  @Test
   void should_fail_if_fields_are_not_expected_and_not_found() {
     String[] expected = array("publicField", "publicField2", "missing", "privateField");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyDeclaredFields(someInfo(),

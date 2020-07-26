@@ -84,7 +84,7 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
     classes.assertHasMethods(someInfo(), actual, expected);
   }
 
-  @Test()
+  @Test
   void should_fail_if_expected_methods_are_missing() {
     String[] expected = array("missingMethod", "publicMethod");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasMethods(someInfo(), actual,

@@ -80,7 +80,7 @@ class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   }
 
   @SuppressWarnings("unchecked")
-  @Test()
+  @Test
   void should_fail_if_actual_does_not_contains_an_annotation() {
     actual = AnnotatedClass.class;
     Class<Annotation>[] expected = new Class[] { Override.class, Deprecated.class, MyAnnotation.class };
