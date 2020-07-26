@@ -30,7 +30,7 @@ public class Longs_assertIsOne_Test extends LongsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_one() {
-    longs.assertIsZero(someInfo(), 0L);
+    longs.assertIsOne(someInfo(), 1L);
   }
 
   @Test
