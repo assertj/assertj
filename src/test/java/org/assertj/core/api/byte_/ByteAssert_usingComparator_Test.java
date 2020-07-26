@@ -13,30 +13,21 @@
 package org.assertj.core.api.byte_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.ByteAssert;
 import org.assertj.core.api.ByteAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ByteAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class ByteAssert_usingComparator_Test extends ByteAssertBaseTest {
 
-  @Mock
-  private Comparator<Byte> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Byte> comparator = alwaysEqual();
 
   @Override
   protected ByteAssert invoke_api_method() {
@@ -46,7 +37,7 @@ class ByteAssert_usingComparator_Test extends ByteAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
     assertThat(comparator).isSameAs(getBytes(assertions).getComparator());
   }
 }

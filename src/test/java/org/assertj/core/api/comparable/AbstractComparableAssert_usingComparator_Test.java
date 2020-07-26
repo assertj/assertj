@@ -12,31 +12,23 @@
  */
 package org.assertj.core.api.comparable;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+
 import java.util.Comparator;
 
 import org.assertj.core.api.AbstractComparableAssert;
 import org.assertj.core.api.AbstractComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Tests for <code>{@link AbstractComparableAssert#usingComparator(Comparator)}</code>.
- * 
+ *
  * @author Filip Hrisafov
  */
 class AbstractComparableAssert_usingComparator_Test extends AbstractComparableAssertBaseTest {
 
-  @Mock
-  private Comparator<Integer> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Integer> comparator = alwaysEqual();
 
   @Override
   protected ConcreteComparableAssert invoke_api_method() {
@@ -46,7 +38,7 @@ class AbstractComparableAssert_usingComparator_Test extends AbstractComparableAs
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getComparables(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getComparables(assertions).getComparator()).isSameAs(comparator);
   }
 }

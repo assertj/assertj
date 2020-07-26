@@ -13,41 +13,28 @@
 package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.test.Jedi;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ObjectAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
 class ObjectAssert_usingDefaultComparator_Test extends ObjectAssertBaseTest {
 
-  @Mock
-  private Comparator<Jedi> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-    assertions.usingComparator(comparator);
-  }
-
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual())
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(getObjects(assertions).getComparator()).isNull();
   }
 }

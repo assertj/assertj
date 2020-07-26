@@ -13,33 +13,29 @@
 package org.assertj.core.api.shortarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
-
 
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
 import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
 class ShortArrayAssert_usingComparator_Test extends ShortArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<short[]> comparator;
+  private Comparator<short[]> comparator = alwaysEqual();
 
   private ShortArrays arraysBefore;
 
   @BeforeEach
   void before() {
-    initMocks(this);
     arraysBefore = getArrays(assertions);
   }
 
@@ -51,7 +47,7 @@ class ShortArrayAssert_usingComparator_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(arraysBefore).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
   }
 }

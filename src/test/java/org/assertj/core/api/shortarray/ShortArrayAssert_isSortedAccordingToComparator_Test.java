@@ -12,31 +12,22 @@
  */
 package org.assertj.core.api.shortarray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#isSortedAccordingTo(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class ShortArrayAssert_isSortedAccordingToComparator_Test extends ShortArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Short> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Short> comparator = alwaysEqual();
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

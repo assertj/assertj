@@ -13,30 +13,21 @@
 package org.assertj.core.api.double_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link DoubleAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class DoubleAssert_usingComparator_Test extends DoubleAssertBaseTest {
 
-  @Mock
-  private Comparator<Double> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Double> comparator = alwaysEqual();
 
   @Override
   protected DoubleAssert invoke_api_method() {
@@ -46,7 +37,7 @@ class DoubleAssert_usingComparator_Test extends DoubleAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getDoubles(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getDoubles(assertions).getComparator()).isSameAs(comparator);
   }
 }

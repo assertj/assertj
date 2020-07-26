@@ -12,31 +12,22 @@
  */
 package org.assertj.core.api.doublearray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link DoubleArrayAssert#isSortedAccordingTo(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class DoubleArrayAssert_isSortedAccordingToComparator_Test extends DoubleArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Double> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Double> comparator = alwaysEqual();
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

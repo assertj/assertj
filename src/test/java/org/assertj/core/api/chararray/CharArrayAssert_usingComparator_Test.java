@@ -13,33 +13,29 @@
 package org.assertj.core.api.chararray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
-
 
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
 import org.assertj.core.internal.CharArrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link CharArrayAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
 class CharArrayAssert_usingComparator_Test extends CharArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<char[]> comparator;
+  private Comparator<char[]> comparator = alwaysEqual();
 
   private CharArrays arraysBefore;
 
   @BeforeEach
   void before() {
-    initMocks(this);
     arraysBefore = getArrays(assertions);
   }
 
@@ -51,7 +47,7 @@ class CharArrayAssert_usingComparator_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(arraysBefore).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
   }
 }

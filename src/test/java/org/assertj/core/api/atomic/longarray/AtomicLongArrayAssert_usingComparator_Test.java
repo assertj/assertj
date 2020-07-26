@@ -13,7 +13,7 @@
 package org.assertj.core.api.atomic.longarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLongArray;
@@ -22,18 +22,15 @@ import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
 import org.assertj.core.internal.LongArrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 class AtomicLongArrayAssert_usingComparator_Test extends AtomicLongArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<AtomicLongArray> comparator;
+  private Comparator<AtomicLongArray> comparator = alwaysEqual();
 
   private LongArrays arraysBefore;
 
   @BeforeEach
   void before() {
-    initMocks(this);
     arraysBefore = getArrays(assertions);
   }
 
@@ -45,7 +42,7 @@ class AtomicLongArrayAssert_usingComparator_Test extends AtomicLongArrayAssertBa
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(arraysBefore).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
   }
 }

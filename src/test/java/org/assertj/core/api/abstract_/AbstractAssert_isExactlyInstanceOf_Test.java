@@ -12,16 +12,14 @@
  */
 package org.assertj.core.api.abstract_;
 
-import org.assertj.core.api.AbstractAssert;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 
-import static org.mockito.Mockito.verify;
-
-
 /**
  * Tests for <code>{@link AbstractAssert#isExactlyInstanceOf(Class))}</code>.
- * 
+ *
  * @author Nicolas François
  */
 class AbstractAssert_isExactlyInstanceOf_Test extends AbstractAssertBaseTest {

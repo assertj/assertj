@@ -12,16 +12,14 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
-import org.assertj.core.api.AtomicReferenceArrayAssert;
-import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
+import static org.assertj.core.util.Lists.list;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
 
-import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
+import org.assertj.core.api.AtomicReferenceArrayAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link AtomicReferenceArrayAssert#hasOnlyOneElementSatisfying(Consumer)}</code>.
@@ -30,13 +28,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 class AtomicReferenceArrayAssert_hasOnlyOneElementSatisfying_Test extends AtomicReferenceArrayAssertBaseTest {
 
-  @Mock
-  private Consumer<Object> consumer;
-
-  @BeforeEach
-  void beforeEach() {
-    initMocks(this);
-  }
+  private Consumer<Object> consumer = mock(Consumer.class);
 
   @Override
   protected AtomicReferenceArrayAssert<Object> create_assertions() {

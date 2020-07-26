@@ -13,42 +13,30 @@
 package org.assertj.core.api.integer_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.IntegerAssert;
 import org.assertj.core.api.IntegerAssertBaseTest;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link IntegerAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class IntegerAssert_usingDefaultComparator_Test extends IntegerAssertBaseTest {
 
-  @Mock
-  private Comparator<Integer> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-    assertions.usingComparator(comparator);
-  }
-
   @Override
   protected IntegerAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual())
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Integers.instance()).isSameAs(getIntegers(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getObjects(assertions).getComparator()).isNull();
+    assertThat(getIntegers(assertions)).isSameAs(Integers.instance());
   }
 }

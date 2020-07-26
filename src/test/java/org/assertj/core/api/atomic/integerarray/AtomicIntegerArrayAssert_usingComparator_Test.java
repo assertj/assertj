@@ -13,7 +13,7 @@
 package org.assertj.core.api.atomic.integerarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -22,18 +22,15 @@ import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 import org.assertj.core.internal.IntArrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 class AtomicIntegerArrayAssert_usingComparator_Test extends AtomicIntegerArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<AtomicIntegerArray> comparator;
+  private Comparator<AtomicIntegerArray> comparator = alwaysEqual();
 
   private IntArrays arraysBefore;
 
   @BeforeEach
   void before() {
-    initMocks(this);
     arraysBefore = getArrays(assertions);
   }
 
@@ -45,7 +42,7 @@ class AtomicIntegerArrayAssert_usingComparator_Test extends AtomicIntegerArrayAs
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(arraysBefore).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
   }
 }

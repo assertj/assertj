@@ -52,7 +52,7 @@ class IterableAssert_should_honor_SortedSet_comparator_Test {
       assertThat(set).containsExactlyInAnyOrder("foo");
       assertThat(set).containsExactlyInAnyOrderElementsOf(newLinkedHashSet("foo"));
       assertThat(set).containsOnly("foo");
-      assertThat(set).containsOnlyElementsOf(newLinkedHashSet("foo"));
+      assertThat(set).isSubsetOf(newLinkedHashSet("foo"));
       assertThat(set).containsOnlyOnce("foo");
       assertThat(set).containsOnlyOnceElementsOf(newLinkedHashSet("foo"));
       assertThat(set).containsSequence("foo");

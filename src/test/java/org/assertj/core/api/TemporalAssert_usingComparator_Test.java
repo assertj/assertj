@@ -38,7 +38,7 @@ public class TemporalAssert_usingComparator_Test extends AbstractTemporalAssertB
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getComparables(assertions).getComparator());
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
+    assertThat(getComparables(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
   }
 }

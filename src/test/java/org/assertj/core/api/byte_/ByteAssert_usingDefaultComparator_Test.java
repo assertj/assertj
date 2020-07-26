@@ -13,42 +13,31 @@
 package org.assertj.core.api.byte_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.ByteAssert;
 import org.assertj.core.api.ByteAssertBaseTest;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ByteAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class ByteAssert_usingDefaultComparator_Test extends ByteAssertBaseTest {
 
-  @Mock
-  private Comparator<Byte> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-    assertions.usingComparator(comparator);
-  }
-
   @Override
   protected ByteAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual())
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Bytes.instance()).isSameAs(getBytes(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getObjects(assertions).getComparator()).isNull();
+    assertThat(getBytes(assertions)).isSameAs(Bytes.instance());
+    assertThat(getBytes(assertions).getComparator()).isNull();
   }
 }

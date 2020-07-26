@@ -13,42 +13,31 @@
 package org.assertj.core.api.short_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.Shorts;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ShortAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class ShortAssert_usingDefaultComparator_Test extends ShortAssertBaseTest {
 
-  @Mock
-  private Comparator<Short> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-    assertions.usingComparator(comparator);
-  }
-
   @Override
   protected ShortAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual())
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Shorts.instance()).isSameAs(getShorts(assertions));
+    assertThat(getObjects(assertions).getComparator()).isNull();
+    assertThat(getShorts(assertions).getComparator()).isNull();
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getShorts(assertions)).isSameAs(Shorts.instance());
   }
 }

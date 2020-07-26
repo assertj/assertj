@@ -12,31 +12,22 @@
  */
 package org.assertj.core.api.intarray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.IntArrayAssert;
 import org.assertj.core.api.IntArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link IntArrayAssert#isSortedAccordingTo(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class IntArrayAssert_isSortedAccordingToComparator_Test extends IntArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Integer> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Integer> comparator = alwaysEqual();
 
   @Override
   protected IntArrayAssert invoke_api_method() {

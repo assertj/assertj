@@ -27,7 +27,7 @@ class Object2DArrayAssert_usingCustomComparator_Test extends Object2DArrayAssert
   private static final AlwaysEqualComparator<Object[][]> ALWAYS_EQUAL = alwaysEqual();
 
   @Override
-  protected Object2DArrayAssert invoke_api_method() {
+  protected Object2DArrayAssert<Object> invoke_api_method() {
     return assertions.usingComparator(ALWAYS_EQUAL);
   }
 

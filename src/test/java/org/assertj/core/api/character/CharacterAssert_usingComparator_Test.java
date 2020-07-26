@@ -13,30 +13,21 @@
 package org.assertj.core.api.character;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.CharacterAssert;
 import org.assertj.core.api.CharacterAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link CharacterAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class CharacterAssert_usingComparator_Test extends CharacterAssertBaseTest {
 
-  @Mock
-  private Comparator<Character> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Character> comparator = alwaysEqual();
 
   @Override
   protected CharacterAssert invoke_api_method() {
@@ -46,7 +37,7 @@ class CharacterAssert_usingComparator_Test extends CharacterAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
     assertThat(comparator).isSameAs(getCharacters(assertions).getComparator());
   }
 }

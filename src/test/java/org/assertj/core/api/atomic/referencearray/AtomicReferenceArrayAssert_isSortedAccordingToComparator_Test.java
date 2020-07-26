@@ -12,26 +12,17 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 class AtomicReferenceArrayAssert_isSortedAccordingToComparator_Test extends AtomicReferenceArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Object> mockComparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Object> mockComparator = alwaysEqual();
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

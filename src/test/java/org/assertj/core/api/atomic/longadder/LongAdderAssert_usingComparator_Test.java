@@ -27,7 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * Tests for <code>{@link LongAssert#usingComparator(Comparator)}</code>.
- * 
+ *
  * @author Stefano Cordio
  */
 @DisplayName("LongAdderAssert usingComparator")
@@ -45,8 +45,8 @@ class LongAdderAssert_usingComparator_Test extends LongAdderAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getLongs(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getLongs(assertions).getComparator()).isSameAs(comparator);
   }
 
 }

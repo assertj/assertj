@@ -12,31 +12,22 @@
  */
 package org.assertj.core.api.longarray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.LongArrayAssert;
 import org.assertj.core.api.LongArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link LongArrayAssert#isSortedAccordingTo(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class LongArrayAssert_isSortedAccordingToComparator_Test extends LongArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Long> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Long> comparator = alwaysEqual();
 
   @Override
   protected LongArrayAssert invoke_api_method() {

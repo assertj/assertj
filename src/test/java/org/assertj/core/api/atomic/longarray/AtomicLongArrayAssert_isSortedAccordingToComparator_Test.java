@@ -12,26 +12,17 @@
  */
 package org.assertj.core.api.atomic.longarray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 class AtomicLongArrayAssert_isSortedAccordingToComparator_Test extends AtomicLongArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Long> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<Long> comparator = alwaysEqual();
 
   @Override
   protected AtomicLongArrayAssert invoke_api_method() {

@@ -12,32 +12,23 @@
  */
 package org.assertj.core.api.list;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
-
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ListAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#isSortedAccordingTo(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class ListAssert_isSortedAccordingToComparator_Test extends ListAssertBaseTest {
 
-  @Mock
-  private Comparator<String> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-  }
+  private Comparator<String> comparator = alwaysEqual();
 
   @Override
   protected ListAssert<String> invoke_api_method() {

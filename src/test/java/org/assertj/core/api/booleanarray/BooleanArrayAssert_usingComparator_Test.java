@@ -13,33 +13,29 @@
 package org.assertj.core.api.booleanarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
-
 
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
 import org.assertj.core.internal.BooleanArrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
 class BooleanArrayAssert_usingComparator_Test extends BooleanArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<boolean[]> comparator;
+  private Comparator<boolean[]> comparator = alwaysEqual();
 
   private BooleanArrays arraysBefore;
 
   @BeforeEach
   void before() {
-    initMocks(this);
     arraysBefore = getArrays(assertions);
   }
 
@@ -51,7 +47,7 @@ class BooleanArrayAssert_usingComparator_Test extends BooleanArrayAssertBaseTest
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(arraysBefore).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
   }
 }

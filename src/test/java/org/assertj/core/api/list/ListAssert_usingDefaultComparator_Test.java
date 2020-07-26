@@ -13,43 +13,30 @@
 package org.assertj.core.api.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-import java.util.List;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ListAssertBaseTest;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ListAssert#usingComparator(java.util.Comparator)}</code> and
  * <code>{@link ListAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
 class ListAssert_usingDefaultComparator_Test extends ListAssertBaseTest {
 
-  @Mock
-  private Comparator<List<? extends String>> comparator;
-
-  @BeforeEach
-  void before() {
-    initMocks(this);
-    assertions.usingComparator(comparator);
-  }
-
   @Override
   protected ListAssert<String> invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual())
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(getObjects(assertions).getComparator()).isNull();
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
   }
 }
