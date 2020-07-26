@@ -39,7 +39,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 /**
  * Tests for <code>{@link org.assertj.core.internal.BigIntegers#assertIsCloseTo(AssertionInfo, BigInteger, BigInteger, org.assertj.core.data.Offset)}</code>.
  */
-public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   private static final BigInteger TWO = new BigInteger("2");
   private static final BigInteger FIVE = new BigInteger("5");
@@ -47,7 +47,7 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   private static final BigInteger NINE = new BigInteger("9");
 
   @Test
-  public void should_pass_if_difference_is_less_than_given_offset() {
+  void should_pass_if_difference_is_less_than_given_offset() {
     numbers.assertIsCloseTo(someInfo(), FIVE, SIX, offset(TWO));
     numbers.assertIsCloseTo(someInfo(), FIVE, SIX, byLessThan(TWO));
     numbers.assertIsCloseTo(someInfo(), ONE, ONE, within(ONE));
@@ -66,8 +66,8 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
       "0, 1, 1",
       "-1, -1, 0"
   })
-  public void should_pass_if_big_integers_difference_is_equal_to_given_offset(BigInteger actual, BigInteger expected,
-                                                                              BigInteger offset) {
+  void should_pass_if_big_integers_difference_is_equal_to_given_offset(BigInteger actual, BigInteger expected,
+                                                                       BigInteger offset) {
     numbers.assertIsCloseTo(someInfo(), actual, expected, offset(offset));
   }
 
@@ -79,9 +79,9 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
       "-1, 1, 2",
       "0, 1, 1"
   })
-  public void should_fail_if_big_integers_difference_is_equal_to_given_strict_offset(BigInteger actual,
-                                                                                     BigInteger expected,
-                                                                                     BigInteger offset) {
+  void should_fail_if_big_integers_difference_is_equal_to_given_strict_offset(BigInteger actual,
+                                                                              BigInteger expected,
+                                                                              BigInteger offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset)));
@@ -91,41 +91,41 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), null, ONE, offset(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if__expected_value_is_null() {
+  void should_fail_if__expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   // error or failure
 
   @Test
-  public void should_throw_error_if_actual_is_null() {
+  void should_throw_error_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_expected_value_is_null() {
+  void should_throw_error_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), SIX, null, offset(ONE))).withMessage("The given number should not be null");
   }
 
   @Test
-  public void should_throw_error_if_offset_is_null() {
+  void should_throw_error_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsCloseTo(info, ONE, TEN, within(ONE)));
@@ -135,7 +135,7 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value_with_a_strict_offset() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value_with_a_strict_offset() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE)));
@@ -145,7 +145,7 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_difference_is_equal_to_the_given_strict_offset() {
+  void should_fail_if_difference_is_equal_to_the_given_strict_offset() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsCloseTo(info, TWO, ONE, byLessThan(ONE)));
@@ -157,26 +157,26 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   // with comparison strategy
 
   @Test
-  public void should_pass_if_difference_is_less_than_given_offset_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_difference_is_less_than_given_offset_whatever_custom_comparison_strategy_is() {
     numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, ONE, within(ONE));
     numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
     numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO, byLessThan(TEN));
   }
 
   @Test
-  public void should_pass_if_difference_is_equal_to_given_offset_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_difference_is_equal_to_given_offset_whatever_custom_comparison_strategy_is() {
     numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, ONE, within(ZERO));
     numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, ZERO, within(ONE));
     numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO, within(ONE));
   }
 
   @Test
-  public void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO, null)).withMessage(offsetIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, ONE, TEN, offset(ONE)));
@@ -186,7 +186,7 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE)));
@@ -196,7 +196,7 @@ public class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), TWO, null, offset(ONE))).withMessage("The given number should not be null");
   }
 

@@ -32,13 +32,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Pierre Templier
  */
-public class Strings_assertContainsPattern_CharSequence_Test extends StringsBaseTest {
+class Strings_assertContainsPattern_CharSequence_Test extends StringsBaseTest {
 
   private static final String CONTAINED_PATTERN = "dark";
   private String actual = "Fear is the path to the dark side. Fear leads to anger. Anger leads to hate. Hate… leads to suffering.";
 
   @Test
-  public void should_throw_error_if_regular_expression_is_null() {
+  void should_throw_error_if_regular_expression_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String regex = null;
       strings.assertContainsPattern(someInfo(), actual, regex);
@@ -46,31 +46,31 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
   }
 
   @Test
-  public void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
+  void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
     assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> strings.assertContainsPattern(someInfo(),
                                                                                                            actual,
                                                                                                            "*..."));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsPattern(someInfo(), null, matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_regular_expression() {
+  void should_fail_if_actual_does_not_contain_regular_expression() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsPattern(someInfo(), actual, "Luke"))
                                                    .withMessage(shouldContainPattern(actual, "Luke").create());
   }
 
   @Test
-  public void should_pass_if_actual_contains_pattern() {
+  void should_pass_if_actual_contains_pattern() {
     strings.assertContainsPattern(someInfo(), actual, CONTAINED_PATTERN);
   }
 
   @Test
-  public void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       String regex = null;
       stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, regex);
@@ -78,26 +78,26 @@ public class Strings_assertContainsPattern_CharSequence_Test extends StringsBase
   }
 
   @Test
-  public void should_throw_error_if_syntax_of_regular_expression_is_invalid_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_syntax_of_regular_expression_is_invalid_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(),
                                                                                                                                                 actual,
                                                                                                                                                 "*..."));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), null, matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_regular_expression_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_does_not_contain_regular_expression_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, "Luke"))
                                                    .withMessage(shouldContainPattern(actual, "Luke").create());
   }
 
   @Test
-  public void should_pass_if_actual_contains_pattern_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_contains_pattern_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, CONTAINED_PATTERN);
   }
 }

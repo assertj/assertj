@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Maps#assertHasEntrySatisfyingConditions(AssertionInfo, Map, Condition, Condition)}</code>.
  */
-public class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends MapsBaseTest {
+class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends MapsBaseTest {
 
   private Condition<String> isColor = new Condition<String>("is color condition") {
     @Override
@@ -63,27 +63,27 @@ public class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test ex
   };
 
   @Test
-  public void should_fail_if_key_condition_is_null() {
+  void should_fail_if_key_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(someInfo(), actual, null,
                                                                                               isGreen))
                                     .withMessage("The condition to evaluate for entries key should not be null");
   }
 
   @Test
-  public void should_fail_if_value_condition_is_null() {
+  void should_fail_if_value_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(someInfo(), actual,
                                                                                               isColor, null))
                                     .withMessage("The condition to evaluate for entries value should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(someInfo(), null, isColor, isGreen))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_key_condition() {
+  void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_key_condition() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isAge, isGreen));
@@ -93,7 +93,7 @@ public class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test ex
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_value_condition() {
+  void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_value_condition() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isColor, isBlack));
@@ -103,7 +103,7 @@ public class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test ex
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_entry_matching_both_given_key_and_value_conditions() {
+  void should_fail_if_actual_does_not_contain_any_entry_matching_both_given_key_and_value_conditions() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isAge, isBlack));
@@ -113,7 +113,7 @@ public class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test ex
   }
 
   @Test
-  public void should_pass_if_actual_contains_an_entry_matching_both_key_and_value_conditions() {
+  void should_pass_if_actual_contains_an_entry_matching_both_key_and_value_conditions() {
     maps.assertHasEntrySatisfyingConditions(someInfo(), actual, isColor, isGreen);
   }
 }

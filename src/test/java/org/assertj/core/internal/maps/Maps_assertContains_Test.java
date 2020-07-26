@@ -42,58 +42,58 @@ import org.assertj.core.internal.MapsBaseTest;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Maps_assertContains_Test extends MapsBaseTest {
+class Maps_assertContains_Test extends MapsBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_entries() {
+  void should_pass_if_actual_contains_given_entries() {
     maps.assertContains(someInfo(), actual, array(entry("name", "Yoda")));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_entries_in_different_order() {
+  void should_pass_if_actual_contains_given_entries_in_different_order() {
     maps.assertContains(someInfo(), actual, array(entry("color", "green"), entry("name", "Yoda")));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_entries() {
+  void should_pass_if_actual_contains_all_given_entries() {
     maps.assertContains(someInfo(), actual, array(entry("name", "Yoda"), entry("color", "green")));
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_and_given_entries_are_empty() {
+  void should_pass_if_actual_and_given_entries_are_empty() {
     actual = new HashMap<>();
     maps.assertContains(someInfo(), actual, new MapEntry[0]);
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_throw_error_if_array_of_entries_to_look_for_is_empty() {
+  void should_throw_error_if_array_of_entries_to_look_for_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContains(someInfo(), actual, new MapEntry[0]));
   }
 
   @Test
-  public void should_throw_error_if_array_of_entries_to_look_for_is_null() {
+  void should_throw_error_if_array_of_entries_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertContains(someInfo(), actual, null))
                                     .withMessage(entriesToLookForIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_throw_error_if_entry_is_null() {
+  void should_throw_error_if_entry_is_null() {
     MapEntry<String, String>[] entries = new MapEntry[]{null};
     assertThatNullPointerException().isThrownBy(() -> maps.assertContains(someInfo(), actual, entries))
                                     .withMessage(entryToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContains(someInfo(), null, array(entry("name", "Yoda"))))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_entries() {
+  void should_fail_if_actual_does_not_contain_entries() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
 

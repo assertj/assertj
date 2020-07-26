@@ -20,27 +20,27 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class FloatArrays_assertHasSizeLessThanOrEqualTo_Test extends FloatArraysBaseTest {
+class FloatArrays_assertHasSizeLessThanOrEqualTo_Test extends FloatArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeLessThanOrEqualTo(someInfo(), null, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_less_than_or_equal_to_boundary() {
+  void should_fail_if_size_of_actual_is_not_less_than_or_equal_to_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeLessThanOrEqualTo(someInfo(), actual, 1))
                                                    .withMessage(shouldHaveSizeLessThanOrEqualTo(actual, actual.length, 1).create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_less_than_boundary() {
+  void should_pass_if_size_of_actual_is_less_than_boundary() {
     arrays.assertHasSizeLessThanOrEqualTo(someInfo(), actual, 4);
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_boundary() {
+  void should_pass_if_size_of_actual_is_equal_to_boundary() {
     arrays.assertHasSizeLessThanOrEqualTo(someInfo(), actual, actual.length);
   }
 }

@@ -25,32 +25,32 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Longs_assertIsNotPositive_Test extends LongsBaseTest {
+class Longs_assertIsNotPositive_Test extends LongsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_positive() {
+  void should_succeed_since_actual_is_not_positive() {
     longs.assertIsNotPositive(someInfo(), -6L);
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     longs.assertIsNotPositive(someInfo(), 0L);
   }
 
   @Test
-  public void should_fail_since_actual_is_positive() {
+  void should_fail_since_actual_is_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNotPositive(someInfo(), 6L))
                                                    .withMessage(format("%nExpecting:%n <6L>%nto be less than or equal to:%n <0L> "));
   }
 
   @Test
-  public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1L))
                                                    .withMessage(format("%nExpecting:%n <-1L>%nto be less than or equal to:%n <0L> when comparing values using AbsValueComparator"));
   }
 
   @Test
-  public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1L))
                                                    .withMessage(format("%nExpecting:%n <1L>%nto be less than or equal to:%n <0L> when comparing values using AbsValueComparator"));
   }

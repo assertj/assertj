@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Long2DArrays_assertDoesNotContain_at_Index_Test extends Long2DArraysBaseTest {
+class Long2DArrays_assertDoesNotContain_at_Index_Test extends Long2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     long[] longs = new long[] { 6, 8, 10 };
     // WHEN

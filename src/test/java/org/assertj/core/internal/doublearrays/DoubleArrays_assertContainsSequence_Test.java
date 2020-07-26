@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class DoubleArrays_assertContainsSequence_Test extends DoubleArraysBaseTest {
+class DoubleArrays_assertContainsSequence_Test extends DoubleArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -41,67 +41,67 @@ public class DoubleArrays_assertContainsSequence_Test extends DoubleArraysBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), null, arrayOf(8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
     arrays.assertContainsSequence(someInfo(), actual, emptyArray());
   }
   
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual() {
+  void should_fail_if_sequence_is_bigger_than_actual() {
     double[] sequence = { 6d, 8d, 10d, 12d, 20d, 22d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, sequence))
                                                    .withMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_whole_sequence() {
+  void should_fail_if_actual_does_not_contain_whole_sequence() {
     double[] sequence = { 6d, 20d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, sequence))
                                                    .withMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_first_elements_of_sequence() {
+  void should_fail_if_actual_contains_first_elements_of_sequence() {
     double[] sequence = { 6d, 20d, 22d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, sequence))
                                                    .withMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence() {
+  void should_pass_if_actual_contains_sequence() {
     arrays.assertContainsSequence(someInfo(), actual, arrayOf(6d, 8d));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal() {
+  void should_pass_if_actual_and_sequence_are_equal() {
     arrays.assertContainsSequence(someInfo(), actual, arrayOf(6d, 8d, 10d, 12d));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, arrayOf(-8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
                                                                                                                 actual,
                                                                                                                 null))
@@ -109,38 +109,38 @@ public class DoubleArrays_assertContainsSequence_Test extends DoubleArraysBaseTe
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
+  void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, -8d, 10d, 12d, 20d, 22d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, sequence))
                                                    .withMessage(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, 20d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, sequence))
                                                    .withMessage(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, 20d, 22d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, sequence))
                                                    .withMessage(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, arrayOf(6d, -8d));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, arrayOf(6d, -8d, 10d, 12d));
   }
 }

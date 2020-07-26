@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Object2DArrays_assertHasSameDimensionsAs_with_Array_Test extends Object2DArraysBaseTest {
+class Object2DArrays_assertHasSameDimensionsAs_with_Array_Test extends Object2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     String[][] other = new String[][] { { "a", "c" }, { "e", "g" } };
     // WHEN

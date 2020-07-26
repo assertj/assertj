@@ -27,21 +27,21 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class Conditions_assertIsNotNull_Test extends ConditionsBaseTest {
+class Conditions_assertIsNotNull_Test extends ConditionsBaseTest {
 
   @Test
-  public void should_pass_if_condition_is_not_null() {
+  void should_pass_if_condition_is_not_null() {
     conditions.assertIsNotNull(new TestCondition<String>());
   }
 
   @Test
-  public void should_throw_error_if_Condition_is_null() {
+  void should_throw_error_if_Condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> conditions.assertIsNotNull(null))
                                     .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
-  public void should_throw_error_with_the_given_alternative_error_message_if_Condition_is_null() {
+  void should_throw_error_with_the_given_alternative_error_message_if_Condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> conditions.assertIsNotNull(null, "%s error message",
                                                                                  "alternative"))
                                     .withMessage("alternative error message");

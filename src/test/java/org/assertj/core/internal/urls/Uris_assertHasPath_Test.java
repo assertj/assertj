@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Uris_assertHasPath_Test extends UrisBaseTest {
+class Uris_assertHasPath_Test extends UrisBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URI uri = null;
     String expectedPath = "path";
@@ -42,13 +42,13 @@ public class Uris_assertHasPath_Test extends UrisBaseTest {
     "http://example.com/pages/,   /pages/",
     "http://example.com,          ''"
   })
-  public void should_pass_if_actual_uri_has_the_given_path(URI uri,  String expectedPath) {
+  void should_pass_if_actual_uri_has_the_given_path(URI uri,  String expectedPath) {
     // WHEN/THEN
     uris.assertHasPath(info, uri, expectedPath);
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_no_path_and_the_given_path_is_null() {
+  void should_pass_if_actual_uri_has_no_path_and_the_given_path_is_null() {
     // GIVEN
     URI uri = URI.create("mailto:java-net@java.sun.com");
     String expectedPath = null;
@@ -58,7 +58,7 @@ public class Uris_assertHasPath_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_path_is_not_the_given_path() {
+  void should_fail_if_actual_URI_path_is_not_the_given_path() {
     // GIVEN
     URI uri = URI.create("http://example.com/pages/");
     String expectedPath = "/news/";
@@ -69,7 +69,7 @@ public class Uris_assertHasPath_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_path_and_the_given_path_null() {
+  void should_fail_if_actual_URI_has_path_and_the_given_path_null() {
     // GIVEN
     URI uri = URI.create("http://example.com/pages/");
     String expectedPath = null;
@@ -80,7 +80,7 @@ public class Uris_assertHasPath_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_no_path_and_the_given_path_is_not_null() {
+  void should_fail_if_actual_URI_has_no_path_and_the_given_path_is_not_null() {
     // GIVEN
     URI uri = URI.create("mailto:java-net@java.sun.com");
     String expectedPath = "";

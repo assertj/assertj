@@ -41,29 +41,29 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTest {
+class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTest {
 
   private static final int GENERATED_OBJECTS_NUMBER = 50000;
   private final List<String> actual = newArrayList("Luke", "Yoda", "Leia");
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates() {
+  void should_pass_if_actual_does_not_have_duplicates() {
     iterables.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     iterables.assertDoesNotHaveDuplicates(someInfo(), emptyList());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotHaveDuplicates(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates() {
+  void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
     Collection<String> duplicates = newLinkedHashSet("Luke", "Yoda");
     actual.addAll(duplicates);
@@ -75,7 +75,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   }
 
   @Test
-  public void should_pass_within_time_constraints() {
+  void should_pass_within_time_constraints() {
     List<UUID> generated = Stream.generate(UUID::randomUUID).limit(GENERATED_OBJECTS_NUMBER).collect(toList());
 
     long time = System.currentTimeMillis();
@@ -87,7 +87,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_array() {
+  void should_fail_if_actual_contains_duplicates_array() {
     Collection<String[]> actual = newArrayList(array("Luke", "Yoda"), array("Luke", "Yoda"));
     // duplicates is commented, because mockito is not smart enough to compare arrays contents 
     // Collection<String[]> duplicates = newLinkedHashSet();
@@ -104,12 +104,12 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_have_duplicates_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Collection<String> duplicates = newLinkedHashSet("LUKE", "yoda");
     actual.addAll(duplicates);
@@ -121,7 +121,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   }
   
   @Test
-  public void should_pass_within_time_constraints_with_custom_comparison_strategy() {
+  void should_pass_within_time_constraints_with_custom_comparison_strategy() {
     List<String> generated = Stream.generate(() -> UUID.randomUUID().toString()).limit(GENERATED_OBJECTS_NUMBER).collect(toList());
     long time = System.currentTimeMillis();
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), generated);

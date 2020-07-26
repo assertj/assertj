@@ -36,41 +36,41 @@ import org.junit.jupiter.api.Test;
  *
  * @author Filip Hrisafov
  */
-public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
+class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
 
   private static final LinkedHashSet<String> EMPTY_STRING_SET = Sets.newLinkedHashSet();
 
   @BeforeEach
-  public void setupActual() {
+  void setupActual() {
     actual = AnnotatedClass.class;
   }
 
   @Test
-  public void should_pass_if_class_has_all_the_expected_declared_fields() {
+  void should_pass_if_class_has_all_the_expected_declared_fields() {
     classes.assertHasOnlyDeclaredFields(someInfo(), actual, "publicField", "publicField2", "protectedField",
                                         "privateField");
   }
 
   @Test
-  public void should_pass_if_class_has_all_the_expected_declared_fields_whatever_the_order_is() {
+  void should_pass_if_class_has_all_the_expected_declared_fields_whatever_the_order_is() {
     classes.assertHasOnlyDeclaredFields(someInfo(), actual, "protectedField", "privateField", "publicField2",
                                         "publicField");
   }
 
   @Test
-  public void should_pass_if_class_has_no_declared_fields_and_none_are_expected() {
+  void should_pass_if_class_has_no_declared_fields_and_none_are_expected() {
     classes.assertHasOnlyDeclaredFields(someInfo(), NoField.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyDeclaredFields(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_not_all_fields_are_expected() {
+  void should_fail_if_not_all_fields_are_expected() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyDeclaredFields(someInfo(),
                                                                                                          actual,
                                                                                                          "publicField",
@@ -85,7 +85,7 @@ public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_fields_are_missing() {
+  void should_fail_if_fields_are_missing() {
     String[] expected = array("missingField", "publicField", "publicField2", "protectedField", "privateField");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyDeclaredFields(someInfo(),
                                                                                                          actual,
@@ -97,7 +97,7 @@ public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
   }
 
   @Test()
-  public void should_fail_if_fields_are_not_expected_and_not_found() {
+  void should_fail_if_fields_are_not_expected_and_not_found() {
     String[] expected = array("publicField", "publicField2", "missing", "privateField");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyDeclaredFields(someInfo(),
                                                                                                          actual,
@@ -109,7 +109,7 @@ public class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
+  void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyDeclaredFields(someInfo(),
                                                                                                          actual))
                                                    .withMessage(format(shouldHaveNoDeclaredFields(actual,

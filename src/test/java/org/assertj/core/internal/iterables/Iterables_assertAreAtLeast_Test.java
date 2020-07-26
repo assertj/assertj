@@ -34,24 +34,24 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBaseTest {
+class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBaseTest {
 
   @Test
-  public void should_pass_if_satisfies_at_least_times_condition() {
+  void should_pass_if_satisfies_at_least_times_condition() {
     actual = newArrayList("Yoda", "Luke", "Leia");
     iterables.assertAreAtLeast(someInfo(), actual, 2, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
-  public void should_pass_if_all_satisfies_condition_() {
+  void should_pass_if_all_satisfies_condition_() {
     actual = newArrayList("Yoda", "Luke", "Obiwan");
     iterables.assertAreAtLeast(someInfo(), actual, 2, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
-  public void should_throw_error_if_condition_is_null() {
+  void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       actual = newArrayList("Yoda", "Luke");
       iterables.assertAreAtLeast(someInfo(), actual, 2, null);
@@ -60,7 +60,7 @@ public class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBase
   }
 
   @Test
-  public void should_fail_if_condition_is_not_met_enough() {
+  void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = newArrayList("Yoda", "Solo", "Leia");

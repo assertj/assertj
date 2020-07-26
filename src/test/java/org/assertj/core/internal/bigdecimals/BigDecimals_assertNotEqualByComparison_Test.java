@@ -36,21 +36,21 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBaseTest {
+class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertNotEqualByComparison(someInfo(), null, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_big_decimals_are_not_equal_by_comparison() {
+  void should_pass_if_big_decimals_are_not_equal_by_comparison() {
     numbers.assertNotEqualByComparison(someInfo(), TEN, ONE);
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_equal_by_comparison() {
+  void should_fail_if_big_decimals_are_equal_by_comparison() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE));
@@ -60,18 +60,18 @@ public class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBase
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), null, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_big_decimals_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_big_decimals_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), TEN, ONE);
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_big_decimals_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE));

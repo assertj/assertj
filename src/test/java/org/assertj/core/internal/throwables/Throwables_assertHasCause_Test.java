@@ -29,12 +29,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
+class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
 
   private static final AssertionInfo INFO = someInfo();
 
   @Test
-  public void should_pass_if_cause_has_expected_type_and_message() {
+  void should_pass_if_cause_has_expected_type_and_message() {
     // GIVEN
     Throwable cause = new IllegalArgumentException("wibble");
     Throwable expected = new IllegalArgumentException("wibble");
@@ -48,7 +48,7 @@ public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_no_cause_and_expected_cause_is_null() {
+  void should_pass_if_actual_has_no_cause_and_expected_cause_is_null() {
     // GIVEN
     Throwable cause = null;
     Throwable expected = null;
@@ -64,7 +64,7 @@ public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: cause = {0} / expected = {1}")
   @MethodSource("failingData")
-  public void should_fail_if_cause_is_unexpected(final Throwable cause,
+  void should_fail_if_cause_is_unexpected(final Throwable cause,
                                                  final Throwable expected,
                                                  String testDescription) {
     // GIVEN
@@ -88,7 +88,7 @@ public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
   // @format:on
 
   @Test
-  public void should_fail_if_expected_cause_is_null() {
+  void should_fail_if_expected_cause_is_null() {
     // GIVEN
     final Throwable throwable = withCause(new Throwable());
     final Throwable expected = null;
@@ -101,7 +101,7 @@ public class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     final Throwable throwable = null;
     final Throwable expected = new Throwable();

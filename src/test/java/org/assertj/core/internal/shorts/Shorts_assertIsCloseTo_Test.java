@@ -29,7 +29,7 @@ import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
+class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
 
   private static final Short ZERO = 0;
   private static final Short ONE = 1;
@@ -42,7 +42,7 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
       "-1, 1, 3",
       "0, 2, 5"
   })
-  public void should_pass_if_difference_is_less_than_given_offset(short actual, short expected, short offset) {
+  void should_pass_if_difference_is_less_than_given_offset(short actual, short expected, short offset) {
     shorts.assertIsCloseTo(someInfo(), actual, expected, within(offset));
     shorts.assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset));
   }
@@ -58,7 +58,7 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
     "32767, 32767, 0",
     "-32768, -32768, 0"
   })
-  public void should_pass_if_difference_is_equal_to_given_offset(short actual, short expected, short offset) {
+  void should_pass_if_difference_is_equal_to_given_offset(short actual, short expected, short offset) {
     shorts.assertIsCloseTo(someInfo(), actual, expected, within(offset));
   }
 
@@ -70,7 +70,7 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
       "-1, 1, 1",
       "0, 2, 1"
   })
-  public void should_fail_if_actual_is_not_close_enough_to_expected(short actual, short expected, short offset) {
+  void should_fail_if_actual_is_not_close_enough_to_expected(short actual, short expected, short offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> shorts.assertIsCloseTo(info, actual, expected, within(offset)));
@@ -87,7 +87,7 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
       "-1, 1, 2",
       "0, 2, 2"
   })
-  public void should_fail_if_difference_is_equal_to_the_given_strict_offset(short actual, short expected,
+  void should_fail_if_difference_is_equal_to_the_given_strict_offset(short actual, short expected,
                                                                             short offset) {
     AssertionInfo info = someInfo();
 
@@ -98,18 +98,18 @@ public class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 }

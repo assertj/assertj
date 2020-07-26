@@ -35,31 +35,31 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertIsStrictlyBetween(AssertionInfo, BigInteger, BigInteger, BigInteger)}</code>.
  */
-public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_start_is_null() {
+  void should_fail_if_start_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), ONE, null, ONE));
   }
 
   @Test
-  public void should_fail_if_end_is_null() {
+  void should_fail_if_end_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_pass_if_actual_is_in_range() {
+  void should_pass_if_actual_is_in_range() {
     numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_start() {
+  void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ONE, TEN));
@@ -69,7 +69,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
+  void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigInteger("1"), TEN));
@@ -79,7 +79,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_end() {
+  void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
@@ -89,7 +89,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
+  void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, new BigInteger("1")));
@@ -99,7 +99,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigInteger("2"), TEN));
@@ -109,7 +109,7 @@ public class BigIntegers_assertIsStrictlyBetween_Test extends BigIntegersBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_end() {
+  void should_fail_if_actual_is_not_in_range_end() {
     assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, ZERO))
                                         .withMessage("The end value <0> must not be less than or equal to the start value <0>!");
   }

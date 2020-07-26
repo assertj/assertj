@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Short2DArrays_assertDoesNotContain_at_Index_Test extends Short2DArraysBaseTest {
+class Short2DArrays_assertDoesNotContain_at_Index_Test extends Short2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     short[] shorts = new short[] { 0, 2, 4 };
     // WHEN

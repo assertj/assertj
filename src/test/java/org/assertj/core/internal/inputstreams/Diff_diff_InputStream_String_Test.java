@@ -25,12 +25,12 @@ import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class Diff_diff_InputStream_String_Test {
+class Diff_diff_InputStream_String_Test {
 
   private static Diff diff;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     diff = new Diff();
   }
 
@@ -38,7 +38,7 @@ public class Diff_diff_InputStream_String_Test {
   private String expected;
 
   @Test
-  public void should_return_empty_diff_list_if_inputstreams_have_equal_content() throws IOException {
+  void should_return_empty_diff_list_if_inputstreams_have_equal_content() throws IOException {
     // GIVEN
     actual = stream("base", "line0", "line1");
     expected = joinLines("base", "line0", "line1");
@@ -49,7 +49,7 @@ public class Diff_diff_InputStream_String_Test {
   }
 
   @Test
-  public void should_return_diffs_if_inputstreams_do_not_have_equal_content() throws IOException {
+  void should_return_diffs_if_inputstreams_do_not_have_equal_content() throws IOException {
     // GIVEN
     actual = stream("base", "line_0", "line_1");
     expected = joinLines("base", "line0", "line1");
@@ -67,7 +67,7 @@ public class Diff_diff_InputStream_String_Test {
   }
 
   @Test
-  public void should_return_multiple_diffs_if_inputstreams_contain_multiple_differences() throws IOException {
+  void should_return_multiple_diffs_if_inputstreams_contain_multiple_differences() throws IOException {
     // GIVEN
     actual = stream("base", "line_0", "line1", "line_2");
     expected = joinLines("base", "line0", "line1", "line2");
@@ -88,7 +88,7 @@ public class Diff_diff_InputStream_String_Test {
   }
 
   @Test
-  public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
+  void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     // GIVEN
     actual = stream("base", "line_0");
     expected = joinLines("base", "line_0", "line_1");
@@ -101,7 +101,7 @@ public class Diff_diff_InputStream_String_Test {
   }
 
   @Test
-  public void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
+  void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
     // GIVEN
     actual = stream("base", "line_0", "line_1");
     expected = joinLines("base", "line_0");
@@ -114,7 +114,7 @@ public class Diff_diff_InputStream_String_Test {
   }
 
   @Test
-  public void should_return_single_diff_line_for_new_line_at_start() throws IOException {
+  void should_return_single_diff_line_for_new_line_at_start() throws IOException {
     // GIVEN
     actual = stream("", "line_0", "line_1", "line_2");
     expected = joinLines("line_0", "line_1", "line_2");

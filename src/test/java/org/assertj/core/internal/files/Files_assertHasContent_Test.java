@@ -44,14 +44,14 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
-public class Files_assertHasContent_Test extends FilesBaseTest {
+class Files_assertHasContent_Test extends FilesBaseTest {
 
   private static File actual;
   private static String expected;
   private static Charset charset;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = new File("src/test/resources/actual_file.txt");
     expected = "xyz";
@@ -59,19 +59,19 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> files.assertHasContent(someInfo(), actual, null, charset))
                                     .withMessage("The text to compare to should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasContent(someInfo(), null, expected, charset))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_file() {
+  void should_fail_if_actual_is_not_file() {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
 
@@ -82,13 +82,13 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_file_has_text_content() throws IOException {
+  void should_pass_if_file_has_text_content() throws IOException {
     when(diff.diff(actual, expected, charset)).thenReturn(new ArrayList<>());
     files.assertHasContent(someInfo(), actual, expected, charset);
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     IOException cause = new IOException();
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
 
@@ -98,7 +98,7 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_file_does_not_have_expected_text_content() throws IOException {
+  void should_fail_if_file_does_not_have_expected_text_content() throws IOException {
     List<Delta<String>> diffs = Lists.newArrayList(delta);
     when(diff.diff(actual, expected, charset)).thenReturn(diffs);
     AssertionInfo info = someInfo();

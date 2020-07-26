@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
+class Dates_assertIsNotBetween_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
@@ -44,7 +44,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_between_given_period() {
+  void should_fail_if_actual_is_between_given_period() {
     AssertionInfo info = someInfo();
     Date start = parseDate("2011-09-01");
     Date end = parseDate("2011-09-30");
@@ -58,7 +58,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equals_to_start_of_given_period_and_start_is_included_in_given_period() {
+  void should_fail_if_actual_is_equals_to_start_of_given_period_and_start_is_included_in_given_period() {
     AssertionInfo info = someInfo();
     actual = parseDate("2011-09-01");
     Date start = parseDate("2011-09-01");
@@ -73,7 +73,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equals_to_end_of_given_period_and_end_is_included_in_given_period() {
+  void should_fail_if_actual_is_equals_to_end_of_given_period_and_end_is_included_in_given_period() {
     AssertionInfo info = someInfo();
     actual = parseDate("2011-09-30");
     Date start = parseDate("2011-09-01");
@@ -88,7 +88,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_start_date_is_null() {
+  void should_throw_error_if_start_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Date end = parseDate("2011-09-30");
       dates.assertIsNotBetween(someInfo(), actual, null, end, true, true);
@@ -96,7 +96,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_end_date_is_null() {
+  void should_throw_error_if_end_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Date start = parseDate("2011-09-01");
       dates.assertIsNotBetween(someInfo(), actual, start, null, true, true);
@@ -104,7 +104,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Date start = parseDate("2011-09-01");
       Date end = parseDate("2011-09-30");
@@ -113,7 +113,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_between_given_period() {
+  void should_pass_if_actual_is_not_between_given_period() {
     actual = parseDate("2011-12-31");
     Date start = parseDate("2011-09-01");
     Date end = parseDate("2011-09-30");
@@ -121,7 +121,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_equals_to_start_of_given_period_and_start_is_not_included_in_given_period() {
+  void should_pass_if_actual_is_equals_to_start_of_given_period_and_start_is_not_included_in_given_period() {
     actual = parseDate("2011-09-01");
     Date start = parseDate("2011-09-01");
     Date end = parseDate("2011-09-30");
@@ -130,7 +130,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_equals_to_end_of_given_period_and_end_is_not_included_in_given_period() {
+  void should_pass_if_actual_is_equals_to_end_of_given_period_and_end_is_not_included_in_given_period() {
     actual = parseDate("2011-09-30");
     Date start = parseDate("2011-09-01");
     Date end = parseDate("2011-09-30");
@@ -139,7 +139,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_between_given_period_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_between_given_period_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Date start = parseDate("2011-08-31");
     Date end = parseDate("2011-09-30");
@@ -154,7 +154,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equals_to_start_of_given_period_and_start_is_included_in_given_period_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equals_to_start_of_given_period_and_start_is_included_in_given_period_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = parseDate("2011-09-15");
     Date start = parseDate("2011-09-01"); // = 2011-09-15 according to comparison strategy
@@ -170,7 +170,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equals_to_end_of_given_period_and_end_is_included_in_given_period_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equals_to_end_of_given_period_and_end_is_included_in_given_period_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = parseDate("2011-09-15");
     Date start = parseDate("2011-08-31");
@@ -186,7 +186,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_start_date_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_start_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       Date end = parseDate("2011-09-30");
       datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, null, end, true, true);
@@ -194,7 +194,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_end_date_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_end_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       Date start = parseDate("2011-09-01");
       datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, start, null, true, true);
@@ -202,7 +202,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Date start = parseDate("2011-09-01");
       Date end = parseDate("2011-09-30");
@@ -211,7 +211,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_between_given_period_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_not_between_given_period_according_to_custom_comparison_strategy() {
     actual = parseDate("2011-12-31");
     Date start = parseDate("2011-09-01");
     Date end = parseDate("2011-11-30");
@@ -219,7 +219,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_equals_to_start_of_given_period_and_start_is_not_included_in_given_period_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_equals_to_start_of_given_period_and_start_is_not_included_in_given_period_according_to_custom_comparison_strategy() {
     actual = parseDate("2011-09-01");
     Date start = parseDate("2011-09-15"); // = 2011-09-01 according to comparison strategy
     Date end = parseDate("2011-09-30");
@@ -228,7 +228,7 @@ public class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_equals_to_end_of_given_period_and_end_is_not_included_in_given_period_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_equals_to_end_of_given_period_and_end_is_not_included_in_given_period_according_to_custom_comparison_strategy() {
     actual = parseDate("2011-09-30");
     Date start = parseDate("2011-09-01");
     Date end = parseDate("2011-09-15"); // = 2011-09-30 according to comparison strategy

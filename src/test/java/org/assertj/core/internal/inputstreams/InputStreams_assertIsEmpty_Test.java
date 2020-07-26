@@ -38,10 +38,10 @@ import org.junit.jupiter.api.Test;
  * @author Peng Weiyuan
  */
 @DisplayName("InputStreams assertIsEmpty")
-public class InputStreams_assertIsEmpty_Test extends InputStreamsBaseTest {
+class InputStreams_assertIsEmpty_Test extends InputStreamsBaseTest {
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     // GIVEN
     InputStream actual = null;
     // WHEN
@@ -51,7 +51,7 @@ public class InputStreams_assertIsEmpty_Test extends InputStreamsBaseTest {
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     InputStream actual = mock(InputStream.class);
     IOException cause = new IOException();
@@ -64,7 +64,7 @@ public class InputStreams_assertIsEmpty_Test extends InputStreamsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     // GIVEN
     InputStream actual = new ByteArrayInputStream(new byte[0]);
     // WHEN/THEN
@@ -72,7 +72,7 @@ public class InputStreams_assertIsEmpty_Test extends InputStreamsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty() {
+  void should_fail_if_actual_is_not_empty() {
     // GIVEN
     AssertionInfo info = someInfo();
     InputStream actual = new ByteArrayInputStream(new byte[] { '1', '2' });

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class FloatArrays_assertContains_Test extends FloatArraysBaseTest {
+class FloatArrays_assertContains_Test extends FloatArraysBaseTest {
 
   private Arrays internalArrays;
 
@@ -43,7 +43,7 @@ public class FloatArrays_assertContains_Test extends FloatArraysBaseTest {
   }
 
   @Test
-  public void should_delegate_to_internal_Arrays() {
+  void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(6f, 8f, 10f));
     verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(6f, 8f, 10f));
   }

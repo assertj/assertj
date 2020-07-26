@@ -38,31 +38,31 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTest {
+class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_start_is_null() {
+  void should_fail_if_start_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), ONE, null, ONE));
   }
 
   @Test
-  public void should_fail_if_end_is_null() {
+  void should_fail_if_end_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_pass_if_actual_is_in_range() {
+  void should_pass_if_actual_is_in_range() {
     numbers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_start() {
+  void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ONE, TEN));
@@ -72,7 +72,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
+  void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
   	AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal("1.00"), TEN));
@@ -82,7 +82,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
   
   @Test
-  public void should_fail_if_actual_is_equal_to_range_end() {
+  void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
@@ -92,7 +92,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
+  void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
   	AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, new BigDecimal("1.00")));
@@ -102,7 +102,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
   
   @Test
-  public void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal(2), TEN));
@@ -112,7 +112,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_end() {
+  void should_fail_if_actual_is_not_in_range_end() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       AssertionInfo info = someInfo();
       numbers.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);

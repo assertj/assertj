@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Double2DArrays_assertNotEmpty_Test extends Double2DArraysBaseTest {
+class Double2DArrays_assertNotEmpty_Test extends Double2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // WHEN
     double2dArrays.assertNotEmpty(info, actual);
     // THEN

@@ -38,10 +38,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Maps_assertNullOrEmpty_Test extends MapsBaseTest {
+class Maps_assertNullOrEmpty_Test extends MapsBaseTest {
 
   @Test
-  public void should_fail_if_array_is_not_null_and_is_not_empty() {
+  void should_fail_if_array_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
     Map<?, ?> actual = mapOf(entry("name", "Yoda"));
 
@@ -52,12 +52,12 @@ public class Maps_assertNullOrEmpty_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_array_is_null() {
+  void should_pass_if_array_is_null() {
     maps.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_array_is_empty() {
+  void should_pass_if_array_is_empty() {
     maps.assertNullOrEmpty(someInfo(), emptyMap());
   }
 }

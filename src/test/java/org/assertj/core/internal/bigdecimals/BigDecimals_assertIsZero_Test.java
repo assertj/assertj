@@ -30,26 +30,26 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
+class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     numbers.assertIsZero(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_zero() {
+  void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsZero(someInfo(), BigDecimal.ONE))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ZERO);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
   }

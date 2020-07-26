@@ -31,7 +31,7 @@ import org.assertj.core.test.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Maps_assertNoneSatisfy_Test extends MapsBaseTest {
+class Maps_assertNoneSatisfy_Test extends MapsBaseTest {
 
   private Map<String, Player> greatPlayers;
 

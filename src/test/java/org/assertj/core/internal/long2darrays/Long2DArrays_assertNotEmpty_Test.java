@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Long2DArrays_assertNotEmpty_Test extends Long2DArraysBaseTest {
+class Long2DArrays_assertNotEmpty_Test extends Long2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // WHEN
     long2dArrays.assertNotEmpty(info, actual);
     // THEN

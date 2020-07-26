@@ -28,27 +28,27 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertIsNegative_Test extends FloatsBaseTest {
+class Floats_assertIsNegative_Test extends FloatsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_negative() {
+  void should_succeed_since_actual_is_negative() {
     floats.assertIsNegative(someInfo(), (float) -6);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_negative() {
+  void should_fail_since_actual_is_not_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNegative(someInfo(), 6.0f))
                                                    .withMessage(format("%nExpecting:%n <6.0f>%nto be less than:%n <0.0f> "));
   }
 
   @Test
-  public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
+  void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (float) -6))
                                                    .withMessage(format("%nExpecting:%n <-6.0f>%nto be less than:%n <0.0f> when comparing values using AbsValueComparator"));
   }
 
   @Test
-  public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
+  void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0f))
                                                    .withMessage(format("%nExpecting:%n <6.0f>%nto be less than:%n <0.0f> when comparing values using AbsValueComparator"));
   }

@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jacek Jackowiak
  */
-public class Lists_satisfies_at_index_Test extends ListsBaseTest {
+class Lists_satisfies_at_index_Test extends ListsBaseTest {
 
   private final AssertionInfo info = someInfo();
   private final Consumer<String> shouldBeLuke = str -> assertThat(str).isEqualTo("Luke");
@@ -43,18 +43,18 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
   private final List<String> jedis = newArrayList("Leia", "Luke", "Yoda");
 
   @Test
-  public void should_pass_if_element_at_index_matches_the_requirements() {
+  void should_pass_if_element_at_index_matches_the_requirements() {
     lists.satisfies(info, jedis, shouldBeLuke, index);
   }
 
   @Test
-  public void should_fail_if_element_at_index_does_not_match_the_requirements() {
+  void should_fail_if_element_at_index_does_not_match_the_requirements() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.satisfies(info, jedis, shouldBeLuke, atIndex(2)))
                                                    .withMessage(format("%nExpecting:%n <\"Yoda\">%nto be equal to:%n <\"Luke\">%nbut was not."));
   }
 
   @Test
-  public void should_fail_if_index_is_out_of_bound() {
+  void should_fail_if_index_is_out_of_bound() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> lists.satisfies(info, jedis,
                                                                                                 shouldBeLuke,
                                                                                                 atIndex(3)))
@@ -62,19 +62,19 @@ public class Lists_satisfies_at_index_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.satisfies(info, null, shouldBeLuke, index))
                                                    .withMessage(shouldNotBeNull().create());
   }
 
   @Test
-  public void should_fail_if_requirements_are_null() {
+  void should_fail_if_requirements_are_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.satisfies(info, jedis, null, index))
                                     .withMessage("The Consumer expressing the assertions requirements must not be null");
   }
 
   @Test
-  public void should_fail_if_index_is_null() {
+  void should_fail_if_index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.satisfies(info, jedis, shouldBeLuke, null))
                                     .withMessage("Index should not be null");
   }

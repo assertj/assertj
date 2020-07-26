@@ -34,21 +34,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Characters_assertGreaterThan_Test extends CharactersBaseTest {
+class Characters_assertGreaterThan_Test extends CharactersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> characters.assertGreaterThan(someInfo(), null, 'a'))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other() {
+  void should_pass_if_actual_is_greater_than_other() {
     characters.assertGreaterThan(someInfo(), 'b', 'a');
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other() {
+  void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo someInfo = someInfo();
 
     Throwable error = catchThrowable(() -> characters.assertGreaterThan(someInfo, 'b', 'b'));
@@ -58,7 +58,7 @@ public class Characters_assertGreaterThan_Test extends CharactersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> characters.assertGreaterThan(info, 'a', 'b'));
@@ -72,12 +72,12 @@ public class Characters_assertGreaterThan_Test extends CharactersBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo(), 'B', 'a');
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo someInfo = someInfo();
 
     Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo, 'B', 'b'));
@@ -87,7 +87,7 @@ public class Characters_assertGreaterThan_Test extends CharactersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(info, 'A', 'b'));

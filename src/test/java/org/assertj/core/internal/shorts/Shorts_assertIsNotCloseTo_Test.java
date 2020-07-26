@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
+class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
 
   private static final Short ZERO = 0;
   private static final Short ONE = 1;
@@ -42,7 +42,7 @@ public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
       "1, -2, 2",
       "-1, 2, 2"
   })
-  public void should_pass_if_difference_is_greater_than_offset(short actual, short other, short offset) {
+  void should_pass_if_difference_is_greater_than_offset(short actual, short other, short offset) {
     shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
     shorts.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
   }
@@ -55,7 +55,7 @@ public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
       "1, -1, 2",
       "-1, 1, 2"
   })
-  public void should_pass_if_difference_is_equal_to_strict_offset(short actual, short other, short offset) {
+  void should_pass_if_difference_is_equal_to_strict_offset(short actual, short other, short offset) {
     shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
   }
 
@@ -66,7 +66,7 @@ public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  public void should_fail_if_actual_is_too_close_to_the_other_value(short actual, short other, short offset) {
+  void should_fail_if_actual_is_too_close_to_the_other_value(short actual, short other, short offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset)));
@@ -81,7 +81,7 @@ public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  public void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(short actual, short other,
+  void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(short actual, short other,
                                                                                        short offset) {
     AssertionInfo info = someInfo();
 
@@ -97,7 +97,7 @@ public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
       "1, 0, 1",
       "1, 2, 1"
   })
-  public void should_fail_if_difference_is_equal_to_given_offset(short actual, short other, short offset) {
+  void should_fail_if_difference_is_equal_to_given_offset(short actual, short other, short offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> shorts.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
@@ -107,18 +107,18 @@ public class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> shorts.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> shorts.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 

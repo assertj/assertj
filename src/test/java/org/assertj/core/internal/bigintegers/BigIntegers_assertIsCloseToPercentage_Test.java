@@ -35,26 +35,26 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(1)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(1)));
   }
 
   @Test
-  public void should_fail_if_percentage_is_null() {
+  void should_fail_if_percentage_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_fail_if_percentage_is_negative() {
+  void should_fail_if_percentage_is_negative() {
     assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
@@ -66,8 +66,8 @@ public class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseT
     "-1, -2, 100",
     "-1, 1, 200"
   })
-  public void should_pass_if_difference_is_less_than_given_percentage(BigInteger actual, BigInteger other,
-                                                                      Integer percentage) {
+  void should_pass_if_difference_is_less_than_given_percentage(BigInteger actual, BigInteger other,
+                                                               Integer percentage) {
     numbers.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
@@ -80,13 +80,13 @@ public class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseT
     "-2, -1, 100",
     "-1, -2, 50"
   })
-  public void should_pass_if_difference_is_equal_to_given_percentage(BigInteger actual, BigInteger other,
-                                                                     Integer percentage) {
+  void should_pass_if_difference_is_equal_to_given_percentage(BigInteger actual, BigInteger other,
+                                                              Integer percentage) {
     numbers.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, TEN, withPercentage(10)));

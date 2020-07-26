@@ -25,16 +25,16 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertIsNormalized_Test extends MockPathsBaseTest {
+class Paths_assertIsNormalized_Test extends MockPathsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsNormalized(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_normalized() {
+  void should_fail_if_actual_is_not_normalized() {
     when(actual.normalize()).thenReturn(mock(Path.class));
 
     Throwable error = catchThrowable(() -> paths.assertIsNormalized(info, actual));
@@ -44,7 +44,7 @@ public class Paths_assertIsNormalized_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_normalized() {
+  void should_pass_if_actual_is_normalized() {
     when(actual.normalize()).thenReturn(actual);
 
     paths.assertIsNormalized(info, actual);

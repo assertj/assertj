@@ -37,12 +37,12 @@ import org.assertj.core.error.ElementsShouldSatisfy;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
+class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
   private List<String> actual = newArrayList("Luke", "Leia", "Yoda", "Obiwan");
 
   @Test
-  public void must_not_check_all_elements() {
+  void must_not_check_all_elements() {
     // GIVEN
     assertThat(actual).hasSizeGreaterThan(2); // This test requires an iterable with size > 2
     Consumer<String> consumer = mock(Consumer.class);
@@ -56,12 +56,12 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_when_one_element_satisfies_the_single_assertion_requirement() {
+  void should_pass_when_one_element_satisfies_the_single_assertion_requirement() {
     iterables.assertAnySatisfy(someInfo(), actual, s -> assertThat(s).hasSize(6));
   }
 
   @Test
-  public void should_pass_when_one_element_satisfies_all_the_assertion_requirements() {
+  void should_pass_when_one_element_satisfies_all_the_assertion_requirements() {
     iterables.assertAnySatisfy(someInfo(), actual, s -> {
       assertThat(s).hasSize(4);
       assertThat(s).doesNotContain("L");
@@ -69,7 +69,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_when_several_elements_satisfy_all_the_assertion_requirements() {
+  void should_pass_when_several_elements_satisfy_all_the_assertion_requirements() {
     iterables.assertAnySatisfy(someInfo(), actual, s -> {
       assertThat(s).hasSize(4);
       assertThat(s).contains("L");
@@ -77,7 +77,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_no_elements_satisfy_the_assertions_requirements() {
+  void should_fail_if_no_elements_satisfy_the_assertions_requirements() {
     Throwable error = catchThrowable(() -> iterables.assertAnySatisfy(someInfo(), actual, s -> {
       assertThat(s).hasSize(4);
       assertThat(s).contains("W");
@@ -107,7 +107,7 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_the_iterable_under_test_is_empty_whatever_the_assertions_requirements_are() {
+  void should_fail_if_the_iterable_under_test_is_empty_whatever_the_assertions_requirements_are() {
     actual.clear();
 
     Throwable error = catchThrowable(() -> iterables.assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue()));
@@ -118,13 +118,13 @@ public class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_consumer_is_null() {
+  void should_fail_if_consumer_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(actual).anySatisfy(null))
                                     .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // WHEN
     AssertionError error = expectAssertionError(() -> iterables.assertAnySatisfy(someInfo(), null, $ -> {}));
     // THEN

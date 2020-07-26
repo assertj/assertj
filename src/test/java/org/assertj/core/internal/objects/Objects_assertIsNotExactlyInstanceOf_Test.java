@@ -31,27 +31,27 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Objects_assertIsNotExactlyInstanceOf_Test extends ObjectsBaseTest {
+class Objects_assertIsNotExactlyInstanceOf_Test extends ObjectsBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_not_exactly_instance_of_type() {
+  void should_pass_if_actual_is_not_exactly_instance_of_type() {
     objects.assertIsNotExactlyInstanceOf(someInfo(), "Yoda", Object.class);
   }
 
   @Test
-  public void should_throw_error_if_type_is_null() {
+  void should_throw_error_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertIsNotExactlyInstanceOf(someInfo(), "Yoda", null))
                                     .withMessage("The given type should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsNotExactlyInstanceOf(someInfo(), null, String.class))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_exactly_instance_of_type() {
+  void should_fail_if_actual_is_exactly_instance_of_type() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> objects.assertIsNotExactlyInstanceOf(info, "Yoda", String.class));

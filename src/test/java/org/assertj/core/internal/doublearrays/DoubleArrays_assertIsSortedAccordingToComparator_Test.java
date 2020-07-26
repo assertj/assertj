@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DoubleArrays_assertIsSortedAccordingToComparator_Test extends DoubleArraysBaseTest {
+class DoubleArrays_assertIsSortedAccordingToComparator_Test extends DoubleArraysBaseTest {
 
   private Comparator<Double> doubleDescendingOrderComparator;
   private Comparator<Double> doubleSquareComparator;
@@ -49,29 +49,29 @@ public class DoubleArrays_assertIsSortedAccordingToComparator_Test extends Doubl
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_according_to_given_comparator() {
+  void should_pass_if_actual_is_sorted_according_to_given_comparator() {
     arrays.assertIsSortedAccordingToComparator(someInfo(), actual, doubleDescendingOrderComparator);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_given_comparator_is() {
+  void should_pass_if_actual_is_empty_whatever_given_comparator_is() {
     arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), doubleDescendingOrderComparator);
     arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), doubleSquareComparator);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, doubleDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_comparator_is_null() {
+  void should_fail_if_comparator_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
+  void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     actual = new double[] { 3.0, 2.0, 1.0, 9.0 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), actual, doubleDescendingOrderComparator))
                                                    .withMessage(shouldBeSortedAccordingToGivenComparator(2, actual, doubleDescendingOrderComparator).create());

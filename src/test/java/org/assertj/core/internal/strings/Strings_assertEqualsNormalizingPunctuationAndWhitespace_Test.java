@@ -31,7 +31,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Harisha Talanki
  */
-public class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends StringsBaseTest {
+class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_expected_string_is_empty() {

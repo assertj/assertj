@@ -22,7 +22,7 @@ import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
+class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
 
   public static Stream<String> containOnlyWhitespace() {
     return Stream.of(" ",
@@ -34,7 +34,7 @@ public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
 
   @ParameterizedTest
   @MethodSource("containOnlyWhitespace")
-  public void should_pass_if_string_contains_only_whitespaces(String actual) {
+  void should_pass_if_string_contains_only_whitespaces(String actual) {
     strings.assertContainsWhitespaces(someInfo(), actual);
   }
 
@@ -50,7 +50,7 @@ public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
 
   @ParameterizedTest
   @MethodSource("containOneOrMoreWhitespaces")
-  public void should_pass_if_string_contains_one_or_more_whitespaces(String actual) {
+  void should_pass_if_string_contains_one_or_more_whitespaces(String actual) {
     strings.assertContainsWhitespaces(someInfo(), actual);
   }
 
@@ -63,7 +63,7 @@ public class Strings_assertContainsWhitespaces_Test extends StringsBaseTest {
 
   @ParameterizedTest
   @MethodSource("doesNotcontainAnyWhitespaces")
-  public void should_fail_if_string_does_not_contain_any_whitespaces(String actual) {
+  void should_fail_if_string_does_not_contain_any_whitespaces(String actual) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsWhitespaces(someInfo(), actual))
                                                    .withMessage(shouldContainOneOrMoreWhitespaces(actual).create());
   }

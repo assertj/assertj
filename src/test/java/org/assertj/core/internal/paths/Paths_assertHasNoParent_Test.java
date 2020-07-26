@@ -27,16 +27,16 @@ import java.nio.file.Path;
 import org.assertj.core.api.exception.PathsException;
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
+class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasNoParent(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_PathsException_if_actual_cannot_be_canonicalized() throws IOException {
+  void should_throw_PathsException_if_actual_cannot_be_canonicalized() throws IOException {
     final IOException exception = new IOException();
     when(actual.toRealPath()).thenThrow(exception);
 
@@ -46,7 +46,7 @@ public class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_parent() throws IOException {
+  void should_fail_if_actual_has_parent() throws IOException {
     final Path canonicalActual = mock(Path.class);
     final Path parent = mock(Path.class);
     when(actual.toRealPath()).thenReturn(canonicalActual);
@@ -59,7 +59,7 @@ public class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_actual_has_no_parent() throws IOException {
+  void should_succeed_if_actual_has_no_parent() throws IOException {
     final Path canonicalActual = mock(Path.class);
     when(actual.toRealPath()).thenReturn(canonicalActual);
     // This is the default, but let's make that clear

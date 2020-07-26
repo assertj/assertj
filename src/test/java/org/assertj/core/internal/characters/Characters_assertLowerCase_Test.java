@@ -34,21 +34,21 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Characters_assertLowerCase_Test extends CharactersBaseTest {
+class Characters_assertLowerCase_Test extends CharactersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> characters.assertLowerCase(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_lowercase() {
+  void should_pass_if_actual_is_lowercase() {
     characters.assertLowerCase(someInfo(), 'a');
   }
 
   @Test
-  public void should_fail_if_actual_is_not_lowercase() {
+  void should_fail_if_actual_is_not_lowercase() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> characters.assertLowerCase(info, 'A'));
@@ -58,18 +58,18 @@ public class Characters_assertLowerCase_Test extends CharactersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_lowercase_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_lowercase_whatever_custom_comparison_strategy_is() {
     charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(someInfo(), 'a');
   }
 
   @Test
-  public void should_fail_if_actual_is_not_lowercase_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_lowercase_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(info, 'A'));

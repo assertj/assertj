@@ -29,22 +29,22 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class LongArrays_assertHasSize_Test extends LongArraysBaseTest {
+class LongArrays_assertHasSize_Test extends LongArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), null, 3))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSize(someInfo(), actual, 6))
                                                    .withMessage(shouldHaveSize(actual, actual.length, 6).create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     arrays.assertHasSize(someInfo(), actual, 3);
   }
 }

@@ -33,15 +33,15 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesBaseTest {
+class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     iterables.assertHasSameSizeAs(someInfo(), list("Yoda", "Luke"), list("Solo", "Leia"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -51,7 +51,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     // GIVEN
     Iterable<?> other = null;
     // THEN
@@ -60,7 +60,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
   }
 
   @Test
-  public void should_fail_if_actual_size_is_not_equal_to_other_size() {
+  void should_fail_if_actual_size_is_not_equal_to_other_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     Collection<String> actual = list("Yoda");
@@ -73,13 +73,13 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
   }
 
   @Test
-  public void should_pass_if_actual_has_same_size_as_other_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_has_same_size_as_other_whatever_custom_comparison_strategy_is() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(someInfo(), newArrayList("Luke", "Yoda"),
                                                                        newArrayList("Solo", "Leia"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     actual = null;
     // WHEN
@@ -90,7 +90,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
   }
 
   @Test
-  public void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     Iterable<?> other = null;
     // WHEN
@@ -102,7 +102,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
   }
 
   @Test
-  public void should_fail_if_actual_size_is_not_equal_to_other_size_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_size_is_not_equal_to_other_size_whatever_custom_comparison_strategy_is() {
     // GIVEN
     AssertionInfo info = someInfo();
     Collection<String> actual = list("Yoda");

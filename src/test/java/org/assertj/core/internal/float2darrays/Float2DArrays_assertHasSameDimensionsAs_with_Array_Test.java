@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Float2DArrays_assertHasSameDimensionsAs_with_Array_Test extends Float2DArraysBaseTest {
+class Float2DArrays_assertHasSameDimensionsAs_with_Array_Test extends Float2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     float[][] other = new float[][] { { 0.0f, 4.0f }, { 8.0f, 12.0f } };
     // WHEN

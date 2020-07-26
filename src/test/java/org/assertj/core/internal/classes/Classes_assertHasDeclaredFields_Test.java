@@ -31,32 +31,32 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
+class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
 
   @BeforeEach
-  public void setupActual() {
+  void setupActual() {
     actual = AnnotatedClass.class;
   }
 
   @Test
-  public void should_pass_if_class_has_expected_declared_fields() {
+  void should_pass_if_class_has_expected_declared_fields() {
     classes.assertHasDeclaredFields(someInfo(), actual, "publicField", "protectedField", "privateField");
   }
 
   @Test
-  public void should_pass_if_class_has_no_declared_fields_and_none_are_expected() {
+  void should_pass_if_class_has_no_declared_fields_and_none_are_expected() {
     classes.assertHasDeclaredFields(someInfo(), NoField.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredFields(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_fields_are_missing() {
+  void should_fail_if_fields_are_missing() {
     String[] expected = new String[] { "missingField", "publicField" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
     classes.assertHasDeclaredFields(someInfo(), actual, expected)).withMessage(format(shouldHaveDeclaredFields(actual,
@@ -65,7 +65,7 @@ public class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
+  void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
     classes.assertHasDeclaredFields(someInfo(),
                                     actual)).withMessage(format(shouldHaveNoDeclaredFields(actual, newLinkedHashSet("publicField", "publicField2",

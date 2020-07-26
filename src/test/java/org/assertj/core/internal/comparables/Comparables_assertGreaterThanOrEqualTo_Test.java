@@ -34,21 +34,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Comparables_assertGreaterThanOrEqualTo_Test extends ComparablesBaseTest {
+class Comparables_assertGreaterThanOrEqualTo_Test extends ComparablesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertGreaterThanOrEqualTo(someInfo(), null, 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other() {
+  void should_pass_if_actual_is_greater_than_other() {
     comparables.assertGreaterThanOrEqualTo(someInfo(), 8, 6);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other() {
+  void should_pass_if_actual_is_equal_to_other() {
     comparables.assertGreaterThanOrEqualTo(someInfo(), "Yoda", "Yoda");
     comparables.assertGreaterThanOrEqualTo(someInfo(), BigDecimal.TEN, BigDecimal.TEN);
     comparables.assertGreaterThanOrEqualTo(someInfo(), BigDecimal.TEN, new BigDecimal("10.000"));
@@ -56,7 +56,7 @@ public class Comparables_assertGreaterThanOrEqualTo_Test extends ComparablesBase
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> comparables.assertGreaterThanOrEqualTo(info, 6, 8));
@@ -70,17 +70,17 @@ public class Comparables_assertGreaterThanOrEqualTo_Test extends ComparablesBase
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), 8, -6);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), -8, 8);
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(info, 6, -8));

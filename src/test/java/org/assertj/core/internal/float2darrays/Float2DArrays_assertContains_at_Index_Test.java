@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Float2DArrays_assertContains_at_Index_Test extends Float2DArraysBaseTest {
+class Float2DArrays_assertContains_at_Index_Test extends Float2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     float[] floats = new float[] { 6.0f, 8.0f, 10.0f };
     // WHEN

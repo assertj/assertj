@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class Uris_assertHasQuery_Test extends UrisBaseTest {
+class Uris_assertHasQuery_Test extends UrisBaseTest {
 
   @Test
-  public void should_pass_if_actual_uri_has_the_expected_query() {
+  void should_pass_if_actual_uri_has_the_expected_query() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org/index.html?type=test");
     String expectedQuery = "type=test";
@@ -41,7 +41,7 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_no_query_and_given_is_null() {
+  void should_pass_if_actual_uri_has_no_query_and_given_is_null() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org/index.html");
     String expectedQuery = null;
@@ -50,7 +50,7 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URI uri = null;
     String expectedQuery = "http://www.helloworld.org/index.html?type=test";
@@ -61,7 +61,7 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_query_is_not_the_given_query() {
+  void should_fail_if_actual_URI_query_is_not_the_given_query() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
     String expectedQuery = "type=final";
@@ -72,7 +72,7 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_no_query_and_expected_query_is_not_null() {
+  void should_fail_if_actual_URI_has_no_query_and_expected_query_is_not_null() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     String expectedQuery = "type=final";
@@ -83,7 +83,7 @@ public class Uris_assertHasQuery_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_a_query_and_expected_query_is_null() {
+  void should_fail_if_actual_URI_has_a_query_and_expected_query_is_null() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
     String expectedQuery = null;

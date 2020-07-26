@@ -34,44 +34,44 @@ import org.junit.jupiter.api.Test;
  *
  * @author Billy Yuan
  */
-public class Strings_assertContainsSequence_Test extends StringsBaseTest {
+class Strings_assertContainsSequence_Test extends StringsBaseTest {
   String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 
   @Test
-  public void should_pass_if_actual_contains_sequence() {
+  void should_pass_if_actual_contains_sequence() {
     String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "," };
     strings.assertContainsSequence(someInfo(), actual, sequenceValues);
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence_with_values_between() {
+  void should_fail_if_actual_contains_sequence_with_values_between() {
     String[] sequenceValues = { "{ ", "'author':'George Martin'}" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, sequenceValues))
                                                    .withMessage(shouldContainSequence(actual, sequenceValues).create());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_all_given_strings() {
+  void should_fail_if_actual_does_not_contain_all_given_strings() {
     String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "unexpectedString" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, sequenceValues))
                                                    .withMessage(shouldContain(actual, sequenceValues, newLinkedHashSet("unexpectedString")).create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_values_but_not_in_the_given_order() {
+  void should_fail_if_actual_contains_values_but_not_in_the_given_order() {
     String[] sequenceValues = { "'A Game of Thrones'", "'title':" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, sequenceValues))
                                                    .withMessage(shouldContainSequence(actual, sequenceValues).create());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual, null))
                                     .withMessage(arrayOfValuesToLookForIsNull());
   }
 
   @Test
-  public void should_throw_error_if_any_value_of_sequence_is_null() {
+  void should_throw_error_if_any_value_of_sequence_is_null() {
     String[] sequenceValues = { "author", null };
     assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual,
                                                                                      sequenceValues))
@@ -79,33 +79,33 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_sequence_values_are_empty() {
+  void should_throw_error_if_sequence_values_are_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> strings.assertContainsSequence(someInfo(), actual,
                                                                                          new String[0]))
                                         .withMessage(arrayOfValuesToLookForIsEmpty());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     String[] sequenceValues = { "{ ", "'title':", "'A Game of Thrones'", "," };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsSequence(someInfo(), null, sequenceValues))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value() {
+  void should_pass_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value() {
     strings.assertContainsSequence(someInfo(), "a-b-c-", array("a", "-", "b", "-", "c"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("Yo", "da"));
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("Yo", "DA"));
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(), "Yoda", array("YO", "dA"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(),
                                                                                                                                          "Yoda",
                                                                                                                                          array("Yo",
@@ -117,7 +117,7 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_values_but_not_in_given_order_according_to_custom_comparison_strategy() {
     String[] sequenceValues = { ", 'author'", "'A Game of Thrones'" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(someInfo(),
                                                                                                                                          actual,

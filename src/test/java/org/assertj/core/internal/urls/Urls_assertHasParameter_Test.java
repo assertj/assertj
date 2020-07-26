@@ -24,10 +24,10 @@ import java.util.List;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Urls_assertHasParameter_Test extends UrlsBaseTest {
+class Urls_assertHasParameter_Test extends UrlsBaseTest {
 
   @Test
-  public void should_fail_if_parameter_is_missing() throws MalformedURLException {
+  void should_fail_if_parameter_is_missing() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
     String name = "article";
@@ -38,7 +38,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_has_no_value() throws MalformedURLException {
+  void should_pass_if_parameter_has_no_value() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article");
     String name = "article";
@@ -47,7 +47,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_has_value() throws MalformedURLException {
+  void should_pass_if_parameter_has_value() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=10");
     String name = "article";
@@ -56,7 +56,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_without_value_is_missing() throws MalformedURLException {
+  void should_fail_if_parameter_without_value_is_missing() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
     String name = "article";
@@ -68,7 +68,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_without_value_is_found() throws MalformedURLException {
+  void should_pass_if_parameter_without_value_is_found() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article");
     String name = "article";
@@ -78,7 +78,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_without_value_has_value() throws MalformedURLException {
+  void should_fail_if_parameter_without_value_has_value() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=11");
     String name = "article";
@@ -91,7 +91,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_without_value_has_multiple_values() throws MalformedURLException {
+  void should_fail_if_parameter_without_value_has_multiple_values() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=11&article=12");
     String name = "article";
@@ -104,7 +104,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_is_missing() throws MalformedURLException {
+  void should_fail_if_parameter_with_value_is_missing() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
     String name = "article";
@@ -116,7 +116,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_has_no_value() throws MalformedURLException {
+  void should_fail_if_parameter_with_value_has_no_value() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article");
     String name = "article";
@@ -129,7 +129,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_has_multiple_no_values() throws MalformedURLException {
+  void should_fail_if_parameter_with_value_has_multiple_no_values() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article&article");
     String name = "article";
@@ -142,7 +142,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_is_wrong() throws MalformedURLException {
+  void should_fail_if_parameter_with_value_is_wrong() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=11");
     String name = "article";
@@ -155,7 +155,7 @@ public class Urls_assertHasParameter_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_with_value_is_found() throws MalformedURLException {
+  void should_pass_if_parameter_with_value_is_found() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=10");
     String name = "article";

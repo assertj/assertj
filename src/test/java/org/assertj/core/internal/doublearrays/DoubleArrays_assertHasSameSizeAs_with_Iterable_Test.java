@@ -27,12 +27,12 @@ import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 
-public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleArraysBaseTest {
+class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleArraysBaseTest {
 
   private final List<String> other = list("Solo", "Leia", "Luke");
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -42,7 +42,7 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     List<String> other = newArrayList("Solo", "Leia");
@@ -54,7 +54,7 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     arrays.assertHasSameSizeAs(someInfo(), actual, other);
   }
 }

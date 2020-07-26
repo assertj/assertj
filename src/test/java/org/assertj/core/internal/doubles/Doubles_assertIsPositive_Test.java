@@ -28,26 +28,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Doubles_assertIsPositive_Test extends DoublesBaseTest {
+class Doubles_assertIsPositive_Test extends DoublesBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_positive() {
+  void should_succeed_since_actual_is_positive() {
     doubles.assertIsPositive(someInfo(), (double) 6);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_positive() {
+  void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsPositive(someInfo(), -6.0d))
                                                    .withMessage(format("%nExpecting:%n <-6.0>%nto be greater than:%n <0.0> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy() {
+  void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy() {
     doublesWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), 6.0d);
   }
 
   @Test
-  public void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy2() {
+  void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy2() {
     doublesWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), -6.0d);
   }
 

@@ -34,21 +34,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertGreaterThan_Test extends LongsBaseTest {
+class Longs_assertGreaterThan_Test extends LongsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertGreaterThan(someInfo(), null, 8L))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other() {
+  void should_pass_if_actual_is_greater_than_other() {
     longs.assertGreaterThan(someInfo(), 8L, 6L);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other() {
+  void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertGreaterThan(info, 6L, 6L));
@@ -58,7 +58,7 @@ public class Longs_assertGreaterThan_Test extends LongsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertGreaterThan(info, 6L, 8L));
@@ -72,12 +72,12 @@ public class Longs_assertGreaterThan_Test extends LongsBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     longsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), 8L, 6L);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertGreaterThan(info, -6L, 6L));
@@ -87,7 +87,7 @@ public class Longs_assertGreaterThan_Test extends LongsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertGreaterThan(info, 6L, -8L));

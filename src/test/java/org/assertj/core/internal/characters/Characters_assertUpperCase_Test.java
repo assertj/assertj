@@ -34,21 +34,21 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Characters_assertUpperCase_Test extends CharactersBaseTest {
+class Characters_assertUpperCase_Test extends CharactersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> characters.assertUpperCase(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_uppercase() {
+  void should_pass_if_actual_is_uppercase() {
     characters.assertUpperCase(someInfo(), 'A');
   }
 
   @Test
-  public void should_fail_if_actual_is_not_uppercase() {
+  void should_fail_if_actual_is_not_uppercase() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> characters.assertUpperCase(info, 'a'));
@@ -58,18 +58,18 @@ public class Characters_assertUpperCase_Test extends CharactersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertUpperCase(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_uppercase_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_uppercase_whatever_custom_comparison_strategy_is() {
     charactersWithCaseInsensitiveComparisonStrategy.assertUpperCase(someInfo(), 'A');
   }
 
   @Test
-  public void should_fail_if_actual_is_not_uppercase_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_uppercase_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertUpperCase(info, 'a'));

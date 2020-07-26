@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Alexander Bischof
  */
-public class Maps_assertContainsValues_Test extends MapsBaseTest {
+class Maps_assertContainsValues_Test extends MapsBaseTest {
 
   @Override
   @BeforeEach
@@ -48,35 +48,35 @@ public class Maps_assertContainsValues_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values() {
+  void should_pass_if_actual_contains_given_values() {
     maps.assertContainsValues(someInfo(), actual, "Yoda", "Jedi");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsValues(someInfo(), null, "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_value_is_null() {
+  void should_fail_if_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertContainsValues(someInfo(), actual, (String[]) null))
                                     .withMessage("The array of values to look for should not be null");
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = new HashMap<>();
     maps.assertContainsValues(someInfo(), actual);
   }
   
   @Test
-  public void should_success_if_values_contains_null() {
+  void should_success_if_values_contains_null() {
 	maps.assertContainsValues(someInfo(), actual, "Yoda", null);
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value() {
+  void should_fail_if_actual_does_not_contain_value() {
     AssertionInfo info = someInfo();
     String value = "veryOld";
     String value2 = "veryOld2";

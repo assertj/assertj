@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Maciej Wajcht
  */
-public class Boolean2DArrays_assertContains_at_Index_Test extends Boolean2DArraysBaseTest {
+class Boolean2DArrays_assertContains_at_Index_Test extends Boolean2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     boolean[] booleans = new boolean[] { true, false, true };
     // WHEN

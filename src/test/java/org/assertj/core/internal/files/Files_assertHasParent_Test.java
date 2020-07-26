@@ -38,25 +38,25 @@ import static org.mockito.Mockito.when;
  * 
  * @author Jean-Christophe Gay
  */
-public class Files_assertHasParent_Test extends FilesBaseTest {
+class Files_assertHasParent_Test extends FilesBaseTest {
 
   private File actual = new File("./some/test");
   private File expectedParent = new File("./some");
 
   @Test
-  public void should_throw_error_if_actual_is_null() {
+  void should_throw_error_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasParent(someInfo(), null, expectedParent))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_npe_if_expected_is_null() {
+  void should_throw_npe_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> files.assertHasParent(someInfo(), actual, null))
                                     .withMessage("The expected parent file should not be null.");
   }
 
   @Test
-  public void should_fail_if_actual_has_no_parent() {
+  void should_fail_if_actual_has_no_parent() {
     AssertionInfo info = someInfo();
     File withoutParent = new File("without-parent");
 
@@ -67,7 +67,7 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_have_the_expected_parent() {
+  void should_fail_if_actual_does_not_have_the_expected_parent() {
     AssertionInfo info = someInfo();
     File expectedParent = new File("./expected-parent");
 
@@ -78,22 +78,22 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_parent() {
+  void should_pass_if_actual_has_expected_parent() {
     files.assertHasParent(someInfo(), actual, expectedParent);
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_parent_when_actual_form_is_absolute() {
+  void should_pass_if_actual_has_expected_parent_when_actual_form_is_absolute() {
     files.assertHasParent(someInfo(), actual.getAbsoluteFile(), expectedParent);
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_parent_when_actual_form_is_canonical() throws Exception {
+  void should_pass_if_actual_has_expected_parent_when_actual_form_is_canonical() throws Exception {
     files.assertHasParent(someInfo(), actual.getCanonicalFile(), expectedParent);
   }
 
   @Test
-  public void should_throw_exception_when_canonical_form_representation_fail() throws Exception {
+  void should_throw_exception_when_canonical_form_representation_fail() throws Exception {
     File actual = mock(File.class);
     File expectedParent = mock(File.class);
 
@@ -105,7 +105,7 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_exception_when_canonical_form_representation_fail_for_expected_parent() throws Exception {
+  void should_throw_exception_when_canonical_form_representation_fail_for_expected_parent() throws Exception {
     File expectedParent = mock(File.class);
     when(expectedParent.getCanonicalFile()).thenThrow(new IOException());
 

@@ -35,21 +35,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Characters_assertEqual_Test extends CharactersBaseTest {
+class Characters_assertEqual_Test extends CharactersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(someInfo(), null, 'a'))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_characters_are_equal() {
+  void should_pass_if_characters_are_equal() {
     charactersWithCaseInsensitiveComparisonStrategy.assertEqual(someInfo(), 'a', 'a');
   }
 
   @Test
-  public void should_fail_if_characters_are_not_equal() {
+  void should_fail_if_characters_are_not_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(info, 'b', 'a'));
@@ -59,18 +59,18 @@ public class Characters_assertEqual_Test extends CharactersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(someInfo(), null, 'a'))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_characters_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_characters_are_equal_according_to_custom_comparison_strategy() {
     charactersWithCaseInsensitiveComparisonStrategy.assertEqual(someInfo(), 'a', 'A');
   }
 
   @Test
-  public void should_fail_if_characters_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_characters_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(info, 'b', 'a'));

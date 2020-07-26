@@ -32,49 +32,49 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class DoubleArrays_assertDoesNotHaveDuplicates_Test extends DoubleArraysBaseTest {
+class DoubleArrays_assertDoesNotHaveDuplicates_Test extends DoubleArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates() {
+  void should_pass_if_actual_does_not_have_duplicates() {
     arrays.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     arrays.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveDuplicates(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates() {
+  void should_fail_if_actual_contains_duplicates() {
     actual = arrayOf(6d, 8d, 6d, 8d);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveDuplicates(someInfo(), actual))
                                                    .withMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, 8d)).create());
   }
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_have_duplicates_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     actual = arrayOf(6d, -8d, 6d, -8d);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), actual))
                                                    .withMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet(6d, -8d), absValueComparisonStrategy).create());

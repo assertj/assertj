@@ -28,23 +28,23 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Tests for <code>{@link Iterables#assertHaveExactly(AssertionInfo, Iterable, Condition, int)}</code> .
+ * Tests for <code>{@link Iterables#assertHaveExactly(AssertionInfo, Iterable, int, Condition)}</code> .
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public class Iterables_assertHaveExactly_Test extends IterablesWithConditionsBaseTest {
+class Iterables_assertHaveExactly_Test extends IterablesWithConditionsBaseTest {
 
   @Test
-  public void should_pass_if_satisfies_exactly_times_condition() {
+  void should_pass_if_satisfies_exactly_times_condition() {
     actual = newArrayList("Yoda", "Luke", "Leia");
     iterables.assertHaveExactly(someInfo(), actual, 2, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
-  public void should_throw_error_if_condition_is_null() {
+  void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       actual = newArrayList("Yoda", "Luke");
       iterables.assertHaveExactly(someInfo(), actual, 2, null);
@@ -53,7 +53,7 @@ public class Iterables_assertHaveExactly_Test extends IterablesWithConditionsBas
   }
 
   @Test
-  public void should_fail_if_condition_is_not_met_enough() {
+  void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = newArrayList("Yoda", "Solo", "Leia");
@@ -66,7 +66,7 @@ public class Iterables_assertHaveExactly_Test extends IterablesWithConditionsBas
   }
 
   @Test
-  public void should_fail_if_condition_is_met_much() {
+  void should_fail_if_condition_is_met_much() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = newArrayList("Yoda", "Luke", "Obiwan");

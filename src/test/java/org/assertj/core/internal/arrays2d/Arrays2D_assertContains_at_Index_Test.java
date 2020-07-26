@@ -35,12 +35,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
+class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
 
   private int[][] actual = new int[][] { { 0, 2, 4 }, { 6, 8, 10 } };
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     int[][] actual = null;
     int[] expectedElement = new int[] { 0, 2, 4 };
@@ -52,7 +52,7 @@ public class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     // GIVEN
     int[][] actual = {};
     int[] expectedElement = new int[] { 0, 2, 4 };
@@ -64,7 +64,7 @@ public class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null() {
+  void should_throw_error_if_Index_is_null() {
     // GIVEN
     Index nullIndex = null;
     // WHEN/THEN
@@ -74,7 +74,7 @@ public class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds() {
+  void should_throw_error_if_Index_is_out_of_bounds() {
     // GIVEN
     Index outOfBoundsIndex = atIndex(6);
     // WHEN/THEN
@@ -86,7 +86,7 @@ public class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index() {
+  void should_fail_if_actual_does_not_contain_value_at_index() {
     // GIVEN
     Index index = atIndex(1);
     // WHEN
@@ -97,7 +97,7 @@ public class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index() {
+  void should_pass_if_actual_contains_value_at_index() {
     arrays.assertContains(someInfo(), failures, actual, new int[] { 6, 8, 10 }, atIndex(1));
   }
 }

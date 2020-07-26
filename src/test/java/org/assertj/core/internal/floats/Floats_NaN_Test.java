@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Floats_NaN_Test extends FloatsBaseTest {
+class Floats_NaN_Test extends FloatsBaseTest {
 
   @Test
-  public void check_float_NaN_method() {
+  void check_float_NaN_method() {
     assertThat(NaN()).isCloseTo(Float.NaN, within(0f));
   }
 }

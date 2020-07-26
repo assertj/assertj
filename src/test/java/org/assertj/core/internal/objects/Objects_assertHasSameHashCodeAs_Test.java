@@ -27,19 +27,19 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class Objects_assertHasSameHashCodeAs_Test extends ObjectsBaseTest {
+class Objects_assertHasSameHashCodeAs_Test extends ObjectsBaseTest {
 
   public static final Jedi OTHER_JEDI = new Jedi("Yoda", "Green");
 
   private static Jedi greenYoda;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     greenYoda = new Jedi("Yoda", "green");
   }
 
   @Test
-  public void should_pass_if_actual_has_the_same_hash_code_as_other() {
+  void should_pass_if_actual_has_the_same_hash_code_as_other() {
     // Jedi class hashCode is computed with the Jedi's name only
     Jedi redYoda = new Jedi("Yoda", "Red");
     objects.assertHasSameHashCodeAs(someInfo(), greenYoda, redYoda);
@@ -49,19 +49,19 @@ public class Objects_assertHasSameHashCodeAs_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_other_is_null() {
+  void should_throw_error_if_other_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertHasSameHashCodeAs(someInfo(), greenYoda, null))
                                     .withMessage("The object used to compare actual's hash code with should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertHasSameHashCodeAs(someInfo(), null, greenYoda))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_have_the_same_hash_code_as_other() {
+  void should_fail_if_actual_does_not_have_the_same_hash_code_as_other() {
     AssertionInfo info = someInfo();
     // Jedi class hashCode is computed with the Jedi's name only
     Jedi luke = new Jedi("Luke", "green");

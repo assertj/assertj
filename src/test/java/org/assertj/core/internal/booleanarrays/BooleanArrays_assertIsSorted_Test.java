@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class BooleanArrays_assertIsSorted_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertIsSorted_Test extends BooleanArraysBaseTest {
 
   @Override
   @BeforeEach
@@ -43,28 +43,28 @@ public class BooleanArrays_assertIsSorted_Test extends BooleanArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_in_ascending_order() {
+  void should_pass_if_actual_is_sorted_in_ascending_order() {
     arrays.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     arrays.assertIsSorted(someInfo(), emptyArray());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_one_element() {
+  void should_pass_if_actual_contains_only_one_element() {
     arrays.assertIsSorted(someInfo(), arrayOf(true));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
+  void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
     actual = arrayOf(false, true, false);
 

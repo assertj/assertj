@@ -34,17 +34,17 @@ import org.junit.jupiter.params.provider.CsvSource;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Objects_assertEqual_Test extends ObjectsBaseTest {
+class Objects_assertEqual_Test extends ObjectsBaseTest {
 
   private static final Objects OBJECTS_WITH_ALWAY_EQUALS_COMPARATOR = new Objects(new ComparatorBasedComparisonStrategy(ALWAY_EQUALS));
 
   @Test
-  public void should_pass_if_objects_are_equal() {
+  void should_pass_if_objects_are_equal() {
     objects.assertEqual(someInfo(), "Yoda", "Yoda");
   }
 
   @Test
-  public void should_fail_if_objects_are_not_equal() {
+  void should_fail_if_objects_are_not_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> objects.assertEqual(info, "Luke", "Yoda"));
@@ -54,7 +54,7 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_objects_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_objects_are_equal_according_to_custom_comparison_strategy() {
     objectsWithCustomComparisonStrategy.assertEqual(someInfo(), "Yoda", "YODA");
   }
 
@@ -65,12 +65,12 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
       "null, bar",
       "null, null"
   })
-  public void should_not_check_actual_or_expected_before_applying_a_custom_comparator(String actual, String expected) {
+  void should_not_check_actual_or_expected_before_applying_a_custom_comparator(String actual, String expected) {
     OBJECTS_WITH_ALWAY_EQUALS_COMPARATOR.assertEqual(someInfo(), actual, expected);
   }
 
   @Test
-  public void should_fail_if_objects_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_objects_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> objectsWithCustomComparisonStrategy.assertEqual(info, "Luke", "Yoda"));
@@ -80,14 +80,14 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_compared_with_null() {
+  void should_fail_if_compared_with_null() {
     Throwable error = catchThrowable(() -> objects.assertEqual(someInfo(), new MyObject(), null));
 
     assertThat(error).isInstanceOf(AssertionError.class);
   }
 
   @Test
-  public void should_fail_with_my_exception_if_compared_with_other_object() {
+  void should_fail_with_my_exception_if_compared_with_other_object() {
     Throwable error = catchThrowable(() -> objects.assertEqual(someInfo(), new MyObject(), "Yoda"));
 
     assertThat(error).isInstanceOf(MyObject.DifferentClassesException.class);

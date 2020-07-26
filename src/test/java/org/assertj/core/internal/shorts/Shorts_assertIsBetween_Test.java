@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Shorts_assertIsBetween_Test extends ShortsBaseTest {
+class Shorts_assertIsBetween_Test extends ShortsBaseTest {
 
   private static final Short ZERO = 0;
   private static final Short ONE = 1;
@@ -40,38 +40,38 @@ public class Shorts_assertIsBetween_Test extends ShortsBaseTest {
   private static final Short TEN = 10;
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsBetween(someInfo(), null, ZERO, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_start_is_null() {
+  void should_fail_if_start_is_null() {
     assertThatNullPointerException().isThrownBy(() -> shorts.assertIsBetween(someInfo(), ONE, null, ONE));
   }
 
   @Test
-  public void should_fail_if_end_is_null() {
+  void should_fail_if_end_is_null() {
     assertThatNullPointerException().isThrownBy(() -> shorts.assertIsBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_pass_if_actual_is_in_range() {
+  void should_pass_if_actual_is_in_range() {
     shorts.assertIsBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_range_start() {
+  void should_pass_if_actual_is_equal_to_range_start() {
     shorts.assertIsBetween(someInfo(), ONE, ONE, TEN);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_range_end() {
+  void should_pass_if_actual_is_equal_to_range_end() {
     shorts.assertIsBetween(someInfo(), ONE, ZERO, ONE);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> shorts.assertIsBetween(info, ONE, TWO, TEN));
@@ -81,7 +81,7 @@ public class Shorts_assertIsBetween_Test extends ShortsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_end() {
+  void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> shorts.assertIsBetween(info, ONE, ZERO, ZERO));

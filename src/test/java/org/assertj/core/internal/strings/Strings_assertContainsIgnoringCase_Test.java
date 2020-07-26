@@ -31,44 +31,44 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
+class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_does_not_contain_sequence() {
+  void should_fail_if_actual_does_not_contain_sequence() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldContainIgnoringCase("Yoda", "Luke").create());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda", null))
                                     .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), null, "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence() {
+  void should_pass_if_actual_contains_sequence() {
     strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Yo");
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_in_different_case() {
+  void should_pass_if_actual_contains_sequence_in_different_case() {
     strings.assertContainsIgnoringCase(someInfo(), "Yoda", "yo");
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_sequence_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_does_not_contain_sequence_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldContainIgnoringCase("Yoda", "Luke").create());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
                                                                                                                               "Yoda",
                                                                                                                               null))
@@ -76,18 +76,18 @@ public class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), null, "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_contains_sequence_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", "Yo");
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_in_different_case_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_contains_sequence_in_different_case_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", "yo");
   }
 }

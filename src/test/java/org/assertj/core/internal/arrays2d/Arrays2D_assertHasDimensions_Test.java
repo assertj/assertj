@@ -28,12 +28,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
+class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
 
   private char[][] actual = new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     char[][] actual = null;
     // WHEN
@@ -43,7 +43,7 @@ public class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_fail_if_first_dimension_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_first_dimension_size_of_actual_is_not_equal_to_expected_size() {
     // GIVEN
     int expectedFirstDimensionSize = 10;
     // WHEN
@@ -54,7 +54,7 @@ public class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_fail_if_second_dimension_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_second_dimension_size_of_actual_is_not_equal_to_expected_size() {
     // GIVEN
     int expectedSecondDimensionSize = 10;
     // WHEN
@@ -65,7 +65,7 @@ public class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     arrays.assertHasDimensions(someInfo(), failures, actual, 2, 3);
   }
 }

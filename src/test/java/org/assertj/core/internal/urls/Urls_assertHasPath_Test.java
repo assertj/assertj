@@ -26,20 +26,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Urls_assertHasPath_Test extends UrlsBaseTest {
+class Urls_assertHasPath_Test extends UrlsBaseTest {
 
   @ParameterizedTest
   @CsvSource({
       "http://example.com/pages/,   /pages/",
       "http://example.com,          ''"
   })
-  public void should_pass_if_actual_url_has_the_given_path(URL url, String expectedPath) {
+  void should_pass_if_actual_url_has_the_given_path(URL url, String expectedPath) {
     // WHEN/THEN
     urls.assertHasPath(info, url, expectedPath);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URL url = null;
     String expectedPath = "path";
@@ -50,7 +50,7 @@ public class Urls_assertHasPath_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_throw_an_exception_fail_if_given_path_is_null() throws MalformedURLException {
+  void should_throw_an_exception_fail_if_given_path_is_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com");
     String expectedPath = null;
@@ -60,7 +60,7 @@ public class Urls_assertHasPath_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_path_is_not_the_given_path() throws MalformedURLException {
+  void should_fail_if_actual_URL_path_is_not_the_given_path() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com/pages/");
     String expectedPath = "/news/";
@@ -71,7 +71,7 @@ public class Urls_assertHasPath_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_no_path_and_the_given_path_is_not_null() throws MalformedURLException {
+  void should_fail_if_actual_URL_has_no_path_and_the_given_path_is_not_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com");
     String expectedPath = "/news";

@@ -37,10 +37,10 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Alexander Bischof
  * @author Dan Corder
  */
-public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseTest {
+class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null_and_expected_is_not() {
+  void should_fail_if_actual_is_null_and_expected_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsNormalizingWhitespace(someInfo(),
                                                                                                                null,
                                                                                                                "Luke"))
@@ -49,14 +49,14 @@ public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseT
   }
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_expected_is_null() {
+  void should_fail_if_actual_is_not_null_and_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertEqualsNormalizingWhitespace(someInfo(), "Luke",
                                                                                                 null))
                                     .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_both_Strings_are_not_equal_after_whitespace_is_normalized() {
+  void should_fail_if_both_Strings_are_not_equal_after_whitespace_is_normalized() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsNormalizingWhitespace(someInfo(),
                                                                                                                "Yoda",
                                                                                                                "Luke"))
@@ -66,7 +66,7 @@ public class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseT
 
   @ParameterizedTest
   @MethodSource("equalNormalizingWhitespaceGenerator")
-  public void should_pass_if_both_Strings_are_equal_after_whitespace_is_normalized(String actual, String expected) {
+  void should_pass_if_both_Strings_are_equal_after_whitespace_is_normalized(String actual, String expected) {
     strings.assertEqualsNormalizingWhitespace(someInfo(), actual, expected);
   }
 

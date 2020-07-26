@@ -35,17 +35,17 @@ import org.junit.jupiter.api.Test;
  * @author Krishna Chaithanya Ganta
  */
 @DisplayName("Files.assertHasSize:")
-public class File_assertHasSize_Test extends FilesBaseTest {
+class File_assertHasSize_Test extends FilesBaseTest {
 
   private static File actual;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     actual = new File("src/test/resources/actual_file.txt");
   }
 
   @Test
-  public void should_throw_error_if_actual_is_null() {
+  void should_throw_error_if_actual_is_null() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> files.assertHasSizeInBytes(someInfo(), null, actual.length()));
     // THEN
@@ -53,7 +53,7 @@ public class File_assertHasSize_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_actual_file_does_not_have_the_expected_size() {
+  void should_throw_error_if_actual_file_does_not_have_the_expected_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -63,7 +63,7 @@ public class File_assertHasSize_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_file() {
+  void should_fail_if_actual_is_not_a_file() {
     // GIVEN
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
@@ -74,7 +74,7 @@ public class File_assertHasSize_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_size() {
+  void should_pass_if_actual_has_expected_size() {
     files.assertHasSizeInBytes(someInfo(), actual, actual.length());
   }
 }

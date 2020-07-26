@@ -41,12 +41,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
+class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
 
   private static final Predicate<File> JAVA_SOURCE = file -> file.getName().endsWith(".java");
 
   @Test
-  public void should_pass_if_actual_contains_a_file_matching_the_given_predicate() {
+  void should_pass_if_actual_contains_a_file_matching_the_given_predicate() {
     // GIVEN
     File file = mockRegularFile("Test.java");
     List<File> items = list(file);
@@ -57,7 +57,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_pass_if_all_actual_files_match_the_given_predicate() {
+  void should_pass_if_all_actual_files_match_the_given_predicate() {
     // GIVEN
     File file1 = mockRegularFile("Test.java");
     File file2 = mockRegularFile("Utils.java");
@@ -69,7 +69,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_pass_if_actual_contains_at_least_one_file_matching_the_given_predicate() {
+  void should_pass_if_actual_contains_at_least_one_file_matching_the_given_predicate() {
     // GIVEN
     File file1 = mockRegularFile("Test.class");
     File file2 = mockRegularFile("Test.java");
@@ -84,7 +84,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_throw_npe_if_filter_is_null() {
+  void should_throw_npe_if_filter_is_null() {
     // GIVEN
     Predicate<File> filter = null;
     // THEN
@@ -93,7 +93,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;
     // WHEN
@@ -103,7 +103,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_fail_if_actual_does_not_exist() {
+  void should_fail_if_actual_does_not_exist() {
     // GIVEN
     given(actual.exists()).willReturn(false);
     // WHEN
@@ -113,7 +113,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_fail_if_actual_exists_but_is_not_a_directory() {
+  void should_fail_if_actual_exists_but_is_not_a_directory() {
     // GIVEN
     given(actual.exists()).willReturn(true);
     given(actual.isDirectory()).willReturn(false);
@@ -124,7 +124,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_throw_error_on_null_directory_listing() {
+  void should_throw_error_on_null_directory_listing() {
     // GIVEN
     given(actual.exists()).willReturn(true);
     given(actual.isDirectory()).willReturn(true);
@@ -137,7 +137,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     // GIVEN
     List<File> items = emptyList();
     File actual = mockDirectory(items, "root");
@@ -148,7 +148,7 @@ public class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseT
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_files_matching_the_given_predicate() {
+  void should_fail_if_actual_does_not_contain_any_files_matching_the_given_predicate() {
     // GIVEN
     File file = mockRegularFile("root", "Test.class");
     List<File> items = list(file);

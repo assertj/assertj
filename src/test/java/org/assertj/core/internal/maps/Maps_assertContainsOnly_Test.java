@@ -44,11 +44,11 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jean-Christophe Gay
  */
-public class Maps_assertContainsOnly_Test extends MapsBaseTest {
+class Maps_assertContainsOnly_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -59,32 +59,32 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_given_entries_array_is_null() {
+  void should_fail_if_given_entries_array_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertContainsOnly(someInfo(), actual, (MapEntry[]) null))
                                     .withMessage(entriesToLookForIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_given_entries_array_is_empty() {
+  void should_fail_if_given_entries_array_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsOnly(someInfo(), actual, emptyEntries()))
                                         .withMessage(entriesToLookForIsEmpty());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_and_entries_are_empty() {
+  void should_pass_if_actual_and_entries_are_empty() {
     maps.assertContainsOnly(someInfo(), emptyMap(), emptyEntries());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_contains_only_expected_entries() {
+  void should_pass_if_actual_contains_only_expected_entries() {
     maps.assertContainsOnly(someInfo(), actual, entry("name", "Yoda"), entry("color", "green"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_unexpected_entry() {
+  void should_fail_if_actual_contains_unexpected_entry() {
     // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
@@ -95,7 +95,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries() {
+  void should_fail_if_actual_does_not_contains_every_expected_entries() {
     // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
@@ -107,7 +107,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one() {
+  void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one() {
     // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
@@ -120,7 +120,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_entry_key_with_different_value() {
+  void should_fail_if_actual_contains_entry_key_with_different_value() {
     // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expectedEntries = array(entry("name", "Yoda"), entry("color", "yellow"));

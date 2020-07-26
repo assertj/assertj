@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
+class Dates_assertIsCloseTo_Test extends DatesBaseTest {
 
   private Date other;
   private int delta;
@@ -51,7 +51,7 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta() {
+  void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> dates.assertIsCloseTo(info, actual, other, delta));
@@ -61,24 +61,24 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null() {
+  void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsCloseTo(someInfo(), actual, null, 10))
                                     .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_close_to_given_date_by_less_than_given_delta() {
+  void should_pass_if_actual_is_close_to_given_date_by_less_than_given_delta() {
     dates.assertIsCloseTo(someInfo(), actual, parseDatetime("2011-01-01T03:15:05"), delta);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(info, actual, other, delta));
@@ -88,7 +88,7 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(),
                                                                                                         actual, null,
                                                                                                         10))
@@ -96,13 +96,13 @@ public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), actual, parseDatetime("2011-01-01T03:15:05"), delta);
   }
 

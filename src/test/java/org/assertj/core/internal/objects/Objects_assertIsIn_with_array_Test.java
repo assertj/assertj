@@ -36,34 +36,34 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
+class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
 
   private static String[] values;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     values = array("Yoda", "Leia");
   }
 
   @Test
-  public void should_throw_error_if_array_is_null() {
+  void should_throw_error_if_array_is_null() {
     Object[] array = null;
     assertThatNullPointerException().isThrownBy(() -> objects.assertIsIn(someInfo(), "Yoda", array))
                                     .withMessage(arrayIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_array() {
+  void should_pass_if_actual_is_in_array() {
     objects.assertIsIn(someInfo(), "Yoda", values);
   }
 
   @Test
-  public void should_pass_if_actual_is_null_and_array_contains_null() {
+  void should_pass_if_actual_is_null_and_array_contains_null() {
     objects.assertIsIn(someInfo(), null, array("Yoda", null));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_array() {
+  void should_fail_if_actual_is_not_in_array() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -73,7 +73,7 @@ public class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_given_array_is_empty() {
+  void should_fail_if_given_array_is_empty() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -83,12 +83,12 @@ public class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_array_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_in_array_according_to_custom_comparison_strategy() {
     objectsWithCustomComparisonStrategy.assertIsIn(someInfo(), "YODA", values);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_array_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_in_array_according_to_custom_comparison_strategy() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN

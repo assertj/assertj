@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Drummond Dawson
  */
-public class Bytes_assertIsOne_Test extends BytesBaseTest {
+class Bytes_assertIsOne_Test extends BytesBaseTest {
 
   @BeforeEach
   @Override
@@ -38,40 +38,40 @@ public class Bytes_assertIsOne_Test extends BytesBaseTest {
   }
 
   @Test
-  public void should_succeed_since_actual_is_one() {
+  void should_succeed_since_actual_is_one() {
     bytes.assertIsOne(someInfo(), (byte) 1);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_one() {
+  void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsOne(someInfo(), (byte) 0))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
   }
 
   @Test
-  public void should_fail_since_actual_is_not_one_in_hex_representation() {
+  void should_fail_since_actual_is_not_one_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsOne(someHexInfo(), (byte) 0x00))
                                                    .withMessage(format("%nExpecting:%n <0x00>%nto be equal to:%n <0x01>%nbut was not."));
   }
 
   @Test
-  public void should_succeed_since_actual_is_one_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_one_whatever_custom_comparison_strategy_is() {
     bytesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), (byte) 1);
   }
 
   @Test
-  public void should_succeed_since_actual_is_one_whatever_custom_comparison_strategy_is_in_hex_representation() {
+  void should_succeed_since_actual_is_one_whatever_custom_comparison_strategy_is_in_hex_representation() {
     bytesWithAbsValueComparisonStrategy.assertIsOne(someHexInfo(), (byte) 0x01);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), (byte) 0))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
   }
 
   @Test
-  public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is_in_hex_representation() {
+  void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsOne(someHexInfo(), (byte) 0x0))
                                                    .withMessage(format("%nExpecting:%n <0x00>%nto be equal to:%n <0x01>%nbut was not."));
   }

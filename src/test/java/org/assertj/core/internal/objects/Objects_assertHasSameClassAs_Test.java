@@ -35,34 +35,34 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class Objects_assertHasSameClassAs_Test extends ObjectsBaseTest {
+class Objects_assertHasSameClassAs_Test extends ObjectsBaseTest {
 
   private static Person actual;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     actual = new Person("Yoda");
   }
 
   @Test
-  public void should_pass_if_actual_has_same_type_as_other() {
+  void should_pass_if_actual_has_same_type_as_other() {
     objects.assertHasSameClassAs(someInfo(), actual, new Person("Luke"));
   }
 
   @Test
-  public void should_throw_error_if_type_is_null() {
+  void should_throw_error_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertHasSameClassAs(someInfo(), actual, null))
                                     .withMessage("The given object should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertHasSameClassAs(someInfo(), null, new Person("Luke")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_not_has_same_type_as_other() {
+  void should_pass_if_actual_not_has_same_type_as_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> objects.assertHasSameClassAs(info, actual, "Yoda"));

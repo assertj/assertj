@@ -38,15 +38,15 @@ import org.junit.jupiter.api.Test;
  *
  * @author Marko Bekhta
  */
-public class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
+class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values() {
+  void should_pass_if_actual_contains_given_values() {
     iterables.assertContainsAnyOf(someInfo(), actual, array("Luke"));
   }
 
   @Test
-  public void should_pass_with_non_comparable_values() {
+  void should_pass_with_non_comparable_values() {
     // GIVEN
     Iterable<Name> names = asList(name("John", "Doe"));
     // THEN
@@ -54,56 +54,56 @@ public class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_in_different_order() {
+  void should_pass_if_actual_contains_given_values_in_different_order() {
     iterables.assertContainsAnyOf(someInfo(), actual, array("Leia", "Yoda"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_values() {
+  void should_pass_if_actual_contains_all_given_values() {
     iterables.assertContainsAnyOf(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_more_than_once() {
+  void should_pass_if_actual_contains_given_values_more_than_once() {
     actual.addAll(newArrayList("Luke", "Luke"));
     iterables.assertContainsAnyOf(someInfo(), actual, array("Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_just_one_of_given_values() {
+  void should_pass_if_actual_contains_just_one_of_given_values() {
     iterables.assertContainsAnyOf(someInfo(), actual, array("Luke", "John", "Tom"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
+  void should_pass_if_actual_contains_given_values_even_if_duplicated() {
     iterables.assertContainsAnyOf(someInfo(), actual, array("Luke", "Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual.clear();
     iterables.assertContainsAnyOf(someInfo(), actual, array());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_of_the_given_values() {
+  void should_fail_if_actual_does_not_contain_any_of_the_given_values() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 
@@ -118,40 +118,40 @@ public class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(someInfo(), actual, array("LUKE"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(someInfo(), actual, array("LEIA", "yODa"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(someInfo(), actual,
                                                                        array("luke", "YODA", "leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
     actual.addAll(newArrayList("Luke", "Luke"));
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(someInfo(), actual, array("LUke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(someInfo(), actual, array("LUke", "LuKe"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_just_one_of_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_just_one_of_given_values_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(someInfo(), actual,
                                                                        array("LuKe", "JoHn", "ToM"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 

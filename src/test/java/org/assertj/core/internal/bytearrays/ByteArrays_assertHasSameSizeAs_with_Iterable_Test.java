@@ -26,10 +26,10 @@ import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 
-public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArraysBaseTest {
+class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -39,7 +39,7 @@ public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArray
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     List<String> other = list("Solo", "Leia");
@@ -51,7 +51,7 @@ public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArray
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     arrays.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia", "Luke"));
   }
 }

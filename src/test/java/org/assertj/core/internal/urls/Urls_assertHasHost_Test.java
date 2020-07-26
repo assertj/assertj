@@ -23,10 +23,10 @@ import java.net.URL;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Urls_assertHasHost_Test extends UrlsBaseTest {
+class Urls_assertHasHost_Test extends UrlsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URL url = null;
     String expectedHost = "www.helloworld.org";
@@ -37,7 +37,7 @@ public class Urls_assertHasHost_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_URL_has_the_given_host() throws MalformedURLException {
+  void should_pass_if_actual_URL_has_the_given_host() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://www.helloworld.org");
     String expectedHost = "www.helloworld.org";
@@ -46,7 +46,7 @@ public class Urls_assertHasHost_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_URL_with_path_has_the_given_host() throws MalformedURLException {
+  void should_pass_if_actual_URL_with_path_has_the_given_host() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://www.helloworld.org/pages");
     String expectedHost = "www.helloworld.org";
@@ -55,7 +55,7 @@ public class Urls_assertHasHost_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_not_the_expected_host() throws MalformedURLException {
+  void should_fail_if_actual_URL_has_not_the_expected_host() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com/pages/");
     String expectedHost = "example.org";

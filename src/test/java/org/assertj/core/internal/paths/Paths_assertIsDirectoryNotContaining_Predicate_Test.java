@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPathsBaseTest {
+class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPathsBaseTest {
 
   /**
    * We will check count call to {@link Path#getFileName()}
@@ -55,7 +55,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
                                                                      .isPresent();
 
   @Test
-  public void should_pass_if_actual_does_not_contain_files_matching_the_given_filter() {
+  void should_pass_if_actual_does_not_contain_files_matching_the_given_filter() {
     // GIVEN
     Path file = mockRegularFile("root", "Test.class");
     List<Path> items = list(file);
@@ -65,7 +65,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     // GIVEN
     List<Path> items = emptyList();
     Path actual = mockDirectory("root", items);
@@ -74,7 +74,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_throw_error_if_filter_is_null() {
+  void should_throw_error_if_filter_is_null() {
     // GIVEN
     Predicate<Path> filter = null;
     // THEN
@@ -83,7 +83,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Path actual = null;
     // WHEN
@@ -93,7 +93,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_fail_if_actual_does_not_exist() {
+  void should_fail_if_actual_does_not_exist() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(false);
     // WHEN
@@ -103,7 +103,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_fail_if_actual_exists_but_is_not_directory() {
+  void should_fail_if_actual_exists_but_is_not_directory() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
     given(nioFilesWrapper.isDirectory(actual)).willReturn(false);
@@ -114,7 +114,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_throw_runtime_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_runtime_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     given(nioFilesWrapper.exists(actual)).willReturn(true);
@@ -128,7 +128,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_fail_if_one_actual_file_matches_the_filter() {
+  void should_fail_if_one_actual_file_matches_the_filter() {
     // GIVEN
     Path file = mockRegularFile("Test.java");
     List<Path> items = list(file);
@@ -140,7 +140,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_fail_if_all_actual_files_match_the_filter() {
+  void should_fail_if_all_actual_files_match_the_filter() {
     // GIVEN
     Path file1 = mockRegularFile("Test.java");
     Path file2 = mockRegularFile("Utils.java");
@@ -153,7 +153,7 @@ public class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPat
   }
 
   @Test
-  public void should_fail_if_some_actual_files_match_the_filter() {
+  void should_fail_if_some_actual_files_match_the_filter() {
     // GIVEN
     Path file1 = mockRegularFile("Test.class");
     Path file2 = mockRegularFile("Test.java");

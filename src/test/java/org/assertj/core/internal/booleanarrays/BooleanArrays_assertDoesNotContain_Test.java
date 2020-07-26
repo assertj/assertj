@@ -40,44 +40,44 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class BooleanArrays_assertDoesNotContain_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertDoesNotContain_Test extends BooleanArraysBaseTest {
 
   @BeforeEach
-  public void setUpOnce() {
+  void setUpOnce() {
     super.setUp();
     actual = arrayOf(true, true);
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values() {
+  void should_pass_if_actual_does_not_contain_given_values() {
     arrays.assertDoesNotContain(someInfo(), actual, arrayOf(false));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
+  void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
     arrays.assertDoesNotContain(someInfo(), actual, arrayOf(false, false));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
+  void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, emptyArray()))
                                         .withMessage(valuesToLookForIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, arrayOf(true)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values() {
+  void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
     boolean[] expected = arrayOf(true);
 

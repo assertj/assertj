@@ -35,20 +35,20 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
+class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only() {
+  void should_pass_if_actual_contains_given_values_only() {
     arrays.assertContainsOnlyOnce(someInfo(), actual, arrayOf('a', 'b', 'c'));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_in_different_order() {
+  void should_pass_if_actual_contains_given_values_only_in_different_order() {
     arrays.assertContainsOnlyOnce(someInfo(), actual, arrayOf('c', 'b', 'a'));
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_only_more_than_once() {
+  void should_fail_if_actual_contains_given_values_only_more_than_once() {
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'b', 'b', 'a', 'c', 'd');
     char[] expected = { 'a', 'b', 'e' };
@@ -61,36 +61,36 @@ public class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
+  void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
     arrays.assertContainsOnlyOnce(someInfo(), actual, arrayOf('a', 'b', 'c', 'a', 'b', 'c'));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
     arrays.assertContainsOnlyOnce(someInfo(), actual, emptyArray());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual,
                                                                                                    emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null, arrayOf('a')))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only() {
+  void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'd' };
 
@@ -102,17 +102,17 @@ public class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, arrayOf('A', 'b', 'C'));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, arrayOf('C', 'B', 'A'));
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'B', 'b', 'A', 'c', 'd');
     char[] expected = { 'a', 'B', 'e' };
@@ -127,29 +127,29 @@ public class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy
         .assertContainsOnlyOnce(someInfo(), actual, arrayOf('a', 'b', 'c', 'A', 'b', 'C'));
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, null)).withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf((char) -8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] expected = { 'A', 'b', 'D' };
 

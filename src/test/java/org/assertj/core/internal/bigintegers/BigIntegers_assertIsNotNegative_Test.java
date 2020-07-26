@@ -24,31 +24,31 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertIsNotNegative(AssertionInfo, BigInteger))}</code>.
  */
-public class BigIntegers_assertIsNotNegative_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsNotNegative_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_negative() {
+  void should_succeed_since_actual_is_not_negative() {
     numbers.assertIsNotNegative(someInfo(), new BigInteger("6"));
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     numbers.assertIsNotNegative(someInfo(), BigInteger.ZERO);
   }
 
   @Test
-  public void should_fail_since_actual_is_negative() {
+  void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotNegative(someInfo(), new BigInteger("-6")))
                                                    .withMessage(format("%nExpecting:%n <-6>%nto be greater than or equal to:%n <0> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     numbersWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), new BigInteger("-1"));
   }
 
   @Test
-  public void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
     numbersWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), BigInteger.ONE);
   }
 

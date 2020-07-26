@@ -31,15 +31,15 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Objects_assertNotEqual_Test extends ObjectsBaseTest {
+class Objects_assertNotEqual_Test extends ObjectsBaseTest {
 
   @Test
-  public void should_pass_if_objects_are_not_equal() {
+  void should_pass_if_objects_are_not_equal() {
     objects.assertNotEqual(someInfo(), "Yoda", "Luke");
   }
 
   @Test
-  public void should_fail_if_objects_are_equal() {
+  void should_fail_if_objects_are_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> objects.assertNotEqual(info, "Yoda", "Yoda"));
@@ -49,12 +49,12 @@ public class Objects_assertNotEqual_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_objects_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_objects_are_not_equal_according_to_custom_comparison_strategy() {
     objectsWithCustomComparisonStrategy.assertNotEqual(someInfo(), "Yoda", "Luke");
   }
 
   @Test
-  public void should_fail_if_objects_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_objects_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> objectsWithCustomComparisonStrategy.assertNotEqual(info, "YoDA", "Yoda"));

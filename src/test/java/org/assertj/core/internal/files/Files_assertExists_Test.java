@@ -35,16 +35,16 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Files_assertExists_Test extends FilesBaseTest {
+class Files_assertExists_Test extends FilesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertExists(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_exist() {
+  void should_fail_if_actual_does_not_exist() {
     when(actual.exists()).thenReturn(false);
     AssertionInfo info = someInfo();
 
@@ -55,7 +55,7 @@ public class Files_assertExists_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_exists() {
+  void should_pass_if_actual_exists() {
     when(actual.exists()).thenReturn(true);
     files.assertExists(someInfo(), actual);
   }

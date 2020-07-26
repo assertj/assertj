@@ -26,7 +26,7 @@ import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
+class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
 
   private static final String IAE_EXCEPTION_MESSAGE = "invalid arg";
   private static final String NPE_EXCEPTION_MESSAGE = "null arg";
@@ -43,26 +43,26 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_pass_if_one_of_the_suppressed_exception_has_the_expected_type_and_message() {
+  void should_pass_if_one_of_the_suppressed_exception_has_the_expected_type_and_message() {
     throwables.assertHasSuppressedException(someInfo(), throwableSuppressedException,
                                             new IllegalArgumentException(IAE_EXCEPTION_MESSAGE));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasSuppressedException(someInfo(), null, new Throwable()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_suppressed_exception_is_null() {
+  void should_fail_if_expected_suppressed_exception_is_null() {
     assertThatNullPointerException().isThrownBy(() -> throwables.assertHasSuppressedException(someInfo(),
                                                                                               new Throwable(), null))
                                     .withMessage("The expected suppressed exception should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_has_no_suppressed_exception_and_expected_suppressed_exception_is_not_null() {
+  void should_fail_if_actual_has_no_suppressed_exception_and_expected_suppressed_exception_is_not_null() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new Throwable();
 
@@ -73,7 +73,7 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_fail_if_suppressed_exception_is_not_instance_of_expected_type() {
+  void should_fail_if_suppressed_exception_is_not_instance_of_expected_type() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new NullPointerException(IAE_EXCEPTION_MESSAGE);
 
@@ -85,7 +85,7 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_fail_if_suppressed_exception_has_not_the_expected_message() {
+  void should_fail_if_suppressed_exception_has_not_the_expected_message() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new IllegalArgumentException(IAE_EXCEPTION_MESSAGE + "foo");
 
@@ -97,7 +97,7 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_fail_if_suppressed_exception_has_no_message_and_the_expected_suppressed_exception_has_one() {
+  void should_fail_if_suppressed_exception_has_no_message_and_the_expected_suppressed_exception_has_one() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new IllegalArgumentException("error cause");
     throwableSuppressedException = new Throwable(new IllegalArgumentException());
@@ -110,7 +110,7 @@ public class Throwables_assertHasSuppressedException_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_fail_if_suppressed_exception_has_different_type_and_message_to_expected_cause() {
+  void should_fail_if_suppressed_exception_has_different_type_and_message_to_expected_cause() {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new NullPointerException("error cause");
 

@@ -30,10 +30,10 @@ import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Classes_assertHasMethods_Test extends ClassesBaseTest {
+class Classes_assertHasMethods_Test extends ClassesBaseTest {
 
   @BeforeEach
-  public void setupActual() {
+  void setupActual() {
     AnotherMethodsClass m = new AnotherMethodsClass();
     Strings.isNullOrEmpty(m.string); // causes a synthetic method in AnotherMethodsClass
     actual = AnotherMethodsClass.class;
@@ -44,12 +44,12 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_accessible_public_methods() {
+  void should_pass_if_actual_has_expected_accessible_public_methods() {
     classes.assertHasMethods(someInfo(), actual, "publicMethod", "protectedMethod", "privateMethod");
   }
 
   @Test
-  public void should_fail_if_no_methods_are_expected_and_methods_are_available() {
+  void should_fail_if_no_methods_are_expected_and_methods_are_available() {
     SortedSet<String> expectedMethods = newTreeSet("publicMethod",
                                                  "protectedMethod",
                                                  "privateMethod",
@@ -72,20 +72,20 @@ public class Classes_assertHasMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasMethods(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_methods_are_inherited() {
+  void should_pass_if_methods_are_inherited() {
     String[] expected = array("notify", "notifyAll");
     classes.assertHasMethods(someInfo(), actual, expected);
   }
 
   @Test()
-  public void should_fail_if_expected_methods_are_missing() {
+  void should_fail_if_expected_methods_are_missing() {
     String[] expected = array("missingMethod", "publicMethod");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasMethods(someInfo(), actual,
                                                                                               expected))

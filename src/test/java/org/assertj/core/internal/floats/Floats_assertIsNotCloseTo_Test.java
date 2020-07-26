@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
+class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
 
   private static final Float ZERO = 0f;
   private static final Float ONE = 1f;
@@ -42,7 +42,7 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
   private static final Float TEN = 10f;
 
   @Test
-  public void should_pass_if_difference_is_more_than_given_offset() {
+  void should_pass_if_difference_is_more_than_given_offset() {
     floats.assertIsNotCloseTo(someInfo(), ONE, THREE, byLessThan(ONE));
     floats.assertIsNotCloseTo(someInfo(), ONE, THREE, within(ONE));
     floats.assertIsNotCloseTo(someInfo(), ONE, TEN, byLessThan(TWO));
@@ -50,48 +50,48 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_pass_if_difference_is_equal_to_the_given_strict_offset() {
+  void should_pass_if_difference_is_equal_to_the_given_strict_offset() {
     floats.assertIsNotCloseTo(someInfo(), ONE, TWO, byLessThan(ONE));
     floats.assertIsNotCloseTo(someInfo(), TWO, ONE, byLessThan(ONE));
   }
 
   @Test
-  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
+  void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
     floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, byLessThan(ONE));
     floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, within(ONE));
   }
 
   @Test
-  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
+  void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
     floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
     floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
   }
 
   @Test
-  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
+  void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
     floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, byLessThan(ONE));
     floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, within(ONE));
   }
 
   @Test
-  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
+  void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
     floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
     floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 
@@ -101,7 +101,7 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
       "1.0, 0.0, 1.0",
       "1.0, 2.0, 1.0"
   })
-  public void should_fail_if_difference_is_equal_to_given_offset(Float actual, Float other, Float offset) {
+  void should_fail_if_difference_is_equal_to_given_offset(Float actual, Float other, Float offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
@@ -111,7 +111,7 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
   }
   
   @Test
-  public void should_fail_if_actual_is_too_close_to_expected_value() {
+  void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertIsNotCloseTo(info, ONE, TWO, within(TEN)));
@@ -121,7 +121,7 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_too_close_to_expected_value_with_strict_offset() {
+  void should_fail_if_actual_is_too_close_to_expected_value_with_strict_offset() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertIsNotCloseTo(info, ONE, TWO, byLessThan(TEN)));
@@ -131,17 +131,17 @@ public class Floats_assertIsNotCloseTo_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_are_NaN() {
+  void should_fail_if_actual_and_expected_are_NaN() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), NaN, NaN, within(ONE)));
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
+  void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
+  void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
   }
 }

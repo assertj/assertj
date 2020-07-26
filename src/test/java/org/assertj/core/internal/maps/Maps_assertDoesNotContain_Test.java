@@ -42,35 +42,35 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Maps_assertDoesNotContain_Test extends MapsBaseTest {
+class Maps_assertDoesNotContain_Test extends MapsBaseTest {
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values() {
+  void should_pass_if_actual_does_not_contain_given_values() {
     maps.assertDoesNotContain(someInfo(), actual, array(entry("job", "Jedi")));
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
+  void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> maps.assertDoesNotContain(someInfo(), actual,
                                                                                     new MapEntry[0]))
                                         .withMessage(entriesToLookForIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertDoesNotContain(someInfo(), actual, null))
                                     .withMessage(entriesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContain(someInfo(), null, array(entry("job", "Jedi"))))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values() {
+  void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
 

@@ -28,12 +28,12 @@ import java.util.function.Consumer;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
+class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
 
   private List<String> actual = list("Luke", "Leia", "Yoda");
 
   @Test
-  public void should_pass_when_no_elements_satisfy_the_given_single_restriction() {
+  void should_pass_when_no_elements_satisfy_the_given_single_restriction() {
     // GIVEN
     Consumer<String> restriction = name -> assertThat(name).hasSize(5);
     // THEN
@@ -41,7 +41,7 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_when_no_elements_satisfy_the_given_restrictions() {
+  void should_pass_when_no_elements_satisfy_the_given_restrictions() {
     // GIVEN
     Consumer<String> restrictions = name -> {
       assertThat(name).hasSize(5);
@@ -52,7 +52,7 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_for_empty_whatever_the_given_restrictions_are() {
+  void should_pass_for_empty_whatever_the_given_restrictions_are() {
     // GIVEN
     Consumer<String> restriction = name -> assertThat(name).hasSize(5);
     actual.clear();
@@ -61,7 +61,7 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_when_one_elements_satisfy_the_given_restrictions() {
+  void should_fail_when_one_elements_satisfy_the_given_restrictions() {
     // GIVEN
     Consumer<String> restrictions = name -> assertThat(name).startsWith("Y");
     // WHEN
@@ -72,7 +72,7 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_when_two_elements_satisfy_the_given_restrictions() {
+  void should_fail_when_two_elements_satisfy_the_given_restrictions() {
     // GIVEN
     Consumer<String> restrictions = name -> assertThat(name).startsWith("L");
     // WHEN
@@ -82,13 +82,13 @@ public class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_consumer_restrictions_is_null() {
+  void should_throw_error_if_consumer_restrictions_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertNoneSatisfy(someInfo(), actual, null))
                                     .withMessage("The Consumer<T> expressing the restrictions must not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       List<String> nullActual = null;
       iterables.assertNoneSatisfy(someInfo(), nullActual, name -> assertThat(name).startsWith("Y"));

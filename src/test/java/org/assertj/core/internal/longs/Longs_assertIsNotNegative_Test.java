@@ -25,31 +25,31 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Longs_assertIsNotNegative_Test extends LongsBaseTest {
+class Longs_assertIsNotNegative_Test extends LongsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_negative() {
+  void should_succeed_since_actual_is_not_negative() {
     longs.assertIsNotNegative(someInfo(), 6L);
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     longs.assertIsNotNegative(someInfo(), 0L);
   }
 
   @Test
-  public void should_fail_since_actual_is_negative() {
+  void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNotNegative(someInfo(), -6L))
                                                    .withMessage(format("%nExpecting:%n <-6L>%nto be greater than or equal to:%n <0L> "));
   }
 
   @Test
-  public void should_succeed_since_actual_negative_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_negative_is_not_negative_according_to_custom_comparison_strategy() {
     longsWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), -1L);
   }
 
   @Test
-  public void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
     longsWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), 1L);
   }
 

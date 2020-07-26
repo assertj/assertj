@@ -33,21 +33,21 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Integers_assertLessThan_Test extends IntegersBaseTest {
+class Integers_assertLessThan_Test extends IntegersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertLessThan(someInfo(), null, 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other() {
+  void should_pass_if_actual_is_less_than_other() {
     integers.assertLessThan(someInfo(), 6, 8);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other() {
+  void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integers.assertLessThan(info, 6, 6));
@@ -57,7 +57,7 @@ public class Integers_assertLessThan_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other() {
+  void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integers.assertLessThan(info, 8, 6));
@@ -67,18 +67,18 @@ public class Integers_assertLessThan_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertLessThan(someInfo(), null, 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     integersWithAbsValueComparisonStrategy.assertLessThan(someInfo(), 6, -8);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integersWithAbsValueComparisonStrategy.assertLessThan(info, 6, -6));
@@ -88,7 +88,7 @@ public class Integers_assertLessThan_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integersWithAbsValueComparisonStrategy.assertLessThan(info, -8, 6));

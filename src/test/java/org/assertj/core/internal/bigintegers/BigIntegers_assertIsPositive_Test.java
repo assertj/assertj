@@ -25,32 +25,32 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertIsPositive(org.assertj.core.api.AssertionInfo, BigInteger)}</code>.
  */
-public class BigIntegers_assertIsPositive_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsPositive_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_positive() {
+  void should_succeed_since_actual_is_positive() {
     numbers.assertIsPositive(someInfo(), BigInteger.ONE);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_positive() {
+  void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigInteger.ZERO))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be greater than:%n <0> "));
   }
 
   @Test
-  public void should_fail_since_actual_is_zero() {
+  void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigInteger.ZERO))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be greater than:%n <0> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(), BigInteger.ONE);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                               BigInteger.ZERO))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be greater than:%n <0> when comparing values using BigIntegerComparator"));

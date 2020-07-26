@@ -41,20 +41,20 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author William Delanoue
  */
-public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest {
+class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable() {
+  void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable() {
     iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated() {
+  void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated() {
     iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
-  public void should_throw_error_if_given_iterable_is_empty() {
+  void should_throw_error_if_given_iterable_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(),
                                                                                                       actual,
                                                                                                       emptyList()))
@@ -62,20 +62,20 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
   }
 
   @Test
-  public void should_throw_error_if_given_iterable_is_null() {
+  void should_throw_error_if_given_iterable_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual,
                                                                                                   null))
                                     .withMessage(iterableValuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_one_element_of_given_iterable() {
+  void should_fail_if_actual_contains_one_element_of_given_iterable() {
     AssertionInfo info = someInfo();
     List<String> list = newArrayList("Vador", "Yoda", "Han");
 
@@ -90,19 +90,19 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
         newArrayList("Han"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
         newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_one_element_of_given_iterable_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_one_element_of_given_iterable_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("LuKe", "YODA", "Han");
 

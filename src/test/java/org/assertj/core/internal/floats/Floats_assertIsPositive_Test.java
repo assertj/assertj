@@ -28,26 +28,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertIsPositive_Test extends FloatsBaseTest {
+class Floats_assertIsPositive_Test extends FloatsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_positive() {
+  void should_succeed_since_actual_is_positive() {
     floats.assertIsPositive(someInfo(), 6.0f);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_positive() {
+  void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsPositive(someInfo(), -6.0f))
                                                    .withMessage(format("%nExpecting:%n <-6.0f>%nto be greater than:%n <0.0f> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy() {
+  void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy() {
     floatsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), (float) 6);
   }
 
   @Test
-  public void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy2() {
+  void should_succeed_since_actual_is_positive_according_to_absolute_value_comparison_strategy2() {
     floatsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), -6.0f);
   }
 

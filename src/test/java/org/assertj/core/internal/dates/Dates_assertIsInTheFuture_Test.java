@@ -37,10 +37,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
+class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_in_the_future() {
+  void should_fail_if_actual_is_not_in_the_future() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> dates.assertIsInTheFuture(info, actual));
@@ -50,7 +50,7 @@ public class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_today() {
+  void should_fail_if_actual_is_today() {
     AssertionInfo info = someInfo();
     actual = new Date();
 
@@ -61,19 +61,19 @@ public class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInTheFuture(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_the_future() {
+  void should_pass_if_actual_is_in_the_future() {
     actual = parseDate("2111-01-01");
     dates.assertIsInTheFuture(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_the_future_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_in_the_future_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInTheFuture(info, actual));
@@ -83,7 +83,7 @@ public class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_today_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_today_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     // we want actual to be different from today but still in the same month so that it is = today according to our
     // comparison strategy (that compares only month and year)
@@ -102,13 +102,13 @@ public class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInTheFuture(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_the_future_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_in_the_future_according_to_custom_comparison_strategy() {
     actual = parseDate("2111-01-01");
     datesWithCustomComparisonStrategy.assertIsInTheFuture(someInfo(), actual);
   }

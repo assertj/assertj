@@ -28,30 +28,30 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Tests for <code>{@link Iterables#assertHaveAtMost(AssertionInfo, Iterable, Condition, int)}</code> .
+ * Tests for <code>{@link Iterables#assertHaveAtMost(AssertionInfo, Iterable, int, Condition)}</code> .
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public class Iterables_assertHaveAtMost_Test extends IterablesWithConditionsBaseTest {
+class Iterables_assertHaveAtMost_Test extends IterablesWithConditionsBaseTest {
 
   @Test
-  public void should_pass_if_satisfies_at_most_times_condition() {
+  void should_pass_if_satisfies_at_most_times_condition() {
     actual = newArrayList("Yoda", "Luke", "Leia");
     iterables.assertHaveAtMost(someInfo(), actual, 2, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
-  public void should_pass_if_never_satisfies_condition_() {
+  void should_pass_if_never_satisfies_condition_() {
     actual = newArrayList("Chewbacca", "Leia", "Obiwan");
     iterables.assertHaveAtMost(someInfo(), actual, 2, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
-  public void should_throw_error_if_condition_is_null() {
+  void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       actual = newArrayList("Yoda", "Luke");
       iterables.assertHaveAtMost(someInfo(), actual, 2, null);
@@ -60,7 +60,7 @@ public class Iterables_assertHaveAtMost_Test extends IterablesWithConditionsBase
   }
 
   @Test
-  public void should_fail_if_condition_is_not_met_much() {
+  void should_fail_if_condition_is_not_met_much() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = newArrayList("Yoda", "Luke", "Obiwan");

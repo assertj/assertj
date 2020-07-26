@@ -35,10 +35,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertHasMonth_Test extends DatesBaseTest {
+class Dates_assertHasMonth_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_has_not_given_month() {
+  void should_fail_if_actual_has_not_given_month() {
     AssertionInfo info = someInfo();
     int month = 5;
 
@@ -49,18 +49,18 @@ public class Dates_assertHasMonth_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasMonth(someInfo(), null, 1))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_month() {
+  void should_pass_if_actual_has_given_month() {
     dates.assertHasMonth(someInfo(), actual, 1);
   }
 
   @Test
-  public void should_fail_if_actual_has_not_given_month_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_has_not_given_month_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int month = 5;
 
@@ -71,13 +71,13 @@ public class Dates_assertHasMonth_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasMonth(someInfo(), null, 1))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_month_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_has_given_month_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertHasMonth(someInfo(), actual, 1);
   }
 

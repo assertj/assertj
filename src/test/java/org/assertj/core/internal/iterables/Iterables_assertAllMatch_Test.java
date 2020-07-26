@@ -27,23 +27,23 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.jupiter.api.Test;
 
-public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
+class Iterables_assertAllMatch_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_each_element_satisfies_predicate() {
+  void should_pass_if_each_element_satisfies_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
     iterables.assertAllMatch(someInfo(), actual, s -> s.length() >= 3, PredicateDescription.GIVEN);
   }
 
   @Test
-  public void should_throw_error_if_predicate_is_null() {
+  void should_throw_error_if_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertAllMatch(someInfo(), actual, null,
                                                                                PredicateDescription.GIVEN))
                                     .withMessage("The predicate to evaluate should not be null");
   }
 
   @Test
-  public void should_fail_if_predicate_is_not_met() {
+  void should_fail_if_predicate_is_not_met() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 
@@ -54,7 +54,7 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_with_custom_description_if_predicate_is_not_met() {
+  void should_fail_with_custom_description_if_predicate_is_not_met() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 
@@ -65,7 +65,7 @@ public class Iterables_assertAllMatch_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_report_all_items_that_do_not_match() {
+  void should_report_all_items_that_do_not_match() {
     List<String> actual = newArrayList("123", "1234", "12345");
 
     Throwable error = catchThrowable(() -> iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3, PredicateDescription.GIVEN));

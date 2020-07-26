@@ -32,13 +32,13 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
-public class BinaryDiff_diff_File_byteArray_Test {
+class BinaryDiff_diff_File_byteArray_Test {
 
   private static BinaryDiff binaryDiff;
   private static TextFileWriter writer;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     binaryDiff = new BinaryDiff();
     writer = TextFileWriter.instance();
   }
@@ -47,13 +47,13 @@ public class BinaryDiff_diff_File_byteArray_Test {
   private byte[] expected;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     actual = Files.newTemporaryFile();
     actual.deleteOnExit();
   }
 
   @Test
-  public void should_return_no_diff_if_file_and_array_have_equal_content() throws IOException {
+  void should_return_no_diff_if_file_and_array_have_equal_content() throws IOException {
     writer.write(actual, "test");
     // Note: writer inserts a new line after each line so we need it in our expected content
     expected = ("test" + lineSeparator()).getBytes();
@@ -62,7 +62,7 @@ public class BinaryDiff_diff_File_byteArray_Test {
   }
 
   @Test
-  public void should_return_diff_if_inputstreams_differ_on_one_byte() throws IOException {
+  void should_return_diff_if_inputstreams_differ_on_one_byte() throws IOException {
     writer.write(actual, "test");
     expected = ("fest" + lineSeparator()).getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
@@ -72,7 +72,7 @@ public class BinaryDiff_diff_File_byteArray_Test {
   }
 
   @Test
-  public void should_return_diff_if_actual_is_shorter() throws IOException {
+  void should_return_diff_if_actual_is_shorter() throws IOException {
     writer.write(actual, "foo");
     expected = ("foo" + lineSeparator() + "bar").getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
@@ -82,7 +82,7 @@ public class BinaryDiff_diff_File_byteArray_Test {
   }
 
   @Test
-  public void should_return_diff_if_expected_is_shorter() throws IOException {
+  void should_return_diff_if_expected_is_shorter() throws IOException {
     writer.write(actual, "foobar");
     expected = "foo".getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);

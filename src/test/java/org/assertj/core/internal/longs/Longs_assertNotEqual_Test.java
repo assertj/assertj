@@ -34,21 +34,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertNotEqual_Test extends LongsBaseTest {
+class Longs_assertNotEqual_Test extends LongsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertNotEqual(someInfo(), null, 8L))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_longs_are_not_equal() {
+  void should_pass_if_longs_are_not_equal() {
     longs.assertNotEqual(someInfo(), 8L, 6L);
   }
 
   @Test
-  public void should_fail_if_longs_are_equal() {
+  void should_fail_if_longs_are_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertNotEqual(info, 6L, 6L));
@@ -58,18 +58,18 @@ public class Longs_assertNotEqual_Test extends LongsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8L))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_longs_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_longs_are_not_equal_according_to_custom_comparison_strategy() {
     longsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), 8L, 6L);
   }
 
   @Test
-  public void should_fail_if_longs_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_longs_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertNotEqual(info, -6L, 6L));

@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Geoffrey Arthaud
  */
-public class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
+class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     String actual = null;
     // WHEN
@@ -41,7 +41,7 @@ public class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_less_to_min_expected_size() {
+  void should_fail_if_size_of_actual_is_less_to_min_expected_size() {
     // GIVEN
     String actual = "Han";
     // WHEN
@@ -52,7 +52,7 @@ public class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_greater_than_max_expected_size() {
+  void should_fail_if_size_of_actual_is_greater_than_max_expected_size() {
     // GIVEN
     String actual = "Han";
     // WHEN
@@ -63,7 +63,7 @@ public class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_between_sizes() {
+  void should_pass_if_size_of_actual_is_between_sizes() {
     // GIVEN
     String actual = "Han";
     // THEN

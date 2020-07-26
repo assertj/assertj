@@ -37,54 +37,54 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
+class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only() {
+  void should_pass_if_actual_contains_given_values_only() {
     arrays.assertContainsOnly(someInfo(), actual, arrayOf(6, 8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_in_different_order() {
+  void should_pass_if_actual_contains_given_values_only_in_different_order() {
     arrays.assertContainsOnly(someInfo(), actual, arrayOf(10, 8, 6));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_more_than_once() {
+  void should_pass_if_actual_contains_given_values_only_more_than_once() {
     actual = arrayOf(6, 8, 10, 8, 8, 8);
     arrays.assertContainsOnly(someInfo(), actual, arrayOf(6, 8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
+  void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
     arrays.assertContainsOnly(someInfo(), actual, arrayOf(6, 8, 10, 6, 8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
     arrays.assertContainsOnly(someInfo(), actual, emptyArray());
   }
   
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), null, arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only() {
+  void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
     int[] expected = { 6, 8, 20 };
 
@@ -95,33 +95,33 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6, -8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(10, -8, 6));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     actual = arrayOf(6, -8, 10, -8, -8, -8);
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6, -8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6, -8, 10, 6, -8, 10));
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
                                                                                                             actual,
                                                                                                             null))
@@ -129,13 +129,13 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     int[] expected = { 6, -8, 20 };
 

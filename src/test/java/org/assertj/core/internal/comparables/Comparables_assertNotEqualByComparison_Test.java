@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Comparables_assertNotEqualByComparison_Test extends ComparablesBaseTest {
+class Comparables_assertNotEqualByComparison_Test extends ComparablesBaseTest {
 
   @Override
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
@@ -46,13 +46,13 @@ public class Comparables_assertNotEqualByComparison_Test extends ComparablesBase
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertNotEqualByComparison(someInfo(), null, 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_objects_are_not_equal() {
+  void should_pass_if_objects_are_not_equal() {
     Person a = spy(new Person("Han"));
     Person o = new Person("Yoda");
     comparables.assertNotEqualByComparison(someInfo(), a, o);
@@ -60,7 +60,7 @@ public class Comparables_assertNotEqualByComparison_Test extends ComparablesBase
   }
 
   @Test
-  public void should_fail_if_objects_are_equal() {
+  void should_fail_if_objects_are_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> comparables.assertNotEqualByComparison(info, "Yoda", "Yoda"));
@@ -74,13 +74,13 @@ public class Comparables_assertNotEqualByComparison_Test extends ComparablesBase
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(someInfo(), null, new Person("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_objects_are_not_equal_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_objects_are_not_equal_whatever_custom_comparison_strategy_is() {
     Person actual = spy(new Person("YODA"));
     Person other = new Person("Yoda");
     comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(someInfo(), actual, other);
@@ -88,7 +88,7 @@ public class Comparables_assertNotEqualByComparison_Test extends ComparablesBase
   }
 
   @Test
-  public void should_fail_if_objects_are_equal_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_objects_are_equal_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(info, new Person("Yoda"), new Person("Yoda")));

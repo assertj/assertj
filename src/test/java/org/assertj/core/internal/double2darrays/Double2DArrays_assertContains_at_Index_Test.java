@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Double2DArrays_assertContains_at_Index_Test extends Double2DArraysBaseTest {
+class Double2DArrays_assertContains_at_Index_Test extends Double2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     double[] doubles = new double[] { 6.0, 8.0, 10.0 };
     // WHEN

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Floats_assertIsStrictlyBetween_Test extends FloatsBaseTest {
+class Floats_assertIsStrictlyBetween_Test extends FloatsBaseTest {
 
   private static final Float ZERO = 0f;
   private static final Float ONE = 1f;
@@ -41,28 +41,28 @@ public class Floats_assertIsStrictlyBetween_Test extends FloatsBaseTest {
   private static final Float TEN = 10f;
   
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_start_is_null() {
+  void should_fail_if_start_is_null() {
     assertThatNullPointerException().isThrownBy(() -> floats.assertIsStrictlyBetween(someInfo(), ONE, null, ONE));
   }
 
   @Test
-  public void should_fail_if_end_is_null() {
+  void should_fail_if_end_is_null() {
     assertThatNullPointerException().isThrownBy(() -> floats.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_pass_if_actual_is_in_range() {
+  void should_pass_if_actual_is_in_range() {
     floats.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_start() {
+  void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertIsStrictlyBetween(info, ONE, ONE, TEN));
@@ -72,7 +72,7 @@ public class Floats_assertIsStrictlyBetween_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_end() {
+  void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
@@ -82,7 +82,7 @@ public class Floats_assertIsStrictlyBetween_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertIsStrictlyBetween(info, ONE, TWO, TEN));
@@ -92,7 +92,7 @@ public class Floats_assertIsStrictlyBetween_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_end() {
+  void should_fail_if_actual_is_not_in_range_end() {
     assertThatIllegalArgumentException().isThrownBy(() -> floats.assertIsStrictlyBetween(someInfo(), ONE, ZERO, ZERO))
                                         .withMessage("The end value <0.0> must not be less than or equal to the start value <0.0>!");
   }

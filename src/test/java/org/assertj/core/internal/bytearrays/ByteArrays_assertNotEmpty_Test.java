@@ -35,16 +35,16 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ByteArrays_assertNotEmpty_Test extends ByteArraysBaseTest {
+class ByteArrays_assertNotEmpty_Test extends ByteArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertNotEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertNotEmpty(info, emptyArray()));
@@ -54,7 +54,7 @@ public class ByteArrays_assertNotEmpty_Test extends ByteArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty() {
+  void should_pass_if_actual_is_not_empty() {
     arrays.assertNotEmpty(someInfo(), arrayOf(8));
   }
 }

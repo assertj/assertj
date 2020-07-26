@@ -21,7 +21,7 @@ import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ByteArrays_assertContainsAnyOf_Test extends ByteArraysBaseTest {
+class ByteArrays_assertContainsAnyOf_Test extends ByteArraysBaseTest {
 
   private Arrays internalArrays;
 
@@ -34,7 +34,7 @@ public class ByteArrays_assertContainsAnyOf_Test extends ByteArraysBaseTest {
   }
 
   @Test
-  public void should_delegate_to_internal_Arrays() {
+  void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new byte[] { 1, 2, 3 });
     verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new byte[] { 1, 2, 3 });
   }

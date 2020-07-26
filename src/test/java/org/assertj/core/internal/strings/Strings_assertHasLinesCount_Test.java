@@ -27,16 +27,16 @@ import org.junit.jupiter.api.Test;
  *
  * @author Mariusz Smykula
  */
-public class Strings_assertHasLinesCount_Test extends StringsBaseTest {
+class Strings_assertHasLinesCount_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasLineCount(someInfo(), null, 3))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_lines_count_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_lines_count_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
     String actual = "Begin" + lineSeparator() + "End";
 
@@ -45,18 +45,18 @@ public class Strings_assertHasLinesCount_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_lines_count_of_actual_is_equal_to_expected_lines_count() {
+  void should_pass_if_lines_count_of_actual_is_equal_to_expected_lines_count() {
     strings.assertHasLineCount(someInfo(), String.format("Begin" + lineSeparator() + "Middle%nEnd"), 3);
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasLineCount(someInfo(), null, 3))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_lines_count_of_actual_is_not_equal_to_expected_lines_count_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_lines_count_of_actual_is_not_equal_to_expected_lines_count_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     String actual = "Begin" + lineSeparator() + "End";
 
@@ -65,7 +65,7 @@ public class Strings_assertHasLinesCount_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_lines_count_of_actual_is_equal_to_expected_lines_count_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_lines_count_of_actual_is_equal_to_expected_lines_count_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertHasLineCount(someInfo(), "Begin" + lineSeparator() + "End", 2);
   }
 }

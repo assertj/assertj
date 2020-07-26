@@ -50,26 +50,26 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Files_assertSameContentAs_Test extends FilesBaseTest {
+class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   private static File actual;
   private static File expected;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     actual = new File("src/test/resources/actual_file.txt");
     expected = new File("src/test/resources/expected_file.txt");
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> files.assertSameContentAs(someInfo(), actual, defaultCharset(),
                                                                                 null, defaultCharset()))
                                     .withMessage("The file to compare to should not be null");
   }
 
   @Test
-  public void should_throw_error_if_expected_is_not_file() {
+  void should_throw_error_if_expected_is_not_file() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       File notAFile = new File("xyz");
       files.assertSameContentAs(someInfo(), actual, defaultCharset(), notAFile, defaultCharset());
@@ -77,14 +77,14 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertSameContentAs(someInfo(), null, defaultCharset(),
                                                                                                expected, defaultCharset()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_file() {
+  void should_fail_if_actual_is_not_file() {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
 
@@ -95,14 +95,14 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_files_have_equal_content() {
+  void should_pass_if_files_have_equal_content() {
     unMockedFiles.assertSameContentAs(someInfo(),
                                       actual, defaultCharset(),
                                       actual, defaultCharset());
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     IOException cause = new IOException();
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenThrow(cause);
 
@@ -114,7 +114,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_files_do_not_have_equal_content() throws IOException {
+  void should_fail_if_files_do_not_have_equal_content() throws IOException {
     List<Delta<String>> diffs = Lists.newArrayList(delta);
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenReturn(diffs);
     when(binaryDiff.diff(actual, readAllBytes(expected.toPath()))).thenReturn(new BinaryDiffResult(1, -1, -1));
@@ -127,7 +127,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() {
+  void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(someInfo(),
                                                                                                              createFileWithNonUTF8Character(),
                                                                                                              StandardCharsets.UTF_8,
@@ -137,7 +137,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_files_are_not_binary_identical() {
+  void should_fail_if_files_are_not_binary_identical() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(someInfo(),
                                                                                                        createFileWithNonUTF8Character(),
                                                                                                        StandardCharsets.UTF_8,

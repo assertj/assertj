@@ -32,16 +32,16 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
+class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_contains_any_of_values() {
+  void should_fail_if_actual_contains_any_of_values() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(), "Yoda", "oda"))
                                                    .withMessage(shouldNotContain("Yoda", "oda", StandardComparisonStrategy.instance()).create());
   }
 
   @Test
-  public void should_throw_error_if_list_of_values_is_null() {
+  void should_throw_error_if_list_of_values_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String[] expected = null;
       strings.assertDoesNotContain(someInfo(), "Yoda", expected);
@@ -49,7 +49,7 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_given_value_is_null() {
+  void should_throw_error_if_given_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String expected = null;
       strings.assertDoesNotContain(someInfo(), "Yoda", expected);
@@ -57,42 +57,42 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_any_element_of_values_is_null() {
+  void should_throw_error_if_any_element_of_values_is_null() {
     String[] values = { "author", null };
     assertThatNullPointerException().isThrownBy(() -> strings.assertDoesNotContain(someInfo(), "Yoda", values))
                                     .withMessage("Expecting CharSequence elements not to be null but found one at index 1");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(), null, "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_sequence() {
+  void should_pass_if_actual_does_not_contain_sequence() {
     strings.assertDoesNotContain(someInfo(), "Yoda", "Lu");
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Yoda", "Lu");
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Yoda", "yoda"))
                                                    .withMessage(shouldNotContain("Yoda", "yoda", comparisonStrategy).create());
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_all_of_given_values() {
+  void should_pass_if_actual_does_not_contain_all_of_given_values() {
     String[] values = { "practice", "made", "good" };
     strings.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
   }
 
   @Test
-  public void should_fail_if_actual_contains_any_of_given_values() {
+  void should_fail_if_actual_contains_any_of_given_values() {
     String[] values = { "practice", "make", "good" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(),
                                                                                                   "Practice makes perfect",
@@ -103,13 +103,13 @@ public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_all_of_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_all_of_given_values_according_to_custom_comparison_strategy() {
     String[] values = { "p1ractice", "made", "good" };
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Practice makes perfect", values);
   }
 
   @Test
-  public void should_fail_if_actual_contains_any_of_given_values_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_any_of_given_values_according_to_custom_comparison_strategy() {
     String[] values = { "practice", "made", "good" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(),
                                                                                                                                        "Practice makes perfect",

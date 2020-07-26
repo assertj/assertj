@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Object2DArrays_assertDoesNotContain_at_Index_Test extends Object2DArraysBaseTest {
+class Object2DArrays_assertDoesNotContain_at_Index_Test extends Object2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     String[] strings = new String[] { "a", "b", "c" };
     // WHEN

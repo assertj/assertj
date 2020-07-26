@@ -21,7 +21,7 @@ import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ShortArrays_assertContainsAnyOf_Test extends ShortArraysBaseTest {
+class ShortArrays_assertContainsAnyOf_Test extends ShortArraysBaseTest {
 
   private Arrays internalArrays;
 
@@ -34,7 +34,7 @@ public class ShortArrays_assertContainsAnyOf_Test extends ShortArraysBaseTest {
   }
 
   @Test
-  public void should_delegate_to_shorternal_Arrays() {
+  void should_delegate_to_shorternal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new short[] { 1, 2, 3 });
     verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new short[] { 1, 2, 3 });
   }

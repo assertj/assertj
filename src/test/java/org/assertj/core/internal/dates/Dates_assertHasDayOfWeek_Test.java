@@ -36,10 +36,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
+class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_has_not_given_day_of_week() {
+  void should_fail_if_actual_has_not_given_day_of_week() {
     AssertionInfo info = someInfo();
     int day_of_week = SUNDAY;
 
@@ -50,18 +50,18 @@ public class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasDayOfWeek(someInfo(), null, 1))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_day_of_week() {
+  void should_pass_if_actual_has_given_day_of_week() {
     dates.assertHasDayOfWeek(someInfo(), actual, SATURDAY);
   }
 
   @Test
-  public void should_fail_if_actual_has_not_given_day_of_week_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_has_not_given_day_of_week_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int day_of_week = SUNDAY;
 
@@ -72,13 +72,13 @@ public class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasDayOfWeek(someInfo(), null, 1))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_day_of_week_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_has_given_day_of_week_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertHasDayOfWeek(someInfo(), actual, SATURDAY);
   }
 

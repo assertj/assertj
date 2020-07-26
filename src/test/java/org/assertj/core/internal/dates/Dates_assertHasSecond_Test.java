@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertHasSecond_Test extends DatesBaseTest {
+class Dates_assertHasSecond_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
@@ -43,7 +43,7 @@ public class Dates_assertHasSecond_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_not_given_second() {
+  void should_fail_if_actual_has_not_given_second() {
     AssertionInfo info = someInfo();
     int second = 5;
 
@@ -54,13 +54,13 @@ public class Dates_assertHasSecond_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasSecond(someInfo(), null, 17))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_second() {
+  void should_pass_if_actual_has_given_second() {
     dates.assertHasSecond(someInfo(), actual, 17);
   }
 
@@ -76,13 +76,13 @@ public class Dates_assertHasSecond_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasSecond(someInfo(), null, 17))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_second_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_has_given_second_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertHasSecond(someInfo(), actual, 17);
   }
 

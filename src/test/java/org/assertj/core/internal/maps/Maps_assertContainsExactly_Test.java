@@ -50,12 +50,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jean-Christophe Gay
  */
-public class Maps_assertContainsExactly_Test extends MapsBaseTest {
+class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   private LinkedHashMap<String, String> linkedActual;
 
   @BeforeEach
-  public void initLinkedHashMap() {
+  void initLinkedHashMap() {
     linkedActual = new LinkedHashMap<>(2);
     linkedActual.put("name", "Yoda");
     linkedActual.put("color", "green");
@@ -63,7 +63,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsExactly(someInfo(), null,
                                                                                                 entry("name", "Yoda")))
                                                    .withMessage(actualIsNull());
@@ -71,7 +71,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_given_entries_array_is_null() {
+  void should_fail_if_given_entries_array_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertContainsExactly(someInfo(), linkedActual,
                                                                                  (MapEntry[]) null))
                                     .withMessage(entriesToLookForIsNull());
@@ -79,7 +79,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_given_entries_array_is_empty() {
+  void should_fail_if_given_entries_array_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsExactly(someInfo(), linkedActual,
                                                                                      emptyEntries()))
                                         .withMessage(entriesToLookForIsEmpty());
@@ -87,19 +87,19 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_and_entries_are_empty() {
+  void should_pass_if_actual_and_entries_are_empty() {
     maps.assertContainsExactly(someInfo(), emptyMap(), emptyEntries());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_contains_given_entries_in_order() {
+  void should_pass_if_actual_contains_given_entries_in_order() {
     maps.assertContainsExactly(someInfo(), linkedActual, entry("name", "Yoda"), entry("color", "green"));
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_actual_contains_given_entries_in_disorder() {
+  void should_fail_if_actual_contains_given_entries_in_disorder() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -109,7 +109,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_entries_have_different_size() {
+  void should_fail_if_actual_and_expected_entries_have_different_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
@@ -121,7 +121,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one() {
+  void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one() {
     // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
@@ -135,7 +135,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_entry_key_with_different_value() {
+  void should_fail_if_actual_contains_entry_key_with_different_value() {
     // GIVEN
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expectedEntries = array(entry("name", "Yoda"), entry("color", "yellow"));

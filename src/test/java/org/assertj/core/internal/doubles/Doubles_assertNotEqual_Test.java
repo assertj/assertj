@@ -32,21 +32,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Doubles_assertNotEqual_Test extends DoublesBaseTest {
+class Doubles_assertNotEqual_Test extends DoublesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertNotEqual(someInfo(), null, 8d))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_doubles_are_not_equal() {
+  void should_pass_if_doubles_are_not_equal() {
     doubles.assertNotEqual(someInfo(), 8d, 6d);
   }
 
   @Test
-  public void should_fail_if_doubles_are_equal() {
+  void should_fail_if_doubles_are_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertNotEqual(info, 6d, 6d));
@@ -56,18 +56,18 @@ public class Doubles_assertNotEqual_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8d))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_doubles_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_doubles_are_not_equal_according_to_custom_comparison_strategy() {
     doublesWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), 8d, 6d);
   }
 
   @Test
-  public void should_fail_if_doubles_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_doubles_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertNotEqual(info, 6d, -6d));

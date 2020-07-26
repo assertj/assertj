@@ -38,16 +38,16 @@ import org.junit.jupiter.api.Test;
  * Tests for <code>{@link InputStreams#assertHasBinaryContent(AssertionInfo, InputStream, byte[])}</code>.
  */
 @DisplayName("InputStreams assertHasBinaryContent")
-public class InputStreams_assertHasBinaryContent_Test extends InputStreamsBaseTest {
+class InputStreams_assertHasBinaryContent_Test extends InputStreamsBaseTest {
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> inputStreams.assertHasBinaryContent(someInfo(), actual, null))
                                     .withMessage("The binary content to compare to should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     InputStream actual = null;
     // WHEN
@@ -57,7 +57,7 @@ public class InputStreams_assertHasBinaryContent_Test extends InputStreamsBaseTe
   }
 
   @Test
-  public void should_pass_if_inputstream_has_expected_binary_content() throws IOException {
+  void should_pass_if_inputstream_has_expected_binary_content() throws IOException {
     // GIVEN
     given(binaryDiff.diff(actual, expectedContent)).willReturn(noDiff());
     // THEN
@@ -65,7 +65,7 @@ public class InputStreams_assertHasBinaryContent_Test extends InputStreamsBaseTe
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     given(binaryDiff.diff(actual, expectedContent)).willThrow(cause);
@@ -77,7 +77,7 @@ public class InputStreams_assertHasBinaryContent_Test extends InputStreamsBaseTe
   }
 
   @Test
-  public void should_fail_if_inputstream_does_not_have_the_expected_binary_content() throws IOException {
+  void should_fail_if_inputstream_does_not_have_the_expected_binary_content() throws IOException {
     // GIVEN
     BinaryDiffResult diff = new BinaryDiffResult(1, 2, 3);
     given(binaryDiff.diff(actual, expectedContent)).willReturn(diff);

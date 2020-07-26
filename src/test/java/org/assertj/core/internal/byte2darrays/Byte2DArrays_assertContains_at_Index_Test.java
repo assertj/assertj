@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Byte2DArrays_assertContains_at_Index_Test extends Byte2DArraysBaseTest {
+class Byte2DArrays_assertContains_at_Index_Test extends Byte2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     byte[] bytes = new byte[] { 6, 8, 10 };
     // WHEN

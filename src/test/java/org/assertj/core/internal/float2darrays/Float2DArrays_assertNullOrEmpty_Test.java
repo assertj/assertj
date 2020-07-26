@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Float2DArrays_assertNullOrEmpty_Test extends Float2DArraysBaseTest {
+class Float2DArrays_assertNullOrEmpty_Test extends Float2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // WHEN
     float2dArrays.assertNullOrEmpty(info, actual);
     // THEN

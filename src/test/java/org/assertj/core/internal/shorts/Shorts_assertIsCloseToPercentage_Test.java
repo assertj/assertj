@@ -30,30 +30,30 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Shorts_assertIsCloseToPercentage_Test extends ShortsBaseTest {
+class Shorts_assertIsCloseToPercentage_Test extends ShortsBaseTest {
 
   private static final Short ZERO = (short) 0;
   private static final Short ONE = (short) 1;
   private static final Short TEN = (short) 10;
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
   }
 
   @Test
-  public void should_fail_if_percentage_is_null() {
+  void should_fail_if_percentage_is_null() {
     assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_fail_if_percentage_is_negative() {
+  void should_fail_if_percentage_is_negative() {
     assertThatIllegalArgumentException().isThrownBy(() -> shorts.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage((short) -1)));
   }
 
@@ -65,7 +65,7 @@ public class Shorts_assertIsCloseToPercentage_Test extends ShortsBaseTest {
     "-1, -2, 100",
     "-1, 1, 200"
   })
-  public void should_pass_if_difference_is_less_than_given_percentage(Short actual, Short other, Short percentage) {
+  void should_pass_if_difference_is_less_than_given_percentage(Short actual, Short other, Short percentage) {
     shorts.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
@@ -78,12 +78,12 @@ public class Shorts_assertIsCloseToPercentage_Test extends ShortsBaseTest {
     "-2, -1, 100",
     "-1, -2, 50"
   })
-  public void should_pass_if_difference_is_equal_to_given_percentage(Short actual, Short other, Short percentage) {
+  void should_pass_if_difference_is_equal_to_given_percentage(Short actual, Short other, Short percentage) {
     shorts.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> shorts.assertIsCloseToPercentage(someInfo(), ONE, TEN, withPercentage(TEN)));

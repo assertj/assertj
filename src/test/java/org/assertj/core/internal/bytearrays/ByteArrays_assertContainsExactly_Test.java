@@ -35,20 +35,20 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ByteArrays#assertContainsExactly(AssertionInfo, byte[], byte[])}</code>.
  */
-public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
+class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly() {
+  void should_pass_if_actual_contains_given_values_exactly() {
     arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactly(someInfo(), emptyArray(), emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
+  void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, arrayOf(6, 10, 8)));
@@ -58,29 +58,29 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_arrays_have_different_sizes() {
+  void should_fail_if_arrays_have_different_sizes() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8)));
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, (byte[]) null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     byte[] expected = { 6, 8, 20 };
 
@@ -92,7 +92,7 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     byte[] expected = { 6, 8, 10, 10 };
 
@@ -108,12 +108,12 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, arrayOf(6, -8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     byte[] expected = { -6, 10, 8 };
 
@@ -124,12 +124,12 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                                     actual,
                                                                                                                                     (byte[]) null))
@@ -137,13 +137,13 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     byte[] expected = { 6, -8, 20 };
 
@@ -156,7 +156,7 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     byte[] expected = { 6, 8, 10, 10 };
 
