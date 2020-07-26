@@ -208,6 +208,7 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Assertions.setAllowComparingPrivateFields(true);
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_be_able_to_compare_objects_of_different_types() {
     Dude person = new Dude("John", "Doe");
@@ -217,6 +218,7 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     assertThat(personDAO).isEqualToIgnoringGivenFields(person, "id");
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void should_be_able_to_use_a_comparator_for_specified_fields() {
     Comparator<String> alwaysEqual = (s1, s2) -> 0;

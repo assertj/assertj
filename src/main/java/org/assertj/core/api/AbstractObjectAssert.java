@@ -72,6 +72,36 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
+   * {@link RecursiveComparisonAssert#ignoringExpectedNullFields() ignoringExpectedNullFields()}.
+   * <p>
+   * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
+   * fields recursively (only stopping at java types).
+   * <p>
+   * For example suppose actual and expected are of type A which has the following structure:
+   * <pre><code class="text"> A
+   * |— B b
+   * |    |— String s
+   * |    |— C c
+   * |         |— String s
+   * |         |— Date d
+   * |— int i</code></pre>
+   * {@code isEqualToIgnoringNullFields} will compare actual and expected {@code A.b} and {@code A.i} fields but not B fields
+   * (it calls B equals method instead comparing B fields).<br>
+   * The recursive comparison on the other hand will introspect B fields and then C fields and will compare actual and expected
+   * respective fields values, that is: {@code A.i}, {@code A.B.s}, {@code A.B.C.s} and {@code A.B.C.d}.
+   * <p>
+   * Concretely instead of writing:
+   * <pre><code class='java'> assertThat(actual).isEqualToIgnoringNullFields(expected);</code></pre>
+   * You should write:
+   * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
+   *                   .ignoringExpectedNullFields()
+   *                   .isEqualTo(expected);</code></pre>
+   * <p>
+   * Note that the recursive comparison also allows to ignore actual's null fields with
+   * {@link RecursiveComparisonAssert#ignoringActualNullFields() ignoringActualNullFields()}.
+   * <h2>Original javadoc</h2>
+   * <p>
    * Asserts that the actual object is equal to the given one by comparing actual's properties/fields with other's
    * <b>not null</b> properties/fields only (including inherited ones).
    * <p>
@@ -108,12 +138,45 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
+  @Deprecated
   public SELF isEqualToIgnoringNullFields(Object other) {
     objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType());
     return myself;
   }
 
   /**
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and specify the fields to ignore.
+   * <p>
+   * <b>Warning:</b> the recursive comparison does not provide a strictly equivalent feature, instead it provides several ways to ignore
+   * fields in the comparison {@link RecursiveComparisonAssert#ignoringFields(String...) by specifying fields to ignore}, or
+   * {@link RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...) fields by type} or
+   * {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) fields matching regexes}. The idea being that it is best
+   * to compare as many fields as possible and only ignore the ones that are not relevant (for example generated ids).
+   * <p>
+   * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
+   * fields recursively (only stopping at java types).
+   * <p>
+   * For example suppose actual and expected are of type A which has the following structure:
+   * <pre><code class="text"> A
+   * |— B b
+   * |    |— String s
+   * |    |— C c
+   * |         |— String s
+   * |         |— Date d
+   * |— int i</code></pre>
+   * {@code isEqualToComparingOnlyGivenFields} will compare actual and expected {@code A.b} and {@code A.i} fields but not B fields
+   * (it calls B equals method instead comparing B fields).<br>
+   * The recursive comparison on the other hand will introspect B fields and then C fields and will compare actual and expected
+   * respective fields values, that is: {@code A.i}, {@code A.B.s}, {@code A.B.C.s} and {@code A.B.C.d}.
+   * <p>
+   * Assuming actual has 4 fields f1, f2, f3, f4, instead of writing:
+   * <pre><code class='java'> assertThat(actual).isEqualToComparingOnlyGivenFields(expected, f1, f2);</code></pre>
+   * You should write:
+   * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
+   *                   .ignoringFields(f3, f4)
+   *                   .isEqualTo(expected);</code></pre>
+   * <h2>Original javadoc</h2>
+   * <p>
    * Asserts that the actual object is equal to the given one using a property/field by property/field comparison <b>on the given properties/fields only</b>
    * (fields can be inherited fields or nested fields). This can be handy if {@code equals} implementation of objects to compare does not suit you.
    * <p>
@@ -151,6 +214,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    * @throws IntrospectionError if a property/field does not exist in actual.
    */
+  @Deprecated
   public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
     objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType(),
                                                     propertiesOrFieldsUsedInComparison);
@@ -158,6 +222,37 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
+   * {@link RecursiveComparisonAssert#ignoringFields(String...) ignoringFields(String...)}.
+   * <p>
+   * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
+   * fields recursively (only stopping at java types).
+   * <p>
+   * For example suppose actual and expected are of type A which has the following structure:
+   * <pre><code class="text"> A
+   * |— B b
+   * |    |— String s
+   * |    |— C c
+   * |         |— String s
+   * |         |— Date d
+   * |— int i</code></pre>
+   * {@code isEqualToIgnoringGivenFields} will compare actual and expected {@code A.b} and {@code A.i} fields but not B fields
+   * (it calls B equals method instead comparing B fields).<br>
+   * The recursive comparison on the other hand will introspect B fields and then C fields and will compare actual and expected
+   * respective fields values, that is: {@code A.i}, {@code A.B.s}, {@code A.B.C.s} and {@code A.B.C.d}.
+   * <p>
+   * Concretely instead of writing:
+   * <pre><code class='java'> assertThat(actual).isEqualToIgnoringGivenFields(expected, "i", "b.s");</code></pre>
+   * You should write:
+   * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
+   *                   .ignoringFields("i", "b.s")
+   *                   .isEqualTo(expected);</code></pre>
+   * <p>
+   * Note that the recursive comparison also allows to ignore fields
+   * {@link RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...) by type} or
+   * {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) matching regexes}.
+   * <h2>Original javadoc</h2>
+   * <p>
    * Asserts that the actual object is equal to the given one by comparing their properties/fields <b>except for the given ones</b>
    * (inherited ones are taken into account). This can be handy if {@code equals} implementation of objects to compare does not suit you.
    * <p>
@@ -191,6 +286,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field after ignoring given fields.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
+  @Deprecated
   public SELF isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType(),
                                                propertiesOrFieldsToIgnore);
@@ -320,6 +416,31 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()}.
+   * <p>
+   * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
+   * fields recursively (only stopping at java types).
+   * <p>
+   * For example suppose actual and expected are of type A which has the following structure:
+   * <pre><code class="text"> A
+   * |— B b
+   * |    |— String s
+   * |    |— C c
+   * |         |— String s
+   * |         |— Date d
+   * |— int i</code> </pre>
+   * {@code isEqualToComparingFieldByField} will compare actual and expected {@code A.b} and {@code A.i} fields but not B fields
+   * (it calls B equals method instead comparing B fields).<br>
+   * The recursive comparison on the other hand will introspect B fields and then C fields and will compare actual and expected
+   * respective fields values, that is: {@code A.i}, {@code A.B.s}, {@code A.B.C.s} and {@code A.B.C.d}.
+   * <p>
+   * Concretely instead of writing:
+   * <pre><code class='java'> assertThat(actual).isEqualToComparingFieldByField(expected);</code></pre>
+   * You should write:
+   * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
+   *                   .isEqualTo(expected);</code></pre>
+   * <h2>Original javadoc</h2>
+   * <p>
    * Asserts that actual object is equal to the given object based on a property/field by property/field comparison (including
    * inherited ones). This can be handy if {@code equals} implementation of objects to compare does not suit you.
    * <p>
@@ -353,6 +474,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
+  @Deprecated
   public SELF isEqualToComparingFieldByField(Object other) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType());
     return myself;

@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
+@SuppressWarnings("deprecation")
 class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBaseTest {
 
   private Jedi other = new Jedi("Yoda", "Blue");
