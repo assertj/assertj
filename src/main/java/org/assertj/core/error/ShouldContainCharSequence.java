@@ -68,7 +68,6 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                     "%n" +
                     "Throwable that failed the check:%n" +
                     "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
-
     return new ShouldContainCharSequence(format, actual.getMessage(), sequence, notFound, StandardComparisonStrategy.instance());
   }
 
