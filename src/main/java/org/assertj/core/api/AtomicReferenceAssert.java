@@ -12,10 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
-import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.presentation.PredicateDescription;
 
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
+
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.error.ShouldMatch.shouldMatch;
+import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 
 public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAssert<V>, AtomicReference<V>> {
 
@@ -71,6 +77,63 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
     if (objects.getComparisonStrategy().areEqual(actualValue, nonExpectedValue)) {
       throwAssertionError(shouldNotContainValue(actual, nonExpectedValue));
     }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual atomic has the value that matches with the given predicate.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat(new AtomicReference("foo")).hasValueMatching(result -&gt; result != null);
+   *
+   * // assertion will fail
+   * assertThat(new AtomicReference("foo")).hasValueMatching(result -&gt; result == null);
+   * </code></pre>
+   *
+   * @param predicate the {@link Predicate} to apply on the resulting value.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual atomic is {@code null}.
+   * @throws AssertionError if the actual atomic value does not matches with the given predicate.
+   */
+  public AtomicReferenceAssert<V> hasValueMatching(Predicate<? super V> predicate) {
+    return hasValueMatching(predicate, PredicateDescription.GIVEN);
+  }
+
+  /**
+   * Verifies that the actual atomic has the value that matches with the given predicate,
+   * the String parameter is used in the error message.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat(new AtomicReference("foo")).hasValueMatching(result -&gt; result != null, "expected not null");
+   *
+   * // assertion will fail
+   * assertThat(new AtomicReference("foo")).hasValueMatching(result -&gt; result == null, "expected null");
+   * </code></pre>
+   *
+   * @param predicate   the {@link Predicate} to apply on the resulting value.
+   * @param description the {@link Predicate} description.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual atomic is {@code null}.
+   * @throws AssertionError if the actual atomic value does not matches with the given predicate.
+   */
+  public AtomicReferenceAssert<V> hasValueMatching(Predicate<? super V> predicate, String description) {
+    return hasValueMatching(predicate, new PredicateDescription(description));
+  }
+
+  private AtomicReferenceAssert<V> hasValueMatching(Predicate<? super V> predicate, PredicateDescription description) {
+    requireNonNull(predicate, "The predicate must not be null");
+
+    isNotNull();
+
+    V actualValue = actual.get();
+    if (!predicate.test(actualValue)) {
+      throw Failures.instance().failure(info, shouldMatch(actualValue, predicate, description));
+    }
+
     return myself;
   }
 
