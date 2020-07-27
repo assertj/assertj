@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Florent Biville
  */
-public class PropertySupport_propertyValues_Test {
+class PropertySupport_propertyValues_Test {
 
   private Employee yoda;
   private Employee luke;
@@ -49,19 +49,19 @@ public class PropertySupport_propertyValues_Test {
   }
 
   @Test
-  public void should_return_empty_List_if_given_Iterable_is_null() {
+  void should_return_empty_List_if_given_Iterable_is_null() {
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, null);
     assertThat(ages).isEmpty();
   }
 
   @Test
-  public void should_return_empty_List_if_given_Iterable_is_empty() {
+  void should_return_empty_List_if_given_Iterable_is_empty() {
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, emptySet());
     assertThat(ages).isEmpty();
   }
 
   @Test
-  public void should_return_null_elements_for_null_property_value() {
+  void should_return_null_elements_for_null_property_value() {
     List<Employee> list = newArrayList(null, null);
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, list);
     assertThat(ages).containsExactly(null, null);
@@ -72,13 +72,13 @@ public class PropertySupport_propertyValues_Test {
   }
 
   @Test
-  public void should_return_values_of_simple_property() {
+  void should_return_values_of_simple_property() {
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("age", Integer.class, employees);
     assertThat(ages).containsExactly(800, 26);
   }
 
   @Test
-  public void should_return_values_of_simple_property_as_objects() {
+  void should_return_values_of_simple_property_as_objects() {
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("age", Integer.class, employees);
     Iterable<Object> agesAsObjects = PropertySupport.instance().propertyValues("age", employees);
     assertThat(ages).isEqualTo(agesAsObjects);
@@ -88,29 +88,29 @@ public class PropertySupport_propertyValues_Test {
   }
 
   @Test
-  public void should_return_values_of_nested_property() {
+  void should_return_values_of_nested_property() {
     Iterable<String> firstNames = PropertySupport.instance().propertyValues("name.first", String.class, employees);
     assertThat(firstNames).containsExactly("Yoda", "Luke");
   }
 
   @Test
-  public void should_throw_error_if_property_not_found() {
+  void should_throw_error_if_property_not_found() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> PropertySupport.instance().propertyValues("foo", Integer.class, employees));
   }
 
   @Test
-  public void should_throw_error_if_property_name_is_null() {
+  void should_throw_error_if_property_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> PropertySupport.instance().propertyValueOf(null, Integer.class, employees));
   }
 
   @Test
-  public void should_extract_property() {
+  void should_extract_property() {
     Integer age = PropertySupport.instance().propertyValue("age", Integer.class, yoda);
     assertThat(age).isEqualTo(800);
   }
 
   @Test
-  public void should_extract_nested_property() {
+  void should_extract_nested_property() {
     String firstName = PropertySupport.instance().propertyValueOf("name.first", String.class, yoda);
     assertThat(firstName).isEqualTo("Yoda");
     
@@ -124,14 +124,14 @@ public class PropertySupport_propertyValues_Test {
   }
   
   @Test
-  public void should_return_properties_of_inner_class() {
+  void should_return_properties_of_inner_class() {
     VehicleFactory vehicleFactory = new VehicleFactory();
     List<String> names = PropertySupport.instance().propertyValues("name", String.class, vehicleFactory.getVehicles());
     assertThat(names).containsExactly("Toyota", "Honda", "Audi");
   }
 
   @Test
-  public void should_return_property_from_superclass() {
+  void should_return_property_from_superclass() {
     assertThat(PropertySupport.instance().propertyValues("class", Class.class, employees)).containsExactly(Employee.class,
                                                                                                            Employee.class);
   }
