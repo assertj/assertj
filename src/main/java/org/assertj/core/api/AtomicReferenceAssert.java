@@ -32,7 +32,7 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    *
    * // assertion will fail
    * assertThat(new AtomicReference("foo")).hasValue("bar");</code></pre>
-   * 
+   *
    * @param expectedValue the expected value.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
@@ -57,12 +57,12 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    *
    * // assertion will fail
    * assertThat(new AtomicReference("foo")).doesNotHaveValue("foo");</code></pre>
-   * 
+   *
    * @param nonExpectedValue the value not expected.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic has the given value.
-   * 
+   *
    * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceAssert<V> doesNotHaveValue(V nonExpectedValue) {
