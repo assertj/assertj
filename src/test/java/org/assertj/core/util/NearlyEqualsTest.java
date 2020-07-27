@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 @Disabled
-public class NearlyEqualsTest {
+class NearlyEqualsTest {
 
   public static boolean nearlyEqual(float a, float b, float epsilon) {
     final float absA = Math.abs(a);
@@ -44,7 +44,7 @@ public class NearlyEqualsTest {
 
   /** Regular large numbers - generally not problematic */
   @Test
-  public void big() {
+  void big() {
     assertTrue(nearlyEqual(1000000f, 1000001f));
     assertTrue(nearlyEqual(1000001f, 1000000f));
     assertFalse(nearlyEqual(10000f, 10001f));
@@ -53,7 +53,7 @@ public class NearlyEqualsTest {
 
   /** Negative large numbers */
   @Test
-  public void bigNeg() {
+  void bigNeg() {
     assertTrue(nearlyEqual(-1000000f, -1000001f));
     assertTrue(nearlyEqual(-1000001f, -1000000f));
     assertFalse(nearlyEqual(-10000f, -10001f));
@@ -62,7 +62,7 @@ public class NearlyEqualsTest {
 
   /** Numbers around 1 */
   @Test
-  public void mid() {
+  void mid() {
     assertTrue(nearlyEqual(1.0000001f, 1.0000002f));
     assertTrue(nearlyEqual(1.0000002f, 1.0000001f));
     assertFalse(nearlyEqual(1.0002f, 1.0001f));
@@ -71,7 +71,7 @@ public class NearlyEqualsTest {
 
   /** Numbers around -1 */
   @Test
-  public void midNeg() {
+  void midNeg() {
     assertTrue(nearlyEqual(-1.000001f, -1.000002f));
     assertTrue(nearlyEqual(-1.000002f, -1.000001f));
     assertFalse(nearlyEqual(-1.0001f, -1.0002f));
@@ -80,7 +80,7 @@ public class NearlyEqualsTest {
 
   /** Numbers between 1 and 0 */
   @Test
-  public void small() {
+  void small() {
     assertTrue(nearlyEqual(0.000000001000001f, 0.000000001000002f));
     assertTrue(nearlyEqual(0.000000001000002f, 0.000000001000001f));
     assertFalse(nearlyEqual(0.000000000001002f, 0.000000000001001f));
@@ -89,7 +89,7 @@ public class NearlyEqualsTest {
 
   /** Numbers between -1 and 0 */
   @Test
-  public void smallNeg() {
+  void smallNeg() {
     assertTrue(nearlyEqual(-0.000000001000001f, -0.000000001000002f));
     assertTrue(nearlyEqual(-0.000000001000002f, -0.000000001000001f));
     assertFalse(nearlyEqual(-0.000000000001002f, -0.000000000001001f));
@@ -98,7 +98,7 @@ public class NearlyEqualsTest {
 
   /** Comparisons involving zero */
   @Test
-  public void zero() {
+  void zero() {
     assertTrue(nearlyEqual(0.0f, 0.0f));
     assertTrue(nearlyEqual(0.0f, -0.0f));
     assertTrue(nearlyEqual(-0.0f, -0.0f));
@@ -122,7 +122,7 @@ public class NearlyEqualsTest {
    * Comparisons involving extreme values (overflow potential)
    */
   @Test
-  public void extremeMax() {
+  void extremeMax() {
     assertTrue(nearlyEqual(Float.MAX_VALUE, Float.MAX_VALUE));
     assertFalse(nearlyEqual(Float.MAX_VALUE, -Float.MAX_VALUE));
     assertFalse(nearlyEqual(-Float.MAX_VALUE, Float.MAX_VALUE));
@@ -135,7 +135,7 @@ public class NearlyEqualsTest {
    * Comparisons involving infinities
    */
   @Test
-  public void infinities() {
+  void infinities() {
     assertTrue(nearlyEqual(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY));
     assertTrue(nearlyEqual(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY));
     assertFalse(nearlyEqual(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY));
@@ -147,7 +147,7 @@ public class NearlyEqualsTest {
    * Comparisons involving NaN values
    */
   @Test
-  public void nan() {
+  void nan() {
     assertFalse(nearlyEqual(Float.NaN, Float.NaN));
     assertFalse(nearlyEqual(Float.NaN, 0.0f));
     assertFalse(nearlyEqual(-0.0f, Float.NaN));
@@ -169,7 +169,7 @@ public class NearlyEqualsTest {
 
   /** Comparisons of numbers on opposite sides of 0 */
   @Test
-  public void opposite() {
+  void opposite() {
     assertFalse(nearlyEqual(1.000000001f, -1.0f));
     assertFalse(nearlyEqual(-1.0f, 1.000000001f));
     assertFalse(nearlyEqual(-1.000000001f, 1.0f));
@@ -182,7 +182,7 @@ public class NearlyEqualsTest {
    * The really tricky part - comparisons of numbers very close to zero.
    */
   @Test
-  public void ulp() {
+  void ulp() {
     assertTrue(nearlyEqual(Float.MIN_VALUE, Float.MIN_VALUE));
     assertTrue(nearlyEqual(Float.MIN_VALUE, -Float.MIN_VALUE));
     assertTrue(nearlyEqual(-Float.MIN_VALUE, Float.MIN_VALUE));

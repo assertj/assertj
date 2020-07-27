@@ -16,17 +16,17 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import org.junit.jupiter.api.Test;
 
-public class Preconditions_checkArgument_Test {
+class Preconditions_checkArgument_Test {
 
   @Test
-  public void should_throw_illegalargumentexception_if_expression_is_false() {
+  void should_throw_illegalargumentexception_if_expression_is_false() {
     assertThatIllegalArgumentException().isThrownBy(() -> Preconditions.checkArgument(false, "Invalid parameter %s",
                                                                                       "foo"))
                                         .withMessage("Invalid parameter foo");
   }
 
   @Test
-  public void should_not_throw_if_expression_is_true() {
+  void should_not_throw_if_expression_is_true() {
     Preconditions.checkArgument(true, "Invalid parameter %s", "foo");
   }
 }

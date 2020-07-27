@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.LinkedHashSet;
 
@@ -24,22 +24,22 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Sets_newLinkedHashSet_GenericArray_Test {
+class Sets_newLinkedHashSet_GenericArray_Test {
   @Test
-  public void should_return_Set_containing_all_elements_in_array() {
+  void should_return_Set_containing_all_elements_in_array() {
     String[] expected = { "One", "Two" };
     LinkedHashSet<String> set = Sets.newLinkedHashSet(expected);
     assertThat(set.toArray()).isEqualTo(expected);
   }
 
   @Test
-  public void should_return_null_if_array_is_null() {
+  void should_return_null_if_array_is_null() {
     Object[] elements = null;
     assertThat(Sets.newLinkedHashSet(elements)).isNull();
   }
 
   @Test
-  public void should_return_empty_Set_if_array_is_empty() {
+  void should_return_empty_Set_if_array_is_empty() {
     LinkedHashSet<Object> set = Sets.newLinkedHashSet(new Object[0]);
     assertThat(set).isEmpty();
   }

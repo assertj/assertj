@@ -13,9 +13,9 @@
 package org.assertj.core.util;
 
 import static java.io.File.separator;
-import static org.assertj.core.util.Strings.join;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.Strings.join;
 
 import java.io.File;
 
@@ -27,21 +27,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Files_newFile_Test extends Files_TestCase {
+class Files_newFile_Test extends Files_TestCase {
 
   @Test
-  public void should_throw_error_if_file_path_belongs_to_directory_that_is_not_empty() {
+  void should_throw_error_if_file_path_belongs_to_directory_that_is_not_empty() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> Files.newFile("root"));
   }
 
   @Test
-  public void should_throw_error_if_file_path_belongs_to_an_existing_file() {
+  void should_throw_error_if_file_path_belongs_to_an_existing_file() {
     String path = join("root", "dir_1", "file_1_1").with(separator);
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> Files.newFile(path));
   }
 
   @Test
-  public void should_create_new_file() {
+  void should_create_new_file() {
     File f = null;
     try {
       f = Files.newFile("file");

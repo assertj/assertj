@@ -24,23 +24,23 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class Closeables_closeQuietly_Test {
+class Closeables_closeQuietly_Test {
   @Test
-  public void should_close_Closeables() {
+  void should_close_Closeables() {
     CloseableStub[] toClose = new CloseableStub[] { new CloseableStub(), new CloseableStub() };
     Closeables.closeQuietly(toClose);
     assertClosed(toClose);
   }
 
   @Test
-  public void should_ignore_thrown_errors() {
+  void should_ignore_thrown_errors() {
     CloseableStub[] toClose = new CloseableStub[] { new CloseableStub(new IOException("")), new CloseableStub() };
     Closeables.closeQuietly(toClose);
     assertClosed(toClose);
   }
 
   @Test
-  public void should_ignore_null_Closeables() {
+  void should_ignore_null_Closeables() {
     CloseableStub c = new CloseableStub();
     CloseableStub[] toClose = new CloseableStub[] { null, c };
     Closeables.closeQuietly(toClose);

@@ -12,11 +12,11 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.DateUtil.parse;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,17 +25,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_parse_Test {
+class DateUtil_parse_Test {
 
   @Test
-  public void should_parse_string() throws ParseException {
+  void should_parse_string() throws ParseException {
     String dateAsString = "26/08/1994";
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     assertThat(parse("1994-08-26")).isEqualTo(formatter.parse(dateAsString));
   }
 
   @Test
-  public void should_return_null_if_string_to_parse_is_null() {
+  void should_return_null_if_string_to_parse_is_null() {
     assertThat(parse(null)).isNull();
   }
 

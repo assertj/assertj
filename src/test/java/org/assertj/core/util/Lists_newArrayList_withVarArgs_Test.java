@@ -24,9 +24,9 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Lists_newArrayList_withVarArgs_Test {
+class Lists_newArrayList_withVarArgs_Test {
   @Test
-  public void should_return_List_containing_all_elements_in_array() {
+  void should_return_List_containing_all_elements_in_array() {
     // GIVEN
     String[] expected = { "One", "Two" };
     // THEN
@@ -35,7 +35,7 @@ public class Lists_newArrayList_withVarArgs_Test {
   }
 
   @Test
-  public void should_return_null_if_array_is_null() {
+  void should_return_null_if_array_is_null() {
     // GIVEN
     Object[] elements = null;
     // THEN
@@ -44,7 +44,7 @@ public class Lists_newArrayList_withVarArgs_Test {
   }
 
   @Test
-  public void should_return_empty_List_if_array_is_empty() {
+  void should_return_empty_List_if_array_is_empty() {
     // GIVEN
     Object[] elements = new Object[0];
     // THEN

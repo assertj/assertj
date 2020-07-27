@@ -23,16 +23,16 @@ import org.junit.jupiter.api.Test;
  * @author Christian Rösch
  */
 @Deprecated
-public class Preconditions_checkNotNull_GenericObject_Test {
+class Preconditions_checkNotNull_GenericObject_Test {
 
   @Test
-  public void should_throw_nullpointerexception_if_object_is_null() {
+  void should_throw_nullpointerexception_if_object_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {Object object = null;
     Preconditions.checkNotNull(object);});
   }
 
   @Test
-  public void should_return_object_if_it_is_not_null_nor_empty() {
+  void should_return_object_if_it_is_not_null_nor_empty() {
     String object = "4711";
     String result = Preconditions.checkNotNull(object);
 

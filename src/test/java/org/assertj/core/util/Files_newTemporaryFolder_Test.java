@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Files_newTemporaryFolder_Test extends Files_TestCase {
+class Files_newTemporaryFolder_Test extends Files_TestCase {
 
   @Test
-  public void should_create_new_temporary_folder() {
+  void should_create_new_temporary_folder() {
     File f = null;
     try {
       f = Files.newTemporaryFolder();

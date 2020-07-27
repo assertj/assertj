@@ -12,7 +12,8 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,27 +22,27 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Arrays_hasOnlyNullElements_Test {
+class Arrays_hasOnlyNullElements_Test {
 
   @Test
-  public void should_throw_error_if_array_is_null() {
+  void should_throw_error_if_array_is_null() {
     assertThatNullPointerException().isThrownBy(() -> Arrays.hasOnlyNullElements(null));
   }
 
   @Test
-  public void should_return_true_if_array_has_only_null_elements() {
+  void should_return_true_if_array_has_only_null_elements() {
     String[] array = { null, null };
     assertThat(Arrays.hasOnlyNullElements(array)).isTrue();
   }
 
   @Test
-  public void should_return_false_if_array_has_at_least_one_element_not_null() {
+  void should_return_false_if_array_has_at_least_one_element_not_null() {
     String[] array = { null, "Frodo", null };
     assertThat(Arrays.hasOnlyNullElements(array)).isFalse();
   }
 
   @Test
-  public void should_return_false_if_array_is_empty() {
+  void should_return_false_if_array_is_empty() {
     assertThat(Arrays.hasOnlyNullElements(new String[0])).isFalse();
   }
 }

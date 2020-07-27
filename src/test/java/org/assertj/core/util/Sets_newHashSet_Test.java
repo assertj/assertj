@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
-public class Sets_newHashSet_Test {
+class Sets_newHashSet_Test {
   @Test
-  public void should_return_empty_mutable_Set() {
+  void should_return_empty_mutable_Set() {
     HashSet<Object> set = Sets.newHashSet();
     assertThat(set).isEmpty();
 
@@ -34,7 +34,7 @@ public class Sets_newHashSet_Test {
   }
 
   @Test
-  public void should_return_new_HashSet() {
+  void should_return_new_HashSet() {
     HashSet<Object> set1 = Sets.newHashSet();
     HashSet<Object> set2 = Sets.newHashSet();
     assertThat(set2).isNotSameAs(set1);
