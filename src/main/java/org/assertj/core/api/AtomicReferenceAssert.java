@@ -16,6 +16,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.PredicateDescription;
 
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
@@ -133,6 +134,36 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
     if (!predicate.test(actualValue)) {
       throw Failures.instance().failure(info, shouldMatch(actualValue, predicate, description));
     }
+
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual atomic has the value that satisfies with the given requirements.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat(new AtomicReference("foo")).hasValueSatisfies(result -&gt; assertThat(result).isNotBlank());
+   *
+   * // assertion will fail
+   * assertThat(new AtomicReference("foo")).hasValueSatisfies(result -&gt; assertThat(result).isBlank());
+   * </code></pre>
+   *
+   * @param requirements to assert on the actual object - must not be null.
+   * @return this assertion object.
+   *
+   * @throws NullPointerException if given Consumer is null
+   * @throws AssertionError if the actual atomic is {@code null}.
+   * @throws AssertionError if the actual atomic value does not satisfies with the given requirements.
+   */
+  public AtomicReferenceAssert<V> hasValueSatisfies(Consumer<? super V> requirements) {
+    requireNonNull(requirements, "The Consumer<? super V> expressing the assertions requirements must not be null");
+
+    isNotNull();
+
+    V actualValue = actual.get();
+    requirements.accept(actualValue);
 
     return myself;
   }
