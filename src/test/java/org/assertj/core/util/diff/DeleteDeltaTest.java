@@ -21,11 +21,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class DeleteDeltaTest {
+class DeleteDeltaTest {
   private static List<String> EMPTY_LIST = Collections.emptyList();
 
   @Test
-  public void testGetType() {
+  void testGetType() {
     // given
     Chunk<String> chunk = new Chunk<>(1, EMPTY_LIST);
     Delta<String> delta = new DeleteDelta<>(chunk, chunk);
@@ -38,7 +38,7 @@ public class DeleteDeltaTest {
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     // given
     Chunk<String> chunk1 = new Chunk<>(0, asList("line1", "line2"));
     Chunk<String> chunk2 = new Chunk<>(1, EMPTY_LIST);

@@ -19,10 +19,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class PatchTest {
+class PatchTest {
 
   @Test
-  public void testPatch_Insert() {
+  void testPatch_Insert() {
     List<String> insertTest_from = newArrayList("hhh");
     List<String> insertTest_to = newArrayList("hhh", "jjj", "kkk", "lll");
 
@@ -31,7 +31,7 @@ public class PatchTest {
   }
 
   @Test
-  public void testPatch_Delete() {
+  void testPatch_Delete() {
     List<String> deleteTest_from = newArrayList("ddd", "fff", "ggg", "hhh");
     List<String> deleteTest_to = newArrayList("ggg");
 
@@ -40,7 +40,7 @@ public class PatchTest {
   }
 
   @Test
-  public void testPatch_Change() {
+  void testPatch_Change() {
     List<String> changeTest_from = newArrayList("aaa", "bbb", "ccc", "ddd");
     List<String> changeTest_to = newArrayList("aaa", "bxb", "cxc", "ddd");
 
