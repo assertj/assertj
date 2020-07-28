@@ -23,30 +23,30 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Strings_join_Test {
+class Strings_join_Test {
 
   @Test
-  public void should_throw_error_if_delimiter_is_null() {
+  void should_throw_error_if_delimiter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> Strings.join(null, "Uno", "Dos").with(null));
   }
 
   @Test
-  public void should_return_empty_String_if_array_to_join_is_null() {
+  void should_return_empty_String_if_array_to_join_is_null() {
     assertThat(Strings.join((String[]) null).with("|")).isEmpty();
   }
 
   @Test
-  public void should_join_using_delimiter() {
+  void should_join_using_delimiter() {
     assertThat(Strings.join("Luke", "Leia", "Han").with("|")).isEqualTo("Luke|Leia|Han");
   }
 
   @Test
-  public void should_join_using_delimiter_and_escape() {
+  void should_join_using_delimiter_and_escape() {
     assertThat(Strings.join("Luke", "Leia", "Han").with("|", "'")).isEqualTo("'Luke'|'Leia'|'Han'");
   }
 
   @Test
-  public void should_join_using_iterable_delimiter_and_escape() {
+  void should_join_using_iterable_delimiter_and_escape() {
     assertThat(Strings.join(newArrayList("Luke", "Leia", "Han")).with("|", "'")).isEqualTo("'Luke'|'Leia'|'Han'");
   }
 }

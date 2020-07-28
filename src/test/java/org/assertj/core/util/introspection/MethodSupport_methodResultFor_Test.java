@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michał Piotrkowski
  */
-public class MethodSupport_methodResultFor_Test {
+class MethodSupport_methodResultFor_Test {
 
   private Person bruceWayne;
   private Person joker;
@@ -40,50 +40,50 @@ public class MethodSupport_methodResultFor_Test {
   }
 
   @Test
-  public void should_invoke_methods_without_arguments() {
+  void should_invoke_methods_without_arguments() {
     Object result = MethodSupport.methodResultFor(batman, "archenemy");
     assertThat(result).isEqualTo(joker);
   }
 
   @Test
-  public void should_invoke_methods_from_superclass() {
+  void should_invoke_methods_from_superclass() {
     Object result = MethodSupport.methodResultFor(batman, "getName");
     assertThat(result).isEqualTo("Batman");
   }
 
   @Test
-  public void should_fail_meaningfully_if_object_instance_not_provided() {
+  void should_fail_meaningfully_if_object_instance_not_provided() {
     assertThatNullPointerException().isThrownBy(() -> MethodSupport.methodResultFor(null, "methodName"))
                                     .withMessage("Object instance can not be null!");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_name_not_provided() {
+  void should_fail_meaningfully_if_method_name_not_provided() {
     assertThatNullPointerException().isThrownBy(() -> MethodSupport.methodResultFor(batman, null))
                                     .withMessage("Method name can not be empty!");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_name_is_empty() {
+  void should_fail_meaningfully_if_method_name_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> MethodSupport.methodResultFor(batman, ""))
                                         .withMessage("Method name can not be empty!");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_not_found() {
+  void should_fail_meaningfully_if_method_not_found() {
     assertThatIllegalArgumentException().isThrownBy(() -> MethodSupport.methodResultFor(batman, "commitCrime"))
                                         .withMessage("Can't find method 'commitCrime' in class SuperHero.class. Make sure public"
                                                      + " method exists and accepts no arguments!");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_does_not_return_value() {
+  void should_fail_meaningfully_if_method_does_not_return_value() {
     assertThatIllegalArgumentException().isThrownBy(() -> MethodSupport.methodResultFor(batman, "saveTheDay"))
                                         .withMessage("Method 'saveTheDay' in class SuperHero.class has to return a value!");
   }
 
   @Test
-  public void should_fail_meaningfully_if_method_is_not_public() {
+  void should_fail_meaningfully_if_method_is_not_public() {
     assertThatIllegalArgumentException().isThrownBy(() -> MethodSupport.methodResultFor(batman, "trueIdentity"))
                                         .withMessage("Can't find method 'trueIdentity' in class SuperHero.class. Make sure "
                                                      + "public method exists and accepts no arguments!");

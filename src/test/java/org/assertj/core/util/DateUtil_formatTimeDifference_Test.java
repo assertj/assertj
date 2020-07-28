@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class DateUtil_formatTimeDifference_Test {
+class DateUtil_formatTimeDifference_Test {
 
   @Test
-  public void should_return_dates_time_difference() {
+  void should_return_dates_time_difference() {
     final Date date1 = parseDatetimeWithMs("2003-01-01T00:00:00.888");
     assertThat(formatTimeDifference(date1, parseDatetimeWithMs("2003-01-01T00:00:00.999"))).isEqualTo("111ms");
     assertThat(formatTimeDifference(date1, parseDatetimeWithMs("2003-01-01T00:00:01.999"))).isEqualTo("1s and 111ms");
@@ -53,13 +53,13 @@ public class DateUtil_formatTimeDifference_Test {
   }
 
   @Test
-  public void should_throws_IllegalArgumentException_if_first_date_parameter_is_null() {
+  void should_throws_IllegalArgumentException_if_first_date_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> formatTimeDifference(new Date(), null))
                                         .withMessage("Expecting date parameter not to be null");
   }
 
   @Test
-  public void should_throws_IllegalArgumentException_if_second_date_parameter_is_null() {
+  void should_throws_IllegalArgumentException_if_second_date_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> formatTimeDifference(null, new Date()))
                                         .withMessage("Expecting date parameter not to be null");
   }

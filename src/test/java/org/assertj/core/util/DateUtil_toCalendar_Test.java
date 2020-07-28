@@ -12,12 +12,14 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.DateUtil.toCalendar;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.text.*;
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_toCalendar_Test {
+class DateUtil_toCalendar_Test {
 
   @Test
-  public void should_convert_date_to_calendar() throws ParseException {
+  void should_convert_date_to_calendar() throws ParseException {
     String dateAsString = "26/08/1994";
     Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
     Calendar calendar = new GregorianCalendar();
@@ -40,7 +42,7 @@ public class DateUtil_toCalendar_Test {
   }
 
   @Test
-  public void should_return_null_if_date_to_convert_is_null() {
+  void should_return_null_if_date_to_convert_is_null() {
     assertThat(toCalendar(null)).isNull();
   }
 

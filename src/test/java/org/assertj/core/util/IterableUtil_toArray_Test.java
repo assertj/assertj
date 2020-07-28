@@ -26,18 +26,18 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jean-Christophe Gay
  */
-public class IterableUtil_toArray_Test {
+class IterableUtil_toArray_Test {
 
   private final ArrayList<String> values = newArrayList("one", "two");
 
   @Test
-  public void should_return_null_when_given_iterable_is_null() {
+  void should_return_null_when_given_iterable_is_null() {
     assertThat(IterableUtil.toArray((Iterable<String>) null)).isNull();
     assertThat(IterableUtil.toArray(null, Object.class)).isNull();
   }
 
   @Test
-  public void should_return_an_object_array_with_given_iterable_elements() {
+  void should_return_an_object_array_with_given_iterable_elements() {
     Object[] objects = IterableUtil.toArray(values);
     assertThat(objects).containsExactly("one", "two");
     String[] strings = IterableUtil.toArray(values, String.class);
@@ -45,13 +45,13 @@ public class IterableUtil_toArray_Test {
   }
 
   @Test
-  public void should_return_empty_array_when_given_iterable_is_empty() {
+  void should_return_empty_array_when_given_iterable_is_empty() {
     assertThat(IterableUtil.toArray(Collections.<Object> emptyList())).isEmpty();
     assertThat(IterableUtil.toArray(emptyList(), Object.class)).isEmpty();
   }
 
   @Test
-  public void should_return_an_array_of_given_iterable_type_with_given_iterable_elements() {
+  void should_return_an_array_of_given_iterable_type_with_given_iterable_elements() {
     CharSequence[] result = IterableUtil.toArray(values, CharSequence.class);
 
     assertThat(result).containsExactly("one", "two");

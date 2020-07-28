@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class ArrayWrapperList_get_Test {
+class ArrayWrapperList_get_Test {
 
   private ArrayWrapperList list;
 
@@ -35,24 +35,24 @@ public class ArrayWrapperList_get_Test {
   }
 
   @Test
-  public void should_return_value_at_index() {
+  void should_return_value_at_index() {
     assertThat(list.get(1)).isEqualTo(8);
   }
 
   @Test
-  public void should_throw_error_if_index_is_negative() {
+  void should_throw_error_if_index_is_negative() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> list.get(-1))
                                                               .withMessageContaining("Index should be between 0 and 1 (inclusive) but was -1");
   }
 
   @Test
-  public void should_throw_error_if_index_is_equal_to_size() {
+  void should_throw_error_if_index_is_equal_to_size() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> list.get(2))
                                                               .withMessageContaining("Index should be between 0 and 1 (inclusive) but was 2");
   }
 
   @Test
-  public void should_throw_error_if_index_is_greater_than_size() {
+  void should_throw_error_if_index_is_greater_than_size() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> list.get(6))
                                                               .withMessageContaining("Index should be between 0 and 1 (inclusive) but was 6");
   }

@@ -12,10 +12,12 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.api.Assertions.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,28 +27,28 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Alex Ruiz
  */
-public class IterableUtil_nonNullElementsIn_Test {
+class IterableUtil_nonNullElementsIn_Test {
   @Test
-  public void should_return_empty_List_if_given_Iterable_is_null() {
+  void should_return_empty_List_if_given_Iterable_is_null() {
     Collection<?> c = null;
     assertThat(IterableUtil.nonNullElementsIn(c)).isEmpty();
   }
 
   @Test
-  public void should_return_empty_List_if_given_Iterable_has_only_null_elements() {
+  void should_return_empty_List_if_given_Iterable_has_only_null_elements() {
     Collection<String> c = new ArrayList<>();
     c.add(null);
     assertThat(IterableUtil.nonNullElementsIn(c)).isEmpty();
   }
 
   @Test
-  public void should_return_empty_List_if_given_Iterable_is_empty() {
+  void should_return_empty_List_if_given_Iterable_is_empty() {
     Collection<String> c = new ArrayList<>();
     assertThat(IterableUtil.nonNullElementsIn(c)).isEmpty();
   }
 
   @Test
-  public void should_return_a_list_without_null_elements() {
+  void should_return_a_list_without_null_elements() {
     List<String> c = newArrayList("Frodo", null, "Sam", null);
     List<String> nonNull = IterableUtil.nonNullElementsIn(c);
     assertThat(nonNull.toArray()).isEqualTo(new String[] { "Frodo", "Sam" });

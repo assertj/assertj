@@ -13,8 +13,8 @@
 package org.assertj.core.util;
 
 import static java.lang.Thread.currentThread;
-import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Strings.concat;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
@@ -27,16 +27,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
+class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
   private AtomicReference<RuntimeException> exceptionReference;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     exceptionReference = new AtomicReference<>();
   }
 
   @Test
-  public void should_add_stack_trace_of_current_thread() {
+  void should_add_stack_trace_of_current_thread() {
     final CountDownLatch latch = new CountDownLatch(1);
     new Thread() {
       @Override

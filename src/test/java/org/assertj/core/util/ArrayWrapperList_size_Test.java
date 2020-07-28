@@ -26,7 +26,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Alex Ruiz
  * @author Dan Corder
  */
-public class ArrayWrapperList_size_Test {
+class ArrayWrapperList_size_Test {
 
   public static Stream<Arguments> arrays() {
     return Stream.of(Arguments.of(new int[] { 0, 1, 2 }),
@@ -36,7 +36,7 @@ public class ArrayWrapperList_size_Test {
 
   @ParameterizedTest
   @MethodSource("arrays")
-  public void should_return_size_of_array(int[] array) {
+  void should_return_size_of_array(int[] array) {
     ArrayWrapperList list = new ArrayWrapperList(array);
     assertThat(list.size()).isEqualTo(array.length);
   }

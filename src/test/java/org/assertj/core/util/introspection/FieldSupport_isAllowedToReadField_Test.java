@@ -17,12 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
-public class FieldSupport_isAllowedToReadField_Test {
+class FieldSupport_isAllowedToReadField_Test {
 
   private FieldSupport fieldSupport = FieldSupport.comparison();
 
   @Test
-  public void fieldSupport_should_be_allowed_to_read_public_field_only() throws Exception {
+  void fieldSupport_should_be_allowed_to_read_public_field_only() throws Exception {
     fieldSupport.setAllowUsingPrivateFields(false);
     try {
       assertThat(fieldSupport.isAllowedToRead(Jedi.class.getField("lightSaberColor"))).isTrue();
@@ -34,7 +34,7 @@ public class FieldSupport_isAllowedToReadField_Test {
   }
 
   @Test
-  public void fieldSupport_should_be_allowed_to_read_whatever_field_when_allowedToUsePrivateFields_flag_is_true()
+  void fieldSupport_should_be_allowed_to_read_whatever_field_when_allowedToUsePrivateFields_flag_is_true()
       throws Exception {
     fieldSupport.setAllowUsingPrivateFields(true);
     assertThat(fieldSupport.isAllowedToRead(Jedi.class.getField("lightSaberColor"))).isTrue();

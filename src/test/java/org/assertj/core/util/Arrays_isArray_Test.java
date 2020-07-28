@@ -21,21 +21,21 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Arrays_isArray_Test {
+class Arrays_isArray_Test {
 
   @Test
-  public void should_return_true_if_object_is_an_array() {
+  void should_return_true_if_object_is_an_array() {
     assertThat(Arrays.isArray(new String[0])).isTrue();
     assertThat(Arrays.isArray(new int[0])).isTrue();
   }
 
   @Test
-  public void should_return_false_if_object_is_null() {
+  void should_return_false_if_object_is_null() {
     assertThat(Arrays.isArray(null)).isFalse();
   }
 
   @Test
-  public void should_return_false_if_object_is_not_an_array() {
+  void should_return_false_if_object_is_not_an_array() {
     assertThat(Arrays.isArray("I'm not an array")).isFalse();
   }
 }

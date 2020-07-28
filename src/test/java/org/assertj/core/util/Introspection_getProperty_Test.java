@@ -32,31 +32,31 @@ public class Introspection_getProperty_Test {
   }
 
   @Test
-  public void get_getter_for_property() {
+  void get_getter_for_property() {
     Method getter = getPropertyGetter("age", judy);
     assertThat(getter).isNotNull();
   }
 
   @Test
-  public void should_raise_an_error_because_of_missing_getter() {
+  void should_raise_an_error_because_of_missing_getter() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> getPropertyGetter("salary", judy))
                                                        .withMessage("No getter for property 'salary' in org.assertj.core.util.Employee");
   }
 
   @Test
-  public void should_raise_an_error_because_of_non_public_getter_when_getter_does_not_exists() {
+  void should_raise_an_error_because_of_non_public_getter_when_getter_does_not_exists() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> getPropertyGetter("company", judy))
                                                        .withMessage("No public getter for property 'company' in org.assertj.core.util.Employee");
   }
 
   @Test
-  public void should_raise_an_error_because_of_non_public_getter_when_getter_is_package_private() {
+  void should_raise_an_error_because_of_non_public_getter_when_getter_is_package_private() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> getPropertyGetter("firstJob", judy))
                                                        .withMessage("No public getter for property 'firstJob' in org.assertj.core.util.Employee");
   }
 
   @Test
-  public void should_raise_an_error_because_of_non_public_getter_when_getter_is_in_superclass() {
+  void should_raise_an_error_because_of_non_public_getter_when_getter_is_in_superclass() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> getPropertyGetter("name",
                                                                                            new Example()))
                                                        .withMessage("No public getter for property 'name' in org.assertj.core.util.Introspection_getProperty_Test$Example");

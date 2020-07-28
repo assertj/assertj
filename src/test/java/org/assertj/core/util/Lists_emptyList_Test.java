@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
-public class Lists_emptyList_Test {
+class Lists_emptyList_Test {
   @Test
-  public void should_return_empty_List() {
+  void should_return_empty_List() {
     List<String> list = Lists.emptyList();
     assertThat(list).isEmpty();
   }
