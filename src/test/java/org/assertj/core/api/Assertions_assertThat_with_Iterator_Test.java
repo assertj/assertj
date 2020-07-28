@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.Iterator;
 
@@ -78,21 +78,21 @@ public class Assertions_assertThat_with_Iterator_Test {
   public void should_not_consume_iterator_when_asserting_non_null() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isNotNull();
-    verifyZeroInteractions(iterator);
+    verifyNoInteractions(iterator);
   }
 
   @Test
   public void isInstanceOf_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isInstanceOf(Iterator.class);
-    verifyZeroInteractions(iterator);
+    verifyNoInteractions(iterator);
   }
 
   @Test
   public void isInstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isInstanceOfAny(Iterator.class, String.class);
-    verifyZeroInteractions(iterator);
+    verifyNoInteractions(iterator);
   }
 
   @Test
@@ -133,7 +133,7 @@ public class Assertions_assertThat_with_Iterator_Test {
   public void isSameAs_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isSameAs(iterator);
-    verifyZeroInteractions(iterator);
+    verifyNoInteractions(iterator);
   }
 
   @Test
@@ -142,7 +142,7 @@ public class Assertions_assertThat_with_Iterator_Test {
     try{
       assertThat(iterator).isNotSameAs(iterator);
     } catch(AssertionError e){
-      verifyZeroInteractions(iterator);
+      verifyNoInteractions(iterator);
       return;
     }
     Assertions.fail("Expected assertionError, because assert notSame on same iterator.");

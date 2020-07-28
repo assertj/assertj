@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.List;
 import java.util.stream.LongStream;
@@ -71,21 +71,21 @@ public class Assertions_assertThat_with_LongStream_Test {
   public void should_not_consume_stream_when_asserting_non_null() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isNotNull();
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
   public void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isInstanceOf(LongStream.class);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
   public void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isInstanceOfAny(LongStream.class, String.class);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
@@ -128,7 +128,7 @@ public class Assertions_assertThat_with_LongStream_Test {
   public void isSameAs_should_check_the_original_stream_without_consuming_it() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isSameAs(stream);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
@@ -137,7 +137,7 @@ public class Assertions_assertThat_with_LongStream_Test {
     try {
       assertThat(stream).isNotSameAs(stream);
     } catch (AssertionError e) {
-      verifyZeroInteractions(stream);
+      verifyNoInteractions(stream);
       return;
     }
     Assertions.fail("Expected assertionError, because assert notSame on same stream.");

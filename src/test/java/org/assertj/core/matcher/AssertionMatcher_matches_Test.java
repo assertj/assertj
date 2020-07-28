@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.assertj.core.internal.Failures;
 import org.hamcrest.Description;
@@ -67,7 +67,7 @@ public class AssertionMatcher_matches_Test {
     assertThat(isZeroMatcher.matches(ZERO)).isTrue();
 
     isZeroMatcher.describeTo(description);
-    verifyZeroInteractions(description);
+    verifyNoInteractions(description);
   }
 
   @Test

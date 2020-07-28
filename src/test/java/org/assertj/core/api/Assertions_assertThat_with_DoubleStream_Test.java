@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.List;
 import java.util.stream.DoubleStream;
@@ -71,21 +71,21 @@ public class Assertions_assertThat_with_DoubleStream_Test {
   public void should_not_consume_stream_when_asserting_non_null() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isNotNull();
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
   public void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isInstanceOf(DoubleStream.class);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
   public void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isInstanceOfAny(DoubleStream.class, String.class);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
@@ -128,7 +128,7 @@ public class Assertions_assertThat_with_DoubleStream_Test {
   public void isSameAs_should_check_the_original_stream_without_consuming_it() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isSameAs(stream);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
@@ -137,7 +137,7 @@ public class Assertions_assertThat_with_DoubleStream_Test {
     try {
       assertThat(stream).isNotSameAs(stream);
     } catch (AssertionError e) {
-      verifyZeroInteractions(stream);
+      verifyNoInteractions(stream);
       return;
     }
     Assertions.fail("Expected assertionError, because assert notSame on same stream.");
