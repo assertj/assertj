@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class Index_equals_hashCode_Test {
+class Index_equals_hashCode_Test {
   private static Index index;
 
   @BeforeAll
@@ -36,37 +36,37 @@ public class Index_equals_hashCode_Test {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(index);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(index, atIndex(8));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     assertEqualsIsTransitive(index, atIndex(8), atIndex(8));
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(index, atIndex(8));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     assertThat(index.equals("8")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     assertThat(index.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_Index_with_different_value() {
+  void should_not_be_equal_to_Index_with_different_value() {
     assertThat(index.equals(atIndex(6))).isFalse();
   }
 }

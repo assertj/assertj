@@ -25,11 +25,11 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class Percentage_withPercentage_with_Integer_Test {
+class Percentage_withPercentage_with_Integer_Test {
 
   @SuppressWarnings("null")
   @Test
-  public void should_throw_error_if_value_is_null() {
+  void should_throw_error_if_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Integer value = null;
       withPercentage(value);
@@ -37,14 +37,14 @@ public class Percentage_withPercentage_with_Integer_Test {
   }
 
   @Test
-  public void should_throw_error_if_value_is_negative() {
+  void should_throw_error_if_value_is_negative() {
     int negative = -1;
     assertThatIllegalArgumentException().isThrownBy(() -> withPercentage(negative))
                                         .withMessage(percentageValueIsInRange(negative));
   }
 
   @Test
-  public void should_create_Percentage() {
+  void should_create_Percentage() {
     assertThat(withPercentage(8).value).isEqualTo(8.0);
     assertThat(withPercentage(200).value).isEqualTo(200.0);
   }

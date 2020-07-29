@@ -17,16 +17,16 @@ import static org.assertj.core.data.Percentage.withPercentage;
 
 import org.junit.jupiter.api.Test;
 
-public class Percentage_toString_Test {
+class Percentage_toString_Test {
 
   @Test
-  public void toString_should_not_display_fractional_part_if_percentage_is_an_integer() {
+  void toString_should_not_display_fractional_part_if_percentage_is_an_integer() {
     assertThat(withPercentage(10.0)).hasToString("10%");
     assertThat(withPercentage(10)).hasToString("10%");
   }
 
   @Test
-  public void toString_should_display_fractional_part_if_percentage_is_a_double() {
+  void toString_should_display_fractional_part_if_percentage_is_a_double() {
     assertThat(withPercentage(0.1)).hasToString("0.1%");
     assertThat(withPercentage(0.103)).hasToString("0.103%");
   }

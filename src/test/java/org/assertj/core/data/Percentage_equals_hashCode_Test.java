@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class Percentage_equals_hashCode_Test {
+class Percentage_equals_hashCode_Test {
   private static Percentage percentage;
 
   @BeforeAll
@@ -37,37 +37,37 @@ public class Percentage_equals_hashCode_Test {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(percentage);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(percentage, withPercentage(8.0));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     assertEqualsIsTransitive(percentage, withPercentage(8.0), withPercentage(8.0));
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(percentage, withPercentage(8.0));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     assertThat(percentage.equals("8")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     assertThat(percentage.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_Percentage_with_different_value() {
+  void should_not_be_equal_to_Percentage_with_different_value() {
     assertThat(percentage.equals(withPercentage(6.0))).isFalse();
   }
 }

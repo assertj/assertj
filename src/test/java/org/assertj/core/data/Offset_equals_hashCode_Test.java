@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class Offset_equals_hashCode_Test {
+class Offset_equals_hashCode_Test {
   private static Offset<Integer> offset;
   private static Offset<Integer> strictOffset;
 
@@ -39,43 +39,43 @@ public class Offset_equals_hashCode_Test {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(offset);
     assertEqualsIsReflexive(strictOffset);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(offset, offset(8));
     assertEqualsIsSymmetric(strictOffset, strictOffset(8));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     assertEqualsIsTransitive(offset, offset(8), offset(8));
     assertEqualsIsTransitive(strictOffset, strictOffset(8), strictOffset(8));
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(offset, offset(8));
     assertMaintainsEqualsAndHashCodeContract(strictOffset, strictOffset(8));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     assertThat(offset.equals("8")).isFalse();
     assertThat(strictOffset.equals("8")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     assertThat(offset.equals(null)).isFalse();
     assertThat(strictOffset.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_Offset_with_different_value() {
+  void should_not_be_equal_to_Offset_with_different_value() {
     assertThat(offset.equals(offset(6))).isFalse();
     assertThat(strictOffset.equals(strictOffset(6))).isFalse();
   }

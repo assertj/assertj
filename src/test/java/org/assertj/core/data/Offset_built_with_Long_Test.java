@@ -22,10 +22,10 @@ import static org.assertj.core.internal.ErrorMessages.strictOffsetValueIsNotStri
 
 import org.junit.jupiter.api.Test;
 
-public class Offset_built_with_Long_Test {
+class Offset_built_with_Long_Test {
 
   @Test
-  public void should_throw_error_if_value_is_null() {
+  void should_throw_error_if_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Long value = null;
       offset(value);
@@ -33,18 +33,18 @@ public class Offset_built_with_Long_Test {
   }
 
   @Test
-  public void should_throw_error_if_value_is_negative() {
+  void should_throw_error_if_value_is_negative() {
     assertThatIllegalArgumentException().isThrownBy(() -> offset(-1L)).withMessage(offsetValueIsNotPositive());
   }
 
   @Test
-  public void should_throw_error_if_value_is_zero_strict_offset() {
+  void should_throw_error_if_value_is_zero_strict_offset() {
     assertThatIllegalArgumentException().isThrownBy(() -> strictOffset(0L))
                                         .withMessage(strictOffsetValueIsNotStrictlyPositive());
   }
 
   @Test
-  public void should_create_Offset() {
+  void should_create_Offset() {
     Long value = 8L;
     Offset<Long> offset = offset(value);
     assertThat(offset.value).isSameAs(value);
