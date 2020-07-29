@@ -17,10 +17,10 @@ import static org.assertj.core.description.Description.mostRelevantDescription;
 
 import org.junit.jupiter.api.Test;
 
-public class Description_mostRelevantDescription_Test {
+class Description_mostRelevantDescription_Test {
 
   @Test
-  public void should_return_exsiting_description_if_not_empty() {
+  void should_return_exsiting_description_if_not_empty() {
     // GIVEN
     String existing = "bar";
     Description description = new TextDescription(existing);
@@ -32,7 +32,7 @@ public class Description_mostRelevantDescription_Test {
   }
 
   @Test
-  public void should_return_the_other_value_if_description_value_is_empty() {
+  void should_return_the_other_value_if_description_value_is_empty() {
     // GIVEN
     Description description = new TextDescription("");
     String other = "foo";
@@ -45,7 +45,7 @@ public class Description_mostRelevantDescription_Test {
   }
 
   @Test
-  public void should_return_the_other_value_if_description_value_is_null() {
+  void should_return_the_other_value_if_description_value_is_null() {
     // GIVEN
     Description description = new TextDescription(null);
     String other = "foo";
@@ -58,7 +58,7 @@ public class Description_mostRelevantDescription_Test {
   }
 
   @Test
-  public void should_return_the_other_value_if_null() {
+  void should_return_the_other_value_if_null() {
     // GIVEN
     Description description = null;
     String other = "foo";
