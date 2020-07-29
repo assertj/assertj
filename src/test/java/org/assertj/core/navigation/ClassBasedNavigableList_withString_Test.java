@@ -21,10 +21,10 @@ import java.util.List;
 import org.assertj.core.api.StringAssert;
 import org.junit.jupiter.api.Test;
 
-public class ClassBasedNavigableList_withString_Test {
+class ClassBasedNavigableList_withString_Test {
 
   @Test
-  public void should_navigate_to_list_elements_and_perform_specific_string_assertions() {
+  void should_navigate_to_list_elements_and_perform_specific_string_assertions() {
     List<String> list = newArrayList("one", "two", "three");
   
     assertThat(list, StringAssert.class).first().startsWith("o");
@@ -33,7 +33,7 @@ public class ClassBasedNavigableList_withString_Test {
   }
   
   @Test
-  public void should_honor_list_assertions() {
+  void should_honor_list_assertions() {
     List<String> list = newArrayList("one", "two", "three");
     
     assertThat(list, StringAssert.class).contains("one", atIndex(0))

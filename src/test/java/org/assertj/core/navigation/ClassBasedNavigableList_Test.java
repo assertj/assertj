@@ -12,6 +12,9 @@
  */
 package org.assertj.core.navigation;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import java.util.List;
 
 import org.assertj.core.api.ClassBasedNavigableListAssert;
@@ -21,10 +24,7 @@ import org.assertj.core.test.VehicleAssert;
 import org.assertj.core.test.VehicleFactory;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
-public class ClassBasedNavigableList_Test extends BaseNavigableListAssert_Test {
+class ClassBasedNavigableList_Test extends BaseNavigableListAssert_Test {
 
   @Override
   protected ClassBasedNavigableListAssert<?, List<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
@@ -32,7 +32,7 @@ public class ClassBasedNavigableList_Test extends BaseNavigableListAssert_Test {
   }
 
   @Test
-  public void do_not_swallow_reflection_problem() {
+  void do_not_swallow_reflection_problem() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(expectedVehicles,
                                                                                   IllegalVehicleAssert.class)
                                                                                                              .toAssert(new VehicleFactory.Car("car"),
