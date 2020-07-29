@@ -61,7 +61,7 @@ import org.junit.jupiter.api.Test;
  * results in 3.10.0 with 1.8.11: ~5000ms
  */
 @Disabled
-public class SoftAssertionsPerfTest extends BaseAssertionsTest {
+class SoftAssertionsPerfTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 
@@ -116,56 +116,56 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void all_assertions_should_pass() {
+  void all_assertions_should_pass() {
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
     softly.assertAll();
   }
 
   @Test
-  public void all_assertions_should_pass2() {
+  void all_assertions_should_pass2() {
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
     softly.assertAll();
   }
 
   @Test
-  public void all_assertions_should_pass3() {
+  void all_assertions_should_pass3() {
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
     softly.assertAll();
   }
 
   @Test
-  public void all_assertions_should_pass4() {
+  void all_assertions_should_pass4() {
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
     softly.assertAll();
   }
 
   @Test
-  public void should_return_success_of_last_assertion() {
+  void should_return_success_of_last_assertion() {
     softly.assertThat(true).isFalse();
     softly.assertThat(true).isEqualTo(true);
     assertThat(softly.wasSuccess()).isTrue();
   }
 
   @Test
-  public void should_return_success_of_last_assertion_with_nested_calls() {
+  void should_return_success_of_last_assertion_with_nested_calls() {
     softly.assertThat(true).isFalse();
     softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
     assertThat(softly.wasSuccess()).isTrue();
   }
 
   @Test
-  public void should_return_failure_of_last_assertion() {
+  void should_return_failure_of_last_assertion() {
     softly.assertThat(true).isTrue();
     softly.assertThat(true).isEqualTo(false);
     assertThat(softly.wasSuccess()).isFalse();
   }
 
   @Test
-  public void should_return_failure_of_last_assertion_with_nested_calls() {
+  void should_return_failure_of_last_assertion_with_nested_calls() {
     softly.assertThat(true).isTrue();
     softly.assertThat(true).isFalse(); // isFalse() calls isEqualTo(false)
     assertThat(softly.wasSuccess()).isFalse();
@@ -173,7 +173,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
+  void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
     // GIVEN
     Map<String, String> map = mapOf(MapEntry.entry("54", "55"));
     // WHEN
@@ -185,7 +185,7 @@ public class SoftAssertionsPerfTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
     // perform a bunch of soft assertions
     softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
     softly.assertThat(Boolean.FALSE).isTrue();

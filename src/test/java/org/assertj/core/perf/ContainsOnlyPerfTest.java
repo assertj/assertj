@@ -37,11 +37,11 @@ import org.junit.jupiter.api.Timeout;
  * clearly distinguish .containsOnly(...) being O(N) or O(N^2) on any test agent, thus preventing
  * a regression of .containsOnly(...) back to O(N^2) complexity.
  */
-public class ContainsOnlyPerfTest {
+class ContainsOnlyPerfTest {
 
   @Test
   @Timeout(value = 5)
-  public void test_containsOnly_1mElements() {
+  void test_containsOnly_1mElements() {
     final ArrayList<Object> objects = new ArrayList<>();
     for (int i = 0; i < 1_000_000; i++) {
       objects.add(ThreadLocalRandom.current().nextBoolean());
@@ -51,7 +51,7 @@ public class ContainsOnlyPerfTest {
 
   @Test
   @Timeout(value = 5)
-  public void test_containsOnly_1mElements_usingCustomComparator() {
+  void test_containsOnly_1mElements_usingCustomComparator() {
     final ArrayList<Integer> objects = new ArrayList<>();
     for (int i = 0; i < 1_000_000; i++) {
       objects.add(ThreadLocalRandom.current().nextInt(2));
