@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  * @author Clement Mathieu
  */
 @SuppressWarnings("unused")
-public class TypeCanonizerTest {
+class TypeCanonizerTest {
   private interface Asssert<T> {
   }
 
@@ -112,7 +112,7 @@ public class TypeCanonizerTest {
   }
 
   @Test
-  public void T_and_T_are_equals() {
+  void T_and_T_are_equals() {
     Type m = resolveGenericReturnType(Api.class, "m");
     Type mSame = resolveGenericReturnType(Api.class, "mSame");
 
@@ -120,55 +120,55 @@ public class TypeCanonizerTest {
   }
 
   @Test
-  public void T_and_QUESTION_MARK_extends_T_are_not_equals() {
+  void T_and_QUESTION_MARK_extends_T_are_not_equals() {
     assertThat(resolveGenericReturnType(Api.class, "m"))
       .isNotEqualTo(resolveGenericReturnType(Api.class, "mExtends"));
   }
 
   @Test
-  public void QUESTION_MARK_extends_T_and_QUESTION_MARK_extends_ELEMENT_are_equal() {
+  void QUESTION_MARK_extends_T_and_QUESTION_MARK_extends_ELEMENT_are_equal() {
     assertThat(resolveGenericReturnType(Api.class, "mExtends"))
       .isEqualTo(resolveGenericReturnType(Api.class, "mExtendsElement"));
   }
 
   @Test
-  public void QUESTION_MARK_super_T_and_QUESTION_MARK_super_ELEMENT_are_equal() {
+  void QUESTION_MARK_super_T_and_QUESTION_MARK_super_ELEMENT_are_equal() {
     assertThat(resolveGenericReturnType(Api.class, "mSuper"))
       .isEqualTo(resolveGenericReturnType(Api.class, "mSuperElement"));
   }
 
   @Test
-  public void T_and_QUESTION_MARK_super_T_are_not_equals() {
+  void T_and_QUESTION_MARK_super_T_are_not_equals() {
     assertThat(resolveGenericReturnType(Api.class, "m"))
       .isNotEqualTo(resolveGenericReturnType(Api.class, "mSuper"));
   }
 
   @Test
-  public void T_extends_something_returns_T_are_equal() {
+  void T_extends_something_returns_T_are_equal() {
     assertThat(resolveGenericReturnType(Api.class, "returnsT"))
       .isEqualTo(resolveGenericReturnType(Api.class, "returnsT2"));
   }
 
   @Test
-  public void list_asserts_are_equal() {
+  void list_asserts_are_equal() {
     assertThat(resolveGenericReturnType(Api.class, "listAssert"))
       .isEqualTo(resolveGenericReturnType(Api.class, "listAssert2"));
   }
 
   @Test
-  public void K_and_V_and_K_and_V_are_equal() {
+  void K_and_V_and_K_and_V_are_equal() {
     assertThat(resolveGenericReturnType(Api.class, "doubleTypeVariables"))
       .isEqualTo(resolveGenericReturnType(Api.class, "doubleTypeVariables2"));
   }
 
   @Test
-  public void generic_array_T_and_generic_array_ELEMENT_are_equal() {
+  void generic_array_T_and_generic_array_ELEMENT_are_equal() {
     assertThat(resolveGenericReturnType(Api.class, "genericArray"))
       .isEqualTo(resolveGenericReturnType(Api.class, "genericArray2"));
   }
 
   @Test
-  public void double_generic_array_T_and_double_generic_array_ELEMENT_are_equal() {
+  void double_generic_array_T_and_double_generic_array_ELEMENT_are_equal() {
     assertThat(resolveGenericReturnType(Api.class, "doubleGenericArray"))
       .isEqualTo(resolveGenericReturnType(Api.class, "doubleGenericArray2"));
   }
