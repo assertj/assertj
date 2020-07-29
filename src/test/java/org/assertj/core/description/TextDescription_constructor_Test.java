@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class TextDescription_constructor_Test {
+class TextDescription_constructor_Test {
 
   @Test
-  public void should_set_value() {
+  void should_set_value() {
     String value = randomText();
     TextDescription description = new TextDescription(value);
     assertThat(description.value).isEqualTo(value);
@@ -37,7 +37,7 @@ public class TextDescription_constructor_Test {
   }
 
   @Test
-  public void should_return_empty_description_if_value_is_null() {
+  void should_return_empty_description_if_value_is_null() {
     TextDescription description = new TextDescription(null);
     assertThat(description.value).isEmpty();
   }

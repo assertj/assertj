@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class TextDescription_equals_hashCode_Test {
+class TextDescription_equals_hashCode_Test {
 
   private static TextDescription description;
 
@@ -36,37 +36,37 @@ public class TextDescription_equals_hashCode_Test {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(description);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(description, new TextDescription("Yoda"));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     assertEqualsIsTransitive(description, new TextDescription("Yoda"), new TextDescription("Yoda"));
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(description, new TextDescription("Yoda"));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     assertThat(description.equals("Yoda")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     assertThat(description.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_TextDescription_with_different_value() {
+  void should_not_be_equal_to_TextDescription_with_different_value() {
     assertThat(description.equals(new TextDescription("Luke"))).isFalse();
   }
 }

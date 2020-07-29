@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class AnyOf_matches_Test {
+class AnyOf_matches_Test {
 
   private TestCondition<Object> condition1;
   private TestCondition<Object> condition2;
@@ -39,14 +39,14 @@ public class AnyOf_matches_Test {
   }
 
   @Test
-  public void should_match_if_at_least_one_Condition_matches() {
+  void should_match_if_at_least_one_Condition_matches() {
     condition1.shouldMatch(false);
     condition2.shouldMatch(true);
     assertThat(anyOf.matches("Yoda")).isTrue();
   }
 
   @Test
-  public void should_not_match_if_none_of_the_Conditions_match() {
+  void should_not_match_if_none_of_the_Conditions_match() {
     condition1.shouldMatch(false);
     condition2.shouldMatch(false);
     assertThat(anyOf.matches("Yoda")).isFalse();

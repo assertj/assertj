@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class MapEntry_equals_hashCode_Test {
+class MapEntry_equals_hashCode_Test {
   private static MapEntry<String, String> entry;
   private static Entry<String, String> javaEntry;
 
@@ -41,52 +41,52 @@ public class MapEntry_equals_hashCode_Test {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(entry);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(entry, entry("key", "value"));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     assertEqualsIsTransitive(entry, entry("key", "value"), entry("key", "value"));
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(entry, entry("key", "value"));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     assertThat(entry.equals("{'key', 'value'}")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     assertThat(entry.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_MapEntry_with_different_value() {
+  void should_not_be_equal_to_MapEntry_with_different_value() {
     assertThat(entry.equals(entry("key0", "value0"))).isFalse();
   }
 
   @Test
-  public void should_have_symmetric_equals_with_java_MapEntry() {
+  void should_have_symmetric_equals_with_java_MapEntry() {
     assertEqualsIsSymmetric(javaEntry, entry);
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract_with_java_MapEntry() {
+  void should_maintain_equals_and_hashCode_contract_with_java_MapEntry() {
     assertMaintainsEqualsAndHashCodeContract(javaEntry, entry);
   }
 
   @Test
-  public void should_have_transitive_equals_with_java_MapEntry() {
+  void should_have_transitive_equals_with_java_MapEntry() {
     Entry<String, String> javaEntry2 = singletonMap("key", "value").entrySet().iterator().next();
     assertEqualsIsTransitive(entry, javaEntry, javaEntry2);
   }

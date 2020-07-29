@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class Index_toString_Test {
+class Index_toString_Test {
   private static Index index;
 
   @BeforeAll
@@ -32,7 +32,7 @@ public class Index_toString_Test {
   }
 
   @Test
-  public void should_implement_toString() {
+  void should_implement_toString() {
     assertThat(index).hasToString("Index[value=8]");
   }
 }

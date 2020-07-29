@@ -22,17 +22,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class EmptyTextDescription_emptyText_Test {
+class EmptyTextDescription_emptyText_Test {
 
   @Test
-  public void should_return_singleton_instance() {
+  void should_return_singleton_instance() {
     Description description = emptyDescription();
     for (int i = 0; i < 6; i++)
       assertThat(emptyDescription()).isSameAs(description);
   }
 
   @Test
-  public void should_have_empty_text_as_value() {
+  void should_have_empty_text_as_value() {
     assertThat(emptyDescription().value()).isEmpty();
   }
 }

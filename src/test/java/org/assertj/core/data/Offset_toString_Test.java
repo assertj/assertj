@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class Offset_toString_Test {
+class Offset_toString_Test {
   private static Offset<Integer> offset;
 
   @BeforeAll
@@ -32,7 +32,7 @@ public class Offset_toString_Test {
   }
 
   @Test
-  public void should_implement_toString() {
+  void should_implement_toString() {
     assertThat(offset).hasToString("Offset[value=8]");
   }
 }

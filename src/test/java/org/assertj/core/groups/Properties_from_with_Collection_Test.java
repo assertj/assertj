@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public class Properties_from_with_Collection_Test {
+class Properties_from_with_Collection_Test {
 
   private Employee yoda;
   private List<Employee> employees;
@@ -51,7 +51,7 @@ public class Properties_from_with_Collection_Test {
   }
 
   @Test
-  public void should_return_values_of_property() {
+  void should_return_values_of_property() {
     List<Integer> ages = newArrayList();
     ages.add(yoda.getAge());
     when(propertySupport.propertyValues(propertyName, Integer.class, employees)).thenReturn(ages);

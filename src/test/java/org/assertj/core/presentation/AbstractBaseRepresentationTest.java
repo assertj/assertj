@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Filip Hrisafov
  */
-public abstract class AbstractBaseRepresentationTest {
+abstract class AbstractBaseRepresentationTest {
 
   @BeforeEach
   public void setUp() {

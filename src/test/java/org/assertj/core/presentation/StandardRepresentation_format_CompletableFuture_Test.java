@@ -21,43 +21,43 @@ import java.util.concurrent.CompletableFuture;
 
 import org.junit.jupiter.api.Test;
 
-public class StandardRepresentation_format_CompletableFuture_Test {
+class StandardRepresentation_format_CompletableFuture_Test {
 
   @Test
-  public void should_format_incomplete_future() {
+  void should_format_incomplete_future() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(new CompletableFuture<>())).isEqualTo("CompletableFuture[Incomplete]");
   }
 
   @Test
-  public void should_format_complete_future() {
+  void should_format_complete_future() {
     assertThat(STANDARD_REPRESENTATION.toStringOf(completedFuture("done"))).isEqualTo("CompletableFuture[Completed: \"done\"]");
     assertThat(STANDARD_REPRESENTATION.toStringOf(completedFuture(42))).isEqualTo("CompletableFuture[Completed: 42]");
     assertThat(STANDARD_REPRESENTATION.toStringOf(completedFuture(null))).isEqualTo("CompletableFuture[Completed: null]");
   }
 
   @Test
-  public void should_format_failed_future() {
+  void should_format_failed_future() {
     CompletableFuture<Object> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException("some random error"));
     assertThat(STANDARD_REPRESENTATION.toStringOf(future)).startsWith(format("CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: some random error"));
   }
 
   @Test
-  public void should_format_cancelled_future() {
+  void should_format_cancelled_future() {
     CompletableFuture<Object> future = new CompletableFuture<>();
     future.cancel(true);
     assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Cancelled]");
   }
 
   @Test
-  public void should_not_stack_overflow_when_formatting_future_completed_with_itself() {
+  void should_not_stack_overflow_when_formatting_future_completed_with_itself() {
     CompletableFuture<CompletableFuture<?>> future = new CompletableFuture<>();
     future.complete(future);
     assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Completed: " + future + "]");
   }
 
   @Test
-  public void should_not_stack_overflow_when_formatting_future_with_reference_cycle() {
+  void should_not_stack_overflow_when_formatting_future_with_reference_cycle() {
     CompletableFuture<CompletableFuture<?>> future1 = new CompletableFuture<>();
     CompletableFuture<CompletableFuture<?>> future2 = new CompletableFuture<>();
     future1.complete(future2);

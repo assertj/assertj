@@ -24,10 +24,10 @@ import org.assertj.core.util.introspection.Introspection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-public class Configuration_apply_Test {
+class Configuration_apply_Test {
 
   @Test
-  public void apply_should_change_assertj_behavior() throws Exception {
+  void apply_should_change_assertj_behavior() throws Exception {
     // GIVEN
     Configuration configuration = new NonDefaultConfiguration();
     // WHEN

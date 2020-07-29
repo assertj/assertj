@@ -14,7 +14,6 @@ package org.assertj.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -23,16 +22,16 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class TextDescription_toString_Test {
+class TextDescription_toString_Test {
 
   @Test
-  public void should_return_value() {
+  void should_return_value() {
     TextDescription description = new TextDescription("Flash");
     assertThat(description).hasToString(description.value);
   }
 
   @Test
-  public void should_return_formatted_value() {
+  void should_return_formatted_value() {
     TextDescription description = new TextDescription("Flash %s {}", "MacQueen");
     assertThat(description).hasToString("Flash MacQueen {}");
   }

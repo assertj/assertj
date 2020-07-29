@@ -23,7 +23,7 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ConditionBuiltWithPredicateTest implements WithAssertions {
+class ConditionBuiltWithPredicateTest implements WithAssertions {
 
   private final Set<String> jedis = newLinkedHashSet("Luke", "Yoda", "Obiwan");
   private Condition<String> jedi;
@@ -38,32 +38,32 @@ public class ConditionBuiltWithPredicateTest implements WithAssertions {
   }
 
   @Test
-  public void is_condition_should_be_met() {
+  void is_condition_should_be_met() {
     assertThat("Luke").is(jedi);
   }
 
   @Test
-  public void has_condition_should_be_met() {
+  void has_condition_should_be_met() {
     assertThat("Luke").has(jediPower);
   }
 
   @Test
-  public void satisfies_condition_should_be_met() {
+  void satisfies_condition_should_be_met() {
     assertThat("Luke").satisfies(jedi);
   }
 
   @Test
-  public void isNot_condition_should_be_met() {
+  void isNot_condition_should_be_met() {
     assertThat("Vader").isNot(jedi).doesNotHave(jediPower);
   }
 
   @Test
-  public void doesNotHave_condition_should_be_met() {
+  void doesNotHave_condition_should_be_met() {
     assertThat("Vader").doesNotHave(jediPower);
   }
 
   @Test
-  public void should_fail_if_condition_is_not_met() {
+  void should_fail_if_condition_is_not_met() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("Vader").is(jedi))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +

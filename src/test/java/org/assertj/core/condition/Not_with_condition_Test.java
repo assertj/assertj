@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Not_with_condition_Test {
+class Not_with_condition_Test {
 
   @Test
-  public void should_create_new_notOf_with_passed_Conditions() {
+  void should_create_new_notOf_with_passed_Conditions() {
     TestCondition<Object> condition = new TestCondition<>();
     Condition<Object> created = not(condition);
     assertThat(created.getClass()).isEqualTo(Not.class);

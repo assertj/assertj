@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class Multiple_combined_conditions_Test {
+class Multiple_combined_conditions_Test {
 
   @Test
-  public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
+  void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     // GIVEN
     TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
     TestCondition<Object> condition2 = new TestCondition<>("Condition 2");
@@ -46,7 +46,7 @@ public class Multiple_combined_conditions_Test {
   }
 
   @Test
-  public void should_report_error_message_with_all_conditions_described() {
+  void should_report_error_message_with_all_conditions_described() {
     // GIVEN
     ThrowingCallable code = () -> assertThat("Gandalf").has(anyOf(contains("i"),
                                                                   allOf(contains("o"),
@@ -74,7 +74,7 @@ public class Multiple_combined_conditions_Test {
   }
 
   @Test
-  public void should_report_error_message_with_all_conditions_in_list_described() {
+  void should_report_error_message_with_all_conditions_in_list_described() {
     // GIVEN
     ThrowingCallable code = () -> assertThat("Gandalf").has(anyOf(list(contains("i"),
                                                                        allOf(contains("o"),

@@ -24,10 +24,10 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
-public class Offset_built_with_BigDecimal_Test {
+class Offset_built_with_BigDecimal_Test {
 
   @Test
-  public void should_throw_error_if_value_is_null() {
+  void should_throw_error_if_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       BigDecimal value = null;
       offset(value);
@@ -35,19 +35,19 @@ public class Offset_built_with_BigDecimal_Test {
   }
 
   @Test
-  public void should_throw_error_if_value_is_negative() {
+  void should_throw_error_if_value_is_negative() {
     assertThatIllegalArgumentException().isThrownBy(() -> offset(new BigDecimal(-1)))
                                         .withMessage(offsetValueIsNotPositive());
   }
 
   @Test
-  public void should_throw_error_if_value_is_zero_strict_offset() {
+  void should_throw_error_if_value_is_zero_strict_offset() {
     assertThatIllegalArgumentException().isThrownBy(() -> strictOffset(BigDecimal.ZERO))
                                         .withMessage(strictOffsetValueIsNotStrictlyPositive());
   }
 
   @Test
-  public void should_create_Offset() {
+  void should_create_Offset() {
     BigDecimal value = BigDecimal.TEN;
     Offset<BigDecimal> offset = offset(value);
     assertThat(offset.value).isSameAs(value);

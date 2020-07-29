@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class Offset_built_with_Float_Test {
+class Offset_built_with_Float_Test {
 
   @Test
-  public void should_throw_error_if_value_is_null() {
+  void should_throw_error_if_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Float value = null;
       offset(value);
@@ -38,18 +38,18 @@ public class Offset_built_with_Float_Test {
   }
 
   @Test
-  public void should_throw_error_if_value_is_negative() {
+  void should_throw_error_if_value_is_negative() {
     assertThatIllegalArgumentException().isThrownBy(() -> offset(-1f)).withMessage(offsetValueIsNotPositive());
   }
 
   @Test
-  public void should_throw_error_if_value_is_zero_strict_offset() {
+  void should_throw_error_if_value_is_zero_strict_offset() {
     assertThatIllegalArgumentException().isThrownBy(() -> strictOffset(0f))
                                         .withMessage(strictOffsetValueIsNotStrictlyPositive());
   }
 
   @Test
-  public void should_create_Offset() {
+  void should_create_Offset() {
     Float value = 0.8f;
     Offset<Float> offset = offset(value);
     assertThat(offset.value).isSameAs(value);

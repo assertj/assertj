@@ -25,28 +25,28 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public class Properties_extractProperty_Test {
+class Properties_extractProperty_Test {
 
   @Test
-  public void should_create_a_new_Properties() {
+  void should_create_a_new_Properties() {
     Properties<Object> properties = Properties.extractProperty("id", Object.class);
     assertThat(properties.propertyName).isEqualTo("id");
   }
 
   @Test
-  public void should_throw_error_if_property_name_is_null() {
+  void should_throw_error_if_property_name_is_null() {
     assertThatNullPointerException().isThrownBy(() -> Properties.extractProperty(null, Object.class))
                                     .withMessage("The name of the property to read should not be null");
   }
 
   @Test
-  public void should_throw_error_if_property_name_is_empty() {
+  void should_throw_error_if_property_name_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> Properties.extractProperty("", Object.class))
                                         .withMessage("The name of the property to read should not be empty");
   }
 
   @Test
-  public void extractProperty_string_Test() {
+  void extractProperty_string_Test() {
     TestItem[] ITEMS = { new TestItem("n1", "v1"), new TestItem("n2", "v2") };
 
     assertThat(extractProperty("name").from(ITEMS).contains("n1")).isTrue();

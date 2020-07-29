@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class AnyOf_anyOf_with_Collection_Test {
+class AnyOf_anyOf_with_Collection_Test {
 
   @Test
-  public void should_create_new_AnyOf_with_passed_Conditions() {
+  void should_create_new_AnyOf_with_passed_Conditions() {
     Collection<Condition<Object>> conditions = Lists.newArrayList(new TestCondition<>());
     Condition<Object> created = AnyOf.anyOf(conditions);
     assertThat(created.getClass()).isEqualTo(AnyOf.class);

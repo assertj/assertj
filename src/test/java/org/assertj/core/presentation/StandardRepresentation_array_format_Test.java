@@ -27,12 +27,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests for <code>{@link StandardRepresentation#formatArray(Object)}</code>.
  */
-public class StandardRepresentation_array_format_Test extends AbstractBaseRepresentationTest {
+class StandardRepresentation_array_format_Test extends AbstractBaseRepresentationTest {
 
   private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   @Test
-  public void should_return_null_if_array_is_null() {
+  void should_return_null_if_array_is_null() {
     // GIVEN
     final Object array = null;
     // WHEN
@@ -42,7 +42,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_return_empty_brackets_if_array_is_empty() {
+  void should_return_empty_brackets_if_array_is_empty() {
     // GIVEN
     final Object[] array = new Object[0];
     // WHEN
@@ -53,7 +53,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
 
   @ParameterizedTest(name = "{1} should be formatted as {2}")
   @MethodSource("should_format_primitive_array_source")
-  public void should_format_primitive_array(Object array, String expectedDescription) {
+  void should_format_primitive_array(Object array, String expectedDescription) {
     // WHEN
     String formatted = STANDARD_REPRESENTATION.formatArray(array);
     // THEN
@@ -75,7 +75,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_byte_array_in_hex_representation() {
+  void should_format_byte_array_in_hex_representation() {
     // GIVEN
     Object array = new byte[] { (byte) 3, (byte) 8 };
     // WHEN
@@ -85,7 +85,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_return_null_if_parameter_is_not_array() {
+  void should_return_null_if_parameter_is_not_array() {
     // GIVEN
     String string = "Hello";
     // WHEN
@@ -95,7 +95,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_String_array() {
+  void should_format_String_array() {
     // GIVEN
     Object[] array = { "Hello", "World" };
     // WHEN
@@ -105,7 +105,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_Object_array() {
+  void should_format_Object_array() {
     // GIVEN
     Object[] array = { "Hello", new Person("Anakin") };
     // WHEN
@@ -115,7 +115,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_Object_array_on_new_line_smart() {
+  void should_format_Object_array_on_new_line_smart() {
     // GIVEN
     StandardRepresentation.setMaxLengthForSingleLineDescription(11);
     Object[] array = { "Hello", new Person("Anakin") };
@@ -127,7 +127,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_Object_array_that_has_primitive_array_as_element() {
+  void should_format_Object_array_that_has_primitive_array_as_element() {
     // GIVEN
     boolean[] booleans = { true, false };
     Object[] array = { "Hello", booleans };
@@ -138,7 +138,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_Object_array_with_itself_as_element() {
+  void should_format_Object_array_with_itself_as_element() {
     // GIVEN
     Object[] array = { "Hello", null };
     array[1] = array;
@@ -149,7 +149,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_self_referencing_Object_array() {
+  void should_format_self_referencing_Object_array() {
     // GIVEN
     Object[] array = { null, null };
     array[0] = array;
@@ -161,7 +161,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_Object_array_having_with_primitive_array() {
+  void should_format_Object_array_having_with_primitive_array() {
     // GIVEN
     Object[] array = { "Hello", new int[] {} };
     // WHEN
@@ -171,7 +171,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_Object_array_with_null_element() {
+  void should_format_Object_array_with_null_element() {
     // GIVEN
     Object[] array = { "Hello", null };
     // WHEN
@@ -181,7 +181,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_array_up_to_the_maximum_allowed_elements() {
+  void should_format_array_up_to_the_maximum_allowed_elements() {
     // GIVEN
     StandardRepresentation.setMaxElementsForPrinting(3);
     Object[] array = { "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh" };
@@ -192,7 +192,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
   }
 
   @Test
-  public void should_format_array_with_one_element_per_line() {
+  void should_format_array_with_one_element_per_line() {
     // GIVEN
     StandardRepresentation.setMaxLengthForSingleLineDescription(25);
     Object[] array = { "1234567890", "1234567890", "1234567890", "1234567890" };
@@ -208,7 +208,7 @@ public class StandardRepresentation_array_format_Test extends AbstractBaseRepres
 
   @ParameterizedTest(name = "with printing {0} max, {1} should be formatted as {2}")
   @MethodSource("should_format_array_source")
-  public void should_format_array_honoring_display_configuration(int maxElementsForPrinting, Object[] array,
+  void should_format_array_honoring_display_configuration(int maxElementsForPrinting, Object[] array,
                                                                  String expectedDescription) {
     // GIVEN
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);

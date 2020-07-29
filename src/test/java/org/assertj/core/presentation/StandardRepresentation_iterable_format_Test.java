@@ -27,10 +27,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresentationTest {
+class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresentationTest {
 
   @Test
-  public void should_return_null_if_iterable_is_null() {
+  void should_return_null_if_iterable_is_null() {
     // GIVEN
     List<Object> list = null;
     // WHEN
@@ -40,7 +40,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_return_empty_brackets_if_iterable_is_empty() {
+  void should_return_empty_brackets_if_iterable_is_empty() {
     // GIVEN
     List<Object> list = emptyList();
     // WHEN
@@ -50,7 +50,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_format_iterable_on_one_line_if_description_is_short_enough() {
+  void should_format_iterable_on_one_line_if_description_is_short_enough() {
     // GIVEN
     String element1 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription() / 10);
     String element2 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription() / 10);
@@ -61,7 +61,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_format_iterable_with_one_element_per_line_when_single_line_description_is_too_long() {
+  void should_format_iterable_with_one_element_per_line_when_single_line_description_is_too_long() {
     String element1 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription());
     String element2 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription());
     // WHEN
@@ -72,7 +72,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_format_iterable_with_custom_start_and_end() {
+  void should_format_iterable_with_custom_start_and_end() {
     // GIVEN
     List<? extends Object> list = list("First", 3);
     // THEN
@@ -82,7 +82,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
 
   @ParameterizedTest(name = "with printing {0} max, {1} should be formatted as {2}")
   @MethodSource("should_format_iterable_source")
-  public void should_format_iterable(int maxElementsForPrinting, List<?> list, String expectedDescription) {
+  void should_format_iterable(int maxElementsForPrinting, List<?> list, String expectedDescription) {
     // GIVEN
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
     StandardRepresentation.setMaxLengthForSingleLineDescription(15);
@@ -158,7 +158,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_format_iterable_up_to_the_maximum_allowed_elements_single_line() {
+  void should_format_iterable_up_to_the_maximum_allowed_elements_single_line() {
     // GIVEN
     StandardRepresentation.setMaxElementsForPrinting(6);
     // WHEN
@@ -168,7 +168,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_format_iterable_with_an_element_per_line_according_the_given_representation() {
+  void should_format_iterable_with_an_element_per_line_according_the_given_representation() {
     // GIVEN
     List<Integer> list = list(1, 2, 3);
     // WHEN
@@ -178,7 +178,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_format_recursive_iterable() {
+  void should_format_recursive_iterable() {
     // GIVEN
     List<Object> selfReferencingList = list();
     selfReferencingList.add(selfReferencingList);
@@ -190,7 +190,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_format_iterable_having_itself_as_element() {
+  void should_format_iterable_having_itself_as_element() {
     // GIVEN
     List<Object> selfReferencingList = list("Hello");
     selfReferencingList.add(selfReferencingList);
@@ -201,7 +201,7 @@ public class StandardRepresentation_iterable_format_Test extends AbstractBaseRep
   }
 
   @Test
-  public void should_only_consider_root_object_for_cycles() {
+  void should_only_consider_root_object_for_cycles() {
     List<Object> innerList = list(1, 2, 3);
     List<Object> outerList = list(innerList, innerList);
     // WHEN

@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Olivier Michallat
  */
-public class Properties_ofType_Test {
+class Properties_ofType_Test {
 
   @Test
-  public void should_create_a_new_Properties() {
+  void should_create_a_new_Properties() {
     Properties<String> properties = Properties.extractProperty("id").ofType(String.class);
     assertThat(properties.propertyName).isEqualTo("id");
     assertThat(properties.propertyType).isEqualTo(String.class);

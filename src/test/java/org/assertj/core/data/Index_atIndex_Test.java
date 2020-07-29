@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class Index_atIndex_Test {
+class Index_atIndex_Test {
 
   @Test
-  public void should_throw_error_if_value_is_negative() {
+  void should_throw_error_if_value_is_negative() {
     assertThatIllegalArgumentException().isThrownBy(() -> Index.atIndex(-1))
                                         .withMessage("The value of the index should not be negative");
   }
 
   @Test
-  public void should_create_new_Index() {
+  void should_create_new_Index() {
     Index index = Index.atIndex(8);
     assertThat(index.value).isEqualTo(8);
   }

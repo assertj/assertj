@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class StandardRepresentation_custom_formatter_Test {
+class StandardRepresentation_custom_formatter_Test {
 
   @AfterEach
   public void afterTest() {
@@ -35,7 +35,7 @@ public class StandardRepresentation_custom_formatter_Test {
   }
 
   @Test
-  public void should_use_registered_formatter_for_type() {
+  void should_use_registered_formatter_for_type() {
     // GIVEN
     Object longNumber = 123L; // need to declare as an Object otherwise toStringOf(Long) is used
     assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("123L");
@@ -52,7 +52,7 @@ public class StandardRepresentation_custom_formatter_Test {
   }
 
   @Test
-  public void should_remove_all_registered_formatters_after_resetting_to_default() {
+  void should_remove_all_registered_formatters_after_resetting_to_default() {
     // GIVEN
     StandardRepresentation.registerFormatterForType(String.class, value -> "'" + value + "'");
     StandardRepresentation.registerFormatterForType(Integer.class, value -> "int(" + Integer.toBinaryString(value) + ")");
