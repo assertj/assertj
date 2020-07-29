@@ -20,7 +20,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MatchPredicateTest implements WithAssertions {
+class MatchPredicateTest implements WithAssertions {
 
   private Jedi yoda;
 
@@ -30,17 +30,17 @@ public class MatchPredicateTest implements WithAssertions {
   }
 
   @Test
-  public void should_match_predicate() {
+  void should_match_predicate() {
 	assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"));
   }
 
   @Test
-  public void should_match_predicate_with_description_() {
+  void should_match_predicate_with_description_() {
 	assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"), "has green light saber");
   }
 
   @Test
-  public void should_fail_if_object_does_not_match_predicate() {
+  void should_fail_if_object_does_not_match_predicate() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(yoda).matches(x -> x.lightSaberColor.equals("Red")))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
@@ -60,7 +60,7 @@ public class MatchPredicateTest implements WithAssertions {
   }
 
   @Test
-  public void should_fail_if_object_does_not_match_predicate_and_use_predicate_description_in_error_message() {
+  void should_fail_if_object_does_not_match_predicate_and_use_predicate_description_in_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(yoda).as("check light saber")
                                                                                      .matches(x -> x.lightSaberColor.equals("Red"),
                                                                                               "has red light saber"))
@@ -71,20 +71,20 @@ public class MatchPredicateTest implements WithAssertions {
   }
 
   @Test
-  public void should_fail_if_given_predicate_is_null() {
+  void should_fail_if_given_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(null))
                                                          .withMessage(predicateIsNull());
   }
 
   @Test
-  public void should_fail_if_given_predicate_with_description_is_null() {
+  void should_fail_if_given_predicate_with_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(null,
                                                                                                     "whatever ..."))
                                                          .withMessage(predicateIsNull());
   }
   
   @Test
-  public void should_fail_if_given_predicate_description_is_null() {
+  void should_fail_if_given_predicate_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"),
                                                                                                     null))
                                                          .withMessage("The predicate description must not be null");
