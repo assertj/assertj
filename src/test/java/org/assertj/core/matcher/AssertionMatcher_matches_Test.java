@@ -26,7 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 
-public class AssertionMatcher_matches_Test {
+class AssertionMatcher_matches_Test {
   private static final Integer ZERO = 0;
   private static final Integer ONE = 1;
 
@@ -56,12 +56,12 @@ public class AssertionMatcher_matches_Test {
   }
 
   @Test
-  public void matcher_should_pass_when_assertion_passes() {
+  void matcher_should_pass_when_assertion_passes() {
     assertThat(isZeroMatcher.matches(ZERO)).isTrue();
   }
 
   @Test
-  public void matcher_should_not_fill_description_when_assertion_passes() {
+  void matcher_should_not_fill_description_when_assertion_passes() {
     Description description = mock(Description.class);
 
     assertThat(isZeroMatcher.matches(ZERO)).isTrue();
@@ -71,7 +71,7 @@ public class AssertionMatcher_matches_Test {
   }
 
   @Test
-  public void matcher_should_fail_when_assertion_fails() {
+  void matcher_should_fail_when_assertion_fails() {
     assertThat(isZeroMatcher.matches(ONE)).isFalse();
   }
 
@@ -80,7 +80,7 @@ public class AssertionMatcher_matches_Test {
    * in order for this test to pass. It is in {@link this#setUp()}.
    */
   @Test
-  public void matcher_should_fill_description_when_assertion_fails() {
+  void matcher_should_fill_description_when_assertion_fails() {
     Description description = mock(Description.class);
 
     assertThat(isZeroMatcher.matches(ONE)).isFalse();
