@@ -21,10 +21,10 @@ import org.assertj.core.description.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-public class Configuration_describe_Test {
+class Configuration_describe_Test {
 
   @Test
-  public void should_give_a_human_readable_description() throws Exception {
+  void should_give_a_human_readable_description() throws Exception {
     // GIVEN
     Configuration configuration = new NonDefaultConfiguration();
     configuration.setConsumerDescription(new Consumer<Description>() {
