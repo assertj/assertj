@@ -17,16 +17,16 @@ import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 
 import org.junit.jupiter.api.Test;
 
-public class FieldsOrPropertiesExtractor_assertNotNull_Test {
+class FieldsOrPropertiesExtractor_assertNotNull_Test {
 
   @Test
-  public void should_throw_assertion_error_in_absence_of_iterable() {
+  void should_throw_assertion_error_in_absence_of_iterable() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> extract((Iterable<?>) null, null))
                                                    .withMessageContaining("Expecting actual not to be null");
   }
 
   @Test
-  public void should_throw_assertion_error_in_absence_of_array() {
+  void should_throw_assertion_error_in_absence_of_array() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> extract((Object[]) null, null))
                                                    .withMessageContaining("Expecting actual not to be null");
   }
