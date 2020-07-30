@@ -12,11 +12,6 @@
  */
 package org.assertj.core.internal.objectarrays;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.internal.ObjectArraysBaseTest;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -29,12 +24,17 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.internal.ObjectArraysBaseTest;
+import org.junit.jupiter.api.Test;
+
 /**
  * Tests for <code>{@link ObjectArrays#assertDoesNotContainSequence(AssertionInfo, Object[], Object[])}</code>.
  *
  * @author Chris Arnott
  */
-public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -42,7 +42,7 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence() {
+  void should_fail_if_actual_contains_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = array("Luke", "Leia");
 
@@ -53,7 +53,7 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
   }
 
   @Test
-  public void should_fail_if_actual_and_sequence_are_equal() {
+  void should_fail_if_actual_and_sequence_are_equal() {
     AssertionInfo info = someInfo();
     Object[] sequence = array("Yoda", "Luke", "Leia", "Obi-Wan");
 
@@ -64,7 +64,7 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
   }
 
   @Test
-  public void should_fail_if_actual_contains_full_sequence_even_if_partial_sequence_is_found_before() {
+  void should_fail_if_actual_contains_full_sequence_even_if_partial_sequence_is_found_before() {
     AssertionInfo info = someInfo();
     actual = array("Yoda", "Luke", "Leia", "Yoda", "Luke", "Obi-Wan");
     // note that actual starts with {"Yoda", "Luke"} a partial sequence of {"Yoda", "Luke", "Obi-Wan"}
@@ -77,52 +77,52 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = new String[0];
     arrays.assertDoesNotContainSequence(someInfo(), actual, emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainSequence(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContainSequence(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_pass_if_sequence_is_bigger_than_actual() {
+  void should_pass_if_sequence_is_bigger_than_actual() {
     arrays.assertDoesNotContainSequence(someInfo(), actual,
                                         array("Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_whole_sequence() {
+  void should_pass_if_actual_does_not_contain_whole_sequence() {
     arrays.assertDoesNotContainSequence(someInfo(), actual, array("Han", "C-3PO"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_first_elements_of_sequence() {
+  void should_pass_if_actual_contains_first_elements_of_sequence() {
     arrays.assertDoesNotContainSequence(someInfo(), actual, array("Leia", "Obi-Wan", "Han"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(someInfo(), null, array("YOda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(someInfo(),
                                                                                                                       actual,
                                                                                                                       null))
@@ -130,29 +130,29 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_pass_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
+  void should_pass_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(someInfo(), actual, array("LUKE", "LeiA", "Obi-Wan",
                                                                                               "Han", "C-3PO", "R2-D2",
                                                                                               "Anakin"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(someInfo(), actual, array("Han", "C-3PO"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(someInfo(), actual, array("LeiA", "Obi-Wan", "Han"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = array("LUKE", "LeiA");
 
@@ -164,7 +164,7 @@ public class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArrays
   }
 
   @Test
-  public void should_fail_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = array("YOda", "LUKE", "LeiA", "Obi-WAn");
 

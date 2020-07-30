@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ObjectArrays#assertEndsWith(AssertionInfo, Object[], Object, Object[])}</code>.
  */
-public class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -39,18 +39,18 @@ public class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBa
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, "Luke", null));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null, "Luke", array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual() {
+  void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
 
@@ -61,7 +61,7 @@ public class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBa
   }
 
   @Test
-  public void should_fail_if_actual_does_not_end_with_sequence() {
+  void should_fail_if_actual_does_not_end_with_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
@@ -72,7 +72,7 @@ public class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBa
   }
 
   @Test
-  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
+  void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
 
@@ -87,17 +87,17 @@ public class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBa
   }
 
   @Test
-  public void should_pass_if_actual_ends_with_first_then_sequence() {
+  void should_pass_if_actual_ends_with_first_then_sequence() {
     arrays.assertEndsWith(someInfo(), actual, "Luke", array("Leia", "Obi-Wan"));
   }
 
   @Test
-  public void should_pass_if_actual_and_first_then_sequence_are_equal() {
+  void should_pass_if_actual_and_first_then_sequence_are_equal() {
     arrays.assertEndsWith(someInfo(), actual, "Yoda", array("Luke", "Leia", "Obi-Wan"));
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
+  void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "LUKE", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
 
@@ -109,7 +109,7 @@ public class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBa
   }
 
   @Test
-  public void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
@@ -121,7 +121,7 @@ public class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBa
   }
 
   @Test
-  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
 
@@ -133,12 +133,12 @@ public class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBa
   }
 
   @Test
-  public void should_pass_if_actual_ends_with_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_ends_with_sequence_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, "LUKE", array("Leia", "Obi-Wan"));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, "Yoda", array("LUKE", "Leia", "Obi-Wan"));
   }
 }

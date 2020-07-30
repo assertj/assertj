@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertContainsNull_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsNull_Test extends ObjectArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -40,30 +40,30 @@ public class ObjectArrays_assertContainsNull_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_null() {
+  void should_pass_if_actual_contains_null() {
     arrays.assertContainsNull(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_null_values() {
+  void should_pass_if_actual_contains_only_null_values() {
     actual = array(null, null);
     arrays.assertContainsNull(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_contains_null_more_than_once() {
+  void should_pass_if_actual_contains_null_more_than_once() {
     actual = array("Luke", null, null);
     arrays.assertContainsNull(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsNull(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_null() {
+  void should_fail_if_actual_does_not_contain_null() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda");
 
@@ -74,30 +74,30 @@ public class ObjectArrays_assertContainsNull_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
     arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_null_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_only_null_values_according_to_custom_comparison_strategy() {
     actual = array(null, null);
     arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_contains_null_more_than_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_null_more_than_once_according_to_custom_comparison_strategy() {
     actual = array("Luke", null, null);
     arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda");
 

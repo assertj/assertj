@@ -59,7 +59,7 @@ class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends Strin
 
   @ParameterizedTest
   @MethodSource("equalNormalizingPunctuationAndWhitespaceGenerator")
-  public void should_pass_if_both_Strings_are_equal_normalizing_punctuation_and_whitespace(String actual, String expected) {
+  void should_pass_if_both_Strings_are_equal_normalizing_punctuation_and_whitespace(String actual, String expected) {
     strings.assertEqualsNormalizingPunctuationAndWhitespace(someInfo(), actual, expected);
   }
 

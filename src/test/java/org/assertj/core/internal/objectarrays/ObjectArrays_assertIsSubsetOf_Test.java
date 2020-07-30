@@ -31,66 +31,66 @@ import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 
-public class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_subset_of_set() {
+  void should_pass_if_actual_is_subset_of_set() {
     actual = array("Yoda", "Luke");
     arrays.assertIsSubsetOf(someInfo(), actual, newArrayList("Luke", "Yoda", "Obi-Wan"));
   }
 
   @Test
-  public void should_pass_if_actual_has_the_same_elements_as_set() {
+  void should_pass_if_actual_has_the_same_elements_as_set() {
     actual = array("Yoda", "Luke");
     arrays.assertIsSubsetOf(someInfo(), actual, newArrayList("Luke", "Yoda"));
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     actual = new String[0];
     arrays.assertIsSubsetOf(someInfo(), actual, newArrayList("Luke", "Yoda"));
   }
 
   @Test
-  public void should_pass_if_actual_and_set_are_both_empty() {
+  void should_pass_if_actual_and_set_are_both_empty() {
     actual = new String[0];
     arrays.assertIsSubsetOf(someInfo(), actual, newArrayList());
   }
 
   @Test
-  public void should_pass_if_actual_has_duplicates_but_all_elements_are_in_values() {
+  void should_pass_if_actual_has_duplicates_but_all_elements_are_in_values() {
     actual = array("Yoda", "Yoda");
     arrays.assertIsSubsetOf(someInfo(), actual, newArrayList("Yoda"));
   }
 
   @Test
-  public void should_pass_if_values_has_duplicates_but_all_elements_are_in_values() {
+  void should_pass_if_values_has_duplicates_but_all_elements_are_in_values() {
     actual = array("Yoda", "C-3PO");
     arrays.assertIsSubsetOf(someInfo(), actual, newArrayList("Yoda", "Yoda", "C-3PO"));
   }
 
   @Test
-  public void should_pass_if_both_actual_and_values_have_duplicates_but_all_elements_are_in_values() {
+  void should_pass_if_both_actual_and_values_have_duplicates_but_all_elements_are_in_values() {
     actual = array("Yoda", "Yoda", "Yoda", "C-3PO", "Obi-Wan");
     arrays.assertIsSubsetOf(someInfo(), actual, newArrayList("Yoda", "Yoda", "C-3PO", "C-3PO", "Obi-Wan"));
   }
 
   @Test
-  public void should_throw_error_if_set_is_null() {
+  void should_throw_error_if_set_is_null() {
     actual = array("Yoda", "Luke");
     assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSubsetOf(someInfo(), actual, null))
                                     .withMessage(iterableToLookForIsNull());
   }
 
   @Test
-  public void should_throw_error_if_actual_is_null() {
+  void should_throw_error_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSubsetOf(someInfo(), actual, newArrayList()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_subset_of_values() {
+  void should_fail_if_actual_is_not_subset_of_values() {
     AssertionInfo info = someInfo();
     actual = array("Yoda");
     List<String> values = newArrayList("C-3PO", "Leila");
@@ -107,25 +107,25 @@ public class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_subset_of_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_subset_of_values_according_to_custom_comparison_strategy() {
     actual = array("Yoda", "Luke");
     arraysWithCustomComparisonStrategy.assertIsSubsetOf(someInfo(), actual, newArrayList("yoda", "lUKE"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     actual = array("Luke", "Luke");
     arraysWithCustomComparisonStrategy.assertIsSubsetOf(someInfo(), actual, newArrayList("LUke", "yoda"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
     actual = array("Yoda", "Luke");
     arraysWithCustomComparisonStrategy.assertIsSubsetOf(someInfo(), actual, newArrayList("LUke", "LuKe", "yoda"));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_subset_of_values_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_subset_of_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = array("Yoda", "Luke");
     List<String> values = newArrayList("yoda", "C-3PO");

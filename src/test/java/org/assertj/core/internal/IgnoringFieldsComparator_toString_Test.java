@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class IgnoringFieldsComparator_toString_Test {
+class IgnoringFieldsComparator_toString_Test {
 
   @Test
-  public void should_return_description_of_IgnoringFieldsComparator() {
+  void should_return_description_of_IgnoringFieldsComparator() {
     // GIVEN
     IgnoringFieldsComparator actual = new IgnoringFieldsComparator("a", "b");
     // THEN

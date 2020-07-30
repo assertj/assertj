@@ -27,17 +27,17 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link ObjectArrayAssert#hasOnlyElementsOfType(Class)}.
  */
-public class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysBaseTest {
 
   private static final Object[] arrayOfNumbers = { 6, 7.0, 8L };
 
   @Test
-  public void should_pass_if_actual_has_only_elements_of_the_expected_type() {
+  void should_pass_if_actual_has_only_elements_of_the_expected_type() {
     arrays.assertHasOnlyElementsOfType(someInfo(), arrayOfNumbers, Number.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Object[] array = null;
     // GIVEN
@@ -47,12 +47,12 @@ public class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysB
   }
 
   @Test
-  public void should_throw_exception_if_expected_type_is_null() {
+  void should_throw_exception_if_expected_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertHasOnlyElementsOfType(someInfo(), arrayOfNumbers, null));
   }
 
   @Test
-  public void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_type() {
+  void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_type() {
     // GIVEN
     AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfType(someInfo(), arrayOfNumbers, Long.class));
     // THEN
@@ -60,7 +60,7 @@ public class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysB
   }
 
   @Test
-  public void should_throw_assertion_error_and_not_null_pointer_exception_on_null_elements() {
+  void should_throw_assertion_error_and_not_null_pointer_exception_on_null_elements() {
     // GIVEN
     Object[] array = array(null, "notNull");
     // GIVEN

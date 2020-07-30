@@ -12,12 +12,11 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest_StandardComparisonStrategy {
+class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
-  public void should_return_existing_duplicates() {
+  void should_return_existing_duplicates() {
     List<String> list = newArrayList("Merry", "Frodo", null, null, "Merry", "Sam", "Frodo");
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(list);
     
@@ -43,7 +42,7 @@ public class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest
   }
 
   @Test
-  public void should_return_existing_duplicates_array() {
+  void should_return_existing_duplicates_array() {
     List<String[]> list = newArrayList(array("Merry"), array("Frodo"), new String[] { null }, new String[] { null },
                                        array("Merry"), array("Sam"), array("Frodo"));
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(list);
@@ -55,19 +54,19 @@ public class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest
   }
 
   @Test
-  public void should_not_return_any_duplicates() {
+  void should_not_return_any_duplicates() {
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(newArrayList("Frodo", "Sam", "Gandalf"));
     assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
   @Test
-  public void should_not_return_any_duplicates_if_collection_is_empty() {
+  void should_not_return_any_duplicates_if_collection_is_empty() {
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(new ArrayList<>());
     assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
   @Test
-  public void should_not_return_any_duplicates_if_collection_is_null() {
+  void should_not_return_any_duplicates_if_collection_is_null() {
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(null);
     assertThat(isNullOrEmpty(duplicates)).isTrue();
   }

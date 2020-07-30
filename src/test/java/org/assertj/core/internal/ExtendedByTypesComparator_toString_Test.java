@@ -25,10 +25,10 @@ import java.util.Map;
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.Test;
 
-public class ExtendedByTypesComparator_toString_Test {
+class ExtendedByTypesComparator_toString_Test {
 
   @Test
-  public void should_return_description_of_FieldByFieldComparator() {
+  void should_return_description_of_FieldByFieldComparator() {
     // GIVEN
     ExtendedByTypesComparator actual = new ExtendedByTypesComparator(new FieldByFieldComparator(),
                                                                      defaultTypeComparators());
@@ -40,7 +40,7 @@ public class ExtendedByTypesComparator_toString_Test {
   }
 
   @Test
-  public void should_return_description_of_FieldByFieldComparator_and_extended_types() {
+  void should_return_description_of_FieldByFieldComparator_and_extended_types() {
     // GIVEN
     Map<String, Comparator<?>> comparatorByField = new HashMap<>();
     comparatorByField.put("name", ALWAY_EQUALS_STRING);

@@ -34,30 +34,30 @@ import org.junit.jupiter.api.Test;
  *
  * @author Billy Yuan
  */
-public class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseTest {
   private Object[] actual = array();
 
   @Test
-  public void should_pass_if_actual_contains_null_once() {
+  void should_pass_if_actual_contains_null_once() {
     actual = new Object[] { null };
     arrays.assertContainsOnlyNulls(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_contains_null_more_than_once() {
+  void should_pass_if_actual_contains_null_more_than_once() {
     actual = array(null, null, null);
     arrays.assertContainsOnlyNulls(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyNulls(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertContainsOnlyNulls(info, actual));
@@ -67,7 +67,7 @@ public class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseT
   }
 
   @Test
-  public void should_fail_if_actual_contains_null_and_non_null_elements() {
+  void should_fail_if_actual_contains_null_and_non_null_elements() {
     AssertionInfo info = someInfo();
     actual = array(null, null, "person");
     List<String> nonNulls = newArrayList("person");
@@ -79,7 +79,7 @@ public class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseT
   }
 
   @Test
-  public void should_fail_if_actual_contains_non_null_elements_only() {
+  void should_fail_if_actual_contains_non_null_elements_only() {
     AssertionInfo info = someInfo();
     actual = array("person", "person2");
     List<String> nonNulls = newArrayList("person", "person2");

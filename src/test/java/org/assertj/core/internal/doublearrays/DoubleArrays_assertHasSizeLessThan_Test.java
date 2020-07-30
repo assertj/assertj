@@ -12,15 +12,15 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import org.assertj.core.internal.DoubleArraysBaseTest;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class DoubleArrays_assertHasSizeLessThan_Test extends DoubleArraysBaseTest {
+import org.assertj.core.internal.DoubleArraysBaseTest;
+import org.junit.jupiter.api.Test;
+
+class DoubleArrays_assertHasSizeLessThan_Test extends DoubleArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {

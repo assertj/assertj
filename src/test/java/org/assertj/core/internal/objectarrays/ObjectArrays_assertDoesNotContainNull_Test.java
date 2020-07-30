@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -42,24 +42,24 @@ public class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBase
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_null() {
+  void should_pass_if_actual_does_not_contain_null() {
     arrays.assertDoesNotContainNull(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     actual = Arrays.array();
     arrays.assertDoesNotContainNull(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainNull(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_null() {
+  void should_fail_if_actual_contains_null() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda", null);
 
@@ -70,24 +70,24 @@ public class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBase
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
     arraysWithCustomComparisonStrategy.assertDoesNotContainNull(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     actual = Arrays.array();
     arraysWithCustomComparisonStrategy.assertDoesNotContainNull(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainNull(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda", null);
 
