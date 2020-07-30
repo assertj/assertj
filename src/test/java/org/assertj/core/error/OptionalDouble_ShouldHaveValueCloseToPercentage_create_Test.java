@@ -21,10 +21,10 @@ import java.util.OptionalDouble;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
+class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
 
   @Test
-  public void should_create_error_message_when_optionaldouble_is_empty() {
+  void should_create_error_message_when_optionaldouble_is_empty() {
     // WHEN
     String errorMessage = shouldHaveValueCloseToPercentage(10.0).create();
     // THEN
@@ -34,7 +34,7 @@ public class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_optionaldouble_value_is_not_close_enough_to_expected_value() {
+  void should_create_error_message_when_optionaldouble_value_is_not_close_enough_to_expected_value() {
     // WHEN
     String errorMessage = shouldHaveValueCloseToPercentage(OptionalDouble.of(20), 10, withinPercentage(2), 3).create();
     // THEN

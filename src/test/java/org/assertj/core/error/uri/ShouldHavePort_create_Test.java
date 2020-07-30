@@ -22,10 +22,10 @@ import java.net.URL;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHavePort_create_Test {
+class ShouldHavePort_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri() {
+  void should_create_error_message_for_uri() {
     // WHEN
     String error = shouldHavePort(URI.create("http://assertj.org:8080/news"), 8888).create(new TestDescription("TEST"));
     // THEN
@@ -39,7 +39,7 @@ public class ShouldHavePort_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_has_no_port() {
+  void should_create_error_message_for_uri_has_no_port() {
     // GIVEN
     URI uri = URI.create("http://assertj.org:8080/news");
     // WHEN
@@ -53,7 +53,7 @@ public class ShouldHavePort_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url() throws Exception {
+  void should_create_error_message_for_url() throws Exception {
     // WHEN
     String error = shouldHavePort(new URL("http://assertj.org:8080/news"), 8888).create(new TestDescription("TEST"));
     // THEN
@@ -67,7 +67,7 @@ public class ShouldHavePort_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_has_no_port() throws Exception {
+  void should_create_error_message_for_url_has_no_port() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org:8080/news");
     // WHEN

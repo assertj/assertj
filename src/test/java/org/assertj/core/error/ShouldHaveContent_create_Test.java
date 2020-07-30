@@ -27,12 +27,12 @@ import org.assertj.core.util.Lists;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveContent_create_Test {
+class ShouldHaveContent_create_Test {
 
   private static final String DIFF = "diff !";
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     final FakeFile file = new FakeFile("xyz");
     Delta<String> delta = mock(Delta.class);

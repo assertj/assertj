@@ -20,10 +20,10 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeAbstract_create_Test {
+class ShouldBeAbstract_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory errorMessageFactory = shouldBeAbstract(String.class);
     // WHEN

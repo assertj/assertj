@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldBeLess_create_Test {
+class ShouldBeLess_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeLess(8, 6);
     // WHEN
@@ -47,7 +47,7 @@ public class ShouldBeLess_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeLess(8, 6, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
     // WHEN

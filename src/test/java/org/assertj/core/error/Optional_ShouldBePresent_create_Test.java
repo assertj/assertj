@@ -23,10 +23,10 @@ import java.util.OptionalLong;
 
 import org.junit.jupiter.api.Test;
 
-public class Optional_ShouldBePresent_create_Test {
+class Optional_ShouldBePresent_create_Test {
 
   @Test
-  public void should_create_error_message_with_optional() {
+  void should_create_error_message_with_optional() {
     // WHEN
     String errorMessage = shouldBePresent(Optional.empty()).create();
     // THEN
@@ -34,7 +34,7 @@ public class Optional_ShouldBePresent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_optionaldouble() {
+  void should_create_error_message_with_optionaldouble() {
     // WHEN
     String errorMessage = shouldBePresent(OptionalDouble.empty()).create();
     // THEN
@@ -42,7 +42,7 @@ public class Optional_ShouldBePresent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_optionalint() {
+  void should_create_error_message_with_optionalint() {
     // WHEN
     String errorMessage = shouldBePresent(OptionalInt.empty()).create();
     // THEN
@@ -50,7 +50,7 @@ public class Optional_ShouldBePresent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_optionallong() {
+  void should_create_error_message_with_optionallong() {
     // WHEN
     String errorMessage = shouldBePresent(OptionalLong.empty()).create();
     // THEN

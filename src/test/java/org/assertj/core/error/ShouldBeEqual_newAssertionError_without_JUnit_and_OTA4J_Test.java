@@ -38,7 +38,7 @@ import org.opentest4j.AssertionFailedError;
  *
  * @author Filip Hrisafov
  */
-public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
+class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
 
   private Description description;
   private ShouldBeEqual factory;
@@ -54,7 +54,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
   }
 
   @Test
-  public void should_create_AssertionError_if_created_ComparisonFailure_and_AssertionFailedError_is_null() throws Exception {
+  void should_create_AssertionError_if_created_ComparisonFailure_and_AssertionFailedError_is_null() throws Exception {
     // GIVEN
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willReturn(null);
     // WHEN
@@ -64,7 +64,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
   }
 
   @Test
-  public void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
+  void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
     // GIVEN
     given(constructorInvoker.newInstance(anyString(), any(Class[].class),
                                          any(Object[].class))).willThrow(new AssertionError("Thrown on purpose"));

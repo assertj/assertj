@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @author Jean-Christophe Gay
  * @author Francis Galiegue
  */
-public class ShouldHaveParent_create_Test {
+class ShouldHaveParent_create_Test {
   private final File expectedFileParent = new FakeFile("expected.parent");
   private final Path expectedPathParent = mock(Path.class);
 
@@ -50,7 +50,7 @@ public class ShouldHaveParent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_file_has_no_parent() {
+  void should_create_error_message_when_file_has_no_parent() {
     // GIVEN
     final File actual = spy(new FakeFile("actual"));
     when(actual.getParentFile()).thenReturn(null);
@@ -62,7 +62,7 @@ public class ShouldHaveParent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_file_does_not_have_expected_parent() {
+  void should_create_error_message_when_file_does_not_have_expected_parent() {
     // GIVEN
     final File actual = spy(new FakeFile("actual"));
     final FakeFile actualParent = new FakeFile("not.expected.parent");
@@ -74,7 +74,7 @@ public class ShouldHaveParent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_path_has_no_parent() {
+  void should_create_error_message_when_path_has_no_parent() {
     // GIVEN
     final Path actual = mock(Path.class);
     // WHEN
@@ -84,7 +84,7 @@ public class ShouldHaveParent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_path_does_not_have_expected_parent() {
+  void should_create_error_message_when_path_does_not_have_expected_parent() {
     // GIVEN
     final Path actual = mock(Path.class);
     final Path actualParent = mock(Path.class);

@@ -29,7 +29,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Alex Ruiz
  * @author Dan Corder
  */
-public class DescriptionFormatter_format_Test {
+class DescriptionFormatter_format_Test {
 
   private static DescriptionFormatter formatter;
 
@@ -39,13 +39,13 @@ public class DescriptionFormatter_format_Test {
   }
 
   @Test
-  public void should_format_description_if_value_is_not_empty_or_null() {
+  void should_format_description_if_value_is_not_empty_or_null() {
     then(formatter.format(new TestDescription("Leia"))).isEqualTo("[Leia] ");
   }
 
   @ParameterizedTest
   @MethodSource("descriptionGeneratorDataProvider")
-  public void should_return_empty_String(TestDescription testDescription) {
+  void should_return_empty_String(TestDescription testDescription) {
     then(formatter.format(testDescription)).isEmpty();
   }
 

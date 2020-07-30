@@ -39,14 +39,14 @@ import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Name;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
+class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
 
   private static final TextDescription TEST_DESCRIPTION = new TextDescription("Test");
   private static final Representation REPRESENTATION = CONFIGURATION_PROVIDER.representation();
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_throw_assertion_error_rather_than_null_pointer_when_one_nested_member_is_null() {
+  void should_throw_assertion_error_rather_than_null_pointer_when_one_nested_member_is_null() {
     // GIVEN
     Jedi yoda = new Jedi("Yoda", "Green");
     Jedi noname = new Jedi(null, "Green");
@@ -56,7 +56,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_use_unambiguous_fields_description_when_standard_description_of_actual_and_expected_collection_fields_values_are_identical() {
+  void should_use_unambiguous_fields_description_when_standard_description_of_actual_and_expected_collection_fields_values_are_identical() {
     // GIVEN
     WithCollection<String> withHashSet = new WithCollection<>(new LinkedHashSet<String>());
     WithCollection<String> withSortedSet = new WithCollection<>(new TreeSet<String>());
@@ -88,7 +88,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_use_unambiguous_fields_description_when_standard_description_of_actual_and_expected_map_fields_values_are_identical() {
+  void should_use_unambiguous_fields_description_when_standard_description_of_actual_and_expected_map_fields_values_are_identical() {
     // GIVEN
     WithMap<Long, Boolean> withLinkedHashMap = new WithMap<>(new LinkedHashMap<>());
     WithMap<Long, Boolean> withTreeMap = new WithMap<>(new TreeMap<>());
@@ -120,7 +120,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_precise_missing_fields_when_actual_does_not_declare_all_expected_fields() {
+  void should_precise_missing_fields_when_actual_does_not_declare_all_expected_fields() {
     // GIVEN
     Person person = new Person("John", "Doe");
     PersonDAO personDAO = new PersonDAO("John", "Doe", 1L, 23);
@@ -154,7 +154,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_not_fall_with_npe_if_field_of_one_of_compared_objects_is_null() {
+  void should_not_fall_with_npe_if_field_of_one_of_compared_objects_is_null() {
     // GIVEN
     final Name actualName = new Name("Andy");
     final Name nullName = new Name(null);
@@ -163,7 +163,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_display_difference_with_percent() {
+  void should_display_difference_with_percent() {
     // GIVEN
     Jedi yoda1 = new Jedi("Yoda", "Green");
     Jedi yoda2 = new Jedi("%%Yoda%", "Green%");
@@ -194,7 +194,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_show_multiple_differences() {
+  void should_show_multiple_differences() {
     // GIVEN
     final Name actualName = new Name("Magic", "Johnson");
     final Name nullName = new Name(null, "Ginobili");
@@ -231,7 +231,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_show_one_difference() {
+  void should_show_one_difference() {
     // GIVEN
     final Name actualName = new Name("Magic", "Johnson");
     final Name nullName = new Name(null, "Johnson");
@@ -263,7 +263,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_show_difference_with_percentage() {
+  void should_show_difference_with_percentage() {
     // GIVEN
     final Name actualName = new Name("%%Ma%gi%", "%Johnson");
     final Name nullName = new Name(null, "%Johnson");

@@ -35,12 +35,12 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldContainExactlyInAnyOrder_create_Test {
+class ShouldContainExactlyInAnyOrder_create_Test {
 
   private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactlyInAnyOrder(list("Yoda", "Han"),
                                                                  list("Luke", "Yoda"),
@@ -63,7 +63,7 @@ public class ShouldContainExactlyInAnyOrder_create_Test {
   }
 
   @Test
-  public void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
+  void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactlyInAnyOrder(list("Yoda"),
                                                                  list("Luke", "Yoda"),
@@ -84,7 +84,7 @@ public class ShouldContainExactlyInAnyOrder_create_Test {
   }
 
   @Test
-  public void should_not_display_elements_not_found_when_there_are_none_with_custom_comparison_strategy() {
+  void should_not_display_elements_not_found_when_there_are_none_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactlyInAnyOrder(list("Yoda", "Leia"),
                                                                  list("Yoda"),

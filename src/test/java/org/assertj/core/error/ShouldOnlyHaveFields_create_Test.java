@@ -34,12 +34,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Filip Hrisafov
  */
-public class ShouldOnlyHaveFields_create_Test {
+class ShouldOnlyHaveFields_create_Test {
 
   private static final Set<String> EMPTY_STRING_SET = emptySet();
 
   @Test
-  public void should_create_error_message_for_fields() {
+  void should_create_error_message_for_fields() {
     // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveFields(Player.class,
                                                        newLinkedHashSet("name", "team"),
@@ -60,7 +60,7 @@ public class ShouldOnlyHaveFields_create_Test {
   }
 
   @Test
-  public void should_not_display_unexpected_fields_when_there_are_none_for_fields() {
+  void should_not_display_unexpected_fields_when_there_are_none_for_fields() {
     ErrorMessageFactory factory = shouldOnlyHaveFields(Player.class,
                                                        newLinkedHashSet("name", "team"),
                                                        newLinkedHashSet("nickname"),
@@ -78,7 +78,7 @@ public class ShouldOnlyHaveFields_create_Test {
   }
 
   @Test
-  public void should_not_display_fields_not_found_when_there_are_none_for_fields() {
+  void should_not_display_fields_not_found_when_there_are_none_for_fields() {
     // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveFields(Player.class,
                                                        newLinkedHashSet("name", "team"),
@@ -97,7 +97,7 @@ public class ShouldOnlyHaveFields_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_declared_fields() {
+  void should_create_error_message_for_declared_fields() {
     // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveDeclaredFields(Player.class,
                                                                newLinkedHashSet("name", "team"),
@@ -118,7 +118,7 @@ public class ShouldOnlyHaveFields_create_Test {
   }
 
   @Test
-  public void should_not_display_unexpected_fields_when_there_are_none_for_declared_fields() {
+  void should_not_display_unexpected_fields_when_there_are_none_for_declared_fields() {
     // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveDeclaredFields(Player.class,
                                                                newLinkedHashSet("name", "team"),
@@ -137,7 +137,7 @@ public class ShouldOnlyHaveFields_create_Test {
   }
 
   @Test
-  public void should_not_display_fields_not_found_when_there_are_none_for_declared_fields() {
+  void should_not_display_fields_not_found_when_there_are_none_for_declared_fields() {
     // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveDeclaredFields(Player.class,
                                                                newLinkedHashSet("name", "team"),

@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class ShouldNotMatchPattern_create_Test {
+class ShouldNotMatchPattern_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotMatch("Yoda", "Luke");
     // WHEN

@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ShouldNotBeInstance_create_Test {
+class ShouldNotBeInstance_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeInstance("Yoda", String.class);
     // WHEN
@@ -42,7 +42,7 @@ public class ShouldNotBeInstance_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_stack_trace_for_throwable() {
+  void should_create_error_message_with_stack_trace_for_throwable() {
     // GIVEN
     IllegalArgumentException throwable = new IllegalArgumentException();
     // WHEN

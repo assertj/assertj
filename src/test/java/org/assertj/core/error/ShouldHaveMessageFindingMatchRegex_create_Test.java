@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * @author David Haccoun
  */
-public class ShouldHaveMessageFindingMatchRegex_create_Test {
+class ShouldHaveMessageFindingMatchRegex_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     String regex = "regex";
     RuntimeException actual = new RuntimeException("error %s message");

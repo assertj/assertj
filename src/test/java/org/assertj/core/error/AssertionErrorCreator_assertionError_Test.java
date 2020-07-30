@@ -21,12 +21,12 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class AssertionErrorCreator_assertionError_Test {
+class AssertionErrorCreator_assertionError_Test {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Test
-  public void should_create_AssertionFailedError_using_reflection() {
+  void should_create_AssertionFailedError_using_reflection() {
     // GIVEN
     String actual = "actual";
     String expected = "expected";
@@ -42,7 +42,7 @@ public class AssertionErrorCreator_assertionError_Test {
   }
 
   @Test
-  public void should_create_AssertionError_when_AssertionFailedError_could_not_be_created() throws Exception {
+  void should_create_AssertionError_when_AssertionFailedError_could_not_be_created() throws Exception {
     // GIVEN
     String message = "error message";
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldStartWith_create_Test {
+class ShouldStartWith_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -40,7 +40,7 @@ public class ShouldStartWith_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -48,7 +48,7 @@ public class ShouldStartWith_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     factory = shouldStartWith(list("Yoda", "Luke"), list("Han", "Leia"),
                               new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

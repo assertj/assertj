@@ -22,10 +22,10 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class ShouldBeEqual_Test {
+class ShouldBeEqual_Test {
 
   @Test
-  public void should_display_comparison_strategy_in_error_message() {
+  void should_display_comparison_strategy_in_error_message() {
     // GIVEN
     String actual = "Luke";
     String expected = "Yoda";
@@ -46,7 +46,7 @@ public class ShouldBeEqual_Test {
   }
 
   @Test
-  public void should_use_actual_and_expected_representation_in_AssertionFailedError_actual_and_expected_fields() {
+  void should_use_actual_and_expected_representation_in_AssertionFailedError_actual_and_expected_fields() {
     // GIVEN
     byte[] actual = new byte[] { 1, 2, 3 };
     byte[] expected = new byte[] { 1, 2, 4 };

@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ShouldContainValue_create_Test {
+class ShouldContainValue_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainValue(map, "VeryOld");
@@ -50,7 +50,7 @@ public class ShouldContainValue_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_value_condition() {
+  void should_create_error_message_with_value_condition() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainValue(map, new TestCondition<>("test condition"));

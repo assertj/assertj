@@ -24,10 +24,10 @@ import java.nio.file.Paths;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldContainRecursively_create_Test {
+class ShouldContainRecursively_create_Test {
 
   @Test
-  public void should_create_error_message_for_files() {
+  void should_create_error_message_for_files() {
     // GIVEN
     File root = new File("root");
     File foo = new File(root, "foo");
@@ -46,7 +46,7 @@ public class ShouldContainRecursively_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_paths() {
+  void should_create_error_message_for_paths() {
     // GIVEN
     Path root = Paths.get("root");
     Path foo = root.resolve("foo");

@@ -22,10 +22,10 @@ import java.net.URL;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveHost_create_Test {
+class ShouldHaveHost_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri() {
+  void should_create_error_message_for_uri() {
     // WHEN
     String error = shouldHaveHost(URI.create("http://assertj.org/news"), "foo.org").create(new TestDescription("TEST"));
     // THEN
@@ -39,7 +39,7 @@ public class ShouldHaveHost_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url() throws Exception {
+  void should_create_error_message_for_url() throws Exception {
     // WHEN
     String error = shouldHaveHost(new URL("http://assertj.org/news"), "foo.org").create(new TestDescription("TEST"));
     // THEN

@@ -20,10 +20,10 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeEqualIgnoringNewlineDifference_create_Test {
+class ShouldBeEqualIgnoringNewlineDifference_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringNewLineDifferences("foo", "bar");
     // WHEN

@@ -29,13 +29,13 @@ import org.junit.jupiter.api.Test;
  * <code>{@link ShouldBeRelativePath#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
  */
-public class ShouldBeRelativePath_create_Test {
+class ShouldBeRelativePath_create_Test {
 
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("Test");
   private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   @Test
-  public void should_create_error_message_for_File() {
+  void should_create_error_message_for_File() {
     // GIVEN
     FakeFile file = new FakeFile("xyz");
     ErrorMessageFactory factory = shouldBeRelativePath(file);
@@ -46,7 +46,7 @@ public class ShouldBeRelativePath_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_Path() {
+  void should_create_error_message_for_Path() {
     // GIVEN
     final Path path = mock(Path.class);
     ErrorMessageFactory factory = shouldBeRelativePath(path);

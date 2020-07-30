@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldContainString_create_Test {
+class ShouldContainString_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain("Yoda", "Luke");
     // WHEN
@@ -45,7 +45,7 @@ public class ShouldContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain("Yoda", "Luke",
                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
@@ -56,7 +56,7 @@ public class ShouldContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_ignoring_case() {
+  void should_create_error_message_when_ignoring_case() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainIgnoringCase("Yoda", "Luke");
     // WHEN
@@ -66,7 +66,7 @@ public class ShouldContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_several_string_values() {
+  void should_create_error_message_with_several_string_values() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain("Yoda, Luke", array("Luke", "Vador", "Solo"), newSet("Vador", "Solo"));
     // WHEN

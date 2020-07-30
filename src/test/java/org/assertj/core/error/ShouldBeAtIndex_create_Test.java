@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Bo Gotthardt
  */
-public class ShouldBeAtIndex_create_Test {
+class ShouldBeAtIndex_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     TestCondition<String> condition = new TestCondition<>("red lightsaber");
     ErrorMessageFactory factory = shouldBeAtIndex(list("Yoda", "Luke"), condition, atIndex(1), "Luke");

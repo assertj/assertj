@@ -21,10 +21,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.junit.jupiter.api.Test;
 
-public class Array2dElementShouldBeDeepEqual_create_Test {
+class Array2dElementShouldBeDeepEqual_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory errorMessageFactory = elementShouldBeEqual(999, 4, 1, 3);
     // WHEN

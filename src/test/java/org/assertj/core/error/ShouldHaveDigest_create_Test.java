@@ -28,7 +28,7 @@ import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveDigest_create_Test {
+class ShouldHaveDigest_create_Test {
 
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("TEST");
 
@@ -40,7 +40,7 @@ public class ShouldHaveDigest_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_File() {
+  void should_create_error_message_with_File() {
     // GIVEN
     File actual = new FakeFile("actual.png");
     // WHEN
@@ -54,7 +54,7 @@ public class ShouldHaveDigest_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_Path() {
+  void should_create_error_message_with_Path() {
     // GIVEN
     Path actual = mock(Path.class);
     // WHEN
@@ -68,7 +68,7 @@ public class ShouldHaveDigest_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_InputStream() {
+  void should_create_error_message_with_InputStream() {
     // GIVEN
     InputStream actual = mock(InputStream.class);
     // WHEN

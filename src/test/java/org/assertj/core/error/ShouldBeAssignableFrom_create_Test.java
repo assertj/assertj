@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author William Delanoue
  */
-public class ShouldBeAssignableFrom_create_Test {
+class ShouldBeAssignableFrom_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeAssignableFrom(ShouldBeAssignableFrom_create_Test.class,
                                                          Sets.newLinkedHashSet(String.class, Integer.class),

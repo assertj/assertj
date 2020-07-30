@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author dorzey
  */
-public class ShouldNotContainKeys_create_Test {
+class ShouldNotContainKeys_create_Test {
 
   private Map<?, ?> map;
 
@@ -43,7 +43,7 @@ public class ShouldNotContainKeys_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContainKeys(map, newLinkedHashSet("age"));
     // WHEN
@@ -57,7 +57,7 @@ public class ShouldNotContainKeys_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_multiple_keys() {
+  void should_create_error_message_with_multiple_keys() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContainKeys(map, newLinkedHashSet("name", "color"));
     // WHEN

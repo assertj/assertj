@@ -43,10 +43,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldContain_create_Test {
+class ShouldContain_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(list("Yoda"), list("Luke", "Yoda"), newLinkedHashSet("Luke"));
     // WHEN
@@ -62,7 +62,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(list("Yoda"), list("Luke", "Yoda"), newLinkedHashSet("Luke"),
                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
@@ -80,7 +80,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_differentiating_long_from_integer_in_arrays() {
+  void should_create_error_message_differentiating_long_from_integer_in_arrays() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(list(5L, 7L), list(5, 7), newLinkedHashSet(5, 7));
     // WHEN
@@ -96,7 +96,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_differentiating_double_from_float() {
+  void should_create_error_message_differentiating_double_from_float() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(list(5d, 7d), list(5f, 7f), newLinkedHashSet(5f, 7f));
     // WHEN
@@ -112,7 +112,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_map() {
+  void should_create_error_message_for_map() {
     // GIVEN
     Map<String, Double> map = mapOf(MapEntry.entry("1", 2d));
     ErrorMessageFactory factory = shouldContain(map, MapEntry.entry("3", 4d), MapEntry.entry("3", 4d));
@@ -129,7 +129,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_byte_array() {
+  void should_create_error_message_for_byte_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new byte[] { 2, 3 }, new byte[] { 4 }, new byte[] { 4 });
     // WHEN
@@ -145,7 +145,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_float_array() {
+  void should_create_error_message_for_float_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new float[] { 2f, 3f }, new float[] { 4f }, new float[] { 4f });
     // WHEN
@@ -161,7 +161,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_int_array() {
+  void should_create_error_message_for_int_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new int[] { 2, 3 }, new int[] { 4 }, new int[] { 4 });
     // WHEN
@@ -177,7 +177,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_char_array() {
+  void should_create_error_message_for_char_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new char[] { 'a', 'b' }, new char[] { 'c', 'd' }, new char[] { 'c', 'd' });
     // WHEN
@@ -193,7 +193,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_long_array() {
+  void should_create_error_message_for_long_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new long[] { 6L, 8L }, new long[] { 10L, 9L }, new long[] { 10L, 9L });
     // WHEN
@@ -209,7 +209,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_double_array() {
+  void should_create_error_message_for_double_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new double[] { 6, 8 }, new double[] { 10, 9 }, new double[] { 10, 9 });
     // WHEN
@@ -225,7 +225,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_boolean_array() {
+  void should_create_error_message_for_boolean_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new boolean[] { true }, new boolean[] { true, false }, new boolean[] { false });
     // WHEN
@@ -241,7 +241,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_short_array() {
+  void should_create_error_message_for_short_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new short[] { 6, 8 }, new short[] { 10, 9 }, new short[] { 10, 9 });
     // WHEN
@@ -257,7 +257,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_String_array() {
+  void should_create_error_message_for_String_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain(new String[] { "a" }, new String[] { "b" }, new String[] { "b" });
     // WHEN
@@ -273,7 +273,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_custom_class_array() {
+  void should_create_error_message_for_custom_class_array() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi expected = new Jedi("Luke", "blue");
     // GIVEN
@@ -291,7 +291,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_file_directory() {
+  void should_create_error_message_for_file_directory() {
     // GIVEN
     File directory = mock(File.class);
     given(directory.getAbsolutePath()).willReturn("root");
@@ -325,7 +325,7 @@ public class ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_path_directory() {
+  void should_create_error_message_for_path_directory() {
     // GIVEN
     Path directory = mock(Path.class);
     given(directory.toString()).willReturn("root");

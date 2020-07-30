@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Jaskowski
  */
-public class ShouldBeSubsetOf_create_Test {
+class ShouldBeSubsetOf_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeSubsetOf(list("Yoda", "Luke"), list("Han", "Luke"), list("Yoda"));
     // WHEN
@@ -43,7 +43,7 @@ public class ShouldBeSubsetOf_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeSubsetOf(list("Yoda", "Luke"),
                                                    list("Han", "Luke"),

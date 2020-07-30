@@ -26,10 +26,10 @@ import java.util.Map;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldNotHaveAnyElementsOfTypes_create_Test {
+class ShouldNotHaveAnyElementsOfTypes_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     List<Number> actual = list(1, 2, 3.0, 4.1, BigDecimal.ONE);
 

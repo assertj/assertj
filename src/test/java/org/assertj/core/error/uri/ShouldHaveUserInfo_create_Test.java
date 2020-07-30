@@ -22,10 +22,10 @@ import java.net.URL;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveUserInfo_create_Test {
+class ShouldHaveUserInfo_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri_has_user_info() {
+  void should_create_error_message_for_uri_has_user_info() {
     // GIVEN
     URI uri = URI.create("http://test:pass@assertj.org/news");
     // WHEN
@@ -41,7 +41,7 @@ public class ShouldHaveUserInfo_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_has_no_user_info() {
+  void should_create_error_message_for_uri_has_no_user_info() {
     // GIVEN
     URI uri = URI.create("http://test:pass@assertj.org/news");
     // WHEN
@@ -55,7 +55,7 @@ public class ShouldHaveUserInfo_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_has_user_info() throws Exception {
+  void should_create_error_message_for_url_has_user_info() throws Exception {
     // GIVEN
     URL url = new URL("http://test:pass@assertj.org/news");
     // WHEN
@@ -71,7 +71,7 @@ public class ShouldHaveUserInfo_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_has_no_user_info() throws Exception {
+  void should_create_error_message_for_url_has_no_user_info() throws Exception {
     // GIVEN
     URL url = new URL("http://test:pass@assertj.org/news");
     // WHEN

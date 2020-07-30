@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class ConstructorInvoker_newInstance_Test {
+class ConstructorInvoker_newInstance_Test {
 
   private ConstructorInvoker invoker;
 
@@ -33,7 +33,7 @@ public class ConstructorInvoker_newInstance_Test {
   }
 
   @Test
-  public void should_create_Object_using_reflection() throws Exception {
+  void should_create_Object_using_reflection() throws Exception {
     // WHEN
     Object o = invoker.newInstance("java.lang.Exception", new Class<?>[] { String.class }, "Hi");
     // THEN

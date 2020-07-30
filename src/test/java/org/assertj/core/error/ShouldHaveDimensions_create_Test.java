@@ -23,10 +23,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("ShouldHaveDimensions create")
-public class ShouldHaveDimensions_create_Test {
+class ShouldHaveDimensions_create_Test {
 
   @Test
-  public void should_create_error_message_for_first_dimension() {
+  void should_create_error_message_for_first_dimension() {
     // GIVEN
     int[][] array = { { 1, 2 }, { 3, 4 } };
     ErrorMessageFactory factory = shouldHaveFirstDimension(array, 3, 2);
@@ -39,7 +39,7 @@ public class ShouldHaveDimensions_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_row_dimension() {
+  void should_create_error_message_for_row_dimension() {
     // GIVEN
     int[][] array = { { 1, 2 }, { 3, 4 } };
     ErrorMessageFactory factory = shouldHaveSize(array, 2, 3, 0);

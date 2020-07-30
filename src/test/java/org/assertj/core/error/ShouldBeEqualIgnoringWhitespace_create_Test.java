@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Alexander Bischof
  */
-public class ShouldBeEqualIgnoringWhitespace_create_Test {
+class ShouldBeEqualIgnoringWhitespace_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringWhitespace(" my\tfoo bar ", " myfoo bar ");
     // WHEN

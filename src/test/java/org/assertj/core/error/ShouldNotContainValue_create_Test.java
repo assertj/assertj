@@ -24,10 +24,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class ShouldNotContainValue_create_Test {
+class ShouldNotContainValue_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldNotContainValue(map, "green");

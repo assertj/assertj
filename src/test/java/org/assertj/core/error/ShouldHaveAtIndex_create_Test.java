@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Bo Gotthardt
  */
-public class ShouldHaveAtIndex_create_Test {
+class ShouldHaveAtIndex_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveAtIndex(list("Yoda", "Luke"), new TestCondition<>("red lightsaber"), atIndex(1),
                                                     "Luke");

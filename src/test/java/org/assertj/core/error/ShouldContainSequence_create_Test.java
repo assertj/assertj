@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldContainSequence_create_Test {
+class ShouldContainSequence_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainSequence(list("Yoda", "Luke"), list("Han", "Leia"));
     // WHEN
@@ -46,7 +46,7 @@ public class ShouldContainSequence_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainSequence(list("Yoda", "Luke"), list("Han", "Leia"),
                                                         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

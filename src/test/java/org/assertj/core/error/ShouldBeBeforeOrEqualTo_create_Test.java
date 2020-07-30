@@ -23,10 +23,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeBeforeOrEqualTo_create_Test {
+class ShouldBeBeforeOrEqualTo_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeBeforeOrEqualTo(parse("2019-01-01"), parse("2012-01-01"));
     // WHEN
@@ -40,7 +40,7 @@ public class ShouldBeBeforeOrEqualTo_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_comparison_strategy() {
+  void should_create_error_message_with_comparison_strategy() {
     // GIVEN
     ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(NEVER_EQUALS);
     ErrorMessageFactory factory = shouldBeBeforeOrEqualTo(parse("2019-01-01"), parse("2012-01-01"), comparisonStrategy);

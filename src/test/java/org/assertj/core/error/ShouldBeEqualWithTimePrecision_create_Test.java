@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeEqualWithTimePrecision_create_Test {
+class ShouldBeEqualWithTimePrecision_create_Test {
 
   @Test
-  public void should_create_error_message_ignoring_milliseconds() {
+  void should_create_error_message_ignoring_milliseconds() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MILLISECONDS);
 
@@ -46,7 +46,7 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
   }
 
   @Test
-  public void should_create_error_message_ignoring_seconds() {
+  void should_create_error_message_ignoring_seconds() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.SECONDS);
 
@@ -59,7 +59,7 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
   }
 
   @Test
-  public void should_create_error_message_ignoring_minutes() {
+  void should_create_error_message_ignoring_minutes() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MINUTES);
 
@@ -72,7 +72,7 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
   }
 
   @Test
-  public void should_create_error_message_ignoring_hours() {
+  void should_create_error_message_ignoring_hours() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.HOURS);
 

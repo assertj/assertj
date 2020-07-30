@@ -22,10 +22,10 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveStamp_create_Test {
+class ShouldHaveStamp_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("foo", 1234);
     // WHEN

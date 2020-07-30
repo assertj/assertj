@@ -21,10 +21,10 @@ import java.net.URI;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveScheme_create_Test {
+class ShouldHaveScheme_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String error = shouldHaveScheme(URI.create("http://assertj.org/"), "ftp").create(new TestDescription("TEST"));
     // THEN

@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ShouldContainEntry#create(Description)}</code>.
  */
-public class ShouldContainEntry_create_Test {
+class ShouldContainEntry_create_Test {
 
   @Test
-  public void should_create_error_message_with_entry_condition() {
+  void should_create_error_message_with_entry_condition() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainEntry(map, new TestCondition<>("test condition"));
@@ -47,7 +47,7 @@ public class ShouldContainEntry_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_key_and_value_conditions() {
+  void should_create_error_message_with_key_and_value_conditions() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainEntry(map, new TestCondition<>("test key condition"),

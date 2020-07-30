@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michal Kordas
  */
-public class ShouldNotEndWith_create_Test {
+class ShouldNotEndWith_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotEndWith(list("Yoda", "Luke"), list("Han", "Leia"));
     // WHEN
@@ -47,7 +47,7 @@ public class ShouldNotEndWith_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotEndWith(list("Yoda", "Luke"), list("Han", "Leia"),
                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

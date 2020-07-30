@@ -24,10 +24,10 @@ import java.net.URL;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveParameter_create_Test {
+class ShouldHaveParameter_create_Test {
 
   @Test
-  public void should_create_error_message_for_missing_uri_parameter() {
+  void should_create_error_message_for_missing_uri_parameter() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     // WHEN
@@ -42,7 +42,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_without_value_that_is_missing() {
+  void should_create_error_message_for_uri_parameter_without_value_that_is_missing() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     // WHEN
@@ -57,7 +57,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_missing_uri_parameter_with_an_expected_value() {
+  void should_create_error_message_for_missing_uri_parameter_with_an_expected_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     // WHEN
@@ -74,7 +74,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_without_value_that_has_one() {
+  void should_create_error_message_for_uri_parameter_without_value_that_has_one() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     // WHEN
@@ -90,7 +90,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_without_value_that_has_multiple_values() {
+  void should_create_error_message_for_uri_parameter_without_value_that_has_multiple_values() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     // WHEN
@@ -107,7 +107,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_parameter_with_value_that_has_no_value() {
+  void should_create_error_message_for_uri_parameter_with_value_that_has_no_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article");
     // WHEN
@@ -125,7 +125,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_wrong_parameter_value() {
+  void should_create_error_message_for_uri_with_wrong_parameter_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=11");
     // WHEN
@@ -143,7 +143,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_wrong_parameter_values() {
+  void should_create_error_message_for_uri_with_wrong_parameter_values() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=11");
     // WHEN
@@ -162,7 +162,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_even_without_value() {
+  void should_create_error_message_for_uri_with_no_parameter_that_has_one_even_without_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article");
     // WHEN
@@ -177,7 +177,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_value() {
+  void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     // WHEN
@@ -193,7 +193,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_multiple_values() {
+  void should_create_error_message_for_uri_with_no_parameter_that_has_one_with_multiple_values() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     // WHEN
@@ -209,7 +209,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_with_no_parameter_that_has_one_without_value() {
+  void should_create_error_message_for_uri_with_no_parameter_that_has_one_without_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article");
     // WHEN
@@ -224,7 +224,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_no_parameter_value_but_found() {
+  void should_create_error_message_for_uri_no_parameter_value_but_found() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     // WHEN
@@ -243,7 +243,7 @@ public class ShouldHaveParameter_create_Test {
   // URL
 
   @Test
-  public void should_create_error_message_for_missing_url_parameter() throws Exception {
+  void should_create_error_message_for_missing_url_parameter() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
     // WHEN
@@ -258,7 +258,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_without_value_that_is_missing() throws Exception {
+  void should_create_error_message_for_url_parameter_without_value_that_is_missing() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
     // WHEN
@@ -273,7 +273,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_missing_url_parameter_with_an_expected_value() throws Exception {
+  void should_create_error_message_for_missing_url_parameter_with_an_expected_value() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
     // WHEN
@@ -290,7 +290,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_without_value_that_has_one() throws Exception {
+  void should_create_error_message_for_url_parameter_without_value_that_has_one() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=10");
     // WHEN
@@ -306,7 +306,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_without_value_that_has_multiple_values() throws Exception {
+  void should_create_error_message_for_url_parameter_without_value_that_has_multiple_values() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=10");
     // WHEN
@@ -323,7 +323,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_parameter_with_value_that_has_no_value() throws Exception {
+  void should_create_error_message_for_url_parameter_with_value_that_has_no_value() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article");
     // WHEN
@@ -341,7 +341,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_with_wrong_parameter_value() throws Exception {
+  void should_create_error_message_for_url_with_wrong_parameter_value() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=11");
     // WHEN
@@ -359,7 +359,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_with_wrong_parameter_values() throws Exception {
+  void should_create_error_message_for_url_with_wrong_parameter_values() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=11");
     // WHEN
@@ -378,7 +378,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_with_no_parameter_that_has_one_even_without_value() throws Exception {
+  void should_create_error_message_for_url_with_no_parameter_that_has_one_even_without_value() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article");
     // WHEN
@@ -393,7 +393,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_with_no_parameter_that_has_one_with_value() throws Exception {
+  void should_create_error_message_for_url_with_no_parameter_that_has_one_with_value() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=10");
     // WHEN
@@ -409,7 +409,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_with_no_parameter_that_has_one_with_multiple_values() throws Exception {
+  void should_create_error_message_for_url_with_no_parameter_that_has_one_with_multiple_values() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=10");
     // WHEN
@@ -425,7 +425,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_with_no_parameter_that_has_one_without_value() throws Exception {
+  void should_create_error_message_for_url_with_no_parameter_that_has_one_without_value() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article");
     // WHEN
@@ -440,7 +440,7 @@ public class ShouldHaveParameter_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_no_parameter_value_but_found() throws Exception {
+  void should_create_error_message_for_url_no_parameter_value_but_found() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?article=10");
     // WHEN
