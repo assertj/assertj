@@ -21,6 +21,7 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.UUID;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.AlwaysEqualComparator;
@@ -33,6 +34,9 @@ import com.google.common.collect.Multimap;
 class RecursiveComparisonConfiguration_multiLineDescription_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
+
+  private static final BiPredicate<String, String> STRING_EQUALS = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
+  private static final BiPredicate<Double, Double> DOUBLE_EQUALS = (Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.01;
 
   @BeforeEach
   void setup() {
@@ -225,17 +229,16 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // GIVEN
     recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
     recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAY_EQUALS_TUPLE, Tuple.class);
+    recursiveComparisonConfiguration.registerEqualsForType(STRING_EQUALS, String.class);
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    // @format:off
-    assertThat(multiLineDescription).contains(format(
-               "- these types were compared with the following comparators:%n" +
-               "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
-               "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
-               "  - java.lang.Integer -> AbsValueComparator%n" +
-               "  - org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n"));
-    // @format:on
+    assertThat(multiLineDescription).contains(format("- these types were compared with the following comparators:%n" +
+                                                     "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
+                                                     "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
+                                                     "  - java.lang.Integer -> AbsValueComparator%n"),
+                                              "  - java.lang.String -> ",
+                                              "  - org.assertj.core.groups.Tuple -> AlwaysEqualComparator");
   }
 
   @Test
@@ -247,12 +250,23 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    // @format:off
     assertThat(multiLineDescription).contains(format("- these fields were compared with the following comparators:%n" +
                                                      "  - bar -> AlwaysDifferentComparator%n" +
                                                      "  - foo -> AlwaysEqualComparator%n" +
                                                      "  - height -> %%s %% %%%% %%d%n"));
-    // @format:on
+  }
+
+  @Test
+  void should_show_the_registered_bipredicate_comparator_for_specific_fields_alphabetically() {
+    // GIVEN
+    recursiveComparisonConfiguration.registerEqualsForFields(STRING_EQUALS, "foo");
+    recursiveComparisonConfiguration.registerEqualsForFields(DOUBLE_EQUALS, "bar");
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    assertThat(multiLineDescription).containsSubsequence(format("- these fields were compared with the following comparators:%n"),
+                                                         "  - bar -> ",
+                                                         "  - foo -> ");
   }
 
   @Test

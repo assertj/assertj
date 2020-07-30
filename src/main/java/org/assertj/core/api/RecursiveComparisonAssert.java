@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -94,10 +95,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
    * <p>
-   * You can specify a custom comparator per (nested) fields or type with the methods below (but before calling {@code isEqualTo} otherwise this has no effect!):
+   * You can specify a custom comparator or equals BiPredicate per (nested) fields or type with the methods below (but before calling {@code isEqualTo} otherwise this has no effect!):
    * <ol>
-   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
+   * <li> {@link #withEqualsForType(BiPredicate, Class)} for a given type</li>
    * <li> {@link #withComparatorForType(Comparator, Class)} for a given type</li>
+   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
+   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
    * </ol>
    * <p>
    * Note that field comparators always take precedence over type comparators.
@@ -991,14 +994,64 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Allows to register a specific comparator to compare fields with the given locations.
+   * Allows to register a {@link BiPredicate} to compare fields with the given locations.
    * A typical usage is for comparing double/float fields with a given precision.
    * <p>
-   * Comparators specified by this method have precedence over comparators added with {@link #withComparatorForType(Comparator, Class)}.
+   * BiPredicates specified with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
+   * or the comparators registered with {@link #withComparatorForType(Comparator, Class)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given field will override the previously registered Comparator (if any).
    * <p>
    * The field locations must be specified from the root object,
    * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
-   * <pre><code class='java'> withComparatorForField("bar.id", idComparator)</code></pre>
+   * <pre><code class='java'> withEqualsForFields(idBiPredicate, "foo.id", "foo.bar.id")</code></pre>
+   * <p>
+   * Complete example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   *
+   * BiPredicate&lt;Double, Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5;
+   *
+   * // assertion succeeds
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForFields(closeEnough, &quot;height&quot;)
+   *                  .isEqualTo(tallerFrodo);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForFields(closeEnough, &quot;height&quot;)
+   *                  .isEqualTo(reallyTallFrodo);</code></pre>
+   *
+   * @param equals the {@link BiPredicate} to use to compare the given fields
+   * @param fieldLocations the location from the root object of the fields the BiPredicate should be used for
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given BiPredicate is null.
+   */
+  @CheckReturnValue
+  public SELF withEqualsForFields(BiPredicate<?, ?> equals, String... fieldLocations) {
+    recursiveComparisonConfiguration.registerEqualsForFields(equals, fieldLocations);
+    return myself;
+  }
+
+  /**
+   * Allows to register a comparator to compare fields with the given locations.
+   * A typical usage is for comparing double/float fields with a given precision.
+   * <p>
+   * Comparators registered with this method have precedence over comparators registered with {@link #withComparatorForType(Comparator, Class)}
+   * or {@link BiPredicate} registered with {@link #withEqualsForType(BiPredicate, Class)}.
+   * <p>
+   * The field locations must be specified from the root object,
+   * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
+   * <pre><code class='java'> withComparatorForFields(idComparator, "foo.id", "foo.bar.id")</code></pre>
+   * <p>
+   * Note that registering a {@link Comparator} for a given field will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * Complete example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -1012,7 +1065,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *
    * Comparator&lt;Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5 ? 0 : 1;
    *
-   * // assertions succeed
+   * // assertion succeeds
    * assertThat(frodo).usingRecursiveComparison()
    *                  .withComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualTo(tallerFrodo);
@@ -1025,6 +1078,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given fields
    * @param fieldLocations the location from the root object of the fields the comparator should be used for
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given comparator is null.
    */
   @CheckReturnValue
   public SELF withComparatorForFields(Comparator<?> comparator, String... fieldLocations) {
@@ -1033,10 +1087,13 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Allows to register a specific comparator to compare the fields with the given type.
+   * Allows to register a comparator to compare the fields with the given type.
    * A typical usage is for comparing double/float fields with a given precision.
    * <p>
-   * Comparators specified by this method have less precedence than comparators added with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.
+   * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}
+   * or BiPredicate registered with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}.
+   * <p>
+   * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -1050,7 +1107,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *
    * Comparator&lt;Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5 ? 0 : 1;
    *
-   * // assertions succeed
+   * // assertion succeeds
    * assertThat(frodo).usingRecursiveComparison()
    *                  .withComparatorForType(closeEnough, Double.class)
    *                  .isEqualTo(tallerFrodo);
@@ -1065,10 +1122,55 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @param type the type to be compared with the given comparator.
    *
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given comparator is null.
    */
   @CheckReturnValue
   public <T> SELF withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     recursiveComparisonConfiguration.registerComparatorForType(comparator, type);
+    return myself;
+  }
+
+  /**
+   * Allows to register a {@link BiPredicate} to compare the fields with the given type.
+   * A typical usage is for comparing double/float fields with a given precision.
+   * <p>
+   * BiPredicates registered with this method have less precedence than the one registered  with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}
+   * or comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   *
+   * BiPredicate&lt;Double, Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5;
+   *
+   * // assertion succeeds
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForType(closeEnough, Double.class)
+   *                  .isEqualTo(tallerFrodo);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForType(closeEnough, Double.class)
+   *                  .isEqualTo(reallyTallFrodo);</code></pre>
+   *
+   * @param <T> the class type to register a BiPredicate for
+   * @param equals the {@link BiPredicate} to use to compare the given fields
+   * @param type the type to be compared with the given comparator.
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given BiPredicate is null.
+   */
+  @CheckReturnValue
+  public <T> SELF withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
+    recursiveComparisonConfiguration.registerEqualsForType(equals, type);
     return myself;
   }
 

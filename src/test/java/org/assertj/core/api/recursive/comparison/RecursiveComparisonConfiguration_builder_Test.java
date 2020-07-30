@@ -12,9 +12,12 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
+import java.util.Comparator;
+import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RandomUtils;
@@ -217,6 +220,73 @@ class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
+  void should_throw_NPE_if_given_comparator_for_fields_is_null() {
+    // GIVEN
+    Comparator<Integer> integerComparator = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder()
+                                                                               .withComparatorForFields(integerComparator,
+                                                                                                        "age"));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null Comparator");
+  }
+
+  @Test
+  void should_throw_NPE_if_given_comparator_for_type_is_null() {
+    // GIVEN
+    Comparator<Integer> integerComparator = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder()
+                                                                               .withComparatorForType(integerComparator,
+                                                                                                      Integer.class));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null Comparator");
+  }
+
+  @Test
+  void should_throw_NPE_if_given_BiPredicate_for_type_is_null() {
+    // GIVEN
+    BiPredicate<String, String> stringEquals = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder().withEqualsForType(stringEquals,
+                                                                                                            String.class));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null BiPredicate");
+  }
+
+  @Test
+  void should_throw_NPE_if_given_BiPredicate_for_fields_is_null() {
+    // GIVEN
+    BiPredicate<String, String> stringEquals = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder().withEqualsForFields(stringEquals,
+                                                                                                              "id"));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null BiPredicate");
+  }
+
+  @Test
+  void should_set_equalsForField() {
+    // GIVEN
+    String nameLocation = "name";
+    String titleLocation = "title";
+    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
+    // WHEN
+    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
+                                                                                     .withEqualsForFields(stringEquals,
+                                                                                                          nameLocation,
+                                                                                                          titleLocation)
+                                                                                     .build();
+    // THEN
+    then(configuration.hasComparatorForField(nameLocation)).isTrue();
+    then(configuration.hasComparatorForField(titleLocation)).isTrue();
+  }
+
+  @Test
   void should_set_comparatorForType() {
     // GIVEN
     AlwaysEqualComparator<String> alwaysEqualComparator = alwaysEqual();
@@ -228,5 +298,19 @@ class RecursiveComparisonConfiguration_builder_Test {
     // THEN
     then(configuration.hasComparatorForType(String.class)).isTrue();
     then(configuration.getComparatorForType(String.class)).isSameAs(alwaysEqualComparator);
+  }
+
+  @Test
+  void should_set_equalsForType() {
+    // GIVEN
+    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
+
+    // WHEN
+    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
+                                                                                     .withEqualsForType(stringEquals,
+                                                                                                        String.class)
+                                                                                     .build();
+    // THEN
+    then(configuration.hasComparatorForType(String.class)).isTrue();
   }
 }

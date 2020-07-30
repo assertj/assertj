@@ -129,6 +129,17 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveComparisonAss
   }
 
   @Test
+  void should_be_able_to_use_a_BiPredicate_to_compare_specified_type() {
+    // GIVEN
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi(new String("Yoda"), "Green");
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForType((o1, o2) -> false, String.class)
+                      .isNotEqualTo(other);
+  }
+
+  @Test
   void should_pass_when_one_property_or_field_to_compare_can_not_be_found() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
@@ -147,6 +158,17 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveComparisonAss
     // THEN
     assertThat(actual).usingRecursiveComparison()
                       .withComparatorForFields(NEVER_EQUALS_STRING, "lightSaberColor")
+                      .isNotEqualTo(other);
+  }
+
+  @Test
+  void should_be_able_to_use_a_BiPredicate_for_specified_fields() {
+    // GIVEN
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", new String("Green"));
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForFields((o1, o2) -> false, "lightSaberColor")
                       .isNotEqualTo(other);
   }
 

@@ -15,6 +15,8 @@ package org.assertj.core.api.recursive.comparison;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 
+import java.util.function.BiPredicate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,6 +48,17 @@ class RecursiveComparisonConfiguration_hasCustomComparators_Test {
     recursiveComparisonConfiguration.getTypeComparators().clear();
     // WHEN
     recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS, "foo");
+    // THEN
+    assertThat(recursiveComparisonConfiguration.hasCustomComparators()).isTrue();
+  }
+
+  @Test
+  void has_custom_comparator_when_registering_a_field_bipredicate_equals_comparator() {
+    // GIVEN
+    recursiveComparisonConfiguration.getTypeComparators().clear();
+    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
+    // WHEN
+    recursiveComparisonConfiguration.registerEqualsForFields(stringEquals, "foo");
     // THEN
     assertThat(recursiveComparisonConfiguration.hasCustomComparators()).isTrue();
   }

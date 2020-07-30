@@ -1946,6 +1946,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * These features (and many more) are provided through {@link RecursiveComparisonConfiguration} with:
    * <ul>
    *   <li>{@link RecursiveComparisonConfiguration#registerComparatorForType(Comparator, Class) registerComparatorForType(Comparator, Class)} / {@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class) withComparatorForType(Comparator, Class)} (using {@link RecursiveComparisonConfiguration.Builder})</li>
+   *   <li>{@link RecursiveComparisonConfiguration#registerEqualsForType(java.util.function.BiPredicate, Class) registerEqualsForType(BiPredicate, Class)} / {@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class) withComparatorForType(Comparator, Class)} (using {@link RecursiveComparisonConfiguration.Builder})</li>
    *   <li>{@link RecursiveComparisonConfiguration#registerComparatorForFields(Comparator, String...) registerComparatorForFields(Comparator comparator, String... fields)} / {@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...) withComparatorForField(Comparator comparator, String... fields)} (using {@link RecursiveComparisonConfiguration.Builder})</li>
    * </ul>
    * <p>
@@ -2036,7 +2037,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * There are differences between this approach and {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)}:
    * <ul>
-   *   <li>you can only chain {@link RecursiveComparisonAssert} assertions (basically {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo}), no iterable assertions.</li>
+   *   <li>you can only chain {@link RecursiveComparisonAssert} assertions (basically {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo}) and (basically {@link RecursiveComparisonAssert#isNotEqualTo(Object) isNotEqualTo}), no iterable assertions.</li>
    *   <li>{@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion error will report all field differences (very detailed).</li>
    *   <li>no comparators registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} will be used, you need to register them in chained call like {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)}.</li>
    * </ul>

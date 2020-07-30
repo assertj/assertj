@@ -14,6 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
@@ -29,6 +30,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -358,16 +360,41 @@ public class RecursiveComparisonConfiguration {
   /**
    * Registers the given {@link Comparator} to compare the fields with the given type.
    * <p>
-   * Comparators specified by this method have less precedence than comparators added with {@link #registerComparatorForFields(Comparator, String...)}.
+   * Comparators registered with this method have less precedence than comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
    *
    * @param <T> the class type to register a comparator for
-   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
+   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given type
    * @param type the type to be compared with the given comparator.
+   * @throws NullPointerException if the given comparator is null.
    */
   public <T> void registerComparatorForType(Comparator<? super T> comparator, Class<T> type) {
+    requireNonNull(comparator, "Expecting a non null Comparator");
     typeComparators.put(type, comparator);
+  }
+
+  /**
+   * Registers the given {@link BiPredicate} to compare the fields with the given type.
+   * <p>
+   * BiPredicates specified with this method have less precedence than the ones registered with {@link #registerEqualsForFields(BiPredicate, String...)}
+   * or comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * See {@link RecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)} for examples.
+   *
+   * @param <T> the class type to register a comparator for
+   * @param equals the equals implementation to compare the given type
+   * @param type the type to be compared with the given equals implementation .
+   * @throws NullPointerException if the given BiPredicate is null.
+   * @since 3.17.0
+   */
+  @SuppressWarnings("unchecked")
+  public <T> void registerEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
+    registerComparatorForType(toComparator(equals), type);
   }
 
   /**
@@ -381,23 +408,50 @@ public class RecursiveComparisonConfiguration {
   }
 
   /**
-   * Registers the given {@link Comparator} to compare the fields with the given locations.
+   * Registers the given {@link Comparator} to compare the fields at the given locations.
    * <p>
    * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
-   * one can register to a comparator for Foo and Bar's {@code id} by calling:
-   * <pre><code class='java'> registerComparatorForFields(idComparator, "foo.id", "bar.id")</code></pre>
+   * one can register a comparator for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> registerComparatorForFields(idComparator, "foo.id", "foo.bar.id")</code></pre>
    * <p>
-   * Comparators specified by this method have precedence over comparators added with {@link #registerComparatorForType(Comparator, Class)}.
+   * Comparators registered with this method have precedence over comparators registered with {@link #registerComparatorForType(Comparator, Class)}.
+   * <p>
+   * Note that registering a {@link Comparator} for a given field will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)} for examples.
    *
    * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
    * @param fieldLocations the locations from the root object of the fields the comparator should be used for
+   * @throws NullPointerException if the given comparator is null.
    */
   public void registerComparatorForFields(Comparator<?> comparator, String... fieldLocations) {
+    requireNonNull(comparator, "Expecting a non null Comparator");
     Stream.of(fieldLocations)
           .map(FieldLocation::new)
           .forEach(fieldLocation -> fieldComparators.registerComparator(fieldLocation, comparator));
+  }
+
+  /**
+   * Registers the given {@link BiPredicate} to compare the fields at the given locations.
+   * <p>
+   * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
+   * one can register a BiPredicate for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> registerEqualsForFields(idBiPredicate, "foo.id", "foo.bar.id")</code></pre>
+   * <p>
+   * BiPredicates registered with this method have precedence over the ones registered with {@link #registerEqualsForType(BiPredicate, Class)}
+   * or the comparators registered with {@link #registerComparatorForType(Comparator, Class)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given field will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * See {@link RecursiveComparisonAssert#withEqualsForFields(BiPredicate, String...) RecursiveComparisonAssert#withEqualsForFields(BiPredicate, String...)} for examples.
+   *
+   * @param equals the equals implementation to compare the given fields.
+   * @param fieldLocations the locations from the root object of the fields the comparator should be used for
+   * @throws NullPointerException if the given BiPredicate is null.
+   * @since 3.17.0
+   */
+  public void registerEqualsForFields(BiPredicate<?, ?> equals, String... fieldLocations) {
+    registerComparatorForFields(toComparator(equals), fieldLocations);
   }
 
   /**
@@ -1020,7 +1074,10 @@ public class RecursiveComparisonConfiguration {
     /**
      * Registers the given {@link Comparator} to compare the fields with the given type.
      * <p>
-     * Comparators specified by this method have less precedence than comparators added with {@link #withComparatorForFields(Comparator, String...)}.
+     * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...)}
+     * or BiPredicate registered with  {@link #withEqualsForFields(BiPredicate, String...)}.
+     * <p>
+     * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
      * <p>
      * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
      *
@@ -1028,37 +1085,96 @@ public class RecursiveComparisonConfiguration {
      * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
      * @param type the type to be compared with the given comparator.
      * @return this builder.
+     * @throws NullPointerException if the given Comparator is null.
      */
     public <T> Builder withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
+      requireNonNull(comparator, "Expecting a non null Comparator");
       this.typeComparators.put(type, comparator);
       return this;
     }
 
     /**
-     * Registers the given {@link Comparator} to compare the fields with the given locations.
+     * Registers the given {@link BiPredicate} to compare the fields with the given type.
+     * <p>
+     * BiPredicates registered with this method have less precedence than the ones registered with {@link #withEqualsForFields(BiPredicate, String...)}
+     * or the comparators registered with {@link #withComparatorForFields(Comparator, String...)}.
+     * <p>
+     * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
+     * <p>
+     * See {@link RecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)} for examples.
+     *
+     * @param <T> the class type to register a BiPredicate for
+     * @param equals the {@link BiPredicate} to use to compare the given field
+     * @param type the type to be compared with the given comparator.
+     * @return this builder.
+     * @since 3.17.0
+     * @throws NullPointerException if the given BiPredicate is null.
+     */
+    @SuppressWarnings("unchecked")
+    public <T> Builder withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
+      return withComparatorForType(toComparator(equals), type);
+    }
+
+    /**
+     * Registers the given {@link Comparator} to compare the fields at the given locations.
      * <p>
      * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
-     * one can register to a comparator for Foo and Bar's {@code id} by calling:
-     * <pre><code class='java'> registerComparatorForFields(idComparator, "foo.id", "bar.id")</code></pre>
+     * one can register a comparator for Foo and Bar's {@code id} by calling:
+     * <pre><code class='java'> registerComparatorForFields(idComparator, "foo.id", "foo.bar.id")</code></pre>
      * <p>
-     * Comparators specified by this method have precedence over comparators added with {@link #withComparatorForType(Comparator, Class)}.
+     * Comparators registered with this method have precedence over comparators registered with {@link #withComparatorForType(Comparator, Class)}
+     * or BiPredicate registered with {@link #withEqualsForType(BiPredicate, Class)}.
+     * <p>
+     * Note that registering a {@link Comparator} for a given field will override the previously registered BiPredicate/Comparator (if any).
      * <p>
      * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator comparator, String...fields)} for examples.
      *
      * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
      * @param fields the fields the comparator should be used for
      * @return this builder.
+     * @throws NullPointerException if the given Comparator is null.
      */
     public Builder withComparatorForFields(Comparator<?> comparator, String... fields) {
+      requireNonNull(comparator, "Expecting a non null Comparator");
       Stream.of(fields)
             .map(FieldLocation::new)
             .forEach(fieldLocation -> fieldComparators.registerComparator(fieldLocation, comparator));
       return this;
     }
 
+    /**
+     * Registers the given {@link BiPredicate} to compare the fields at the given locations.
+     * <p>
+     * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
+     * one can register a BiPredicate for Foo and Bar's {@code id} by calling:
+     * <pre><code class='java'> withEqualsForFields(idBiPredicate, "foo.id", "foo.bar.id")</code></pre>
+     * <p>
+     * BiPredicates registered with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
+     * or the comparators registered with {@link #withComparatorForType(Comparator, Class)}.
+     * <p>
+     * Note that registering a {@link BiPredicate} for a given field will override the previously registered BiPredicate/Comparator (if any).
+     * <p>
+     * See {@link RecursiveComparisonAssert#withEqualsForFields(BiPredicate, String...) RecursiveComparisonAssert#withEqualsForFields(BiPredicate equals, String...fields)} for examples.
+     *
+     * @param equals the {@link BiPredicate} to use to compare the given fields
+     * @param fields the fields the BiPredicate should be used for
+     * @return this builder.
+     * @since 3.17.0
+     * @throws NullPointerException if the given BiPredicate is null.
+     */
+    public Builder withEqualsForFields(BiPredicate<?, ?> equals, String... fields) {
+      return withComparatorForFields(toComparator(equals), fields);
+    }
+
     public RecursiveComparisonConfiguration build() {
       return new RecursiveComparisonConfiguration(this);
     }
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  private static Comparator toComparator(BiPredicate equals) {
+    requireNonNull(equals, "Expecting a non null BiPredicate");
+    return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;
   }
 
 }
