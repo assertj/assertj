@@ -352,6 +352,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Boolean2DArrayAssert assertThat(boolean[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
@@ -392,6 +393,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Byte2DArrayAssert assertThat(byte[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
@@ -422,6 +424,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Char2DArrayAssert assertThat(char[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
@@ -482,6 +485,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Double2DArrayAssert assertThat(double[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
@@ -586,6 +590,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Float2DArrayAssert assertThat(float[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
@@ -795,6 +800,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Long2DArrayAssert assertThat(long[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
@@ -828,6 +834,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param <T> the actual's elements type.
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
@@ -868,6 +875,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Short2DArrayAssert assertThat(short[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);

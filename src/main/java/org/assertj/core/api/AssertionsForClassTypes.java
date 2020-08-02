@@ -196,6 +196,7 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Boolean2DArrayAssert assertThat(boolean[][] actual) {
     return new Boolean2DArrayAssert(actual);
@@ -236,6 +237,7 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Byte2DArrayAssert assertThat(byte[][] actual) {
     return new Byte2DArrayAssert(actual);
@@ -266,6 +268,7 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Char2DArrayAssert assertThat(char[][] actual) {
     return new Char2DArrayAssert(actual);
@@ -326,6 +329,7 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Double2DArrayAssert assertThat(double[][] actual) {
     return new Double2DArrayAssert(actual);
@@ -386,6 +390,7 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Float2DArrayAssert assertThat(float[][] actual) {
     return new Float2DArrayAssert(actual);
@@ -467,6 +472,7 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Long2DArrayAssert assertThat(long[][] actual) {
     return new Long2DArrayAssert(actual);
@@ -500,6 +506,7 @@ public class AssertionsForClassTypes {
    * @param <T> the actual elements type.
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
     return new Object2DArrayAssert<>(actual);
@@ -540,6 +547,7 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.17.0
    */
   public static Short2DArrayAssert assertThat(short[][] actual) {
     return new Short2DArrayAssert(actual);

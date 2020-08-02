@@ -199,6 +199,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @return a new assertion object on the the future's result.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
+   * @since 3.17.0
    */
   public ObjectAssert<RESULT> succeedsWithin(Duration timeout) {
     return internalSucceedsWithin(timeout);
@@ -236,6 +237,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @return a new assertion object on the the future's result.
    * @throws AssertionError if the actual {@code Future} is {@code null}.
    * @throws AssertionError if the actual {@code Future} does not succeed within the given timeout.
+   * @since 3.17.0
    */
   public ObjectAssert<RESULT> succeedsWithin(long timeout, TimeUnit unit) {
     return internalSucceedsWithin(timeout, unit);
@@ -276,6 +278,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the {@link Future}
    * @throws AssertionError if the actual {@code Future} is {@code null}.
    * @throws IllegalStateException if the actual {@code Future} does not succeed within the given timeout.
+   * @since 3.17.0
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(Duration timeout,
                                                                      InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
@@ -317,6 +320,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the {@link Future}
    * @throws AssertionError if the actual {@code Future} is {@code null}.
    * @throws AssertionError if the actual {@code Future} does not succeed within the given timeout.
+   * @since 3.17.0
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(long timeout, TimeUnit unit,
                                                                      InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
