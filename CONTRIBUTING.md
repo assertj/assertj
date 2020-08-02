@@ -90,8 +90,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  * assertThat(book).containsSequence("{", "title", "A Game of Thrones", "}");
  *
  * // ... but this one fails as "author" must come after "A Game of Thrones"
- * assertThat(book).containsSequence("{", "author", "A Game of Thrones", "}");
- * </code></pre>
+ * assertThat(book).containsSequence("{", "author", "A Game of Thrones", "}"); </code></pre>
  *
  * @param values the Strings to look for, in order.
  * @return {@code this} assertion object.
