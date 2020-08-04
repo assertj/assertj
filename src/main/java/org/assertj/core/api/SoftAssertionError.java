@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.AssertionErrorMessagesAggregrator.aggregrateErrorMessages;
+import static org.assertj.core.error.AssertionErrorMessagesAggregator.aggregateErrorMessages;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class SoftAssertionError extends AssertionError {
    * @param errors the causal AssertionError error messages in the order that they were thrown
    */
   public SoftAssertionError(List<String> errors) {
-    super(aggregrateErrorMessages(errors));
+    super(aggregateErrorMessages(errors));
     this.errors = errors;
   }
 
