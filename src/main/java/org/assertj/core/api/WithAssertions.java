@@ -2011,7 +2011,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <p>
    * The printed assertions description include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
    * <p>
-   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setConsumerDescription(Consumer)}.
+   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setDescriptionConsumer(Consumer)}.
    *
    * @param printAssertionsDescription whether to print assertions description.
    * @since 3.17.0
@@ -2028,8 +2028,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param descriptionConsumer the {@link Description} consumer
    * @since 3.17.0
    */
-  static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
-    Assertions.setConsumerDescription(descriptionConsumer);
+  static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+    Assertions.setDescriptionConsumer(descriptionConsumer);
   }
 
   /**

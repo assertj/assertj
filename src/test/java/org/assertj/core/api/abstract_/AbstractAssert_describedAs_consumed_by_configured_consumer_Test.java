@@ -36,7 +36,7 @@ class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
 
   private static String consumedDescription;
   private final static boolean originalIsPrintAssertionsDescriptionEnabled = assertJConfig().printAssertionsDescription();
-  private final static Consumer<Description> originalConsumerDescription = assertJConfig().consumerDescription();
+  private final static Consumer<Description> originalDescriptionConsumer = assertJConfig().descriptionConsumer();
   private final static Consumer<Description> DESCRIPTION_CONSUMER = description -> consumedDescription += format("%s/",
                                                                                                                  description);
 
@@ -51,14 +51,14 @@ class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
 
   @BeforeEach
   void beforeEachTest() {
-    Assertions.setConsumerDescription(DESCRIPTION_CONSUMER);
+    Assertions.setDescriptionConsumer(DESCRIPTION_CONSUMER);
     consumedDescription = "";
   }
 
   @AfterAll
   static void restoreOriginalState() {
     Assertions.setPrintAssertionsDescription(originalIsPrintAssertionsDescriptionEnabled);
-    Assertions.setConsumerDescription(originalConsumerDescription);
+    Assertions.setDescriptionConsumer(originalDescriptionConsumer);
   }
 
   @Test

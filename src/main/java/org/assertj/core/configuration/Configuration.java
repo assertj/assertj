@@ -55,7 +55,7 @@ public class Configuration {
   private int maxLengthForSingleLineDescription = MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
   private int maxElementsForPrinting = MAX_ELEMENTS_FOR_PRINTING;
   private boolean printAssertionsDescription = PRINT_ASSERTIONS_DESCRIPTION_ENABLED;
-  private Consumer<Description> consumerDescription = null;
+  private Consumer<Description> descriptionConsumer = null;
 
   /**
    * @return the default {@link Representation} that is used within AssertJ.
@@ -286,12 +286,12 @@ public class Configuration {
     this.printAssertionsDescription = printAssertionsDescription;
   }
 
-  public Consumer<Description> consumerDescription() {
-    return consumerDescription;
+  public Consumer<Description> descriptionConsumer() {
+    return descriptionConsumer;
   }
 
-  public void setConsumerDescription(Consumer<Description> consumerDescription) {
-    this.consumerDescription = consumerDescription;
+  public void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+    this.descriptionConsumer = descriptionConsumer;
   }
 
   /**
@@ -306,7 +306,7 @@ public class Configuration {
     Assertions.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription());
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTraceEnabled());
     Assertions.useRepresentation(representation());
-    Assertions.setConsumerDescription(consumerDescription());
+    Assertions.setDescriptionConsumer(descriptionConsumer());
     Assertions.setPrintAssertionsDescription(printAssertionsDescription());
     additionalDateFormats().forEach(Assertions::registerCustomDateFormat);
   }
@@ -330,7 +330,7 @@ public class Configuration {
                   "- maxLengthForSingleLineDescription ............... = %s%n" +
                   "- maxElementsForPrinting .......................... = %s%n" +
                   "- printAssertionsDescription ...................... = %s%n" +
-                  "- consumerDescription ............................. = %s%n" +
+                  "- descriptionConsumer ............................. = %s%n" +
                   "- removeAssertJRelatedElementsFromStackTraceEnabled = %s%n",
                   getClass().getName(),
                   representation(),
@@ -342,7 +342,7 @@ public class Configuration {
                   maxLengthForSingleLineDescription(),
                   maxElementsForPrinting(),
                   printAssertionsDescription(),
-                  consumerDescription(),
+                  descriptionConsumer(),
                   removeAssertJRelatedElementsFromStackTraceEnabled());
   }
 

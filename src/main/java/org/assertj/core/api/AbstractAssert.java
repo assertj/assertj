@@ -929,7 +929,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     AbstractAssert.printAssertionsDescription = printAssertionsDescription;
   }
 
-  public static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
+  public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
     AbstractAssert.descriptionConsumer = descriptionConsumer;
   }
 

@@ -1555,7 +1555,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * The printed assertions description include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
    * <p>
-   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setConsumerDescription(Consumer)}.
+   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setDescriptionConsumer(Consumer)}.
    *
    * @param printAssertionsDescription whether to print assertions description.
    * @since 3.17.0
@@ -1568,12 +1568,14 @@ public class Assertions implements InstanceOfAssertFactories {
    * All assertions description will be consumed by the given {@link Consumer Consumer&lt;Description&gt;} allowing for example to record them in a file.
    * <p>
    * The consumed descriptions include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
+   * <p>
+   * To unset the descriptionConsumer, call {@code setDescriptionConsumer(null);}
    *
    * @param descriptionConsumer the {@link Description} consumer
    * @since 3.17.0
    */
-  public static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
-    AbstractAssert.setConsumerDescription(descriptionConsumer);
+  public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+    AbstractAssert.setDescriptionConsumer(descriptionConsumer);
   }
 
   // ------------------------------------------------------------------------------------------------------
