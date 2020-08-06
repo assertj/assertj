@@ -14,9 +14,6 @@ package org.assertj.core.data;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
-import static org.assertj.core.util.Objects.areEqual;
-import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 /**
@@ -25,6 +22,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
  * @author Alexander Bishcof
  */
 public class Percentage {
+
   public final double value;
 
   /**
@@ -46,19 +44,18 @@ public class Percentage {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
-    Percentage other = (Percentage) obj;
-    return areEqual(value, other.value);
+  public boolean equals(Object o) {
+    if (this == o) { return true; }
+    if (o == null || getClass() != o.getClass()) { return false; }
+
+    Percentage that = (Percentage) o;
+
+    return Double.compare(that.value, value) == 0;
   }
 
   @Override
   public int hashCode() {
-    int result = 1;
-    result = HASH_CODE_PRIME * result + hashCodeFor(value);
-    return result;
+    return Double.hashCode(value);
   }
 
   @Override
