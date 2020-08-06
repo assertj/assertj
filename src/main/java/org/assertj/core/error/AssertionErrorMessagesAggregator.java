@@ -14,6 +14,9 @@ package org.assertj.core.error;
 
 import java.util.List;
 
+/**
+ * @since 3.17.0
+ */
 public class AssertionErrorMessagesAggregator {
 
   public static String aggregateErrorMessages(List<String> errors) {
@@ -35,4 +38,5 @@ public class AssertionErrorMessagesAggregator {
       msg.append(size).append(" assertions");
     }
   }
+
 }
