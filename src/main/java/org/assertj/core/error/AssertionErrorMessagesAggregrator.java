@@ -35,5 +35,4 @@ public class AssertionErrorMessagesAggregator {
       msg.append(size).append(" assertions");
     }
   }
-
 }
