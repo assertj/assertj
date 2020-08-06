@@ -14,13 +14,9 @@ package org.assertj.core.error;
 
 import java.util.List;
 
-/**
- * @deprecated use {@link AssertionErrorMessagesAggregator} instead
- */
-@Deprecated
-public class AssertionErrorMessagesAggregrator {
+public class AssertionErrorMessagesAggregator {
 
-  public static String aggregrateErrorMessages(List<String> errors) {
+  public static String aggregateErrorMessages(List<String> errors) {
     StringBuilder msg = new StringBuilder("%nThe following ");
     countAssertions(errors, msg);
     msg.append(" failed:%n");
