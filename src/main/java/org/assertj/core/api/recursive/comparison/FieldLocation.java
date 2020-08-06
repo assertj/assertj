@@ -22,8 +22,6 @@ import java.util.stream.Stream;
 public class FieldLocation implements Comparable<FieldLocation> {
 
   private String fieldPath;
-  // private boolean whereverInGraph = false;
-  // private boolean matches(Field field, Field parent); ?
 
   @Override
   public int compareTo(final FieldLocation other) {
@@ -32,6 +30,7 @@ public class FieldLocation implements Comparable<FieldLocation> {
 
   @Override
   public boolean equals(final Object other) {
+    if (this == other) { return true; }
     if (!(other instanceof FieldLocation)) return false;
     FieldLocation castOther = (FieldLocation) other;
     return Objects.equals(fieldPath, castOther.fieldPath);
@@ -64,7 +63,15 @@ public class FieldLocation implements Comparable<FieldLocation> {
     return Stream.of(fieldPaths).map(FieldLocation::new).collect(toList());
   }
 
+  /**
+   * @deprecated use {@link #fieldLocation} instead
+   * */
+  @Deprecated
   public static FieldLocation fielLocation(String fieldPath) {
+    return fieldLocation(fieldPath);
+  }
+
+  public static FieldLocation fieldLocation(String fieldPath) {
     return new FieldLocation(fieldPath);
   }
 
