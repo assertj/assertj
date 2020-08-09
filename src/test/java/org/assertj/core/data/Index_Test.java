@@ -14,63 +14,53 @@ package org.assertj.core.data;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.internal.ErrorMessages.percentageValueIsInRange;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
- * Tests for {@link Percentage}.
+ * Tests for {@link Index}.
  *
- * @author Alexander Bischof
+ * @author Alex Ruiz
  */
-class Percentage_Test {
+class Index_Test {
 
   @Test
   void should_honor_equals_contract() {
     // WHEN/THEN
-    EqualsVerifier.forClass(Percentage.class)
+    EqualsVerifier.forClass(Index.class)
                   .verify();
   }
 
   @ParameterizedTest
-  @ValueSource(doubles = { 0.0, 0.8, 200 })
-  void withPercentage_should_succeed(double value) {
+  @ValueSource(ints = { 0, 1 })
+  void atIndex_should_succeed(int value) {
     // WHEN
-    Percentage percentage = Percentage.withPercentage(value);
+    Index index = Index.atIndex(value);
     // THEN
-    then(percentage.value).isEqualTo(value);
+    then(index.value).isEqualTo(value);
   }
 
-  @ParameterizedTest
-  @ValueSource(doubles = { -0.8, -200 })
-  void withPercentage_should_fail_if_value_is_negative(double value) {
+  @Test
+  void atIndex_should_fail_if_value_is_negative() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> Percentage.withPercentage(value));
+    Throwable thrown = catchThrowable(() -> Index.atIndex(-1));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(percentageValueIsInRange(value));
+                .hasMessage("The value of the index should not be negative");
   }
 
-  @ParameterizedTest
-  @CsvSource({
-      "0.0,   0%",
-      "10,    10%",
-      "10.0,  10%",
-      "0.1,   0.1%",
-      "0.103, 0.103%"
-  })
-  void toString_should_display_fractional_part_when_present(double value, String expected) {
+  @Test
+  void toString_should_succeed() {
     // GIVEN
-    Percentage underTest = Percentage.withPercentage(value);
+    Index underTest = Index.atIndex(8);
     // WHEN
     String result = underTest.toString();
     // THEN
-    then(result).isEqualTo(expected);
+    then(result).isEqualTo("Index[value=8]");
   }
 
 }
