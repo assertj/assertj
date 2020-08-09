@@ -25,12 +25,12 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.junit.jupiter.api.Test;
 
-public class ConfigurableRecursiveFieldByFieldComparator_Test {
+class ConfigurableRecursiveFieldByFieldComparator_Test {
 
   private ConfigurableRecursiveFieldByFieldComparator configurableRecursiveFieldByFieldComparator;
 
   @Test
-  public void should_delegate_comparison_to_recursiveComparisonDifferenceCalculator() {
+  void should_delegate_comparison_to_recursiveComparisonDifferenceCalculator() {
     // GIVEN
     RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator = mock(RecursiveComparisonDifferenceCalculator.class);
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
@@ -47,7 +47,7 @@ public class ConfigurableRecursiveFieldByFieldComparator_Test {
   }
 
   @Test
-  public void should_return_0_when_both_values_are_null() {
+  void should_return_0_when_both_values_are_null() {
     // GIVEN
     RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator = mock(RecursiveComparisonDifferenceCalculator.class);
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
@@ -61,7 +61,7 @@ public class ConfigurableRecursiveFieldByFieldComparator_Test {
   }
 
   @Test
-  public void should_not_return_0_when_only_one_of_both_value_is_null() {
+  void should_not_return_0_when_only_one_of_both_value_is_null() {
     // GIVEN
     RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator = mock(RecursiveComparisonDifferenceCalculator.class);
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
@@ -77,7 +77,7 @@ public class ConfigurableRecursiveFieldByFieldComparator_Test {
   }
 
   @Test
-  public void should_throw_an_NPE_if_given_RecursiveComparisonConfiguration_is_null() {
+  void should_throw_an_NPE_if_given_RecursiveComparisonConfiguration_is_null() {
     // GIVEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = null;
     // WHEN

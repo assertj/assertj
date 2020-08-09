@@ -23,10 +23,10 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.Person;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveFields_create_Test {
+class ShouldHaveFields_create_Test {
 
   @Test
-  public void should_create_error_message_for_fields() {
+  void should_create_error_message_for_fields() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveFields(Person.class, newLinkedHashSet("name", "address"),
                                                    newLinkedHashSet("address"));
@@ -43,7 +43,7 @@ public class ShouldHaveFields_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_declared_fields() {
+  void should_create_error_message_for_declared_fields() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveDeclaredFields(Person.class, newLinkedHashSet("name", "address"),
                                                            newLinkedHashSet("address"));

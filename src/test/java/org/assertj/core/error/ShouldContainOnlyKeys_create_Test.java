@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola.
  */
-public class ShouldContainOnlyKeys_create_Test {
+class ShouldContainOnlyKeys_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyKeys(mapOf(entry("name", "Yoda"), entry("color", "green")),
                                                         list("jedi", "color"), newLinkedHashSet("jedi"),
@@ -54,7 +54,7 @@ public class ShouldContainOnlyKeys_create_Test {
   }
 
   @Test
-  public void should_not_display_unexpected_elements_when_there_are_none() {
+  void should_not_display_unexpected_elements_when_there_are_none() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyKeys(mapOf(entry("color", "green")),
                                                         list("jedi", "color"), newLinkedHashSet("jedi"),

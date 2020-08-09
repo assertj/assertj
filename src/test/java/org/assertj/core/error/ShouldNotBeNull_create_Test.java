@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class ShouldNotBeNull_create_Test {
+class ShouldNotBeNull_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -37,7 +37,7 @@ public class ShouldNotBeNull_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -45,7 +45,7 @@ public class ShouldNotBeNull_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_label() {
+  void should_create_error_message_with_label() {
     // GIVEN
     factory = shouldNotBeNull("foo %s");
     // WHEN

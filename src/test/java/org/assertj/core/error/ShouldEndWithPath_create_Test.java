@@ -23,10 +23,10 @@ import java.nio.file.Path;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public final class ShouldEndWithPath_create_Test {
+final class ShouldEndWithPath_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     final Path actual = mock(Path.class);
     final Path other = mock(Path.class);

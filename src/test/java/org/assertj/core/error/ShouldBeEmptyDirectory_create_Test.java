@@ -26,12 +26,12 @@ import java.util.List;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeEmptyDirectory_create_Test {
+class ShouldBeEmptyDirectory_create_Test {
 
   private static final TestDescription DESCRIPTION = new TestDescription("Test");
 
   @Test
-  public void should_create_error_message_for_Path() {
+  void should_create_error_message_for_Path() {
     // GIVEN
     final Path directory = mockPath("/root");
     final Path file1 = mockPath("/bin/file1");
@@ -48,7 +48,7 @@ public class ShouldBeEmptyDirectory_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_File() {
+  void should_create_error_message_for_File() {
     final File directory = new FakeFile("root");
     final File file1 = new FakeFile("file1");
     final File file2 = new FakeFile("file1");

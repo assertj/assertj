@@ -18,8 +18,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -65,7 +63,7 @@ class Dates_assertHasSecond_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_not_given_second_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_has_not_given_second_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int second = 5;
 

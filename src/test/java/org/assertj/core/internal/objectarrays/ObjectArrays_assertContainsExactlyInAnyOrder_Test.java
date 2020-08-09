@@ -36,48 +36,48 @@ import org.junit.jupiter.api.Test;
  *
  * @author Lovro Pandzic
  */
-public class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_exactly_in_any_order_given_values() {
+  void should_pass_if_actual_contains_exactly_in_any_order_given_values() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Leia", "Yoda", "Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_in_any_order_with_null_elements() {
+  void should_pass_if_actual_contains_given_values_exactly_in_any_order_with_null_elements() {
     actual = array("Luke", "Yoda", "Leia", null);
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Leia", null, "Yoda", "Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), array(), array());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, array()));
   }
 
   @Test
-  public void should_fail_if_arrays_have_different_sizes() {
+  void should_fail_if_arrays_have_different_sizes() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Luke", "Yoda")));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_in_any_order() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly_in_any_order() {
     AssertionInfo info = someInfo();
     Object[] expected = {"Luke", "Yoda", "Han"};
 
@@ -88,7 +88,7 @@ public class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArr
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
+  void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Leia", "Luke");
     Object[] expected = {"Luke", "Leia"};
@@ -101,7 +101,7 @@ public class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArr
   }
 
   @Test
-  public void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
+  void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Leia");
     Object[] expected = {"Luke", "Leia", "Luke"};
@@ -118,13 +118,13 @@ public class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArr
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual,
         array("LUKE", "YODA", "Leia"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = {"Luke", "Yoda", "Han"};
 
@@ -136,7 +136,7 @@ public class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArr
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_and_expected_does_not_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_duplicates_and_expected_does_not_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Leia", "Luke");
     Object[] expected = {"Luke", "Leia"};
@@ -149,7 +149,7 @@ public class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArr
   }
 
   @Test
-  public void should_fail_if_expected_contains_duplicates_and_actual_does_not_according_to_custom_comparison_strategy() {
+  void should_fail_if_expected_contains_duplicates_and_actual_does_not_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Leia");
     Object[] expected = {"Luke", "Leia", "Luke"};

@@ -23,26 +23,26 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Digests_toHex_Test extends DigestsBaseTest {
+class Digests_toHex_Test extends DigestsBaseTest {
 
   @Test
-  public void should_fail_if_digest_is_null() {
+  void should_fail_if_digest_is_null() {
     assertThatNullPointerException().isThrownBy(() -> Digests.toHex(null))
                                     .withMessage("The digest should not be null");
   }
 
   @Test
-  public void should_pass_if_digest_is_empty() {
+  void should_pass_if_digest_is_empty() {
     assertThat(Digests.toHex(new byte[0])).isEqualTo("");
   }
 
   @Test
-  public void should_pass_if_digest_is_correctly_converted() {
+  void should_pass_if_digest_is_correctly_converted() {
     assertThat(Digests.toHex(DIGEST_TEST_1_BYTES)).isEqualTo(DIGEST_TEST_1_STR);
   }
 
   @Test
-  public void should_fail_if_digest_conversion__incorrect() {
+  void should_fail_if_digest_conversion__incorrect() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Digests.toHex(DIGEST_TEST_1_BYTES)).isEqualTo(EXPECTED_MD5_DIGEST_STR));
   }
 }

@@ -19,7 +19,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveMessage_create_Test {
+class ShouldHaveMessage_create_Test {
 
   @Test
   void should_create_error_message() {

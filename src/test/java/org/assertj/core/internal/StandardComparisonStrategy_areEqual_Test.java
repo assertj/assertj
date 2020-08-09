@@ -12,9 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.Objects;
 import org.junit.jupiter.api.Test;
 
@@ -25,63 +24,63 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class StandardComparisonStrategy_areEqual_Test {
+class StandardComparisonStrategy_areEqual_Test {
 
   private static StandardComparisonStrategy standardComparisonStrategy = StandardComparisonStrategy.instance();
 
   @Test
-  public void should_return_true_if_both_Objects_are_null_with_verify() {
+  void should_return_true_if_both_Objects_are_null_with_verify() {
     assertThat(standardComparisonStrategy.areEqual(null, null)).isTrue();
   }
 
   @Test
-  public void should_return_true_if_both_Objects_are_null() {
+  void should_return_true_if_both_Objects_are_null() {
     assertThat(standardComparisonStrategy.areEqual(null, null)).isTrue();
   }
 
   @Test
-  public void should_return_true_if_Objects_are_equal() {
+  void should_return_true_if_Objects_are_equal() {
     assertThat(standardComparisonStrategy.areEqual("Yoda", "Yoda")).isTrue();
   }
 
   @Test
-  public void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
+  void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
     assertThat(standardComparisonStrategy.areEqual(null, "Yoda")).isFalse();
   }
 
   @Test
-  public void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
+  void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
     assertThat(standardComparisonStrategy.areEqual("Yoda", null)).isFalse();
   }
 
   @Test
-  public void should_return_are_not_equal_if_Objects_are_not_equal() {
+  void should_return_are_not_equal_if_Objects_are_not_equal() {
     assertThat(standardComparisonStrategy.areEqual("Yoda", 2)).isFalse();
   }
 
   @Test
-  public void should_return_true_if_arrays_of_Objects_are_equal() {
+  void should_return_true_if_arrays_of_Objects_are_equal() {
     Object[] a1 = { "Luke", "Yoda", "Leia" };
     Object[] a2 = { "Luke", "Yoda", "Leia" };
     assertThat(standardComparisonStrategy.areEqual(a1, a2)).isTrue();
   }
 
   @Test
-  public void should_return_true_if_arrays_of_primitives_are_equal() {
+  void should_return_true_if_arrays_of_primitives_are_equal() {
     int[] a1 = { 6, 8, 10 };
     int[] a2 = { 6, 8, 10 };
     assertThat(standardComparisonStrategy.areEqual(a1, a2)).isTrue();
   }
 
   @Test
-  public void should_return_false_if_arrays_of_Objects_are_not_equal() {
+  void should_return_false_if_arrays_of_Objects_are_not_equal() {
     Object[] a1 = { "Luke", "Yoda", "Leia" };
     Object[] a2 = new Object[0];
     assertThat(standardComparisonStrategy.areEqual(a1, a2)).isFalse();
   }
 
   @Test
-  public void should_return_false_if_arrays_of_primitives_are_not_equal() {
+  void should_return_false_if_arrays_of_primitives_are_not_equal() {
     int[] a1 = { 6, 8, 10 };
     boolean[] a2 = { true };
     assertThat(standardComparisonStrategy.areEqual(a1, a2)).isFalse();

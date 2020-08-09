@@ -22,10 +22,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.jupiter.api.Test;
 
-public class ElementsShouldMatch_create_Test {
+class ElementsShouldMatch_create_Test {
 
   @Test
-  public void should_create_error_message_with_one_non_matching_element() {
+  void should_create_error_message_with_one_non_matching_element() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldMatch(list("Luke", "Yoda"), "Yoda", PredicateDescription.GIVEN);
     // WHEN
@@ -39,7 +39,7 @@ public class ElementsShouldMatch_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_multiple_non_matching_elements() {
+  void should_create_error_message_with_multiple_non_matching_elements() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldMatch(list("Luke", "Yoda"),
                                                       list("Luke", "Yoda"),
@@ -55,7 +55,7 @@ public class ElementsShouldMatch_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_description() {
+  void should_create_error_message_with_custom_description() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldMatch(list("Luke", "Yoda"), "Yoda",
                                                       new PredicateDescription("custom"));

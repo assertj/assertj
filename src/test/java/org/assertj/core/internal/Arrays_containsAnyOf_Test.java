@@ -27,64 +27,64 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.Test;
 
-public class Arrays_containsAnyOf_Test extends BaseArraysTest {
+class Arrays_containsAnyOf_Test extends BaseArraysTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values() {
+  void should_pass_if_actual_contains_given_values() {
     arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_in_different_order() {
+  void should_pass_if_actual_contains_given_values_in_different_order() {
     arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Leia", "Yoda"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_values() {
+  void should_pass_if_actual_contains_all_given_values() {
     arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_more_than_once() {
+  void should_pass_if_actual_contains_given_values_more_than_once() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
     arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_just_one_of_given_values() {
+  void should_pass_if_actual_contains_just_one_of_given_values() {
     arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke", "John", "Tom"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
+  void should_pass_if_actual_contains_given_values_even_if_duplicated() {
     arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke", "Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = new String[0];
     arrays.assertContainsAnyOf(someInfo(), failures, actual, array());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_of_the_given_values() {
+  void should_fail_if_actual_does_not_contain_any_of_the_given_values() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 
@@ -99,40 +99,40 @@ public class Arrays_containsAnyOf_Test extends BaseArraysTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual, array("LUKE"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual, array("LEIA", "yODa"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual,
                                                            array("luke", "YODA", "leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
     arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual, array("LUke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual, array("LUke", "LuKe"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_just_one_of_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_just_one_of_given_values_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual,
                                                            array("LuKe", "JoHn", "ToM"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 

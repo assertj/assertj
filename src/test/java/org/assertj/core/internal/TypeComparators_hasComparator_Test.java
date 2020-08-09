@@ -19,7 +19,7 @@ import java.util.Comparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TypeComparators_hasComparator_Test {
+class TypeComparators_hasComparator_Test {
 
   private TypeComparators typeComparators;
 
@@ -29,7 +29,7 @@ public class TypeComparators_hasComparator_Test {
   }
 
   @Test
-  public void should_find_comparator() {
+  void should_find_comparator() {
     typeComparators.put(Foo.class, newComparator());
     // WHEN
     boolean comparatorFound = typeComparators.hasComparatorForType(Foo.class);
@@ -38,7 +38,7 @@ public class TypeComparators_hasComparator_Test {
   }
 
   @Test
-  public void should_find_parent_comparator() {
+  void should_find_parent_comparator() {
     typeComparators.put(Bar.class, newComparator());
     // WHEN
     boolean comparatorFound = typeComparators.hasComparatorForType(Foo.class);
@@ -47,7 +47,7 @@ public class TypeComparators_hasComparator_Test {
   }
 
   @Test
-  public void should_not_find_any_comparator() {
+  void should_not_find_any_comparator() {
     // GIVEN
     Comparator<I3> i3Comparator = newComparator();
     Comparator<I4> i4Comparator = newComparator();

@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ElementsShouldNotHave_create_Test {
+class ElementsShouldNotHave_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldNotHave(list("Yoda", "Luke", "Leia"), list("Leia"),
                                                         new TestCondition<>("jedi power"));

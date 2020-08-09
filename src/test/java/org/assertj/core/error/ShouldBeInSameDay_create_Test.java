@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeInSameDay_create_Test {
+class ShouldBeInSameDay_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeInSameDay(parse("2010-01-01"), parse("2010-01-25"));
     // WHEN

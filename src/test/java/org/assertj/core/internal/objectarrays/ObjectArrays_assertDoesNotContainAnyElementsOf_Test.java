@@ -33,40 +33,40 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable() {
+  void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable() {
 	arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated() {
+  void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated() {
 	arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
-  public void should_throw_error_if_given_iterable_is_empty() {
+  void should_throw_error_if_given_iterable_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual,
                                                                                                    Collections.<String> emptyList()))
                                         .withMessage(iterableValuesToLookForIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_given_iterable_is_null() {
+  void should_throw_error_if_given_iterable_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual,
                                                                                                null))
                                     .withMessage(iterableValuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
 	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_one_element_of_given_iterable() {
+  void should_fail_if_actual_contains_one_element_of_given_iterable() {
     AssertionInfo info = someInfo();
     List<String> list = newArrayList("Vador", "Yoda", "Han");
 
@@ -81,18 +81,18 @@ public class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectA
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_according_to_custom_comparison_strategy() {
 	arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated_according_to_custom_comparison_strategy() {
 	arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
 	                                                                     newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_one_element_of_given_iterable_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_one_element_of_given_iterable_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("LuKe", "YODA", "Han");
 

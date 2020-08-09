@@ -31,12 +31,12 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class ShouldBeEqualIgnoringGivenFields_create_Test {
+class ShouldBeEqualIgnoringGivenFields_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Test
-  public void should_create_error_message_with_all_fields_differences() {
+  void should_create_error_message_with_all_fields_differences() {
     // GIVEN
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), list("name", "lightSaberColor"),
                                                  list("Yoda", "blue"), list("Yoda", "green"),
@@ -56,7 +56,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_single_field_difference() {
+  void should_create_error_message_with_single_field_difference() {
     // GIVEN
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), list("lightSaberColor"),
                                                  list("blue"), list("green"),
@@ -71,7 +71,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_all_fields_differences_without_ignored_fields() {
+  void should_create_error_message_with_all_fields_differences_without_ignored_fields() {
     // GIVEN
     List<String> ignoredFields = list();
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), list("name", "lightSaberColor"),
@@ -90,7 +90,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_single_field_difference_without_ignored_fields() {
+  void should_create_error_message_with_single_field_difference_without_ignored_fields() {
     // GIVEN
     List<String> ignoredFields = list();
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), list("lightSaberColor"),

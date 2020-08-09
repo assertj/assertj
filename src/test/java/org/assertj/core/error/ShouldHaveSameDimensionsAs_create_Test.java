@@ -20,10 +20,10 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveSameDimensionsAs_create_Test {
+class ShouldHaveSameDimensionsAs_create_Test {
 
   @Test
-  public void should_create_error_message_for_first_dimension() {
+  void should_create_error_message_for_first_dimension() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSameDimensionsAs(new String[][] { { "a", "b", }, { "c", "d" }, { "e", "f" } },
                                                              new String[][] { { "a", "b" }, { "c", "d" } },
@@ -41,7 +41,7 @@ public class ShouldHaveSameDimensionsAs_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_second_dimension() {
+  void should_create_error_message_for_second_dimension() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSameDimensionsAs(1, 3, 2,
                                                              new String[] { "c", "d", "e" },

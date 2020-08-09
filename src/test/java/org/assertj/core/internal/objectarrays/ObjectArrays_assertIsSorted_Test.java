@@ -15,12 +15,13 @@ package org.assertj.core.internal.objectarrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldBeSorted.*;
+import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
+import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
+import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
+import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -43,34 +44,34 @@ public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_in_ascending_order() {
+  void should_pass_if_actual_is_sorted_in_ascending_order() {
     arrays.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_with_comparable_component_type() {
+  void should_pass_if_actual_is_empty_with_comparable_component_type() {
     arrays.assertIsSorted(someInfo(), new String[0]);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_with_non_comparable_component_type() {
+  void should_pass_if_actual_is_empty_with_non_comparable_component_type() {
     arrays.assertIsSorted(someInfo(), array());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_one_comparable_element() {
+  void should_pass_if_actual_contains_only_one_comparable_element() {
     actual = array("Obiwan");
     arrays.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
+  void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda", "Leia");
 
@@ -81,7 +82,7 @@ public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_only_one_element_with_non_comparable_component_type() {
+  void should_fail_if_actual_has_only_one_element_with_non_comparable_component_type() {
     AssertionInfo info = someInfo();
     Object[] actual = array(new Object());
 
@@ -92,7 +93,7 @@ public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_some_elements_with_non_comparable_component_type() {
+  void should_fail_if_actual_has_some_elements_with_non_comparable_component_type() {
     AssertionInfo info = someInfo();
     Object[] actual = array("bar", new Object(), "foo");
 
@@ -103,7 +104,7 @@ public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_some_not_mutually_comparable_elements() {
+  void should_fail_if_actual_has_some_not_mutually_comparable_elements() {
     AssertionInfo info = someInfo();
     Object[] actual = new Object[] { "bar", new Integer(5), "foo" };
 
@@ -114,35 +115,35 @@ public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     actual = array("leia", "Luke", "luke", "Vador", "Yoda");
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_with_comparable_component_type_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_empty_with_comparable_component_type_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), new String[0]);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), array());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_one_comparable_element_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_only_one_comparable_element_according_to_custom_comparison_strategy() {
     actual = array("Obiwan");
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = array("LUKE", "Yoda", "Leia");
 
@@ -154,7 +155,7 @@ public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_only_one_element_with_non_comparable_component_type_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_has_only_one_element_with_non_comparable_component_type_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] actual = array(new Object());
 
@@ -166,7 +167,7 @@ public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_some_elements_with_non_comparable_component_type_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_has_some_elements_with_non_comparable_component_type_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] actual = array("bar", new Object(), "foo");
 
@@ -178,7 +179,7 @@ public class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_some_not_mutually_comparable_elements_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_has_some_not_mutually_comparable_elements_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] actual = new Object[] { "bar", new Integer(5), "foo" };
 

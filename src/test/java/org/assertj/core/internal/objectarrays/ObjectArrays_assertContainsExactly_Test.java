@@ -37,54 +37,54 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_exactly_given_values() {
+  void should_pass_if_actual_contains_exactly_given_values() {
     arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
+  void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
     actual = array("Luke", "Yoda", "Leia", null);
     arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia", null));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_with_duplicate_elements() {
+  void should_pass_if_actual_contains_given_values_exactly_with_duplicate_elements() {
     actual = array("Luke", "Yoda", "Yoda");
     arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Yoda"));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactly(someInfo(), array(), array());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, array()));
   }
 
   @Test
-  public void should_fail_if_arrays_have_different_sizes() {
+  void should_fail_if_arrays_have_different_sizes() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda")));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -96,7 +96,7 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_in_different_order() {
+  void should_fail_if_actual_contains_all_given_values_but_in_different_order() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
 
@@ -107,7 +107,7 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };
@@ -121,7 +121,7 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
   }
 
   @Test
-  public void should_fail_if_arrays_have_different_sizes_for_large_arrays() {
+  void should_fail_if_arrays_have_different_sizes_for_large_arrays() {
     // GIVEN
     Object[] actual = new Object[2000];
     Object[] expected = new Object[actual.length + 1];
@@ -147,13 +147,13 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
                                                              array("LUKE", "YODA", "Leia"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -166,7 +166,7 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
 
@@ -177,7 +177,7 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };

@@ -33,10 +33,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ShouldHaveTime_create_Test {
+class ShouldHaveTime_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     Date date = DateUtil.parseDatetime("2011-01-01T05:01:00");
     // WHEN

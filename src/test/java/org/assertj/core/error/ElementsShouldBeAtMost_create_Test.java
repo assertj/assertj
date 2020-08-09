@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ElementsShouldBeAtMost_create_Test {
+class ElementsShouldBeAtMost_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldBeAtMost(list("Yoda", "Luke", "Obiwan"), 2, new TestCondition<>("a Jedi"));
     // WHEN

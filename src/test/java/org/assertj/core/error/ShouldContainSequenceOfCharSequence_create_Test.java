@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Billy Yuan
  */
-public class ShouldContainSequenceOfCharSequence_create_Test {
+class ShouldContainSequenceOfCharSequence_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
@@ -44,7 +44,7 @@ public class ShouldContainSequenceOfCharSequence_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";

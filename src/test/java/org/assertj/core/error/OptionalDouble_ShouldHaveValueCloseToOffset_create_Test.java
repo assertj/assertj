@@ -21,10 +21,10 @@ import java.util.OptionalDouble;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalDouble_ShouldHaveValueCloseToOffset_create_Test {
+class OptionalDouble_ShouldHaveValueCloseToOffset_create_Test {
 
   @Test
-  public void should_create_error_message_when_optionaldouble_is_empty() {
+  void should_create_error_message_when_optionaldouble_is_empty() {
     // WHEN
     String errorMessage = shouldHaveValueCloseToOffset(10.0).create();
     // THEN
@@ -34,7 +34,7 @@ public class OptionalDouble_ShouldHaveValueCloseToOffset_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String errorMessage = shouldHaveValueCloseToOffset(OptionalDouble.of(20.0), 10.0, within(2.0), 3).create();
     // THEN

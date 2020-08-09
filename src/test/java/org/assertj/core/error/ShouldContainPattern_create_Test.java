@@ -20,10 +20,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class ShouldContainPattern_create_Test {
+class ShouldContainPattern_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainPattern("Frodo", ".*Orc.*");
     // WHEN

@@ -12,9 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -22,10 +21,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class StandardComparisonStrategy_stringContains_Test extends AbstractTest_StandardComparisonStrategy {
+class StandardComparisonStrategy_stringContains_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
-  public void should_pass() {
+  void should_pass() {
     assertThat(standardComparisonStrategy.stringContains("Frodo", "ro")).isTrue();
     assertThat(standardComparisonStrategy.stringContains("rodo", "Fr")).isFalse();
   }

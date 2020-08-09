@@ -22,10 +22,10 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldNotBeMarkedCase_create_Test {
+class ShouldNotBeMarkedCase_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeMarked(new AtomicMarkableReference<>("actual", true));
     // WHEN

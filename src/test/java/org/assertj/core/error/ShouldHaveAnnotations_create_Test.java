@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author William Delanoue
  */
-public class ShouldHaveAnnotations_create_Test {
+class ShouldHaveAnnotations_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveAnnotations(ShouldHaveAnnotations_create_Test.class,
                                                         Lists.list(Override.class,

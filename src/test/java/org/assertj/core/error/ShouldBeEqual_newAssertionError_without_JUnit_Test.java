@@ -37,7 +37,7 @@ import org.opentest4j.AssertionFailedError;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
+class ShouldBeEqual_newAssertionError_without_JUnit_Test {
 
   private Description description;
   private ShouldBeEqual factory;
@@ -53,14 +53,14 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   }
 
   @Test
-  public void should_create_AssertionFailedError_if_created_ComparisonFailure_is_null() throws Exception {
+  void should_create_AssertionFailedError_if_created_ComparisonFailure_is_null() throws Exception {
     when(createComparisonFailure()).thenReturn(null);
     AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
     check(error);
   }
 
   @Test
-  public void should_create_AssertionFailedError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
+  void should_create_AssertionFailedError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
     when(createComparisonFailure()).thenThrow(new AssertionError("Thrown on purpose"));
     AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
     check(error);

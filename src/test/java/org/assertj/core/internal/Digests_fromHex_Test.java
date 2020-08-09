@@ -23,31 +23,31 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Digests_fromHex_Test extends DigestsBaseTest {
+class Digests_fromHex_Test extends DigestsBaseTest {
 
   @Test
-  public void should_fail_if_digest_is_null() {
+  void should_fail_if_digest_is_null() {
     assertThatNullPointerException().isThrownBy(() -> Digests.fromHex(null))
                                     .withMessage("The digest should not be null");
   }
 
   @Test
-  public void should_pass_if_digest_is_empty() {
+  void should_pass_if_digest_is_empty() {
     assertThat(Digests.fromHex("")).isEmpty();
   }
 
   @Test
-  public void should_pass_if_digest_converted_correctly() {
+  void should_pass_if_digest_converted_correctly() {
     assertThat(Digests.fromHex(DIGEST_TEST_1_STR)).isEqualTo(DIGEST_TEST_1_BYTES);
   }
 
   @Test
-  public void should_fail_if_digest_converted_incorrectly() {
+  void should_fail_if_digest_converted_incorrectly() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Digests.fromHex(EXPECTED_MD5_DIGEST_STR)).isEqualTo(DIGEST_TEST_1_BYTES));
   }
 
   @Test
-  public void should_pass_if_digest_length_is_not_even() {
+  void should_pass_if_digest_length_is_not_even() {
     assertThat(Digests.fromHex("A")).isEmpty();
     assertThat(Digests.fromHex("AA")).containsExactly(170);
     assertThat(Digests.fromHex("AAA")).containsExactly(170);

@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ShouldHaveAtLeastOneElementOfType#shouldHaveAtLeastOneElementOfType(Object, Class)}</code>.
  */
-public class ShouldHaveAtLeastOneElementOfType_create_Test {
+class ShouldHaveAtLeastOneElementOfType_create_Test {
 
   @Test
-  public void should_create_error_message_for_iterable() {
+  void should_create_error_message_for_iterable() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveAtLeastOneElementOfType(list("Yoda", "Luke"), Long.class);
     // WHEN
@@ -42,7 +42,7 @@ public class ShouldHaveAtLeastOneElementOfType_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_array() {
+  void should_create_error_message_for_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveAtLeastOneElementOfType(array("Yoda", "Luke"), Long.class);
     // WHEN

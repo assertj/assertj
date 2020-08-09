@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Harisha Talanki
  */
-public class ShouldBeEqualNormalizingPunctuationAndWhitespace_create_test {
+class ShouldBeEqualNormalizingPunctuationAndWhitespace_create_test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualNormalizingPunctuationAndWhitespace(" Game-of-Thrones ", " Game of Thrones ");
     // WHEN

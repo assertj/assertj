@@ -24,7 +24,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("ShouldHaveBinaryContent create")
-public class ShouldHaveBinaryContent_create_Test {
+class ShouldHaveBinaryContent_create_Test {
 
   @Test
   void should_create_error_message() {

@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class ShouldMatchPattern_create_Test {
+class ShouldMatchPattern_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldMatch("Yoda", "Luke");
     // WHEN
@@ -38,7 +38,7 @@ public class ShouldMatchPattern_create_Test {
   }
 
   @Test
-  public void should_create_error_message_escaping_percent() {
+  void should_create_error_message_escaping_percent() {
     // GIVEN
     ErrorMessageFactory factory = shouldMatch("%%E", "fffff");
     // WHEN

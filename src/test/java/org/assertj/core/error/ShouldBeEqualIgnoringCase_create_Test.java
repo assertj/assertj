@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldBeEqualIgnoringCase_create_Test {
+class ShouldBeEqualIgnoringCase_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqual("Yoda", "Luke");
     // WHEN

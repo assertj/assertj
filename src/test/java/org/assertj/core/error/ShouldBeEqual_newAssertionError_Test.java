@@ -34,7 +34,7 @@ import org.opentest4j.AssertionFailedError;
  * @author Alex Ruiz
  * @author Dan Corder
  */
-public class ShouldBeEqual_newAssertionError_Test {
+class ShouldBeEqual_newAssertionError_Test {
 
   private Description description;
   private ShouldBeEqual factory;
@@ -50,7 +50,7 @@ public class ShouldBeEqual_newAssertionError_Test {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_create_AssertionFailedError_if_JUnit5_is_present_and_trim_spaces_in_formatted_description(String formattedDescription) {
+  void should_create_AssertionFailedError_if_JUnit5_is_present_and_trim_spaces_in_formatted_description(String formattedDescription) {
     // GIVEN
     given(formatter.format(description)).willReturn(formattedDescription);
     // WHEN

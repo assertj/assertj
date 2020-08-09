@@ -22,10 +22,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldMatch_create_Test {
+class ShouldMatch_create_Test {
 
   @Test
-  public void should_create_error_message_with_default_predicate_description() {
+  void should_create_error_message_with_default_predicate_description() {
     // GIVEN
     ErrorMessageFactory factory = shouldMatch("Yoda", color -> color.equals("green"), PredicateDescription.GIVEN);
     // WHEN
@@ -35,7 +35,7 @@ public class ShouldMatch_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_predicate_description() {
+  void should_create_error_message_with_predicate_description() {
     // GIVEN
     ErrorMessageFactory factory = shouldMatch("Yoda", color -> color.equals("green"),
                                               new PredicateDescription("green light saber"));
@@ -46,7 +46,7 @@ public class ShouldMatch_create_Test {
   }
 
   @Test
-  public void should_fail_if_predicate_description_is_null() {
+  void should_fail_if_predicate_description_is_null() {
     thenNullPointerException().isThrownBy(() -> shouldMatch("Yoda", color -> color.equals("green"), null))
                               .withMessage("The predicate description must not be null");
   }

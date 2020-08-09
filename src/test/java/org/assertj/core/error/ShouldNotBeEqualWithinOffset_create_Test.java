@@ -13,8 +13,8 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -22,10 +22,10 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldNotBeEqualWithinOffset_create_Test {
+class ShouldNotBeEqualWithinOffset_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeEqual(8f, 6f, offset(5f), 2f);
     // WHEN
@@ -41,7 +41,7 @@ public class ShouldNotBeEqualWithinOffset_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_strict_offset() {
+  void should_create_error_message_for_strict_offset() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeEqual(8f, 6f, byLessThan(5f), 2f);
     // WHEN

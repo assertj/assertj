@@ -19,8 +19,6 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,16 +33,16 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertEmpty_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertEmpty_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty() {
+  void should_fail_if_actual_is_not_empty() {
     AssertionInfo info = someInfo();
     Character[] actual = { 'a', 'b' };
 
@@ -55,7 +53,7 @@ public class ObjectArrays_assertEmpty_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     arrays.assertEmpty(someInfo(), emptyArray());
   }
 }

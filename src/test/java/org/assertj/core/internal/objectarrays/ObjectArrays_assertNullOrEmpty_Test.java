@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -33,10 +31,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertNullOrEmpty_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertNullOrEmpty_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_fail_if_array_is_not_null_and_is_not_empty() {
+  void should_fail_if_array_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
     Integer[] actual = new Integer[] { 5, 8 };
 
@@ -47,12 +45,12 @@ public class ObjectArrays_assertNullOrEmpty_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_array_is_null() {
+  void should_pass_if_array_is_null() {
     arrays.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_array_is_empty() {
+  void should_pass_if_array_is_empty() {
     arrays.assertNullOrEmpty(someInfo(), emptyArray());
   }
 }

@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Matthieu Baechler
  */
-public class ShouldHaveSameContent_create_Test {
+class ShouldHaveSameContent_create_Test {
 
   @Test
-  public void should_create_error_message_file_even_if_content_contains_format_specifier() {
+  void should_create_error_message_file_even_if_content_contains_format_specifier() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), emptyList());
     // WHEN
@@ -44,7 +44,7 @@ public class ShouldHaveSameContent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_inputstream_even_if_content_contains_format_specifier() {
+  void should_create_error_message_inputstream_even_if_content_contains_format_specifier() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSameContent(new ByteArrayInputStream(new byte[] { 'a' }),
                                                         new ByteArrayInputStream(new byte[] { 'b' }),

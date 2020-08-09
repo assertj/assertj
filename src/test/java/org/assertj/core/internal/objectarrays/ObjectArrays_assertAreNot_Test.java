@@ -36,24 +36,24 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertAreNot_Test extends ObjectArraysWithConditionBaseTest {
+class ObjectArrays_assertAreNot_Test extends ObjectArraysWithConditionBaseTest {
 
   @Test
-  public void should_pass_if_each_element_satisfies_condition() {
+  void should_pass_if_each_element_satisfies_condition() {
     actual = array("Solo", "Leia");
     arrays.assertAreNot(someInfo(), actual, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
-  public void should_throw_error_if_condition_is_null() {
+  void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertAreNot(someInfo(), actual, null))
                                     .withMessage("The condition to evaluate should not be null");
     verify(conditions).assertIsNotNull(null);
   }
 
   @Test
-  public void should_fail_if_condition_is_met() {
+  void should_fail_if_condition_is_met() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = array("Solo", "Leia", "Yoda");

@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldContainAtIndex_create_Test {
+class ShouldContainAtIndex_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke");
     // WHEN
@@ -43,7 +43,7 @@ public class ShouldContainAtIndex_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke",
                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

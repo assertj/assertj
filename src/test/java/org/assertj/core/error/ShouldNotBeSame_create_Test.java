@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class ShouldNotBeSame_create_Test {
+class ShouldNotBeSame_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeSame("Yoda");
     // WHEN

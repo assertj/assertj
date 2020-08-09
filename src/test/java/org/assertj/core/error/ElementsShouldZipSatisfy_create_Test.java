@@ -26,7 +26,7 @@ import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ElementsShouldZipSatisfy_create_Test {
+class ElementsShouldZipSatisfy_create_Test {
 
   private AssertionInfo info;
 
@@ -36,7 +36,7 @@ public class ElementsShouldZipSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", "error luke"),
                                         new ZipSatisfyError("Yo-da", "YODA", "error yoda"));
@@ -58,7 +58,7 @@ public class ElementsShouldZipSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message_and_escape_percent_correctly() {
+  void should_create_error_message_and_escape_percent_correctly() {
     // GIVEN
     List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LU%dKE", "error luke"),
                                         new ZipSatisfyError("Yo-da", "YODA", "error yoda"));

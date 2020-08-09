@@ -34,24 +34,24 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertHaveAtMost_Test extends ObjectArraysWithConditionBaseTest {
+class ObjectArrays_assertHaveAtMost_Test extends ObjectArraysWithConditionBaseTest {
 
   @Test
-  public void should_pass_if_satisfies_at_least_times_condition() {
+  void should_pass_if_satisfies_at_least_times_condition() {
     actual = array("Yoda", "Luke", "Leia");
     arrays.assertHaveAtMost(someInfo(), actual, 2, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
-  public void should_pass_if_all_satisfies_condition_() {
+  void should_pass_if_all_satisfies_condition_() {
     actual = array("Chewbacca", "Leia", "Obiwan");
     arrays.assertHaveAtMost(someInfo(), actual, 2, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
-  public void should_throw_error_if_condition_is_null() {
+  void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       actual = array("Yoda", "Luke");
       arrays.assertHaveAtMost(someInfo(), actual, 2, null);
@@ -60,7 +60,7 @@ public class ObjectArrays_assertHaveAtMost_Test extends ObjectArraysWithConditio
   }
 
   @Test
-  public void should_fail_if_condition_is_not_met_enough() {
+  void should_fail_if_condition_is_not_met_enough() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = array("Yoda", "Luke", "Obiwan");

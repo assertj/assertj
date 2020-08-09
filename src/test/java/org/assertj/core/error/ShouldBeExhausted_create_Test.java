@@ -19,10 +19,10 @@ import static org.assertj.core.error.ShouldBeExhausted.shouldBeExhausted;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeExhausted_create_Test {
+class ShouldBeExhausted_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String error = shouldBeExhausted().create(new TestDescription("TEST"));
     // THEN

@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class ShouldBeNullOrEmpty_create_Test {
+class ShouldBeNullOrEmpty_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeNullOrEmpty(list("Luke", "Yoda"));
     // WHEN

@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  * <code>{@link ShouldContainOnlyNulls#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * @author Billy Yuan
  */
-public class ShouldContainOnlyNulls_create_Test {
+class ShouldContainOnlyNulls_create_Test {
 
   @Test
-  public void should_create_error_message_with_unexpected_element() {
+  void should_create_error_message_with_unexpected_element() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyNulls(list("person", null), list("person"));
     // WHEN
@@ -43,7 +43,7 @@ public class ShouldContainOnlyNulls_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_no_any_element() {
+  void should_create_error_message_with_no_any_element() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyNulls(list());
     // WHEN

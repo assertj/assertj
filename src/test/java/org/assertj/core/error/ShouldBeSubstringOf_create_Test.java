@@ -23,10 +23,10 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeSubstringOf_create_Test {
+class ShouldBeSubstringOf_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeSubstring("bcd", "abcdef", StandardComparisonStrategy.instance());
     // WHEN
@@ -40,7 +40,7 @@ public class ShouldBeSubstringOf_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_comparison_strategy() {
+  void should_create_error_message_with_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeSubstring("bcd", "abcdef",
                                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

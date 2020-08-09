@@ -19,7 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("ShouldHaveCause create")
-public class ShouldHaveCause_create_Test {
+class ShouldHaveCause_create_Test {
 
   @Test
   void should_create_error_message_for_actual_cause() {

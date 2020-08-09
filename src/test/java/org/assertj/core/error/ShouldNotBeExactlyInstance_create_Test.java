@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class ShouldNotBeExactlyInstance_create_Test {
+class ShouldNotBeExactlyInstance_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeExactlyInstance("Yoda", String.class);
     // WHEN
@@ -44,7 +44,7 @@ public class ShouldNotBeExactlyInstance_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_stack_trace_for_throwable() {
+  void should_create_error_message_with_stack_trace_for_throwable() {
     // GIVEN
     IllegalArgumentException throwable = new IllegalArgumentException();
     // WHEN

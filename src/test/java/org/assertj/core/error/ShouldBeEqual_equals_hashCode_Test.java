@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class ShouldBeEqual_equals_hashCode_Test {
+class ShouldBeEqual_equals_hashCode_Test {
 
   private static ShouldBeEqual factory;
 
@@ -38,43 +38,43 @@ public class ShouldBeEqual_equals_hashCode_Test {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(factory);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(factory, shouldBeEqual("Yoda", "Luke", new StandardRepresentation()));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     assertEqualsIsTransitive(factory, shouldBeEqual("Yoda", "Luke", new StandardRepresentation()),
                              shouldBeEqual("Yoda", "Luke", new StandardRepresentation()));
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(factory, shouldBeEqual("Yoda", "Luke", new StandardRepresentation()));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     then(factory.equals("Yoda")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     then(factory.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_IsNotEqual_with_different_actual() {
+  void should_not_be_equal_to_IsNotEqual_with_different_actual() {
     then(factory.equals(shouldBeEqual("Leia", "Luke", new StandardRepresentation()))).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_IsNotEqual_with_different_expected() {
+  void should_not_be_equal_to_IsNotEqual_with_different_expected() {
     then(factory.equals(shouldBeEqual("Yoda", "Leia", new StandardRepresentation()))).isFalse();
   }
 }

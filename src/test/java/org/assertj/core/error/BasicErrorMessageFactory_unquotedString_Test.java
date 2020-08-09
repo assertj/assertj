@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BasicErrorMessageFactory#unquotedString(String)}</code>.
  */
-public class BasicErrorMessageFactory_unquotedString_Test {
+class BasicErrorMessageFactory_unquotedString_Test {
 
   @Test
-  public void should_implement_toString() {
+  void should_implement_toString() {
     then(unquotedString("some value")).hasToString("some value");
   }
 }

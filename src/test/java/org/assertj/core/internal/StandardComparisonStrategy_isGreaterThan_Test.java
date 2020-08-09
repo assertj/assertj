@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_StandardComparisonStrategy {
+class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
-  public void verify_that_isGreaterThan_delegates_to_compare_method() {
+  void verify_that_isGreaterThan_delegates_to_compare_method() {
     Employee boss = mock(Employee.class);
     Employee young = new Employee(10000, 25);
     standardComparisonStrategy.isGreaterThan(boss, young);
@@ -38,7 +38,7 @@ public class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_
   }
 
   @Test
-  public void should_pass() {
+  void should_pass() {
     Employee boss = new Employee(10000, 35);
     Employee young = new Employee(10000, 25);
     assertThat(standardComparisonStrategy.isGreaterThan(boss, young)).isTrue();
@@ -47,7 +47,7 @@ public class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_
   }
 
   @Test
-  public void should_fail_if_first_parameter_is_not_comparable() {
+  void should_fail_if_first_parameter_is_not_comparable() {
     assertThatIllegalArgumentException().isThrownBy(() -> standardComparisonStrategy.isGreaterThan(new Rectangle(), "foo"));
   }
 }

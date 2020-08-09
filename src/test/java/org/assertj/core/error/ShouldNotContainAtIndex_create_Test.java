@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldNotContainAtIndex_create_Test {
+class ShouldNotContainAtIndex_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -41,7 +41,7 @@ public class ShouldNotContainAtIndex_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
@@ -49,7 +49,7 @@ public class ShouldNotContainAtIndex_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     factory = shouldNotContainAtIndex(list("Yoda", "Luke"), "Luke", atIndex(1),
                                       new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

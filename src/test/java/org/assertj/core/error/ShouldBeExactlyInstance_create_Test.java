@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ShouldBeExactlyInstance_create_Test {
+class ShouldBeExactlyInstance_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeExactlyInstance("Yoda", File.class);
     // WHEN
@@ -47,7 +47,7 @@ public class ShouldBeExactlyInstance_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_stack_trace_for_throwable() {
+  void should_create_error_message_with_stack_trace_for_throwable() {
     // GIVEN
     IllegalArgumentException throwable = new IllegalArgumentException("Not a Nullpointer");
     // WHEN

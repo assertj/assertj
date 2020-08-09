@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldBeIn_create_Test {
+class ShouldBeIn_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeIn("Yoda", array("Luke", "Leia"));
     // WHEN
@@ -42,7 +42,7 @@ public class ShouldBeIn_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeIn("Yoda", array("Luke", "Leia"), new ComparatorBasedComparisonStrategy(
                                                                                                                   CaseInsensitiveStringComparator.instance));

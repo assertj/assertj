@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class TypeComparators_Test {
+class TypeComparators_Test {
 
   private TypeComparators typeComparators;
 
@@ -32,7 +32,7 @@ public class TypeComparators_Test {
   }
 
   @Test
-  public void should_return_exact_match() {
+  void should_return_exact_match() {
     Comparator<Foo> fooComparator = newComparator();
     Comparator<Bar> barComparator = newComparator();
     typeComparators.put(Foo.class, fooComparator);
@@ -45,7 +45,7 @@ public class TypeComparators_Test {
   }
 
   @Test
-  public void should_return_parent_comparator() {
+  void should_return_parent_comparator() {
     Comparator<Bar> barComparator = newComparator();
     typeComparators.put(Bar.class, barComparator);
 
@@ -56,7 +56,7 @@ public class TypeComparators_Test {
   }
 
   @Test
-  public void should_return_most_relevant() {
+  void should_return_most_relevant() {
 
     Comparator<I3> i3Comparator = newComparator();
     Comparator<I4> i4Comparator = newComparator();
@@ -82,7 +82,7 @@ public class TypeComparators_Test {
   }
 
   @Test
-  public void should_find_no_comparator() {
+  void should_find_no_comparator() {
 
     Comparator<I3> i3Comparator = newComparator();
     Comparator<I4> i4Comparator = newComparator();
@@ -96,7 +96,7 @@ public class TypeComparators_Test {
   }
 
   @Test
-  public void should_be_empty() {
+  void should_be_empty() {
     typeComparators.clear();
     assertThat(typeComparators.isEmpty()).isTrue();
   }

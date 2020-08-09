@@ -37,7 +37,7 @@ import org.opentest4j.AssertionFailedError;
  *
  * @author Joel Costigliola (based on Tomasz Nurkiewicz ideas)
  */
-public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
+class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
 
   private String formattedDescription = "[my test]";
   private Description description;
@@ -48,7 +48,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   }
 
   @Test
-  public void should_create_AssertionError_with_message_differentiating_expected_double_and_actual_float() {
+  void should_create_AssertionError_with_message_differentiating_expected_double_and_actual_float() {
     // GIVEN
     Float actual = 42f;
     Double expected = 42d;
@@ -68,7 +68,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   }
 
   @Test
-  public void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons() {
+  void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons() {
     // GIVEN
     Person actual = new Person("Jake", 43);
     Person expected = new Person("Jake", 47);
@@ -88,7 +88,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   }
 
   @Test
-  public void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons_even_if_a_comparator_based_comparison_strategy_is_used() {
+  void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons_even_if_a_comparator_based_comparison_strategy_is_used() {
     // GIVEN
     Person actual = new Person("Jake", 43);
     Person expected = new Person("Jake", 47);
@@ -110,7 +110,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   }
 
   @Test
-  public void should_create_AssertionError_with_message_differentiating_null_and_object_with_null_toString() {
+  void should_create_AssertionError_with_message_differentiating_null_and_object_with_null_toString() {
     // GIVEN
     Object actual = null;
     Object expected = new ToStringIsNull();
@@ -130,7 +130,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   }
 
   @Test
-  public void should_create_AssertionError_with_message_differentiating_object_with_null_toString_and_null() {
+  void should_create_AssertionError_with_message_differentiating_object_with_null_toString_and_null() {
     // GIVEN
     Object actual = new ToStringIsNull();
     Object expected = null;

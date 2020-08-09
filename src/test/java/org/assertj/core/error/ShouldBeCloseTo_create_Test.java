@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeCloseTo_create_Test {
+class ShouldBeCloseTo_create_Test {
 
   @Test
-  public void should_create_error_message_with_period_boundaries_included() {
+  void should_create_error_message_with_period_boundaries_included() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeCloseTo(parseDatetimeWithMs("2011-01-01T00:00:00.000"),
                                                   parseDatetimeWithMs("2011-01-01T00:00:00.101"),

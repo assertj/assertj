@@ -28,7 +28,7 @@ import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ElementsShouldSatisfy_create_Test {
+class ElementsShouldSatisfy_create_Test {
 
   private AssertionInfo info;
 
@@ -38,7 +38,7 @@ public class ElementsShouldSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message_all() {
+  void should_create_error_message_all() {
     // GIVEN
     List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
                                                                 unsatisfiedRequirement("Luke", "Luke mistake."));
@@ -55,7 +55,7 @@ public class ElementsShouldSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message_all_and_escape_percent_correctly() {
+  void should_create_error_message_all_and_escape_percent_correctly() {
     // GIVEN
     List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia%s", "Leia mistake."),
                                                                 unsatisfiedRequirement("Luke", "Luke mistake."));
@@ -72,7 +72,7 @@ public class ElementsShouldSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message_any() {
+  void should_create_error_message_any() {
     // GIVEN
     List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
                                                                 unsatisfiedRequirement("Luke", "Luke mistake."));
@@ -89,7 +89,7 @@ public class ElementsShouldSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message_any_and_escape_percent_correctly() {
+  void should_create_error_message_any_and_escape_percent_correctly() {
     // GIVEN
     List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
                                                                 unsatisfiedRequirement("Luke", "Luke mistake."));
