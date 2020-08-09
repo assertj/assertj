@@ -14,16 +14,28 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+/**
+ * @deprecated this class is meant to be internal and it is exposed only for backward compatibility together with
+ *             {@link RecursiveComparisonConfiguration#registerComparatorForField(Comparator, FieldLocation)},
+ *             it will be restricted to package-private visibility in the next major release.
+ */
 // TODO should understand Map keys as field
-public class FieldLocation implements Comparable<FieldLocation> {
+public final class FieldLocation implements Comparable<FieldLocation> {
 
-  private String fieldPath;
-  // private boolean whereverInGraph = false;
-  // private boolean matches(Field field, Field parent); ?
+  private final String fieldPath;
+
+  public FieldLocation(String fieldPath) {
+    this.fieldPath = Objects.requireNonNull(fieldPath, "'fieldPath' cannot be null");
+  }
+
+  String getFieldPath() {
+    return fieldPath;
+  }
 
   @Override
   public int compareTo(final FieldLocation other) {
@@ -31,10 +43,11 @@ public class FieldLocation implements Comparable<FieldLocation> {
   }
 
   @Override
-  public boolean equals(final Object other) {
-    if (!(other instanceof FieldLocation)) return false;
-    FieldLocation castOther = (FieldLocation) other;
-    return Objects.equals(fieldPath, castOther.fieldPath);
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!(obj instanceof FieldLocation)) return false;
+    FieldLocation that = (FieldLocation) obj;
+    return Objects.equals(fieldPath, that.fieldPath);
   }
 
   @Override
@@ -42,21 +55,12 @@ public class FieldLocation implements Comparable<FieldLocation> {
     return Objects.hash(fieldPath);
   }
 
-  public FieldLocation(String fieldPath) {
-    Objects.requireNonNull(fieldPath, "a field path can't be null");
-    this.fieldPath = fieldPath;
-  }
-
-  public String getFieldPath() {
-    return fieldPath;
-  }
-
   @Override
   public String toString() {
     return String.format("FieldLocation [fieldPath=%s]", fieldPath);
   }
 
-  public boolean matches(String concatenatedPath) {
+  boolean matches(String concatenatedPath) {
     return fieldPath.equals(concatenatedPath);
   }
 
@@ -64,7 +68,16 @@ public class FieldLocation implements Comparable<FieldLocation> {
     return Stream.of(fieldPaths).map(FieldLocation::new).collect(toList());
   }
 
+  /**
+   * @deprecated use {@link #fieldLocation} instead
+   *
+   */
+  @Deprecated
   public static FieldLocation fielLocation(String fieldPath) {
+    return fieldLocation(fieldPath);
+  }
+
+  public static FieldLocation fieldLocation(String fieldPath) {
     return new FieldLocation(fieldPath);
   }
 

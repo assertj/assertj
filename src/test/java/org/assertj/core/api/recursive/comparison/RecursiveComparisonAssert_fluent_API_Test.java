@@ -15,7 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.fieldLocation;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
@@ -112,7 +112,7 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .ignoringFields(field1, field2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getIgnoredFields()).containsExactly(fielLocation(field1), fielLocation(field2));
+    assertThat(configuration.getIgnoredFields()).containsExactly(fieldLocation(field1), fieldLocation(field2));
   }
 
   @Test
@@ -152,7 +152,7 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .ignoringOverriddenEqualsForFields(field1, field2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getIgnoredOverriddenEqualsForFields()).containsExactly(fielLocation(field1), fielLocation(field2));
+    assertThat(configuration.getIgnoredOverriddenEqualsForFields()).containsExactly(fieldLocation(field1), fieldLocation(field2));
   }
 
   @Test
@@ -203,7 +203,7 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .ignoringCollectionOrderInFields(field1, field2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getIgnoredCollectionOrderInFields()).containsExactly(fielLocation(field1), fielLocation(field2));
+    assertThat(configuration.getIgnoredCollectionOrderInFields()).containsExactly(fieldLocation(field1), fieldLocation(field2));
   }
 
   @Test
@@ -240,10 +240,10 @@ class RecursiveComparisonAssert_fluent_API_Test {
     // @format:on
     // THEN
     assertThat(configuration.comparatorByFields()).hasSize(4)
-                                                  .contains(entry(fielLocation(field3), alwaysEqualComparator),
-                                                            entry(fielLocation(field1), alwaysEqualComparator),
-                                                            entry(fielLocation(field2), alwaysDifferentComparator));
-    assertThat(configuration.comparatorByFields()).anyMatch(entry -> entry.getKey().equals(fielLocation(field4))
+                                                  .contains(entry(fieldLocation(field3), alwaysEqualComparator),
+                                                            entry(fieldLocation(field1), alwaysEqualComparator),
+                                                            entry(fieldLocation(field2), alwaysDifferentComparator));
+    assertThat(configuration.comparatorByFields()).anyMatch(entry -> entry.getKey().equals(fieldLocation(field4))
                                                                      && entry.getValue() != null);
   }
 

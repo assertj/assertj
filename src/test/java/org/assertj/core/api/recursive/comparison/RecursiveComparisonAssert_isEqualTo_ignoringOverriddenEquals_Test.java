@@ -14,7 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.fieldLocation;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
@@ -66,7 +66,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
 
     return Stream.of(arguments(person1, person2, "AlwaysDifferentPerson neighbour identical field by field"),
                      arguments(person3, person4,
-                                  "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field"));
+                               "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field"));
   }
 
   // ignoringOverriddenEqualsForFieldsMatchingRegexes tests
@@ -97,12 +97,12 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     person4.neighbour = new AlwaysDifferentPerson();
 
     return Stream.of(arguments(person1, person2, "AlwaysDifferentPerson neighbour identical field by field",
-                                  list("org.assertj.core.internal.objects.data.*")),
+                               list("org.assertj.core.internal.objects.data.*")),
                      arguments(person3, person4,
-                                  "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field",
-                                  list(".*AlwaysDifferent.*")),
+                               "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field",
+                               list(".*AlwaysDifferent.*")),
                      arguments(person3, person4, "Several regexes",
-                                  list(".*AlwaysDifferentPerson", ".*AlwaysDifferentAddress")));
+                               list(".*AlwaysDifferentPerson", ".*AlwaysDifferentAddress")));
   }
 
   @Test
@@ -174,10 +174,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     person4.neighbour = new AlwaysDifferentPerson();
 
     return Stream.of(arguments(person1, person2, "AlwaysDifferentPerson neighbour identical field by field",
-                                  list(AlwaysDifferentPerson.class)),
+                               list(AlwaysDifferentPerson.class)),
                      arguments(person3, person4,
-                                  "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field",
-                                  list(AlwaysDifferentPerson.class, AlwaysDifferentAddress.class)));
+                               "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field",
+                               list(AlwaysDifferentPerson.class, AlwaysDifferentAddress.class)));
   }
 
   @Test
@@ -245,10 +245,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     person4.neighbour = new AlwaysDifferentPerson();
 
     return Stream.of(arguments(person1, person2, "AlwaysDifferentPerson neighbour identical field by field",
-                                  list("neighbour")),
+                               list("neighbour")),
                      arguments(person3, person4,
-                                  "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field",
-                                  list("neighbour", "home.address")));
+                               "AlwaysDifferentPerson neighbour and AlwaysDifferentAddress identical field by field",
+                               list("neighbour", "home.address")));
   }
 
   @Test
@@ -298,7 +298,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("bar", "baz");
     // THEN
     List<FieldLocation> ignoredOverriddenEqualsFields = recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields();
-    assertThat(ignoredOverriddenEqualsFields).containsExactly(fielLocation("foo"), fielLocation("bar"), fielLocation("baz"));
+    assertThat(ignoredOverriddenEqualsFields).containsExactly(fieldLocation("foo"), fieldLocation("bar"), fieldLocation("baz"));
   }
 
   @ParameterizedTest(name = "actual {0} / expected {1}")
