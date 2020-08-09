@@ -1980,26 +1980,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * In error messages, sets the threshold for how many elements from one iterable/array/map will be included in the
-   * in the description.
-   *
-   * E.q. When this method is called with a value of {@code 3}.
+   * Sets the maximum number of elements to display in error messages for iterables, arrays and map .
    * <p>
-   * The following array will be formatted entirely as it's length is &lt;= 3:
+   * Example with a value of {@code 4}.
+   * <p>
+   * The following array will be formatted entirely as it's length is &lt;= 4:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
    *
-   * whereas this array is formatted only with it's first 3 elements, followed by {@code ...}:
-   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards!");
-   *
+   * whereas for this 6 elements array, only the first and last two elements are displayed (4 in total):
+   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards!", "The Lies of Locke Lamora", "Aux Ombres d’Abyme");
    * // formatted as:
+   * ["A Game of Thrones", "The Lord of the Rings", ... "The Lies of Locke Lamora", "Aux Ombres d’Abyme"]</code></pre>
    *
-   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", ...]</code></pre>
-   *
-   * @param maxElementsForPrinting the maximum elements that would be printed from one iterable/array/map
+   * @param maxElementsForPrinting the maximum elements that would be printed for iterables, arrays and maps.
    * @since 3.9.0
    */
   default void setMaxElementsForPrinting(int maxElementsForPrinting) {

@@ -254,10 +254,11 @@ public class Configuration {
   }
 
   /**
-   * Returns the maximum length for an iterable/array to be displayed on one line.
+   * Returns how many elements at most from one iterable/array/map will be displayed in error messages.
+   * <p>
    * Default is {@value #MAX_ELEMENTS_FOR_PRINTING}.
    * <p>
-   * See {@link Assertions#setMaxLengthForSingleLineDescription(int)} for a detailed description.
+   * See {@link Assertions#setMaxElementsForPrinting(int)} for a detailed description.
    *
    * @return the maximum length for an iterable/array to be displayed on one line.
    */
@@ -266,7 +267,7 @@ public class Configuration {
   }
 
   /**
-   * Returns the maximum number of elements that will be displayed for a group of values (iterables and arrays).
+   * Sets the threshold for how many elements at most from one iterable/array/map will be displaye in error messages.
    * <p>
    * See {@link Assertions#setMaxElementsForPrinting(int)} for a detailed description.
    * <p>
