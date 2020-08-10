@@ -1982,24 +1982,24 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Person raj = new Person("Raj Koothrappali", false);
    * Person howard = new Person("Howard Wolowitz", false);
    *
-   * List&lt;Doctor&gt; doctors = Arrays.asList(drSheldon, drLeonard, drRaj);
-   * List&lt;Person&gt; people = Arrays.asList(sheldon, leonard, raj);
+   * List&lt;Doctor&gt; doctors = list(drSheldon, drLeonard, drRaj);
+   * List&lt;Person&gt; people = list(sheldon, leonard, raj);
    *
    * RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
    *                                                                                  .withIgnoredFields​("hasPhd");
    *
    * // assertion succeeds as both lists contains equivalent items in order.
-   * assertThat(doctors).usingConfigurableRecursiveFieldByFieldElementComparator(configuration)
+   * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .contains(sheldon);
    *
    * // assertion fails because leonard names are different.
    * leonard.setName("Leonard Ofstater");
-   * assertThat(doctors).usingRecursiveComparison()
+   * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .contains(leonard);
    *
    * // assertion fails because howard is missing and leonard is not expected.
-   * people = Arrays.asList(howard, sheldon, raj)
-   * assertThat(doctors).usingRecursiveComparison()
+   * people = list(howard, sheldon, raj)
+   * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .contains(howard);</code></pre>
    *
    * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
