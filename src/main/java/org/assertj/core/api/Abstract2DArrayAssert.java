@@ -48,32 +48,8 @@ public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<S
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is not deeply equal to the given one.
+   * @throws AssertionError if the actual 2D array is not deeply equal to the given one.
    */
   public abstract SELF isDeepEqualTo(ACTUAL expected);
 
-  /**
-   * Verifies that the actual {@code int[][]} is equal to the given one.
-   * <p>
-   * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
-   * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Abstract2DArrayAssert#isDeepEqualTo(Object)} instead.
-   * <p>
-   * Example:
-   * <pre><code class='java'> int[][] array = {{1, 2}, {3, 4}};
-   *
-   * // assertion will pass
-   * assertThat(array).isEqualTo(array);
-   *
-   * // assertion will fail as isEqualTo calls equals which compares arrays references only.
-   * assertThat(array).isEqualTo(new int[][] {{1, 2}, {3, 4}});</code></pre>
-   *
-   * @param expected the given value to compare the actual {@code int[][]} to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code int[][]} is not equal to the given one.
-   */
-  @Override
-  public SELF isEqualTo(Object expected) {
-    return super.isEqualTo(expected);
-  }
 }
