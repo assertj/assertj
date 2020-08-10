@@ -13,32 +13,37 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.Spliterator;
 import java.util.stream.Stream;
 
 import org.assertj.core.test.StringSpliterator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(Spliterator)}</code>.
  *
  * @author William Bakker
  */
-public class Assertions_assertThat_with_Spliterator_Test {
+class Assertions_assertThat_with_Spliterator_Test {
 
-  private Spliterator<?> stringSpliterator = new StringSpliterator();
+  private final Spliterator<?> stringSpliterator = new StringSpliterator();
 
   @Test
-  public void should_create_Assert() {
-    SpliteratorAssert<String> assertions = assertThat(Stream.of("Luke", "Leia").spliterator());
-    assertThat(assertions).isNotNull();
+  void should_create_Assert() {
+    // WHEN
+    SpliteratorAssert<String> assertion = assertThat(Stream.of("Luke", "Leia").spliterator());
+    // THEN
+    then(assertion).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
+    // WHEN
     SpliteratorAssert<?> assertion = assertThat(stringSpliterator);
-    assertThat(assertion.actual).isSameAs(stringSpliterator);
+    // THEN
+    then(assertion.actual).isSameAs(stringSpliterator);
   }
 
 }
