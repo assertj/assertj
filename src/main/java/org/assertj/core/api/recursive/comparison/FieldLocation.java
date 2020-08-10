@@ -25,6 +25,7 @@ import java.util.stream.Stream;
  *             it will be restricted to package-private visibility in the next major release.
  */
 // TODO should understand Map keys as field
+@Deprecated
 public final class FieldLocation implements Comparable<FieldLocation> {
 
   private final String fieldPath;
@@ -71,6 +72,8 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   /**
    * @deprecated use {@link #fieldLocation} instead
    *
+   * @param fieldPath the field path.
+   * @return the built field location.
    */
   @Deprecated
   public static FieldLocation fielLocation(String fieldPath) {
