@@ -40,6 +40,7 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 
+@SuppressWarnings("deprecation") // TODO to be removed once FieldLocation is package-private
 public class RecursiveComparisonConfiguration {
 
   public static final String INDENT_LEVEL_2 = "  -";
