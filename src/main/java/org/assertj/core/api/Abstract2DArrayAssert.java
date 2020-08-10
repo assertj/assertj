@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import java.util.Comparator;
-
 /**
  * Base class for all two-dimensional array assertions.
  *
