@@ -13,19 +13,11 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 
-import org.junit.jupiter.api.BeforeEach;
-
 public class TemporalAssert_usingDefaultComparator_Test extends AbstractTemporalAssertBaseTest {
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
 
   @Override
   protected ConcreteTemporalAssert invoke_api_method() {

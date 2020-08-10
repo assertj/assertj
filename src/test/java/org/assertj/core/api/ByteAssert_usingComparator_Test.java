@@ -13,15 +13,15 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * Tests for <code>{@link ByteAssert#usingComparator(java.util.Comparator)}</code> and
@@ -29,17 +29,10 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
+@ExtendWith(MockitoExtension.class)
 public class ByteAssert_usingComparator_Test {
 
   private ByteAssert assertions = new ByteAssert((byte) 5);
-
-  @Mock
-  private Comparator<Byte> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
 
   @Test
   public void using_default_comparator_test() {
@@ -49,7 +42,7 @@ public class ByteAssert_usingComparator_Test {
   }
 
   @Test
-  public void using_custom_comparator_test() {
+  public void using_custom_comparator_test(@Mock Comparator<Byte> comparator) {
     // in that test, the comparator type is not important, we only check that we correctly switch of comparator
     assertions.usingComparator(comparator);
     assertThat(comparator).isSameAs(assertions.objects.getComparator());
