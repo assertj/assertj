@@ -20,6 +20,7 @@ import static org.assertj.core.api.BDDAssertions.thenExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.thenIOException;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.thenIllegalStateException;
+import static org.assertj.core.api.BDDAssertions.thenNoException;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.api.BDDAssertions.thenObject;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
@@ -50,6 +51,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.stubbing.answers.ThrowsException;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.
@@ -374,6 +376,11 @@ public class BDDAssertions_then_Test {
   }
 
   @Test
+  void should_build_NotThrownAssert_with_thowable_not_thrown() throws Exception {
+    thenNoException().isThrownBy(()  -> methodNotThrowing());
+  }
+
+  @Test
   void should_build_ThrowableTypeAssert_with_NullPointerException_thrown() {
     thenNullPointerException().isThrownBy(() -> methodThrowing(new NullPointerException("something was wrong")))
                               .withMessage("something was wrong");
@@ -399,5 +406,8 @@ public class BDDAssertions_then_Test {
 
   private static void methodThrowing(Throwable throwable) throws Throwable {
     throw throwable;
+  }
+
+  private static void methodNotThrowing() throws Throwable {
   }
 }

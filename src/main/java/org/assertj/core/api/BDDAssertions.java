@@ -1621,6 +1621,21 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Entry point to check that no exception of any type is thrown by a given {@code throwingCallable}.
+   * <p>
+   * <p>
+   * Example:
+   * <pre><code class='java'>thenNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
+   *
+   * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
+   * @return the created {@link NotThrownAssert}.
+   * @since 3.17.0
+   */
+  public static NotThrownAssert thenNoException() {
+    return assertThatNoException();
+  }
+
+  /**
    * Alias for {@link #thenExceptionOfType(Class)} for {@link NullPointerException}.
    *
    * @return the created {@link ThrowableTypeAssert}.

@@ -1368,6 +1368,20 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Entry point to check that no exception of any type is thrown by a given {@code throwingCallable}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
+   *
+   * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
+   * @return the created {@link NotThrownAssert}.
+   * @since 3.17.0
+   */
+  public static NotThrownAssert assertThatNoException() {
+    return AssertionsForClassTypes.assertThatNoException();
+  }
+
+  /**
    * Alias for {@link #assertThatExceptionOfType(Class)} for {@link NullPointerException}.
    *
    * @return the created {@link ThrowableTypeAssert}.

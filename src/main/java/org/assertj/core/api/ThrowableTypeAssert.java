@@ -26,6 +26,7 @@ import org.assertj.core.util.VisibleForTesting;
  * The class itself does not do much, it delegates the work to {@link ThrowableAssertAlternative} after calling {@link #isThrownBy(ThrowableAssert.ThrowingCallable)}.
  *
  * @param <T> type of throwable to be thrown.
+ * @see NotThrownAssert
  */
 public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<ThrowableTypeAssert<T>> {
 
