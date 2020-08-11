@@ -893,8 +893,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return assertionErrorCreator.multipleAssertionsError(info.description(), assertionErrors);
   }
 
-  @SuppressWarnings("unchecked")
-  private boolean satisfiesAssertions(@SuppressWarnings("rawtypes") Consumer assertions) {
+  private boolean satisfiesAssertions(Consumer<ACTUAL> assertions) {
     try {
       assertions.accept(actual);
     } catch (AssertionError e) {
@@ -903,8 +902,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return true;
   }
 
-  @SuppressWarnings("unchecked")
-  private AssertionError catchAssertionError(@SuppressWarnings("rawtypes") Consumer assertions) {
+  private AssertionError catchAssertionError(Consumer<ACTUAL> assertions) {
     try {
       assertions.accept(actual);
     } catch (AssertionError assertionError) {
