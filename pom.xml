@@ -88,7 +88,7 @@
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <maven-surefire-report-plugin.version>2.22.2</maven-surefire-report-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-    <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
+    <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
