@@ -20,6 +20,7 @@ import static org.assertj.core.api.BDDAssertions.thenExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.thenIOException;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.thenIllegalStateException;
+import static org.assertj.core.api.BDDAssertions.thenNoException;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.api.BDDAssertions.thenObject;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
@@ -52,7 +53,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.
+ * Tests for <code>{@link BDDAssertions#then(String)}</code>.
  *
  * @author Mariusz Smykula
  */
@@ -79,7 +80,7 @@ public class BDDAssertions_then_Test {
   }
 
   @Test
-  public void then_Charsequence() {
+  public void then_CharSequence() {
     then("abc".subSequence(0, 1)).contains("a");
   }
 
@@ -374,6 +375,11 @@ public class BDDAssertions_then_Test {
   }
 
   @Test
+  void should_build_NotThrownAssert_with_throwable_not_thrown() {
+    thenNoException().isThrownBy(() -> methodNotThrowing());
+  }
+
+  @Test
   void should_build_ThrowableTypeAssert_with_NullPointerException_thrown() {
     thenNullPointerException().isThrownBy(() -> methodThrowing(new NullPointerException("something was wrong")))
                               .withMessage("something was wrong");
@@ -400,4 +406,7 @@ public class BDDAssertions_then_Test {
   private static void methodThrowing(Throwable throwable) throws Throwable {
     throw throwable;
   }
+
+  private static void methodNotThrowing() {}
+
 }

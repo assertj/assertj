@@ -789,6 +789,21 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Entry point to check that no exception of any type is thrown by a given {@code throwingCallable}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
+   *
+   * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
+
+   * @return the created {@link NotThrownAssert}.
+   * @since 3.17.0
+   */
+  public static NotThrownAssert assertThatNoException() {
+    return new NotThrownAssert();
+  }
+
+  /**
    * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
    *
    * <p>

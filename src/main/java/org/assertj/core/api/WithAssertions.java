@@ -2604,12 +2604,29 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *           .withMessage("boom!"); </code></pre>
    *
    * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   *
    * @param <T> the exception type.
    * @param exceptionType the exception type class.
    * @return the created {@link ThrowableTypeAssert}.
    */
   default <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
     return Assertions.assertThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Entry point to check that no exception of any type is thrown by a given {@code throwingCallable}.
+   * <p>
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
+   *
+   * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
+   *
+   * @return the created {@link NotThrownAssert}.
+   * @since 3.17.0
+   */
+  default NotThrownAssert assertThatNoException() {
+    return Assertions.assertThatNoException();
   }
 
   /**
