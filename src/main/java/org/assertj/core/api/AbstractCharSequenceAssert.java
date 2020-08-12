@@ -560,7 +560,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is equal to the given one, ignoring case considerations.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;GaNdAlF tHe GREY&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;Gandalf the grey&quot;);
@@ -580,7 +580,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is not equal to the given one, ignoring case considerations.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat("Gandalf").isNotEqualToIgnoringCase("Hobbit");
    * assertThat("Gandalf").isNotEqualToIgnoringCase("HOBit");
@@ -623,7 +623,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} contains the given sequence <b>only once</b>.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;do&quot;);
    *
@@ -801,7 +801,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} contains the given sequence, ignoring case considerations.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;gandalf&quot;);
    *
@@ -822,7 +822,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} does not contain any of the given values.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;pippin&quot;)
    *                    .doesNotContain(&quot;fro&quot;, &quot;sam&quot;);
@@ -846,7 +846,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} does not contain any of the given Iterable.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotContain(Arrays.asList(&quot;&quot;))
    *                    .doesNotContain(Arrays.asList(&quot;fro&quot;, &quot;sam&quot;));
@@ -869,7 +869,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} does not contain any of the given values, ignoring case considerations.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;Frodo&quot;).doesNotContainIgnoringCase(&quot;pippin&quot;)
    *                    .doesNotContainIgnoringCase(&quot;Merry&quot;, &quot;sam&quot;);
@@ -897,7 +897,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} does not contain the given regular expression.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotContainPattern(&quot;Fr.ud&quot;);
    *
@@ -920,7 +920,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} does not contain the given regular expression.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotContainPattern(Pattern.compile(&quot;Fr.ud&quot;));
    *
@@ -942,7 +942,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} starts with the given prefix.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;Frodo&quot;).startsWith(&quot;Fro&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;Gandalf&quot;);
@@ -988,7 +988,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} ends with the given suffix.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).endsWith(&quot;do&quot;);
    *
@@ -1031,7 +1031,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} matches the given regular expression.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).matches(&quot;..o.o&quot;);
    *
@@ -1053,7 +1053,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} does not match the given regular expression.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;.*d&quot;);
    *
@@ -1075,7 +1075,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} matches the given regular expression pattern.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;..o.o&quot;));
    *
@@ -1096,7 +1096,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} does not match the given regular expression pattern.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;.*d&quot;));
    *
@@ -1117,7 +1117,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} is equal to the given XML {@code CharSequence} after both have been
    * formatted the same way.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> String expectedXml =
    *     &quot;&lt;rings&gt;\n&quot; +
    *         &quot;  &lt;bearer&gt;\n&quot; +
@@ -1167,7 +1167,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * This is an handy shortcut that calls : {@code isXmlEqualTo(contentOf(xmlFile))}
    * </p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // You can easily compare your XML String to the content of an XML file, whatever how formatted they are.
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
    * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));</code></pre>
@@ -1296,7 +1296,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is not equal to the given one, ignoring whitespace differences.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot; my\tfoo bar &quot;).isNotEqualToIgnoringWhitespace(&quot;myfoo&quot;);
    * assertThat(&quot; my\tfoo&quot;).isNotEqualToIgnoringWhitespace(&quot; my bar&quot;);
@@ -1328,7 +1328,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <li>any remaining whitespace, appearing within either string, is collapsed to a single space before comparison</li>
    * </ul>
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat("Game of Thrones").isEqualToNormalizingWhitespace("Game   of   Thrones")
    *                              .isEqualToNormalizingWhitespace("Game of     Thrones")
@@ -1363,7 +1363,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <li>any remaining whitespace, appearing within either string, is collapsed to a single space before comparison</li>
    * </ul>
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot; my\tfoo&quot;).isNotEqualToNormalizingWhitespace(&quot; my bar&quot;);
    * assertThat(&quot; my\tfoo bar &quot;).isNotEqualToNormalizingWhitespace(&quot; my foobar&quot;);
@@ -1397,7 +1397,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <li>Punctuation is any of the following character <b>{@code !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~}</b></li>
    * </ul>
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat("Game'of'Thrones").isEqualToNormalizingPunctuationAndWhitespace("GameofThrones")
    * assertThat("Game of Throne's").isEqualToNormalizingPunctuationAndWhitespace("Game of Thrones")
@@ -1427,7 +1427,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is a substring of the given one (opposite assertion of {@link #contains(CharSequence...) contains(CharSequence cs)}.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;Lego&quot;).isSubstringOf(&quot;Legolas&quot;);
    * assertThat(&quot;Legolas&quot;).isSubstringOf(&quot;Legolas&quot;);
@@ -1447,7 +1447,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} contains the given regular expression.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).containsPattern(&quot;Fr.d&quot;);
    *
@@ -1469,7 +1469,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} contains the given regular expression pattern.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).containsPattern(Pattern.compile(&quot;Fr.d&quot;));
    *
@@ -1514,7 +1514,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is equal to the given one after both strings new lines (\n, \r\n) have been removed.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat("Some textWith new lines").isEqualToIgnoringNewLines("Some text\nWith new lines")
    *                                      .isEqualToIgnoringNewLines("Some text\r\nWith new lines")
@@ -1540,7 +1540,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is a lowercase {@code CharSequence} by comparing it to a lowercase {@code actual} built with {@link String#toLowerCase()}.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;lego&quot;).isLowerCase();
    * assertThat("").isLowerCase();
@@ -1564,7 +1564,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is a uppercase {@code CharSequence} by comparing it to an uppercase {@code actual} built with {@link String#toUpperCase()}.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;LEGO&quot;).isUpperCase();
    * assertThat("").isUpperCase();

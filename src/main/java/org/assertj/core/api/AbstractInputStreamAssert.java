@@ -81,7 +81,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   /**
-   * Verifies whether the content of the actual {@code InputStream} is empty.
+   * Verifies that the content of the actual {@code InputStream} is empty.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -102,7 +102,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   /**
-   * Verifies whether the content of the actual {@code InputStream} is not empty.
+   * Verifies that the content of the actual {@code InputStream} is not empty.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
