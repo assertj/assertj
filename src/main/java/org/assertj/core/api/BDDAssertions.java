@@ -1624,7 +1624,6 @@ public class BDDAssertions extends Assertions {
   /**
    * Entry point to check that no exception of any type is thrown by a given {@code throwingCallable}.
    * <p>
-   * <p>
    * Example:
    * <pre><code class='java'>thenNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
    *

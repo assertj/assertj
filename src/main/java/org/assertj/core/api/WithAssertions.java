@@ -2616,7 +2616,6 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Entry point to check that no exception of any type is thrown by a given {@code throwingCallable}.
    * <p>
-   * <p>
    * Example:
    * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
    *
