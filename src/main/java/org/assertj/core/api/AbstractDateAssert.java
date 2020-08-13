@@ -803,8 +803,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isBeforeOrEqualsTo(Date other) {
-    dates.assertIsBeforeOrEqualTo(info, actual, other);
-    return myself;
+    return isBeforeOrEqualTo(other);
   }
 
   /**
@@ -882,7 +881,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isBeforeOrEqualsTo(String dateAsString) {
-    return isBeforeOrEqualTo(parse(dateAsString));
+    return isBeforeOrEqualTo(dateAsString);
   }
 
   /**
@@ -1033,8 +1032,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isAfterOrEqualsTo(Date other) {
-    dates.assertIsAfterOrEqualTo(info, actual, other);
-    return myself;
+    return isAfterOrEqualTo(other);
   }
 
   /**
@@ -1112,7 +1110,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isAfterOrEqualsTo(String dateAsString) {
-    return isAfterOrEqualTo(parse(dateAsString));
+    return isAfterOrEqualTo(dateAsString);
   }
 
   /**
@@ -1623,8 +1621,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isWithinYear(int year) {
-    dates.assertHasYear(info, actual, year);
-    return myself;
+    return hasYear(year);
   }
 
   /**
@@ -1658,8 +1655,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isWithinMonth(int month) {
-    dates.assertHasMonth(info, actual, month);
-    return myself;
+    return hasMonth(month);
   }
 
   /**
@@ -1692,8 +1688,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isWithinDayOfMonth(int dayOfMonth) {
-    dates.assertHasDayOfMonth(info, actual, dayOfMonth);
-    return myself;
+    return hasDayOfMonth(dayOfMonth);
   }
 
   /**
@@ -1728,8 +1723,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isWithinDayOfWeek(int dayOfWeek) {
-    dates.assertHasDayOfWeek(info, actual, dayOfWeek);
-    return myself;
+    return hasDayOfWeek(dayOfWeek);
   }
 
   /**
@@ -1761,8 +1755,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isWithinHourOfDay(int hourOfDay) {
-    dates.assertHasHourOfDay(info, actual, hourOfDay);
-    return myself;
+    return hasHourOfDay(hourOfDay);
   }
 
   /**
@@ -1794,8 +1787,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isWithinMinute(int minute) {
-    dates.assertHasMinute(info, actual, minute);
-    return myself;
+    return hasMinute(minute);
   }
 
   /**
@@ -1827,8 +1819,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isWithinSecond(int second) {
-    dates.assertHasSecond(info, actual, second);
-    return myself;
+    return hasSecond(second);
   }
 
   /**
@@ -1860,8 +1851,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isWithinMillisecond(int millisecond) {
-    dates.assertHasMillisecond(info, actual, millisecond);
-    return myself;
+    return hasMillisecond(millisecond);
   }
 
   /**
