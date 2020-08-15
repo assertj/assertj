@@ -13,14 +13,13 @@
 package org.assertj.core.api.predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.error.ShouldAccept.shouldAccept;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,72 +29,15 @@ import org.assertj.core.api.PredicateAssert;
 import org.assertj.core.api.PredicateAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * @author Filip Hrisafov
  */
+@ExtendWith(MockitoExtension.class)
 class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
-
-  @Test
-  void should_fail_when_predicate_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).accepts("first", "second"))
-                                                   .withMessage(actualIsNull());
-  }
-
-  @Test
-  void should_fail_when_predicate_does_not_accept_values() {
-    Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ballSportPredicate).accepts("football",
-                                                                                                            "basketball",
-                                                                                                            "curling"))
-                                                   .withMessage(elementsShouldMatch(newArrayList("football",
-                                                                                                 "basketball",
-                                                                                                 "curling"),
-                                                                                    "curling",
-                                                                                    PredicateDescription.GIVEN).create());
-  }
-
-  @Test
-  void should_pass_when_predicate_accepts_all_values() {
-    Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
-
-    assertThat(ballSportPredicate).accepts("football", "basketball", "handball");
-  }
-
-  @Test
-  void should_fail_when_predicate_does_not_accept_value() {
-    Predicate<String> predicate = val -> val.equals("something");
-    String expectedValue = "something else";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(expectedValue))
-                                                   .withMessage(shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
-  }
-
-  @Test
-  void should_fail_when_predicate_does_not_accept_value_with_string_description() {
-    Predicate<String> predicate = val -> val.equals("something");
-    String expectedValue = "something else";
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").accepts(expectedValue))
-                                                   .withMessage("[test] " + shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
-  }
-
-  @Test
-  void should_pass_when_predicate_accepts_value() {
-    Predicate<String> predicate = val -> val.equals("something");
-
-    assertThat(predicate).accepts("something");
-  }
-
-  @Test
-  void should_pass_and_only_invoke_predicate_once_for_single_value() {
-    // GIVEN
-    Predicate<Object> predicate = mock(Predicate.class);
-    when(predicate.test(any())).thenReturn(true);
-    // WHEN
-    assertThat(predicate).accepts("something");
-    // THEN
-    verify(predicate, times(1)).test("something");
-  }
-
 
   @Override
   protected PredicateAssert<Boolean> invoke_api_method() {
@@ -106,6 +48,75 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
   protected void verify_internal_effects() {
     verify(iterables).assertAllMatch(getInfo(assertions), newArrayList(true, true), getActual(assertions),
                                      PredicateDescription.GIVEN);
+  }
+
+  @Test
+  void should_fail_when_predicate_is_null() {
+    // GIVEN
+    String[] values = { "first", "second" };
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat((Predicate<String>) null).accepts(values));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_fail_when_predicate_does_not_accept_values() {
+    // GIVEN
+    String[] values = { "football", "basketball", "curling" };
+    Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(ballSportPredicate).accepts(values));
+    // THEN
+    then(assertionError).hasMessage(elementsShouldMatch(values, "curling", PredicateDescription.GIVEN).create());
+  }
+
+  @Test
+  void should_pass_when_predicate_accepts_all_values() {
+    // GIVEN
+    Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
+    // WHEN/THEN
+    assertThat(ballSportPredicate).accepts("football", "basketball", "handball");
+  }
+
+  @Test
+  void should_fail_when_predicate_does_not_accept_value() {
+    // GIVEN
+    Predicate<String> predicate = val -> val.equals("something");
+    String expectedValue = "something else";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(predicate).accepts(expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
+  }
+
+  @Test
+  void should_fail_when_predicate_does_not_accept_value_with_string_description() {
+    // GIVEN
+    Predicate<String> predicate = val -> val.equals("something");
+    String expectedValue = "something else";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(predicate).as("test").accepts(expectedValue));
+    // THEN
+    then(assertionError).hasMessage("[test] " + shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
+  }
+
+  @Test
+  void should_pass_when_predicate_accepts_value() {
+    // GIVEN
+    Predicate<String> predicate = val -> val.equals("something");
+    // WHEN/THEN
+    assertThat(predicate).accepts("something");
+  }
+
+  @Test
+  void should_pass_and_only_invoke_predicate_once_for_single_value(@Mock Predicate<Object> predicate) {
+    // GIVEN
+    when(predicate.test(any())).thenReturn(true);
+    // WHEN
+    assertThat(predicate).accepts("something");
+    // THEN
+    verify(predicate).test("something");
   }
 
 }
