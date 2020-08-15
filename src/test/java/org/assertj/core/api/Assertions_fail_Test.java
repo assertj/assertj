@@ -19,22 +19,22 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class Assertions_fail_Test {
+class Assertions_fail_Test {
 
   @Test
-  public void should_include_message_when_failing() {
+  void should_include_message_when_failing() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> fail("Failed :("))
                                                    .withMessage("Failed :(");
   }
 
   @Test
-  public void should_include_message_with_parameters_when_failing() {
+  void should_include_message_with_parameters_when_failing() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> fail("Failed %s", ":("))
                                                    .withMessage("Failed :(");
   }
 
   @Test
-  public void should_include_message_with_cause_when_failing() {
+  void should_include_message_with_cause_when_failing() {
     String message = "Some Throwable";
     Throwable cause = new Throwable();
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> fail(message, cause))
@@ -42,7 +42,7 @@ public class Assertions_fail_Test {
   }
 
   @Test
-  public void should_return_a_value_to_allow_using_optional_orElseGet() {
+  void should_return_a_value_to_allow_using_optional_orElseGet() {
     // GIVEN
     Optional<Integer> empty = Optional.empty();
     // THEN

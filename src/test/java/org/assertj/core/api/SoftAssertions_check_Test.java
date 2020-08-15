@@ -25,17 +25,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("SoftAssertions")
-public class SoftAssertions_check_Test {
+class SoftAssertions_check_Test {
 
   private SoftAssertions softly;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     softly = new SoftAssertions();
   }
 
   @Test
-  public void should_collect_errors_from_standard_and_custom_assertions() {
+  void should_collect_errors_from_standard_and_custom_assertions() {
     // GIVEN
     MyProjectClass custom = new MyProjectClass("foo");
     // WHEN
@@ -49,7 +49,7 @@ public class SoftAssertions_check_Test {
   }
 
   @Test
-  public void should_rethrow_checked_exception_as_runtime_exception() {
+  void should_rethrow_checked_exception_as_runtime_exception() {
     // GIVEN
     MyProjectClass custom = new MyProjectClass("bar");
     // WHEN
@@ -60,7 +60,7 @@ public class SoftAssertions_check_Test {
   }
 
   @Test
-  public void should_rethrow_runtime_exception_as_is() {
+  void should_rethrow_runtime_exception_as_is() {
     // GIVEN
     MyProjectClass custom = null;
     // WHEN

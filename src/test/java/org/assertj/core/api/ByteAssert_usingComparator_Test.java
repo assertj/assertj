@@ -30,19 +30,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author Joel Costigliola
  */
 @ExtendWith(MockitoExtension.class)
-public class ByteAssert_usingComparator_Test {
+class ByteAssert_usingComparator_Test {
 
   private ByteAssert assertions = new ByteAssert((byte) 5);
 
   @Test
-  public void using_default_comparator_test() {
+  void using_default_comparator_test() {
     assertions.usingDefaultComparator();
     assertThat(Objects.instance()).isSameAs(assertions.objects);
     assertThat(Bytes.instance()).isSameAs(assertions.bytes);
   }
 
   @Test
-  public void using_custom_comparator_test(@Mock Comparator<Byte> comparator) {
+  void using_custom_comparator_test(@Mock Comparator<Byte> comparator) {
     // in that test, the comparator type is not important, we only check that we correctly switch of comparator
     assertions.usingComparator(comparator);
     assertThat(comparator).isSameAs(assertions.objects.getComparator());

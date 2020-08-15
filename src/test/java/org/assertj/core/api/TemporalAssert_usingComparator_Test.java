@@ -22,7 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class TemporalAssert_usingComparator_Test extends AbstractTemporalAssertBaseTest {
+class TemporalAssert_usingComparator_Test extends AbstractTemporalAssertBaseTest {
 
   @Mock
   private Comparator<Temporal> comparator;

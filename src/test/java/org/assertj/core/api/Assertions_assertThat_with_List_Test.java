@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class Assertions_assertThat_with_List_Test {
+class Assertions_assertThat_with_List_Test {
   private static class Person {
     @SuppressWarnings("unused")
     private String name;
@@ -46,13 +46,13 @@ public class Assertions_assertThat_with_List_Test {
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> assertions = assertThat(emptyList());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_create_Assert_generics() {
+  void should_create_Assert_generics() {
     Employee bill = new Employee("bill");
     Person billou = bill;
     Assertions.assertThat(bill).isEqualTo(billou);
@@ -60,7 +60,7 @@ public class Assertions_assertThat_with_List_Test {
   }
 
   @Test
-  public void should_create_Assert_with_list_extended() {
+  void should_create_Assert_with_list_extended() {
     List<String> strings0 = new ArrayList<>();
     List<? extends String> strings1 = new ArrayList<>();
     Assertions.assertThat(strings0).isEqualTo(strings1);
@@ -68,7 +68,7 @@ public class Assertions_assertThat_with_List_Test {
   }
 
   @Test
-  public void should_create_Assert_with_extends() {
+  void should_create_Assert_with_extends() {
     Employee bill = new Employee("bill");
     Person billou = bill;
     List<Person> list1 = newArrayList(billou);
@@ -79,7 +79,7 @@ public class Assertions_assertThat_with_List_Test {
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     List<String> names = singletonList("Luke");
     assertThat(assertThat(names).actual).isSameAs(names);
   }

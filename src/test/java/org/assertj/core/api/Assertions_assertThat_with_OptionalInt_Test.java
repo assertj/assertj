@@ -26,22 +26,22 @@ import java.util.OptionalInt;
  * @author Mikhail Mazursky
  * @author Alexander Bischof
  */
-public class Assertions_assertThat_with_OptionalInt_Test {
+class Assertions_assertThat_with_OptionalInt_Test {
 
     private OptionalInt actual;
 
     @BeforeEach
-    public void before(){
+    void before(){
         actual = OptionalInt.of(10);
     }
 
     @Test
-    public void should_create_Assert() {
+    void should_create_Assert() {
         assertThat(Assertions.assertThat(actual)).isNotNull();
     }
 
     @Test
-    public void should_pass_actual() {
+    void should_pass_actual() {
       assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
     }
 }

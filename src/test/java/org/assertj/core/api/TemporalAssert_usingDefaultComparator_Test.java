@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 
-public class TemporalAssert_usingDefaultComparator_Test extends AbstractTemporalAssertBaseTest {
+class TemporalAssert_usingDefaultComparator_Test extends AbstractTemporalAssertBaseTest {
 
   @Override
   protected ConcreteTemporalAssert invoke_api_method() {

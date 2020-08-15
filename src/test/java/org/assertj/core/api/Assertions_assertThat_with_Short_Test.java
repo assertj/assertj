@@ -21,17 +21,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_Short_Test {
+class Assertions_assertThat_with_Short_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Short zero = (short) 0;
     AbstractShortAssert<?> assertions = Assertions.assertThat(zero);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     Short eight = (short) 8;
     AbstractShortAssert<?> assertions = Assertions.assertThat(eight);
     assertThat(assertions.actual).isSameAs(eight);

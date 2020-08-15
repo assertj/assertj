@@ -25,16 +25,16 @@ import static org.assertj.core.api.Assertions.assertThat;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_BigInteger_Test {
+class Assertions_assertThat_with_BigInteger_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractBigIntegerAssert<?> assertions = Assertions.assertThat(ZERO);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractBigIntegerAssert<?> assertions = Assertions.assertThat(ONE);
     assertThat(assertions.actual).isSameAs(ONE);
   }

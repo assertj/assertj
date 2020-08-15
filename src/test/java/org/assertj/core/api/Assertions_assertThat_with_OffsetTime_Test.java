@@ -24,23 +24,23 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class Assertions_assertThat_with_OffsetTime_Test {
+class Assertions_assertThat_with_OffsetTime_Test {
 
   private OffsetTime actual;
 
   @BeforeEach
-  public void before() {
+  void before() {
     actual = OffsetTime.now();
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractOffsetTimeAssert<?> assertions = Assertions.assertThat(actual);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractOffsetTimeAssert<?> assertions = Assertions.assertThat(actual);
     assertThat(actual).isSameAs(assertions.actual);
   }

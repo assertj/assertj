@@ -17,20 +17,20 @@ import static org.assertj.core.api.Assertions.withinPercentage;
 
 import org.junit.jupiter.api.Test;
 
-public class Assertions_withinPercentage_Test {
+class Assertions_withinPercentage_Test {
 
     @Test
-    public void should_create_double() {
+    void should_create_double() {
         assertThat(withinPercentage(1d)).isNotNull();
     }
 
     @Test
-    public void should_create_integer() {
+    void should_create_integer() {
         assertThat(withinPercentage(1)).isNotNull();
     }
 
     @Test
-    public void should_create_long() {
+    void should_create_long() {
         assertThat(withinPercentage(1L)).isNotNull();
     }
 

@@ -21,17 +21,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Assertions_assertThat_with_Class_Test {
+class Assertions_assertThat_with_Class_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Class<Assertions_assertThat_with_Class_Test> clazz = Assertions_assertThat_with_Class_Test.class;
     AbstractClassAssert<?> assertions = Assertions.assertThat(clazz);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     Class<Assertions_assertThat_with_Class_Test> clazz = Assertions_assertThat_with_Class_Test.class;
     AbstractClassAssert<?> assertions = Assertions.assertThat(clazz);
     assertThat(assertions.actual).isSameAs(clazz);

@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_ByteArray_Test {
+class Assertions_assertThat_with_ByteArray_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractByteArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     byte[] actual = emptyArray();
     AbstractByteArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);

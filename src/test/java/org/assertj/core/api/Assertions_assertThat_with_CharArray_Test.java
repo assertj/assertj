@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_CharArray_Test {
+class Assertions_assertThat_with_CharArray_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractCharArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     char[] actual = emptyArray();
     AbstractCharArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);

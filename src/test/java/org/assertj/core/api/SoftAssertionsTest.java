@@ -108,7 +108,7 @@ import org.opentest4j.MultipleFailuresError;
  * @author Brian Laframboise
  */
 @DisplayName("Soft assertions")
-public class SoftAssertionsTest extends BaseAssertionsTest {
+class SoftAssertionsTest extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 
@@ -128,7 +128,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   private static final Function<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor = CartoonCharacter::getChildren;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     softly = new SoftAssertions();
 
@@ -158,35 +158,35 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void all_assertions_should_pass() {
+  void all_assertions_should_pass() {
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
     softly.assertAll();
   }
 
   @Test
-  public void should_return_success_of_last_assertion() {
+  void should_return_success_of_last_assertion() {
     softly.assertThat(true).isFalse();
     softly.assertThat(true).isEqualTo(true);
     assertThat(softly.wasSuccess()).isTrue();
   }
 
   @Test
-  public void should_return_success_of_last_assertion_with_nested_calls() {
+  void should_return_success_of_last_assertion_with_nested_calls() {
     softly.assertThat(true).isFalse();
     softly.assertThat(true).isTrue(); // isTrue() calls isEqualTo(true)
     assertThat(softly.wasSuccess()).isTrue();
   }
 
   @Test
-  public void should_return_failure_of_last_assertion() {
+  void should_return_failure_of_last_assertion() {
     softly.assertThat(true).isTrue();
     softly.assertThat(true).isEqualTo(false);
     assertThat(softly.wasSuccess()).isFalse();
   }
 
   @Test
-  public void should_return_failure_of_last_assertion_with_nested_calls() {
+  void should_return_failure_of_last_assertion_with_nested_calls() {
     softly.assertThat(true).isTrue();
     softly.assertThat(true).isFalse(); // isFalse() calls isEqualTo(false)
     assertThat(softly.wasSuccess()).isFalse();
@@ -194,7 +194,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
+  void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
     // GIVEN
     Map<String, String> map = mapOf(MapEntry.entry("54", "55"));
     // WHEN
@@ -213,7 +213,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings({ "unchecked" })
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
+  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {
       softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
@@ -431,7 +431,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_when_using_extracting_with_object() {
+  void should_pass_when_using_extracting_with_object() {
     // GIVEN
     Name name = name("John", "Doe");
     // WHEN
@@ -458,7 +458,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_pass_when_using_extracting_with_list() {
+  void should_pass_when_using_extracting_with_list() {
     // GIVEN
     List<Name> names = list(Name.name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
@@ -516,7 +516,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_pass_when_using_extracting_with_iterable() {
+  void should_pass_when_using_extracting_with_iterable() {
 
     Iterable<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
 
@@ -585,7 +585,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_when_using_extracting_with_array() {
+  void should_work_when_using_extracting_with_array() {
 
     Name[] namesAsArray = { name("John", "Doe"), name("Jane", "Doe") };
 
@@ -629,7 +629,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_flat_extracting() {
+  void should_work_with_flat_extracting() {
     // GIVEN
     List<CartoonCharacter> characters = list(homer, fred);
     CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[0]);
@@ -656,7 +656,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_flat_extracting_arrays() {
+  void should_work_with_flat_extracting_arrays() {
     // GIVEN
     CartoonCharacter[] charactersAsArray = array(homer, fred);
     // WHEN
@@ -674,7 +674,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_extracting() {
+  void should_collect_all_errors_when_using_extracting() {
     // GIVEN
     List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
@@ -695,7 +695,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_collect_all_errors_when_using_extracting_on_object() {
+  void should_collect_all_errors_when_using_extracting_on_object() {
     // GIVEN
     TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
     // WHEN
@@ -731,7 +731,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_flat_extracting() {
+  void should_collect_all_errors_when_using_flat_extracting() {
     // GIVEN
     List<CartoonCharacter> characters = list(homer, fred);
     // WHEN
@@ -747,7 +747,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_filtering() {
+  void should_collect_all_errors_when_using_filtering() {
     // GIVEN
     LinkedHashSet<CartoonCharacter> dadsList = newLinkedHashSet(homer, fred);
     CartoonCharacter[] dadsArray = array(homer, fred);
@@ -901,7 +901,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_comparable() {
+  void should_work_with_comparable() {
     // GIVEN
     ComparableExample example1 = new ComparableExample(0);
     ComparableExample example2 = new ComparableExample(0);
@@ -916,7 +916,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_stream() {
+  void should_work_with_stream() {
     // WHEN
     softly.assertThat(Stream.of("a", "b", "c")).contains("a", "foo");
     softly.assertThat(IntStream.of(1, 2, 3)).as("IntStream").contains(2, 4, 6);
@@ -933,7 +933,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_predicate() {
+  void should_work_with_predicate() {
     // GIVEN
     Predicate<String> lowercasePredicate = s -> s.equals(s.toLowerCase());
     // WHEN
@@ -1000,7 +1000,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void check_477_bugfix() {
+  void check_477_bugfix() {
     // GIVEN
     TolkienCharacter frodo = TolkienCharacter.of("frodo", 33, HOBBIT);
     TolkienCharacter samnullGamgee = null;
@@ -1020,7 +1020,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_return_failure_after_fail() {
+  void should_return_failure_after_fail() {
     // GIVEN
     String failureMessage = "Should not reach here";
     // WHEN
@@ -1032,7 +1032,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_return_failure_after_fail_with_parameters() {
+  void should_return_failure_after_fail_with_parameters() {
     // GIVEN
     String failureMessage = "Should not reach %s or %s";
     // WHEN
@@ -1044,7 +1044,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_return_failure_after_fail_with_throwable() {
+  void should_return_failure_after_fail_with_throwable() {
     // GIVEN
     String failureMessage = "Should not reach here";
     IllegalStateException realCause = new IllegalStateException();
@@ -1059,7 +1059,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_return_failure_after_shouldHaveThrown() {
+  void should_return_failure_after_shouldHaveThrown() {
     // WHEN
     softly.shouldHaveThrown(IllegalArgumentException.class);
     // THEN
@@ -1070,7 +1070,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_assert_using_assertSoftly() {
+  void should_assert_using_assertSoftly() {
     assertThatThrownBy(() -> assertSoftly(assertions -> {
       assertions.assertThat(true).isFalse();
       assertions.assertThat(42).isEqualTo("meaning of life");
@@ -1081,7 +1081,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_atomic() {
+  void should_work_with_atomic() {
     // WHEN
     // simple atomic value
     softly.assertThat(new AtomicBoolean(true)).isTrue().isFalse();
@@ -1105,7 +1105,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_fix_bug_1146() {
+  void should_fix_bug_1146() {
     // GIVEN
     Map<String, String> numbers = mapOf(entry("one", "1"),
                                         entry("two", "2"),
@@ -1122,7 +1122,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void iterable_soft_assertions_should_work_with_navigation_methods() {
+  void iterable_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
     Iterable<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
@@ -1185,7 +1185,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void list_soft_assertions_should_work_with_navigation_methods() {
+  void list_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
     List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
@@ -1248,7 +1248,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void iterable_soft_assertions_should_work_with_singleElement_navigation() {
+  void iterable_soft_assertions_should_work_with_singleElement_navigation() {
     // GIVEN
     Iterable<Name> names = list(name("Jane", "Doe"));
     // WHEN
@@ -1274,7 +1274,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void list_soft_assertions_should_work_with_singleElement_navigation() {
+  void list_soft_assertions_should_work_with_singleElement_navigation() {
     // GIVEN
     List<Name> names = list(name("Jane", "Doe"));
     // WHEN
@@ -1302,7 +1302,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void iterable_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void iterable_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Iterable<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     Iterable<CartoonCharacter> characters = list(homer, fred);
@@ -1486,7 +1486,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void list_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void list_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     List<CartoonCharacter> characters = list(homer, fred);
@@ -1670,7 +1670,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void object_array_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void object_array_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Name[] names = array(name("John", "Doe"), name("Jane", "Doe"));
     CartoonCharacter[] characters = array(homer, fred);
@@ -1833,7 +1833,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void class_soft_assertions_should_report_errors_on_final_methods() {
+  void class_soft_assertions_should_report_errors_on_final_methods() {
     // GIVEN
     Class<AnnotatedClass> actual = AnnotatedClass.class;
     // WHEN
@@ -1850,7 +1850,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Name name = name("John", "Doe");
     Object alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -1904,7 +1904,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void map_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void map_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
     // WHEN
@@ -1968,7 +1968,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void map_soft_assertions_should_work_with_navigation_methods() {
+  void map_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
     Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
     // WHEN
@@ -2003,7 +2003,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void predicate_soft_assertions_should_report_errors_on_final_methods() {
+  void predicate_soft_assertions_should_report_errors_on_final_methods() {
     // GIVEN
     Predicate<MapEntry<String, String>> ballSportPredicate = sport -> sport.value.contains("ball");
     // WHEN
@@ -2117,7 +2117,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void soft_assertions_should_work_with_zipSatisfy() {
+  void soft_assertions_should_work_with_zipSatisfy() {
     // GIVEN
     List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
@@ -2132,7 +2132,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void bug_1209() {
+  void bug_1209() {
     // GIVEN
     String string = "%%E";
     // WHEN
@@ -2147,7 +2147,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_keep_representation_after_changing_the_object_under_test() {
+  void should_keep_representation_after_changing_the_object_under_test() {
     // GIVEN
     List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
@@ -2164,7 +2164,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_keep_registered_comparators_after_changing_the_iterable_under_test() {
+  void should_keep_registered_comparators_after_changing_the_iterable_under_test() {
     // GIVEN
     Iterable<Name> names = list(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
@@ -2201,7 +2201,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_keep_registered_comparators_after_changing_the_list_under_test() {
+  void should_keep_registered_comparators_after_changing_the_list_under_test() {
     // GIVEN
     List<Name> names = list(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
@@ -2238,7 +2238,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_keep_registered_comparators_after_changing_the_object_array_under_test() {
+  void should_keep_registered_comparators_after_changing_the_object_array_under_test() {
     // GIVEN
     Name[] names = array(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
@@ -2275,7 +2275,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void soft_assertions_should_work_with_satisfiesAnyOf() {
+  void soft_assertions_should_work_with_satisfiesAnyOf() {
     // GIVEN
     TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
     Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
@@ -2294,7 +2294,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void soft_assertions_should_work_with_assertThatObject() {
+  void soft_assertions_should_work_with_assertThatObject() {
     // GIVEN
     TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
     Deque<TolkienCharacter> characters = new LinkedList<>(list(legolas));
@@ -2368,7 +2368,7 @@ public class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_spliterator() {
+  void should_work_with_spliterator() {
     // GIVEN
     Spliterator<String> spliterator1 = Stream.of("a", "b", "c").spliterator();
     Spliterator<String> spliterator2 = Stream.of("a", "b", "c").spliterator();

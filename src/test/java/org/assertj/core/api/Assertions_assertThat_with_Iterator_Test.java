@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class Assertions_assertThat_with_Iterator_Test {
+class Assertions_assertThat_with_Iterator_Test {
 
   private StringIterator stringIterator = new StringIterator();
 
@@ -50,63 +50,63 @@ public class Assertions_assertThat_with_Iterator_Test {
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> iteratorAssert = assertThat(newLinkedHashSet());
     assertThat(iteratorAssert).isNotNull();
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_initialise_actual() {
+  void should_initialise_actual() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
     Iterator<String> actual = (Iterator<String>) assertThat(names).actual;
     assertThat(actual).hasNext();
   }
 
   @Test
-  public void should_allow_null() {
+  void should_allow_null() {
     assertThat(assertThat((Iterator<String>) null).actual).isNull();
   }
 
   @Test
-  public void isEqualTo_should_honor_comparing_the_same_mocked_iterator() {
+  void isEqualTo_should_honor_comparing_the_same_mocked_iterator() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isEqualTo(iterator);
   }
   
   @Test
-  public void should_not_consume_iterator_when_asserting_non_null() {
+  void should_not_consume_iterator_when_asserting_non_null() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isNotNull();
     verifyNoInteractions(iterator);
   }
 
   @Test
-  public void isInstanceOf_should_check_the_original_iterator_without_consuming_it() {
+  void isInstanceOf_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isInstanceOf(Iterator.class);
     verifyNoInteractions(iterator);
   }
 
   @Test
-  public void isInstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
+  void isInstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isInstanceOfAny(Iterator.class, String.class);
     verifyNoInteractions(iterator);
   }
 
   @Test
-  public void isOfAnyClassIn_should_check_the_original_iterator_without_consuming_it() {
+  void isOfAnyClassIn_should_check_the_original_iterator_without_consuming_it() {
     assertThat(stringIterator).isOfAnyClassIn(Iterator.class, StringIterator.class);
   }
 
   @Test
-  public void isExactlyInstanceOf_should_check_the_original_iterator() {
+  void isExactlyInstanceOf_should_check_the_original_iterator() {
     assertThat(new StringIterator()).isExactlyInstanceOf(StringIterator.class);
   }
 
   @Test
-  public void isNotExactlyInstanceOf_should_check_the_original_iterator() {
+  void isNotExactlyInstanceOf_should_check_the_original_iterator() {
     assertThat(stringIterator).isNotExactlyInstanceOf(Iterator.class);
 
     Throwable error = catchThrowable(() -> assertThat(stringIterator).isNotExactlyInstanceOf(StringIterator.class));
@@ -115,29 +115,29 @@ public class Assertions_assertThat_with_Iterator_Test {
   }
 
   @Test
-  public void isNotInstanceOf_should_check_the_original_iterator() {
+  void isNotInstanceOf_should_check_the_original_iterator() {
     assertThat(stringIterator).isNotInstanceOf(Long.class);
   }
 
   @Test
-  public void isNotInstanceOfAny_should_check_the_original_iterator() {
+  void isNotInstanceOfAny_should_check_the_original_iterator() {
     assertThat(stringIterator).isNotInstanceOfAny(Long.class, String.class);
   }
 
   @Test
-  public void isNotOfAnyClassIn_should_check_the_original_iterator() {
+  void isNotOfAnyClassIn_should_check_the_original_iterator() {
     assertThat(stringIterator).isNotOfAnyClassIn(Long.class, String.class);
   }
 
   @Test
-  public void isSameAs_should_check_the_original_iterator_without_consuming_it() {
+  void isSameAs_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isSameAs(iterator);
     verifyNoInteractions(iterator);
   }
 
   @Test
-  public void isNotSameAs_should_check_the_original_iterator_without_consuming_it() {
+  void isNotSameAs_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
     try{
       assertThat(iterator).isNotSameAs(iterator);
@@ -150,7 +150,7 @@ public class Assertions_assertThat_with_Iterator_Test {
 
 
   @Test
-  public void iterator_can_be_asserted_twice() {
+  void iterator_can_be_asserted_twice() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
     assertThat(names).hasNext().hasNext();
   }

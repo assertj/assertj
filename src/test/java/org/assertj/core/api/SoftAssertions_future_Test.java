@@ -31,7 +31,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Soft assertions on futures")
-public class SoftAssertions_future_Test extends BaseAssertionsTest {
+class SoftAssertions_future_Test extends BaseAssertionsTest {
 
   private static final Duration TEN_MILLIS = Duration.ofMillis(10);
   private SoftAssertions softly;

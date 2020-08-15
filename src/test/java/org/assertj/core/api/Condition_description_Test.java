@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Condition_description_Test {
+class Condition_description_Test {
 
   private Condition<Object> condition;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     condition = new TestCondition<>();
   }
 
   @Test
-  public void should_return_description() {
+  void should_return_description() {
     String description = "do or do not, there is not try";
     condition.description = new TextDescription(description);
     assertThat(condition.description().value()).isEqualTo(description);

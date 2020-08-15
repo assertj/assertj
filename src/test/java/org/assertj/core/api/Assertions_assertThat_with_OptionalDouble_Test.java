@@ -27,22 +27,22 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Alexander Bischof
  */
-public class Assertions_assertThat_with_OptionalDouble_Test {
+class Assertions_assertThat_with_OptionalDouble_Test {
 
   private OptionalDouble actual;
 
   @BeforeEach
-  public void before() {
+  void before() {
     actual = OptionalDouble.of(10.0);
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     assertThat(Assertions.assertThat(actual)).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
   }
 }

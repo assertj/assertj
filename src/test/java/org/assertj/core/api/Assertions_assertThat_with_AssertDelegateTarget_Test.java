@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
-public class Assertions_assertThat_with_AssertDelegateTarget_Test {
+class Assertions_assertThat_with_AssertDelegateTarget_Test {
 
   @Test
-  public void should_allow_wrapping_assertion_method_within_assertThat() {
+  void should_allow_wrapping_assertion_method_within_assertThat() {
     MyAssertDelegateTarget assertion = new MyAssertDelegateTarget(true);
     assertThat(assertion).isCompletelyTrue();
 

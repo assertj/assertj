@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import org.junit.jupiter.api.Test;
 
-public class Condition_constructor_with_predicate_Test {
+class Condition_constructor_with_predicate_Test {
 
   @Test
-  public void should_create_condition_with_predicate() {
+  void should_create_condition_with_predicate() {
     // GIVEN
     Condition<String> fairyTale = new Condition<>(s -> s.startsWith("Once upon a time"), "a %s tale", "fairy");
     String littleRedCap = "Once upon a time there was a dear little girl ...";
@@ -29,7 +29,7 @@ public class Condition_constructor_with_predicate_Test {
   }
 
   @Test
-  public void should_throw_error_if_predicate_is_null() {
+  void should_throw_error_if_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> new Condition<>(null, ""));
   }
 }

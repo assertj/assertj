@@ -21,17 +21,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_Float_Test {
+class Assertions_assertThat_with_Float_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Float zero = 0f;
     AbstractFloatAssert<?> assertions = assertThat(zero);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     Float eight = 8f;
     AbstractFloatAssert<?> assertions = assertThat(eight);
     assertThat(assertions.actual).isSameAs(eight);

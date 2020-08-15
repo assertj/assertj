@@ -26,16 +26,16 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class Assertions_assertThat_with_Map_Test {
+class Assertions_assertThat_with_Map_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractMapAssert<?, ? extends Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(emptyMap());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     Map<Object, Object> actual = new HashMap<>();
     AbstractMapAssert<?, ? extends Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);

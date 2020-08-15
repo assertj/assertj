@@ -23,18 +23,18 @@ import java.util.stream.DoubleStream;
 
 import org.junit.jupiter.api.Test;
 
-public class Assertions_assertThat_with_DoubleStream_Test {
+class Assertions_assertThat_with_DoubleStream_Test {
 
   private DoubleStream intStream = DoubleStream.empty();
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Object assertions = assertThat(DoubleStream.of(823952.8, 1947230585.9));
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_assert_on_size() {
+  void should_assert_on_size() {
     assertThat(DoubleStream.empty()).isEmpty();
     assertThat(DoubleStream.of(123.3, 5674.5, 363.4)).isNotEmpty()
                                                      .hasSize(3);
@@ -42,7 +42,7 @@ public class Assertions_assertThat_with_DoubleStream_Test {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_initialise_actual() {
+  void should_initialise_actual() {
     DoubleStream iterator = DoubleStream.of(823952.8, 1947230585.9);
     List<? extends Double> actual = assertThat(iterator).actual;
     assertThat((List<Double>) actual).contains(823952.8, atIndex(0))
@@ -50,58 +50,58 @@ public class Assertions_assertThat_with_DoubleStream_Test {
   }
 
   @Test
-  public void should_allow_null() {
+  void should_allow_null() {
     assertThat(assertThat((DoubleStream) null).actual).isNull();
   }
 
   @Test
-  public void isEqualTo_should_honor_comparing_the_same_mocked_stream() {
+  void isEqualTo_should_honor_comparing_the_same_mocked_stream() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isEqualTo(stream);
   }
 
   @Test
-  public void stream_can_be_asserted_twice() {
+  void stream_can_be_asserted_twice() {
     DoubleStream names = DoubleStream.of(823952.8, 1947230585.9);
     assertThat(names).containsExactly(823952.8, 1947230585.9)
                      .containsExactly(823952.8, 1947230585.9);
   }
 
   @Test
-  public void should_not_consume_stream_when_asserting_non_null() {
+  void should_not_consume_stream_when_asserting_non_null() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isNotNull();
     verifyNoInteractions(stream);
   }
 
   @Test
-  public void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
+  void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isInstanceOf(DoubleStream.class);
     verifyNoInteractions(stream);
   }
 
   @Test
-  public void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
+  void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isInstanceOfAny(DoubleStream.class, String.class);
     verifyNoInteractions(stream);
   }
 
   @Test
-  public void isOfAnyClassIn_should_check_the_original_stream_without_consuming_it() {
+  void isOfAnyClassIn_should_check_the_original_stream_without_consuming_it() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isOfAnyClassIn(Double.class, stream.getClass());
   }
 
   @Test
-  public void isExactlyInstanceOf_should_check_the_original_stream() {
+  void isExactlyInstanceOf_should_check_the_original_stream() {
     // factory creates use internal classes
     assertThat(intStream).isExactlyInstanceOf(intStream.getClass());
   }
 
   @Test
-  public void isNotExactlyInstanceOf_should_check_the_original_stream() {
+  void isNotExactlyInstanceOf_should_check_the_original_stream() {
     assertThat(intStream).isNotExactlyInstanceOf(DoubleStream.class);
 
     Throwable error = catchThrowable(() -> assertThat(intStream).isNotExactlyInstanceOf(intStream.getClass()));
@@ -110,29 +110,29 @@ public class Assertions_assertThat_with_DoubleStream_Test {
   }
 
   @Test
-  public void isNotInstanceOf_should_check_the_original_stream() {
+  void isNotInstanceOf_should_check_the_original_stream() {
     assertThat(intStream).isNotInstanceOf(String.class);
   }
 
   @Test
-  public void isNotInstanceOfAny_should_check_the_original_stream() {
+  void isNotInstanceOfAny_should_check_the_original_stream() {
     assertThat(intStream).isNotInstanceOfAny(Long.class, String.class);
   }
 
   @Test
-  public void isNotOfAnyClassIn_should_check_the_original_stream() {
+  void isNotOfAnyClassIn_should_check_the_original_stream() {
     assertThat(intStream).isNotOfAnyClassIn(Long.class, String.class);
   }
 
   @Test
-  public void isSameAs_should_check_the_original_stream_without_consuming_it() {
+  void isSameAs_should_check_the_original_stream_without_consuming_it() {
     DoubleStream stream = mock(DoubleStream.class);
     assertThat(stream).isSameAs(stream);
     verifyNoInteractions(stream);
   }
 
   @Test
-  public void isNotSameAs_should_check_the_original_stream_without_consuming_it() {
+  void isNotSameAs_should_check_the_original_stream_without_consuming_it() {
     DoubleStream stream = mock(DoubleStream.class);
     try {
       assertThat(stream).isNotSameAs(stream);

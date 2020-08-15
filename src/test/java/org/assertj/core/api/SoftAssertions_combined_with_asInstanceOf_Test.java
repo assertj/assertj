@@ -147,18 +147,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest {
+class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     softly = new SoftAssertions();
   }
 
   @Test
-  public void soft_assertions_should_work() {
+  void soft_assertions_should_work() {
     // GIVEN
     Object value = "abc";
     // WHEN
@@ -174,7 +174,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
 
   @ParameterizedTest(name = "with {1}")
   @MethodSource("should_work_with_any_InstanceOfFactory_source")
-  public void should_work_with_any_InstanceOfFactory(Object actual, InstanceOfAssertFactory<?, ?> instanceOfAssertFactory) {
+  void should_work_with_any_InstanceOfFactory(Object actual, InstanceOfAssertFactory<?, ?> instanceOfAssertFactory) {
     softly.assertThat(actual).asInstanceOf(instanceOfAssertFactory);
   }
 

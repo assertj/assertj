@@ -39,10 +39,10 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
-public class AutoCloseableBDDSoftAssertionsTest {
+class AutoCloseableBDDSoftAssertionsTest {
 
   @Test
-  public void all_assertions_should_pass() {
+  void all_assertions_should_pass() {
     try (AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
       softly.then(1).isEqualTo(1);
       softly.then(Lists.newArrayList(1, 2)).containsOnly(1, 2);
@@ -50,7 +50,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
   }
 
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
     try (AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
 
       softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);

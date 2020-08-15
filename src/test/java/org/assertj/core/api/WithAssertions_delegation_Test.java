@@ -55,7 +55,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alan Rothkopf
  */
-public class WithAssertions_delegation_Test implements WithAssertions {
+class WithAssertions_delegation_Test implements WithAssertions {
 
   private static final String VALUE_1 = "value1";
   private static final String KEY_1 = "key1";
@@ -73,7 +73,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_offset_Float_Test() {
+  void withAssertions_offset_Float_Test() {
     assertThat(8.1f).isEqualTo(8.0f, offset(0.2f));
   }
 
@@ -81,7 +81,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_offset_Double_Test() {
+  void withAssertions_offset_Double_Test() {
     assertThat(8.1).isEqualTo(8.0, offset(0.1));
   }
 
@@ -89,7 +89,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_entry_MapEntry_Test() {
+  void withAssertions_entry_MapEntry_Test() {
     MapEntry<String, String> result = entry(KEY_1, VALUE_1);
     assertThat(result.key).isEqualTo(KEY_1);
     assertThat(result.value).isEqualTo(VALUE_1);
@@ -128,7 +128,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_filter_array_Test() {
+  void withAssertions_filter_array_Test() {
     assertThat(filter(ITEMS).with("name").equalsTo("n1").get()).containsExactly(ITEMS[0]);
   }
 
@@ -136,7 +136,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_filter_iterable_Test() {
+  void withAssertions_filter_iterable_Test() {
     assertThat(filter(Arrays.asList(ITEMS)).with("name").equalsTo("n1").get()).containsExactly(ITEMS[0]);
   }
 
@@ -144,7 +144,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_fail_Test() {
+  void withAssertions_fail_Test() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> fail("Failed"));
   }
 
@@ -152,7 +152,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_fail_with_throwable_Test() {
+  void withAssertions_fail_with_throwable_Test() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> fail("Failed", new RuntimeException("expected")));
   }
 
@@ -160,7 +160,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_not_Test() {
+  void withAssertions_not_Test() {
     assertThat("Solo").is(not(JEDI));
   }
 
@@ -168,7 +168,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_object_Test() {
+  void withAssertions_assertThat_object_Test() {
     assertThat(ITEMS[0]).isNotNull();
   }
 
@@ -176,7 +176,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_Test() {
+  void withAssertions_assertThat_Test() {
     assertThat(ITEMS[0]).isNotNull();
   }
 
@@ -190,7 +190,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_AssertDelegateTarget_Test() {
+  void withAssertions_assertThat_AssertDelegateTarget_Test() {
     assertThat(new TestAssertDelegate()).isOk();
   }
 
@@ -198,7 +198,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_object_array_Test() {
+  void withAssertions_assertThat_object_array_Test() {
     assertThat(ITEMS).isNotEmpty();
   }
 
@@ -206,7 +206,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_map_Test() {
+  void withAssertions_assertThat_map_Test() {
     assertThat(new HashMap<>()).isEmpty();
   }
 
@@ -214,7 +214,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_list_Test() {
+  void withAssertions_assertThat_list_Test() {
     assertThat(new ArrayList<>()).isEmpty();
   }
 
@@ -223,7 +223,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @SuppressWarnings("unchecked")
   @Test
-  public void withAssertions_assertThat_list_assert_class_Test() {
+  void withAssertions_assertThat_list_assert_class_Test() {
     assertThat(Arrays.asList(ITEMS), ObjectAssert.class).first().isEqualTo(ITEMS[0]);
   }
 
@@ -231,7 +231,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_list_assert_factory_Test() {
+  void withAssertions_assertThat_list_assert_factory_Test() {
     assertThat(Arrays.asList(ITEMS), ObjectAssert::new).first().isEqualTo(ITEMS[0]);
   }
 
@@ -239,7 +239,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_stream_Test() {
+  void withAssertions_assertThat_stream_Test() {
     assertThat(Stream.of("")).hasSize(1);
   }
 
@@ -247,7 +247,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_long_Test() {
+  void withAssertions_assertThat_long_Test() {
     assertThat(111L).isEqualTo(111L);
     assertThat(Long.valueOf(111L)).isEqualTo(Long.valueOf(111L));
   }
@@ -256,7 +256,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_long_array_Test() {
+  void withAssertions_assertThat_long_array_Test() {
     long[] testArray = new long[10];
     assertThat(testArray).hasSize(10);
   }
@@ -265,7 +265,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_string_Test() {
+  void withAssertions_assertThat_string_Test() {
     assertThat("Hello world").startsWith("Hello")
                              .isLessThanOrEqualTo("Hi World");
   }
@@ -274,7 +274,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_date_Test() {
+  void withAssertions_assertThat_date_Test() {
     assertThat(new Date()).isAfter("2000-01-01");
   }
 
@@ -282,7 +282,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_throwable_Test() {
+  void withAssertions_assertThat_throwable_Test() {
     assertThat(new RuntimeException("test")).isNotNull();
   }
 
@@ -290,7 +290,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_big_decimal_Test() {
+  void withAssertions_assertThat_big_decimal_Test() {
     assertThat(new BigDecimal(100.22)).isGreaterThan(new BigDecimal(-100000));
   }
 
@@ -298,7 +298,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_short_Test() {
+  void withAssertions_assertThat_short_Test() {
     assertThat((short) 1).isLessThan((short) 2);
     assertThat(Short.valueOf("1")).isLessThan(Short.valueOf("2"));
   }
@@ -307,7 +307,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_short_array_Test() {
+  void withAssertions_assertThat_short_array_Test() {
     short[] testArray = new short[10];
     assertThat(testArray).hasSize(10);
   }
@@ -316,7 +316,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_char_sequence_Test() {
+  void withAssertions_assertThat_char_sequence_Test() {
     assertThat((CharSequence) "Hello world").startsWith("Hello");
   }
 
@@ -324,7 +324,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_char_Test() {
+  void withAssertions_assertThat_char_Test() {
     assertThat('a').isLowerCase();
   }
 
@@ -332,7 +332,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_char_array_Test() {
+  void withAssertions_assertThat_char_array_Test() {
     char[] chars = { 'a', 'b' };
     assertThat(chars).containsOnlyOnce('a');
   }
@@ -341,7 +341,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_character_Test() {
+  void withAssertions_assertThat_character_Test() {
     assertThat(Character.valueOf('a')).isLowerCase();
   }
 
@@ -349,7 +349,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_class_Test() {
+  void withAssertions_assertThat_class_Test() {
     assertThat(WithAssertions.class).isInterface();
   }
 
@@ -357,7 +357,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_comparable_Test() {
+  void withAssertions_assertThat_comparable_Test() {
     assertThat((Comparable<String>) o -> 0).isNotNull();
   }
 
@@ -365,7 +365,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_iterable_Test() {
+  void withAssertions_assertThat_iterable_Test() {
     assertThat((Iterable<TestItem>) Arrays.asList(ITEMS)).contains(ITEMS[0]);
   }
 
@@ -374,7 +374,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @SuppressWarnings("unchecked")
   @Test
-  public void withAssertions_assertThat_iterable_assert_class_Test() {
+  void withAssertions_assertThat_iterable_assert_class_Test() {
     assertThat((Iterable<TestItem>) Arrays.asList(ITEMS), ObjectAssert.class).first().isEqualTo(ITEMS[0]);
   }
 
@@ -382,7 +382,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_iterable_assert_factory_Test() {
+  void withAssertions_assertThat_iterable_assert_factory_Test() {
     assertThat((Iterable<TestItem>) Arrays.asList(ITEMS), ObjectAssert::new).first().isEqualTo(ITEMS[0]);
   }
 
@@ -390,7 +390,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_iterator_Test() {
+  void withAssertions_assertThat_iterator_Test() {
     assertThat(Lists.list(ITEMS).iterator()).hasNext();
   }
 
@@ -398,7 +398,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_boolean_Test() {
+  void withAssertions_assertThat_boolean_Test() {
     assertThat(true).isTrue();
     assertThat(Boolean.TRUE).isTrue();
   }
@@ -407,7 +407,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_boolean_array_Test() {
+  void withAssertions_assertThat_boolean_array_Test() {
     assertThat(new boolean[10]).hasSize(10);
   }
 
@@ -415,7 +415,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_byte_Test() {
+  void withAssertions_assertThat_byte_Test() {
     assertThat((byte) 1).isGreaterThan((byte) 0);
     assertThat(Byte.valueOf((byte) 1)).isGreaterThan(Byte.valueOf((byte) 0));
   }
@@ -424,7 +424,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_byte_array_Test() {
+  void withAssertions_assertThat_byte_array_Test() {
     assertThat("Hello".getBytes()).isNotEmpty();
   }
 
@@ -432,7 +432,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_int_array_Test() {
+  void withAssertions_assertThat_int_array_Test() {
     assertThat(new int[5]).hasSize(5);
   }
 
@@ -440,7 +440,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_int_Test() {
+  void withAssertions_assertThat_int_Test() {
     assertThat(10).isGreaterThan(-10);
   }
 
@@ -448,7 +448,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_float_Test() {
+  void withAssertions_assertThat_float_Test() {
     assertThat(10f).isGreaterThan(0.1f);
     assertThat(Float.valueOf(10f)).isGreaterThan(Float.valueOf(0.1f));
   }
@@ -457,7 +457,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_integer_Test() {
+  void withAssertions_assertThat_integer_Test() {
     assertThat(Integer.valueOf(10)).isGreaterThan(Integer.valueOf(0));
   }
 
@@ -465,7 +465,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_input_stream_Test() {
+  void withAssertions_assertThat_input_stream_Test() {
     assertThat(new BufferedInputStream(System.in)).isNotNull();
   }
 
@@ -473,7 +473,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_float_array_Test() {
+  void withAssertions_assertThat_float_array_Test() {
     assertThat(new float[5]).isNotEmpty();
   }
 
@@ -481,7 +481,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_double_Test() {
+  void withAssertions_assertThat_double_Test() {
     assertThat(111.11).isGreaterThan(-111.11);
     assertThat(Double.valueOf(111.11)).isGreaterThan(Double.valueOf(-111.11));
   }
@@ -490,7 +490,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_file_Test() {
+  void withAssertions_assertThat_file_Test() {
     assertThat(new File(".")).isNotNull();
   }
 
@@ -498,7 +498,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_path_Test() {
+  void withAssertions_assertThat_path_Test() {
     assertThat(Paths.get(".")).isNotNull();
   }
 
@@ -506,7 +506,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_double_array_Test() {
+  void withAssertions_assertThat_double_array_Test() {
     assertThat(new double[3]).hasSize(3);
   }
 
@@ -514,7 +514,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_extractProperty_string_Test() {
+  void withAssertions_extractProperty_string_Test() {
     assertThat(extractProperty("name").from(ITEMS).contains("n1")).isTrue();
     assertThat(extractProperty("name", String.class).from(ITEMS).contains("n1")).isTrue();
   }
@@ -523,7 +523,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_tuple_Test() {
+  void withAssertions_tuple_Test() {
     assertThat(tuple(ITEMS[0]).toArray()[0]).isEqualTo(ITEMS[0]);
   }
 
@@ -531,7 +531,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_atIndex_Test() {
+  void withAssertions_atIndex_Test() {
     assertThat(atIndex(0)).isNotNull();
   }
 
@@ -539,7 +539,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_within_double_Test() {
+  void withAssertions_within_double_Test() {
     assertThat(within(Double.valueOf(111))).isNotNull();
   }
 
@@ -547,7 +547,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_within_float_Test() {
+  void withAssertions_within_float_Test() {
     assertThat(within(Float.valueOf(111))).isNotNull();
   }
 
@@ -555,7 +555,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_within_big_decimal_Test() {
+  void withAssertions_within_big_decimal_Test() {
     assertThat(within(BigDecimal.valueOf(111))).isNotNull();
   }
 
@@ -563,7 +563,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_anyOf_iterable_Test() {
+  void withAssertions_anyOf_iterable_Test() {
     assertThat(anyOf(new ArrayList<>())).isNotNull();
   }
 
@@ -572,7 +572,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @SuppressWarnings("unchecked")
   @Test
-  public void withAssertions_anyOf_condition_array_Test() {
+  void withAssertions_anyOf_condition_array_Test() {
     assertThat(anyOf(JEDI)).isNotNull();
   }
 
@@ -580,7 +580,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_doesNotHave_condition_Test() {
+  void withAssertions_doesNotHave_condition_Test() {
     assertThat(doesNotHave(JEDI).matches("Solo")).isTrue();
   }
 
@@ -588,7 +588,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_contentOf_Test() {
+  void withAssertions_contentOf_Test() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> contentOf(new File("/non-existent file")).contains("a"));
   }
 
@@ -596,7 +596,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_contentOf_with_charset_Test() {
+  void withAssertions_contentOf_with_charset_Test() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> contentOf(new File("/non-existent file",
                                                                                               "UTF-8")).contains("a"));
   }
@@ -605,7 +605,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_linesOf_Test() {
+  void withAssertions_linesOf_Test() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(new File("/non-existent file")).contains("a"));
   }
 
@@ -613,7 +613,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_linesOf_with_charsetTest() {
+  void withAssertions_linesOf_with_charsetTest() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(new File("/non-existent file",
                                                                                             "UTF-8")).contains("a"));
   }
@@ -622,7 +622,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_allOf_iterable_Test() {
+  void withAssertions_allOf_iterable_Test() {
     assertThat(allOf(new ArrayList<>())).isNotNull();
   }
 
@@ -631,7 +631,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @SuppressWarnings("unchecked")
   @Test
-  public void withAssertions_allOf_condition_array_Test() {
+  void withAssertions_allOf_condition_array_Test() {
     assertThat(allOf(JEDI)).isNotNull();
   }
 
@@ -639,7 +639,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_setRemoveAssertJRelatedElementsFromStackTrace_Test() {
+  void withAssertions_setRemoveAssertJRelatedElementsFromStackTrace_Test() {
     setRemoveAssertJRelatedElementsFromStackTrace(true);
   }
 
@@ -647,7 +647,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_failBecauseExceptionWasNotThrown_Test() {
+  void withAssertions_failBecauseExceptionWasNotThrown_Test() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> failBecauseExceptionWasNotThrown(Throwable.class));
   }
 
@@ -655,7 +655,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_setAllowExtractingPrivateFields_Test() {
+  void withAssertions_setAllowExtractingPrivateFields_Test() {
     setAllowExtractingPrivateFields(false);
     // reset to default
     setAllowExtractingPrivateFields(true);
@@ -665,7 +665,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called without error.
    */
   @Test
-  public void withAssertions_registerCustomDateFormat_Test() {
+  void withAssertions_registerCustomDateFormat_Test() {
     registerCustomDateFormat("YYYY-MMMM-dddd");
     registerCustomDateFormat(DateFormat.getInstance());
   }
@@ -674,7 +674,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called without error.
    */
   @Test
-  public void withAssertions_useDefaultDateFormatsOnly_Test() {
+  void withAssertions_useDefaultDateFormatsOnly_Test() {
     useDefaultDateFormatsOnly();
   }
 
@@ -682,7 +682,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_zoned_date_time_Test() {
+  void withAssertions_assertThat_zoned_date_time_Test() {
     assertThat(ZonedDateTime.now()).isAfter("2000-12-03T10:15:30+01:00");
   }
 
@@ -690,7 +690,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_optional_Test() {
+  void withAssertions_assertThat_optional_Test() {
     assertThat(Optional.of("Not empty")).isPresent();
   }
 
@@ -698,7 +698,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_optionalDouble_Test() {
+  void withAssertions_assertThat_optionalDouble_Test() {
     assertThat(OptionalDouble.of(1.0)).isPresent();
   }
 
@@ -706,7 +706,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_optionalLong_Test() {
+  void withAssertions_assertThat_optionalLong_Test() {
     assertThat(OptionalLong.of(1L)).isPresent();
   }
 
@@ -714,7 +714,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_optionalInt_Test() {
+  void withAssertions_assertThat_optionalInt_Test() {
     assertThat(OptionalInt.of(1)).isPresent();
   }
 
@@ -722,7 +722,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_local_date_time_Test() {
+  void withAssertions_assertThat_local_date_time_Test() {
     assertThat(LocalDateTime.now()).isNotNull();
   }
 
@@ -730,7 +730,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_local_date_Test() {
+  void withAssertions_assertThat_local_date_Test() {
     assertThat(LocalDate.now()).isNotNull();
   }
 
@@ -738,7 +738,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThat_offset_date_time_Test() {
+  void withAssertions_assertThat_offset_date_time_Test() {
     assertThat(OffsetDateTime.now()).isNotNull();
   }
 
@@ -746,7 +746,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_assertThatThrownBy_Test() {
+  void withAssertions_assertThatThrownBy_Test() {
     assertThatThrownBy(() -> {
       throw new IOException("message");
     }).hasMessage("message");
@@ -760,7 +760,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  public void withAssertions_catchThrowable_Test() {
+  void withAssertions_catchThrowable_Test() {
     Throwable t = catchThrowable(() -> {
       throw new IOException("message");
     });
@@ -768,39 +768,40 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   }
 
   @Test
-  public void withAssertions_assertThat_predicate_Test() {
+  void withAssertions_assertThat_predicate_Test() {
     Predicate<Boolean> predicate = b -> b;
     assertThat(predicate).accepts(true);
   }
 
   @Test
-  public void withAssertions_assertThat_intPredicate_Test() {
+  void withAssertions_assertThat_intPredicate_Test() {
     IntPredicate predicate = i -> i == 0;
     assertThat(predicate).accepts(0);
   }
 
   @Test
-  public void withAssertions_assertThat_longPredicate_Test() {
+  void withAssertions_assertThat_longPredicate_Test() {
     LongPredicate predicate = l -> l == 0;
     assertThat(predicate).accepts(0L);
   }
 
   @Test
-  public void withAssertions_assertThat_doublePredicate_Test() {
+  void withAssertions_assertThat_doublePredicate_Test() {
     DoublePredicate predicate = d -> d > 0;
     assertThat(predicate).accepts(1.0);
   }
 
   @Test
-  public void withAssertions_assertThat_url_Test() throws MalformedURLException {
+  void withAssertions_assertThat_url_Test() throws MalformedURLException {
     assertThat(new URL("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
   }
 
   @Test
-  public void withAssertions_assertThat_uri_Test() {
+  void withAssertions_assertThat_uri_Test() {
     assertThat(java.net.URI.create("https://github.com/joel-costigliola/assertj-core")).hasHost("github.com");
   }
 
+  @Test
   void withAssertions_from_function_Test() {
     // GIVEN
     Function<?, ?> extractor = mock(Function.class);
@@ -822,7 +823,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   }
 
   @Test
-  public void withAssertions_assertThat_spliterator_Test() {
+  void withAssertions_assertThat_spliterator_Test() {
     assertThat(Stream.of(1, 2).spliterator()).hasCharacteristics(Spliterator.SIZED);
   }
 

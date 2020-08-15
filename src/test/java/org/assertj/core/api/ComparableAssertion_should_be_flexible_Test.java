@@ -14,10 +14,10 @@ package org.assertj.core.api;
 
 import org.junit.jupiter.api.Test;
 
-public class ComparableAssertion_should_be_flexible_Test {
+class ComparableAssertion_should_be_flexible_Test {
 
   @Test
-  public void comparable_api_should_be_flexible() {
+  void comparable_api_should_be_flexible() {
     TestClass testClass1 = new TestClass();
     TestClass testClass2 = new TestClass();
 

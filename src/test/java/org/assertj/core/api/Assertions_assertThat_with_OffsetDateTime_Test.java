@@ -24,23 +24,23 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Alexander Bischof
  */
-public class Assertions_assertThat_with_OffsetDateTime_Test {
+class Assertions_assertThat_with_OffsetDateTime_Test {
 
     private OffsetDateTime actual;
 
     @BeforeEach
-    public void before() {
+    void before() {
         actual = OffsetDateTime.now();
     }
 
     @Test
-    public void should_create_Assert() {
+    void should_create_Assert() {
         AbstractOffsetDateTimeAssert<?> assertions = assertThat(actual);
         assertThat(assertions).isNotNull();
     }
 
     @Test
-    public void should_pass_actual() {
+    void should_pass_actual() {
         AbstractOffsetDateTimeAssert<?> assertions = assertThat(actual);
         assertThat(assertions.getActual()).isSameAs(actual);
     }

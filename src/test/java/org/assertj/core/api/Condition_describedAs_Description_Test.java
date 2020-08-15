@@ -26,36 +26,36 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class Condition_describedAs_Description_Test {
+class Condition_describedAs_Description_Test {
 
   private static Description description;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     description = new TestDescription(someTextDescription());
   }
 
   private Condition<Object> condition;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     condition = new TestCondition<>();
   }
 
   @Test
-  public void should_set_description() {
+  void should_set_description() {
     condition.describedAs(description);
     assertThat(condition.description()).isSameAs(description);
   }
 
   @Test
-  public void should_set_empty_description_if_description_is_null() {
+  void should_set_empty_description_if_description_is_null() {
     condition.describedAs(null);
     assertThat(condition.description.value()).isEmpty();
   }
 
   @Test
-  public void should_return_same_condition() {
+  void should_return_same_condition() {
     Condition<Object> returnedCondition = condition.describedAs(description);
     assertThat(returnedCondition).isSameAs(condition);
   }

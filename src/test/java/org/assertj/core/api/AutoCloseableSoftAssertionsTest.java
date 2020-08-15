@@ -44,10 +44,10 @@ import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
-public class AutoCloseableSoftAssertionsTest {
+class AutoCloseableSoftAssertionsTest {
 
   @Test
-  public void all_assertions_should_pass() {
+  void all_assertions_should_pass() {
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
       softly.assertThat(1).isEqualTo(1);
       softly.assertThat(list(1, 2)).containsOnly(1, 2);
@@ -55,7 +55,7 @@ public class AutoCloseableSoftAssertionsTest {
   }
 
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
 
