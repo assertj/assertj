@@ -53,8 +53,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    */
   @Deprecated
   public SELF hasContentEqualTo(InputStream expected) {
-    inputStreams.assertSameContentAs(info, actual, expected);
-    return myself;
+    return hasSameContentAs(expected);
   }
 
   /**

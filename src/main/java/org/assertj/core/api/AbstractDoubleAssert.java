@@ -510,8 +510,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /** {@inheritDoc} */
   @Override
   public SELF isEqualTo(Double expected, Offset<Double> offset) {
-    doubles.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return isCloseTo(expected, offset);
   }
 
   /**
@@ -548,8 +547,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(double expected, Offset<Double> offset) {
-    doubles.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return isCloseTo(expected, offset);
   }
 
   /**

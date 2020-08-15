@@ -537,8 +537,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isEqualTo(Float expected, Offset<Float> offset) {
-    floats.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return isCloseTo(expected, offset);
   }
 
   /**
@@ -575,8 +574,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(float expected, Offset<Float> offset) {
-    floats.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return isCloseTo(expected, offset);
   }
 
   /**

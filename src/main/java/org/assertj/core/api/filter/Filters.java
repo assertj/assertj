@@ -167,8 +167,7 @@ public class Filters<E> {
    * @throws IllegalArgumentException if the given condition is {@code null}.
    */
   public Filters<E> being(Condition<? super E> condition) {
-    checkArgument(condition != null, "The filter condition should not be null");
-    return applyFilterCondition(condition);
+    return having(condition);
   }
 
   /**
