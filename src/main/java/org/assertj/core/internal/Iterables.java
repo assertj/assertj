@@ -468,7 +468,7 @@ public class Iterables {
     Lifo lifo = new Lifo(sequence.length);
     while (actualIterator.hasNext()) {
       lifo.add(actualIterator.next());
-      if (lifo.machesExactly(sequence)) return;
+      if (lifo.matchesExactly(sequence)) return;
     }
     throw actualDoesNotContainSequence(info, actual, sequence);
   }
@@ -487,7 +487,7 @@ public class Iterables {
       stack.addLast(element);
     }
 
-    boolean machesExactly(Object[] sequence) {
+    boolean matchesExactly(Object[] sequence) {
       if (stack.size() != sequence.length) return false;
       for (int i = 0; i < sequence.length; i++) {
         if (!areEqual(stack.get(i), sequence[i])) return false;
