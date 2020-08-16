@@ -40,7 +40,7 @@ class ByteArrayAssert_containsExactly_Test extends ByteArrayAssertBaseTest {
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     // GIVEN
     byte[] actual = new byte[] { 1, 2, 3 };
     // WHEN/THEN
@@ -48,7 +48,7 @@ class ByteArrayAssert_containsExactly_Test extends ByteArrayAssertBaseTest {
   }
 
   @Test
-  public void does_not_honor_the_given_element_comparator() {
+  void does_not_honor_the_given_element_comparator() {
     // GIVEN
     byte[] actual = new byte[] { 1, 2, 3 };
     // WHEN/THEN

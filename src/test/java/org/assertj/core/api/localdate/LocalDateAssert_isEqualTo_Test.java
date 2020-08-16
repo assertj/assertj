@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_equal_to_date_as_string_parameter() {
+  void should_pass_if_actual_is_equal_to_date_as_string_parameter() {
     assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
   }
 

@@ -29,7 +29,7 @@ class ListAssert_raw_list_assertions_chained_after_superclass_method_Test {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Disabled
   @Test
-  public void raw_list_assertions_mixed_with_inherited_methods() {
+  void raw_list_assertions_mixed_with_inherited_methods() {
     Description description = emptyDescription();
 
     List list = new java.util.ArrayList<>();

@@ -38,7 +38,7 @@ class InstantAssert_isStrictlyBetween_with_String_parameters_Test extends org.as
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN
@@ -48,7 +48,7 @@ class InstantAssert_isStrictlyBetween_with_String_parameters_Test extends org.as
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN

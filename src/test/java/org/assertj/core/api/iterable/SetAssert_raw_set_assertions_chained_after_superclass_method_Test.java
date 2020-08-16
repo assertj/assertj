@@ -29,7 +29,7 @@ class SetAssert_raw_set_assertions_chained_after_superclass_method_Test {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Disabled
   @Test
-  public void raw_set_assertions_mixed_with_inherited_methods() {
+  void raw_set_assertions_mixed_with_inherited_methods() {
     Description description = emptyDescription();
 
     Set set = new java.util.HashSet<>();

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 class AtomicIntegerAssert_isNull_Test {
 
   @Test
-  public void should_be_able_to_use_isNull_assertion() {
+  void should_be_able_to_use_isNull_assertion() {
     AtomicInteger actual = null;
     assertThat(actual).isNull();
     then(actual).isNull();

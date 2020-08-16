@@ -39,7 +39,7 @@ class LongArrayAssert_containsExactly_Test extends LongArrayAssertBaseTest {
   }
 
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     long[] actual = new long[] { 1, 2, 3, 4 };
     assertThat(actual).usingElementComparator(new AbsValueComparator<Long>()).containsExactly(-1, 2, 3, -4);
   }

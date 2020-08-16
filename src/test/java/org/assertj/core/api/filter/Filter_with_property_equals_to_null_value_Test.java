@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 class Filter_with_property_equals_to_null_value_Test extends WithPlayerData {
 
   @Test
-  public void should_filter_iterable_elements_with_property_in_given_values() {
+  void should_filter_iterable_elements_with_property_in_given_values() {
     jordan.setTeam(null);
     kobe.setTeam(null);
     Iterable<Player> filteredPlayers = filter(players).with("team").equalsTo(null).get();

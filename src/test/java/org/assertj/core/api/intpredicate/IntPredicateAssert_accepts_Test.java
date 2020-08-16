@@ -65,7 +65,7 @@ class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_values() {
+  void should_fail_when_predicate_does_not_accept_values() {
     IntPredicate predicate = val -> val <= 2;
     int[] matchValues = new int[] { 1, 2, 3 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))

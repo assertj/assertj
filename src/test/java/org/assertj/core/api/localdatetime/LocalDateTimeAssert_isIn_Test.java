@@ -58,7 +58,7 @@ class LocalDateTimeAssert_isIn_Test extends LocalDateTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
+  void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
     // GIVEN
     String[] otherDateTimesAsString = new String[0];
     // WHEN

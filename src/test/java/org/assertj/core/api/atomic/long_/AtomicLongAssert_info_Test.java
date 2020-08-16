@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 class AtomicLongAssert_info_Test {
 
   @Test
-  public void should_honor_info_update() {
+  void should_honor_info_update() {
     String assertionDescription = "ssss";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicLong(0)).as(assertionDescription)
                                                                                                   .hasValueLessThan(-1L))

@@ -57,7 +57,7 @@ class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest 
   }
 
   @Test
-  public void should_satisfy_single_requirement() {
+  void should_satisfy_single_requirement() {
     assertThat(yoda).isInstanceOfSatisfying(Jedi.class, jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"));
   }
 

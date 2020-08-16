@@ -33,7 +33,7 @@ class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_before_date_as_string_parameter() {
+  void should_pass_if_actual_is_before_date_as_string_parameter() {
     assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE.toString());
   }
 
