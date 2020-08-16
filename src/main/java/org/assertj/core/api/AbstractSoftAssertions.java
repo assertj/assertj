@@ -35,9 +35,6 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
    * <p>
    * The callback is an instance of {@link AfterAssertionErrorCollected} which can be expressed as lambda.
    * <p>
-   * If you have defined your own SoftAssertions class and inherited from {@link AbstractSoftAssertions}, the only thing you
-   * have to do is to override {@link AfterAssertionErrorCollected#onAssertionErrorCollected(AssertionError)}.
-   * <p>
    * Example:
    * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
    *
@@ -46,6 +43,9 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
    *
    * // the AssertionError corresponding to this failing assertion is printed to the console.
    * softly.assertThat("The Beatles").isEqualTo("The Rolling Stones");</code></pre>
+   * <p>
+   * Alternatively, if you have defined your own SoftAssertions subclass and inherited from {@link AbstractSoftAssertions},
+   * the only thing you have to do is to override {@link AfterAssertionErrorCollected#onAssertionErrorCollected(AssertionError)}.
    *
    * @param afterAssertionErrorCollected the callback.
    *

@@ -36,10 +36,11 @@ public class NotThrownAssert implements Descriptable<NotThrownAssert> {
    * Example:
    * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
    *
-   * @param throwingCallable code throwing no exception of any type
+   * @param code code not throwing any exception
+   * @throws AssertionError if the actual statement raised a {@code Throwable}.
    */
-  public void isThrownBy(final ThrowingCallable throwingCallable) {
-    Throwable throwable = ThrowableAssert.catchThrowable(throwingCallable);
+  public void isThrownBy(final ThrowingCallable code) {
+    Throwable throwable = ThrowableAssert.catchThrowable(code);
     assertThat(throwable).as(description).doesNotThrowAnyException();
   }
 

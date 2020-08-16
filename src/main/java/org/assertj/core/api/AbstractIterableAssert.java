@@ -1231,7 +1231,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Extract the values from Iterable's elements under test by applying an extracting function on them. The returned
    * iterable becomes a new object under test.
    * <p>
-   * It allows to test values from the elements in more safe way than by using {@link #extracting(String)}, as it
+   * It allows to test values from the elements more safely than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
    * <p>
    * Let's have a look at an example :
@@ -1271,7 +1271,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * Any checked exception raised in the extractor is rethrown wrapped in a {@link RuntimeException}.
    * <p>
-   * It allows to test values from the elements in more safe way than by using {@link #extracting(String)}, as it
+   * It allows to test values from the elements more safely than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
    * <p>
    * Let's have a look at an example :
@@ -2273,7 +2273,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Filter the iterable under test keeping only elements having a property or field equal to {@code expectedValue}, the
+   * Filters the iterable under test keeping only elements having a property or field equal to {@code expectedValue}, the
    * property/field is specified by {@code propertyOrFieldName} parameter.
    * <p>
    * The filter first tries to get the value from a property (named {@code propertyOrFieldName}), if no such property
@@ -2336,7 +2336,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Filter the iterable under test keeping only elements whose property or field specified by
+   * Filters the iterable under test keeping only elements whose property or field specified by
    * {@code propertyOrFieldName} is null.
    * <p>
    * The filter first tries to get the value from a property (named {@code propertyOrFieldName}), if no such property
@@ -2383,7 +2383,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Filter the iterable under test keeping only elements having a property or field matching the filter expressed with
+   * Filters the iterable under test keeping only elements having a property or field matching the filter expressed with
    * the {@link FilterOperator}, the property/field is specified by {@code propertyOrFieldName} parameter.
    * <p>
    * The existing filters are :
@@ -2455,7 +2455,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Filter the iterable under test keeping only elements matching the given {@link Condition}.
+   * Filters the iterable under test keeping only elements matching the given {@link Condition}.
    * <p>
    * If you prefer {@link Predicate} over {@link Condition}, use {@link #filteredOn(Predicate)}.
    * <p>
@@ -2496,9 +2496,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Filter the iterable under test keeping only elements for which the result of the {@code function} is equal to {@code expectedValue}.
+   * Filters the iterable under test keeping only elements for which the result of the {@code function} is equal to {@code expectedValue}.
    * <p>
-   * It allows to filter elements in more safe way than by using {@link #filteredOn(String, Object)} as it doesn't utilize introspection.
+   * It allows to filter elements more safely than by using {@link #filteredOn(String, Object)} as it doesn't utilize introspection.
    * <p>
    * As an example, let's check all employees 800 years old (yes, special employees):
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -2531,7 +2531,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Filter the iterable under test keeping only elements matching the given assertions specified with a {@link Consumer}.
+   * Filters the iterable under test keeping only elements matching the given assertions specified with a {@link Consumer}.
    * <p>
    * Example : check young hobbits whose age &lt; 34:
    *
@@ -2843,7 +2843,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the {@link Iterable} under test contains a single element and allow to perform assertions that element.
+   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions that element.
    * <p>
    * This is a shorthand for <code>hasSize(1).first()</code>.
    * <p>
@@ -2871,7 +2871,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    *
    * // assertion fails because list contains more than one element
-   *  List&lt;String&gt; simpsons = list("Homer", "Marge", "Lisa", "Bart", "Maggie");
+   * List&lt;String&gt; simpsons = list("Homer", "Marge", "Lisa", "Bart", "Maggie");
    * assertThat(simpsons).singleElement();</code></pre>
    * <p>
    * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class,
@@ -2910,7 +2910,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the {@link Iterable} under test contains a single element and allow to perform assertions on that element.<br>
+   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element.<br>
    * The assertions are strongly typed according to the given {@link AssertFactory} parameter.
    * <p>
    * This is a shorthand for <code>hasSize(1).first(assertFactory)</code>.
@@ -2936,7 +2936,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // assertion fails because list contains no elements
    * assertThat(emptyList()).singleElement(as(STRING));
-   *
    *
    * // assertion fails because list contains more than one element
    * List&lt;String&gt; simpsons = list("Homer", "Marge", "Lisa", "Bart", "Maggie");
@@ -2974,7 +2973,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Filter the iterable under test keeping only elements matching the given {@link Predicate}.
+   * Filters the iterable under test keeping only elements matching the given {@link Predicate}.
    * <p>
    * Example : check old employees whose age &gt; 100:
    *

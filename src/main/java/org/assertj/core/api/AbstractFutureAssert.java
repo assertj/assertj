@@ -167,7 +167,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   }
 
   /**
-   * Waits if necessary for at most the given time for this future to complete, and then returns its result for further assertions.
+   * Waits if necessary for at most the given time for this future to complete and then returns its result for further assertions.
    * <p>
    * If the future's result is not available for any reason an assertion error is thrown.
    * <p>
@@ -206,7 +206,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   }
 
   /**
-   * Waits if necessary for at most the given time for this future to complete, and then returns its result for further assertions.
+   * Waits if necessary for at most the given time for this future to complete and then returns its result for further assertions.
    * <p>
    * If the future's result is not available for any reason an assertion error is thrown.
    * <p>
