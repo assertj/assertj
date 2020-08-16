@@ -777,7 +777,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   public SELF containsExactly(byte... values) {
     // In #1801 we changed objects.assertEqual to arrays.assertContainsExactly to get a better error message but it came with
-    // significant performace degradation as #1898 showed.
+    // significant performance degradation as #1898 showed.
     // We can't get the best of both approaches even if we call assertContainsExactly only when assertEqual, assertContainsExactly
     // would take a long time to compute the diff between both arrays.
     // We can at least solve the representation of byte[] arrays so that they show the bytes

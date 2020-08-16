@@ -1721,7 +1721,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * The extracted values are stored in a new list becoming the object under test.
    * <p>
    * Let's take a look at an example to make things clearer :
-   *  <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson familly
+   *  <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson family
    * Map&lt;String, CartoonCharacter&gt; characters = new HashMap&lt;&gt;();
    * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Homer&quot;));
    * characters.put(&quot;mom&quot;, new CartoonCharacter(&quot;Marge&quot;));
@@ -1758,7 +1758,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * extracted from the entry of the Map (the Tuple's data order is the same as the given functions order).
    * <p>
    * Let's take a look at an example to make things clearer :
-   * <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson familly
+   * <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson family
    * Map&lt;String, CartoonCharacter&gt; characters = new HashMap&lt;&gt;();
    * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Homer&quot;));
    * characters.put(&quot;mom&quot;, new CartoonCharacter(&quot;Marge&quot;));

@@ -1516,7 +1516,7 @@ public class Assertions implements InstanceOfAssertFactories {
 
   /**
    * In error messages, sets the threshold when iterable/array formatting will be on one line (if their String description
-   * lenght &lt;= this parameter) or it will be formatted with one element per line.
+   * length &lt;= this parameter) or it will be formatted with one element per line.
    * <p>
    * The default value for maxLengthForSingleLineDescription is {@value Configuration#MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION}.
    * <p>

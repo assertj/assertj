@@ -1129,7 +1129,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *         &quot;  &lt;/bearer&gt;\n&quot; +
    *         &quot;&lt;/rings&gt;&quot;;
    *
-   * // No matter how your xml string is formated, isXmlEqualTo is able to compare it's content with another xml String.
+   * // No matter how your xml string is formatted, isXmlEqualTo is able to compare it's content with another xml String.
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
    * assertThat(oneLineXml).isXmlEqualTo(expectedXml);
    *

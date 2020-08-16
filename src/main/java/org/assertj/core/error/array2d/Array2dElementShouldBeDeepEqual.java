@@ -16,7 +16,7 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /**
- * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two 2D arrays are depply equal
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two 2D arrays are deeply equal
  * failed.
  *
  * @author Maciej Wajcht

@@ -62,7 +62,7 @@ class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
   }
 
   @Test
-  void should_be_consumed_by_configured_description_consumer_on_successfull_assertions() {
+  void should_be_consumed_by_configured_description_consumer_on_successful_assertions() {
     // GIVEN
     String description = RandomStringUtils.random(20);
     // WHEN

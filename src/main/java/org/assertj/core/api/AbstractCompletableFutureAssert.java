@@ -338,7 +338,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
-   * Waits if necessary for at most the given time for this future to complete, and then returns its result for futher assertions.
+   * Waits if necessary for at most the given time for this future to complete, and then returns its result for further assertions.
    * <p>
    * If the future's result is not available for any reason an assertion error is thrown.
    * <p>
@@ -376,7 +376,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
-   * Waits if necessary for at most the given time for this future to complete, and then returns its result for futher assertions.
+   * Waits if necessary for at most the given time for this future to complete, and then returns its result for further assertions.
    * <p>
    * If the future's result is not available for any reason an assertion error is thrown.
    * <p>
@@ -424,7 +424,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * Duration timeout = Duration.ofMillis(100);
    *
    * // assertion succeeds
-   * // using asInstanceOf is recommanded to get assertions for the future result's type
+   * // using asInstanceOf is recommended to get assertions for the future result's type
    * assertThat(future).succeedsWithin(timeout, InstanceOfAssertFactories.STRING)
    *                   .contains("ok");
    *
@@ -454,7 +454,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <pre><code class='java'> CompletableFuture&lt;String&gt; future = CompletableFuture.completedFuture("ook!");
    *
    * // assertion succeeds
-   * // using asInstanceOf is recommanded to get assertions for the future result's type
+   * // using asInstanceOf is recommended to get assertions for the future result's type
    * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS, InstanceOfAssertFactories.STRING)
    *                   .contains("ok");
    *

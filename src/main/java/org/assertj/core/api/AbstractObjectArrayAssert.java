@@ -3170,7 +3170,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
-  // to implement to return the corrct AbstractObjectArrayAssert subtype
+  // to implement to return the correct AbstractObjectArrayAssert subtype
   protected abstract SELF newObjectArrayAssert(ELEMENT[] array);
 
   /**
