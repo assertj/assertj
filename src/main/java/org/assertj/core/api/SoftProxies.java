@@ -18,8 +18,11 @@ import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -196,8 +199,9 @@ class SoftProxies {
                                              .andThen(FieldAccessor.ofField(ErrorCollector.FIELD_NAME).setsArgumentAt(1)))
                      .make()
                      // Use ClassLoader of soft assertion class to allow ByteBuddy to always find it.
-                     // This is needed in OSGI runtime when custom soft assertion is defined outside of assertj bundle.
-                     .load(assertClass.getClassLoader(), classLoadingStrategy(assertClass))
+                     // This is needed in an OSGi runtime when a custom soft assertion class is defined
+                     // in a different OSGi bundle.
+                     .load(CompositeClassLoader.getClassLoader(assertClass), classLoadingStrategy(assertClass))
                      .getLoaded();
   }
 
@@ -205,4 +209,47 @@ class SoftProxies {
     return named(name);
   }
 
+  // Composite class loader for when the assert class is from a different
+  // class loader than AssertJ. This can occur in OSGi when the assert class is
+  // from a bundle. The composite class loader provides access to the internal,
+  // non-exported types of AssertJ. ByteBuddy will define the proxy class in the
+  // CompositeClassLoader rather than in the class loader of the assert class.
+  // This means the assert class cannot assume package private access to super
+  // types, interfaces, etc. since the proxy class is defined in a different
+  // class loader (the CompositeClassLoader) than the assert class.
+  static class CompositeClassLoader extends ClassLoader {
+    // Class loader of AssertJ
+    private static final ClassLoader assertj = SoftProxies.class.getClassLoader();
+
+    // Return a new CompositeClassLoader if the assertClass is from a
+    // different class loader than AssertJ. Otherwise return the class
+    // loader of AssertJ since there is no need to use a composite class
+    // loader.
+    static ClassLoader getClassLoader(Class<?> assertClass) {
+      final ClassLoader other = assertClass.getClassLoader();
+      if (other == assertj) {
+        return other;
+      }
+      return new CompositeClassLoader(other);
+    }
+
+    private CompositeClassLoader(ClassLoader other) {
+      super(other);
+    }
+
+    @Override
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+      return assertj.loadClass(name);
+    }
+
+    @Override
+    protected URL findResource(String name) {
+      return assertj.getResource(name);
+    }
+
+    @Override
+    protected Enumeration<URL> findResources(String name) throws IOException {
+      return assertj.getResources(name);
+    }
+  }
 }
