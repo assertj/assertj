@@ -120,7 +120,7 @@ public class RecursiveComparisonDifferenceCalculator {
           // ignored fields according to recursiveComparisonConfiguration
           Set<String> expectedFieldsNames = getFieldsNames(expected.getClass());
           if (expectedFieldsNames.containsAll(nonIgnoredActualFieldsNames)) {
-            // we compare actual fields vs expected, ingoring expected additional fields
+            // we compare actual fields vs expected, ignoring expected additional fields
             for (String nonIgnoredActualFieldName : nonIgnoredActualFieldsNames) {
               DualValue fieldDualValue = new DualValue(parentPath, nonIgnoredActualFieldName,
                                                        COMPARISON.getSimpleValue(nonIgnoredActualFieldName, actual),
@@ -141,12 +141,10 @@ public class RecursiveComparisonDifferenceCalculator {
       // it occurs to unordered collection where we compare all possible combination of the collection elements recursively
       // --
       // remove visited values one by one, DualValue.equals correctly compare respective actual and expected fields by reference
-      visitedDualValues.forEach(visitedDualValue -> {
-        dualValuesToCompare.stream()
-                           .filter(dualValueToCompare -> dualValueToCompare.equals(visitedDualValue))
-                           .findFirst()
-                           .ifPresent(dualValuesToCompare::remove);
-      });
+      visitedDualValues.forEach(visitedDualValue -> dualValuesToCompare.stream()
+                                                                       .filter(dualValueToCompare -> dualValueToCompare.equals(visitedDualValue))
+                                                                       .findFirst()
+                                                                       .ifPresent(dualValuesToCompare::remove));
     }
 
     private boolean mustCompareFieldsRecursively(boolean isRootObject, DualValue dualValue) {

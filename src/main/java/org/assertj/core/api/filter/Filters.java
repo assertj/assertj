@@ -61,7 +61,7 @@ public class Filters<E> {
   final Iterable<E> initialIterable;
   List<E> filteredIterable;
 
-  private final PropertyOrFieldSupport propertyOrFieldSupport = PropertyOrFieldSupport.EXTRACTION;
+  private static final PropertyOrFieldSupport PROPERTY_OR_FIELD_SUPPORT = PropertyOrFieldSupport.EXTRACTION;
 
   /**
    * The name of the property used for filtering.
@@ -224,7 +224,7 @@ public class Filters<E> {
 
   /**
    * Sets the name of the property used for filtering, it may be a nested property like
-   * <code>"adress.street.name"</code>.
+   * <code>"address.street.name"</code>.
    * <p>
    * The typical usage is to chain this call with a comparison method, for example :
    * <pre><code class='java'> filter(employees).with("name").equalsTo("Alex").get();</code></pre>
@@ -270,7 +270,7 @@ public class Filters<E> {
   public Filters<E> equalsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
     this.filteredIterable = filteredIterable.stream().filter(element -> {
-      Object propertyValueOfCurrentElement = propertyOrFieldSupport.getValueOf(propertyOrFieldNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
       return areEqual(propertyValueOfCurrentElement, propertyValue);
     }).collect(toList());
     return this;
@@ -291,7 +291,7 @@ public class Filters<E> {
   public Filters<E> notEqualsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
     this.filteredIterable = filteredIterable.stream().filter(element -> {
-      Object propertyValueOfCurrentElement = propertyOrFieldSupport.getValueOf(propertyOrFieldNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
       return !areEqual(propertyValueOfCurrentElement, propertyValue);
     }).collect(toList());
     return this;
@@ -316,7 +316,7 @@ public class Filters<E> {
   public Filters<E> in(Object... propertyValues) {
     checkPropertyNameToFilterOnIsNotNull();
     this.filteredIterable = filteredIterable.stream().filter(element -> {
-      Object propertyValueOfCurrentElement = propertyOrFieldSupport.getValueOf(propertyOrFieldNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
       return isItemInArray(propertyValueOfCurrentElement, propertyValues);
     }).collect(toList());
     return this;
@@ -336,7 +336,7 @@ public class Filters<E> {
   public Filters<E> notIn(Object... propertyValues) {
     checkPropertyNameToFilterOnIsNotNull();
     this.filteredIterable = filteredIterable.stream().filter(element -> {
-      Object propertyValueOfCurrentElement = propertyOrFieldSupport.getValueOf(propertyOrFieldNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
       return !isItemInArray(propertyValueOfCurrentElement, propertyValues);
     }).collect(toList());
     return this;

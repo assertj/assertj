@@ -211,7 +211,7 @@ public class RecursiveComparisonConfiguration {
    * @param types the types of the object under test to ignore in the comparison.
    */
   public void ignoreFieldsOfTypes(Class<?>... types) {
-    stream(types).map(type -> asWrapperIfPrimitiveType(type)).forEach(ignoredTypes::add);
+    stream(types).map(RecursiveComparisonConfiguration::asWrapperIfPrimitiveType).forEach(ignoredTypes::add);
   }
 
   private static Class<?> asWrapperIfPrimitiveType(Class<?> type) {

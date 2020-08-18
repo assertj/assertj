@@ -53,7 +53,7 @@ final class DualValue {
   }
 
   DualValue(List<String> parentPath, String fieldName, Object actual, Object expected) {
-    this(fiedlPath(parentPath, fieldName), actual, expected);
+    this(fieldPath(parentPath, fieldName), actual, expected);
   }
 
   @Override
@@ -125,19 +125,19 @@ final class DualValue {
   }
 
   private boolean isActualFieldAnEmptyOptional() {
-    return isActualFieldAnOptional() && ((Optional<?>) actual).isPresent() == false;
+    return isActualFieldAnOptional() && !((Optional<?>) actual).isPresent();
   }
 
   private boolean isActualFieldAnEmptyOptionalInt() {
-    return isActualFieldAnOptionalInt() && ((OptionalInt) actual).isPresent() == false;
+    return isActualFieldAnOptionalInt() && !((OptionalInt) actual).isPresent();
   }
 
   private boolean isActualFieldAnEmptyOptionalLong() {
-    return isActualFieldAnOptionalLong() && ((OptionalLong) actual).isPresent() == false;
+    return isActualFieldAnOptionalLong() && !((OptionalLong) actual).isPresent();
   }
 
   private boolean isActualFieldAnEmptyOptionalDouble() {
-    return isActualFieldAnOptionalDouble() && ((OptionalDouble) actual).isPresent() == false;
+    return isActualFieldAnOptionalDouble() && !((OptionalDouble) actual).isPresent();
   }
 
   public boolean isExpectedFieldAnOptional() {
@@ -208,7 +208,7 @@ final class DualValue {
            isArray(o);
   }
 
-  private static List<String> fiedlPath(List<String> parentPath, String fieldName) {
+  private static List<String> fieldPath(List<String> parentPath, String fieldName) {
     List<String> fieldPath = newArrayList(parentPath);
     fieldPath.add(fieldName);
     return fieldPath;
