@@ -22,7 +22,6 @@ import static org.assertj.core.internal.Objects.getFieldsNames;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.IterableUtil.toCollection;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Array;
@@ -33,6 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -271,31 +271,29 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      Set<String> actualNonIgnoredFieldsNames = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
       Set<String> expectedFieldsNames = getFieldsNames(expectedFieldClass);
-      // Check if expected has more fields than actual, in that case the additional fields are reported as difference
-      if (!expectedFieldsNames.containsAll(actualNonIgnoredFieldsNames)) {
-        // report missing fields in actual
-        Set<String> actualFieldsNamesNotInExpected = newHashSet(actualNonIgnoredFieldsNames);
-        actualFieldsNamesNotInExpected.removeAll(expectedFieldsNames);
-        String missingFields = actualFieldsNamesNotInExpected.toString();
-        String expectedClassName = expectedFieldClass.getName();
-        String actualClassName = actualFieldValueClass.getName();
-        String missingFieldsDescription = format(MISSING_FIELDS, actualClassName, expectedClassName,
+      Set<String> actualFieldsNames = getFieldsNames(actualFieldValueClass);
+      Set<String> missingFields = new LinkedHashSet<>();
+      for (String actualFieldName : actualFieldsNames) {
+        // compare actual's fields against expected :
+        // - extra fields in actual are reported as differences
+        // - extra fields in expected are ignored
+        if (expectedFieldsNames.contains(actualFieldName)) {
+          DualValue newDualValue = new DualValue(currentPath, actualFieldName,
+                                                 COMPARISON.getSimpleValue(actualFieldName, actualFieldValue),
+                                                 COMPARISON.getSimpleValue(actualFieldName, expectedFieldValue));
+          if (!recursiveComparisonConfiguration.shouldIgnore(newDualValue)) {
+            comparisonState.registerForComparison(newDualValue);
+          }
+        } else {
+          missingFields.add(actualFieldName);
+        }
+      }
+      if (!missingFields.isEmpty()) {
+        String missingFieldsDescription = format(MISSING_FIELDS, actualFieldValueClass.getName(), expectedFieldClass.getName(),
                                                  expectedFieldClass.getSimpleName(), actualFieldValueClass.getSimpleName(),
                                                  missingFields);
         comparisonState.addDifference(dualValue, missingFieldsDescription);
-      } else { // TODO remove else to report more diff
-        // compare actual's fields against expected :
-        // - if actual has more fields than expected, the additional fields are ignored as expected is the reference
-        for (String actualFieldName : actualNonIgnoredFieldsNames) {
-          if (expectedFieldsNames.contains(actualFieldName)) {
-            DualValue newDualValue = new DualValue(currentPath, actualFieldName,
-                                                   COMPARISON.getSimpleValue(actualFieldName, actualFieldValue),
-                                                   COMPARISON.getSimpleValue(actualFieldName, expectedFieldValue));
-            comparisonState.registerForComparison(newDualValue);
-          }
-        }
       }
     }
     return comparisonState.getDifferences();
