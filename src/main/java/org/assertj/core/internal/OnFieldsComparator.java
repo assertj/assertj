@@ -42,7 +42,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
   }
 
   public OnFieldsComparator(String... fields) {
-    this(new HashMap<String, Comparator<?>>(), defaultTypeComparators(), fields);
+    this(new HashMap<>(), defaultTypeComparators(), fields);
   }
 
   @VisibleForTesting

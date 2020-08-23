@@ -1609,7 +1609,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   public AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeys(@SuppressWarnings("unchecked") K... keys) {
     isNotNull();
     List<V> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
-    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
+    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
   }

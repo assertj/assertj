@@ -551,7 +551,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     for (int i = 0; i < datesAsString.length; i++) {
       dates[i] = parse(datesAsString[i]);
     }
-    return isIn((Object[]) dates);
+    return isIn(dates);
   }
 
   /**
@@ -654,7 +654,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     for (int i = 0; i < datesAsString.length; i++) {
       dates[i] = parse(datesAsString[i]);
     }
-    return isNotIn((Object[]) dates);
+    return isNotIn(dates);
   }
 
   /**
