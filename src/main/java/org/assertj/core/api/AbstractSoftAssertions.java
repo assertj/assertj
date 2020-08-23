@@ -37,12 +37,30 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
    * <p>
    * Example:
    * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
-   *
+   * StringBuilder reportBuilder = new StringBuilder(format("Assertions report:%n"));
+  
    * // register our callback
-   * softly.setAfterAssertionErrorCollected(error -&gt; System.out.println(error));
+   * softly.setAfterAssertionErrorCollected(error -&gt; reportBuilder.append(String.format("------------------%n%s%n", error.getMessage())));
    *
-   * // the AssertionError corresponding to this failing assertion is printed to the console.
-   * softly.assertThat("The Beatles").isEqualTo("The Rolling Stones");</code></pre>
+   * // the AssertionError corresponding to the failing assertions are registered in the report
+   * softly.assertThat("The Beatles").isEqualTo("The Rolling Stones");
+   * softly.assertThat(123).isEqualTo(123)
+   *                       .isEqualTo(456);</code></pre>
+   * <p>
+   * resulting {@code reportBuilder}:
+   * <pre><code class='java'> Assertions report:
+   * ------------------
+   * Expecting:
+   *  &lt;"The Beatles"&gt;
+   * to be equal to:
+   *  &lt;"The Rolling Stones"&gt;
+   * but was not.
+   * ------------------
+   * Expecting:
+   *  &lt;123&gt;
+   * to be equal to:
+   *  &lt;456&gt;
+   * but was not.</code></pre>
    * <p>
    * Alternatively, if you have defined your own SoftAssertions subclass and inherited from {@link AbstractSoftAssertions},
    * the only thing you have to do is to override {@link AfterAssertionErrorCollected#onAssertionErrorCollected(AssertionError)}.

@@ -2888,7 +2888,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // InstanceOfAssertFactories.STRING is an AssertFactory for String assertions
    * assertThat(babySimpsons, InstanceOfAssertFactories.STRING).singleElement()
    *                                                           .startsWith("Mag");
-   * // better readability with static import InstanceOfAssertFactories.STRING and Assertions.as
+   * // better readability with import static InstanceOfAssertFactories.STRING and Assertions.as
    * assertThat(babySimpsons, as(STRING)).singleElement()
    *                                     .startsWith("Mag");
    *
@@ -2916,9 +2916,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * This is a shorthand for <code>hasSize(1).first(assertFactory)</code>.
    * <p>
    * Example: use of {@code String} assertions after {@code singleElement(as(STRING)}
-   * <pre><code class='java'> static import org.assertj.core.api.InstanceOfAssertFactories.STRING;
-   * static import org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
-   * static import org.assertj.core.api.Assertions.as; // syntactic sugar
+   * <pre><code class='java'> import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+   * import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+   * import static org.assertj.core.api.Assertions.as; // syntactic sugar
    *
    * List&lt;String&gt; babySimpsons = list("Maggie");
    *
