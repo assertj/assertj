@@ -548,15 +548,6 @@
       </build>
     </profile>
     <profile>
-      <id>java11+</id>
-      <activation>
-        <jdk>[11,)</jdk>
-      </activation>
-      <properties>
-        <sonar.skip>false</sonar.skip>
-      </properties>
-    </profile>
-    <profile>
       <id>java13+</id>
       <activation>
         <jdk>[13,)</jdk>
@@ -565,5 +556,15 @@
         <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
       </properties>
     </profile>
+    <profile>
+      <id>java16+</id>
+      <activation>
+        <jdk>[16,)</jdk>
+      </activation>
+      <properties>
+        <jacoco.skip>true</jacoco.skip> <!-- TODO to be removed once jacoco-maven-plugin 0.8.6 is available -->
+      </properties>
+    </profile>
   </profiles>
+
 </project>
