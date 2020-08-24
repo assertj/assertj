@@ -98,7 +98,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    * <p>
    * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
    * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Boolean2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * {@link #isDeepEqualTo(boolean[][])} instead.
    * <p>
    * Example:
    * <pre><code class='java'> boolean[][] array = {{true, true}, {false, false}};

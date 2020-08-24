@@ -100,7 +100,7 @@ public class Object2DArrayAssert<ELEMENT> extends
    * <p>
    * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
    * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Object2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * {@link #isDeepEqualTo(Object[][])} instead.
    * <p>
    * Example:
    * <pre><code class='java'> String[][] array = {{"1", "2"}, {"3", "4"}};

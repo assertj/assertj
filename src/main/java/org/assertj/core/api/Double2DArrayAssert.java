@@ -99,7 +99,7 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
    * <p>
    * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
    * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Double2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * {@link #isDeepEqualTo(double[][])} instead.
    * <p>
    * Example:
    * <pre><code class='java'> double[][] array = {{1.0, 2.0}, {3.0, 4.0}};

@@ -97,7 +97,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * <p>
    * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
    * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Long2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * {@link #isDeepEqualTo(long[][])} instead.
    * <p>
    * Example:
    * <pre><code class='java'> long[][] array = {{1, 2}, {3, 4}};

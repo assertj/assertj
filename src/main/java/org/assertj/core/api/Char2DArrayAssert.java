@@ -99,7 +99,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * <p>
    * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
    * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Char2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * {@link #isDeepEqualTo(char[][])} instead.
    * <p>
    * Example:
    * <pre><code class='java'> char[][] array = {{'1', '2'}, {'3', '4'}}

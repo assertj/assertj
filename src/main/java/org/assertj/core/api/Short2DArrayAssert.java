@@ -96,7 +96,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * <p>
    * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
    * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Short2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * {@link #isDeepEqualTo(short[][])} instead.
    * <p>
    * Example:
    * <pre><code class='java'> short[][] array = {{1, 2}, {3, 4}};
