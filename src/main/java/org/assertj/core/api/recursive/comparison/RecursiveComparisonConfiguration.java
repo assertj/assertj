@@ -16,13 +16,10 @@ import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.join;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,7 +32,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
@@ -556,53 +552,12 @@ public class RecursiveComparisonConfiguration {
            || shouldIgnoreFieldButWithoutNeedingEvaluatingFieldName(dualValue);
   }
 
-  Set<String> getNonIgnoredActualFieldNames(DualValue dualValue) {
-    Set<String> actualFieldsNames = Objects.getFieldsNames(dualValue.actual.getClass());
-    // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
-    // - we filter first ignored field by names that don't need building DualValues
-    // - then we filter field DualValues with the remaining criteria (shouldIgnoreNotEvalutingFieldName)
-    // DualValues are built introspecting fields which is expensive.
-    return actualFieldsNames.stream()
-                            // evaluate field name ignoring criteria
-                            .filter(fieldName -> !shouldIgnore(dualValue.path, fieldName))
-                            .map(fieldName -> dualValueForField(dualValue, fieldName))
-                            // evaluate field value ignoring criteria
-                            .filter(fieldDualValue -> !shouldIgnoreFieldButWithoutNeedingEvaluatingFieldName(fieldDualValue))
-                            // back to field name
-                            .map(DualValue::getFieldName)
-                            .filter(fieldName -> !fieldName.isEmpty())
-                            .collect(toSet());
-  }
-
   // non public stuff
 
   private boolean shouldIgnoreFieldButWithoutNeedingEvaluatingFieldName(DualValue dualValue) {
     return matchesAnIgnoredNullField(dualValue)
            || matchesAnIgnoredFieldType(dualValue)
            || matchesAnIgnoredEmptyOptionalField(dualValue);
-  }
-
-  private boolean shouldIgnore(List<String> parentConcatenatedPath, String fieldName) {
-    List<String> fieldConcatenatedPathList = newArrayList(parentConcatenatedPath);
-    fieldConcatenatedPathList.add(fieldName);
-    String fieldConcatenatedPath = join(fieldConcatenatedPathList).with(".");
-    return matchesAnIgnoredField(fieldConcatenatedPath) || matchesAnIgnoredFieldRegex(fieldConcatenatedPath);
-  }
-
-  private static DualValue dualValueForField(DualValue parentDualValue, String fieldName) {
-    List<String> path = newArrayList(parentDualValue.path);
-    path.add(fieldName);
-    Object actualFieldValue = COMPARISON.getSimpleValue(fieldName, parentDualValue.actual);
-    // no guarantees we have a field in expected named as fieldName
-    Object expectedFieldValue;
-    try {
-      expectedFieldValue = COMPARISON.getSimpleValue(fieldName, parentDualValue.expected);
-    } catch (@SuppressWarnings("unused") Exception e) {
-      // set the field to null to express it is absent, this not 100% accurate as the value could be null
-      // but it works to evaluate if dualValue should be ignored with matchesAnIgnoredFieldType
-      expectedFieldValue = null;
-    }
-    return new DualValue(path, actualFieldValue, expectedFieldValue);
   }
 
   boolean hasCustomComparator(DualValue dualValue) {

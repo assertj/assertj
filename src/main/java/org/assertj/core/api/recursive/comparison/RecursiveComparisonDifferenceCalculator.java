@@ -114,24 +114,31 @@ public class RecursiveComparisonDifferenceCalculator {
       boolean mustCompareFieldsRecursively = mustCompareFieldsRecursively(isRootObject, dualValue);
       if (dualValue.hasNoNullValues() && dualValue.hasNoContainerValues() && mustCompareFieldsRecursively) {
         // disregard the equals method and start comparing fields
-        Set<String> nonIgnoredActualFieldsNames = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
-        if (!nonIgnoredActualFieldsNames.isEmpty()) {
-          // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
-          // ignored fields according to recursiveComparisonConfiguration
-          Set<String> expectedFieldsNames = getFieldsNames(expected.getClass());
-          if (expectedFieldsNames.containsAll(nonIgnoredActualFieldsNames)) {
-            // we compare actual fields vs expected, ignoring expected additional fields
-            for (String nonIgnoredActualFieldName : nonIgnoredActualFieldsNames) {
-              DualValue fieldDualValue = new DualValue(parentPath, nonIgnoredActualFieldName,
-                                                       COMPARISON.getSimpleValue(nonIgnoredActualFieldName, actual),
-                                                       COMPARISON.getSimpleValue(nonIgnoredActualFieldName, expected));
-              dualValuesToCompare.addFirst(fieldDualValue);
+        Set<String> actualFieldsNames = getFieldsNames(actual.getClass());
+        Set<String> expectedFieldsNames = getFieldsNames(expected.getClass());
+        List<DualValue> nonIgnoredFieldValues = new ArrayList<>();
+        boolean hasMissingNonIgnoredFields = false;
+        for (String fieldName : actualFieldsNames) {
+          if (expectedFieldsNames.contains(fieldName)) {
+            DualValue fieldDualValue = new DualValue(parentPath, fieldName,
+                                                     COMPARISON.getSimpleValue(fieldName, actual),
+                                                     COMPARISON.getSimpleValue(fieldName, expected));
+            if (!recursiveComparisonConfiguration.shouldIgnore(fieldDualValue)) {
+              nonIgnoredFieldValues.add(fieldDualValue);
             }
           } else {
-            dualValuesToCompare.addFirst(dualValue);
+            DualValue fieldDualValue = new DualValue(parentPath, fieldName,
+                                                     COMPARISON.getSimpleValue(fieldName, actual),
+                                                     null);
+            if (!recursiveComparisonConfiguration.shouldIgnore(fieldDualValue)) {
+              hasMissingNonIgnoredFields = true;
+            }
           }
-        } else {
+        }
+        if (nonIgnoredFieldValues.isEmpty() || hasMissingNonIgnoredFields) {
           dualValuesToCompare.addFirst(dualValue);
+        } else {
+          dualValuesToCompare.addAll(nonIgnoredFieldValues);
         }
       } else {
         dualValuesToCompare.addFirst(dualValue);
