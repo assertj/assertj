@@ -18,6 +18,7 @@ import static org.assertj.core.error.SubarraysShouldHaveSameSize.subarraysShould
 import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.elementShouldBeEqual;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
@@ -86,7 +87,7 @@ public class Object2DArrayAssert<ELEMENT> extends
                                info.representation().toStringOf(actual), info.representation().toStringOf(expected));
       }
       for (int j = 0; j < actualSubArray.length; j++) {
-        if (actualSubArray[j] != expectedSubArray[j]) {
+        if (!Objects.deepEquals(actualSubArray[j], expectedSubArray[j])) {
           throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
                                  info.representation().toStringOf(actual), info.representation().toStringOf(expected));
         }

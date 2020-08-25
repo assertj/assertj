@@ -23,6 +23,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.Object2DArrayAssert;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.test.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -53,10 +54,54 @@ class Object2DArrayAssert_isDeepEqualTo_Test {
   }
 
   @Test
-  void should_pass_if_both_actual_and_expected_are_equal() {
+  void should_pass_if_both_actual_and_expected_have_same_references() {
     // GIVEN
     String[][] actual = new String[][] { { "1", "2" }, { "3" }, { "4", "5", "6" } };
     String[][] expected = new String[][] { { "1", "2" }, { "3" }, { "4", "5", "6" } };
+    // WHEN/THEN
+    then(actual).isDeepEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_if_both_actual_and_expected_are_equal() {
+    // GIVEN
+    Person[][] actual = new Person[][] {
+        { new Person("Homer"), new Person("Marge") },
+        { new Person("Liza"), new Person("Bart"), new Person("Maggie") },
+        { null, null }
+    };
+    Person[][] expected = new Person[][] {
+        { new Person("Homer"), new Person("Marge") },
+        { new Person("Liza"), new Person("Bart"), new Person("Maggie") },
+        { null, null }
+    };
+    // WHEN/THEN
+    then(actual).isDeepEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_with_three_dimensional_equal_arrays() {
+    // GIVEN
+    Person[][][] actual = new Person[][][] {
+        {
+            { new Person("Homer"), new Person("Marge") },
+            { new Person("Liza"), new Person("Bart"), new Person("Maggie") },
+            { null, null }
+        },
+        {
+            { new Person("Apu"), new Person("Ned"), new Person("Milhouse") }
+        },
+    };
+    Person[][][] expected = new Person[][][] {
+        {
+            { new Person("Homer"), new Person("Marge") },
+            { new Person("Liza"), new Person("Bart"), new Person("Maggie") },
+            { null, null }
+        },
+        {
+            { new Person("Apu"), new Person("Ned"), new Person("Milhouse") }
+        },
+    };
     // WHEN/THEN
     then(actual).isDeepEqualTo(expected);
   }
