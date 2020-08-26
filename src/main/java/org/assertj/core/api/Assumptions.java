@@ -70,6 +70,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.util.CheckReturnValue;
@@ -1277,18 +1278,19 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   private static <ASSERTION> Class<? extends ASSERTION> createAssumptionClass(Class<ASSERTION> assertClass) {
     SimpleKey cacheKey = new SimpleKey(assertClass);
-    return (Class<ASSERTION>) CACHE.findOrInsert(Assumptions.class.getClassLoader(),
+    return (Class<ASSERTION>) CACHE.findOrInsert(assertClass.getClassLoader(),
                                                  cacheKey,
                                                  () -> generateAssumptionClass(assertClass));
   }
 
   protected static <ASSERTION> Class<? extends ASSERTION> generateAssumptionClass(Class<ASSERTION> assertionType) {
+    ClassLoadingStrategyPair strategy = classLoadingStrategy(assertionType);
     return BYTE_BUDDY.subclass(assertionType)
                      // TODO ignore non assertion methods ?
                      .method(any())
                      .intercept(ASSUMPTION)
                      .make()
-                     .load(Assumptions.class.getClassLoader(), classLoadingStrategy(assertionType))
+                     .load(strategy.getClassLoader(), strategy.getClassLoadingStrategy())
                      .getLoaded();
   }
 
