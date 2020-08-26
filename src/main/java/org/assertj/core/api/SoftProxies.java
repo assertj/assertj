@@ -20,7 +20,6 @@ import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrat
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -98,25 +97,8 @@ class SoftProxies {
 
   private ErrorCollector collector;
 
-  public SoftProxies(AfterAssertionErrorCollected afterAssertionErrorCollected) {
-    collector = new ErrorCollector();
-    setAfterAssertionErrorCollected(afterAssertionErrorCollected);
-  }
-
-  void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
-    collector.setAfterAssertionErrorCollected(afterAssertionErrorCollected);
-  }
-
-  public boolean wasSuccess() {
-    return collector.wasSuccess();
-  }
-
-  void collectError(AssertionError error) {
-    collector.addError(error);
-  }
-
-  List<AssertionError> errorsCollected() {
-    return collector.errors();
+  public SoftProxies(AssertionErrorCollector assertionErrorCollector) {
+    collector = new ErrorCollector(assertionErrorCollector);
   }
 
   <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF createSoftAssertionProxy(Class<SELF> assertClass,

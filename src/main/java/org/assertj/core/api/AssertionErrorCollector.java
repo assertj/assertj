@@ -34,4 +34,23 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected {
   default void onAssertionErrorCollected(AssertionError assertionError) {
     // nothing by default
   }
+
+  /**
+   * Indicates that the last assertion was a success.
+   */
+  void succeeded();
+  
+  /**
+   * Returns the result of last soft assertion which can be used to decide what the next one should be.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Person person = ...
+   * SoftAssertions soft = new SoftAssertions();
+   * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
+   *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
+   * }</code></pre>
+   *
+   * @return true if the last assertion was a success.
+   */
+  boolean wasSuccess();
 }
