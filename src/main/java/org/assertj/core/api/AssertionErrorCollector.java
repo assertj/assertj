@@ -13,9 +13,21 @@
 package org.assertj.core.api;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AssertionErrorCollector extends AfterAssertionErrorCollected {
 
+  /**
+   * Optionally sets a "delegate" collector into which the collected assertions
+   * will be deposited
+   * @param delegate
+   */
+  default void setDelegate(AssertionErrorCollector delegate) {}
+  
+  default Optional<AssertionErrorCollector> getDelegate() {
+    return Optional.empty();
+  }
+  
   /**
    * This method can be used to collect soft assertion errors.
    * <p>

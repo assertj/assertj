@@ -21,9 +21,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Optional;
 
+import org.assertj.core.api.AbstractSoftAssertions;
+import org.assertj.core.api.AssertionErrorCollector;
+import org.assertj.core.api.AssertionErrorCollectorImpl;
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.SoftAssertionsProvider;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -95,6 +99,10 @@ import org.junit.platform.commons.support.ReflectionSupport;
  */
 public class SoftAssertionsExtension implements ParameterResolver, AfterTestExecutionCallback {
 
+  static class ConcreteSoftAssertions extends AbstractSoftAssertions {}
+  
+  private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = new AssertionErrorCreator();
+
   private static final Namespace SOFT_ASSERTIONS_EXTENSION_NAMESPACE = Namespace.create(SoftAssertionsExtension.class);
 
   @Override
@@ -129,15 +137,13 @@ public class SoftAssertionsExtension implements ParameterResolver, AfterTestExec
     @SuppressWarnings("unchecked")
     Class<? extends SoftAssertionsProvider> concreteSoftAssertionsProviderType = (Class<? extends SoftAssertionsProvider>) parameterContext.getParameter()
                                                                                                                                            .getType();
-    return getStore(extensionContext).getOrComputeIfAbsent(SoftAssertionsProvider.class,
-                                                           unused -> ReflectionSupport.newInstance(concreteSoftAssertionsProviderType),
-                                                           SoftAssertionsProvider.class);
+    return getSoftAssertionsProvider(extensionContext, concreteSoftAssertionsProviderType);
   }
 
   @Override
   public void afterTestExecution(ExtensionContext extensionContext) {
-    Optional.ofNullable(getStore(extensionContext).remove(SoftAssertionsProvider.class, SoftAssertionsProvider.class))
-            .ifPresent(SoftAssertionsProvider::assertAll);
+    Optional.ofNullable(getStore(extensionContext).remove(ConcreteSoftAssertions.class, ConcreteSoftAssertions.class))
+            .ifPresent(ConcreteSoftAssertions::assertAll);
   }
 
   private static boolean isUnsupportedParameterType(Parameter parameter) {
@@ -147,6 +153,23 @@ public class SoftAssertionsExtension implements ParameterResolver, AfterTestExec
 
   private static Store getStore(ExtensionContext extensionContext) {
     return extensionContext.getStore(SOFT_ASSERTIONS_EXTENSION_NAMESPACE);
+  }
+
+  public static AssertionErrorCollector getAssertionErrorCollector(ExtensionContext context) {
+    return getStore(context).getOrComputeIfAbsent(ConcreteSoftAssertions.class, unused -> new ConcreteSoftAssertions(), ConcreteSoftAssertions.class);
+  }
+  
+  private static <T extends SoftAssertionsProvider> T instantiateProvider(ExtensionContext context, Class<T> concreteSoftAssertionsProviderType) {
+    T provider = ReflectionSupport.newInstance(concreteSoftAssertionsProviderType);
+    provider.setDelegate(getAssertionErrorCollector(context));
+    return provider;
+  }
+  
+  public static <T extends SoftAssertionsProvider> T getSoftAssertionsProvider(ExtensionContext context,
+                                                                 Class<T> concreteSoftAssertionsProviderType) {
+    return getStore(context).getOrComputeIfAbsent(concreteSoftAssertionsProviderType,
+                                                  unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
+                                                  concreteSoftAssertionsProviderType);
   }
 
 }

@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
 
@@ -22,15 +23,34 @@ public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
   List<AssertionError> assertionsCollected = Collections.synchronizedList(new ArrayList<>());
   
   AfterAssertionErrorCollected callback = this;
+
+  AssertionErrorCollector delegate = null;
   
   public AssertionErrorCollectorImpl() {
     super();
   }
 
+  // I think ideally, this would be set in the constructor and made final;
+  // however that would require a new constructor that would not make it
+  // backward compatible with existing SoftAssertionProvider implementations.
+  @Override
+  public void setDelegate(AssertionErrorCollector delegate) {
+    this.delegate = delegate;
+  }
+  
+  @Override
+  public Optional<AssertionErrorCollector> getDelegate() {
+    return Optional.ofNullable(delegate);
+  }
+  
   @Override
   public void collectAssertionError(AssertionError error) {
-    assertionsCollected.add(error);
-    wasSuccess = false;
+    if (delegate == null) {
+      assertionsCollected.add(error);
+      wasSuccess = false;
+    } else {
+      delegate.collectAssertionError(error);
+    }
     callback.onAssertionErrorCollected(error);
   }
 
@@ -40,7 +60,10 @@ public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
    */
   @Override
   public List<AssertionError> assertionErrorsCollected() {
-    return Collections.unmodifiableList(assertionsCollected);
+    if (delegate == null) {
+      return Collections.unmodifiableList(assertionsCollected); 
+    }
+    return delegate.assertionErrorsCollected();
   }
 
   /**
@@ -88,11 +111,15 @@ public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
   
   @Override
   public void succeeded() {
-    wasSuccess = true;
+    if (delegate == null) {
+      wasSuccess = true;
+    } else {
+      delegate.succeeded();
+    }
   }
   
   @Override
   public boolean wasSuccess() {
-    return wasSuccess;
+    return delegate == null ? wasSuccess : delegate.wasSuccess();
   }
 }
