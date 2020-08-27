@@ -44,12 +44,12 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
     implements FloatingPointNumberAssert<SELF, Float> {
 
-  private static final Float NEGATIVE_ZERO = Float.valueOf(-0.0f);
+  private static final Float NEGATIVE_ZERO = -0.0f;
 
   @VisibleForTesting
   Floats floats = Floats.instance();
 
-  private boolean isPrimitive;
+  private final boolean isPrimitive;
 
   public AbstractFloatAssert(Float actual, Class<?> selfType) {
     super(actual, selfType);

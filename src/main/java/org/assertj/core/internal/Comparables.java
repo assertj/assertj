@@ -92,7 +92,7 @@ public class Comparables {
     if (comparisonStrategy == null) {
       if (other.comparisonStrategy != null) return false;
     } else if (!comparisonStrategy.equals(other.comparisonStrategy)) return false;
-    return failures == null ? other.failures == null : failures.equals(other.failures);
+    return java.util.Objects.equals(failures, other.failures);
   }
 
   @Override

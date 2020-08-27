@@ -2826,7 +2826,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     isNotEmpty();
     assertThat(index).describedAs(navigationDescription("check index validity"))
                      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
-    ELEMENT elementAtIndex = null;
+    ELEMENT elementAtIndex;
     if (actual instanceof List) {
       @SuppressWarnings("unchecked")
       List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
