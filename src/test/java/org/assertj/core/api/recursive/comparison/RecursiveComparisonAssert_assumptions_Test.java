@@ -13,13 +13,12 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Person;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonAssert_assumptions_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
@@ -35,8 +34,8 @@ class RecursiveComparisonAssert_assumptions_Test extends RecursiveComparisonAsse
     unexpected.home.address.number = 2;
     // THEN
     assumeThat(actual).usingRecursiveComparison().isEqualTo(expected);
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(actual).usingRecursiveComparison()
-                                                                                                    .isEqualTo(unexpected));
+    expectAssumptionNotMetException(() -> assumeThat(actual).usingRecursiveComparison()
+                                                            .isEqualTo(unexpected));
   }
 
   @Test

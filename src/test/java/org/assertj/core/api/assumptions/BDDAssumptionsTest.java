@@ -16,7 +16,7 @@ import static org.assertj.core.api.BDDAssertions.thenCode;
 import static org.assertj.core.api.BDDAssumptions.given;
 import static org.assertj.core.api.BDDAssumptions.givenCode;
 import static org.assertj.core.api.BDDAssumptions.givenObject;
-import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
@@ -92,7 +92,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isFalse());
+      expectAssumptionNotMetException(() -> given(actual).isFalse());
     }
   }
 
@@ -107,7 +107,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isFalse());
+      expectAssumptionNotMetException(() -> given(actual).isFalse());
     }
   }
 
@@ -122,7 +122,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).contains(false));
+      expectAssumptionNotMetException(() -> given(actual).contains(false));
     }
   }
 
@@ -137,7 +137,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -152,7 +152,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -167,7 +167,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).contains((byte) 0));
+      expectAssumptionNotMetException(() -> given(actual).contains((byte) 0));
     }
   }
 
@@ -182,7 +182,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -197,7 +197,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -212,7 +212,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).contains((short) 0));
+      expectAssumptionNotMetException(() -> given(actual).contains((short) 0));
     }
   }
 
@@ -227,7 +227,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -242,7 +242,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -257,7 +257,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).contains(0));
+      expectAssumptionNotMetException(() -> given(actual).contains(0));
     }
   }
 
@@ -272,7 +272,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -287,7 +287,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -302,7 +302,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -317,7 +317,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).contains(0L));
+      expectAssumptionNotMetException(() -> given(actual).contains(0L));
     }
   }
 
@@ -332,7 +332,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -347,7 +347,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -362,7 +362,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).contains(0.0f));
+      expectAssumptionNotMetException(() -> given(actual).contains(0.0f));
     }
   }
 
@@ -377,7 +377,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -392,7 +392,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -407,7 +407,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).contains(0.0f));
+      expectAssumptionNotMetException(() -> given(actual).contains(0.0f));
     }
   }
 
@@ -422,7 +422,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isZero());
+      expectAssumptionNotMetException(() -> given(actual).isZero());
     }
   }
 
@@ -437,7 +437,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isLowerCase());
+      expectAssumptionNotMetException(() -> given(actual).isLowerCase());
     }
   }
 
@@ -452,7 +452,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isLowerCase());
+      expectAssumptionNotMetException(() -> given(actual).isLowerCase());
     }
   }
 
@@ -467,7 +467,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).contains('C'));
+      expectAssumptionNotMetException(() -> given(actual).contains('C'));
     }
   }
 
@@ -482,7 +482,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNullOrEmpty());
     }
   }
 
@@ -497,7 +497,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNullOrEmpty());
     }
   }
 
@@ -512,7 +512,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNullOrEmpty());
     }
   }
 
@@ -527,7 +527,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNullOrEmpty());
     }
   }
 
@@ -542,7 +542,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isInterface());
+      expectAssumptionNotMetException(() -> given(actual).isInterface());
     }
   }
 
@@ -568,7 +568,7 @@ class BDDAssumptionsTest {
 
       @Test
       void should_ignore_test_when_assumption_fails() {
-        expectAssumptionViolatedException(() -> given(actual).hasAllNullFieldsOrProperties());
+        expectAssumptionNotMetException(() -> given(actual).hasAllNullFieldsOrProperties());
       }
     }
 
@@ -583,7 +583,7 @@ class BDDAssumptionsTest {
 
       @Test
       void should_ignore_test_when_assumption_fails() {
-        expectAssumptionViolatedException(() -> given(actual).isNullOrEmpty());
+        expectAssumptionNotMetException(() -> given(actual).isNullOrEmpty());
       }
     }
 
@@ -598,7 +598,7 @@ class BDDAssumptionsTest {
 
       @Test
       void should_ignore_test_when_assumption_fails() {
-        expectAssumptionViolatedException(() -> givenObject(actual).hasAllNullFieldsOrProperties());
+        expectAssumptionNotMetException(() -> givenObject(actual).hasAllNullFieldsOrProperties());
       }
     }
   }
@@ -621,7 +621,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotEqualByComparingTo(new Yoda()));
+      expectAssumptionNotMetException(() -> given(actual).isNotEqualByComparingTo(new Yoda()));
     }
   }
 
@@ -636,7 +636,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasMessage(""));
+      expectAssumptionNotMetException(() -> given(actual).hasMessage(""));
     }
   }
 
@@ -651,7 +651,7 @@ class BDDAssumptionsTest {
 
       @Test
       void should_ignore_test_when_assumption_fails() {
-        expectAssumptionViolatedException(() -> givenCode(() -> { /* some code */ }).hasMessage("Yoda time"));
+        expectAssumptionNotMetException(() -> givenCode(() -> { /* some code */ }).hasMessage("Yoda time"));
       }
     }
 
@@ -666,7 +666,7 @@ class BDDAssumptionsTest {
 
       @Test
       void should_ignore_test_when_assumption_fails() {
-        expectAssumptionViolatedException(() -> givenCode(() -> {
+        expectAssumptionNotMetException(() -> givenCode(() -> {
           throw new Exception("Yoda time");
         }).doesNotThrowAnyException());
       }
@@ -684,7 +684,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).containsOnly(2));
+      expectAssumptionNotMetException(() -> given(actual).containsOnly(2));
     }
   }
 
@@ -699,7 +699,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isExhausted());
+      expectAssumptionNotMetException(() -> given(actual).isExhausted());
     }
   }
 
@@ -714,7 +714,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).containsOnly(2));
+      expectAssumptionNotMetException(() -> given(actual).containsOnly(2));
     }
   }
 
@@ -729,7 +729,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).containsEntry(2, 1));
+      expectAssumptionNotMetException(() -> given(actual).containsEntry(2, 1));
     }
   }
 
@@ -744,7 +744,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).accepts(-2, -1));
+      expectAssumptionNotMetException(() -> given(actual).accepts(-2, -1));
     }
   }
 
@@ -759,7 +759,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).accepts(-2, -1));
+      expectAssumptionNotMetException(() -> given(actual).accepts(-2, -1));
     }
   }
 
@@ -774,7 +774,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).accepts(-2, -1));
+      expectAssumptionNotMetException(() -> given(actual).accepts(-2, -1));
     }
   }
 
@@ -789,7 +789,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).accepts(-2.0, -1.0));
+      expectAssumptionNotMetException(() -> given(actual).accepts(-2.0, -1.0));
     }
   }
 
@@ -804,7 +804,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -819,7 +819,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -834,7 +834,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -849,7 +849,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -864,7 +864,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).containsOnly(2));
+      expectAssumptionNotMetException(() -> given(actual).containsOnly(2));
     }
   }
 
@@ -879,7 +879,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).containsOnly(2));
+      expectAssumptionNotMetException(() -> given(actual).containsOnly(2));
     }
   }
 
@@ -894,7 +894,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).containsOnly(2L));
+      expectAssumptionNotMetException(() -> given(actual).containsOnly(2L));
     }
   }
 
@@ -909,7 +909,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).containsOnly(2.0));
+      expectAssumptionNotMetException(() -> given(actual).containsOnly(2.0));
     }
   }
 
@@ -924,7 +924,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasCharacteristics(Spliterator.DISTINCT));
+      expectAssumptionNotMetException(() -> given(actual).hasCharacteristics(Spliterator.DISTINCT));
     }
   }
 
@@ -944,7 +944,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotCancelled());
+      expectAssumptionNotMetException(() -> given(actual).isNotCancelled());
     }
   }
 
@@ -959,7 +959,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotDone());
+      expectAssumptionNotMetException(() -> given(actual).isNotDone());
     }
   }
 
@@ -974,7 +974,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotDone());
+      expectAssumptionNotMetException(() -> given(actual).isNotDone());
     }
   }
 
@@ -989,7 +989,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isFalse());
+      expectAssumptionNotMetException(() -> given(actual).isFalse());
     }
   }
 
@@ -1004,7 +1004,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasNegativeValue());
+      expectAssumptionNotMetException(() -> given(actual).hasNegativeValue());
     }
   }
 
@@ -1019,7 +1019,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -1045,7 +1045,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasValue(2, value));
+      expectAssumptionNotMetException(() -> given(actual).hasValue(2, value));
     }
   }
 
@@ -1060,7 +1060,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasNegativeValue());
+      expectAssumptionNotMetException(() -> given(actual).hasNegativeValue());
     }
   }
 
@@ -1075,7 +1075,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -1101,7 +1101,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasValue(2L, value));
+      expectAssumptionNotMetException(() -> given(actual).hasValue(2L, value));
     }
   }
 
@@ -1116,7 +1116,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).doesNotHaveValue("Yoda"));
+      expectAssumptionNotMetException(() -> given(actual).doesNotHaveValue("Yoda"));
     }
   }
 
@@ -1131,7 +1131,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotEmpty());
+      expectAssumptionNotMetException(() -> given(actual).isNotEmpty());
     }
   }
 
@@ -1159,7 +1159,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasValue("", value));
+      expectAssumptionNotMetException(() -> given(actual).hasValue("", value));
     }
   }
 
@@ -1174,7 +1174,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isNotMarked());
+      expectAssumptionNotMetException(() -> given(actual).isNotMarked());
     }
   }
 
@@ -1189,7 +1189,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasStamp(0));
+      expectAssumptionNotMetException(() -> given(actual).hasStamp(0));
     }
   }
 
@@ -1204,7 +1204,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAfter("2016-12-03T10:15:30Z"));
+      expectAssumptionNotMetException(() -> given(actual).isAfter("2016-12-03T10:15:30Z"));
     }
   }
 
@@ -1219,7 +1219,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAfter(LocalDate.now()));
+      expectAssumptionNotMetException(() -> given(actual).isAfter(LocalDate.now()));
     }
   }
 
@@ -1234,7 +1234,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAfter(LocalTime.now()));
+      expectAssumptionNotMetException(() -> given(actual).isAfter(LocalTime.now()));
     }
   }
 
@@ -1249,7 +1249,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAfter(OffsetTime.now()));
+      expectAssumptionNotMetException(() -> given(actual).isAfter(OffsetTime.now()));
     }
   }
 
@@ -1264,7 +1264,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAfter(LocalDateTime.now()));
+      expectAssumptionNotMetException(() -> given(actual).isAfter(LocalDateTime.now()));
     }
   }
 
@@ -1279,7 +1279,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAfter(Instant.now()));
+      expectAssumptionNotMetException(() -> given(actual).isAfter(Instant.now()));
     }
   }
 
@@ -1294,7 +1294,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAfter(OffsetDateTime.now()));
+      expectAssumptionNotMetException(() -> given(actual).isAfter(OffsetDateTime.now()));
     }
   }
 
@@ -1309,7 +1309,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAfter(ZonedDateTime.now()));
+      expectAssumptionNotMetException(() -> given(actual).isAfter(ZonedDateTime.now()));
     }
   }
 
@@ -1324,7 +1324,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).hasContent("B"));
+      expectAssumptionNotMetException(() -> given(actual).hasContent("B"));
     }
   }
 
@@ -1339,7 +1339,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAbsolute());
+      expectAssumptionNotMetException(() -> given(actual).isAbsolute());
     }
   }
 
@@ -1354,7 +1354,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(actual).isAbsolute());
+      expectAssumptionNotMetException(() -> given(actual).isAbsolute());
     }
   }
 
@@ -1367,7 +1367,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(new URI("http://assertj.org")).hasPort(80));
+      expectAssumptionNotMetException(() -> given(new URI("http://assertj.org")).hasPort(80));
     }
   }
 
@@ -1380,7 +1380,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(new URL("http://assertj.org")).hasPort(80));
+      expectAssumptionNotMetException(() -> given(new URL("http://assertj.org")).hasPort(80));
     }
   }
 
@@ -1393,7 +1393,7 @@ class BDDAssumptionsTest {
 
     @Test
     void should_ignore_test_when_assumption_fails() {
-      expectAssumptionViolatedException(() -> given(Duration.ofHours(1)).isNotNull().isNegative());
+      expectAssumptionNotMetException(() -> given(Duration.ofHours(1)).isNotNull().isNegative());
     }
   }
 }

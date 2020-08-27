@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
-import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -50,8 +50,8 @@ class Assumptions_assumeThat_with_succeedsWithin_Test {
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(1, MILLISECONDS)
-                                                              .isEqualTo("eeek!"));
+    expectAssumptionNotMetException(() -> assumeThat(future).succeedsWithin(1, MILLISECONDS)
+                                                            .isEqualTo("eeek!"));
   }
 
   @Test
@@ -72,8 +72,8 @@ class Assumptions_assumeThat_with_succeedsWithin_Test {
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(1, MILLISECONDS, as(STRING))
-                                                              .startsWith("eek"));
+    expectAssumptionNotMetException(() -> assumeThat(future).succeedsWithin(1, MILLISECONDS, as(STRING))
+                                                            .startsWith("eek"));
   }
 
   @Test
@@ -94,8 +94,8 @@ class Assumptions_assumeThat_with_succeedsWithin_Test {
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(ONE_MILLIS)
-                                                              .isEqualTo("eeek!"));
+    expectAssumptionNotMetException(() -> assumeThat(future).succeedsWithin(ONE_MILLIS)
+                                                            .isEqualTo("eeek!"));
   }
 
   @Test
@@ -116,7 +116,7 @@ class Assumptions_assumeThat_with_succeedsWithin_Test {
     String value = "ook!";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    expectAssumptionViolatedException(() -> assumeThat(future).succeedsWithin(ONE_MILLIS, as(STRING))
-                                                              .startsWith("eek"));
+    expectAssumptionNotMetException(() -> assumeThat(future).succeedsWithin(ONE_MILLIS, as(STRING))
+                                                            .startsWith("eek"));
   }
 }

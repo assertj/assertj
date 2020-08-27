@@ -13,7 +13,7 @@
 package org.assertj.core.api.assumptions;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -23,7 +23,6 @@ import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
 import org.assertj.core.test.CartoonCharacter;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -81,7 +80,7 @@ public abstract class BaseAssumptionsRunnerTest {
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
   void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(assumptionRunner::runFailingAssumption);
+    expectAssumptionNotMetException(assumptionRunner::runFailingAssumption);
   }
 
   @ParameterizedTest

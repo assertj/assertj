@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.SoftAssertions;
@@ -101,7 +101,7 @@ class ByteArrayAssert_asString_Test {
     // GIVEN
     String foo = "foo";
     // WHEN/THEN
-    expectAssumptionViolatedException(() -> assumeThat(foo.getBytes()).asString().isEqualTo("bar"));
+    expectAssumptionNotMetException(() -> assumeThat(foo.getBytes()).asString().isEqualTo("bar"));
   }
 
   @Test

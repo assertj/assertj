@@ -16,12 +16,12 @@ import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatObject;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.Assumptions.assumeThatObject;
 import static org.assertj.core.api.Assumptions.assumeThatThrownBy;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
 import static org.mockito.Mockito.mock;
@@ -45,7 +45,6 @@ import java.util.stream.Stream;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -221,7 +220,7 @@ class Assumptions_assumeThat_with_various_types_Test {
         },
         new AssumptionRunner<ThrowingCallable>(new ThrowingCallable() {
           @Override
-          public void call() throws Throwable {
+          public void call() {
             throw new IllegalArgumentException();
           }
         }) {
@@ -368,7 +367,7 @@ class Assumptions_assumeThat_with_various_types_Test {
               new Condition<>(list -> list.getFirst().equals("abc"), "First element is 'abc'")));
           }
         },
-        new AssumptionRunner<Spliterator>(Stream.of(1, 2).spliterator()) {
+        new AssumptionRunner<Spliterator<Integer>>(Stream.of(1, 2).spliterator()) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).hasCharacteristics(Spliterator.DISTINCT);
@@ -393,12 +392,12 @@ class Assumptions_assumeThat_with_various_types_Test {
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
   void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumptionRunner.runFailingAssumption());
+    expectAssumptionNotMetException(assumptionRunner::runFailingAssumption);
   }
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
   void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
-    assertThatCode(() -> assumptionRunner.runPassingAssumption()).doesNotThrowAnyException();
+    assertThatCode(assumptionRunner::runPassingAssumption).doesNotThrowAnyException();
   }
 }

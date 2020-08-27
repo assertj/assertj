@@ -14,10 +14,9 @@ package org.assertj.core.api.assumptions;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
 
 class Assumptions_assumeThat_Object_Test {
@@ -42,23 +41,23 @@ class Assumptions_assumeThat_Object_Test {
 
   @Test
   void should_ignore_test_when_assumption_fails() {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(STRING_OBJECT).isNotNull()
-                                                                                                           .isEqualTo("other"));
+    expectAssumptionNotMetException(() -> assumeThat(STRING_OBJECT).isNotNull()
+                                                                   .isEqualTo("other"));
   }
 
   @Test
   void should_ignore_test_when_assumption_for_internally_created_string_assertion_fails() {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(STRING_OBJECT).isNotNull()
-                                                                                                           .asString()
-                                                                                                           .isEqualTo("other"));
+    expectAssumptionNotMetException(() -> assumeThat(STRING_OBJECT).isNotNull()
+                                                                   .asString()
+                                                                   .isEqualTo("other"));
   }
 
   @Test
   void should_ignore_test_when_assumption_for_internally_created_list_assertion_fails() {
     Object listObject = asList(1, 2, 3);
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(listObject).isNotNull()
-                                                                                                        .asList()
-                                                                                                        .contains(4,
-                                                                                                                  5));
+    expectAssumptionNotMetException(() -> assumeThat(listObject).isNotNull()
+                                                                .asList()
+                                                                .contains(4,
+                                                                          5));
   }
 }
