@@ -96,6 +96,37 @@
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- required to resolve
+    These dependencies are required to workaround a bad
+    interaction using includeDependencyManagement=true for
+    the Bnd resolver and testing plugins and the enforcer
+    plugin which causes a false positive from the enforcer
+    plugin. The Bnd 5.2.0 resolver and testing plugins
+    don't have this problem, so these dependencies
+    can be removed when updating bnd.version to 5.2.0 and
+    configuring the Bnd resolver and testing plugins to use
+    includeDependencyManagement=true.
+    -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-commons</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <!-- required to run JUnit4 tests in eclipse without to explicitly select JUnit 4 runner ... -->
     <dependency>
       <groupId>org.junit.vintage</groupId>
@@ -173,6 +204,12 @@
       <version>3.4.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.osgi</artifactId>
+      <version>3.15.300</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -218,6 +255,9 @@
         <configuration>
           <argLine>${argLine}</argLine>
           <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>org/assertj/core/osgi/**</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
@@ -304,6 +344,21 @@
               ]]></bnd>
             </configuration>
           </execution>
+          <!-- Integration Test Configuration -->
+          <execution>
+            <id>bnd-process-tests</id>
+            <phase>process-test-classes</phase>
+            <goals>
+              <goal>bnd-process-tests</goal>
+            </goals>
+            <configuration>
+              <includeClassesDir>false</includeClassesDir>
+              <bnd><![CDATA[
+                -includepackage: org.assertj.core.osgi.*
+                -removeheaders: Bnd-LastModified,Private-Package
+              ]]></bnd>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -365,6 +420,21 @@
               <archive>
                 <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
               </archive>
+            </configuration>
+          </execution>
+          <execution>
+            <id>test-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestFile>${project.build.testOutputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+              </archive>
+              <includes>
+                <include>org/assertj/core/osgi/**</include>
+              </includes>
             </configuration>
           </execution>
         </executions>
@@ -450,14 +520,14 @@
         ]]></footer>
         </configuration>
       </plugin>
+      <!-- Resolve bundles for OSGi integration tests -->
       <plugin>
-        <!-- Verify that additional OSGi package imports didn't sneak in. -->
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-resolver-maven-plugin</artifactId>
         <version>${bnd.version}</version>
         <executions>
           <execution>
-            <id>verify-osgi-metadata</id>
+            <id>osgi-integration-resolving</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>resolve</goal>
@@ -466,8 +536,49 @@
               <bndruns>
                 <bndrun>verify.bndrun</bndrun>
               </bndruns>
+              <bundles>
+                <bundle>target/${project.build.finalName}-tests.jar</bundle>
+              </bundles>
               <failOnChanges>false</failOnChanges>
               <reportOptional>false</reportOptional>
+              <includeDependencyManagement>false</includeDependencyManagement>
+              <scopes>
+                <scope>provided</scope>
+                <scope>compile</scope>
+                <scope>runtime</scope>
+                <scope>test</scope>
+              </scopes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Run OSGi integration tests -->
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-testing-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
+        <executions>
+          <execution>
+            <id>osgi-integration-testing</id>
+            <goals>
+              <goal>testing</goal>
+            </goals>
+            <configuration>
+              <bndruns>
+                <bndrun>verify.bndrun</bndrun>
+              </bndruns>
+              <bundles>
+                <bundle>target/${project.build.finalName}-tests.jar</bundle>
+              </bundles>
+              <failOnChanges>false</failOnChanges>
+              <includeDependencyManagement>false</includeDependencyManagement>
+              <resolve>false</resolve>
+              <scopes>
+                <scope>provided</scope>
+                <scope>compile</scope>
+                <scope>runtime</scope>
+                <scope>test</scope>
+              </scopes>
             </configuration>
           </execution>
         </executions>
