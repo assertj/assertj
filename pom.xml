@@ -562,6 +562,7 @@
         <jdk>[16,)</jdk>
       </activation>
       <properties>
+        <argLine>-Dnl.jqno.equalsverifier.internal.lib.bytebuddy.experimental=true</argLine>
         <jacoco.skip>true</jacoco.skip> <!-- TODO to be removed once jacoco-maven-plugin 0.8.6 is available -->
       </properties>
     </profile>
