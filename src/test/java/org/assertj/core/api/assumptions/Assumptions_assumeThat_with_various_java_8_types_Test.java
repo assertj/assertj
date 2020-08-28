@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.Assumptions.assumeThatCode;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -41,9 +42,9 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.opentest4j.TestAbortedException;
 
 class Assumptions_assumeThat_with_various_java_8_types_Test {
 
@@ -296,7 +297,7 @@ class Assumptions_assumeThat_with_various_java_8_types_Test {
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
   void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(assumptionRunner::runFailingAssumption);
+    expectAssumptionNotMetException(assumptionRunner::runFailingAssumption);
   }
 
   @ParameterizedTest

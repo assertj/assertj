@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.SoftAssertions;
@@ -101,7 +101,7 @@ class ByteArrayAssert_asHexString_Test {
 
   @Test
   void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(BYTES).asHexString().isEqualTo("other"));
+    expectAssumptionNotMetException(() -> assumeThat(BYTES).asHexString().isEqualTo("other"));
   }
 
   @Test

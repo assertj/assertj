@@ -13,12 +13,11 @@
 package org.assertj.core.api.assumptions;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +37,7 @@ class Assumptions_assumeThat_with_asInstanceOf_Test {
 
   @Test
   void should_ignore_test_when_assumption_with_as_instance_of_fails() {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(value).asInstanceOf(INTEGER)
-                                                                                                   .isZero());
+    expectAssumptionNotMetException(() -> assumeThat(value).asInstanceOf(INTEGER)
+                                                           .isZero());
   }
 }

@@ -14,13 +14,12 @@ package org.assertj.core.api.assumptions;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.util.Set;
 
 import org.assertj.core.test.Jedi;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +43,7 @@ class Assumptions_assumeThat_with_filteredOn_Test {
 
   @Test
   void should_ignore_test_when_assumption_with_filtered_elements_fails() {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).filteredOn("name", "Luke").contains(yoda));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).filteredOn("name", "Luke")
+                                                           .contains(yoda));
   }
 }

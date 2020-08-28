@@ -14,12 +14,11 @@ package org.assertj.core.api.assumptions;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
 
 class Assumptions_assumeThat_Test {
@@ -27,7 +26,7 @@ class Assumptions_assumeThat_Test {
   @Test
   void should_ignore_test_when_one_of_the_assumption_fails() {
     assumeThat("foo").isNotEmpty();
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat("bar").isEmpty());
+    expectAssumptionNotMetException(() -> assumeThat("bar").isEmpty());
   }
 
   @Test

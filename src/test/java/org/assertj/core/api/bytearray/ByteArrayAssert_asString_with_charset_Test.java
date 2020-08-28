@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.nio.charset.Charset;
@@ -110,7 +110,7 @@ class ByteArrayAssert_asString_with_charset_Test {
     String real = "Gerçek";
     byte[] bytes = real.getBytes(TURKISH_CHARSET);
     // WHEN/THEN
-    expectAssumptionViolatedException(() -> assumeThat(bytes).asString(TURKISH_CHARSET).isEqualTo("bar"));
+    expectAssumptionNotMetException(() -> assumeThat(bytes).asString(TURKISH_CHARSET).isEqualTo("bar"));
   }
 
   @Test

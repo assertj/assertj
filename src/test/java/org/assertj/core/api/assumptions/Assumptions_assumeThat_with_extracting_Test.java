@@ -14,10 +14,10 @@ package org.assertj.core.api.assumptions;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Map;
@@ -25,7 +25,6 @@ import java.util.Set;
 
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Jedi;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -90,7 +89,7 @@ class Assumptions_assumeThat_with_extracting_Test {
 
   @Test
   void should_ignore_test_when_assumption_using_extracting_fails() {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).extracting("name")
-                                                                                                   .contains("Vader"));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).extracting("name")
+                                                           .contains("Vader"));
   }
 }

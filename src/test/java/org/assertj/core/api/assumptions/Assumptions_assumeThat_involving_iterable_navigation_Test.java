@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
-import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -75,65 +75,65 @@ class Assumptions_assumeThat_involving_iterable_navigation_Test {
 
   @Test
   void should_ignore_test_when_assumption_on_size_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(jedis).size()
-                                                             .as("check size")
-                                                             .isGreaterThan(3));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).size()
+                                                           .as("check size")
+                                                           .isGreaterThan(3));
   }
 
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_first_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(jedis).first()
-                                                             .as("check first element")
-                                                             .isEqualTo(luke));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).first()
+                                                           .as("check first element")
+                                                           .isEqualTo(luke));
   }
 
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_first_with_InstanceOfAssertFactory_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(jedis).first(as(type(Jedi.class)))
-                                                             .as("check first element")
-                                                             .isEqualTo(luke));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).first(as(type(Jedi.class)))
+                                                           .as("check first element")
+                                                           .isEqualTo(luke));
   }
 
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_last_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(jedis).last()
-                                                             .as("check last element")
-                                                             .isEqualTo(yoda));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).last()
+                                                           .as("check last element")
+                                                           .isEqualTo(yoda));
   }
 
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_last_with_InstanceOfAssertFactory_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(jedis).last(as(type(Jedi.class)))
-                                                             .as("check last element")
-                                                             .isEqualTo(yoda));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).last(as(type(Jedi.class)))
+                                                           .as("check last element")
+                                                           .isEqualTo(yoda));
   }
 
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_element_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(jedis).element(1)
-                                                             .as("check element at index 1")
-                                                             .isEqualTo(yoda));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).element(1)
+                                                           .as("check element at index 1")
+                                                           .isEqualTo(yoda));
   }
 
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_element_with_InstanceOfAssertFactory_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(jedis).element(1, as(type(Jedi.class)))
-                                                             .as("check element at index 1")
-                                                             .isEqualTo(yoda));
+    expectAssumptionNotMetException(() -> assumeThat(jedis).element(1, as(type(Jedi.class)))
+                                                           .as("check element at index 1")
+                                                           .isEqualTo(yoda));
   }
 
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_singleElement_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(list(yoda)).singleElement()
-                                                                  .as("check single element")
-                                                                  .isEqualTo(luke));
+    expectAssumptionNotMetException(() -> assumeThat(list(yoda)).singleElement()
+                                                                .as("check single element")
+                                                                .isEqualTo(luke));
   }
 
   @Test
   void should_ignore_test_when_assumption_after_navigating_to_singleElement_with_InstanceOfAssertFactory_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(list(yoda)).singleElement(as(type(Jedi.class)))
-                                                                  .as("check single element")
-                                                                  .isEqualTo(luke));
+    expectAssumptionNotMetException(() -> assumeThat(list(yoda)).singleElement(as(type(Jedi.class)))
+                                                                .as("check single element")
+                                                                .isEqualTo(luke));
   }
 
 }
