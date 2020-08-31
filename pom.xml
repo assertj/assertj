@@ -338,7 +338,9 @@
                   !org.assertj.core.internal.*,\
                   org.assertj.core.*
                 -noclassforname: true
-                -removeheaders: Bnd-LastModified,Private-Package
+                -noextraheaders: true
+                -snapshot: SNAPSHOT
+                -removeheaders: Private-Package
                 -fixupmessages: \
                   "Classes found in the wrong directory...";is:=ignore
               ]]></bnd>
@@ -355,7 +357,9 @@
               <includeClassesDir>false</includeClassesDir>
               <bnd><![CDATA[
                 -includepackage: org.assertj.core.osgi.*
-                -removeheaders: Bnd-LastModified,Private-Package
+                -noextraheaders: true
+                -snapshot: SNAPSHOT
+                -removeheaders: Private-Package
               ]]></bnd>
             </configuration>
           </execution>
