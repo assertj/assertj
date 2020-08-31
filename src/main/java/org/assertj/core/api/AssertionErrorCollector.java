@@ -19,8 +19,12 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected {
 
   /**
    * Optionally sets a "delegate" collector into which the collected assertions
-   * will be deposited
-   * @param delegate
+   * will be deposited. Note that if you set a delegate, this instance will no
+   * longer collect or report assertion errors itself but will forward them all to the
+   * delegate for collection.
+   * 
+   * @param delegate the {@link AssertionErrorCollector} to which the assertions
+   *  will be forwarded.
    */
   default void setDelegate(AssertionErrorCollector delegate) {}
   

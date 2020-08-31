@@ -19,13 +19,15 @@ import java.util.Optional;
 
 public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
 
-  volatile boolean wasSuccess = true;
-  List<AssertionError> assertionsCollected = Collections.synchronizedList(new ArrayList<>());
-  
-  AfterAssertionErrorCollected callback = this;
+  // Marking this field as volatile doesn't ensure complete thread safety
+  // (mutual exclusion, race-free behaviour), but guarantees eventual visibility
+  private volatile boolean wasSuccess = true;
+  private List<AssertionError> collectedAssertionErrors = Collections.synchronizedList(new ArrayList<>());
 
-  AssertionErrorCollector delegate = null;
-  
+  private AfterAssertionErrorCollected callback = this;
+
+  private AssertionErrorCollector delegate = null;
+
   public AssertionErrorCollectorImpl() {
     super();
   }
@@ -37,16 +39,16 @@ public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
   public void setDelegate(AssertionErrorCollector delegate) {
     this.delegate = delegate;
   }
-  
+
   @Override
   public Optional<AssertionErrorCollector> getDelegate() {
     return Optional.ofNullable(delegate);
   }
-  
+
   @Override
   public void collectAssertionError(AssertionError error) {
     if (delegate == null) {
-      assertionsCollected.add(error);
+      collectedAssertionErrors.add(error);
       wasSuccess = false;
     } else {
       delegate.collectAssertionError(error);
@@ -55,13 +57,16 @@ public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
   }
 
   /**
-   * Returns a copy of list of soft assertions collected errors.
-   * @return a copy of list of soft assertions collected errors.
+   * Returns a list of soft assertions collected errors. If a delegate
+   * has been set (see {@link #setDelegate(AssertionErrorCollector) setDelegate()},
+   * then this method will return the result of the delegate's {@code assertErrorsCollected()}.
+   * 
+   * @return A copy of list of soft assertions collected errors.
    */
   @Override
   public List<AssertionError> assertionErrorsCollected() {
     if (delegate == null) {
-      return Collections.unmodifiableList(assertionsCollected); 
+      return Collections.unmodifiableList(collectedAssertionErrors);
     }
     return delegate.assertionErrorsCollected();
   }
@@ -108,7 +113,7 @@ public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
   public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
     callback = afterAssertionErrorCollected;
   }
-  
+
   @Override
   public void succeeded() {
     if (delegate == null) {
@@ -117,7 +122,7 @@ public class AssertionErrorCollectorImpl implements AssertionErrorCollector {
       delegate.succeeded();
     }
   }
-  
+
   @Override
   public boolean wasSuccess() {
     return delegate == null ? wasSuccess : delegate.wasSuccess();

@@ -30,12 +30,16 @@ public abstract class AbstractSoftAssertions extends AssertionErrorCollectorImpl
     proxies = new SoftProxies(this);
   }
 
-  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private static final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
+  public static void assertAll(AssertionErrorCollector collector) {
+    List<AssertionError> errors = collector.assertionErrorsCollected();
+    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
+  }
+  
   @Override
   public void assertAll() {
-    List<AssertionError> errors = assertionErrorsCollected();
-    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
+    assertAll(this);
   }
 
   @Override

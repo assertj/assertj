@@ -13,10 +13,7 @@
 package org.assertj.core.api;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
@@ -74,11 +71,11 @@ public class ErrorCollector {
     return assertion;
   }
 
-  void addError(AssertionError error) {
+  private void addError(AssertionError error) {
     assertionErrorCollector.collectAssertionError(error);
   }
 
-  void succeeded() {
+  private void succeeded() {
     assertionErrorCollector.succeeded();
   }
   

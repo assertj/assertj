@@ -85,8 +85,9 @@ import org.junit.platform.commons.support.HierarchyTraversalMode;
  *   }
  * } </code></pre>
  * @author Arthur Mita
+ * @deprecated This functionality has been rolled into {@link SoftAssertionsExtension}
  **/
-@Beta
+@Deprecated
 public class SoftlyExtension implements AfterTestExecutionCallback, TestInstancePostProcessor {
 
   private static final Namespace SOFTLY_EXTENSION_NAMESPACE = Namespace.create(SoftlyExtension.class);
