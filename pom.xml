@@ -284,9 +284,9 @@
               </relocations>
               <filters>
                 <filter>
-                  <artifact>*:*</artifact>
+                  <artifact>net.bytebuddy:*</artifact>
                   <excludes>
-                    <exclude>META-INF/versions/**</exclude>
+                    <exclude>META-INF/**</exclude>
                   </excludes>
                 </filter>
               </filters>
