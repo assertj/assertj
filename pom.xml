@@ -277,6 +277,9 @@
                 <relocation>
                   <pattern>net.bytebuddy</pattern>
                   <shadedPattern>org.assertj.core.internal.bytebuddy</shadedPattern>
+                  <excludes>
+                    <exclude>net/bytebuddy/experimental</exclude>
+                  </excludes>
                 </relocation>
               </relocations>
               <filters>
