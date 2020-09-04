@@ -162,34 +162,6 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.assertAll();
   }
 
-  @Test
-  void should_return_success_of_last_assertion() {
-    softly.then(true).isFalse();
-    softly.then(true).isEqualTo(true);
-    assertThat(softly.wasSuccess()).isTrue();
-  }
-
-  @Test
-  void should_return_success_of_last_assertion_with_nested_calls() {
-    softly.then(true).isFalse();
-    softly.then(true).isTrue(); // isTrue() calls isEqualTo(true)
-    assertThat(softly.wasSuccess()).isTrue();
-  }
-
-  @Test
-  void should_return_failure_of_last_assertion() {
-    softly.then(true).isTrue();
-    softly.then(true).isEqualTo(false);
-    assertThat(softly.wasSuccess()).isFalse();
-  }
-
-  @Test
-  void should_return_failure_of_last_assertion_with_nested_calls() {
-    softly.then(true).isTrue();
-    softly.then(true).isFalse(); // isFalse() calls isEqualTo(false)
-    assertThat(softly.wasSuccess()).isFalse();
-  }
-
   @SuppressWarnings("unchecked")
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
@@ -854,7 +826,6 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.fail(failureMessage);
     // THEN
-    assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
     assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith(failureMessage);
   }
@@ -866,7 +837,6 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.fail(failureMessage, "here", "here");
     // THEN
-    assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
     assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith("Should not reach here or here");
   }
@@ -879,7 +849,6 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.fail(failureMessage, realCause);
     // THEN
-    assertThat(softly.wasSuccess()).isFalse();
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(1);
     assertThat(errorsCollected.get(0)).hasMessageStartingWith(failureMessage);
@@ -891,7 +860,6 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.shouldHaveThrown(IllegalArgumentException.class);
     // THEN
-    assertThat(softly.wasSuccess()).isFalse();
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(1);
     assertThat(errorsCollected.get(0)).hasMessageStartingWith("IllegalArgumentException should have been thrown");
