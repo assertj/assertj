@@ -24,7 +24,7 @@ import java.nio.charset.Charset;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.ThrowableAssertAlternative;
-import org.opentest4j.TestAbortedException;
+import org.junit.AssumptionViolatedException;
 
 public class AssertionsUtil {
 
@@ -41,7 +41,7 @@ public class AssertionsUtil {
   }
 
   public static void expectAssumptionNotMetException(ThrowingCallable shouldRaiseError) {
-    assertThatThrownBy(shouldRaiseError).isInstanceOf(TestAbortedException.class);
+    assertThatThrownBy(shouldRaiseError).isInstanceOf(AssumptionViolatedException.class);
   }
 
   public static Charset getDifferentCharsetFrom(Charset charset) {
