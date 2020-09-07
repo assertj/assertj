@@ -97,6 +97,8 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic value does not matches with the given predicate.
+   *
+   * @since 3.18.0
    */
   public AtomicReferenceAssert<V> hasValueMatching(Predicate<? super V> predicate) {
     return hasValueMatching(predicate, PredicateDescription.GIVEN);
@@ -120,6 +122,8 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic value does not matches with the given predicate.
+   *
+   * @since 3.18.0
    */
   public AtomicReferenceAssert<V> hasValueMatching(Predicate<? super V> predicate, String description) {
     return hasValueMatching(predicate, new PredicateDescription(description));
@@ -156,6 +160,8 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    * @throws NullPointerException if given Consumer is null
    * @throws AssertionError if the actual atomic is {@code null}.
    * @throws AssertionError if the actual atomic value does not satisfies with the given requirements.
+   *
+   * @since 3.18.0
    */
   public AtomicReferenceAssert<V> hasValueSatisfies(Consumer<? super V> requirements) {
     requireNonNull(requirements, "The Consumer<? super V> expressing the assertions requirements must not be null");
