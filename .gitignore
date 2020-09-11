@@ -2,4 +2,5 @@
 .settings
 target
 .idea
+*.iml
 .mvn/wrapper/maven-wrapper.jar
