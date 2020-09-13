@@ -24,8 +24,8 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -100,19 +100,9 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     // THEN
     Iterator<Entry<String, String>> actualEntries = actual.entrySet().iterator();
     List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = list(unsatisfiedRequirement(actualEntries.next(),
-                                                                                            format("%n" +
-                                                                                                   "Expecting:%n" +
-                                                                                                   " <true>%n" +
-                                                                                                   "to be equal to:%n" +
-                                                                                                   " <false>%n" +
-                                                                                                   "but was not.")),
+                                                                                            format("%nExpecting value to be false but was true")),
                                                                      unsatisfiedRequirement(actualEntries.next(),
-                                                                                            format("%n" +
-                                                                                                   "Expecting:%n" +
-                                                                                                   " <true>%n" +
-                                                                                                   "to be equal to:%n" +
-                                                                                                   " <false>%n" +
-                                                                                                   "but was not.")));
+                                                                                            format("%nExpecting value to be false but was true")));
     assertThat(error).hasMessage(elementsShouldSatisfyAny(actual, errors, someInfo()).create());
   }
 

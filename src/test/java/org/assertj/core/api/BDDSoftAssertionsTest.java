@@ -281,8 +281,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
     assertThat(errors).hasSize(62);
     assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
-    assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
-    assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
+    assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
+    assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
     assertThat(errors.get(3)).contains(format("%nExpecting:%n <[false]>%nto be equal to:%n <[true]>%nbut was not."));
     assertThat(errors.get(4)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
     assertThat(errors.get(5)).contains(format("%nExpecting:%n <0x02>%nto be equal to:%n <0x03>%nbut was not."));

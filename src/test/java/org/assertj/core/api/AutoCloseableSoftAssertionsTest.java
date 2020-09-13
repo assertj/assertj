@@ -164,8 +164,8 @@ class AutoCloseableSoftAssertionsTest {
 
       assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
 
-      assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
-      assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
+      assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
+      assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
       assertThat(errors.get(3)).contains(format("%nExpecting:%n <[false]>%nto be equal to:%n <[true]>%nbut was not."));
 
       assertThat(errors.get(4)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
@@ -193,11 +193,11 @@ class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(19)).contains(format("%nExpecting:%n <[16.0f]>%nto be equal to:%n <[17.0f]>%nbut was not."));
 
       assertThat(errors.get(20)).contains(String.format("%nInputStreams do not have same content:%n%n"
-                                                          + "Changed content at line 1:%n"
-                                                          + "expecting:%n"
-                                                          + "  [\"B\"]%n"
-                                                          + "but was:%n"
-                                                          + "  [\"A\"]%n"));
+                                                        + "Changed content at line 1:%n"
+                                                        + "expecting:%n"
+                                                        + "  [\"B\"]%n"
+                                                        + "but was:%n"
+                                                        + "  [\"A\"]%n"));
 
       assertThat(errors.get(21)).contains(format("%nExpecting:%n <20>%nto be equal to:%n <21>%nbut was not."));
       assertThat(errors.get(22)).contains(format("%nExpecting:%n <22>%nto be equal to:%n <23>%nbut was not."));
@@ -223,20 +223,22 @@ class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(36)).contains(format("%nExpecting:%n <[52]>%nto be equal to:%n <[53]>%nbut was not."));
       assertThat(errors.get(37)).contains(format("%nExpecting message to be:%n"
                                                  + "  <\"NullPointerException message\">%n"
-                                                   + "but was:%n"
+                                                 + "but was:%n"
                                                  + "  <\"IllegalArgumentException message\">"));
       assertThat(errors.get(38)).contains(format("%nExpecting message to be:%n"
                                                  + "  <\"something was good\">%n"
-                                                   + "but was:%n"
+                                                 + "but was:%n"
                                                  + "  <\"something was wrong\">"));
       assertThat(errors.get(39)).contains(format("%nExpecting:%n <Optional[bad option]>%nto be equal to:%n <Optional[good option]>%nbut was not."));
       assertThat(errors.get(40)).contains(format("%nExpecting:%n <2015-01-01 (java.time.LocalDate)>%nto be equal to:%n <2015-01-02 (java.time.LocalDate)>%nbut was not."));
       assertThat(errors.get(41)).contains(format("%nExpecting:%n <2015-01-01T23:59:59 (java.time.LocalDateTime)>%nto be equal to:%n <2015-01-01T23:59 (java.time.LocalDateTime)>%n"
                                                  +
-        "when comparing values using '%s'%nbut was not.", ChronoLocalDateTimeComparator.getInstance()));
+                                                 "when comparing values using '%s'%nbut was not.",
+                                                 ChronoLocalDateTimeComparator.getInstance()));
       assertThat(errors.get(42)).contains(format("%nExpecting:%n <2015-01-01T23:59:59Z (java.time.ZonedDateTime)>%nto be equal to:%n <2015-01-01T23:59Z (java.time.ZonedDateTime)>%n"
                                                  +
-        "when comparing values using '%s'%nbut was not.", ChronoZonedDateTimeByInstantComparator.getInstance()));
+                                                 "when comparing values using '%s'%nbut was not.",
+                                                 ChronoZonedDateTimeByInstantComparator.getInstance()));
 
       assertThat(errors.get(43)).contains(format("%nExpecting:%n <OptionalInt[0]>%nto be equal to:%n <1>%nbut was not."));
       assertThat(errors.get(44)).contains(format("%nExpecting:%n <OptionalDouble[0.0]>%nto be equal to:%n <1.0>%nbut was not."));
@@ -247,7 +249,8 @@ class AutoCloseableSoftAssertionsTest {
 
       assertThat(errors.get(48)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00 (java.time.OffsetDateTime)>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00 (java.time.OffsetDateTime)>%n"
                                                  +
-        "when comparing values using '%s'%nbut was not.", OffsetDateTimeByInstantComparator.getInstance()));
+                                                 "when comparing values using '%s'%nbut was not.",
+                                                 OffsetDateTimeByInstantComparator.getInstance()));
 
       return;
     }

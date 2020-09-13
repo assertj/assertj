@@ -149,8 +149,8 @@ class AutoCloseableBDDSoftAssertionsTest {
 
       assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
 
-      assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
-      assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
+      assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
+      assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
       assertThat(errors.get(3)).contains(format("%nExpecting:%n <[false]>%nto be equal to:%n <[true]>%nbut was not."));
 
       assertThat(errors.get(4)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
@@ -220,7 +220,8 @@ class AutoCloseableBDDSoftAssertionsTest {
       assertThat(errors.get(43)).contains(format("%nExpecting:%n <12:00Z>%nto be equal to:%n <13:00Z>%nbut was not."));
       assertThat(errors.get(44)).contains(format("%nExpecting:%n <-999999999-01-01T00:00+18:00 (java.time.OffsetDateTime)>%nto be equal to:%n <+999999999-12-31T23:59:59.999999999-18:00 (java.time.OffsetDateTime)>%n"
                                                  +
-        "when comparing values using '%s'%nbut was not.", OffsetDateTimeByInstantComparator.getInstance()));
+                                                 "when comparing values using '%s'%nbut was not.",
+                                                 OffsetDateTimeByInstantComparator.getInstance()));
       return;
     }
     fail("Should not reach here");
