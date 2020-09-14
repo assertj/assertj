@@ -61,7 +61,7 @@
     <additionalparam>-Xdoclint:none</additionalparam>
     <!-- Dependency versions -->
     <junit.version>4.13</junit.version>
-    <junit-jupiter.version>5.6.2</junit-jupiter.version>
+    <junit-jupiter.version>5.7.0</junit-jupiter.version>
     <mockito.version>3.5.10</mockito.version>
     <!-- Plugin versions -->
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
