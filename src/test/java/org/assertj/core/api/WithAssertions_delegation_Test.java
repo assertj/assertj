@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
 
@@ -39,6 +40,19 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -49,6 +63,8 @@ import java.util.stream.Stream;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.util.concurrent.Futures;
 
 /**
  * Tests for <code>{@link WithAssertions}</code>, to verify that delegate calls happen.
@@ -270,6 +286,16 @@ class WithAssertions_delegation_Test implements WithAssertions {
                              .isLessThanOrEqualTo("Hi World");
   }
 
+  @Test
+  void withAssertions_assertThat_StringBuilder_Test() {
+    assertThat(new StringBuilder("foo")).startsWith("fo");
+  }
+
+  @Test
+  void withAssertions_assertThat_StringBuffer_Test() {
+    assertThat(new StringBuffer("foo")).startsWith("fo");
+  }
+
   /**
    * Test that the delegate method is called.
    */
@@ -475,6 +501,132 @@ class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   void withAssertions_assertThat_float_array_Test() {
     assertThat(new float[5]).isNotEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_float_2D_array_Test() {
+    assertThat(new float[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_double_2D_array_Test() {
+    assertThat(new double[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_char_2D_array_Test() {
+    assertThat(new char[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_byte_2D_array_Test() {
+    assertThat(new byte[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_long_2D_array_Test() {
+    assertThat(new long[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_int_2D_array_Test() {
+    assertThat(new int[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_short_2D_array_Test() {
+    assertThat(new short[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_boolean_2D_array_Test() {
+    assertThat(new boolean[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_object_2D_array_Test() {
+    assertThat(new String[0][0]).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicBoolean_Test() {
+    assertThat(new AtomicBoolean(true)).isTrue();
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicInteger_Test() {
+    assertThat(new AtomicInteger(0)).hasValue(0);
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicLong_Test() {
+    assertThat(new AtomicLong(0)).hasValue(0);
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicLongArray_Test() {
+    assertThat(new AtomicLongArray(0)).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicIntegerArray_Test() {
+    assertThat(new AtomicIntegerArray(0)).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicIntegerFieldUpdater_Test() {
+    assertThat(AtomicIntegerFieldUpdater.newUpdater(Person.class, "age")).isNotNull();
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicLongFieldUpdater_Test() {
+    assertThat(AtomicLongFieldUpdater.newUpdater(Person.class, "number")).isNotNull();
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicReferenceFieldUpdater_Test() {
+    assertThat(AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name")).isNotNull();
+  }
+
+  static class Person {
+    volatile int age;
+    volatile long number;
+    volatile String name;
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicReference_Test() {
+    assertThat(new AtomicReference<>("foo")).hasValue("foo");
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicReferenceArray_Test() {
+    assertThat(new AtomicReferenceArray<>(0)).isEmpty();
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicMarkableReference_Test() {
+    assertThat(new AtomicMarkableReference<>("foo", true)).hasReference("foo");
+  }
+
+  @Test
+  void withAssertions_assertThat_AtomicStampedReference_Test() {
+    assertThat(new AtomicStampedReference<>("foo", 0)).hasReference("foo");
+  }
+
+  @Test
+  void withAssertions_assertThat_LongAdder_Test() {
+    // GIVEN
+    LongAdder actual = new LongAdder();
+    // WHEN
+    actual.add(5);
+    // THEN
+    assertThat(actual).hasValue(5);
+  }
+
+  @Test
+  void withAssertions_assertThat_Future_Test() {
+    assertThat(Futures.immediateFuture("foo")).isDone();
   }
 
   /**
@@ -812,7 +964,6 @@ class WithAssertions_delegation_Test implements WithAssertions {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   void withAssertions_as_instanceOfAssertFactory_Test() {
     // GIVEN
     InstanceOfAssertFactory<?, AbstractAssert<?, ?>> assertFactory = mock(InstanceOfAssertFactory.class);
@@ -825,6 +976,16 @@ class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   void withAssertions_assertThat_spliterator_Test() {
     assertThat(Stream.of(1, 2).spliterator()).hasCharacteristics(Spliterator.SIZED);
+  }
+
+  @Test
+  void withAssertions_fail_with_message_format_Test() {
+    // GIVEN
+    String failureMessage = "bat%s";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> fail(failureMessage, "man"));
+    // THEN
+    then(error).hasMessage("batman");
   }
 
 }
