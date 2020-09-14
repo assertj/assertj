@@ -12,13 +12,19 @@
  */
 package org.assertj.core.api.junit.jupiter;
 
-import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.extension.ExtendWith;
+import java.util.List;
 
-@SuppressWarnings("deprecation")
-@ExtendWith(SoftlyExtension.class)
-class WithSoftlyExtension {
+import org.assertj.core.api.AbstractSoftAssertions;
+import org.assertj.core.api.IntegerAssert;
+import org.assertj.core.api.ProxyableListAssert;
 
-  protected SoftAssertions softly;
+class CustomSoftAssertions extends AbstractSoftAssertions {
+  public IntegerAssert expectThat(int value) {
+    return proxy(IntegerAssert.class, Integer.class, value);
+  }
 
+  @SuppressWarnings("unchecked")
+  public <T> ProxyableListAssert<T> expectThat(List<? extends T> actual) {
+    return proxy(ProxyableListAssert.class, List.class, actual);
+  }
 }

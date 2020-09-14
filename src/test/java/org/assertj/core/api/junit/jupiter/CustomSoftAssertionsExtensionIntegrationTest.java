@@ -16,11 +16,7 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD;
 
 import java.util.Arrays;
-import java.util.List;
 
-import org.assertj.core.api.AbstractSoftAssertions;
-import org.assertj.core.api.IntegerAssert;
-import org.assertj.core.api.ProxyableListAssert;
 import org.assertj.core.api.SoftAssertionsProvider;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -64,17 +60,6 @@ class CustomSoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertion
   @Override
   protected Class<?> getTestInstancePerClassNestedTestCase() {
     return TestInstancePerClassNestedExample.class;
-  }
-
-  private static class CustomSoftAssertions extends AbstractSoftAssertions {
-    public IntegerAssert expectThat(int value) {
-      return proxy(IntegerAssert.class, Integer.class, value);
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> ProxyableListAssert<T> expectThat(List<? extends T> actual) {
-      return proxy(ProxyableListAssert.class, List.class, actual);
-    }
   }
 
   // -------------------------------------------------------------------------

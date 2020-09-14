@@ -13,16 +13,28 @@
 package org.assertj.core.api;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AssertionErrorCollector extends AfterAssertionErrorCollected {
 
   /**
+   * Optionally sets a "delegate" collector into which the collected assertions will be deposited.
+   * <p>
+   * Note that if you set a delegate, this instance will no longer collect or report assertion errors itself but will
+   * forward them all to the delegate for collection.
+   *
+   * @param delegate the {@link AssertionErrorCollector} to which the assertions will be forwarded.
+   */
+  default void setDelegate(AssertionErrorCollector delegate) {}
+
+  default Optional<AssertionErrorCollector> getDelegate() {
+    return Optional.empty();
+  }
+
+  /**
    * This method can be used to collect soft assertion errors.
    * <p>
-   * <b>Warning:</b> this is not the method used internally by AssertJ to collect all of them, overriding it to react to each
-   * collected assertion error will not work.
-   * <p>
-   * To be able to react after an assertion error is collected, use @{@link #onAssertionErrorCollected(AssertionError)} instead.
+   * To be able to react after an assertion error is collected, use {@link #onAssertionErrorCollected(AssertionError)}.
    *
    * @param error the {@link AssertionError} to collect.
    */
@@ -34,4 +46,23 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected {
   default void onAssertionErrorCollected(AssertionError assertionError) {
     // nothing by default
   }
+
+  /**
+   * Indicates/sets that the last assertion was a success.
+   */
+  void succeeded();
+
+  /**
+   * Returns the result of last soft assertion which can be used to decide what the next one should be.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Person person = ...
+   * SoftAssertions soft = new SoftAssertions();
+   * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
+   *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
+   * }</code></pre>
+   *
+   * @return true if the last assertion was a success.
+   */
+  boolean wasSuccess();
 }

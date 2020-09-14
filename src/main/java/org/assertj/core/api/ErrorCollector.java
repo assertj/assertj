@@ -13,10 +13,7 @@
 package org.assertj.core.api;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
@@ -34,16 +31,10 @@ public class ErrorCollector {
   private static final String INTERCEPT_METHOD_NAME = "intercept";
   private static final String CLASS_NAME = ErrorCollector.class.getName();
 
-  // The list is synchronized in case errors arrive from more than a single thread.
-  // scope : the current softassertion object
-  private final List<AssertionError> errors = Collections.synchronizedList(new ArrayList<>());
-  // scope : the last assertion call (might be nested)
-  private final LastResult lastResult = new LastResult();
+  private AssertionErrorCollector assertionErrorCollector;
 
-  private AfterAssertionErrorCollected afterAssertionErrorCollected;
-
-  void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
-    this.afterAssertionErrorCollected = afterAssertionErrorCollected;
+  ErrorCollector(AssertionErrorCollector collector) {
+    this.assertionErrorCollector = collector;
   }
 
   /**
@@ -63,10 +54,10 @@ public class ErrorCollector {
                                  @StubValue Object stub) throws Exception {
     try {
       Object result = proxy.call();
-      errorCollector.lastResult.setSuccess(true);
+      errorCollector.succeeded();
       return result;
     } catch (AssertionError assertionError) {
-      if (errorCollector.isNestedErrorCollectorProxyCall()) {
+      if (isNestedErrorCollectorProxyCall()) {
         // let the most outer call handle the assertion error
         throw assertionError;
       }
@@ -80,23 +71,15 @@ public class ErrorCollector {
     return assertion;
   }
 
-  void addError(AssertionError error) {
-    errors.add(error);
-    lastResult.setSuccess(false);
-    if (afterAssertionErrorCollected != null) {
-      afterAssertionErrorCollected.onAssertionErrorCollected(error);
-    }
+  private void addError(AssertionError error) {
+    assertionErrorCollector.collectAssertionError(error);
   }
 
-  public List<AssertionError> errors() {
-    return Collections.unmodifiableList(errors);
+  private void succeeded() {
+    assertionErrorCollector.succeeded();
   }
 
-  public boolean wasSuccess() {
-    return lastResult.wasSuccess();
-  }
-
-  private boolean isNestedErrorCollectorProxyCall() {
+  private static boolean isNestedErrorCollectorProxyCall() {
     return countErrorCollectorProxyCalls() > 1;
   }
 
@@ -105,44 +88,5 @@ public class ErrorCollector {
                  .filter(stackTraceElement -> CLASS_NAME.equals(stackTraceElement.getClassName())
                                               && stackTraceElement.getMethodName().startsWith(INTERCEPT_METHOD_NAME))
                  .count();
-  }
-
-  private static class LastResult {
-    // Marking these fields as volatile doesn't ensure complete thread safety
-    // (mutual exclusion, race-free behaviour), but guarantees eventual visibility
-    private volatile boolean wasSuccess = true;
-    private volatile boolean errorFound = false;
-
-    private boolean wasSuccess() {
-      return wasSuccess;
-    }
-
-    private void setSuccess(boolean success) {
-
-      // errorFound must be true if any nested call ends up in error
-      // Nested call Example : softly.assertThat(true).isFalse()
-      // call chain :
-      // -- softly.assertThat(true).isFalse()
-      // ----- proxied isFalse() -> calls isEqualTo(false) which is proxied
-      // ------- proxied isEqualTo(false) : catch AssertionError => last result success = false, back to outer call
-      // ---- proxied isFalse() : no AssertionError caught => last result success = true
-      errorFound |= !success;
-      wasSuccess = success;
-
-      if (resolvingOutermostErrorCollectorProxyNestedCall()) {
-        // need to reset errorFound for the next soft assertion
-        errorFound = false;
-      }
-    }
-
-    private boolean resolvingOutermostErrorCollectorProxyNestedCall() {
-      return countErrorCollectorProxyCalls() == 1;
-    }
-
-    @Override
-    public String toString() {
-      return String.format("LastResult [wasSuccess=%s, errorFound=%s]", wasSuccess, errorFound);
-    }
-
   }
 }

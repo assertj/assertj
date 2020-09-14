@@ -61,20 +61,6 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
   }
 
   /**
-   * Returns the result of last soft assertion which can be used to decide what the next one should be.
-   * <p>
-   * Example :
-   * <pre><code class='java'> Person person = ...
-   * SoftAssertions soft = new SoftAssertions();
-   * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
-   *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
-   * }</code></pre>
-   *
-   * @return true if the last assertion was a success.
-   */
-  boolean wasSuccess();
-
-  /**
    * Catch and collect assertion errors coming from standard and <b>custom</b> assertions.
    * <p>
    * Example :
@@ -88,6 +74,7 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
   default void check(ThrowingRunnable assertion) {
     try {
       assertion.run();
+      succeeded();
     } catch (AssertionError error) {
       collectAssertionError(error);
     } catch (RuntimeException runtimeException) {
