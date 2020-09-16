@@ -227,8 +227,7 @@ public class StandardRepresentation implements Representation {
     // Only format Iterables that are not collections and have not overridden toString
     // ex: JsonNode is an Iterable that is best formatted with its own String
     // Path is another example but we can deal with it specifically as it is part of the JDK.
-    if (object instanceof Iterable<?> && !hasOverriddenToString((Iterable<?>) object))
-      return smartFormat((Collection<?>) object);
+    if (object instanceof Iterable<?> && !hasOverriddenToString((Iterable<?>) object)) return smartFormat((Iterable<?>) object);
     return fallbackToStringOf(object);
   }
 
