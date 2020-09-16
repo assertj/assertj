@@ -524,11 +524,7 @@ public class StandardRepresentation implements Representation {
 
   protected String safeStringOf(Object element, String start, String end, String elementSeparator, String indentation,
                                 Object root) {
-    if (element == root) return isArray(root) ? "(this array)" : "(this iterable)";
-    // primitive array elements can't cycle back to already represented containers
-    if (isArrayTypePrimitive(element)) return formatPrimitiveArray(element);
-    // object array/iterable elements can cycle back to root, we pass the latter to check for it
-    if (isArray(element)) return format((Object[]) element, start, end, elementSeparator, indentation, root);
+    if (element == root) return isArray(root) ? "(this array)" : "(this instance)";
     // Since potentially self referencing containers have been handled, it is reasonably safe to use toStringOf.
     // What we don't track are cycles like A -> B -> A but that should be rare enough thus this solution is good enough
     // To fully avoid all cycles we would need to track all visited elements but the issue is that:
@@ -536,7 +532,7 @@ public class StandardRepresentation implements Representation {
     // List<Object> outerList = list(innerList, innerList);
     // outerList would be represented as [[1, 2, 3], (already visited)] instead of [[1, 2, 3], [1, 2, 3]]
     // Final word, the approach used here is the same as the toString implementation in AbstractCollection
-    return element == null ? NULL : toStringOf(element); // TODO add indentation?
+    return element == null ? NULL : toStringOf(element);
   }
 
   // private methods

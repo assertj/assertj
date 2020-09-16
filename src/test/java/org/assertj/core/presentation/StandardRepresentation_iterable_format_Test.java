@@ -190,7 +190,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // WHEN
     String formatted = STANDARD_REPRESENTATION.toStringOf(selfReferencingList);
     // THEN
-    then(formatted).isEqualTo(format("[(this iterable), (this iterable)]"));
+    then(formatted).isEqualTo(format("[(this instance), (this instance)]"));
   }
 
   @Test
@@ -201,7 +201,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // WHEN
     String formatted = STANDARD_REPRESENTATION.toStringOf(selfReferencingList);
     // THEN
-    then(formatted).isEqualTo("[\"Hello\", (this iterable)]");
+    then(formatted).isEqualTo("[\"Hello\", (this instance)]");
   }
 
   @Test
