@@ -13,6 +13,7 @@
 package org.assertj.core.presentation;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Strings.quote;
@@ -206,10 +207,21 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
                                                  "    \"1234567890\"]>"));
   }
 
+  @ParameterizedTest(name = "{0}")
+  @MethodSource
+  public void formatPrimitiveArray_should_throw_exception_if_not_given_a_primitive_array(Object object) {
+    assertThatIllegalArgumentException().isThrownBy(() -> STANDARD_REPRESENTATION.formatPrimitiveArray(object))
+                                        .withMessage("<%s> is not an array of primitives", object);
+  }
+
+  private static Stream<Arguments> formatPrimitiveArray_should_throw_exception_if_not_given_a_primitive_array() {
+    return Stream.of(Arguments.of(12, array("a", "b", "c"), "foo"));
+  }
+
   @ParameterizedTest(name = "with printing {0} max, {1} should be formatted as {2}")
   @MethodSource("should_format_array_source")
   void should_format_array_honoring_display_configuration(int maxElementsForPrinting, Object[] array,
-                                                                 String expectedDescription) {
+                                                          String expectedDescription) {
     // GIVEN
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
     StandardRepresentation.setMaxLengthForSingleLineDescription(15);

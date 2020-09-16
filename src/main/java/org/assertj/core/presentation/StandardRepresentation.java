@@ -492,7 +492,6 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String formatPrimitiveArray(Object o) {
-    if (!isArray(o)) return null;
     if (!isArrayTypePrimitive(o)) throw notAnArrayOfPrimitives(o);
     Object[] array = toObjectArray(o);
     return format(array, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, array);
