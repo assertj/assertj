@@ -75,6 +75,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.AbstractTryAssert.ThrowingReturningCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.filter.InFilter;
@@ -1253,6 +1254,38 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return AssertionsForClassTypes.assertThatCode(shouldRaiseOrNotThrowable);
+  }
+
+  /**
+   * Allows to test the code that ether can return a result or raise an exception.
+   *
+   * <p>
+   * Example :
+   * <pre><code class='java'>
+   * ThrowingReturningCallable&lt;Integer&gt; succeedCode = () -&gt; 42;
+   * ThrowingReturningCallable&lt;?&gt; boomCode = () -&gt; {
+   *   throw new Exception("boom!");
+   * };
+   *
+   * // assertions succeed
+   * assertThatReturningCode(succeedCode).doesNotThrowAnyExceptionAndReturns()
+   *                            .isEqualTo(42);
+   * assertThatReturningCode(boomCode).isInstanceOf(Exception.class)
+   *                         .hasMessageContaining("boom");
+   *
+   * // assertion fails
+   * assertThatReturningCode(succeedCode).isInstanceOf(Exception.class);
+   * assertThatReturningCode(boomCode)
+   * </code></pre>
+   *
+   * @param returningCallable The {@link ThrowingReturningCallable} or lambda that can ether to return result or raise
+   *                          the throwable.
+   * @param <VALUE> The type of retuned value
+   * @param <EX> The type of raised exception
+   * @return the created {@link TryAssert}
+   */
+  public static <VALUE, EX extends Throwable> AbstractTryAssert<?, VALUE, EX> assertThatReturningCode(ThrowingReturningCallable<VALUE> returningCallable) {
+    return TryAssert.assertThatCode(returningCallable);
   }
 
   /**
