@@ -27,6 +27,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresentationTest {
 
   @Test
@@ -208,6 +212,27 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     String formatted = STANDARD_REPRESENTATION.toStringOf(outerList);
     // THEN
     then(formatted).isEqualTo("[[1, 2, 3], [1, 2, 3]]");
+  }
+
+  // see https://github.com/joel-costigliola/assertj-core/issues/1990
+  @Test
+  public void should_use_overridden_toString_over_iterable_representation() {
+    // GIVEN
+    JsonNode a = JsonNodeFactory.instance.objectNode().put("a", 1);
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.toStringOf(a);
+    // THEN
+    then(formatted).isEqualTo("{\"a\":1}");
+  }
+
+  @Test
+  public void should_use_overridden_toString_over_iterable_representation_in_collection_elements() {
+    // GIVEN
+    List<ObjectNode> a = list(JsonNodeFactory.instance.objectNode().put("a", 1));
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.toStringOf(a);
+    // THEN
+    then(formatted).isEqualTo("[{\"a\":1}]");
   }
 
   private static String stringOfLength(int length) {

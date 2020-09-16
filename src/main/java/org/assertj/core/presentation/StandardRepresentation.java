@@ -38,6 +38,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -215,7 +216,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof PredicateDescription) return toStringOf((PredicateDescription) object);
     if (object instanceof Future) return toStringOf((Future<?>) object);
     if (isArray(object)) return formatArray(object);
-    if (object instanceof Iterable<?>) return smartFormat((Iterable<?>) object);
+    if (object instanceof Collection<?>) return smartFormat((Collection<?>) object);
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
     if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
@@ -223,7 +224,24 @@ public class StandardRepresentation implements Representation {
     if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
+    // Only format Iterables that are not collections and have not overridden toString
+    // ex: JsonNode is an Iterable that is best formatted with its own String
+    // Path is another example but we can deal with it specifically as it is part of the JDK.
+    if (object instanceof Iterable<?> && !hasOverriddenToString((Iterable<?>) object))
+      return smartFormat((Collection<?>) object);
     return fallbackToStringOf(object);
+  }
+
+  private static boolean hasOverriddenToString(Iterable<?> iterable) {
+    try {
+      Method method = iterable.getClass().getMethod("toString");
+      Class<?> declaringClass = method.getDeclaringClass();
+      return !Object.class.equals(declaringClass);
+    } catch (NoSuchMethodException | SecurityException e) {
+      // NoSuchMethodException should not occur as toString is always defined.
+      // if SecurityException occurs, returning false will lead to format iterable
+      return false;
+    }
   }
 
   @Override
@@ -512,8 +530,6 @@ public class StandardRepresentation implements Representation {
     if (isArrayTypePrimitive(element)) return formatPrimitiveArray(element);
     // object array/iterable elements can cycle back to root, we pass the latter to check for it
     if (isArray(element)) return format((Object[]) element, start, end, elementSeparator, indentation, root);
-    if (element instanceof Iterable && !(element instanceof Path))
-      return format((Iterable) element, start, end, elementSeparator, indentation, root);
     // Since potentially self referencing containers have been handled, it is reasonably safe to use toStringOf.
     // What we don't track are cycles like A -> B -> A but that should be rare enough thus this solution is good enough
     // To fully avoid all cycles we would need to track all visited elements but the issue is that:
@@ -521,7 +537,7 @@ public class StandardRepresentation implements Representation {
     // List<Object> outerList = list(innerList, innerList);
     // outerList would be represented as [[1, 2, 3], (already visited)] instead of [[1, 2, 3], [1, 2, 3]]
     // Final word, the approach used here is the same as the toString implementation in AbstractCollection
-    return element == null ? NULL : toStringOf(element);
+    return element == null ? NULL : toStringOf(element); // TODO add indentation?
   }
 
   // private methods

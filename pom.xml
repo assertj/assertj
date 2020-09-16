@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
   <version>3.17.3-SNAPSHOT</version>
@@ -75,10 +76,7 @@
       <scope>provided</scope>
       <optional>true</optional>
       <exclusions>
-        <!--
-        This has to be excluded because it's subjecting the code to the
-        incorrect version of certain hamcrest packages.
-        -->
+        <!-- This has to be excluded because it's subjecting the code to the incorrect version of certain hamcrest packages. -->
         <exclusion>
           <groupId>org.hamcrest</groupId>
           <artifactId>hamcrest-core</artifactId>
@@ -96,17 +94,10 @@
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- required to resolve
-    These dependencies are required to workaround a bad
-    interaction using includeDependencyManagement=true for
-    the Bnd resolver and testing plugins and the enforcer
-    plugin which causes a false positive from the enforcer
-    plugin. The Bnd 5.2.0 resolver and testing plugins
-    don't have this problem, so these dependencies
-    can be removed when updating bnd.version to 5.2.0 and
-    configuring the Bnd resolver and testing plugins to use
-    includeDependencyManagement=true.
-    -->
+    <!-- required to resolve These dependencies are required to workaround a bad interaction using includeDependencyManagement=true
+      for the Bnd resolver and testing plugins and the enforcer plugin which causes a false positive from the enforcer plugin.
+      The Bnd 5.2.0 resolver and testing plugins don't have this problem, so these dependencies can be removed when updating bnd.version
+      to 5.2.0 and configuring the Bnd resolver and testing plugins to use includeDependencyManagement=true. -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
@@ -168,6 +159,12 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.11.2</version>
       <scope>test</scope>
     </dependency>
     <!-- NEEDED! Unlike File, a Path is not linked to the JRE's filesystem. In order to accurately test assertions, we need
@@ -371,7 +368,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>3.0.0</version><!--$NO-MVN-MAN-VER$-->
+        <version>3.0.0</version><!--$NO-MVN-MAN-VER$ -->
         <executions>
           <!-- STEP 5: detach the primary artifact so we can re-execute maven-jar-plugin -->
           <execution>
@@ -594,9 +591,9 @@
     <pluginManagement>
       <plugins>
         <plugin>
-            <groupId>net.alchim31.maven</groupId>
-            <artifactId>yuicompressor-maven-plugin</artifactId>
-            <version>1.5.1</version>
+          <groupId>net.alchim31.maven</groupId>
+          <artifactId>yuicompressor-maven-plugin</artifactId>
+          <version>1.5.1</version>
         </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build
           itself. -->
