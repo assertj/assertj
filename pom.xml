@@ -198,7 +198,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.4.2</version>
+      <version>3.4.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -677,7 +677,7 @@
         <jdk>[16,)</jdk>
       </activation>
       <properties>
-        <argLine>-Dnl.jqno.equalsverifier.internal.lib.bytebuddy.experimental=true</argLine>
+        <argLine>-Dnet.bytebuddy.experimental=true</argLine>
         <jacoco.skip>true</jacoco.skip> <!-- TODO to be removed once jacoco-maven-plugin 0.8.6 is available -->
       </properties>
     </profile>
