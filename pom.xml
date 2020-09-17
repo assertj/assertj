@@ -41,7 +41,7 @@
     <junit-jupiter.version>5.6.2</junit-jupiter.version>
     <mockito.version>3.5.10</mockito.version>
     <!-- Plugin versions overriding -->
-    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -678,7 +678,6 @@
       </activation>
       <properties>
         <argLine>-Dnet.bytebuddy.experimental=true</argLine>
-        <jacoco.skip>true</jacoco.skip> <!-- TODO to be removed once jacoco-maven-plugin 0.8.6 is available -->
       </properties>
     </profile>
   </profiles>
