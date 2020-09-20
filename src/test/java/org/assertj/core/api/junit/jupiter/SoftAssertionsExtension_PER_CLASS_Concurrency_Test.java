@@ -15,6 +15,7 @@ package org.assertj.core.api.junit.jupiter;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class SoftAssertionsExtension_PER_CLASS_Concurrency_Test {
     SoftAssertions softly;
 
     static CountDownLatch[] flags = new CountDownLatch[6];
-    static Map<String, AssertionErrorCollector> map = new HashMap<>();
+    static Map<String, AssertionErrorCollector> map = Collections.synchronizedMap(new HashMap<>());
 
     @BeforeAll
     static void beforeAll() {
@@ -111,16 +112,23 @@ public class SoftAssertionsExtension_PER_CLASS_Concurrency_Test {
                  .failed();
 
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
-      List<AssertionError> collected = ConcurrencyTest.map.get("test1").assertionErrorsCollected();
-      softly.assertThat(collected).as("size").hasSize(3);
-      softly.assertThat(collected.get(0)).as("zero").hasMessageContainingAll("1", "0");
-      softly.assertThat(collected.get(1)).as("one").hasMessageContainingAll("3", "4");
-      softly.assertThat(collected.get(2)).as("two").hasMessageContainingAll("5", "6");
-
-      collected = ConcurrencyTest.map.get("test2").assertionErrorsCollected();
-      softly.assertThat(collected).as("size2").hasSize(2);
-      softly.assertThat(collected.get(0)).as("zero2").hasMessageContainingAll("2", "1");
-      softly.assertThat(collected.get(1)).as("one2").hasMessageContainingAll("4", "5");
+      AssertionErrorCollector collector = ConcurrencyTest.map.get("test1");
+      softly.assertThat(collector).as("test1").isNotNull();
+      if (softly.wasSuccess()) {
+        List<AssertionError> collected = collector.assertionErrorsCollected();
+        softly.assertThat(collected).as("size").hasSize(3);
+        softly.assertThat(collected.get(0)).as("zero").hasMessageContainingAll("1", "0");
+        softly.assertThat(collected.get(1)).as("one").hasMessageContainingAll("3", "4");
+        softly.assertThat(collected.get(2)).as("two").hasMessageContainingAll("5", "6");
+      }
+      collector = ConcurrencyTest.map.get("test2");
+      softly.assertThat(collector).as("test2").isNotNull();
+      if (softly.wasSuccess()) {
+        List<AssertionError> collected = collector.assertionErrorsCollected();
+        softly.assertThat(collected).as("size2").hasSize(2);
+        softly.assertThat(collected.get(0)).as("zero2").hasMessageContainingAll("2", "1");
+        softly.assertThat(collected.get(1)).as("one2").hasMessageContainingAll("4", "5");
+      }
     }
   }
 }
