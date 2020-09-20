@@ -35,6 +35,7 @@
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
     <byte-buddy.version>1.10.14</byte-buddy.version>
+    <opentest4j.version>1.2.0</opentest4j.version>
     <bnd.version>5.1.2</bnd.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13</junit.version>
@@ -64,7 +65,7 @@
       <dependency>
         <groupId>org.opentest4j</groupId>
         <artifactId>opentest4j</artifactId>
-        <version>1.2.0</version>
+        <version>${opentest4j.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -584,6 +585,29 @@
                 <scope>test</scope>
               </scopes>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <version>3.2.1</version>
+        <configuration>
+          <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+          <settingsFile>src/it/settings.xml</settingsFile>
+          <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+          <goals>
+            <goal>clean</goal>
+            <goal>test</goal>
+          </goals>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>install</goal>
+              <goal>run</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
