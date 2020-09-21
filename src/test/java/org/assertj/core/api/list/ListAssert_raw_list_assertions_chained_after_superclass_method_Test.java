@@ -80,7 +80,7 @@ class ListAssert_raw_list_assertions_chained_after_superclass_method_Test {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
   void test_bug_485() {
-    // https://github.com/joel-costigliola/assertj-core/issues/485
+    // https://github.com/assertj/assertj-core/issues/485
     List list = new java.util.ArrayList<>();
     list.add("Key1");
     list.add("Key2");

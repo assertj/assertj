@@ -74,7 +74,7 @@ class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
   void test_bug_485() {
-    // https://github.com/joel-costigliola/assertj-core/issues/485
+    // https://github.com/assertj/assertj-core/issues/485
     Map map1 = new java.util.HashMap<>();
     map1.put("Key1", "Value1");
     map1.put("Key2", "Value2");

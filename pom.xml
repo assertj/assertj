@@ -13,23 +13,15 @@
     <version>2.2.8</version>
     <relativePath />
   </parent>
-  <mailingLists>
-    <mailingList>
-      <name>AssertJ Group</name>
-      <post>http://groups.google.com/group/assertj</post>
-      <subscribe>http://groups.google.com/group/assertj</subscribe>
-      <unsubscribe>http://groups.google.com/group/assertj</unsubscribe>
-    </mailingList>
-  </mailingLists>
   <scm>
-    <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-core.git</developerConnection>
-    <connection>scm:git:git@github.com:joel-costigliola/assertj-core.git</connection>
-    <url>git@github.com:joel-costigliola/assertj-core</url>
+    <developerConnection>scm:git:git@github.com:assertj/assertj-core.git</developerConnection>
+    <connection>scm:git:git@github.com:assertj/assertj-core.git</connection>
+    <url>git@github.com:assertj/assertj-core</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/joel-costigliola/assertj-core/issues</url>
+    <url>https://github.com/assertj/assertj-core/issues</url>
   </issueManagement>
 
   <properties>
@@ -510,7 +502,7 @@
         <configuration>
           <!-- Explicitly set Javadoc locale to English -->
           <locale>en_US</locale>
-          <!-- needed to fix javadoc on java 11+ https://github.com/joel-costigliola/assertj-core/issues/1403 -->
+          <!-- needed to fix javadoc on java 11+ https://github.com/assertj/assertj-core/issues/1403 -->
           <source>8</source>
           <!-- (1) CSS file location -->
           <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>

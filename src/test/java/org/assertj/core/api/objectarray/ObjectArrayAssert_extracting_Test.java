@@ -270,7 +270,7 @@ class ObjectArrayAssert_extracting_Test {
                                                  tuple("Boromir", 37, MAN, "Boromir", 37, MAN));
   }
 
-  // https://github.com/joel-costigliola/assertj-core/issues/880
+  // https://github.com/assertj/assertj-core/issues/880
   @Test
   void should_be_able_to_extract_values_returned_from_default_methods_from_given_iterable_elements() {
     List<Person> people = asList(new Person());

@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
 /**
- * See https://github.com/joel-costigliola/assertj-core/issues/1718.
+ * See https://github.com/assertj/assertj-core/issues/1718.
  *
  * This test ensures assertThat(list_of_1m_elements).containsOnly(...) is an O(N) rather than O(N^2)
  * operation. Given that the list has 1 million elements, O(N^2) is O(1000 billion), which should

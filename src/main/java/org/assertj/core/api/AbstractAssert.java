@@ -65,7 +65,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL> implements Assert<SELF, ACTUAL> {
 
-  // https://github.com/joel-costigliola/assertj-core/issues/1128
+  // https://github.com/assertj/assertj-core/issues/1128
   public static boolean throwUnsupportedExceptionOnEquals = true;
 
   private static final String ORG_ASSERTJ = "org.assert";

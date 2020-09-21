@@ -78,7 +78,7 @@ class SetAssert_raw_set_assertions_chained_after_superclass_method_Test {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
   void test_bug_485() {
-    // https://github.com/joel-costigliola/assertj-core/issues/485
+    // https://github.com/assertj/assertj-core/issues/485
     Set set = new java.util.HashSet<>();
     set.add("Key1");
     set.add("Key2");

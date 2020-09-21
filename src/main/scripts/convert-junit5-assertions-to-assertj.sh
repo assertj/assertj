@@ -6,7 +6,7 @@ function usage() {
   echo "convert-junit5-assertions-to-assertj.sh - Converts most of JUnit 5 assertions to AssertJ assertions"
   echo
   echo "AUTHOR"
-  echo "this script is based on JUnit 4 script found at http://joel-costigliola.github.io/assertj/assertj-core-converting-junit-assertions-to-assertj.html
+  echo "this script is based on JUnit 4 script found at https://assertj.github.io/doc/#assertj-migration
   The changes in regexps are mostly due to the fact the order arguments changed
   in JUnit 5 (i.e. message moved to the last position). Kudos to whoever wrote the original script!"
   echo

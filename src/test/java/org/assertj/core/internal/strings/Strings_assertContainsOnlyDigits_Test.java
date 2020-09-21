@@ -44,7 +44,7 @@ class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
   }
 
   /**
-   * See <a href="https://github.com/joel-costigliola/assertj-core/pull/342">discussion on failing the assertion for empty CharSequence</a>
+   * See <a href="https://github.com/assertj/assertj-core/pull/342">discussion on failing the assertion for empty CharSequence</a>
    */
   @Test
   void should_fail_if_actual_is_empty() {

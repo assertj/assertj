@@ -14,12 +14,11 @@ package org.assertj.core.api.filter;
 
 public abstract class FilterOperator<T> {
 
-  private static final String COMBINING_OPERATOR_IS_NOT_SUPPORTED = "Combining operator is not supported, but you can use Filters as in http://joel-costigliola.github.io/assertj/assertj-core-features-highlight.html#filters";
+  private static final String COMBINING_OPERATOR_IS_NOT_SUPPORTED = "Combining operator is not supported, but you can use Filters, see filteredOn methods in https://www.javadoc.io/doc/org.assertj/assertj-core/latest/org/assertj/core/api/AbstractIterableAssert.html";
   protected final T filterParameter;
 
   protected FilterOperator(T filterValue) {
-    if (filterValue instanceof FilterOperator<?>)
-      throw new UnsupportedOperationException(COMBINING_OPERATOR_IS_NOT_SUPPORTED);
+    if (filterValue instanceof FilterOperator<?>) throw new UnsupportedOperationException(COMBINING_OPERATOR_IS_NOT_SUPPORTED);
     this.filterParameter = filterValue;
   }
 

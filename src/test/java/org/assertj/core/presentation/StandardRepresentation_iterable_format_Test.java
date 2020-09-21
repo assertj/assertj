@@ -214,7 +214,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     then(formatted).isEqualTo("[[1, 2, 3], [1, 2, 3]]");
   }
 
-  // see https://github.com/joel-costigliola/assertj-core/issues/1990
+  // see https://github.com/assertj/assertj-core/issues/1990
   @Test
   public void should_use_overridden_toString_over_iterable_representation() {
     // GIVEN
