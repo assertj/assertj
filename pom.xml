@@ -32,17 +32,66 @@
         <role>Developer</role>
       </roles>
     </developer>
+    <developer>
+      <id>stefano-cordio</id>
+      <name>Stefano Cordio</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>pascal-schumacher</id>
+      <name>Pascal Schumacher</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>erhard-pointl</id>
+      <name>Erhard Pointl</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>christian-rosch</id>
+      <name>Christian Rösch</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>julien-roy</id>
+      <name>Julien Roy</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>regis-pouiller</id>
+      <name>Régis Pouiller</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>florent-biville</id>
+      <name>Florent Biville</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
   </developers>
 
   <scm>
-    <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-maven-parent-pom.git</developerConnection>
-    <connection>scm:git:git@github.com:joel-costigliola/assertj-maven-parent-pom.git</connection>
-    <url>https://github.com/joel-costigliola/assertj-maven-parent-pom</url>
+    <developerConnection>scm:git:git@github.com:assertj/assertj-maven-parent-pom.git</developerConnection>
+    <connection>scm:git:git@github.com:assertj/assertj-maven-parent-pom.git</connection>
+    <url>https://github.com/assertj/assertj-maven-parent-pom</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/joel-costigliola/assertj-maven-parent-pom/issues</url>
+    <url>https://github.com/assertj/assertj-maven-parent-pom/issues</url>
   </issueManagement>
   <distributionManagement>
     <snapshotRepository>
