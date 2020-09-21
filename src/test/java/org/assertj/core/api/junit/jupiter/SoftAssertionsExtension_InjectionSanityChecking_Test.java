@@ -27,7 +27,7 @@ import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 class SoftAssertionsExtension_InjectionSanityChecking_Test {
 
   @ExtendWith(SoftAssertionsExtension.class)
-  static private class TestBase {
+  static abstract class TestBase {
     @Test
     void myTest() {}
   }
