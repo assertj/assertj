@@ -268,8 +268,8 @@ public class SoftAssertionsExtension
       tlec.setDelegate(collector);
     } else {
       // Make sure that all of the soft assertion provider instances have their delegate initialised to the assertion error
-      // collector for the current context. Also check parents (in the case of nested tests).
-      while (initialiseDelegate(context, collector)) {
+      // collector for the current context. Also check enclosing contexts (in the case of nested tests).
+      while (initialiseDelegate(context, collector) && context.getParent().isPresent()) {
         context = context.getParent().get();
       }
     }
@@ -324,8 +324,7 @@ public class SoftAssertionsExtension
     AssertionErrorCollector collector;
     if (isPerClassConcurrent(extensionContext)) {
       ThreadLocalErrorCollector tlec = getThreadLocalCollector(extensionContext);
-      collector = tlec.getDelegate().get();
-      // Clear the tlec just in case this thread gets re-used.
+      collector = tlec.getDelegate().orElseThrow(() -> new IllegalStateException("Expecting delegate to be present for current context"));
       tlec.reset();
     } else {
       collector = getAssertionErrorCollector(extensionContext);
