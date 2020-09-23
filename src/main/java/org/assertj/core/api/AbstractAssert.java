@@ -116,13 +116,35 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * Throw an assertion error based on information in this assertion. Equivalent to:
+   * <pre><code class='java'>throw failure(errorMessage, arguments);</code></pre>
+   * <p>
+   * This method is a thin wrapper around {@link #failure(String, Object...) failure()} - see that method for a more detailed
+   * description.
+   * <p>
+   * Note that generally speaking, using {@link #failure(String, Object...) failure()} directly is preferable to using this
+   * wrapper method, as the compiler and other code analysis tools will be able to tell that the statement will never return
+   * normally and respond appropriately.
+   *
+   * @param errorMessage the error message to format
+   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
+   * @see #failure(String, Object...)
+   */
+  protected void failWithMessage(String errorMessage, Object... arguments) {
+    throw failure(errorMessage, arguments);
+  }
+
+  /**
+   * Generate a custom assertion error using the information in this assertion.
+   * <p>
+   * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
    * in error message.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> public TolkienCharacterAssert hasName(String name) {
    *   // check that actual TolkienCharacter we want to make assertions on is not null.
    *   isNotNull();
@@ -138,9 +160,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param errorMessage the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
-   * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
+   * @see #failureWithActualExpected(Object, Object, String, Object...)
+   * @see #failWithMessage(String, Object...)
+   * @return The generated assertion error.
    */
-  protected void failWithMessage(String errorMessage, Object... arguments) {
+  protected AssertionError failure(String errorMessage, Object... arguments) {
     AssertionError assertionError = Failures.instance().failureIfErrorMessageIsOverridden(info);
     if (assertionError == null) {
       // error message was not overridden, build it.
@@ -149,11 +173,35 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     }
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
-    throw assertionError;
+    return assertionError;
   }
 
   /**
-   * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * Throw an assertion error based on information in this assertion. Equivalent to:
+   * <pre><code class='java'>throw failureWithActualExpected(actual, expected, errorMessageFormat, arguments);</code></pre>
+   * <p>
+   * This method is a thin wrapper around {@link #failureWithActualExpected(Object, Object, String, Object...) failureWithActualExpected()} -
+   * see that method for a more detailed description. Note that generally speaking, using
+   * {@link #failureWithActualExpected(Object, Object, String, Object...) failureWithActualExpected()} directly is
+   * preferable to using this wrapper method, as the compiler and other code analysis tools will be able to tell that the
+   * statement will never return normally and respond appropriately.
+   *
+   * @param actual the actual object that was found during the test
+   * @param expected the object that was expected
+   * @param errorMessageFormat the error message to format
+   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @see #failWithMessage(String, Object...)
+   * @see #failureWithActualExpected(Object, Object, String, Object...)
+   */
+  protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessageFormat,
+                                                  Object... arguments) {
+    throw failureWithActualExpected(actual, expected, errorMessageFormat, arguments);
+  }
+
+  /**
+   * Generate a custom assertion error using the information in this assertion, using the given actual and expected values.
+   * <p>
+   * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
    * in error message with actual and expected values.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
@@ -169,7 +217,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    *   // check condition
    *   if (!actual.getName().equals(name)) {
-   *     failWithActualExpectedAndMessage(actual.getName(), name, &quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
+   *     throw failureWithActualExpected(actual.getName(), name, &quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
    *   }
    *
    *   // return the current assertion for method chaining
@@ -180,17 +228,19 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param expected the object that was expected
    * @param errorMessageFormat the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
-   * @see #failWithMessage(String, Object...)
+   * @return The generated assertion error.
+   * @see #failure(String, Object...)
+   * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
    */
-  protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessageFormat,
-                                                  Object... arguments) {
+  protected AssertionError failureWithActualExpected(Object actual, Object expected, String errorMessageFormat,
+                                                     Object... arguments) {
     String errorMessage = Optional.ofNullable(info.overridingErrorMessage())
                                   .orElse(format(errorMessageFormat, arguments));
     String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
     AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected);
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
-    throw assertionError;
+    return assertionError;
   }
 
   /**
