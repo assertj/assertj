@@ -1,6 +1,6 @@
 # AssertJ - Fluent assertions for java
 
-[![Github CI status](https://github.com/assertj/assertj-core/workflows/CI/badge.svg)](https://github.assertj-costigliola/assertj-core/actions?query=workflow%3ACI) 
+[![Github CI status](https://github.com/assertj/assertj-core/workflows/CI/badge.svg)](https://github.com/assertj/assertj-core/actions?query=workflow%3ACI) 
 [![Github Cross-Version status](https://github.com/assertj/assertj-core/workflows/Cross-Version/badge.svg)](https://github.com/assertj/assertj-core/actions?query=workflow%3ACross-Version) 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
 [![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
