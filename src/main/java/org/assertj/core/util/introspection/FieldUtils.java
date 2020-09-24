@@ -27,7 +27,7 @@ import java.lang.reflect.Modifier;
  * The ability is provided to break the scoping restrictions coded by the programmer. This can allow fields to be
  * changed that shouldn't be. This facility should be used with care.
  */
-public class FieldUtils {
+class FieldUtils {
 
   /**
    * Gets an accessible <code>Field</code> by name breaking scope if requested. Superclasses/interfaces will be
