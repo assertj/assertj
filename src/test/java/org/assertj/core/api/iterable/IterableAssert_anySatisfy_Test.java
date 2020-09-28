@@ -27,7 +27,7 @@ class IterableAssert_anySatisfy_Test extends IterableAssertBaseTest {
 
   @BeforeEach
   void beforeOnce() {
-    restrictions = o -> assertThat(o).isNotNull();;
+    restrictions = o -> assertThat(o).isNotNull();
   }
 
   @Override
