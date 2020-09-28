@@ -18,7 +18,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Double}</code>s.
- * 
+ *
  * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -29,7 +29,7 @@ public class Doubles extends RealNumbers<Double> {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
-   * 
+   *
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Doubles instance() {
@@ -65,4 +65,13 @@ public class Doubles extends RealNumbers<Double> {
     return abs(other.doubleValue() - actual.doubleValue());
   }
 
+  @Override
+  protected boolean isFinite(Double value) {
+    return Double.isFinite(value);
+  }
+
+  @Override
+  protected boolean isInfinite(Double value) {
+    return Double.isInfinite(value);
+  }
 }

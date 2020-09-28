@@ -40,6 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author Jin Kwon
  */
 public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
     implements FloatingPointNumberAssert<SELF, Float> {
@@ -870,5 +871,50 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   private boolean noCustomComparatorSet() {
     return floats.getComparator() == null;
+  }
+
+  /**
+   * Verifies that the float value is a finite floating-point value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(+1.0f).isFinite();
+   *
+   * // assertions fail
+   * assertThat(Float.NaN).isFinite();
+   * assertThat(Float.NEGATIVE_INFINITY).isFinite();
+   * assertThat(Float.POSITIVE_INFINITY).isFinite();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is not a finite floating-point value.
+   * @throws AssertionError if the actual value is null.
+   * @see #isInfinite()
+   */
+  @Override
+  public SELF isFinite() {
+    floats.assertIsFinite(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the float value represents positive infinity or negative infinity.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(Float.NEGATIVE_INFINITY).isInfinite();
+   * assertThat(Float.POSITIVE_INFINITY).isInfinite();
+   *
+   * // assertions fail
+   * assertThat(+1.0f).isInfinite();
+   * assertThat(Float.NaN).isInfinite();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value doesn't represent the positive infinity nor negative infinity.
+   * @throws AssertionError if the actual value is null.
+   */
+  @Override
+  public SELF isInfinite() {
+    floats.assertIsInfinite(info, actual);
+    return myself;
   }
 }
