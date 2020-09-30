@@ -12,16 +12,19 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
 import static org.assertj.core.error.ShouldHaveDuration.shouldHaveDays;
 import static org.assertj.core.error.ShouldHaveDuration.shouldHaveHours;
 import static org.assertj.core.error.ShouldHaveDuration.shouldHaveMillis;
 import static org.assertj.core.error.ShouldHaveDuration.shouldHaveMinutes;
 import static org.assertj.core.error.ShouldHaveDuration.shouldHaveNanos;
 import static org.assertj.core.error.ShouldHaveDuration.shouldHaveSeconds;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.Duration;
 
 import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Objects;
 
 /**
  * Assertions for {@link Duration} type.
@@ -248,4 +251,53 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
     }
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@link Duration} is close to the given one within the given allowed difference (assertion succeeds if difference = allowed difference).
+   * <p>
+   * This is equivalent of: {@code abs(actual - expected) <= allowed difference}.
+   * <p>
+   * For readability you can use {@link Assertions#within(java.math.BigDecimal)} to express the allowed difference.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Duration twoMinutes = Duration.ofMinutes(2);
+   * // assertions succeed:
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(3), Duration.ofMinutes(5));
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(-3), Duration.ofMinutes(10));
+   *
+   * // assertion succeeds when difference is exactly equals to the allowed difference
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(3), Duration.ofMinutes(1));
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(-3), Duration.ofMinutes(5));
+   *
+   * // assertions using within syntactic sugar
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(3), within(Duration.ofMinutes(5)));
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(3), within(Duration.ofMinutes(1)));
+   *
+   * // assertions fail
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(5), within(Duration.ofMinutes(1)));
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(-3), within(Duration.ofMinutes(4)));</code></pre>
+   *
+   * @param expected the given {@link Duration} to compare to actual.
+   * @param allowedDifference a positive {@link Duration} to express the maximum allowed difference.
+   * @return {@code this} assertion object.
+   * @throws IllegalArgumentException if the expected Duration is {@code null}.
+   * @throws IllegalArgumentException if the allowed difference Duration is {@code null} or negative.
+   * @throws AssertionError if the actual value is not close enough to the given one.
+   * @since 3.18.0
+   */
+  public SELF isCloseTo(Duration expected, Duration allowedDifference) {
+    Objects.instance().assertNotNull(info, actual);
+    checkArgument(expected != null, "expected duration should not be null");
+    checkArgument(allowedDifference != null, "allowed difference duration should not be null");
+    checkArgument(!allowedDifference.isNegative(), "allowed difference duration should be >= 0");
+    if (absDiff(actual, expected).compareTo(allowedDifference) > 0) {
+      throw Failures.instance().failure(info, shouldBeCloseTo(actual, expected, allowedDifference, absDiff(actual, expected)));
+    }
+    return myself;
+  }
+
+  private static Duration absDiff(Duration actual, Duration expected) {
+    return actual.minus(expected).abs();
+  }
+
 }

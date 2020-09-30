@@ -17,6 +17,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
+import java.time.Duration;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -41,4 +43,20 @@ class ShouldBeCloseTo_create_Test {
     then(message).isEqualTo(format("[Test] %nExpecting:%n <2011-01-01T00:00:00.000>%nto be close to:%n <2011-01-01T00:00:00.101>%nby less than 100ms but difference was 101ms"));
   }
 
+  @Test
+  void should_create_error_message_with_TemporalAmount() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeCloseTo(Duration.ofHours(1), Duration.ofHours(2), Duration.ofMinutes(10),
+                                                  Duration.ofHours(1));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <PT1H>%n" +
+                                   "to be close to:%n" +
+                                   "  <PT2H>%n" +
+                                   "within PT10M but difference was PT1H"));
+  }
+  
 }

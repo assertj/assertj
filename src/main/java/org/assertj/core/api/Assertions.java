@@ -1942,6 +1942,19 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Syntactic sugar method to use with {@link AbstractDurationAssert#isCloseTo(Duration, Duration)} assertion.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(Duration.ofMinutes(2)).isCloseTo(Duration.ofMinutes(3), within(Duration.ofMinutes(1)));</code></pre>
+   *
+   * @param allowedDifference the allowed difference {@link Duration}.
+   * @return the given value.
+   */
+  public static Duration within(Duration allowedDifference) {
+    return allowedDifference;
+  }
+
+  /**
    * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
    * percentages.
    * <p>
