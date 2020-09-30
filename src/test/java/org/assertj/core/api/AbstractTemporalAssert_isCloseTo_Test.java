@@ -111,21 +111,21 @@ public class AbstractTemporalAssert_isCloseTo_Test {
   };
 
   private static String[] differenceMessages = {
-    format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 50 Hours but difference was 96 Hours",
-      _2017_Mar_12_07_10_Instant, _2017_Mar_08_07_10_Instant),
-      format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 50 Hours but difference was 96 Hours",
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 50 Hours but difference was 96 Hours",
+             _2017_Mar_12_07_10_Instant, _2017_Mar_08_07_10_Instant),
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 50 Hours but difference was 96 Hours",
              _2017_Mar_12_07_10, _2017_Mar_08_07_10),
-      format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 3 Days but difference was 15 Days",
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 3 Days but difference was 15 Days",
              _2017_Mar_12, _2017_Mar_27),
-      format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 5 Minutes but difference was 13 Minutes", _07_10,
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 5 Minutes but difference was 13 Minutes", _07_10,
              _07_23),
-      format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 10 Minutes but difference was 13 Minutes",
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 10 Minutes but difference was 13 Minutes",
              OffsetDateTime.of(_2017_Mar_12_07_10, UTC),
              OffsetDateTime.of(_2017_Mar_12_07_23, UTC)),
-      format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nby less than 95 Hours but difference was 95 Hours",
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nby less than 95 Hours but difference was 95 Hours",
              ZonedDateTime.of(_2017_Mar_12_07_10, ZoneId.of("America/New_York")),
              ZonedDateTime.of(_2017_Mar_08_07_10, ZoneId.of("America/New_York"))),
-      format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nwithin 2 Minutes but difference was 13 Minutes",
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 2 Minutes but difference was 13 Minutes",
              OffsetTime.of(_07_10, UTC), OffsetTime.of(_07_23, UTC)),
   };
 
@@ -210,7 +210,8 @@ public class AbstractTemporalAssert_isCloseTo_Test {
   @ParameterizedTest
   @MethodSource("parameters")
   public void should_fail_if_actual_is_null(ArgumentsAccessor args) {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> nullAssert(args).isCloseTo(closeTemporal(args), offset(args)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> nullAssert(args).isCloseTo(closeTemporal(args),
+                                                                                                offset(args)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -242,7 +243,8 @@ public class AbstractTemporalAssert_isCloseTo_Test {
     if (inapplicableOffset != null) {
       assertThatExceptionOfType(UnsupportedTemporalTypeException.class).isThrownBy(() -> temporalAssert(args).isCloseTo(closeTemporal(args),
                                                                                                                         inapplicableOffset))
-                                                                       .withMessage("Unsupported unit: " + inapplicableOffset.getUnit());
+                                                                       .withMessage("Unsupported unit: "
+                                                                                    + inapplicableOffset.getUnit());
     }
   }
 

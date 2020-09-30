@@ -15,13 +15,14 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.time.Duration;
+import java.time.LocalTime;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,9 +39,14 @@ class ShouldBeCloseTo_create_Test {
                                                   parseDatetimeWithMs("2011-01-01T00:00:00.101"),
                                                   100, 101);
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <2011-01-01T00:00:00.000>%nto be close to:%n <2011-01-01T00:00:00.101>%nby less than 100ms but difference was 101ms"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <2011-01-01T00:00:00.000>%n" +
+                                   "to be close to:%n" +
+                                   "  <2011-01-01T00:00:00.101>%n" +
+                                   "by less than 100ms but difference was 101ms"));
   }
 
   @Test
@@ -58,5 +64,20 @@ class ShouldBeCloseTo_create_Test {
                                    "  <PT2H>%n" +
                                    "within PT10M but difference was PT1H"));
   }
-  
+
+  @Test
+  void should_create_error_message_with_Temporal() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeCloseTo(LocalTime.of(13, 22, 37), LocalTime.of(13, 22, 32), "but difference was 5s");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  <13:22:37>%n" +
+                                   "to be close to:%n" +
+                                   "  <13:22:32>%n" +
+                                   "but difference was 5s"));
+  }
+
 }
