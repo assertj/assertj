@@ -23,8 +23,10 @@ import org.assertj.core.data.Offset;
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Mikhail Mazursky
+ * @author Jin Kwon
  */
-public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAssert<SELF, ACTUAL>, ACTUAL extends Number> extends NumberAssert<SELF, ACTUAL> {
+public interface FloatingPointNumberAssert<SELF extends FloatingPointNumberAssert<SELF, ACTUAL>, ACTUAL extends Number>
+    extends NumberAssert<SELF, ACTUAL> {
 
   /**
    * Verifies that the actual number is close to the given one within the given offset value.
@@ -150,4 +152,148 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
   SELF isNotNaN();
+
+  /**
+   * Verifies that the actual value is a finite floating-point value.
+   * <p>
+   * Example:
+   * <blockquote><pre>{@code
+   * // assertions will pass
+   * assertThat(+1.0f).isFinite();
+   * assertThat(-1.0d).isFinite();
+   *
+   * // assertions will fail
+   * assertThat(Float.NaN).isFinite();
+   * assertThat(Float.NEGATIVE_INFINITY).isFinite();
+   * assertThat(Float.POSITIVE_INFINITY).isFinite();
+   * assertThat(Double.NaN).isFinite();
+   * assertThat(Double.NEGATIVE_INFINITY).isFinite();
+   * assertThat(Double.POSITIVE_INFINITY).isFinite();
+   * }</pre></blockquote>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is not a finite floating-point value.
+   * @see #isInfinite()
+   */
+  SELF isFinite();
+
+  /**
+   * Verifies that the actual value represents positive infinity or negative infinity.
+   * <p>
+   * Example:
+   * <blockquote><pre>{@code
+   * // assertions will pass
+   * assertThat(Float.NEGATIVE_INFINITY).isInfinite();
+   * assertThat(Float.POSITIVE_INFINITY).isInfinite();
+   * assertThat(Double.NEGATIVE_INFINITY).isInfinite();
+   * assertThat(Double.POSITIVE_INFINITY).isInfinite();
+   *
+   * // assertions will fail
+   * assertThat(+1.0f).isInfinite();
+   * assertThat(Float.NaN).isInfinite();
+   * assertThat(-1.0d).isInfinite();
+   * assertThat(Double.NaN).isInfinite();
+   * }</pre></blockquote>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value doesn't represent the positive infinity nor negative infinity.
+   * @see #isFinite()
+   */
+  SELF isInfinite();
+
+  /**
+   * Verifies that the actual value is equal to {@code NEGATIVE_INFINITY}.
+   * <p>
+   * Example:
+   * <blockquote><pre>{@code
+   * // assertions will pass
+   * assertThat(Float.NEGATIVE_INFINITY).isNegativeInfinity();
+   * assertThat(Double.NEGATIVE_INFINITY).isNegativeInfinity();
+   *
+   * // assertions will fail
+   * assertThat(+1.0f).isNegativeInfinity();
+   * assertThat(Float.NaN).isNegativeInfinity();
+   * assertThat(Float.POSITIVE_INFINITY).isNegativeInfinity();
+   * assertThat(-1.0d).isNegativeInfinity();
+   * assertThat(Double.NaN).isNegativeInfinity();
+   * assertThat(Double.POSITIVE_INFINITY).isNegativeInfinity();
+   * }</pre></blockquote>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is not equal to {@code NEGATIVE_INFINITY}.
+   * @see #isNotNegativeInfinity()
+   */
+  SELF isNegativeInfinity();
+
+  /**
+   * Verifies that the actual value is not equal to {@code NEGATIVE_INFINITY}.
+   * <p>
+   * Example:
+   * <blockquote><pre>{@code
+   * // assertions will pass
+   * assertThat(+1.0f).isNotNegativeInfinity();
+   * assertThat(Float.NaN).isNotNegativeInfinity();
+   * assertThat(Float.POSITIVE_INFINITY).isNotNegativeInfinity();
+   * assertThat(-1.0d).isNotNegativeInfinity();
+   * assertThat(Double.NaN).isNegativeInfinity();
+   * assertThat(Double.POSITIVE_INFINITY).isNotNegativeInfinity();
+   *
+   * // assertions will fail
+   * assertThat(Float.NEGATIVE_INFINITY).isNotNegativeInfinity();
+   * assertThat(Double.NEGATIVE_INFINITY).isNotNegativeInfinity();
+   * }</pre></blockquote>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is equal to {@code NEGATIVE_INFINITY}.
+   * @see #isNegativeInfinity()
+   */
+  SELF isNotNegativeInfinity();
+
+  /**
+   * Verifies that the actual value is equal to {@code POSITIVE_INFINITY}.
+   * <p>
+   * Example:
+   * <blockquote><pre>{@code
+   * // assertions will pass
+   * assertThat(Float.POSITIVE_INFINITY).isPositiveInfinity();
+   * assertThat(Double.POSITIVE_INFINITY).isPositiveInfinity();
+   *
+   * // assertions will fail
+   * assertThat(+1.0f).isPositiveInfinity();
+   * assertThat(Float.NaN).isPositiveInfinity();
+   * assertThat(Float.NEGATIVE_INFINITY).isPositiveInfinity();
+   * assertThat(-1.0d).isPositiveInfinity();
+   * assertThat(Double.NaN).isPositiveInfinity();
+   * assertThat(Double.NEGATIVE_INFINITY).isPositiveInfinity();
+   * }</pre></blockquote>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is not equal to {@code POSITIVE_INFINITY}.
+   * @see #isNotPositiveInfinity()
+   */
+  SELF isPositiveInfinity();
+
+  /**
+   * Verifies that the actual value is not equal to {@code POSITIVE_INFINITY}.
+   * <p>
+   * Example:
+   * <blockquote><pre>{@code
+   * // assertions will pass
+   * assertThat(+1.0f).isNotPositiveInfinity();
+   * assertThat(Float.NaN).isNotPositiveInfinity();
+   * assertThat(Float.NEGATIVE_INFINITY).isNotPositiveInfinity();
+   * assertThat(-1.0d).isNotPositiveInfinity();
+   * assertThat(Double.NaN).isNotPositiveInfinity();
+   * assertThat(Double.NEGATIVE_INFINITY).isNotPositiveInfinity();
+   *
+   * // assertions will fail
+   * assertThat(Float.POSITIVE_INFINITY).isNotPositiveInfinity();
+   * assertThat(Double.POSITIVE_INFINITY).isNotPositiveInfinity();
+   * }</pre></blockquote>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is equal to {@code POSITIVE_INFINITY}.
+   * @see #isPositiveInfinity()
+   */
+  SELF isNotPositiveInfinity();
 }

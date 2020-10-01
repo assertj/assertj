@@ -40,6 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author Jin Kwon
  */
 public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
     implements FloatingPointNumberAssert<SELF, Float> {
@@ -870,5 +871,47 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   private boolean noCustomComparatorSet() {
     return floats.getComparator() == null;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isFinite() {
+    floats.assertIsFinite(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isInfinite() {
+    floats.assertIsInfinite(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isNegativeInfinity() {
+    floats.assertIsNegativeInfinity(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isNotNegativeInfinity() {
+    floats.assertIsNotNegativeInfinity(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isPositiveInfinity() {
+    floats.assertIsPositiveInfinity(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isNotPositiveInfinity() {
+    floats.assertIsNotPositiveInfinity(info, actual);
+    return myself;
   }
 }
