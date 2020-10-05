@@ -74,6 +74,7 @@ class SoftProxies {
                                                                                             .or(named("overridingErrorMessage"))
                                                                                             .or(named("removeCustomAssertRelatedElementsFromStackTraceIfNeeded"))
                                                                                             .or(named("succeedsWithin"))
+                                                                                            .or(named("failsWithin"))
                                                                                             .or(named("usingComparator"))
                                                                                             .or(named("usingDefaultComparator"))
                                                                                             .or(named("usingElementComparator"))

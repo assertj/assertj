@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompletedWithin.shouldBeCompletedWithin;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
+import static org.assertj.core.error.future.ShouldHaveFailedWithin.shouldHaveFailedWithin;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
 
@@ -108,6 +109,26 @@ public class Futures {
       return actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
     } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
       throw failures.failure(info, shouldBeCompletedWithin(actual, timeout, e));
+    }
+  }
+
+  public Exception assertFailedWithin(AssertionInfo info, Future<?> actual, Duration timeout) {
+    assertNotNull(info, actual);
+    try {
+      actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
+      throw failures.failure(info, shouldHaveFailedWithin(actual, timeout));
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      return e;
+    }
+  }
+
+  public Exception assertFailedWithin(AssertionInfo info, Future<?> actual, long timeout, TimeUnit unit) {
+    assertNotNull(info, actual);
+    try {
+      actual.get(timeout, unit);
+      throw failures.failure(info, shouldHaveFailedWithin(actual, timeout, unit));
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      return e;
     }
   }
 

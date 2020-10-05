@@ -17,6 +17,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -152,6 +153,28 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
+  }
+
+  @Test
+  void should_not_collect_AssertionError_from_Future_failsWithin() {
+    // GIVEN
+    Future<String> future = completedFuture("done");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(10, MILLISECONDS));
+    // THEN
+    then(softly.errorsCollected()).isEmpty();
+    then(assertionError).hasMessageContaining("to have failed within 10L MILLISECONDS.");
+  }
+
+  @Test
+  void should_not_collect_AssertionError_from_Future_failsWithin_Duration() {
+    // GIVEN
+    Future<String> future = completedFuture("done");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(TEN_MILLIS));
+    // THEN
+    then(softly.errorsCollected()).isEmpty();
+    then(assertionError).hasMessageContaining("to have failed within 0.01S.");
   }
 
   @Test

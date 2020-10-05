@@ -155,6 +155,28 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
   }
 
   @Test
+  void should_not_collect_AssertionError_from_Future_failsWithin() {
+    // GIVEN
+    Future<String> future = completedFuture("done");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> softly.then(future).failsWithin(10, MILLISECONDS));
+    // THEN
+    then(softly.errorsCollected()).isEmpty();
+    then(assertionError).hasMessageContaining("to have failed within 10L MILLISECONDS.");
+  }
+
+  @Test
+  void should_not_collect_AssertionError_from_Future_failsWithin_Duration() {
+    // GIVEN
+    Future<String> future = completedFuture("done");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
+    // THEN
+    then(softly.errorsCollected()).isEmpty();
+    then(assertionError).hasMessageContaining("to have failed within 0.01S.");
+  }
+
+  @Test
   void should_only_collect_error_from_chained_assertions_performed_after_CompletableFuture_succeedsWithin() {
     // GIVEN
     CompletableFuture<String> completableFuture = completedFuture("done");
