@@ -53,8 +53,10 @@ class ElementsShouldZipSatisfy_create_Test {
                                    "and:%n" +
                                    "  <[\"LUKE\", \"YODA\"]>%n" +
                                    "to satisfy given requirements but these zipped elements did not:" +
-                                   "%n%n- (\"Luke\", \"LUKE\") error: error luke" +
-                                   "%n%n- (\"Yo-da\", \"YODA\") error: error yoda"));
+                                   "%n%n- (\"Luke\", \"LUKE\")%n" +
+                                   "error: error luke" +
+                                   "%n%n- (\"Yo-da\", \"YODA\")%n" +
+                                   "error: error yoda"));
   }
 
   @Test
@@ -75,7 +77,9 @@ class ElementsShouldZipSatisfy_create_Test {
                                    "and:%n" +
                                    "  <[\"LU%%dKE\", \"YODA\"]>%n" +
                                    "to satisfy given requirements but these zipped elements did not:" +
-                                   "%n%n- (\"Luke\", \"LU%%dKE\") error: error luke" +
-                                   "%n%n- (\"Yo-da\", \"YODA\") error: error yoda"));
+                                   "%n%n- (\"Luke\", \"LU%%dKE\")%n" +
+                                   "error: error luke" +
+                                   "%n%n- (\"Yo-da\", \"YODA\")%n" +
+                                   "error: error yoda"));
   }
 }

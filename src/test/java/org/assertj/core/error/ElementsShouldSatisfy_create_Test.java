@@ -50,8 +50,10 @@ class ElementsShouldSatisfy_create_Test {
                                    "Expecting all elements of:%n" +
                                    "  <[\"Leia\", \"Luke\", \"Yoda\"]>%n" +
                                    "to satisfy given requirements, but these elements did not:%n%n" +
-                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                   "  <\"Luke\"> error: Luke mistake."));
+                                   "  <\"Leia\">%n" +
+                                   "error: Leia mistake.%n%n" +
+                                   "  <\"Luke\">%n" +
+                                   "error: Luke mistake."));
   }
 
   @Test
@@ -67,8 +69,10 @@ class ElementsShouldSatisfy_create_Test {
                                    "Expecting all elements of:%n" +
                                    "  <[\"Leia%%s\", \"Luke\", \"Yoda\"]>%n" +
                                    "to satisfy given requirements, but these elements did not:%n%n" +
-                                   "  <\"Leia%%s\"> error: Leia mistake.%n%n" +
-                                   "  <\"Luke\"> error: Luke mistake."));
+                                   "  <\"Leia%%s\">%n" +
+                                   "error: Leia mistake.%n%n" +
+                                   "  <\"Luke\">%n" +
+                                   "error: Luke mistake."));
   }
 
   @Test
@@ -84,8 +88,10 @@ class ElementsShouldSatisfy_create_Test {
                                    "Expecting any element of:%n" +
                                    "  <[\"Luke\", \"Yoda\"]>%n" +
                                    "to satisfy the given assertions requirements but none did:%n%n" +
-                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                   "  <\"Luke\"> error: Luke mistake."));
+                                   "  <\"Leia\">%n" +
+                                   "error: Leia mistake.%n%n" +
+                                   "  <\"Luke\">%n" +
+                                   "error: Luke mistake."));
   }
 
   @Test
@@ -101,7 +107,9 @@ class ElementsShouldSatisfy_create_Test {
                                    "Expecting any element of:%n" +
                                    "  <[\"Lu%%dke\", \"Yoda\"]>%n" +
                                    "to satisfy the given assertions requirements but none did:%n%n" +
-                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                   "  <\"Luke\"> error: Luke mistake."));
+                                   "  <\"Leia\">%n" +
+                                   "error: Leia mistake.%n%n" +
+                                   "  <\"Luke\">%n" +
+                                   "error: Luke mistake."));
   }
 }
