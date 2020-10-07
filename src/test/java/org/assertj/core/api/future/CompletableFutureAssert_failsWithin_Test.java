@@ -72,9 +72,9 @@ class CompletableFutureAssert_failsWithin_Test {
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(Duration.ofMillis(10));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(50, MILLISECONDS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(100, MILLISECONDS));
     // THEN
-    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 50L MILLISECONDS.");
+    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 100L MILLISECONDS.");
   }
 
   @Test
