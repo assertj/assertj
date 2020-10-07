@@ -13,6 +13,7 @@
 package org.assertj.core.api.future;
 
 import static java.lang.String.format;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.Warning.WARNING;
@@ -31,7 +32,7 @@ class CompletableFutureAssert_isCompleted_Test {
   @Test
   void should_pass_if_completable_future_is_completed() {
     // GIVEN
-    CompletableFuture<String> future = CompletableFuture.completedFuture("done");
+    CompletableFuture<String> future = completedFuture("done");
     // THEN
     assertThat(future).isCompleted();
   }

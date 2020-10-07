@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.future;
 
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldHaveFailed.shouldHaveFailed;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
@@ -23,6 +24,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 @DisplayName("CompletableFutureAssert hasFailed")
 class CompletableFutureAssert_hasFailed_Test {
 
@@ -59,7 +61,7 @@ class CompletableFutureAssert_hasFailed_Test {
   @Test
   void should_fail_if_completable_future_is_completed() {
     // GIVEN
-    CompletableFuture<String> future = CompletableFuture.completedFuture("done");
+    CompletableFuture<String> future = completedFuture("done");
     // WHEN
     ThrowingCallable code = () -> assertThat(future).hasFailed();
     // THEN

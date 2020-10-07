@@ -24,6 +24,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 @DisplayName("CompletableFutureAssert hasNotFailed")
 class CompletableFutureAssert_hasNotFailed_Test {
 

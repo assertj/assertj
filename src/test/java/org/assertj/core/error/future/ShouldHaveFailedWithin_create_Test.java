@@ -13,12 +13,14 @@
 package org.assertj.core.error.future;
 
 import static java.lang.String.format;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldHaveFailedWithin.shouldHaveFailedWithin;
 import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.internal.TestDescription;
@@ -28,20 +30,24 @@ class ShouldHaveFailedWithin_create_Test {
 
   @Test
   void should_create_error_message_with_duration() {
+    // GIVEN
+    CompletableFuture<Object> actual = completedFuture("ok");
     // WHEN
-    String error = shouldHaveFailedWithin(new CompletableFuture<>(), Duration.ofHours(1)).create(new TestDescription("TEST"));
+    String error = shouldHaveFailedWithin(actual, Duration.ofHours(1)).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting%n" +
-                                 "  <CompletableFuture[Incomplete]>%n" +
+                                 "  <CompletableFuture[Completed: \"ok\"]>%n" +
                                  "to have failed within 1H.%n%s",
                                  WARNING));
   }
 
   @Test
   void should_create_error_message_with_time_unit() {
+    // GIVEN
+    Future<Object> actual = new CompletableFuture<>();
     // WHEN
-    String error = shouldHaveFailedWithin(new CompletableFuture<>(), 1, TimeUnit.HOURS).create(new TestDescription("TEST"));
+    String error = shouldHaveFailedWithin(actual, 1, TimeUnit.HOURS).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting%n" +
