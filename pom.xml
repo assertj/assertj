@@ -243,7 +243,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>${argLine}</argLine>
+          <argLine>-Dfile.encoding=${project.build.sourceEncoding} ${argLine}</argLine>
           <trimStackTrace>false</trimStackTrace>
           <excludes>
             <exclude>org/assertj/core/osgi/**</exclude>
