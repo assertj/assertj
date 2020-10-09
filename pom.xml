@@ -84,8 +84,8 @@
   </developers>
 
   <scm>
-    <developerConnection>scm:git:git@github.com:assertj/assertj-maven-parent-pom.git</developerConnection>
-    <connection>scm:git:git@github.com:assertj/assertj-maven-parent-pom.git</connection>
+    <developerConnection>scm:git:https://github.com/assertj/assertj-parent-pom.git</developerConnection>
+    <connection>scm:git:https://github.com/assertj/assertj-parent-pom.git</connection>
     <url>https://github.com/assertj/assertj-maven-parent-pom</url>
     <tag>HEAD</tag>
   </scm>
@@ -563,6 +563,12 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
               </execution>
             </executions>
           </plugin>

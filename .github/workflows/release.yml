@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      OSSRH_USERNAME:
+        description: 'OSSRH Username'
+        required: true
+      OSSRH_TOKEN:
+        description: 'OSSRH Token'
+        required: true
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mask sensitive input
+        run: |
+          echo "::add-mask::${{ github.event.inputs.OSSRH_USERNAME }}"
+          echo "::add-mask::${{ github.event.inputs.OSSRH_TOKEN }}"
+      - uses: actions/checkout@v2
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          server-id: ossrh
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_TOKEN
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+      - name: Configure Git
+        run: |
+          git config --global author.email '${{ github.actor }}@users.noreply.github.com'
+          git config --global author.name '${{ github.actor }}'
+          git config --global committer.email 'actions@github.com'
+          git config --global committer.name 'GitHub Actions'
+      - name: Release package
+        run: |
+          ./mvnw -B release:prepare release:perform -Dpassword=${{ secrets.GITHUB_TOKEN }}
+        env:
+          OSSRH_USERNAME: ${{ github.event.inputs.OSSRH_USERNAME }}
+          OSSRH_TOKEN: ${{ github.event.inputs.OSSRH_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
