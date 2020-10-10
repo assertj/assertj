@@ -80,6 +80,16 @@ class FutureAssert_failsWithin_Test {
   }
 
   @Test
+  void should_fail_if_future_completes_within_given_timeout_Duration() {
+    // GIVEN
+    Future<String> future = futureCompletingAfter(Duration.ofMillis(10));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(Duration.ofMillis(50)));
+    // THEN
+    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 0.05S.");
+  }
+
+  @Test
   void should_pass_if_future_is_cancelled() {
     // GIVEN
     Future<String> future = new CompletableFuture<>();
