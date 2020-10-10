@@ -1114,6 +1114,15 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * @deprecated
+   *
+   * This assertion has some limitations, for example it does not handle tab vs space and would fail if elements are the same but
+   * in a different order.<br>
+   * The recommended approach is <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a> which is able to deal with
+   * these limitations and provides many more features like XPath support and schema validation.
+   * <p>
+   * Original javadoc
+   * <p>
    * Verifies that the actual {@code CharSequence} is equal to the given XML {@code CharSequence} after both have been
    * formatted the same way.
    * <p>
@@ -1156,7 +1165,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the given XML
    *           {@code CharSequence}.
+   * @see <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a>
+   * @see <a href="https://github.com/xmlunit/user-guide/wiki/Providing-Input-to-XMLUnit">XML Unit XML source input</a>
    */
+  @Deprecated
   public SELF isXmlEqualTo(CharSequence expectedXml) {
     strings.assertXmlEqualsTo(info, actual, expectedXml);
     return myself;
