@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.junit.jupiter.api.condition.OS.MAC;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
 @DisplayName("FutureAssert failsWithin")
 class FutureAssert_failsWithin_Test {
@@ -70,6 +72,7 @@ class FutureAssert_failsWithin_Test {
   }
 
   @Test
+  @DisabledOnOs(MAC)
   void should_fail_if_future_completes_within_given_timeout() {
     // GIVEN
     Future<String> future = futureCompletingAfter(Duration.ofMillis(10));
@@ -80,6 +83,7 @@ class FutureAssert_failsWithin_Test {
   }
 
   @Test
+  @DisabledOnOs(MAC)
   void should_fail_if_future_completes_within_given_timeout_Duration() {
     // GIVEN
     Future<String> future = futureCompletingAfter(Duration.ofMillis(10));
