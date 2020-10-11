@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-class ShouldContainString_create_Test {
+class ShouldContainCharSequence_create_Test {
 
   @Test
   void should_create_error_message() {
@@ -66,9 +66,10 @@ class ShouldContainString_create_Test {
   }
 
   @Test
-  void should_create_error_message_with_several_string_values() {
+  void should_create_error_message_with_several_CharSequence_values() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContain("Yoda, Luke", array("Luke", "Vador", "Solo"), newSet("Vador", "Solo"));
+    CharSequence[] charSequences = array("Luke", "Vador", "Solo");
+    ErrorMessageFactory factory = shouldContain("Yoda, Luke", charSequences, newSet("Vador", "Solo"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
