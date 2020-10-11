@@ -41,7 +41,8 @@ public final class Introspection {
   // However ConcurrentHashMap does not permit nulls - Optional allows caching of 'missing' values
   private static final Map<MethodKey, Optional<Method>> METHOD_CACHE = new ConcurrentHashMap<>();
 
-  private static boolean bareNamePropertyMethods = true;
+  // set false by default to follow the prinvipal of least surprise as usual property getter are getX() isX(), not x().
+  private static boolean bareNamePropertyMethods = false;
 
   /**
    * Returns the getter {@link Method} for a property matching the given name in the given object.
@@ -141,9 +142,9 @@ public final class Introspection {
 
     @Override
     public boolean equals(final Object o) {
-      if (this == o)  return true;
-      if (o == null || getClass() != o.getClass())  return false;
-      final MethodKey methodKey = (MethodKey)o;
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      final MethodKey methodKey = (MethodKey) o;
       return Objects.equals(name, methodKey.name) && Objects.equals(clazz, methodKey.clazz);
     }
 
