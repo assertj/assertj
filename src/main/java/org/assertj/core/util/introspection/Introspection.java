@@ -41,7 +41,7 @@ public final class Introspection {
   // However ConcurrentHashMap does not permit nulls - Optional allows caching of 'missing' values
   private static final Map<MethodKey, Optional<Method>> METHOD_CACHE = new ConcurrentHashMap<>();
 
-  // set false by default to follow the prinvipal of least surprise as usual property getter are getX() isX(), not x().
+  // set false by default to follow the principle of least surprise as usual property getter are getX() isX(), not x().
   private static boolean bareNamePropertyMethods = false;
 
   /**
