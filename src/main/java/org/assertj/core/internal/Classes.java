@@ -592,6 +592,7 @@ public class Classes {
    */
   public void assertHasPackage(AssertionInfo info, Class<?> actual, String packageName) {
     assertNotNull(info, actual);
+    requireNonNull(packageName, shouldNotBeNull("package").create());
     Package actualPackage = actual.getPackage();
 
     if (actualPackage == null || !actualPackage.getName().equals(packageName)) {
@@ -607,6 +608,7 @@ public class Classes {
    */
   public void assertHasPackage(AssertionInfo info, Class<?> actual, Package aPackage) {
     assertNotNull(info, actual);
+    requireNonNull(aPackage, shouldNotBeNull("package").create());
     Package actualPackage = actual.getPackage();
 
     if (!java.util.Objects.equals(actualPackage, aPackage)) {
