@@ -4,6 +4,7 @@ import java.util.StringJoiner;
 
 /**
  * Creates an error message indicating that a {@link Class} should have a given package.
+ *
  * @author Matteo Mirk
  */
 public class ShouldHavePackage extends BasicErrorMessageFactory {
@@ -26,10 +27,7 @@ public class ShouldHavePackage extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldHavePackage(Class<?> actual, String packageName) {
     final Package actualPackage = actual.getPackage();
-    if (actualPackage == null) {
-      return new ShouldHavePackage(actual, packageName);
-    }
-    return new ShouldHavePackage(actual, packageName, actualPackage.getName());
+    return actualPackage == null ? new ShouldHavePackage(actual, packageName) : new ShouldHavePackage(actual, packageName, actualPackage.getName());
   }
 
   private ShouldHavePackage(Class<?> actual, String expectedPackage) {

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
  *
  * @author Matteo Mirk
  */
-@DisplayName("Classes hasPackage")
+@DisplayName("ClassAssert hasPackage(Package)")
 class ClassAssert_hasPackage_Package_Test extends ClassAssertBaseTest {
 
   static final Package PACKAGE = Package.getPackage("org.assertj.core.api");

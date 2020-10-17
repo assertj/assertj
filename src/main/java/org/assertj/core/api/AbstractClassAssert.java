@@ -669,6 +669,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't declare the given package.
+   *
+   * @since 3.18.0
    */
   public SELF hasPackage(String packageName) {
     classes.assertHasPackage(info, actual, packageName);
@@ -676,7 +678,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given package.
+   * Verifies that the actual {@code Class} has the given package (as in {@link Class#getPackage()}).
+   *
    * <p>
    * Example:
    * <pre><code>
@@ -697,6 +700,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't declare the given package.
+   *
+   * @since 3.18.0
    */
   public SELF hasPackage(Package aPackage) {
     classes.assertHasPackage(info, actual, aPackage);

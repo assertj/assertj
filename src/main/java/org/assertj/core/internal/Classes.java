@@ -585,14 +585,15 @@ public class Classes {
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given {@code packagename}.
+   * Verifies that the actual {@code Class} has the given {@code packageName}.
+   *
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Class}.
    * @param packageName the package that must be declared in the class.
    */
   public void assertHasPackage(AssertionInfo info, Class<?> actual, String packageName) {
     assertNotNull(info, actual);
-    requireNonNull(packageName, shouldNotBeNull("package").create());
+    requireNonNull(packageName, shouldNotBeNull("packageName").create());
     Package actualPackage = actual.getPackage();
 
     if (actualPackage == null || !actualPackage.getName().equals(packageName)) {
@@ -606,12 +607,12 @@ public class Classes {
    * @param actual the "actual" {@code Class}.
    * @param aPackage the package that must be declared in the class.
    */
-  public void assertHasPackage(AssertionInfo info, Class<?> actual, Package aPackage) {
+  public void assertHasPackage(AssertionInfo info, Class<?> actual, Package expected) {
     assertNotNull(info, actual);
-    requireNonNull(aPackage, shouldNotBeNull("package").create());
+    requireNonNull(aPackage, shouldNotBeNull("aPackage").create());
     Package actualPackage = actual.getPackage();
 
-    if (!java.util.Objects.equals(actualPackage, aPackage)) {
+    if (!aPackage.equals(actualPackage)) {
       throw failures.failure(info, shouldHavePackage(actual, aPackage.getName()));
     }
   }
