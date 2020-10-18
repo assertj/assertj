@@ -652,8 +652,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Verifies that the actual {@code Class} has the given package name.
    * <p>
    * Example:
-   * <pre><code>
-   * package one.two;
+   * <pre><code class='java'> package one.two;
    *
    * class MyClass {}
    *
@@ -682,8 +681,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * <p>
    * Example:
-   * <pre><code>
-   * package one.two;
+   * <pre><code class='java'> package one.two;
    *
    * class MyClass {}
    **
