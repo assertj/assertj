@@ -1,5 +1,6 @@
 package org.assertj.core.api.classes;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ClassAssert;
@@ -7,14 +8,14 @@ import org.assertj.core.api.ClassAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
 /**
- * Tests for <code>{@link ClassAssert#hasPackage(String)}</code>.
+ * Tests for <code>{@link ClassAssert#hasPackage(Package)}</code>.
  *
  * @author Matteo Mirk
  */
-@DisplayName("ClassAssert hasPackage(String)")
-class ClassAssert_hasPackage_String_Test extends ClassAssertBaseTest {
+@DisplayName("ClassAssert hasPackage(Package)")
+class ClassAssert_hasPackage_with_Package_Test extends ClassAssertBaseTest {
 
-  static final String PACKAGE = "org.assertj.core.api";
+  static final Package PACKAGE = mock(Package.class);
 
   @Override
   protected ClassAssert invoke_api_method() {
