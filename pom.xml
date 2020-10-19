@@ -87,30 +87,6 @@
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- required to resolve These dependencies are required to workaround a bad interaction using includeDependencyManagement=true
-      for the Bnd resolver and testing plugins and the enforcer plugin which causes a false positive from the enforcer plugin.
-      The Bnd 5.2.0 resolver and testing plugins don't have this problem, so these dependencies can be removed when updating bnd.version
-      to 5.2.0 and configuring the Bnd resolver and testing plugins to use includeDependencyManagement=true. -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-commons</artifactId>
-      <scope>provided</scope>
-    </dependency>
     <!-- required to run JUnit4 tests in eclipse without to explicitly select JUnit 4 runner ... -->
     <dependency>
       <groupId>org.junit.vintage</groupId>
@@ -538,7 +514,7 @@
               </bundles>
               <failOnChanges>false</failOnChanges>
               <reportOptional>false</reportOptional>
-              <includeDependencyManagement>false</includeDependencyManagement>
+              <includeDependencyManagement>true</includeDependencyManagement>
               <scopes>
                 <scope>provided</scope>
                 <scope>compile</scope>
@@ -568,7 +544,7 @@
                 <bundle>target/${project.build.finalName}-tests.jar</bundle>
               </bundles>
               <failOnChanges>false</failOnChanges>
-              <includeDependencyManagement>false</includeDependencyManagement>
+              <includeDependencyManagement>true</includeDependencyManagement>
               <resolve>false</resolve>
               <scopes>
                 <scope>provided</scope>
