@@ -607,7 +607,7 @@ public class Classes {
    * @param actual the "actual" {@code Class}.
    * @param aPackage the package that must be declared in the class.
    */
-  public void assertHasPackage(AssertionInfo info, Class<?> actual, Package expected) {
+  public void assertHasPackage(AssertionInfo info, Class<?> actual, Package aPackage) {
     assertNotNull(info, actual);
     requireNonNull(aPackage, shouldNotBeNull("aPackage").create());
     Package actualPackage = actual.getPackage();
