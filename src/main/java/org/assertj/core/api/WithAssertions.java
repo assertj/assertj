@@ -1546,12 +1546,12 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * Syntactic sugar method to use with {@link AbstractDurationAssert#isCloseTo(Duration, Duration)} assertion.
    * <p>
    * Example:
-   * <pre><code class='java'> assertThat(Duration.ofMinutes(2)).isCloseTo(Duration.ofMinutes(3), within(Duration.ofMinutes(1)));</code></pre>
+   * <pre><code class='java'> assertThat(Duration.ofMinutes(2)).isCloseTo(Duration.ofMinutes(3), withMarginOf(Duration.ofMinutes(1)));</code></pre>
    *
    * @param allowedDifference the allowed difference {@link Duration}.
    * @return the given value.
    */
-  default Duration within(Duration allowedDifference) {
+  default Duration withMarginOf(Duration allowedDifference) {
     return allowedDifference;
   }
 

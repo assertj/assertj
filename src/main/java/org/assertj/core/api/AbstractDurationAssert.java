@@ -257,7 +257,7 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * <p>
    * This is equivalent of: {@code abs(actual - expected) <= allowed difference}.
    * <p>
-   * For readability you can use {@link Assertions#within(java.math.BigDecimal)} to express the allowed difference.
+   * For readability you can use {@link Assertions#withMarginOf(Duration)} to express the allowed difference.
    * <p>
    * Examples:
    * <pre><code class='java'> Duration twoMinutes = Duration.ofMinutes(2);
@@ -270,12 +270,12 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(-3), Duration.ofMinutes(5));
    *
    * // assertions using within syntactic sugar
-   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(3), within(Duration.ofMinutes(5)));
-   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(3), within(Duration.ofMinutes(1)));
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(3), withMarginOf(Duration.ofMinutes(5)));
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(3), withMarginOf(Duration.ofMinutes(1)));
    *
    * // assertions fail
-   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(5), within(Duration.ofMinutes(1)));
-   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(-3), within(Duration.ofMinutes(4)));</code></pre>
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(5), withMarginOf(Duration.ofMinutes(1)));
+   * assertThat(twoMinutes).isCloseTo(Duration.ofMinutes(-3), withMarginOf(Duration.ofMinutes(4)));</code></pre>
    *
    * @param expected the given {@link Duration} to compare to actual.
    * @param allowedDifference a positive {@link Duration} to express the maximum allowed difference.

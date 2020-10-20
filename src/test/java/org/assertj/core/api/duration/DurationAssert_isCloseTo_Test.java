@@ -13,7 +13,7 @@
 package org.assertj.core.api.duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.Assertions.withMarginOf;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
@@ -31,7 +31,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("DurationAssert isCloseTo")
 class DurationAssert_isCloseTo_Test {
 
-  @ParameterizedTest(name = "PT2M should close to {0} within {1}")
+  @ParameterizedTest(name = "PT2M should close to {0} withMarginOf {1}")
   @CsvSource({
       "PT1M, PT70S",
       "PT70S, PT1M",
@@ -51,10 +51,10 @@ class DurationAssert_isCloseTo_Test {
     Duration actual = Duration.ofMinutes(2);
     // WHEN/THEN
     assertThat(actual).isCloseTo(expected, allowedDifference)
-                      .isCloseTo(expected, within(allowedDifference));
+                      .isCloseTo(expected, withMarginOf(allowedDifference));
   }
 
-  @ParameterizedTest(name = "PT2M should not be close to {0} within {1}")
+  @ParameterizedTest(name = "PT2M should not be close to {0} withMarginOf {1}")
   @CsvSource({
       "PT1M, PT10S, PT1M",
       "PT59S, PT1M, PT1M1S",
