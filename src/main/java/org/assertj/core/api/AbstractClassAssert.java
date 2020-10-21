@@ -649,7 +649,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given package name.
+   * Verifies that the actual {@code Class} has the given package name (as in {@link Class#getPackage()}).
+   *
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
