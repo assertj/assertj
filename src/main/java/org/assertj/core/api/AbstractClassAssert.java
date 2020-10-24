@@ -647,4 +647,64 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     classes.assertHasPublicMethods(info, actual, methodNames);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code Class} has the given package name (as in {@link Class#getPackage()}).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> package one.two;
+   *
+   * class MyClass {}
+   *
+   * // this assertions succeeds:
+   * assertThat(MyClass.class).hasPackage("one.two");
+   *
+   * // these assertions fail:
+   * assertThat(MyClass.class).hasPackage("one");
+   * assertThat(MyClass.class).hasPackage("");
+   * assertThat(MyClass.class).hasPackage("java.lang");</code></pre>
+   *
+   * @param packageName the package name the class should have
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} does not have the given package.
+   *
+   * @since 3.18.0
+   */
+  public SELF hasPackage(String packageName) {
+    classes.assertHasPackage(info, actual, packageName);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given package (as in {@link Class#getPackage()}).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> package one.two;
+   *
+   * class MyClass {}
+   **
+   * // these assertions succeed:
+   * assertThat(MyClass.class).hasPackage(Package.getPackage("one.two"));
+   * assertThat(MyClass.class).hasPackage(MyClass.class.getPackage());
+   *
+   * // these assertions fail:
+   * assertThat(MyClass.class).hasPackage(Package.getPackage("one"));
+   * assertThat(MyClass.class).hasPackage(Package.getPackage(""));
+   * assertThat(MyClass.class).hasPackage(Object.class.getPackage());</code></pre>
+   *
+   * @param aPackage the package the class should have
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} does not have the given package.
+   *
+   * @since 3.18.0
+   */
+  public SELF hasPackage(Package aPackage) {
+    classes.assertHasPackage(info, actual, aPackage);
+    return myself;
+  }
+
 }
