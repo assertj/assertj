@@ -14,7 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 @DisplayName("ClassAssert hasPackage(String)")
 class ClassAssert_hasPackage_with_String_Test extends ClassAssertBaseTest {
 
-  static final String PACKAGE = "org.assertj.core.api";
+  private static final String PACKAGE = "org.assertj.core.api";
 
   @Override
   protected ClassAssert invoke_api_method() {
@@ -25,4 +25,5 @@ class ClassAssert_hasPackage_with_String_Test extends ClassAssertBaseTest {
   protected void verify_internal_effects() {
     verify(classes).assertHasPackage(getInfo(assertions), getActual(assertions), PACKAGE);
   }
+
 }

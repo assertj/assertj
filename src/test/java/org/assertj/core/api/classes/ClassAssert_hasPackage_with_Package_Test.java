@@ -15,7 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 @DisplayName("ClassAssert hasPackage(Package)")
 class ClassAssert_hasPackage_with_Package_Test extends ClassAssertBaseTest {
 
-  static final Package PACKAGE = mock(Package.class);
+  private static final Package PACKAGE = mock(Package.class);
 
   @Override
   protected ClassAssert invoke_api_method() {
@@ -26,4 +26,5 @@ class ClassAssert_hasPackage_with_Package_Test extends ClassAssertBaseTest {
   protected void verify_internal_effects() {
     verify(classes).assertHasPackage(getInfo(assertions), getActual(assertions), PACKAGE);
   }
+
 }

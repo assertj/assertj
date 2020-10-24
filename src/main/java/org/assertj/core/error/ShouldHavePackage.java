@@ -20,14 +20,28 @@ public class ShouldHavePackage extends BasicErrorMessageFactory {
                                                                         .toString();
 
   /**
-   * Creates a new <code>ShouldHavePackage</code>.
-   * @param actual the actual value in the failed assertion.
+   * Creates a new <code>ShouldHavePackage</code> with a {@link Package} instance.
+   *
+   * @param actual  the actual value in the failed assertion.
+   * @param aPackage the expected package
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHavePackage(Class<?> actual, Package aPackage) {
+    return shouldHavePackage(actual, aPackage.getName());
+  }
+
+  /**
+   * Creates a new <code>ShouldHavePackage</code> with a package name.
+   *
+   * @param actual      the actual value in the failed assertion.
    * @param packageName the expected package name
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHavePackage(Class<?> actual, String packageName) {
     final Package actualPackage = actual.getPackage();
-    return actualPackage == null ? new ShouldHavePackage(actual, packageName) : new ShouldHavePackage(actual, packageName, actualPackage.getName());
+    return (actualPackage == null)
+        ? new ShouldHavePackage(actual, packageName)
+        : new ShouldHavePackage(actual, packageName, actualPackage.getName());
   }
 
   private ShouldHavePackage(Class<?> actual, String expectedPackage) {
@@ -37,4 +51,5 @@ public class ShouldHavePackage extends BasicErrorMessageFactory {
   private ShouldHavePackage(Class<?> actual, String expectedPackage, String actualPackage) {
     super(SHOULD_HAVE_PACKAGE + BUT_HAD, actual, expectedPackage, actualPackage);
   }
+
 }

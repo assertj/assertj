@@ -12,47 +12,39 @@ import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Classes assertHasPackage")
+@DisplayName("Classes assertHasPackage(String)")
 class Classes_assertHasPackage_with_String_Test extends ClassesBaseTest {
 
-  private static class MyClass {
-  }
-
   @Test
-  void should_pass_if_actual_declares_given_package_name() {
-    // GIVEN
-    Class<?> actual = Jedi.class;
+  void should_pass_if_actual_has_given_package_name() {
     // WHEN/THEN
-    classes.assertHasPackage(someInfo(), actual, "org.assertj.core.internal");
+    classes.assertHasPackage(someInfo(), Object.class, "java.lang");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    // GIVEN
-    Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(), actual, "java.lang"));
+    AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(), null, "java.lang"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_null_package_name_is_given() {
+  void should_fail_if_packageName_is_null() {
     // GIVEN
-    Class<?> actual = Jedi.class;
     String packageName = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> classes.assertHasPackage(someInfo(), actual, packageName));
+    Throwable thrown = catchThrowable(() -> classes.assertHasPackage(someInfo(), Object.class, packageName));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage(shouldNotBeNull("packageName").create());
   }
 
   @Test
-  void should_fail_if_package_name_prefix_is_given() {
+  void should_fail_if_packageName_does_not_match() {
     // GIVEN
-    Class<?> actual = MyClass.class;
-    String packageName = "org.assertj.core.internal";
+    Class<?> actual = Object.class;
+    String packageName = "java.util";
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(), actual, packageName));
     // THEN

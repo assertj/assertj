@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
-
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
@@ -587,9 +586,12 @@ public class Classes {
   /**
    * Verifies that the actual {@code Class} has the given {@code packageName}.
    *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
+   * @param info        contains information about the assertion.
+   * @param actual      the "actual" {@code Class}.
    * @param packageName the package that must be declared in the class.
+   * @throws NullPointerException if {@code packageName} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} does not have the given package name.
    */
   public void assertHasPackage(AssertionInfo info, Class<?> actual, String packageName) {
     assertNotNull(info, actual);
@@ -603,9 +605,13 @@ public class Classes {
 
   /**
    * Verifies that the actual {@code Class} has the given {@code Package}.
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
+   *
+   * @param info     contains information about the assertion.
+   * @param actual   the "actual" {@code Class}.
    * @param aPackage the package that must be declared in the class.
+   * @throws NullPointerException if {@code aPackage} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} does not have the given package.
    */
   public void assertHasPackage(AssertionInfo info, Class<?> actual, Package aPackage) {
     assertNotNull(info, actual);
@@ -613,7 +619,8 @@ public class Classes {
     Package actualPackage = actual.getPackage();
 
     if (!aPackage.equals(actualPackage)) {
-      throw failures.failure(info, shouldHavePackage(actual, aPackage.getName()));
+      throw failures.failure(info, shouldHavePackage(actual, aPackage));
     }
   }
+
 }

@@ -43,10 +43,9 @@ public class ShouldHaveSuperclass extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldHaveSuperclass(Class<?> actual, Class<?> superclass) {
     Class<?> actualSuperclass = actual.getSuperclass();
-    if (actualSuperclass == null) {
-      return new ShouldHaveSuperclass(actual, superclass);
-    }
-    return new ShouldHaveSuperclass(actual, superclass, actualSuperclass);
+    return (actualSuperclass == null)
+        ? new ShouldHaveSuperclass(actual, superclass)
+        : new ShouldHaveSuperclass(actual, superclass, actualSuperclass);
   }
 
   private ShouldHaveSuperclass(Class<?> actual, Class<?> expectedSuperclass) {

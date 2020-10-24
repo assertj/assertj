@@ -665,10 +665,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPackage("");
    * assertThat(MyClass.class).hasPackage("java.lang");</code></pre>
    *
-   * @param packageName the package name which the class must declare
+   * @param packageName the package name the class should have
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't declare the given package.
+   * @throws AssertionError if the actual {@code Class} does not have the given package.
    *
    * @since 3.18.0
    */
@@ -695,10 +695,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPackage(Package.getPackage(""));
    * assertThat(MyClass.class).hasPackage(Object.class.getPackage());</code></pre>
    *
-   * @param aPackage the package which the class must declare
+   * @param aPackage the package the class should have
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't declare the given package.
+   * @throws AssertionError if the actual {@code Class} does not have the given package.
    *
    * @since 3.18.0
    */
@@ -706,4 +706,5 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     classes.assertHasPackage(info, actual, aPackage);
     return myself;
   }
+
 }

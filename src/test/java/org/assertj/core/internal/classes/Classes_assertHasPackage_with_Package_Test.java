@@ -8,64 +8,51 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.util.stream.Stream;
+import java.util.Collection;
 
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("Classes assertHasPackage")
+@DisplayName("Classes assertHasPackage(Package)")
 class Classes_assertHasPackage_with_Package_Test extends ClassesBaseTest {
 
-  private static class MyClass {
-  }
-
-  @ParameterizedTest
-  @MethodSource("packages")
-  void should_pass_if_actual_declares_given_package(Package aPackage) {
-    // GIVEN
-    Class<?> actual = Jedi.class;
+  @Test
+  void should_pass_if_actual_declares_given_package() {
     // WHEN/THEN
-    classes.assertHasPackage(someInfo(), actual, aPackage);
+    classes.assertHasPackage(someInfo(), Object.class, Object.class.getPackage());
   }
 
   @Test
-  void sohould_fail_if_actual_is_null() {
-    // GIVEN
-    Class<?> actual = null;
-    Package aPackage = Object.class.getPackage();
+  void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(), actual, aPackage));
+    AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(),
+                                                                                        null,
+                                                                                        Object.class.getPackage()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_null_package_is_given() {
+  void should_fail_if_aPackage_is_null() {
     // GIVEN
-    Class<?> actual = Jedi.class;
     Package aPackage = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> classes.assertHasPackage(someInfo(), actual, aPackage));
+    Throwable thrown = catchThrowable(() -> classes.assertHasPackage(someInfo(), Object.class, aPackage));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage(shouldNotBeNull("aPackage").create());
   }
 
   @Test
-  void should_fail_if_package_prefix_is_given() {
+  void should_fail_if_package_does_not_match() {
     // GIVEN
-    Class<?> actual = MyClass.class;
-    Package aPackage = Package.getPackage("org.assertj.core.internal");
+    Class<?> actual = Object.class;
+    Package aPackage = Collection.class.getPackage();
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(), actual, aPackage));
     // THEN
-    then(assertionError).hasMessage(shouldHavePackage(actual, aPackage.getName()).create());
+    then(assertionError).hasMessage(shouldHavePackage(actual, aPackage).create());
   }
 
-  static Stream<Package> packages() {
-    return Stream.of(Jedi.class.getPackage(), Package.getPackage("org.assertj.core.internal"));
-  }
 }
