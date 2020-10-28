@@ -2958,6 +2958,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return internalFirst();
   }
 
+  /**
+   * This method is used in navigating assertions like {@link #first()}, {@link #last()} and {@link #element(int)} to build the
+   * assertion for the given element navigated to.
+   * <p>
+   * Typical implementation is returning an {@link ObjectAssert} but it is possible to return a more specialized assertions
+   * should you know what type of elements the iterables contain.
+   *
+   * @param value the element value
+   * @param description describes the element, ex: "check first element" for {@link #first()}, used in assertion description.
+   * @return the assertion for the given element
+   */
   protected abstract ELEMENT_ASSERT toAssert(ELEMENT value, String description);
 
   protected String navigationDescription(String propertyName) {
@@ -3308,7 +3319,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return comparatorsForElementPropertyOrFieldTypes;
   }
 
-  // use to build the assert instance with a filtered iterable
+  /**
+   * This methods is needed to build a new concrete instance of AbstractIterableAssert after a filtering operation is executed.
+   * <p>
+   * If you create your own subclass of AbstractIterableAssert, simply returns an instance of it in this method.
+   *
+   * @param iterable the iterable used to build the concrete instance of AbstractIterableAssert
+   * @return concrete instance of AbstractIterableAssert
+   */
   protected abstract SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable);
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
