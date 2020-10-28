@@ -50,7 +50,7 @@ class CompletableFutureAssert_succeedsWithin_duration_Test {
     CompletableFuture<String> future = completedFutureAfter(value, sleepDuration);
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
-    assertThat(future).succeedsWithin(Duration.ofMillis(sleepDuration + 100))
+    assertThat(future).succeedsWithin(Duration.ofMillis(sleepDuration + 500))
                       .isEqualTo(value);
   }
 
