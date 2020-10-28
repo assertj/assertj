@@ -335,7 +335,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Use matches with the following combination instead:
    *
-   * <pre><code class='java'> assertThat(future).matches (f -&gt; f.isCompletedExceptionally() {@literal &&} !f.isCancelled());</code></pre>
+   * <pre><code class='java'> assertThat(future).matches (f -&gt; f.isNotCompletedExceptionally() {@literal ||} f.isCancelled());</code></pre>
    *
    * This assertion is deprecated because its semantic is not obvious.
    * <p>
