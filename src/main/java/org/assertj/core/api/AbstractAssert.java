@@ -1084,4 +1084,20 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
   }
 
+  /**
+   * Return the actual object under test.
+   * <p>
+   * This allows users to retrieve the current object under test. This method will break assertion chain.
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter smaug = new TolkienCharacter("Smaug", DRAGON);
+   * assertThat(smaug).getActual() // return smaug
+   * assertThat(Optional.of(smaug)).get().getActual() // return smaug
+   *
+   * @return the current object under test.
+   *
+   */
+  public ACTUAL getActual() {
+    return actual;
+  }
 }
