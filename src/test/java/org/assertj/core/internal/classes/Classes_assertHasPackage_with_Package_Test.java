@@ -31,16 +31,20 @@ class Classes_assertHasPackage_with_Package_Test extends ClassesBaseTest {
 
   @Test
   void should_pass_if_actual_declares_given_package() {
+    // GIVEN
+    Class<?> actual = Object.class;
+    Package aPackage = actual.getPackage();
     // WHEN/THEN
-    classes.assertHasPackage(someInfo(), Object.class, Object.class.getPackage());
+    classes.assertHasPackage(someInfo(), actual, aPackage);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    Package aPackage = Object.class.getPackage();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(),
-                                                                                        null,
-                                                                                        Object.class.getPackage()));
+    AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(), actual, aPackage));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -48,9 +52,10 @@ class Classes_assertHasPackage_with_Package_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_aPackage_is_null() {
     // GIVEN
+    Class<?> actual = Object.class;
     Package aPackage = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> classes.assertHasPackage(someInfo(), Object.class, aPackage));
+    Throwable thrown = catchThrowable(() -> classes.assertHasPackage(someInfo(), actual, aPackage));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage(shouldNotBeNull("aPackage").create());

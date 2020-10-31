@@ -29,14 +29,20 @@ class Classes_assertHasPackage_with_String_Test extends ClassesBaseTest {
 
   @Test
   void should_pass_if_actual_has_given_package_name() {
+    // GIVEN
+    Class<?> actual = Object.class;
+    String packageName = "java.lang";
     // WHEN/THEN
-    classes.assertHasPackage(someInfo(), Object.class, "java.lang");
+    classes.assertHasPackage(someInfo(), actual, packageName);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    String packageName = "java.lang";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(), null, "java.lang"));
+    AssertionError assertionError = expectAssertionError(() -> classes.assertHasPackage(someInfo(), actual, packageName));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -44,9 +50,10 @@ class Classes_assertHasPackage_with_String_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_packageName_is_null() {
     // GIVEN
+    Class<?> actual = Object.class;
     String packageName = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> classes.assertHasPackage(someInfo(), Object.class, packageName));
+    Throwable thrown = catchThrowable(() -> classes.assertHasPackage(someInfo(), actual, packageName));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage(shouldNotBeNull("packageName").create());
