@@ -40,7 +40,9 @@ class Assertions_assertThat_with_CompletionStage_Test {
   void should_initialise_actual() {
     CompletableFuture<String> actual = assertThat(completionStage).actual;
     assertThat(actual).isDone()
-                      .hasNotFailed();
+                      .isCompleted()
+                      .isNotCancelled()
+                      .isNotCompletedExceptionally();
   }
 
   @Test

@@ -183,7 +183,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<{\"54\"=\"55\"}>"));
   }
 
-  @SuppressWarnings({ "unchecked" })
+  @SuppressWarnings({ "unchecked", "deprecation" })
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {

@@ -169,12 +169,10 @@ public class AbstractTemporalAssert_isCloseTo_Test {
     return parameters;
   }
 
-  @SuppressWarnings("unchecked")
   private static AbstractTemporalAssert<?, Temporal> nullAssert(ArgumentsAccessor arguments) {
     return arguments.get(0, AbstractTemporalAssert.class);
   }
 
-  @SuppressWarnings("unchecked")
   private static AbstractTemporalAssert<?, Temporal> temporalAssert(ArgumentsAccessor arguments) {
     return arguments.get(1, AbstractTemporalAssert.class);
   }
