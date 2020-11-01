@@ -110,13 +110,19 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
-  void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(newSortedSet(homer, null)).flatExtracting(childrenExtractor));
+  void should_bubble_up_null_pointer_exception_from_extractor() {
+    // GIVEN
+    SortedSet<CartoonCharacter> setWithNullElements = newSortedSet(homer, null);
+    // WHEN THEN
+    assertThatNullPointerException().isThrownBy(() -> assertThat(setWithNullElements).flatExtracting(childrenExtractor));
   }
 
   @Test
-  void should_throw_null_pointer_exception_when_extracting_from_null() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(newSortedSet(homer, null)).flatExtracting(children));
+  void should_bubble_up_null_pointer_exception_from_lambda_extractor() {
+    // GIVEN
+    SortedSet<CartoonCharacter> setWithNullElements = newSortedSet(homer, null);
+    // WHEN THEN
+    assertThatNullPointerException().isThrownBy(() -> assertThat(setWithNullElements).flatExtracting(children));
   }
 
   @Test
@@ -235,7 +241,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 
-
   @Test
   void flatExtracting_should_keep_assertion_state() {
     // GIVEN
@@ -289,7 +294,7 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   private static SortedSet<CartoonCharacter> newSortedSet(CartoonCharacter... cartoonCharacters) {
-    TreeSet<CartoonCharacter> cartoonCharacterSortedSet = new TreeSet<>(comparing(CartoonCharacter::getName));
+    TreeSet<CartoonCharacter> cartoonCharacterSortedSet = new TreeSet<>(comparing(t -> t == null ? "" : t.getName()));
     for (CartoonCharacter cartoonCharacter : cartoonCharacters) {
       cartoonCharacterSortedSet.add(cartoonCharacter);
     }

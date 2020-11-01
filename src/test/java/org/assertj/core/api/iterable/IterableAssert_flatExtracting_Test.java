@@ -64,7 +64,7 @@ class IterableAssert_flatExtracting_Test {
   private final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception> throwingExtractor = new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
     @Override
     public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
-      if (cartoonCharacter.getChildren().isEmpty()) { throw new Exception("no children"); }
+      if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
       return cartoonCharacter.getChildren();
     }
   };
@@ -108,12 +108,12 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
-  void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
+  void should_bubble_up_null_pointer_exception_from_extractor() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting(childrenExtractor));
   }
 
   @Test
-  void should_throw_null_pointer_exception_when_extracting_from_null() {
+  void should_bubble_up_null_pointer_exception_from_lambda_extractor() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting(children));
   }
 

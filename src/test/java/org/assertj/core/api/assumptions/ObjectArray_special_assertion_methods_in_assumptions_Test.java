@@ -90,11 +90,6 @@ class ObjectArray_special_assertion_methods_in_assumptions_Test extends BaseAssu
                                       value -> assumeThat(value).flatExtracting("children")
                                                                 .containsAnyOf(homer, fred)),
                      assumptionRunner(array(homer, fred),
-                                      value -> assumeThat(value).flatExtracting(childrenExtractor)
-                                                                .containsAnyOf(bart, lisa),
-                                      value -> assumeThat(value).flatExtracting(childrenExtractor)
-                                                                .containsAnyOf(homer, fred)),
-                     assumptionRunner(array(homer, fred),
                                       value -> assumeThat(value).flatExtracting(CartoonCharacter::getChildren)
                                                                 .containsAnyOf(bart, lisa),
                                       value -> assumeThat(value).flatExtracting(CartoonCharacter::getChildren)

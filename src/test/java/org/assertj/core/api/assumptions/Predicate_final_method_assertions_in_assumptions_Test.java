@@ -28,15 +28,16 @@ import org.assertj.core.data.MapEntry;
  */
 class Predicate_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
+  @SuppressWarnings("unchecked")
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     Predicate<MapEntry<String, String>> ballSportPredicate = sport -> sport.value.contains("ball");
-    return Stream.of(
-        assumptionRunner(ballSportPredicate,
-            value -> assumeThat(value).accepts(entry("sport", "football"), entry("sport", "basketball")),
-            value -> assumeThat(value).accepts(entry("sport", "boxing"), entry("sport", "marathon"))),
-        assumptionRunner(ballSportPredicate,
-            value -> assumeThat(value).rejects(entry("sport", "boxing"), entry("sport", "marathon")),
-            value -> assumeThat(value).rejects(entry("sport", "football"), entry("sport", "basketball")))
-    );
+    return Stream.of(assumptionRunner(ballSportPredicate,
+                                      value -> assumeThat(value).accepts(entry("sport", "football"),
+                                                                         entry("sport", "basketball")),
+                                      value -> assumeThat(value).accepts(entry("sport", "boxing"), entry("sport", "marathon"))),
+                     assumptionRunner(ballSportPredicate,
+                                      value -> assumeThat(value).rejects(entry("sport", "boxing"), entry("sport", "marathon")),
+                                      value -> assumeThat(value).rejects(entry("sport", "football"),
+                                                                         entry("sport", "basketball"))));
   }
 }
