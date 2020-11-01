@@ -33,6 +33,7 @@ import org.assertj.core.test.CartoonCharacter;
  */
 class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
+  @SuppressWarnings("unchecked")
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(
                      // extracting methods
@@ -42,9 +43,19 @@ class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumpt
                                       value -> assumeThat(value).extracting(throwingNameExtractor)
                                                                 .contains("Gandalf")),
                      assumptionRunner(iterable(frodo, sam),
+                                      value -> assumeThat(value).map(throwingNameExtractor)
+                                                                .contains("Frodo"),
+                                      value -> assumeThat(value).map(throwingNameExtractor)
+                                                                .contains("Gandalf")),
+                     assumptionRunner(iterable(frodo, sam),
                                       value -> assumeThat(value).extracting(nameExtractor)
                                                                 .contains("Frodo", "Sam"),
                                       value -> assumeThat(value).extracting(nameExtractor)
+                                                                .contains("Gandalf", "Sam")),
+                     assumptionRunner(iterable(frodo, sam),
+                                      value -> assumeThat(value).map(nameExtractor)
+                                                                .contains("Frodo", "Sam"),
+                                      value -> assumeThat(value).map(nameExtractor)
                                                                 .contains("Gandalf", "Sam")),
                      assumptionRunner(iterable(frodo, sam),
                                       value -> assumeThat(value).extracting("name")
@@ -67,9 +78,19 @@ class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumpt
                                       value -> assumeThat(value).extracting(nameExtractorFunction, ageExtractorFunction)
                                                                 .contains(tuple("Gandalf", 1000))),
                      assumptionRunner(iterable(frodo, sam),
+                                      value -> assumeThat(value).map(nameExtractorFunction, ageExtractorFunction)
+                                                                .contains(tuple("Frodo", 33)),
+                                      value -> assumeThat(value).map(nameExtractorFunction, ageExtractorFunction)
+                                                                .contains(tuple("Gandalf", 1000))),
+                     assumptionRunner(iterable(frodo, sam),
                                       value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
                                                                 .contains(tuple("Frodo", 33)),
                                       value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
+                                                                .contains(tuple("Gandalf", 1000))),
+                     assumptionRunner(iterable(frodo, sam),
+                                      value -> assumeThat(value).map(TolkienCharacter::getName, TolkienCharacter::getAge)
+                                                                .contains(tuple("Frodo", 33)),
+                                      value -> assumeThat(value).map(TolkienCharacter::getName, TolkienCharacter::getAge)
                                                                 .contains(tuple("Gandalf", 1000))),
                      // extractingResultOf methods
                      assumptionRunner(iterable(frodo, sam),
@@ -89,14 +110,14 @@ class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumpt
                                       value -> assumeThat(value).flatExtracting("children")
                                                                 .containsAnyOf(homer, fred)),
                      assumptionRunner(iterable(homer, fred),
-                                      value -> assumeThat(value).flatExtracting(childrenExtractor)
+                                      value -> assumeThat(value).flatExtracting(CartoonCharacter::getChildren)
                                                                 .containsAnyOf(bart, lisa),
-                                      value -> assumeThat(value).flatExtracting(childrenExtractor)
+                                      value -> assumeThat(value).flatExtracting(CartoonCharacter::getChildren)
                                                                 .containsAnyOf(homer, fred)),
                      assumptionRunner(iterable(homer, fred),
-                                      value -> assumeThat(value).flatExtracting(CartoonCharacter::getChildren)
+                                      value -> assumeThat(value).flatMap(CartoonCharacter::getChildren)
                                                                 .containsAnyOf(bart, lisa),
-                                      value -> assumeThat(value).flatExtracting(CartoonCharacter::getChildren)
+                                      value -> assumeThat(value).flatMap(CartoonCharacter::getChildren)
                                                                 .containsAnyOf(homer, fred)),
                      assumptionRunner(iterable(frodo, sam),
                                       value -> assumeThat(value).flatExtracting(throwingNameExtractor, throwingAgeExtractor)
@@ -107,6 +128,16 @@ class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumpt
                                       value -> assumeThat(value).flatExtracting(nameExtractor, ageExtractor)
                                                                 .contains("Frodo", 33),
                                       value -> assumeThat(value).flatExtracting(nameExtractor, ageExtractor)
+                                                                .contains("Gandalf", 1000)),
+                     assumptionRunner(iterable(frodo, sam),
+                                      value -> assumeThat(value).flatMap(throwingNameExtractor, throwingAgeExtractor)
+                                                                .contains("Frodo", 33),
+                                      value -> assumeThat(value).flatMap(throwingNameExtractor, throwingAgeExtractor)
+                                                                .contains("Gandalf", 1000)),
+                     assumptionRunner(iterable(frodo, sam),
+                                      value -> assumeThat(value).flatMap(nameExtractor, ageExtractor)
+                                                                .contains("Frodo", 33),
+                                      value -> assumeThat(value).flatMap(nameExtractor, ageExtractor)
                                                                 .contains("Gandalf", 1000)),
                      assumptionRunner(iterable(frodo, sam),
                                       value -> assumeThat(value).flatExtracting("name", "age")

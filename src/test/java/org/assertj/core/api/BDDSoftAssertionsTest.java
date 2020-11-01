@@ -1141,9 +1141,40 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
           .as("filteredOn with consumer")
           .hasSize(5);
+    softly.then(characters)
+          .flatMap(childrenExtractor)
+          .as("using flatMap on Iterable")
+          .containsAnyOf(homer, fred);
+    softly.then(characters)
+          .flatMap(CartoonCharacter::getChildrenWithException)
+          .as("using flatMap on Iterable with exception")
+          .containsExactlyInAnyOrder(homer, fred);
+    softly.then(names)
+          .flatMap(firstNameFunction, lastNameFunction)
+          .as("flatMap with multiple Extractors")
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.then(names)
+          .flatMap(throwingFirstNameExtractor, throwingLastNameExtractor)
+          .as("flatMap with multiple ThrowingExtractors")
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.then(names)
+          .map(throwingFirstNameExtractor)
+          .as("map with ThrowingExtractor")
+          .contains("frodo");
+    softly.then(names)
+          .map(firstNameFunction)
+          .as("map with function")
+          .contains("sam");
+    softly.then(names)
+          .map(firstNameFunction, lastNameFunction)
+          .as("map with multiple functions")
+          .contains(tuple("John", "Doe"))
+          .contains(tuple("Frodo", "Baggins"));
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(33);
+    assertThat(errorsCollected).hasSize(40);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1178,6 +1209,13 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(30)).hasMessageContaining("using flatExtracting(String... fieldOrPropertyNames)");
     assertThat(errorsCollected.get(31)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
     assertThat(errorsCollected.get(32)).hasMessageContaining("filteredOn with consumer");
+    assertThat(errorsCollected.get(33)).hasMessageContaining("using flatMap on Iterable");
+    assertThat(errorsCollected.get(34)).hasMessageContaining("using flatMap on Iterable with exception");
+    assertThat(errorsCollected.get(35)).hasMessageContaining("flatMap with multiple Extractors");
+    assertThat(errorsCollected.get(36)).hasMessageContaining("flatMap with multiple ThrowingExtractors");
+    assertThat(errorsCollected.get(37)).hasMessageContaining("map with ThrowingExtractor");
+    assertThat(errorsCollected.get(38)).hasMessageContaining("map with function");
+    assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1295,9 +1333,40 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
           .as("filteredOn with consumer")
           .hasSize(5);
+    softly.then(names)
+          .flatMap(firstNameFunction, lastNameFunction)
+          .as("flatMap with multiple Extractors")
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.then(names)
+          .flatMap(throwingFirstNameExtractor, throwingLastNameExtractor)
+          .as("flatMap with multiple ThrowingExtractors")
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.then(characters)
+          .flatMap(CartoonCharacter::getChildren)
+          .as("using flatMap on Iterable")
+          .containsAnyOf(homer, fred);
+    softly.then(characters)
+          .flatMap(CartoonCharacter::getChildrenWithException)
+          .as("using flatMap on Iterable with exception")
+          .containsExactlyInAnyOrder(homer, fred);
+    softly.then(names)
+          .map(throwingFirstNameExtractor)
+          .as("using map with ThrowingExtractor")
+          .contains("frodo");
+    softly.then(names)
+          .map(firstNameFunction)
+          .as("map with function")
+          .contains("sam");
+    softly.then(names)
+          .map(firstNameFunction, lastNameFunction)
+          .as("map with multiple functions")
+          .contains(tuple("John", "Doe"))
+          .contains(tuple("Frodo", "Baggins"));
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(33);
+    assertThat(errorsCollected).hasSize(40);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1332,6 +1401,13 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(30)).hasMessageContaining("using flatExtracting(String... fieldOrPropertyNames)");
     assertThat(errorsCollected.get(31)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
     assertThat(errorsCollected.get(32)).hasMessageContaining("filteredOn with consumer");
+    assertThat(errorsCollected.get(33)).hasMessageContaining("flatMap with multiple Extractors");
+    assertThat(errorsCollected.get(34)).hasMessageContaining("flatMap with multiple ThrowingExtractors");
+    assertThat(errorsCollected.get(35)).hasMessageContaining("using flatMap on Iterable");
+    assertThat(errorsCollected.get(36)).hasMessageContaining("using flatMap on Iterable with exception");
+    assertThat(errorsCollected.get(37)).hasMessageContaining("using map with ThrowingExtractor");
+    assertThat(errorsCollected.get(38)).hasMessageContaining("map with function");
+    assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

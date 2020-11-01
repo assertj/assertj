@@ -15,7 +15,6 @@ package org.assertj.core.api.assumptions;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
-import java.util.Collection;
 import java.util.function.Function;
 
 import org.assertj.core.api.Assertions;
@@ -49,7 +48,6 @@ public abstract class BaseAssumptionsRunnerTest {
   protected static Function<? super TolkienCharacter, Integer> ageExtractor;
   protected static Function<TolkienCharacter, String> nameExtractorFunction;
   protected static Function<TolkienCharacter, Integer> ageExtractorFunction;
-  protected static Function<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
 
   private static void setupData() {
     bart = new CartoonCharacter("Bart Simpson");
@@ -74,7 +72,6 @@ public abstract class BaseAssumptionsRunnerTest {
 
     frodo = TolkienCharacter.of("Frodo", 33, Race.HOBBIT);
     sam = TolkienCharacter.of("Sam", 35, Race.HOBBIT);
-    childrenExtractor = CartoonCharacter::getChildren;
   }
 
   @ParameterizedTest

@@ -798,7 +798,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Verifies that the actual {@link Iterable} contains at least one of the given values.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> Iterable&lt;String&gt; abc = Arrays.asList("a", "b", "c");
    *
    * // assertions will pass
@@ -829,7 +829,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Verifies that the {@link Iterable} under test contains at least one of the given {@link Iterable} elements.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> Iterable&lt;String&gt; abc = Arrays.asList("a", "b", "c");
    *
    * // assertions will pass
@@ -861,9 +861,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Iterable becoming the Iterable under test.
    * <p>
    * It allows you to test a property/field of the Iterable's elements instead of testing the elements themselves, which
-   * can be be much less work !
+   * can be be much less work!
    * <p>
-   * Let's take a look at an example to make things clearer :
+   * Let's take a look at an example to make things clearer:
    * <pre><code class='java'> // build a list of TolkienCharacters: a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -877,13 +877,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    *
-   * // let's verify the names of the TolkienCharacters in fellowshipOfTheRing :
+   * // let's verify the names of the TolkienCharacters in fellowshipOfTheRing:
    *
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;)
    *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;)
    *           .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
    *
-   * // you can extract nested properties/fields like the name of the race :
+   * // you can extract nested properties/fields like the name of the race:
    *
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;)
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
@@ -953,8 +953,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * is especially useful for classes that do not conform to the Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p>
-   * Let's take a look at an example to make things clearer :
-   * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
+   * Let's take a look at an example to make things clearer:
+   * <pre><code class='java'> // Build an array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    *
    * List&lt;WesterosHouse&gt; greatHouses = new ArrayList&lt;WesterosHouse&gt;();
    * greatHouses.add(new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Coming&quot;));
@@ -1001,8 +1001,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * is especially useful for classes that do not conform to the Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p>
-   * Let's take an example to make things clearer :
-   * <pre><code class='java'> // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
+   * Let's take an example to make things clearer:
+   * <pre><code class='java'> // Build an array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    * List&lt;WesterosHouse&gt; greatHouses = new ArrayList&lt;WesterosHouse&gt;();
    * greatHouses.add(new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Coming&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;));
@@ -1049,9 +1049,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Iterable becoming the Iterable under test.
    * <p>
    * It allows you to test a property/field of the Iterable's elements instead of testing the elements themselves,
-   * which can be much less work !
+   * which can be much less work!
    * <p>
-   * Let's take an example to make things clearer :
+   * Let's take an example to make things clearer:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -1065,12 +1065,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    *
-   * // let's verify the names of TolkienCharacter in fellowshipOfTheRing :
+   * // let's verify the names of TolkienCharacter in fellowshipOfTheRing:
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, String.class)
    *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;)
    *           .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
    *
-   * // you can extract nested property/field like the name of Race :
+   * // you can extract nested property/field like the name of Race:
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;, String.class)
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
@@ -1146,7 +1146,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * extract "id", "name" and "email" then each Tuple data will be composed of id, name and email extracted from the
    * element of the initial Iterable (the Tuple's data order is the same as the given fields/properties order).
    * <p>
-   * Let's take an example to make things clearer :
+   * Let's take an example to make things clearer:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -1160,14 +1160,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    *
-   * // let's verify 'name' and 'age' of some TolkienCharacter in fellowshipOfTheRing :
+   * // let's verify 'name' and 'age' of some TolkienCharacter in fellowshipOfTheRing:
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, &quot;age&quot;)
    *                                .contains(tuple(&quot;Boromir&quot;, 37),
    *                                          tuple(&quot;Sam&quot;, 38),
    *                                          tuple(&quot;Legolas&quot;, 1000));
    *
    *
-   * // extract 'name', 'age' and Race name values :
+   * // extract 'name', 'age' and Race name values:
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
    *                                .contains(tuple(&quot;Boromir&quot;, 37, &quot;Man&quot;),
    *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
@@ -1229,12 +1229,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /**
    * Extract the values from Iterable's elements under test by applying an extracting function on them. The returned
-   * iterable becomes a new object under test.
+   * iterable becomes the instance under test.
    * <p>
    * It allows to test values from the elements more safely than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
    * <p>
-   * Let's have a look at an example :
+   * Let's have a look at an example:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -1252,8 +1252,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getRace).contains(HOBBIT);</code></pre>
    *
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
-   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
-   * order.
+   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values order.
    *
    * @param <V> the type of elements extracted.
    * @param extractor the object transforming input object to desired one
@@ -1261,20 +1260,58 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Function<? super ELEMENT, V> extractor) {
+    return internalExtracting(extractor);
+  }
+
+  private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> internalExtracting(Function<? super ELEMENT, V> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
     return newListAssertInstanceForMethodsChangingElementType(values);
   }
 
   /**
+   * Maps the Iterable's elements under test by applying a mapping function, the resulting list becomes the instance under test.
+   * <p>
+   * This allows to test values from the elements more safely than by using {@link #extracting(String)}.
+   * <p>
+   * Let's have a look at an example:
+   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
+   *
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
+   *
+   * // fellowship has hobbitses, right, my precioussss?
+   * assertThat(fellowshipOfTheRing).map(TolkienCharacter::getRace)
+   *                                .contains(HOBBIT);</code></pre>
+   *
+   * Note that the order of mapped values is consistent with the order of the Iterable under test, for example if
+   * it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values order.
+   *
+   * @param <V> the type of elements resulting of the map operation.
+   * @param mapper the {@link Function} transforming input object to desired one
+   * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.19.0
+   */
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(Function<? super ELEMENT, V> mapper) {
+    return internalExtracting(mapper);
+  }
+
+  /**
    * Extract the values from Iterable's elements under test by applying an extracting function (which might throw an
-   * exception) on them. The returned iterable becomes a new object under test.
+   * exception) on them. The returned iterable becomes the instance under test.
    * <p>
    * Any checked exception raised in the extractor is rethrown wrapped in a {@link RuntimeException}.
    * <p>
    * It allows to test values from the elements more safely than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
    * <p>
-   * Let's have a look at an example :
+   * Let's have a look at an example:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -1307,8 +1344,49 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
-    List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-    return newListAssertInstanceForMethodsChangingElementType(values);
+    return internalExtracting(extractor);
+  }
+
+  /**
+   * Maps the Iterable's elements by applying the given mapping function (which might throw an exception), the returned list
+   * becomes the instance under test.
+   * <p>
+   * Any checked exception raised in the function is rethrown wrapped in a {@link RuntimeException}.
+   * <p>
+   * This allows to test values from the elements more safely than by using {@link #extracting(String)}.
+   * <p>
+   * Let's have a look at an example:
+   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
+   *
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
+   *
+   * assertThat(fellowshipOfTheRing).map(input -&gt; {
+   *   if (input.getAge() &lt; 20) {
+   *     throw new Exception("age &lt; 20");
+   *   }
+   *   return input.getName();
+   * }).contains("Frodo");</code></pre>
+   *
+   * Note that the order of mapped values is consistent with the order of the Iterable under test, for example if it's a
+   * {@link HashSet}, you won't be able to make any assumptions on the extracted values order.
+   *
+   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
+   * @param <V> the type of elements extracted.
+   * @param mapper the function transforming input object to desired one
+   * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.19.0
+   */
+  @CheckReturnValue
+  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> mapper) {
+    return internalExtracting(mapper);
   }
 
   /*
@@ -1327,15 +1405,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Extract the Iterable values from Iterable's elements under test by applying an Iterable extracting function on them
-   * and concatenating the result lists. The returned iterable becomes a new object under test.
+   * Extracts Iterable elements values by applying a function and concatenates the result into a list that becomes the instance
+   * under test.
    * <p>
-   * It allows testing the results of extracting values that are represented by Iterables.
-   * <p>
-   * For example:
+   * Example:
    * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
    * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
    * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+   *
    * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
    * homer.getChildren().add(bart);
    * homer.getChildren().add(lisa);
@@ -1351,13 +1428,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consistent with both the order of the collection itself, as well as the extracted
-   * collections.
+   * The extracted values order is consistent with both the order of the iterable itself as well as the extracted collections.
    *
-   * @param <V> the type of elements extracted.
-   * @param extractor the object transforming input object to an {@code Iterable} of desired ones
+   * @param <V> the type of extracted elements.
+   * @param extractor the {@link Function} transforming input object to an {@code Iterable} of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
-   * @throws NullPointerException if one of the {@code Iterable}'s element is null.
    */
   @CheckReturnValue
   public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Function<? super ELEMENT, ? extends Collection<V>> extractor) {
@@ -1365,16 +1440,50 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Extract the Iterable values from Iterable's elements under test by applying an Iterable extracting function (which
-   * might throw a checked exception) on them and concatenating the result lists. The returned iterable becomes a new object
-   * under test.
+   * Maps the Iterable's elements under test by applying the given {@link Function} and flattens the resulting collections in a
+   * list becoming the object under test.
    * <p>
-   * It allows testing the results of extracting values that are represented by Iterables.
-   * <p>
-   * For example:
+   * Example:
    * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
    * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
    * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+   *
+   * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
+   * homer.getChildren().add(bart);
+   * homer.getChildren().add(lisa);
+   * homer.getChildren().add(maggie);
+   *
+   * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
+   * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
+   * fred.getChildren().add(pebbles);
+   *
+   * List&lt;CartoonCharacter&gt; parents = list(homer, fred);
+   *
+   * // check children property which is a List&lt;CartoonCharacter&gt;
+   * assertThat(parents).flatMap(CartoonCharacter::getChildren)
+   *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
+   *
+   * The mapped values order is consistent with both the order of the iterable itself as well as the mapped collections.
+   *
+   * @param <V> the type of mapped elements.
+   * @param mapper the {@link Function} transforming input object to an {@code Iterable} of desired ones
+   * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.19.0
+   */
+  @CheckReturnValue
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatMap(Function<? super ELEMENT, ? extends Collection<V>> mapper) {
+    return doFlatExtracting(mapper);
+  }
+
+  /**
+   * Extracts Iterable elements values by applying a function (which might throw a checked exception) on them and
+   * concatenates/flattens the result into a single list that becomes the instance under test.
+   * <p>
+   * Example:
+   * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
+   * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
+   * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+   *
    * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
    * homer.getChildren().add(bart);
    * homer.getChildren().add(lisa);
@@ -1390,19 +1499,54 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consistent with both the order of the collection itself, as well as the extracted
-   * collections.
+   * The extracted values order is consistent with both the order of the iterable itself as well as the extracted collections.
    *
-   * @param <V> the type of elements extracted.
+   * @param <V> the type of extracted values.
    * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractor the object transforming input object to an {@code Iterable} of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
-   * @throws NullPointerException if one of the {@code Iterable}'s element is null.
    * @since 3.7.0
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, ? extends Collection<V>, EXCEPTION> extractor) {
     return doFlatExtracting(extractor);
+  }
+
+  /**
+   * Maps the Iterable's elements under test by applying a mapping function (which might throw a checked exception) and
+   * concatenates/flattens the result into a single list that becomes the instance under test.
+   * <p>
+   * Example:
+   * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
+   * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
+   * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+   *
+   * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
+   * homer.getChildren().add(bart);
+   * homer.getChildren().add(lisa);
+   * homer.getChildren().add(maggie);
+   *
+   * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
+   * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
+   * fred.getChildren().add(pebbles);
+   *
+   * List&lt;CartoonCharacter&gt; parents = list(homer, fred);
+   *
+   * // check children property where getChildren() can throw an Exception!
+   * assertThat(parents).flatMap(CartoonCharacter::getChildren)
+   *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
+   *
+   * The mapped values order is consistent with both the order of the iterable itself as well as the mapped collections.
+   *
+   * @param <V> the type of mapped values.
+   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
+   * @param mapper the object transforming input object to an {@code Iterable} of desired ones
+   * @return a new assertion object whose object under test is the list of values extracted
+   * @since 3.19.0
+   */
+  @CheckReturnValue
+  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatMap(ThrowingExtractor<? super ELEMENT, ? extends Collection<V>, EXCEPTION> mapper) {
+    return doFlatExtracting(mapper);
   }
 
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, ? extends Collection<V>> extractor) {
@@ -1413,18 +1557,18 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Extract multiple values from each {@code Iterable}'s element according to the given {@code Function}s
-   * and concatenate/flatten the extracted values in a list that is used as the new object under test.
+   * Extracts multiple values from each {@code Iterable}'s element according to the given {@code Function}s and
+   * concatenates/flattens them in a list that becomes the instance under test.
    * <p>
-   * If extracted values were not flattened, instead of a simple list like (given 2 extractors) :
-   * <pre>element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
-   * we would get a list of list like :
-   * <pre>list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
+   * If extracted values were not flattened, instead of a simple list like (given 2 extractors):
+   * <pre>  element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
+   * we would get a list of list like:
+   * <pre>  list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
    * <p>
-   * Code example:
+   * Example:
    * <pre><code class='java'> // fellowshipOfTheRing is a List&lt;TolkienCharacter&gt;
    *
-   * // values are extracted in order and flattened : age1, name1, age2, name2, age3 ...
+   * // values are extracted in order and flattened: age1, name1, age2, name2, age3 ...
    * assertThat(fellowshipOfTheRing).flatExtracting(TolkienCharacter::getAge,
    *                                                TolkienCharacter::getName)
    *                                .contains(33 ,"Frodo",
@@ -1432,33 +1576,68 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                                          87, "Aragorn");</code></pre>
    *
    * The resulting extracted values list is ordered by {@code Iterable}'s element first and then extracted values,
-   * this is why is in the example that age values come before names.
+   * this is why is in the example age values come before names.
    *
    * @param extractors all the extractors to apply on each actual {@code Iterable}'s elements
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... extractors) {
+    return doFlaExtracting(extractors);
+  }
+
+  /**
+   * Maps multiple values from each {@code Iterable}'s element according to the given {@code Function}s
+   * and concatenates/flattens them in a list that becomes the instance under test.
+   * <p>
+   * If mapped values were not flattened, instead of a simple list like (given 2 extractors):
+   * <pre>  element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
+   * we would get a list of list like:
+   * <pre>  list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // fellowshipOfTheRing is a List&lt;TolkienCharacter&gt;
+   *
+   * // values are extracted in order and flattened: age1, name1, age2, name2, age3 ...
+   * assertThat(fellowshipOfTheRing).flatMap(TolkienCharacter::getAge,
+   *                                         TolkienCharacter::getName)
+   *                                .contains(33 ,"Frodo",
+   *                                          1000, "Legolas",
+   *                                          87, "Aragorn");</code></pre>
+   *
+   * The resulting mapped values list is ordered by {@code Iterable}'s element first and then mapped values, this is why is
+   * in the example age values come before names.
+   *
+   * @param mappers all the mappers to apply on each actual {@code Iterable}'s elements
+   * @return a new assertion object whose object under test is a flattened list of all mapped values.
+   * @since 3.19.0
+   */
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatMap(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... mappers) {
+    return doFlaExtracting(mappers);
+  }
+
+  @SafeVarargs
+  private final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> doFlaExtracting(Function<? super ELEMENT, ?>... extractors) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
-    List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
-                                                                .map(extractor -> extractor.apply(element)))
+    List<Object> result = actualStream.flatMap(element -> Stream.of(extractors).map(extractor -> extractor.apply(element)))
                                       .collect(toList());
     return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
   /**
-   * Extract multiple values from each {@code Iterable}'s element according to the given {@link ThrowingExtractor}s
-   * and concatenate/flatten the extracted values in a list that is used as the new object under test.
+   * Extracts multiple values from each {@code Iterable}'s element according to the given {@link ThrowingExtractor}s
+   * and concatenates/flattens them in a list that becomes the object under test.
    * <p>
-   * If extracted values were not flattened, instead of a simple list like (given 2 extractors) :
-   * <pre>element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
-   * we would get a list of list like :
-   * <pre>list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
+   * If extracted values were not flattened, instead of a simple list like (given 2 extractors):
+   * <pre>  element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
+   * we would get a list of list like:
+   * <pre>  list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
    * <p>
-   * Code example:
+   * Example:
    * <pre><code class='java'> // fellowshipOfTheRing is a List&lt;TolkienCharacter&gt;
    *
-   * // values are extracted in order and flattened : age1, name1, age2, name2, age3 ...
+   * // values are extracted in order and flattened: age1, name1, age2, name2, age3 ...
    * assertThat(fellowshipOfTheRing).flatExtracting(input -&gt; {
    *   if (input.getAge() &lt; 20) {
    *     throw new Exception("age &lt; 20");
@@ -1474,7 +1653,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *     87, "Aragorn");</code></pre>
    *
    * The resulting extracted values list is ordered by {@code Iterable}'s element first and then extracted values,
-   * this is why is in the example that age values come before names.
+   * this is why is in the example age values come before names.
    *
    * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractors all the extractors to apply on each actual {@code Iterable}'s elements
@@ -1483,18 +1662,62 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(@SuppressWarnings("unchecked") ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
+    return doFlatExtracting(extractors);
+  }
+
+  /**
+   * Maps multiple values from each {@code Iterable}'s element according to the given {@link ThrowingExtractor}s and
+   * concatenates/flattens them in a list that becomes the object under test.
+   * <p>
+   * If mapped values were not flattened, instead of a simple list like (given 2 mappers):
+   * <pre>  element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
+   * we would get a list of list like:
+   * <pre>  list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // fellowshipOfTheRing is a List&lt;TolkienCharacter&gt;
+   *
+   * // values are extracted in order and flattened: age1, name1, age2, name2, age3 ...
+   * assertThat(fellowshipOfTheRing).flatMap(input -&gt; {
+   *   if (input.getAge() &lt; 20) {
+   *     throw new Exception("age &lt; 20");
+   *   }
+   *   return input.getName();
+   * }, input2 -&gt; {
+   *   if (input2.getAge() &lt; 20) {
+   *     throw new Exception("age &lt; 20");
+   *   }
+   *   return input2.getAge();
+   * }).contains(33 ,"Frodo",
+   *     1000, "Legolas",
+   *     87, "Aragorn");</code></pre>
+   *
+   * The resulting mapped values list is ordered by {@code Iterable}'s element first and then mapped values, this is why is in
+   * the example age values come before names.
+   *
+   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
+   * @param mappers all the mappers to apply on each actual {@code Iterable}'s elements
+   * @return a new assertion object whose object under test is a flattened list of all extracted values.
+   * @since 3.19.0
+   */
+  @CheckReturnValue
+  public <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatMap(@SuppressWarnings("unchecked") ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... mappers) {
+    return doFlatExtracting(mappers);
+  }
+
+  @SafeVarargs
+  private final <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> doFlatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... mappers) {
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
-    List<Object> result = actualStream.flatMap(element -> Stream.of(extractors)
-                                                                .map(extractor -> extractor.apply(element)))
+    List<Object> result = actualStream.flatMap(element -> Stream.of(mappers).map(extractor -> extractor.apply(element)))
                                       .collect(toList());
     return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
   /**
-   * Extract from Iterable's elements the Iterable/Array values corresponding to the given property/field name and
-   * concatenate them into a single list becoming the new object under test.
+   * Extract Iterable's elements values corresponding to the given property/field name and concatenates them into a list becoming
+   * the new instance under test.
    * <p>
-   * It allows testing the elements of extracting values that are represented by iterables or arrays.
+   * This allows testing the elements extracted values that are iterables or arrays.
    * <p>
    * For example:
    * <pre><code class='java'> CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
@@ -1515,8 +1738,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parents).flatExtracting("children")
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
-   * collections.
+   * The order of extracted values is consisted with both the order of the iterable itself as well as the extracted collections.
    *
    * @param fieldOrPropertyName the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
@@ -1553,12 +1775,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * It allows you to test values from the {@link Iterable}'s elements instead of testing the elements themselves, which sometimes can be
    * much less work!
    * <p>
-   * The Tuple data corresponds to the extracted values from the Iterable's elements, for instance if you pass functions
+   * The {@link Tuple} data correspond to the extracted values from the Iterable's elements, for instance if you pass functions
    * extracting "id", "name" and "email" values then each Tuple data will be composed of an id, a name and an email
-   * extracted from the element of the initial Iterable (the Tuple's data order is the same as the given functions
-   * order).
+   * extracted from the element of the initial Iterable (the Tuple's data order is the same as the given functions order).
    * <p>
-   * Let's take a look at an example to make things clearer :
+   * Let's take a look at an example to make things clearer:
    * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -1572,7 +1793,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    *
-   * // let's verify 'name', 'age' and Race of some TolkienCharacter in fellowshipOfTheRing :
+   * // let's verify 'name', 'age' and Race of some TolkienCharacter in fellowshipOfTheRing:
    * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
    *                                            character -&gt; character.getAge(),
    *                                            TolkienCharacter::getRace)
@@ -1596,6 +1817,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... extractors) {
+    return doExtracting(extractors);
+  }
+
+  @SafeVarargs
+  private final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> doExtracting(Function<? super ELEMENT, ?>... extractors) {
     // combine all extractors into one function
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
@@ -1606,18 +1832,71 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
+   * Use the given {@link Function}s to map the {@link Iterable}'s elements into a {@link List} of {@link Tuple}s
+   * (a simple data structure containing the mapped values), this new list becoming the object under test.
+   * <p>
+   * This allows you to test values from the {@link Iterable}'s elements instead of testing the elements themselves, which
+   * sometimes can be much less work!
+   * <p>
+   * The {@link Tuple} data correspond to the extracted values from the Iterable's elements, for instance if you pass functions
+   * mapping "id", "name" and "email" values then each {@code Tuple} data will be composed of an id, a name and an email
+   * mapped from the element of the initial Iterable (the Tuple's data order is the same as the given functions order).
+   * <p>
+   * Let's take a look at an example to make things clearer:
+   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * // they can be public field or properties, both can be extracted.
+   * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
+   *
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
+   *
+   * // let's verify 'name', 'age' and Race of some TolkienCharacter in fellowshipOfTheRing:
+   * assertThat(fellowshipOfTheRing).map(TolkienCharacter::getName,
+   *                                     character -&gt; character.getAge(),
+   *                                     TolkienCharacter::getRace)
+   *                                .containsOnly(tuple(&quot;Frodo&quot;, 33, HOBBIT),
+   *                                              tuple(&quot;Sam&quot;, 38, HOBBIT),
+   *                                              tuple(&quot;Gandalf&quot;, 2020, MAIA),
+   *                                              tuple(&quot;Legolas&quot;, 1000, ELF),
+   *                                              tuple(&quot;Pippin&quot;, 28, HOBBIT),
+   *                                              tuple(&quot;Gimli&quot;, 139, DWARF),
+   *                                              tuple(&quot;Aragorn&quot;, 87, MAN),
+   *                                              tuple(&quot;Boromir&quot;, 37, MAN));</code></pre>
+   * You can use lambda expression or a method reference to extract the expected values.
+   * <p>
+   * Use {@link Tuple#tuple(Object...)} to initialize the expected values.
+   * <p>
+   * Note that the order of the extracted tuples list is consistent with the iteration order of the Iterable under test,
+   * for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted tuples order.
+   *
+   * @param mappers the mapper functions to extract a value from an element of the Iterable under test.
+   * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
+   * @since 3.19.0
+   */
+  @CheckReturnValue
+  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> map(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... mappers) {
+    return doExtracting(mappers);
+  }
+
+  /**
    * Extract the given property/field values from each {@code Iterable}'s element and
    * flatten the extracted values in a list that is used as the new object under test.
    * <p>
-   * Given 2 properties, if the extracted values were not flattened, instead having a simple list like :
-   * <pre>element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
-   * ... we would get a list of list :
-   * <pre>list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
+   * Given 2 properties, if the extracted values were not flattened, instead having a simple list like:
+   * <pre>  element1.value1, element1.value2, element2.value1, element2.value2, ...  </pre>
+   * ... we would get a list of list:
+   * <pre>  list(element1.value1, element1.value2), list(element2.value1, element2.value2), ...  </pre>
    * <p>
-   * Code example:
+   * Example:
    * <pre><code class='java'> // fellowshipOfTheRing is a List&lt;TolkienCharacter&gt;
    *
-   * // values are extracted in order and flattened : age1, name1, age2, name2, age3 ...
+   * // values are extracted in order and flattened: age1, name1, age2, name2, age3 ...
    * assertThat(fellowshipOfTheRing).flatExtracting("age", "name")
    *                                .contains(33 ,"Frodo",
    *                                          1000, "Legolas",
@@ -2386,7 +2665,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Filters the iterable under test keeping only elements having a property or field matching the filter expressed with
    * the {@link FilterOperator}, the property/field is specified by {@code propertyOrFieldName} parameter.
    * <p>
-   * The existing filters are :
+   * The existing filters are:
    * <ul>
    * <li> {@link Assertions#not(Object) not(Object)}</li>
    * <li> {@link Assertions#in(Object...) in(Object...)}</li>
@@ -2402,7 +2681,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
    *
-   * As an example, let's check stuff on some special employees :
+   * As an example, let's check stuff on some special employees:
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -2459,7 +2738,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * If you prefer {@link Predicate} over {@link Condition}, use {@link #filteredOn(Predicate)}.
    * <p>
-   * Example : check old employees whose age &gt; 100:
+   * Example: check old employees whose age &gt; 100:
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
@@ -2533,7 +2812,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Filters the iterable under test keeping only elements matching the given assertions specified with a {@link Consumer}.
    * <p>
-   * Example : check young hobbits whose age &lt; 34:
+   * Example: check young hobbits whose age &lt; 34:
    *
    * <pre><code class='java'> TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -2986,7 +3265,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Filters the iterable under test keeping only elements matching the given {@link Predicate}.
    * <p>
-   * Example : check old employees whose age &gt; 100:
+   * Example: check old employees whose age &gt; 100:
    *
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);

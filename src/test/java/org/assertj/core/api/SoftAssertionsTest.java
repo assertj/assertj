@@ -1413,9 +1413,45 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
           .as("filteredOn with consumer")
           .hasSize(5);
+    softly.assertThat(characters)
+          .as("using flatMap on Iterable")
+          .overridingErrorMessage("error message")
+          .flatMap(childrenExtractor)
+          .containsAnyOf(homer, fred);
+    softly.assertThat(characters)
+          .as("using flatMap on Iterable with exception")
+          .overridingErrorMessage("error message")
+          .flatMap(CartoonCharacter::getChildrenWithException)
+          .containsExactlyInAnyOrder(homer, fred);
+    softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("flatMap with multiple Extractors")
+          .flatMap(firstNameFunction, lastNameFunction)
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("flatMap with multiple ThrowingExtractors")
+          .flatMap(throwingFirstNameFunction, throwingLastNameFunction)
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.assertThat(names)
+          .as("map(throwingFirstNameFunction)")
+          .overridingErrorMessage("error message")
+          .map(throwingFirstNameFunction)
+          .contains("frodo");
+    softly.assertThat(names)
+          .as("map(firstNameFunction)")
+          .map(firstNameFunction)
+          .contains("sam");
+    softly.assertThat(names)
+          .map(firstNameFunction, lastNameFunction)
+          .as("map with multiple functions")
+          .contains(tuple("John", "Doe"))
+          .contains(tuple("Frodo", "Baggins"));
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(33);
+    assertThat(errorsCollected).hasSize(40);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(throwingFirstNameFunction)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(throwingFirstNameFunction)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message");
@@ -1449,6 +1485,13 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(30)).hasMessage("[using flatExtracting(String... fieldOrPropertyNames)] error message");
     assertThat(errorsCollected.get(31)).hasMessage("[using flatExtracting(String fieldOrPropertyName)] error message");
     assertThat(errorsCollected.get(32)).hasMessage("[filteredOn with consumer] error message");
+    assertThat(errorsCollected.get(33)).hasMessageContaining("using flatMap on Iterable");
+    assertThat(errorsCollected.get(34)).hasMessageContaining("using flatMap on Iterable with exception");
+    assertThat(errorsCollected.get(35)).hasMessageContaining("flatMap with multiple Extractors");
+    assertThat(errorsCollected.get(36)).hasMessageContaining("flatMap with multiple ThrowingExtractors");
+    assertThat(errorsCollected.get(37)).hasMessageContaining("map(throwingFirstNameFunction)");
+    assertThat(errorsCollected.get(38)).hasMessageContaining("map(firstNameFunction)");
+    assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1597,9 +1640,45 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
           .as("filteredOn with consumer")
           .hasSize(5);
+    softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("flatMap with multiple Extractors")
+          .flatMap(firstNameFunction, lastNameFunction)
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.assertThat(names)
+          .overridingErrorMessage("error message")
+          .as("flatMap with multiple ThrowingExtractors")
+          .flatMap(throwingFirstNameFunction, throwingLastNameFunction)
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.assertThat(characters)
+          .as("using flatMap on Iterable")
+          .overridingErrorMessage("error message")
+          .flatMap(childrenExtractor)
+          .containsAnyOf(homer, fred);
+    softly.assertThat(characters)
+          .as("using flatMap on Iterable with exception")
+          .overridingErrorMessage("error message")
+          .flatMap(CartoonCharacter::getChildrenWithException)
+          .containsExactlyInAnyOrder(homer, fred);
+    softly.assertThat(names)
+          .as("map(throwingFirstNameFunction)")
+          .overridingErrorMessage("error message")
+          .map(throwingFirstNameFunction)
+          .contains("frodo");
+    softly.assertThat(names)
+          .as("map(firstNameFunction)")
+          .map(firstNameFunction)
+          .contains("sam");
+    softly.assertThat(names)
+          .map(firstNameFunction, lastNameFunction)
+          .as("map with multiple functions")
+          .contains(tuple("John", "Doe"))
+          .contains(tuple("Frodo", "Baggins"));
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(33);
+    assertThat(errorsCollected).hasSize(40);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(throwingFirstNameFunction)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(throwingFirstNameFunction)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message");
@@ -1633,6 +1712,13 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(30)).hasMessage("[using flatExtracting(String... fieldOrPropertyNames)] error message");
     assertThat(errorsCollected.get(31)).hasMessage("[using flatExtracting(String fieldOrPropertyName)] error message");
     assertThat(errorsCollected.get(32)).hasMessage("[filteredOn with consumer] error message");
+    assertThat(errorsCollected.get(33)).hasMessageContaining("flatMap with multiple Extractors");
+    assertThat(errorsCollected.get(34)).hasMessageContaining("flatMap with multiple ThrowingExtractors");
+    assertThat(errorsCollected.get(35)).hasMessageContaining("using flatMap on Iterable");
+    assertThat(errorsCollected.get(36)).hasMessageContaining("using flatMap on Iterable with exception");
+    assertThat(errorsCollected.get(37)).hasMessageContaining("map(throwingFirstNameFunction)");
+    assertThat(errorsCollected.get(38)).hasMessageContaining("map(firstNameFunction)");
+    assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
