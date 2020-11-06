@@ -32,9 +32,9 @@
 -runbundles: \
 	assertj-core;version='[3.18.1,3.18.2)',\
 	assertj-core-tests;version='[3.18.1,3.18.2)',\
-	junit-jupiter-api;version='[5.6.2,5.6.3)',\
-	junit-jupiter-engine;version='[5.6.2,5.6.3)',\
-	junit-platform-commons;version='[1.6.2,1.6.3)',\
-	junit-platform-engine;version='[1.6.2,1.6.3)',\
-	junit-platform-launcher;version='[1.6.2,1.6.3)',\
+	junit-jupiter-api;version='[5.6.3,5.6.4)',\
+	junit-jupiter-engine;version='[5.6.3,5.6.4)',\
+	junit-platform-commons;version='[1.6.3,1.6.4)',\
+	junit-platform-engine;version='[1.6.3,1.6.4)',\
+	junit-platform-launcher;version='[1.6.3,1.6.4)',\
 	org.opentest4j;version='[1.2.0,1.2.1)'
