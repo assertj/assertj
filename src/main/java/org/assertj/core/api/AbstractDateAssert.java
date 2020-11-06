@@ -30,6 +30,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -1241,6 +1242,25 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link #isBetween(Date, Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * assertThat(new Date()).isBetween(Instant.now().minusSeconds(5), Instant.now().plusSeconds(5));</code></pre>
+   *
+   * @param start the period start (inclusive), expected not to be null.
+   * @param end the period end (exclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if start Instant as String is {@code null}.
+   * @throws NullPointerException if end Instant as String is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not in [start, end[ period.
+   */
+  public SELF isBetween(Instant start, Instant end) {
+    return isBetween(Date.from(start), Date.from(end));
+  }
+
+  /**
    * Verifies that the actual {@code Date} is in the given period defined by start and end dates.<br>
    * To include start
    * in the period set inclusiveStart parameter to <code>true</code>.<br>
@@ -1327,6 +1347,29 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isBetween(String start, String end, boolean inclusiveStart, boolean inclusiveEnd) {
     dates.assertIsBetween(info, actual, parse(start), parse(end), inclusiveStart, inclusiveEnd);
+    return myself;
+  }
+
+  /**
+   * Same assertion as {@link #isBetween(Date, Date, boolean, boolean)} but given date is represented as
+   * {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * assertThat(new Date()).isBetween(Instant.now().minusSeconds(5), Instant.now().plusSeconds(5), true, true);</code></pre>
+   *
+   * @param start the period start, expected not to be null.
+   * @param end the period end, expected not to be null.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws NullPointerException if start Date as Instant is {@code null}.
+   * @throws NullPointerException if end Date as Instant is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not in (start, end) period.
+   */
+  public SELF isBetween(Instant start, Instant end, boolean inclusiveStart, boolean inclusiveEnd) {
+    dates.assertIsBetween(info, actual, Date.from(start), Date.from(end), inclusiveStart, inclusiveEnd);
     return myself;
   }
 
