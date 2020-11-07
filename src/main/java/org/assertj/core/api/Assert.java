@@ -745,4 +745,32 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @since 2.9.0
    */
   SELF hasSameHashCodeAs(Object other);
+
+  /**
+   * Verifies that the actual object does not have the same hashCode as the given object.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat(42L).doesNotHaveSameHashCodeAs(2501L);
+   * assertThat(null).doesNotHaveSameHashCodeAs(&quot;The Force&quot;);
+   * assertThat(&quot;The Force&quot;).doesNotHaveSameHashCodeAs(null);
+   *
+   * // assertions will fail
+   * assertThat(42L).doesNotHaveSameHashCodeAs(42L);
+   * assertThat(&quot;The Force&quot;).doesNotHaveSameHashCodeAs(&quot;The Force&quot;);
+   * assertThat(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)).doesNotHaveSameHashCodeAs(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;));
+   * </code></pre>
+   *
+   * @param other the object to check hashCode against.
+   *
+   * @return this assertion object.
+   *
+   * @throws AssertionError if the actual object is null.
+   * @throws NullPointerException if the other object is null.
+   * @throws AssertionError if the actual object has the same hashCode as the given object.
+   *
+   * @since 3.19.0
+   */
+  SELF doesNotHaveSameHashCodeAs(Object other);
 }

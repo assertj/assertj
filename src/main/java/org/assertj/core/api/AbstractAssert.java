@@ -988,6 +988,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public SELF doesNotHaveSameHashCodeAs(Object other) {
+    objects.assertDoesNotHaveSameHashCodeAs(info, actual, other);
+    return myself;
+  }
+
   /**
    * Create a {@link AbstractListAssert}.
    * <p>
