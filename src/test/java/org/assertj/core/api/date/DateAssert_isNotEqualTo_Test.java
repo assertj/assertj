@@ -23,7 +23,8 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Tests for {@link DateAssert#isNotEqualTo(Date)} and {@link DateAssert#isNotEqualTo(String)}.
+ * Tests for {@link DateAssert#isNotEqualTo(Date)}, {@link DateAssert#isNotEqualTo(String)} and
+ * {@link DateAssert#isNotEqualTo(Instant)}.
  * 
  * @author Joel Costigliola
  */
