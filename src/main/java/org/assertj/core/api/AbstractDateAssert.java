@@ -1242,11 +1242,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Same assertion as {@link #isBetween(Date, Date)} but given date is represented as {@code java.time.Instant}.
+   * Same assertion as {@link #isBetween(Date, Date)} but given period is represented as {@code java.time.Instant}.
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * assertThat(new Date()).isBetween(Instant.now().minusSeconds(5), Instant.now().plusSeconds(5));</code></pre>
+   * <pre><code class='java'>assertThat(new Date()).isBetween(Instant.now().minusSeconds(5), Instant.now().plusSeconds(5));</code></pre>
    *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
@@ -1294,7 +1293,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Same assertion as {@link #isBetween(Date, Date, boolean, boolean)}but given date is represented as String either
+   * Same assertion as {@link #isBetween(Date, Date, boolean, boolean)} but given date is represented as String either
    * with one of the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
@@ -1351,7 +1350,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Same assertion as {@link #isBetween(Date, Date, boolean, boolean)} but given date is represented as
+   * Same assertion as {@link #isBetween(Date, Date, boolean, boolean)} but given period is represented as
    * {@code java.time.Instant}.
    * <p>
    * Example:
