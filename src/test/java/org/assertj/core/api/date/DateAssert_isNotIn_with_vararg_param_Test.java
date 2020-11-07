@@ -14,9 +14,11 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -36,9 +38,19 @@ class DateAssert_isNotIn_with_vararg_param_Test extends AbstractDateAssertWithDa
     return assertions.isNotIn(dateAsString);
   }
 
+  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
+    return assertions.isNotIn(instant);
+  }
+
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(objects).assertIsNotIn(getInfo(assertions), getActual(assertions), new Object[] { date });
+  }
+
+  @Test
+  public void should_verify_assertion_with_instant_arg() {
+    assertionInvocationWithInstantArg(otherDate.toInstant());
+    verifyAssertionInvocation(otherDate);
   }
 
 }

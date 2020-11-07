@@ -30,6 +30,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -37,6 +38,7 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -547,10 +549,25 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public SELF isIn(String... datesAsString) {
-    Date[] dates = new Date[datesAsString.length];
-    for (int i = 0; i < datesAsString.length; i++) {
-      dates[i] = parse(datesAsString[i]);
-    }
+    Date[] dates = toDateArray(datesAsString, this::parse);
+    return isIn((Object[]) dates);
+  }
+
+  /**
+   * Same assertion as {@link Assert#isIn(Object...) }but given date is represented as an {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will fail
+   * // theTwoTowers release date : 2002-12-18
+   * Instant now = Instant.now()
+   * assertThat(theTwoTowers.getReleaseDate()).isIn(now, now.plusSeconds(5), now.minusSeconds(5));</code></pre>
+   *
+   * @param instants the given dates represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if actual is not in given dates represented as {@code Instant}.
+   */
+  public SELF isIn(Instant... instants) {
+    Date[] dates = toDateArray(instants, Date::from);
     return isIn((Object[]) dates);
   }
 
@@ -650,10 +667,25 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public SELF isNotIn(String... datesAsString) {
-    Date[] dates = new Date[datesAsString.length];
-    for (int i = 0; i < datesAsString.length; i++) {
-      dates[i] = parse(datesAsString[i]);
-    }
+    Date[] dates = toDateArray(datesAsString, this::parse);
+    return isNotIn((Object[]) dates);
+  }
+
+  /**
+   * Same assertion as {@link Assert#isNotIn(Object...)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
+   * Instant now = Instant.now()
+   * assertThat(theTwoTowers.getReleaseDate()).isIn(now, now.plusSeconds(5), now.minusSeconds(5));</code></pre>
+   *
+   * @param instants the given dates represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if actual is not in given dates represented as {@code Instant}.
+   */
+  public SELF isNotIn(Instant... instants) {
+    Date[] dates =  toDateArray(instants, Date::from);
     return isNotIn((Object[]) dates);
   }
 
@@ -3009,6 +3041,14 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
       }
     }
     return null;
+  }
+
+  private static <T> Date[] toDateArray(T[] values, Function<T, Date> converter) {
+    Date[] dates = new Date[values.length];
+    for (int i = 0; i < values.length; i++) {
+      dates[i] = converter.apply(values[i]);
+    }
+    return dates;
   }
 
   @Override
