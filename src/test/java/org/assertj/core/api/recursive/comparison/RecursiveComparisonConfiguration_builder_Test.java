@@ -95,8 +95,7 @@ class RecursiveComparisonConfiguration_builder_Test {
                                                                                      .withIgnoredCollectionOrderInFields(values)
                                                                                      .build();
     // THEN
-    then(configuration.getIgnoredCollectionOrderInFields()).extracting(FieldLocation::getFieldPath)
-                                                           .containsExactly(values);
+    then(configuration.getIgnoredCollectionOrderInFields()).containsExactly(values);
   }
 
   @Test
@@ -121,8 +120,7 @@ class RecursiveComparisonConfiguration_builder_Test {
                                                                                      .withIgnoredFields(values)
                                                                                      .build();
     // THEN
-    then(configuration.getIgnoredFields()).extracting(FieldLocation::getFieldPath)
-                                          .containsExactly(values);
+    then(configuration.getIgnoredFields()).containsExactly(values);
   }
 
   @Test
@@ -147,8 +145,7 @@ class RecursiveComparisonConfiguration_builder_Test {
                                                                                      .withIgnoredOverriddenEqualsForFields(values)
                                                                                      .build();
     // THEN
-    then(configuration.getIgnoredOverriddenEqualsForFields()).extracting(FieldLocation::getFieldPath)
-                                                             .containsExactly(values);
+    then(configuration.getIgnoredOverriddenEqualsForFields()).containsExactly(values);
   }
 
   @Test

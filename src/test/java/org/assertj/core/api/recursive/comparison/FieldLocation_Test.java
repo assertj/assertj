@@ -14,17 +14,19 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-@SuppressWarnings("deprecation") // TODO to be removed once FieldLocation is package-private
 class FieldLocation_Test {
 
   @Test
@@ -37,10 +39,10 @@ class FieldLocation_Test {
   @Test
   void compareTo_should_order_field_location_by_alphabetical_path() {
     // GIVEN
-    FieldLocation fieldLocation1 = FieldLocation.fieldLocation("a");
-    FieldLocation fieldLocation2 = FieldLocation.fieldLocation("a.b");
-    FieldLocation fieldLocation3 = FieldLocation.fieldLocation("aaa");
-    FieldLocation fieldLocation4 = FieldLocation.fieldLocation("z");
+    FieldLocation fieldLocation1 = new FieldLocation(list("a"));
+    FieldLocation fieldLocation2 = new FieldLocation(list("a.b"));
+    FieldLocation fieldLocation3 = new FieldLocation(list("aaa"));
+    FieldLocation fieldLocation4 = new FieldLocation(list("z"));
     List<FieldLocation> fieldLocations = list(fieldLocation2, fieldLocation1, fieldLocation3, fieldLocation4);
     Collections.shuffle(fieldLocations);
     // WHEN
@@ -49,40 +51,35 @@ class FieldLocation_Test {
     then(fieldLocations).containsExactly(fieldLocation1, fieldLocation2, fieldLocation3, fieldLocation4);
   }
 
-  @Test
-  void from_should_build_fieldLocations_from_given_strings() {
-    // GIVEN
-    String[] locations = { "foo", "bar", "foo.bar" };
-    // WHEN
-    List<FieldLocation> fieldLocations = FieldLocation.from(locations);
-    // THEN
-    then(fieldLocations).containsExactly(new FieldLocation("foo"),
-                                         new FieldLocation("bar"),
-                                         new FieldLocation("foo.bar"));
-  }
-
   @ParameterizedTest(name = "{0} matches {1}")
-  @CsvSource(value = {
-      "name, name",
-      "foo.bar, foo.bar",
-  })
-  void matches_should_match_fields(String location, String matchingFieldPath) {
+  @MethodSource
+  void matches_should_match_fields(List<String> fieldPath, String matchingFieldPath) {
     // GIVEN
-    FieldLocation underTest = new FieldLocation(location);
+    FieldLocation underTest = new FieldLocation(fieldPath);
     // WHEN
     boolean match = underTest.matches(matchingFieldPath);
     // THEN
     then(match).as("%s matches %s", underTest, matchingFieldPath).isTrue();
   }
 
+  private static Stream<Arguments> matches_should_match_fields() {
+    return Stream.of(arguments(list("name"), "name"),
+                     arguments(list("name", "first"), "name.first"),
+                     arguments(list("name", "[2]", "first"), "name.first"),
+                     arguments(list("[0]", "first"), "first"),
+                     arguments(list("[1]", "first", "second"), "first.second"),
+                     arguments(list("person", "[1]", "first", "second"), "person.first.second"),
+                     arguments(list("father", "name", "first"), "father.name.first"));
+  }
+
   @Test
   void toString_should_succeed() {
     // GIVEN
-    FieldLocation underTest = FieldLocation.fieldLocation("location");
+    FieldLocation underTest = new FieldLocation(list("location"));
     // WHEN
     String result = underTest.toString();
     // THEN
-    then(result).isEqualTo("FieldLocation [fieldPath=location]");
+    then(result).isEqualTo("FieldLocation [pathToUseInRules=location, decomposedPath=[location]]");
   }
 
 }

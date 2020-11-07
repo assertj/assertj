@@ -27,12 +27,14 @@ import java.util.stream.Stream;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
- * An internal holder of the comparators for fields described with {@link FieldLocation}.
+ * An internal holder of the comparators for fields described by their path without element index.
+ * <p>
+ * Examples: {@code name.first} or {@code names.first} but not {@code names[1].first} or {@code names.[1].first}
  */
 public class FieldComparators {
 
   @VisibleForTesting
-  Map<FieldLocation, Comparator<?>> fieldComparators;
+  Map<String, Comparator<?>> fieldComparators;
 
   public FieldComparators() {
     fieldComparators = new TreeMap<>();
@@ -44,7 +46,7 @@ public class FieldComparators {
    * @param fieldLocation the FieldLocation where to apply the comparator
    * @param comparator the comparator it self
    */
-  public void registerComparator(FieldLocation fieldLocation, Comparator<?> comparator) {
+  public void registerComparator(String fieldLocation, Comparator<?> comparator) {
     fieldComparators.put(fieldLocation, comparator);
   }
 
@@ -68,25 +70,26 @@ public class FieldComparators {
   @Override
   public String toString() {
     List<String> registeredComparatorsDescription = new ArrayList<>();
-    for (Entry<FieldLocation, Comparator<?>> fieldComparator : this.fieldComparators.entrySet()) {
+    for (Entry<String, Comparator<?>> fieldComparator : this.fieldComparators.entrySet()) {
       registeredComparatorsDescription.add(formatRegisteredComparator(fieldComparator));
     }
     return format("{%s}", join(registeredComparatorsDescription).with(", "));
   }
 
-  private static String formatRegisteredComparator(Entry<FieldLocation, Comparator<?>> fieldComparator) {
+  private static String formatRegisteredComparator(Entry<String, Comparator<?>> fieldComparator) {
     return format("%s -> %s", fieldComparator, fieldComparator.getValue());
   }
 
-  public boolean hasComparatorForField(FieldLocation fieldLocation) {
+  public boolean hasComparatorForField(String fieldLocation) {
+    // TODO sanitize here?
     return fieldComparators.containsKey(fieldLocation);
   }
 
-  public Comparator<?> getComparatorForField(FieldLocation fieldLocation) {
+  public Comparator<?> getComparatorForField(String fieldLocation) {
     return fieldComparators.get(fieldLocation);
   }
 
-  public Stream<Entry<FieldLocation, Comparator<?>>> comparatorByFields() {
+  public Stream<Entry<String, Comparator<?>>> comparatorByFields() {
     return fieldComparators.entrySet().stream();
   }
 

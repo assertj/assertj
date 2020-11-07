@@ -14,7 +14,6 @@ package org.assertj.core.api.recursive.comparison;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.fieldLocation;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
@@ -297,8 +296,8 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("bar", "baz");
     // THEN
-    List<FieldLocation> ignoredOverriddenEqualsFields = recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields();
-    assertThat(ignoredOverriddenEqualsFields).containsExactly(fieldLocation("foo"), fieldLocation("bar"), fieldLocation("baz"));
+    List<String> ignoredOverriddenEqualsFields = recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields();
+    assertThat(ignoredOverriddenEqualsFields).containsExactly("foo", "bar", "baz");
   }
 
   @ParameterizedTest(name = "actual {0} / expected {1}")

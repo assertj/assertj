@@ -14,9 +14,10 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.lang.String.join;
-import static org.assertj.core.util.Lists.list;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.recursive.comparison.DualValue.rootDualValue;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,37 +27,44 @@ import org.assertj.core.presentation.Representation;
 
 public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
+  // ELEMENT_WITH_INDEX_PATTERN should match [0] or [123] but not name[0] or [0].name, explanation:
+  // - ^ represents the start of the string in a regex
+  // - \[ represents [ in a regex, need another \ to escape it in a java string
+  // - d+ any number
+  // - \] represents ] in a regex
+  // - $ represents the end of the string in a regex
+  private static final String TOP_LEVEL_ELEMENT_PATTERN = "^\\[\\d+\\]$";
   private static final String FIELD = "field/property '%s'";
   private static final String TOP_LEVEL_OBJECTS = "Top level actual and expected objects";
+  private static final String TOP_LEVEL_ELEMENTS = "Top level actual and expected objects element at index %s";
   private static final String TEMPLATE = "%s differ:%n" +
                                          "- actual value   : %s%n" +
                                          "- expected value : %s%s";
 
-  final List<String> path;
+  final List<String> decomposedPath;
   final String concatenatedPath;
   final Object actual;
   final Object expected;
   final Optional<String> additionalInformation;
 
-  public ComparisonDifference(List<String> path, Object actual, Object other) {
-    this(path, actual, other, null);
+  public ComparisonDifference(DualValue dualValue) {
+    this(dualValue.getDecomposedPath(), dualValue.actual, dualValue.expected, null);
   }
 
-  public ComparisonDifference(List<String> path, Object actual, Object other, String additionalInformation) {
-    Objects.requireNonNull(path, "a path can't be null");
-    this.path = Collections.unmodifiableList(path);
-    this.concatenatedPath = join(".", this.path);
+  public ComparisonDifference(DualValue dualValue, String additionalInformation) {
+    this(dualValue.getDecomposedPath(), dualValue.actual, dualValue.expected, additionalInformation);
+  }
+
+  private ComparisonDifference(List<String> decomposedPath, Object actual, Object other, String additionalInformation) {
+    this.decomposedPath = unmodifiableList(requireNonNull(decomposedPath, "a path can't be null"));
+    this.concatenatedPath = toConcatenatedPath(decomposedPath);
     this.actual = actual;
     this.expected = other;
     this.additionalInformation = Optional.ofNullable(additionalInformation);
   }
 
   public static ComparisonDifference rootComparisonDifference(Object actual, Object other, String additionalInformation) {
-    return new ComparisonDifference(list(""), actual, other, additionalInformation);
-  }
-
-  public String getPath() {
-    return concatenatedPath;
+    return new ComparisonDifference(rootDualValue(actual, other), additionalInformation);
   }
 
   public Object getActual() {
@@ -67,7 +75,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     return expected;
   }
 
-  public Optional<String> getDescription() {
+  public Optional<String> getAdditionalInformation() {
     return additionalInformation;
   }
 
@@ -101,18 +109,35 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline)
                                                  .orElse("");
     return format(TEMPLATE,
-                  getObjectPathDescription(),
+                  fieldPathDescription(),
                   unambiguousActualRepresentation,
                   unambiguousExpectedRepresentation,
                   additionalInfo);
   }
 
-  private String getObjectPathDescription() {
-    return concatenatedPath.isEmpty() ? TOP_LEVEL_OBJECTS : format(FIELD, getPath());
+  // retuns a user friendly path that can differ from DualValue field location
+  private String fieldPathDescription() {
+    if (concatenatedPath.isEmpty()) return TOP_LEVEL_OBJECTS;
+    if (concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)) return format(TOP_LEVEL_ELEMENTS, extractIndex(concatenatedPath));
+    return format(FIELD, concatenatedPath);
+  }
+
+  private static String extractIndex(String path) {
+    // path looks like [12]
+    // index = 12]
+    String index = path.substring(1);
+    // index = 12
+    return index.replaceFirst("\\]", "");
   }
 
   private static String formatOnNewline(String info) {
     return format("%n%s", info);
+  }
+
+  private static String toConcatenatedPath(List<String> decomposedPath) {
+    String concatenatedPath = join(".", decomposedPath);
+    // remove the . from array/list index, so person.children.[2].name -> person.children[2].name
+    return concatenatedPath.replaceAll("\\.\\[", "[");
   }
 
   @Override
@@ -135,7 +160,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   @Override
   public int compareTo(final ComparisonDifference other) {
     // we don't use '.' to join path before comparing them as it would make a.b < aa
-    return join("", this.path).compareTo(join("", other.path));
+    return join("", decomposedPath).compareTo(join("", other.decomposedPath));
   }
 
 }

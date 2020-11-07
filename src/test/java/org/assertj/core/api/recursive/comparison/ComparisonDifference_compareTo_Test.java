@@ -35,12 +35,12 @@ class ComparisonDifference_compareTo_Test {
     // WHEN
     Set<ComparisonDifference> differences = newTreeSet(diff1, diff2, diff3, diff4, diff5, diff6);
     // THEN
-    assertThat(differences).extracting(ComparisonDifference::getPath)
+    assertThat(differences).extracting(input -> input.concatenatedPath)
                            .containsExactly("aa", "aaa", "a.b", "a.b.c", "a.c", "b");
   }
 
   private static ComparisonDifference comparisonDifference(String... pathElements) {
-    return new ComparisonDifference(list(pathElements), RandomStringUtils.random(5), RandomStringUtils.random(6));
+    return new ComparisonDifference(new DualValue(list(pathElements), RandomStringUtils.random(5), RandomStringUtils.random(6)));
   }
 
 }

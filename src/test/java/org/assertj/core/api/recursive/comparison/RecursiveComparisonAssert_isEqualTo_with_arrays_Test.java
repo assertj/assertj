@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")
-  @MethodSource("sameArrays")
+  @MethodSource
   void should_pass_when_comparing_same_array_fields(Author[] authors1, Author[] authors2) {
     // GIVEN
     WithArray<Author> actual = new WithArray<>(authors1);
@@ -38,7 +38,7 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
                       .isEqualTo(expected);
   }
 
-  static Stream<Arguments> sameArrays() {
+  static Stream<Arguments> should_pass_when_comparing_same_array_fields() {
     Author pratchett = new Author("Terry Pratchett");
     Author georgeMartin = new Author("George Martin");
     Author none = null;
@@ -50,9 +50,9 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
   }
 
   @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
-  @MethodSource("differentArrays")
+  @MethodSource
   void should_fail_when_comparing_different_array_fields(Author[] authors1, Author[] authors2,
-                                                         String path, Object value1, Object value2, String desc) {
+                                                         List<String> path, Object value1, Object value2, String desc) {
     // GIVEN
     WithArray<Author> actual = new WithArray<>(authors1);
     WithArray<Author> expected = new WithArray<>(authors2);
@@ -63,20 +63,26 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
-  static Stream<Arguments> differentArrays() {
+  static Stream<Arguments> should_fail_when_comparing_different_array_fields() {
     Author pratchett = new Author("Terry Pratchett");
     Author georgeMartin = new Author("George Martin");
     Author none = null;
-    return Stream.of(Arguments.of(array(pratchett), array(georgeMartin), "group.name", "Terry Pratchett", "George Martin", null),
-                     Arguments.of(array(pratchett, georgeMartin), array(pratchett), "group",
-                                  array(pratchett, georgeMartin), array(pratchett),
+    return Stream.of(Arguments.of(array(pratchett), array(georgeMartin),
+                                  list("group", "[0]", "name"), "Terry Pratchett", "George Martin",
+                                  null),
+                     Arguments.of(array(pratchett, georgeMartin), array(pratchett),
+                                  list("group"), array(pratchett, georgeMartin), array(pratchett),
                                   "actual and expected values are arrays of different size, actual size=2 when expected size=1"),
-                     Arguments.of(array(pratchett), array(none), "group", pratchett, null, null),
-                     Arguments.of(array(none), array(pratchett), "group", null, pratchett, null));
+                     Arguments.of(array(pratchett), array(none),
+                                  list("group", "[0]"), pratchett, null,
+                                  null),
+                     Arguments.of(array(none), array(pratchett),
+                                  list("group", "[0]"), null, pratchett,
+                                  null));
   }
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")
-  @MethodSource("arrayWithNonArrays")
+  @MethodSource
   void should_fail_when_comparing_array_to_non_array(Object actualFieldValue, Author[] expectedFieldValue,
                                                      String path, Object value1, Object value2, String desc) {
     // GIVEN
@@ -89,7 +95,7 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
-  static Stream<Arguments> arrayWithNonArrays() {
+  static Stream<Arguments> should_fail_when_comparing_array_to_non_array() {
     Author pratchett = new Author("Terry Pratchett");
     Author georgeMartin = new Author("George Martin");
     // we need to use the actual array and the expected list otherwise verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall

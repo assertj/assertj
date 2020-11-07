@@ -31,7 +31,7 @@ class FieldComparators_registerComparator_Test {
   @Test
   void should_register_comparator_for_a_given_fieldLocation() {
     // GIVEN
-    FieldLocation fooLocation = new FieldLocation("foo");
+    String fooLocation = "foo";
     // WHEN
     AlwaysEqualComparator<?> alwaysEqualComparator = alwaysEqual();
     fieldComparators.registerComparator(fooLocation, alwaysEqualComparator);
@@ -43,7 +43,7 @@ class FieldComparators_registerComparator_Test {
   @Test
   void hasComparatorForField_should_return_false_for_field_location_without_comparator() {
     // GIVEN
-    FieldLocation fooLocation = new FieldLocation("foo");
+    String fooLocation = "foo";
     // THEN
     assertThat(fieldComparators.hasComparatorForField(fooLocation)).isFalse();
   }
@@ -51,7 +51,7 @@ class FieldComparators_registerComparator_Test {
   @Test
   void getComparatorForField_should_return_null_for_field_location_without_comparator() {
     // GIVEN
-    FieldLocation fooLocation = new FieldLocation("foo");
+    String fooLocation = "foo";
     // THEN
     assertThat(fieldComparators.getComparatorForField(fooLocation)).isNull();
   }

@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -162,7 +163,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
+    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
@@ -179,7 +180,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
+    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
@@ -198,7 +199,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
+    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
@@ -253,6 +254,22 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
 
     return Stream.of(arguments(person1, person2, "same data and type, except for one ignored field",
                                list("name")),
+                     arguments(list(person1), list(person2), "list of same data and type, except for one ignored field",
+                               list("name")),
+                     arguments(array(person1), array(person2), "array of same data and type, except for one ignored field",
+                               list("name")),
+                     arguments(list(person1, giant1), list(person2, person1),
+                               "list of same data except name and height which is not even a field from person1",
+                               list("name", "height")),
+                     arguments(array(person1, giant1), array(person2, person1),
+                               "list of same data except name and height which is not even a field from person1",
+                               list("name", "height")),
+                     arguments(list(person3, person7), list(person4, person8),
+                               "list of same data except name and height which is not even a field from person1",
+                               list("name", "home.address.number", "neighbour.neighbour.home.address.number", "neighbour.name")),
+                     arguments(array(person3, person7), array(person4, person8),
+                               "array of same data except name and height which is not even a field from person1",
+                               list("name", "home.address.number", "neighbour.neighbour.home.address.number", "neighbour.name")),
                      arguments(giant1, person1,
                                "different type, same data except name and height which is not even a field from person1",
                                list("name", "height")),

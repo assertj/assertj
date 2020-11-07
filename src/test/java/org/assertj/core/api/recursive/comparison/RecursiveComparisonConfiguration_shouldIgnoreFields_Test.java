@@ -51,15 +51,13 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar", "bar");
     // WHEN
-    Set<FieldLocation> fields = recursiveComparisonConfiguration.getIgnoredFields();
+    Set<String> fields = recursiveComparisonConfiguration.getIgnoredFields();
     // THEN
-    assertThat(fields).containsExactlyInAnyOrder(new FieldLocation("foo"),
-                                                 new FieldLocation("bar"),
-                                                 new FieldLocation("foo.bar"));
+    assertThat(fields).containsExactlyInAnyOrder("foo", "bar", "foo.bar");
   }
 
   @ParameterizedTest(name = "{0} should be ignored")
-  @MethodSource("ignoringNullActualFieldsSource")
+  @MethodSource
   void should_ignore_actual_null_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
@@ -69,16 +67,15 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored", dualValue).isTrue();
   }
 
-  private static Stream<Arguments> ignoringNullActualFieldsSource() {
+  private static Stream<Arguments> should_ignore_actual_null_fields() {
     return Stream.of(arguments(dualValue(null, "John")),
                      arguments(dualValue(null, 123)),
                      arguments(dualValue(null, null)),
                      arguments(dualValue(null, new Date())));
-
   }
 
   @ParameterizedTest(name = "{0} should be ignored")
-  @MethodSource("ignoringActualOptionalEmptyFieldsSource")
+  @MethodSource
   void should_ignore_actual_optional_empty_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
@@ -88,17 +85,16 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored", dualValue).isTrue();
   }
 
-  private static Stream<Arguments> ignoringActualOptionalEmptyFieldsSource() {
+  private static Stream<Arguments> should_ignore_actual_optional_empty_fields() {
     return Stream.of(arguments(dualValue(Optional.empty(), "John")),
                      arguments(dualValue(Optional.empty(), Optional.of("John"))),
                      arguments(dualValue(OptionalInt.empty(), OptionalInt.of(123))),
                      arguments(dualValue(OptionalLong.empty(), OptionalLong.of(123L))),
                      arguments(dualValue(OptionalDouble.empty(), OptionalDouble.of(123.0))));
-
   }
 
   @ParameterizedTest(name = "{0} should be ignored")
-  @MethodSource("ignoringNullExpectedFieldsSource")
+  @MethodSource
   void should_ignore_expected_null_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
@@ -108,16 +104,15 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored", dualValue).isTrue();
   }
 
-  private static Stream<Arguments> ignoringNullExpectedFieldsSource() {
+  private static Stream<Arguments> should_ignore_expected_null_fields() {
     return Stream.of(arguments(dualValue("John", null)),
                      arguments(dualValue(123, null)),
                      arguments(dualValue(null, null)),
                      arguments(dualValue(new Date(), null)));
-
   }
 
   @ParameterizedTest(name = "{0} should be ignored with these ignored fields {1}")
-  @MethodSource("ignoringSpecifiedFieldsSource")
+  @MethodSource
   void should_ignore_specified_fields(DualValue dualValue, List<String> ignoredFields) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFields(ignoredFields.toArray(new String[0]));
@@ -127,12 +122,14 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored with these ignored fields %s", dualValue, ignoredFields).isTrue();
   }
 
-  private static Stream<Arguments> ignoringSpecifiedFieldsSource() {
+  private static Stream<Arguments> should_ignore_specified_fields() {
     return Stream.of(arguments(dualValueWithPath("name"), list("name")),
                      arguments(dualValueWithPath("name"), list("foo", "name", "foo")),
                      arguments(dualValueWithPath("name", "first"), list("name.first")),
+                     arguments(dualValueWithPath("name", "[2]", "first"), list("name.first")),
+                     arguments(dualValueWithPath("[0]", "first"), list("first")),
+                     arguments(dualValueWithPath("[1]", "first", "second"), list("first.second")),
                      arguments(dualValueWithPath("father", "name", "first"), list("father", "name.first", "father.name.first")));
-
   }
 
   @Test
@@ -146,7 +143,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @ParameterizedTest(name = "{0} should be ignored with these regexes {1}")
-  @MethodSource("ignoringRegexSpecifiedFieldsSource")
+  @MethodSource
   void should_ignore_fields_matching_given_regexes(DualValue dualValue, List<String> regexes) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regexes.toArray(new String[0]));
@@ -156,19 +153,21 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored with these regexes %s", dualValue, regexes).isTrue();
   }
 
-  private static Stream<Arguments> ignoringRegexSpecifiedFieldsSource() {
+  private static Stream<Arguments> should_ignore_fields_matching_given_regexes() {
     return Stream.of(arguments(dualValueWithPath("name"), list(".*name")),
                      arguments(dualValueWithPath("name"), list("foo", "n.m.", "foo")),
                      arguments(dualValueWithPath("name", "first"), list("name\\.first")),
                      arguments(dualValueWithPath("name", "first"), list(".*first")),
                      arguments(dualValueWithPath("name", "first"), list("name.*")),
+                     arguments(dualValueWithPath("name", "[2]", "first"), list("name\\.first")),
+                     arguments(dualValueWithPath("[0]", "first"), list("fir.*")),
+                     arguments(dualValueWithPath("[1]", "first", "second"), list("f..st\\..*nd")),
                      arguments(dualValueWithPath("father", "name", "first"),
                                list("father", "name.first", "father\\.name\\.first")));
-
   }
 
   @ParameterizedTest(name = "{0} should be ignored")
-  @MethodSource("ignoringFieldsSource")
+  @MethodSource
   void should_ignore_fields(DualValue dualValue) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*name");
@@ -180,13 +179,12 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).as("%s should be ignored", dualValue).isTrue();
   }
 
-  private static Stream<Arguments> ignoringFieldsSource() {
+  private static Stream<Arguments> should_ignore_fields() {
     return Stream.of(arguments(dualValueWithPath("name")),
                      arguments(dualValueWithPath("number")),
                      arguments(dualValueWithPath("surname")),
                      arguments(dualValueWithPath("first", "name")),
                      arguments(new DualValue(randomPath(), "actual", "expected")));
-
   }
 
   @Test
@@ -200,7 +198,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @ParameterizedTest(name = "{0} should be ignored with these ignored types {1}")
-  @MethodSource("ignoringSpecifiedTypesSource")
+  @MethodSource
   void should_ignore_fields_for_specified_types(DualValue dualValue, List<Class<?>> ignoredTypes) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(ignoredTypes.toArray(new Class<?>[0]));
@@ -211,7 +209,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
                        .isTrue();
   }
 
-  private static Stream<Arguments> ignoringSpecifiedTypesSource() {
+  private static Stream<Arguments> should_ignore_fields_for_specified_types() {
     return Stream.of(arguments(new DualValue(randomPath(), "actual", "expected"), list(String.class)),
                      arguments(new DualValue(randomPath(), randomUUID(), randomUUID()), list(String.class, UUID.class)));
   }
@@ -305,7 +303,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   @ParameterizedTest(name = "{0} should be ignored by specifying to ignore {1}")
-  @MethodSource("ignoringPrimitiveWrapperFields")
+  @MethodSource
   void should_be_able_to_ignore_primitive_field_by_specifying_their_wrapper_type(Object fieldValue, Class<?> wrapperType) {
     // GIVEN
     DualValue dualValue = new DualValue(randomPath(), fieldValue, fieldValue);
@@ -316,7 +314,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     assertThat(ignored).isTrue();
   }
 
-  private static Stream<Arguments> ignoringPrimitiveWrapperFields() {
+  private static Stream<Arguments> should_be_able_to_ignore_primitive_field_by_specifying_their_wrapper_type() {
     return Stream.of(arguments(false, Boolean.class),
                      arguments((byte) 0, Byte.class),
                      arguments('b', Character.class),

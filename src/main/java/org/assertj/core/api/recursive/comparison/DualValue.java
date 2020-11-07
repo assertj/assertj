@@ -14,15 +14,16 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Strings.join;
 
 import java.nio.file.Path;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -32,28 +33,28 @@ import java.util.SortedSet;
 import java.util.stream.Stream;
 
 // logically immutable
-final class DualValue {
+public final class DualValue {
 
   static final Class<?>[] DEFAULT_ORDERED_COLLECTION_TYPES = array(List.class, SortedSet.class, LinkedHashSet.class);
 
-  final List<String> path;
-  final String concatenatedPath;
+  final FieldLocation fieldLocation;
   final Object actual;
   final Object expected;
   private final int hashCode;
 
-  DualValue(List<String> path, Object actual, Object expected) {
-    this.path = newArrayList(path);
-    this.concatenatedPath = join(path).with(".");
-    this.actual = actual;
-    this.expected = expected;
-    int h1 = actual != null ? actual.hashCode() : 0;
-    int h2 = expected != null ? expected.hashCode() : 0;
-    hashCode = h1 + h2;
+  public DualValue(List<String> path, Object actual, Object expected) {
+    this(new FieldLocation(path), actual, expected);
   }
 
-  DualValue(List<String> parentPath, String fieldName, Object actual, Object expected) {
-    this(fieldPath(parentPath, fieldName), actual, expected);
+  static DualValue rootDualValue(Object actual, Object expected) {
+    return new DualValue(rootFieldLocation(), actual, expected);
+  }
+
+  public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue) {
+    this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
+    actual = actualFieldValue;
+    expected = expectedFieldValue;
+    hashCode = Objects.hash(actual, expected);
   }
 
   @Override
@@ -62,6 +63,7 @@ final class DualValue {
     DualValue that = (DualValue) other;
     // it is critical to compare by reference when tracking visited dual values.
     // see should_fix_1854_minimal_test for an explanation
+    // TODO add field location check?
     return actual == that.actual && expected == that.expected;
   }
 
@@ -72,20 +74,19 @@ final class DualValue {
 
   @Override
   public String toString() {
-    return format("DualValue [path=%s, actual=%s, expected=%s]", concatenatedPath, actual, expected);
+    return format("DualValue [fielLocation=%s, actual=%s, expected=%s]", fieldLocation, actual, expected);
   }
 
-  public List<String> getPath() {
-    return unmodifiableList(path);
+  public List<String> getDecomposedPath() {
+    return unmodifiableList(fieldLocation.getDecomposedPath());
   }
 
   public String getConcatenatedPath() {
-    return concatenatedPath;
+    return fieldLocation.getPathToUseInRules();
   }
 
   public String getFieldName() {
-    if (path.isEmpty()) return "";
-    return path.get(path.size() - 1);
+    return fieldLocation.getFieldName();
   }
 
   public boolean isActualJavaType() {
@@ -206,12 +207,6 @@ final class DualValue {
            o instanceof Map ||
            o instanceof Optional ||
            isArray(o);
-  }
-
-  private static List<String> fieldPath(List<String> parentPath, String fieldName) {
-    List<String> fieldPath = newArrayList(parentPath);
-    fieldPath.add(fieldName);
-    return fieldPath;
   }
 
   public boolean hasPotentialCyclingValues() {

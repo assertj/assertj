@@ -12,35 +12,50 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.joining;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 /**
- * @deprecated this class is meant to be internal and it is exposed only for backward compatibility together with
- *             {@link RecursiveComparisonConfiguration#registerComparatorForField(Comparator, FieldLocation)},
- *             it will be restricted to package-private visibility in the next major release.
+ * Represents the path to a given field. Immutable
  */
 // TODO should understand Map keys as field
-@Deprecated
+// TODO rename to FieldPath?
 public final class FieldLocation implements Comparable<FieldLocation> {
 
-  private final String fieldPath;
+  private final String pathToUseInRules;
+  private final List<String> decomposedPath; // TODO is it useful?
 
-  public FieldLocation(String fieldPath) {
-    this.fieldPath = Objects.requireNonNull(fieldPath, "'fieldPath' cannot be null");
+  public FieldLocation(List<String> path) {
+    decomposedPath = unmodifiableList(Objects.requireNonNull(path, "path cannot be null"));
+    pathToUseInRules = pathToUseInRules(decomposedPath);
   }
 
-  String getFieldPath() {
-    return fieldPath;
+  boolean matches(String fieldPath) {
+    return pathToUseInRules.equals(fieldPath);
+  }
+
+  public List<String> getDecomposedPath() {
+    return decomposedPath;
+  }
+
+  public String getPathToUseInRules() {
+    return pathToUseInRules;
+  }
+
+  FieldLocation field(String field) {
+    List<String> decomposedPathWithField = new ArrayList<>(decomposedPath);
+    decomposedPathWithField.add(field);
+    return new FieldLocation(decomposedPathWithField);
   }
 
   @Override
   public int compareTo(final FieldLocation other) {
-    return fieldPath.compareTo(other.fieldPath);
+    return pathToUseInRules.compareTo(other.pathToUseInRules);
   }
 
   @Override
@@ -48,40 +63,35 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     if (this == obj) return true;
     if (!(obj instanceof FieldLocation)) return false;
     FieldLocation that = (FieldLocation) obj;
-    return Objects.equals(fieldPath, that.fieldPath);
+    return Objects.equals(pathToUseInRules, that.pathToUseInRules)
+           && Objects.equals(decomposedPath, that.decomposedPath);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fieldPath);
+    return Objects.hash(pathToUseInRules, decomposedPath);
   }
 
   @Override
   public String toString() {
-    return String.format("FieldLocation [fieldPath=%s]", fieldPath);
+    return String.format("FieldLocation [pathToUseInRules=%s, decomposedPath=%s]", pathToUseInRules, decomposedPath);
   }
 
-  boolean matches(String concatenatedPath) {
-    return fieldPath.equals(concatenatedPath);
+  private static String pathToUseInRules(List<String> path) {
+    // remove the array subpath, so person.children.[2].name -> person.children.name
+    // rules for ignoring fields don't apply at the element level (ex: children.[2]) but at the group level (ex: children).
+    return path.stream()
+               .filter(subpath -> !subpath.startsWith("["))
+               .collect(joining("."));
   }
 
-  static List<FieldLocation> from(String... fieldPaths) {
-    return Stream.of(fieldPaths).map(FieldLocation::new).collect(toList());
+  public String getFieldName() {
+    if (decomposedPath.isEmpty()) return "";
+    return decomposedPath.get(decomposedPath.size() - 1);
   }
 
-  /**
-   * @deprecated use {@link #fieldLocation} instead
-   *
-   * @param fieldPath the field path.
-   * @return the built field location.
-   */
-  @Deprecated
-  public static FieldLocation fielLocation(String fieldPath) {
-    return fieldLocation(fieldPath);
-  }
-
-  public static FieldLocation fieldLocation(String fieldPath) {
-    return new FieldLocation(fieldPath);
+  static FieldLocation rootFieldLocation() {
+    return new FieldLocation(emptyList());
   }
 
 }

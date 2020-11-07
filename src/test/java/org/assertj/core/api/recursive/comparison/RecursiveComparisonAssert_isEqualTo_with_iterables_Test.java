@@ -40,7 +40,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     implements PersonData {
 
   @ParameterizedTest(name = "actual {0} / expected {1}")
-  @MethodSource("container_values")
+  @MethodSource
   void should_fail_as_Person_overridden_equals_should_be_honored(Object actual, Object expected,
                                                                  ComparisonDifference difference) {
     // GIVEN
@@ -51,7 +51,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
-  static Stream<Arguments> container_values() {
+  static Stream<Arguments> should_fail_as_Person_overridden_equals_should_be_honored() {
     // sheldon type is Person which overrides equals!
     Iterable<Person> actualAsIterable = newHashSet(sheldon);
     Iterable<PersonDto> expectAsIterable = newHashSet(sheldonDto);
@@ -62,13 +62,13 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     Map<String, PersonDto> expectedAsMap = newHashMap("sheldon", sheldonDto);
     Map<String, Person> actualAsMap = newHashMap("sheldon", sheldon);
     return Stream.of(Arguments.of(actualAsIterable, expectAsIterable, diff("", actualAsIterable, expectAsIterable)),
-                     Arguments.of(actualAsArray, expectedAsArray, diff("", sheldon, sheldonDto)),
+                     Arguments.of(actualAsArray, expectedAsArray, diff("[0]", sheldon, sheldonDto)),
                      Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto)),
                      Arguments.of(actualAsMap, expectedAsMap, diff("", sheldon, sheldonDto)));
   }
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")
-  @MethodSource("matchingCollections")
+  @MethodSource
   void should_pass_when_comparing_same_collection_fields(Collection<Author> authors1, Collection<Author> authors2) {
     // GIVEN
     WithCollection<Author> actual = new WithCollection<>(authors1);
@@ -78,7 +78,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                       .isEqualTo(expected);
   }
 
-  static Stream<Arguments> matchingCollections() {
+  static Stream<Arguments> should_pass_when_comparing_same_collection_fields() {
     Author pratchett = new Author("Terry Pratchett");
     Author georgeMartin = new Author("George Martin");
     Collection<Author> empty = emptyList();
@@ -114,7 +114,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
   }
 
   @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3} / value 2 {4}")
-  @MethodSource("differentCollections")
+  @MethodSource
   void should_fail_when_comparing_different_collection_fields(Collection<Author> authors1, Collection<Author> authors2,
                                                               String path, Object value1, Object value2, String desc) {
     // GIVEN
@@ -127,22 +127,22 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
-  static Stream<Arguments> differentCollections() {
+  static Stream<Arguments> should_fail_when_comparing_different_collection_fields() {
     Author pratchett = new Author("Terry Pratchett");
     Author georgeMartin = new Author("George Martin");
     Author none = null;
     Set<Author> pratchettHashSet = newHashSet(pratchett);
     List<Author> pratchettList = list(pratchett);
-    return Stream.of(Arguments.of(pratchettList, list(georgeMartin), "group.name", "Terry Pratchett", "George Martin", null),
+    return Stream.of(Arguments.of(pratchettList, list(georgeMartin), "group[0].name", "Terry Pratchett", "George Martin", null),
                      Arguments.of(list(pratchett, georgeMartin), pratchettList, "group",
                                   list(pratchett, georgeMartin), pratchettList,
                                   "actual and expected values are collections of different size, actual size=2 when expected size=1"),
-                     Arguments.of(pratchettList, list(none), "group", pratchett, null, null),
-                     Arguments.of(list(none), pratchettList, "group", null, pratchett, null),
+                     Arguments.of(pratchettList, list(none), "group[0]", pratchett, null, null),
+                     Arguments.of(list(none), pratchettList, "group[0]", null, pratchett, null),
                      // actual non ordered vs expected ordered collections
                      Arguments.of(pratchettHashSet, pratchettList, "group", pratchettHashSet, pratchettList,
                                   "expected field is an ordered collection but actual field is not (java.util.HashSet), ordered collections are: [java.util.List, java.util.SortedSet, java.util.LinkedHashSet]"),
-                     Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(georgeMartin), "group.name",
+                     Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(georgeMartin), "group[0].name",
                                   "Terry Pratchett", "George Martin", null),
                      Arguments.of(newHashSet(pratchett, georgeMartin), pratchettHashSet, "group",
                                   newHashSet(pratchett, georgeMartin), pratchettHashSet,
@@ -158,12 +158,12 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                      Arguments.of(authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett), "group",
                                   authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett),
                                   "actual and expected values are collections of different size, actual size=2 when expected size=1"),
-                     Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(none), "group", pratchett, null, null),
-                     Arguments.of(authorsTreeSet(none), authorsTreeSet(pratchett), "group", null, pratchett, null));
+                     Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(none), "group[0]", pratchett, null, null),
+                     Arguments.of(authorsTreeSet(none), authorsTreeSet(pratchett), "group[0]", null, pratchett, null));
   }
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")
-  @MethodSource("iterableWithNonIterables")
+  @MethodSource
   void should_fail_when_comparing_iterable_to_non_iterable(Object actualFieldValue, Collection<Author> expectedFieldValue,
                                                            String path, Object value1, Object value2, String desc) {
     // GIVEN
@@ -176,7 +176,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
-  static Stream<Arguments> iterableWithNonIterables() {
+  static Stream<Arguments> should_fail_when_comparing_iterable_to_non_iterable() {
     Author pratchett = new Author("Terry Pratchett");
     Author georgeMartin = new Author("George Martin");
     // We need to use the actual iterable and the expected list otherwise

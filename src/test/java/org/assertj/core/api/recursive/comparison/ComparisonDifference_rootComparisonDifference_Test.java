@@ -12,26 +12,25 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 
-import java.util.List;
-
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("DualValue constructor")
-class DualValue_constructor_Test {
+class ComparisonDifference_rootComparisonDifference_Test {
 
   @Test
-  void should_build_field_path() {
+  void should_build_ComparisonDifference_for_root_dual_value() {
     // GIVEN
-    DualValue dualValue = new DualValue(list("foo"), "bar", "", "");
+    ComparisonDifference comparisonDifference = rootComparisonDifference("foo", "bar", "info");
     // WHEN
-    String expectedFieldConcatenatedPath = dualValue.getConcatenatedPath();
-    List<String> expectedFieldPath = dualValue.getPath();
+    String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
-    assertThat(expectedFieldConcatenatedPath).isEqualTo("foo.bar");
-    assertThat(expectedFieldPath).isEqualTo(list("foo", "bar"));
+    assertThat(multiLineDescription).isEqualTo(format("Top level actual and expected objects differ:%n" +
+                                                      "- actual value   : \"foo\"%n" +
+                                                      "- expected value : \"bar\"%n" +
+                                                      "info"));
   }
+
 }

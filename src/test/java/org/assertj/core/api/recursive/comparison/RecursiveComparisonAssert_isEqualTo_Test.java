@@ -281,7 +281,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference friendNumberDifference = diff("friends.home.address.number", 99, 10);
+    ComparisonDifference friendNumberDifference = diff("friends[0].home.address.number", 99, 10);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, friendNumberDifference);
   }
 
