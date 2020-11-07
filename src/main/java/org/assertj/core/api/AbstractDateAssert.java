@@ -145,6 +145,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link AbstractAssert#isEqualTo(Object) isEqualTo(Date date)} but given date is represented as
+   * an {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isEqualTo(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if actual and given Date represented as {@code Instant} are not equal.
+   */
+  public SELF isEqualTo(Instant instant) {
+    return isEqualTo(Date.from(instant));
+  }
+
+  /**
    * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringHours(Date)} but given Date is represented as String
    * either with one of the default supported date format or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
@@ -191,6 +208,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isEqualToIgnoringHours(String dateAsString) {
     return isEqualToIgnoringHours(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringHours(Date)} but given Date is represented as
+   * an {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat(new Date()).isEqualToIgnoringHours(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if actual and given Date represented as {@code Instant} are not equal ignoring
+   *           hours, minutes, seconds and milliseconds.
+   */
+  public SELF isEqualToIgnoringHours(Instant instant) {
+    return isEqualToIgnoringHours(Date.from(instant));
   }
 
   /**
@@ -275,6 +308,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringMinutes(Date)} but given Date is represented as
+   * an {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat(new Date()).isEqualToIgnoringMinutes(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if actual and given Date represented as {@code Instant} are not equal ignoring minutes, seconds and
+   *           milliseconds.
+   */
+  public SELF isEqualToIgnoringMinutes(Instant instant) {
+    return isEqualToIgnoringMinutes(Date.from(instant));
+  }
+
+  /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but given Date should not take care of minutes,
    * seconds and milliseconds precision.
    * <p>
@@ -350,6 +399,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isEqualToIgnoringSeconds(String dateAsString) {
     return isEqualToIgnoringSeconds(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringSeconds(Date)} but given Date is represented as
+   * an {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat(new Date()).isEqualToIgnoringSeconds(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if actual and given Date represented as {@code Instant} are not equal ignoring seconds and
+   *           milliseconds.
+   */
+  public SELF isEqualToIgnoringSeconds(Instant instant) {
+    return isEqualToIgnoringSeconds(Date.from(instant));
   }
 
   /**
@@ -429,6 +494,21 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringMillis(Date)} but given Date is represented as
+   * an {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat(new Date()).isEqualToIgnoringMillis(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if actual and given Date represented as {@code Instant} are not equal ignoring milliseconds.
+   */
+  public SELF isEqualToIgnoringMillis(Instant instant) {
+    return isEqualToIgnoringMillis(Date.from(instant));
+  }
+
+  /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but given Date should not take care of milliseconds
    * precision.
    * <p>
@@ -500,6 +580,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isNotEqualTo(String dateAsString) {
     return isNotEqualTo(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(Date date)} but given date is
+   * represented as an {@code java.time.Instant}.
+   *
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if actual and given Date represented as {@code Instant} are equal.
+   */
+  public SELF isNotEqualTo(Instant instant) {
+    return isNotEqualTo(Date.from(instant));
   }
 
   /**
