@@ -150,8 +150,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * an {@code java.time.Instant}.
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * // theTwoTowers release date : 2002-12-18
+   * <pre><code class='java'> // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isEqualTo(Instant.now());</code></pre>
    *
    * @param instant the given Date represented as {@code Instant}.
@@ -216,7 +215,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * an {@code java.time.Instant}.
    * <p>
    * Example:
-   * <pre><code class='java'>assertThat(new Date()).isEqualToIgnoringHours(Instant.now());</code></pre>
+   * <pre><code class='java'> assertThat(new Date()).isEqualToIgnoringHours(Instant.now());</code></pre>
    *
    * @param instant the given Date represented as {@code Instant}.
    * @return this assertion object.
@@ -313,7 +312,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * an {@code java.time.Instant}.
    * <p>
    * Example:
-   * <pre><code class='java'>assertThat(new Date()).isEqualToIgnoringMinutes(Instant.now());</code></pre>
+   * <pre><code class='java'> assertThat(new Date()).isEqualToIgnoringMinutes(Instant.now());</code></pre>
    *
    * @param instant the given Date represented as {@code Instant}.
    * @return this assertion object.
@@ -407,7 +406,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * an {@code java.time.Instant}.
    * <p>
    * Example:
-   * <pre><code class='java'>assertThat(new Date()).isEqualToIgnoringSeconds(Instant.now());</code></pre>
+   * <pre><code class='java'> assertThat(new Date()).isEqualToIgnoringSeconds(Instant.now());</code></pre>
    *
    * @param instant the given Date represented as {@code Instant}.
    * @return this assertion object.
@@ -499,7 +498,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * an {@code java.time.Instant}.
    * <p>
    * Example:
-   * <pre><code class='java'>assertThat(new Date()).isEqualToIgnoringMillis(Instant.now());</code></pre>
+   * <pre><code class='java'> assertThat(new Date()).isEqualToIgnoringMillis(Instant.now());</code></pre>
    *
    * @param instant the given Date represented as {@code Instant}.
    * @return this assertion object.

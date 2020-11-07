@@ -14,14 +14,16 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
-
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link DateAssert#isNotEqualTo(Date)} and {@link DateAssert#isNotEqualTo(String)}.
- * 
+ * Tests for {@link DateAssert#isNotEqualTo(Date)}, {@link DateAssert#isNotEqualTo(String)} and
+ * {@link DateAssert#isNotEqualTo(Instant)}.
+ *
  * @author Joel Costigliola
  */
 class DateAssert_isNotEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
@@ -36,9 +38,19 @@ class DateAssert_isNotEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
     return assertions.isNotEqualTo(dateAsString);
   }
 
+  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
+    return assertions.isNotEqualTo(instant);
+  }
+
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Test
+  public void should_verify_assertion_with_instant_arg() {
+    assertionInvocationWithInstantArg(otherDate.toInstant());
+    verifyAssertionInvocation(otherDate);
   }
 
 }

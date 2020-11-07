@@ -12,14 +12,14 @@
  */
 package org.assertj.core.api.date;
 
+import static org.mockito.Mockito.verify;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 import org.assertj.core.api.DateAssert;
 import org.junit.jupiter.api.Test;
-
-import static org.mockito.Mockito.verify;
-
 
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringMillis(java.util.Date)}</code>.
