@@ -30,6 +30,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
