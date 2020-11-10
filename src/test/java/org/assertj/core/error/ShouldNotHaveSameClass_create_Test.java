@@ -34,6 +34,6 @@ class ShouldNotHaveSameClass_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nnot to have not the same class as:%n <\"Luke\"> (java.lang.String)"));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nnot to have the same class as:%n <\"Luke\"> (java.lang.String)"));
   }
 }

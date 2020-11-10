@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-class Objects_assertDoesNotHaveNotSameClassAs_Test extends ObjectsBaseTest {
+class Objects_assertDoesNotHaveSameClassAs_Test extends ObjectsBaseTest {
 
   private static Person actual;
 

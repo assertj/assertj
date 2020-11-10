@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Nicolas François
  */
-class AbstractAssert_hasTheSameClassAs_Test extends AbstractAssertBaseTest {
+class AbstractAssert_hasSameClassAs_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
