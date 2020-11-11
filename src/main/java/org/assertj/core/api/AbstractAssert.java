@@ -280,12 +280,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return getClass().getName().startsWith(ORG_ASSERTJ);
   }
 
-  private boolean isElementOfCustomAssert(StackTraceElement stackTraceElement) {
+  protected boolean isElementOfCustomAssert(StackTraceElement stackTraceElement) {
     Class<?> currentAssertClass = getClass();
     while (currentAssertClass != AbstractAssert.class) {
-      if (stackTraceElement.getClassName().equals(currentAssertClass.getName())) {
-        return true;
-      }
+      if (stackTraceElement.getClassName().equals(currentAssertClass.getName())) return true;
       currentAssertClass = currentAssertClass.getSuperclass();
     }
     return false;
