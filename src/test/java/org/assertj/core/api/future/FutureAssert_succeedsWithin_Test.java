@@ -22,12 +22,14 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
 @DisplayName("FutureAssert succeedsWithin")
 class FutureAssert_succeedsWithin_Test {
@@ -43,6 +45,7 @@ class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
+  @DisabledOnOs(WINDOWS)
   void should_allow_assertion_on_future_result_when_completed_normally_within_timeout() {
     // GIVEN
     String value = "done";
@@ -65,6 +68,7 @@ class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
+  @DisabledOnOs(WINDOWS)
   void should_fail_if_future_does_not_succeed_within_given_timeout() {
     // GIVEN
     int sleepDuration = 100_000;
