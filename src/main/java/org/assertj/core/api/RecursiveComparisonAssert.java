@@ -366,6 +366,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to ignore the given object under test fields. Nested fields can be specified like this: {@code home.address.street}.
    * <p>
+   * The given fieldNamesToIgnore are matched agains field names, not field values.
+   * <p>
    * Example:
    * <pre><code class='java'> public class Person {
    *   String name;
@@ -400,17 +402,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *                     .ignoringFields("name")
    *                     .isEqualTo(noName);</code></pre>
    *
-   * @param fieldsToIgnore the fields of the object under test to ignore in the comparison.
+   * @param fieldNamesToIgnore the field names of the object under test to ignore in the comparison.
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public SELF ignoringFields(String... fieldsToIgnore) {
-    recursiveComparisonConfiguration.ignoreFields(fieldsToIgnore);
+  public SELF ignoringFields(String... fieldNamesToIgnore) {
+    recursiveComparisonConfiguration.ignoreFields(fieldNamesToIgnore);
     return myself;
   }
 
   /**
-   * Makes the recursive comparison to ignore the object under test fields matching the given regexes.
+   * Makes the recursive comparison to ignore the object under test fields whose name matche the given regexes.
    * <p>
    * Nested fields can be specified by using dots like this: {@code home\.address\.street} ({@code \} is used to escape
    * dots since they have a special meaning in regexes).
