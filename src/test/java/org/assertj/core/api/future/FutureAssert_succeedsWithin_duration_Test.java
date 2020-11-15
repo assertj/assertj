@@ -14,7 +14,6 @@ package org.assertj.core.api.future;
 
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -24,13 +23,14 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("FutureAssert succeedsWithin(Duration)")
-class FutureAssert_succeedsWithin_duration_Test {
+class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
 
   @Test
   void should_allow_assertion_on_future_result_when_completed_normally() {
@@ -47,7 +47,7 @@ class FutureAssert_succeedsWithin_duration_Test {
     // GIVEN
     String value = "done";
     int sleepDuration = 10;
-    Future<String> future = futureAfter(value, sleepDuration);
+    Future<String> future = futureAfter(value, sleepDuration, executorService);
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
     assertThat(future).succeedsWithin(Duration.ofMillis(sleepDuration + 100))
@@ -68,7 +68,7 @@ class FutureAssert_succeedsWithin_duration_Test {
   void should_fail_if_future_does_not_succeed_within_given_timeout() {
     // GIVEN
     int sleepDuration = 100_000;
-    Future<String> future = futureAfter("ook!", sleepDuration);
+    Future<String> future = futureAfter("ook!", sleepDuration, executorService);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(10)));
     // THEN
@@ -102,8 +102,8 @@ class FutureAssert_succeedsWithin_duration_Test {
     then(assertionError).hasMessage(actualIsNull());
   }
 
-  private static <U> Future<U> futureAfter(U value, long sleepDuration) {
-    return newSingleThreadExecutor().submit(() -> {
+  private static <U> Future<U> futureAfter(U value, long sleepDuration, ExecutorService service) {
+    return service.submit(() -> {
       Thread.sleep(sleepDuration);
       return value;
     });

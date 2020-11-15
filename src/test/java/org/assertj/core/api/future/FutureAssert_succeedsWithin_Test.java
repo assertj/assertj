@@ -14,7 +14,6 @@ package org.assertj.core.api.future;
 
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,17 +21,16 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnOs;
 
 @DisplayName("FutureAssert succeedsWithin")
-class FutureAssert_succeedsWithin_Test {
+class FutureAssert_succeedsWithin_Test extends AbstractFutureTest {
 
   @Test
   void should_allow_assertion_on_future_result_when_completed_normally() {
@@ -45,12 +43,11 @@ class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
-  @DisabledOnOs(WINDOWS)
   void should_allow_assertion_on_future_result_when_completed_normally_within_timeout() {
     // GIVEN
     String value = "done";
     int sleepDuration = 10;
-    Future<String> future = completedFutureAfter(value, sleepDuration);
+    Future<String> future = completedFutureAfter(value, sleepDuration, executorService);
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
     assertThat(future).succeedsWithin(sleepDuration + 100, MILLISECONDS)
@@ -68,11 +65,10 @@ class FutureAssert_succeedsWithin_Test {
   }
 
   @Test
-  @DisabledOnOs(WINDOWS)
   void should_fail_if_future_does_not_succeed_within_given_timeout() {
     // GIVEN
     int sleepDuration = 100_000;
-    Future<String> future = completedFutureAfter("ook!", sleepDuration);
+    Future<String> future = completedFutureAfter("ook!", sleepDuration, executorService);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(10, MILLISECONDS));
     // THEN
@@ -106,9 +102,9 @@ class FutureAssert_succeedsWithin_Test {
     then(assertionError).hasMessage(actualIsNull());
   }
 
-  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration) {
+  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
     CompletableFuture<U> completableFuture = new CompletableFuture<>();
-    newSingleThreadExecutor().submit(() -> {
+    service.submit(() -> {
       Thread.sleep(sleepDuration);
       completableFuture.complete(value);
       return null;

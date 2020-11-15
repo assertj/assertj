@@ -17,29 +17,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.junit.jupiter.api.condition.OS.MAC;
-import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnOs;
 
 @DisplayName("FutureAssert failsWithin")
-class FutureAssert_failsWithin_Test {
+class FutureAssert_failsWithin_Test extends AbstractFutureTest {
 
   private static final Duration ONE_SECOND = Duration.ofSeconds(1);
 
   @Test
   void should_pass_when_future_does_not_complete_within_timeout_Duration() {
     // GIVEN
-    Future<String> future = futureCompletingAfter(ONE_SECOND);
+    Future<String> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN/THEN
     assertThat(future).failsWithin(Duration.ofMillis(50));
   }
@@ -47,7 +44,7 @@ class FutureAssert_failsWithin_Test {
   @Test
   void should_pass_when_future_does_not_complete_within_timeout() {
     // GIVEN
-    Future<String> future = futureCompletingAfter(ONE_SECOND);
+    Future<String> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN/THEN
     assertThat(future).failsWithin(50, MILLISECONDS);
   }
@@ -55,7 +52,7 @@ class FutureAssert_failsWithin_Test {
   @Test
   void should_allow_assertion_on_future_exception_when_future_did_not_complete_within_timeout_Duration() {
     // GIVEN
-    Future<String> future = futureCompletingAfter(ONE_SECOND);
+    Future<String> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN/THEN
     assertThat(future).failsWithin(Duration.ofMillis(50))
                       .withThrowableOfType(TimeoutException.class)
@@ -65,7 +62,7 @@ class FutureAssert_failsWithin_Test {
   @Test
   void should_allow_assertion_on_future_exception_when_future_did_not_complete_within_timeout() {
     // GIVEN
-    Future<String> future = futureCompletingAfter(ONE_SECOND);
+    Future<String> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN/THEN
     assertThat(future).failsWithin(50, MILLISECONDS)
                       .withThrowableOfType(TimeoutException.class)
@@ -73,10 +70,9 @@ class FutureAssert_failsWithin_Test {
   }
 
   @Test
-  @DisabledOnOs({ MAC, WINDOWS })
   void should_fail_if_future_completes_within_given_timeout() {
     // GIVEN
-    Future<String> future = futureCompletingAfter(Duration.ofMillis(10));
+    Future<String> future = futureCompletingAfter(Duration.ofMillis(10), executorService);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(50, MILLISECONDS));
     // THEN
@@ -84,10 +80,9 @@ class FutureAssert_failsWithin_Test {
   }
 
   @Test
-  @DisabledOnOs({ MAC, WINDOWS })
   void should_fail_if_future_completes_within_given_timeout_Duration() {
     // GIVEN
-    Future<String> future = futureCompletingAfter(Duration.ofMillis(10));
+    Future<String> future = futureCompletingAfter(Duration.ofMillis(10), executorService);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(Duration.ofMillis(50)));
     // THEN
@@ -129,8 +124,8 @@ class FutureAssert_failsWithin_Test {
     then(assertionError).hasMessage(actualIsNull());
   }
 
-  private static Future<String> futureCompletingAfter(Duration duration) {
-    return Executors.newSingleThreadExecutor().submit(() -> {
+  private static Future<String> futureCompletingAfter(Duration duration, ExecutorService service) {
+    return service.submit(() -> {
       Thread.sleep(duration.toMillis());
       return "ook!";
     });
