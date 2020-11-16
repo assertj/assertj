@@ -23,13 +23,13 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("CompletableFutureAssert succeedsWithin")
-class CompletableFutureAssert_succeedsWithin_Test {
+class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
 
   @Test
   void should_allow_assertion_on_future_result_when_completed_normally() {
@@ -46,7 +46,7 @@ class CompletableFutureAssert_succeedsWithin_Test {
     // GIVEN
     String value = "done";
     int sleepDuration = 10;
-    CompletableFuture<String> future = completedFutureAfter(value, sleepDuration);
+    CompletableFuture<String> future = completedFutureAfter(value, sleepDuration, executorService);
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
     assertThat(future).succeedsWithin(sleepDuration + 100, MILLISECONDS)
@@ -67,7 +67,7 @@ class CompletableFutureAssert_succeedsWithin_Test {
   void should_fail_if_completable_future_does_not_succeed_within_given_timeout() {
     // GIVEN
     int sleepDuration = 100000;
-    CompletableFuture<String> future = completedFutureAfter("ook!", sleepDuration);
+    CompletableFuture<String> future = completedFutureAfter("ook!", sleepDuration, executorService);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(10, MILLISECONDS));
     // THEN
@@ -113,9 +113,9 @@ class CompletableFutureAssert_succeedsWithin_Test {
                         .hasMessageContaining("to be completed within 1L Millis.");
   }
 
-  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration) {
+  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
     CompletableFuture<U> completableFuture = new CompletableFuture<>();
-    Executors.newSingleThreadExecutor().submit(() -> {
+    service.submit(() -> {
       Thread.sleep(sleepDuration);
       completableFuture.complete(value);
       return null;
