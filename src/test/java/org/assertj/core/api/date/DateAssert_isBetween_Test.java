@@ -49,7 +49,7 @@ class DateAssert_isBetween_Test extends AbstractDateAssertWithDateArg_Test {
   }
 
   @Test
-  public void should_verify_assertion_with_instant_arg() {
+  void should_verify_assertion_with_instant_arg() {
     assertionInvocationWithInstantArg(otherDate.toInstant());
     verifyAssertionInvocation(otherDate);
   }

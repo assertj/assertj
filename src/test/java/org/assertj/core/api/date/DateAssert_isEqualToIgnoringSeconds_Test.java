@@ -48,7 +48,7 @@ class DateAssert_isEqualToIgnoringSeconds_Test extends AbstractDateAssertWithDat
   }
 
   @Test
-  public void should_verify_assertion_with_instant_arg() {
+  void should_verify_assertion_with_instant_arg() {
     assertionInvocationWithInstantArg(otherDate.toInstant());
     verifyAssertionInvocation(otherDate);
   }
