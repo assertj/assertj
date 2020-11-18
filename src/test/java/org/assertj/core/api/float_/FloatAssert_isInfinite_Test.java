@@ -37,13 +37,13 @@ class FloatAssert_isInfinite_Test extends FloatAssertBaseTest {
   }
 
   @Test
-  public void should_check_for_positive_infinity() {
+  void should_check_for_positive_infinity() {
     assertThat(Float.POSITIVE_INFINITY).isPositive()
                                        .isInfinite();
   }
 
   @Test
-  public void should_check_for_negative_infinity() {
+  void should_check_for_negative_infinity() {
     assertThat(Float.NEGATIVE_INFINITY).isNegative()
                                        .isInfinite();
   }

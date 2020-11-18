@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class DoubleAssert_isInfinite_Test extends DoubleAssertBaseTest {
-  ;
 
   @Override
   protected DoubleAssert invoke_api_method() {
@@ -38,15 +37,14 @@ class DoubleAssert_isInfinite_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  public void should_check_for_positive_infinity() {
+  void should_check_for_positive_infinity() {
     assertThat(Double.POSITIVE_INFINITY).isPositive()
                                         .isInfinite();
   }
 
   @Test
-  public void should_check_for_negative_infinity() {
+  void should_check_for_negative_infinity() {
     assertThat(Double.NEGATIVE_INFINITY).isNegative()
                                         .isInfinite();
   }
-
 }
