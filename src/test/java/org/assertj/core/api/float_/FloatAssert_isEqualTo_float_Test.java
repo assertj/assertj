@@ -54,8 +54,8 @@ class FloatAssert_isEqualTo_float_Test extends FloatAssertBaseTest {
   }
 
   @ParameterizedTest
-  @CsvSource({ "1.0f, 1.0d", "0.0f, 0.0d", "0.0f, -0.0d", "-0.0f, 0.0d" })
-  void should_pass_using_primitive_comparison(double actual, double expected) {
+  @CsvSource({ "1.0f, 1.0f", "0.0f, 0.0f", "0.0f, -0.0f", "-0.0f, 0.0f" })
+  void should_pass_using_primitive_comparison(float actual, float expected) {
     assertThat(actual).isEqualTo(expected);
   }
 
