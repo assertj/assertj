@@ -889,6 +889,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is not a finite floating-point value.
    * @throws AssertionError if the actual value is null.
    * @see #isInfinite()
+   * @since 3.19.0
    */
   @Override
   public SELF isFinite() {
@@ -911,6 +912,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @return this assertion object.
    * @throws AssertionError if the actual value doesn't represent the positive infinity nor negative infinity.
    * @throws AssertionError if the actual value is null.
+   * @since 3.19.0
    */
   @Override
   public SELF isInfinite() {
