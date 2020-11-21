@@ -487,7 +487,7 @@
           <show>private</show>
           <footer><![CDATA[
             <link rel="stylesheet" href="./assertj-javadoc.css"">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.0/highlight.min.js"></script>
             <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
         ]]></footer>
         </configuration>
