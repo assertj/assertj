@@ -2772,9 +2772,26 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws NullPointerException if dateAsString parameter is {@code null}.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} week is not close to the given date by less than delta.
+   * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public SELF isCloseTo(String dateAsString, long deltaInMilliseconds) {
     return isCloseTo(parse(dateAsString), deltaInMilliseconds);
+  }
+
+  /**
+   * Same assertion as {@link #isCloseTo(Date, long)} but given date is represented as {java.time.Instant}.
+   * <p>
+   * <pre><code class='java'> assertThat(date).isCloseTo(Instant.now(), 80);</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @param deltaInMilliseconds the delta used for date comparison, expressed in milliseconds
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} week is not close to the given date by less than delta.
+   */
+  public SELF isCloseTo(Instant instant, long deltaInMilliseconds) {
+    return isCloseTo(Date.from(instant), deltaInMilliseconds);
   }
 
   /**
@@ -2841,7 +2858,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * // assertion will fail
    * assertThat(date).hasSameTimeAs("2003-04-26T12:00:01");
-   * assertThat(date).hasSameTimeAs("2003-04-27T12:00:00")</code></pre>
+   * assertThat(date).hasSameTimeAs("2003-04-27T12:00:00");</code></pre>
    * <p>
    * Defaults date format (expressed in the local time zone unless specified otherwise) are:
    * <ul>
@@ -2876,6 +2893,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF hasSameTimeAs(String dateAsString) {
     dates.hasSameTimeAs(info, actual, parse(dateAsString));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Date} represents the same time as the given date represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).hasSameTimeAs(Instant.now());</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if given date as {@code Instant} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} time is not equal to the time from date represented as {@code Instant}.
+   */
+  public SELF hasSameTimeAs(Instant instant) {
+    dates.hasSameTimeAs(info, actual, Date.from(instant));
     return myself;
   }
 
