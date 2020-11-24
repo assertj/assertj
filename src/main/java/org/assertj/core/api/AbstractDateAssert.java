@@ -66,6 +66,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author William Delanoue
  * @author Michal Kordas
  * @author Eddú Meléndez
+ * @author Arsen Ibragimov (@rS)
  */
 public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> extends AbstractAssert<SELF, Date> {
 
@@ -910,6 +911,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link #isBefore(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isBefore(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if given date is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not strictly before the given date represented as {@code Instant}.
+   */
+  public SELF isBefore(Instant instant) {
+    return isBefore(Date.from(instant));
+  }
+
+  /**
    * Verifies that the actual {@code Date} is before or equals to the given one.
    * <p>
    * Example:
@@ -1065,6 +1083,24 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link #isBeforeOrEqualTo(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualTo(Instant.now());</code></pre>
+   *
+   * @param other the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if given date is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not before or equals to the given date represented as {@code Instant}.
+   */
+  public SELF isBeforeOrEqualTo(Instant other) {
+    return isBeforeOrEqualTo(Date.from(other));
+  }
+
+  /**
    * Verifies that the actual {@code Date} is <b>strictly</b> after the given one.
    * <p>
    * Example:
@@ -1136,6 +1172,24 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isAfter(String dateAsString) {
     return isAfter(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isAfter(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will fail
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isAfter(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if given date is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not strictly after the given date represented as {@code Instant}.
+   */
+  public SELF isAfter(Instant instant) {
+    return isAfter(Date.from(instant));
   }
 
   /**
@@ -1291,6 +1345,24 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isAfterOrEqualTo(String dateAsString) {
     return isAfterOrEqualTo(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isAfterOrEqualTo(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will fail
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualTo(Instant.now());</code></pre>
+   *
+   * @param instant the given Date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if given date is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not after or equals to the given date represented as {@code Instant}.
+   */
+  public SELF isAfterOrEqualTo(Instant instant) {
+    return isAfterOrEqualTo(Date.from(instant));
   }
 
   /**

@@ -14,9 +14,11 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DateAssert#isAfterOrEqualTo(Date)}</code>.
@@ -35,9 +37,19 @@ class DateAssert_isAfterOrEqualTo_Test extends AbstractDateAssertWithDateArg_Tes
     return assertions.isAfterOrEqualTo(date);
   }
 
+  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
+    return assertions.isAfterOrEqualTo(instant);
+  }
+
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsAfterOrEqualTo(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Test
+  void should_verify_assertion_with_instant_arg() {
+    assertionInvocationWithInstantArg(otherDate.toInstant());
+    verifyAssertionInvocation(otherDate);
   }
 
 }
