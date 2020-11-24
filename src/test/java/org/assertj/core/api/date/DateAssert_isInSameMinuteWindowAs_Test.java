@@ -14,9 +14,11 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -36,9 +38,19 @@ class DateAssert_isInSameMinuteWindowAs_Test extends AbstractDateAssertWithDateA
     return assertions.isInSameMinuteWindowAs(date);
   }
 
+  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
+    return assertions.isInSameMinuteWindowAs(instant);
+  }
+
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsInSameMinuteWindowAs(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Test
+  void should_verify_assertion_with_instant_arg() {
+    assertionInvocationWithInstantArg(otherDate.toInstant());
+    verifyAssertionInvocation(otherDate);
   }
 
 }

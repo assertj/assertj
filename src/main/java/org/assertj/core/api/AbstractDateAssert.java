@@ -2090,6 +2090,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link #isInSameYearAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameYearAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same year.
+   */
+  public SELF isInSameYearAs(Instant instant) {
+    return isInSameYearAs(Date.from(instant));
+  }
+
+  /**
    * Verifies that actual and given {@code Date} have same month and year fields.
    * <p>
    * Example:
@@ -2157,6 +2173,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link #isInSameMonthAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameMonthAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same month.
+   */
+  public SELF isInSameMonthAs(Instant instant) {
+    return isInSameMonthAs(Date.from(instant));
+  }
+
+  /**
    * Verifies that actual and given {@code Date} have the same day of month, month and year fields values.
    * <p>
    * Example:
@@ -2221,6 +2253,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isInSameDayAs(String dateAsString) {
     return isInSameDayAs(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isInSameDayAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameDayAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same day of month.
+   */
+  public SELF isInSameDayAs(Instant instant) {
+    return isInSameDayAs(Date.from(instant));
   }
 
   /**
@@ -2297,10 +2345,26 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @return this assertion object.
    * @throws NullPointerException if dateAsString parameter is {@code null}.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
-   * @throws AssertionError if actual and given {@code Date} are not in the same day of month.
+   * @throws AssertionError if actual and given {@code Date} are not in the same hour.
    */
   public SELF isInSameHourWindowAs(String dateAsString) {
     return isInSameHourWindowAs(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isInSameHourWindowAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameHourWindowAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same hour.
+   */
+  public SELF isInSameHourWindowAs(Instant instant) {
+    return isInSameHourWindowAs(Date.from(instant));
   }
 
   /**
@@ -2380,6 +2444,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isInSameHourAs(String dateAsString) {
     return isInSameHourAs(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isInSameHourAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameHourAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same hour.
+   */
+  public SELF isInSameHourAs(Instant instant) {
+    return isInSameHourAs(Date.from(instant));
   }
 
   /**
@@ -2463,6 +2543,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link #isInSameMinuteWindowAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameMinuteWindowAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same minute.
+   */
+  public SELF isInSameMinuteWindowAs(Instant instant) {
+    return isInSameMinuteWindowAs(Date.from(instant));
+  }
+
+  /**
    * Verifies that actual and given {@code Date} have same minute, same hour, day, month and year fields values.
    * <p>
    * Example:
@@ -2541,6 +2637,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isInSameMinuteAs(String dateAsString) {
     return isInSameMinuteAs(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isInSameMinuteAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameMinuteAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same minute.
+   */
+  public SELF isInSameMinuteAs(Instant instant) {
+    return isInSameMinuteAs(Date.from(instant));
   }
 
   /**
@@ -2628,6 +2740,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Same assertion as {@link #isInSameSecondWindowAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameSecondWindowAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same second.
+   */
+  public SELF isInSameSecondWindowAs(Instant instant) {
+    return isInSameSecondWindowAs(Date.from(instant));
+  }
+
+  /**
    * Verifies that actual and given {@code Date} have same second, minute, hour, day, month and year fields values.
    *
    * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-01-01T12:00:01.000");
@@ -2700,6 +2828,22 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isInSameSecondAs(String dateAsString) {
     return isInSameSecondAs(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isInSameSecondAs(Date)} but given date is represented as {@code java.time.Instant}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(date).isInSameSecondAs(Instant.now())</code></pre>
+   *
+   * @param instant the given date represented as {@code Instant}.
+   * @return this assertion object.
+   * @throws NullPointerException if instant parameter is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given date represented as {@code Instant} are not in the same second.
+   */
+  public SELF isInSameSecondAs(Instant instant) {
+    return isInSameSecondAs(Date.from(instant));
   }
 
   /**
