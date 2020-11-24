@@ -3186,10 +3186,36 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     return dates;
   }
 
+  public static class WrappingDateComparator implements Comparator<Date> {
+    private final Comparator<? super Instant> comparator;
+
+    private WrappingDateComparator(Comparator<? super Instant> comparator) {
+      this.comparator = comparator;
+    }
+
+    public Comparator<? super Instant> getWrappedComparator() {
+      return comparator;
+    }
+
+    @Override
+    public int compare(Date date1, Date date2) {
+      return comparator.compare(date1.toInstant(), date2.toInstant());
+    }
+  }
+
+  private static Comparator<? super Date> toDateComparator(Comparator<? super Instant> comparator) {
+    return new WrappingDateComparator(comparator);
+  }
+
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Date> customComparator) {
     return usingComparator(customComparator, null);
+  }
+
+  @CheckReturnValue
+  public SELF usingInstantComparator(Comparator<? super Instant> customComparator) {
+    return usingComparator(toDateComparator(customComparator));
   }
 
   @Override
@@ -3197,6 +3223,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF usingComparator(Comparator<? super Date> customComparator, String customComparatorDescription) {
     this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
+  }
+
+  @CheckReturnValue
+  public SELF usingInstantComparator(Comparator<? super Instant> customComparator, String customComparatorDescription) {
+    return usingComparator(toDateComparator(customComparator), customComparatorDescription);
   }
 
   @Override
