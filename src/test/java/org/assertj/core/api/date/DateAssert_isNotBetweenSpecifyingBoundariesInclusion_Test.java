@@ -14,10 +14,12 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link DateAssert#isNotBetween(Date, Date, boolean, boolean)} and
@@ -48,9 +50,19 @@ class DateAssert_isNotBetweenSpecifyingBoundariesInclusion_Test extends Abstract
     return assertions.isNotBetween(dateAsString, dateAsString, inclusiveStart, inclusiveEnd);
   }
 
+  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
+    return assertions.isNotBetween(instant, instant, inclusiveStart, inclusiveEnd);
+  }
+
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsNotBetween(getInfo(assertions), getActual(assertions), date, date, inclusiveStart, inclusiveEnd);
+  }
+
+  @Test
+  void should_verify_assertion_with_instant_arg() {
+    assertionInvocationWithInstantArg(otherDate.toInstant());
+    verifyAssertionInvocation(otherDate);
   }
 
 }

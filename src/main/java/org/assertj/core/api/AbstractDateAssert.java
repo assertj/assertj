@@ -1513,8 +1513,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2000-01-01"), true, true);
    * assertThat(format.parse("2000-01-01")).isNotBetween(format.parse("1900-01-01"), format.parse("2100-01-01"), false, false);</code></pre>
    *
-   * @param start the period start (inclusive), expected not to be null.
-   * @param end the period end (exclusive), expected not to be null.
+   * @param start the period start, expected not to be null.
+   * @param end the period end, expected not to be null.
    * @param inclusiveStart whether to include start date in period.
    * @param inclusiveEnd whether to include end date in period.
    * @return this assertion object.
@@ -1569,8 +1569,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
    * you can explicitly specify the date format to use so that the default ones are bypassed.
    *
-   * @param start the period start (inclusive), expected not to be null.
-   * @param end the period end (exclusive), expected not to be null.
+   * @param start the period start, expected not to be null.
+   * @param end the period end, expected not to be null.
    * @param inclusiveStart whether to include start date in period.
    * @param inclusiveEnd whether to include end date in period.
    * @return this assertion object.
@@ -1582,6 +1582,29 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isNotBetween(String start, String end, boolean inclusiveStart, boolean inclusiveEnd) {
     return isNotBetween(parse(start), parse(end), inclusiveStart, inclusiveEnd);
+  }
+
+
+  /**
+   * Same assertion as {@link #isNotBetween(Date, Date, boolean, boolean)} but given date is represented as {@code java.time.Instant}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween(Instant.now(), Instant.now().plusSeconds(5), false, false);</code></pre>
+   *
+   * @param start the period start, expected not to be null.
+   * @param end the period end, expected not to be null.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws NullPointerException if start Date as {@code Instant} is {@code null}.
+   * @throws NullPointerException if end Date as {@code Instant} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not in (start, end) period.
+   */
+  public SELF isNotBetween(Instant start, Instant end, boolean inclusiveStart, boolean inclusiveEnd) {
+    return isNotBetween(Date.from(start), Date.from(end), inclusiveStart, inclusiveEnd);
   }
 
   /**
@@ -1660,6 +1683,26 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isNotBetween(String start, String end) {
     return isNotBetween(parse(start), parse(end), true, false);
+  }
+
+  /**
+   * Same assertion as {@link #isNotBetween(Date, Date)} but given date is represented as {@code java.time.Instant}
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween(Instant.now(), Instant.now().plusSeconds(5));</code></pre>
+   *
+   * @param start the period start (inclusive), expected not to be null.
+   * @param end the period end (exclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws NullPointerException if start date as {@code Instant} is {@code null}.
+   * @throws NullPointerException if end date as {@code Instant} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not in (start, end) period.
+   */
+  public SELF isNotBetween(Instant start, Instant end) {
+    return isNotBetween(Date.from(start), Date.from(end));
   }
 
   /**
