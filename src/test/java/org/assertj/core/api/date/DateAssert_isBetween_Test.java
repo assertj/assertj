@@ -18,13 +18,11 @@ import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
-import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for {@link DateAssert#isBetween(Date, Date)}, {@link DateAssert#isBetween(String, String)} and
  *  {@link DateAssert#isBetween(Instant, Instant)}.
- * 
+ *
  * @author Joel Costigliola
  */
 class DateAssert_isBetween_Test extends AbstractDateAssertWithDateArg_Test {
@@ -39,19 +37,14 @@ class DateAssert_isBetween_Test extends AbstractDateAssertWithDateArg_Test {
     return assertions.isBetween(dateAsString, dateAsString);
   }
 
-  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
-    return assertions.isBetween(instant, instant);
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isBetween(otherDate.toInstant(), otherDate.toInstant());
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsBetween(getInfo(assertions), getActual(assertions), date, date, true, false);
-  }
-
-  @Test
-  void should_verify_assertion_with_instant_arg() {
-    assertionInvocationWithInstantArg(otherDate.toInstant());
-    verifyAssertionInvocation(otherDate);
   }
 
 }

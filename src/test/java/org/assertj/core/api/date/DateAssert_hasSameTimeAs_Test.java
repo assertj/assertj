@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api.date;
 
-import org.assertj.core.api.DateAssert;
+import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.DateAssert;
 
 /**
  * Tests for <code>{@link DateAssert#hasSameTimeAs}</code>.
@@ -25,18 +25,25 @@ import static org.mockito.Mockito.verify;
  */
 class DateAssert_hasSameTimeAs_Test extends AbstractDateAssertWithDateArg_Test {
 
-    @Override
-    protected DateAssert assertionInvocationWithDateArg() {
-        return assertions.hasSameTimeAs(otherDate);
-    }
+  @Override
+  protected DateAssert assertionInvocationWithDateArg() {
+    return assertions.hasSameTimeAs(otherDate);
+  }
 
-    @Override
-    protected DateAssert assertionInvocationWithStringArg(String date) {
-        return assertions.hasSameTimeAs(date);
-    }
+  @Override
+  protected DateAssert assertionInvocationWithStringArg(String date) {
+    return assertions.hasSameTimeAs(date);
+  }
 
-    @Override
-    protected void verifyAssertionInvocation(Date date) {
-        verify(dates).hasSameTimeAs(getInfo(assertions), getActual(assertions), date);
-    }
+  @Override
+  protected void verifyAssertionInvocation(Date date) {
+    verify(dates).hasSameTimeAs(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    // hasSameTimeAs(Instant) was not added as it is logically equivalent to isEqualTo(Instant)
+    return null;
+  }
+
 }

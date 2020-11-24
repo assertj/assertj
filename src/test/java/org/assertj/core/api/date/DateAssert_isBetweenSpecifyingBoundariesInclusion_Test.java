@@ -14,17 +14,15 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
-import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link DateAssert#isBetween(Date, Date, boolean, boolean)} and
  * {@link DateAssert#isBetween(String, String, boolean, boolean)}.
- * 
+ *
  * @author Joel Costigliola
  */
 class DateAssert_isBetweenSpecifyingBoundariesInclusion_Test extends AbstractDateAssertWithDateArg_Test {
@@ -50,19 +48,14 @@ class DateAssert_isBetweenSpecifyingBoundariesInclusion_Test extends AbstractDat
     return assertions.isBetween(dateAsString, dateAsString, inclusiveStart, inclusiveEnd);
   }
 
-  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
-    return assertions.isBetween(instant, instant, inclusiveStart, inclusiveEnd);
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isBetween(otherDate.toInstant(), otherDate.toInstant(), inclusiveStart, inclusiveEnd);
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsBetween(getInfo(assertions), getActual(assertions), date, date, inclusiveStart, inclusiveEnd);
-  }
-
-  @Test
-  public void should_verify_assertion_with_instant_arg() {
-    assertionInvocationWithInstantArg(otherDate.toInstant());
-    verifyAssertionInvocation(otherDate);
   }
 
 }

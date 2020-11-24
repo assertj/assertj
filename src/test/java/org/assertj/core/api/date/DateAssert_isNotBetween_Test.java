@@ -18,10 +18,9 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for {@link DateAssert#isNotBetween(Date, Date)} and {@link DateAssert#isNotBetween(String, String)}.
- * 
+ *
  * @author Joel Costigliola
  */
 class DateAssert_isNotBetween_Test extends AbstractDateAssertWithDateArg_Test {
@@ -39,6 +38,11 @@ class DateAssert_isNotBetween_Test extends AbstractDateAssertWithDateArg_Test {
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsNotBetween(getInfo(assertions), getActual(assertions), date, date, true, false);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isNotBetween(otherDate.toInstant(), otherDate.toInstant());
   }
 
 }

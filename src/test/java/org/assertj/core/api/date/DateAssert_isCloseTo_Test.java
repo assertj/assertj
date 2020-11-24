@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Tests for {@link DateAssert#isCloseTo(Date, long)} and {@link DateAssert#isCloseTo(String, long)}.
- * 
+ *
  * @author Joel Costigliola
  */
 class DateAssert_isCloseTo_Test extends AbstractDateAssertWithDateArg_Test {
@@ -48,6 +48,11 @@ class DateAssert_isCloseTo_Test extends AbstractDateAssertWithDateArg_Test {
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsCloseTo(getInfo(assertions), getActual(assertions), date, delta);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isCloseTo(otherDate.toInstant(), delta);
   }
 
 }

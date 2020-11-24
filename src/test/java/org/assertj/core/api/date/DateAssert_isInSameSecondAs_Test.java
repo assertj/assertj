@@ -18,7 +18,6 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#isInSameSecondAs(java.util.Date)}</code>.
  *
@@ -39,6 +38,12 @@ class DateAssert_isInSameSecondAs_Test extends AbstractDateAssertWithDateArg_Tes
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsInSameSecondAs(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    // not added as isInSameSecondAs is the same as isEqualToIgnoringMillis.
+    return null;
   }
 
 }

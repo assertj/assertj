@@ -18,7 +18,6 @@ import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link DateAssert#isNotEqualTo(Date)}, {@link DateAssert#isNotEqualTo(String)} and
@@ -47,10 +46,9 @@ class DateAssert_isNotEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
     verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions), date);
   }
 
-  @Test
-  void should_verify_assertion_with_instant_arg() {
-    assertionInvocationWithInstantArg(otherDate.toInstant());
-    verifyAssertionInvocation(otherDate);
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isNotEqualTo(otherDate.toInstant());
   }
 
 }

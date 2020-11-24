@@ -14,12 +14,10 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.DateAssert;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringHours(java.util.Date)}</code>.
@@ -38,19 +36,14 @@ class DateAssert_isEqualToIgnoringHours_Test extends AbstractDateAssertWithDateA
     return assertions.isEqualToIgnoringHours(date);
   }
 
-  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
-    return assertions.isEqualToIgnoringHours(instant);
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isEqualToIgnoringHours(otherDate.toInstant());
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsEqualWithPrecision(getInfo(assertions), getActual(assertions), date, TimeUnit.HOURS);
-  }
-
-  @Test
-  void should_verify_assertion_with_instant_arg() {
-    assertionInvocationWithInstantArg(otherDate.toInstant());
-    verifyAssertionInvocation(otherDate);
   }
 
 }

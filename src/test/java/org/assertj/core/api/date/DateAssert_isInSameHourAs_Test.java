@@ -18,7 +18,6 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#isInSameHourAs(java.util.Date)}</code>.
  *
@@ -39,6 +38,12 @@ class DateAssert_isInSameHourAs_Test extends AbstractDateAssertWithDateArg_Test 
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsInSameHourAs(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    // not added as isInSameHourAs is the same as isEqualToIgnoringMinutes.
+    return null;
   }
 
 }

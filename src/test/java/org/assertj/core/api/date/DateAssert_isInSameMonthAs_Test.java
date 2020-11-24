@@ -18,10 +18,9 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for <code>{@link DateAssert#isInSameMonthAs(Date)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class DateAssert_isInSameMonthAs_Test extends AbstractDateAssertWithDateArg_Test {
@@ -39,6 +38,11 @@ class DateAssert_isInSameMonthAs_Test extends AbstractDateAssertWithDateArg_Test
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsInSameMonthAs(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isInSameMonthAs(otherDate.toInstant());
   }
 
 }

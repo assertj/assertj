@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.DateAssert;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringSeconds(java.util.Date)}</code>.
@@ -47,10 +46,9 @@ class DateAssert_isEqualToIgnoringSeconds_Test extends AbstractDateAssertWithDat
     verify(dates).assertIsEqualWithPrecision(getInfo(assertions), getActual(assertions), date, TimeUnit.SECONDS);
   }
 
-  @Test
-  void should_verify_assertion_with_instant_arg() {
-    assertionInvocationWithInstantArg(otherDate.toInstant());
-    verifyAssertionInvocation(otherDate);
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isEqualToIgnoringSeconds(otherDate);
   }
 
 }

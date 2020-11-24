@@ -18,12 +18,10 @@ import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
-import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for {@link DateAssert#isIn(Object...)} with vararg of Date or String.
- * 
+ *
  * @author Joel Costigliola
  */
 class DateAssert_isIn_with_vararg_param_Test extends AbstractDateAssertWithDateArg_Test {
@@ -47,10 +45,9 @@ class DateAssert_isIn_with_vararg_param_Test extends AbstractDateAssertWithDateA
     verify(objects).assertIsIn(getInfo(assertions), getActual(assertions), new Object[] { date });
   }
 
-  @Test
-  void should_verify_assertion_with_instant_arg() {
-    assertionInvocationWithInstantArg(otherDate.toInstant());
-    verifyAssertionInvocation(otherDate);
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isIn(otherDate.toInstant());
   }
 
 }

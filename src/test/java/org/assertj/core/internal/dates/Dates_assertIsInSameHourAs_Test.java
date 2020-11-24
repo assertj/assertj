@@ -23,16 +23,16 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsInSameHourAs(AssertionInfo, Date, Date)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class Dates_assertIsInSameHourAs_Test extends DatesBaseTest {
@@ -68,6 +68,7 @@ class Dates_assertIsInSameHourAs_Test extends DatesBaseTest {
   @Test
   void should_pass_if_actual_is_in_same_hour_as_given_date() {
     dates.assertIsInSameHourAs(someInfo(), actual, parseDatetime("2011-01-01T03:59:02"));
+    dates.assertIsEqualWithPrecision(someInfo(), actual, parseDatetime("2011-01-01T03:59:02"), TimeUnit.HOURS);
   }
 
   @Test
@@ -83,7 +84,9 @@ class Dates_assertIsInSameHourAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameHourAs(someInfo(), null, new Date()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameHourAs(someInfo(),
+                                                                                                                            null,
+                                                                                                                            new Date()))
                                                    .withMessage(actualIsNull());
   }
 

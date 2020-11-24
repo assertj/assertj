@@ -18,12 +18,10 @@ import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
-import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for {@link DateAssert#isEqualTo(Date)} and {@link DateAssert#isEqualTo(String)}.
- * 
+ *
  * @author Joel Costigliola
  */
 class DateAssert_isEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
@@ -47,10 +45,9 @@ class DateAssert_isEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
     verify(objects).assertEqual(getInfo(assertions), getActual(assertions), date);
   }
 
-  @Test
-  void should_verify_assertion_with_instant_arg() {
-    assertionInvocationWithInstantArg(otherDate.toInstant());
-    verifyAssertionInvocation(otherDate);
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isEqualTo(otherDate.toInstant());
   }
 
 }
