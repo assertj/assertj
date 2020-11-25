@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 class LongArrayAssert_containsSubsequence_with_Long_array_Test extends LongArrayAssertBaseTest {
 
   @Test
-  void should_fail_if_values_is_null() {
+  void should_fail_if_subsequence_is_null() {
     // GIVEN
     Long[] subsequence = null;
     // WHEN
