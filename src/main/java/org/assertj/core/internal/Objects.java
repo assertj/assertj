@@ -415,6 +415,15 @@ public class Objects {
     if (actual == other) throw failures.failure(info, shouldNotBeSame(actual));
   }
 
+  /**
+   * Verifies that the actual ToString value is equal to the given String.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param expectedToString the string to compare against.
+   * @throws AssertionError if the actual ToString value is not equal to the given String.
+   * @throws NullPointerException if the actual value is null.
+   */
   public void assertHasToString(AssertionInfo info, Object actual, String expectedToString) {
     assertNotNull(info, actual);
     String actualString = actual.toString();

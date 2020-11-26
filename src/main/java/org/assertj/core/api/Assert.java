@@ -467,7 +467,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param expectedToString the expected String description of actual.
    * @return this assertion object.
-   * @throws AssertionError if {@code actual.toString()} result is not to the given {@code String}.
+   * @throws AssertionError if {@code actual.toString()} result is not equal to the given {@code String}.
    * @throws AssertionError if actual is {@code null}.
    */
   SELF hasToString(String expectedToString);

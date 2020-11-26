@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
 class ShouldHaveToString_create_Test {
@@ -25,17 +26,17 @@ class ShouldHaveToString_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    String actual = "c++";
-    String expectedToString = "java";
+    Jedi actual = new Jedi("Yoda", "green");
+    String expectedToString = "Luke the Jedi";
     // WHEN
     String errorMessage = shouldHaveToString(actual, expectedToString).create(new TestDescription("TEST"),
                                                                               STANDARD_REPRESENTATION);
     // THEN
     then(errorMessage).isEqualTo(format("[TEST] %n" +
                                         "Expecting actual's toString() to return:%n" +
-                                        "  <\"java\">%n" +
+                                        "  <\"Luke the Jedi\">%n" +
                                         "but was:%n" +
-                                        "  <\"c++\">"));
+                                        "  <\"Yoda the Jedi\">"));
   }
 
 }
