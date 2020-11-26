@@ -46,6 +46,7 @@ import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.assertj.core.error.ShouldNotHaveSameHashCode.shouldNotHaveSameHashCode;
+import static org.assertj.core.error.ShouldNotHaveToString.shouldNotHaveToString;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
 import static org.assertj.core.util.Lists.list;
@@ -419,6 +420,22 @@ public class Objects {
     String actualString = actual.toString();
     if (!actualString.equals(expectedToString))
       throw failures.failure(info, shouldHaveToString(actualString, expectedToString), actualString, expectedToString);
+  }
+
+  /**
+   * Verifies that the actual ToString value is not equal to the given String.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param otherToString the string to compare against.
+   * @throws AssertionError if the actual ToString value is equal to the given String.
+   * @throws NullPointerException if the actual value is null.
+   */
+  public void assertDoesNotHaveToString(AssertionInfo info, Object actual, String otherToString) {
+    assertNotNull(info, actual);
+    String actualToString = actual.toString();
+    if (actualToString.equals(otherToString))
+      throw failures.failure(info, shouldNotHaveToString(actualToString, otherToString));
   }
 
   /**
