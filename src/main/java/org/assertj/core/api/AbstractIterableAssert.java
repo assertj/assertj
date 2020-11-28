@@ -2758,34 +2758,29 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Verifies that all given consumers can be satisfied by elements in the iterable under test with
    * an element at most satisfying one consumer. No order requirement.
    * <p>
-   * This assertion is to test whether there are enough elements in the iterable that can satisfy all the consumers.
+   * This assertion is to test whether there are enough elements in the iterable and whether any order of elements exists that can satisfy all consumers.
    * <p>
    * Examples:
    * <pre><code class='java'>
    * List&lt;String&gt; starWarsCharacterNames = newArrayList("Luke", "Leia", "Yoda");
    *
    * // this assertion succeeds:
-   * assertThat(starWarsCharacterNames ).satisfy(name --&gt; {
-   *       assertThat(name).doesNotContain("L");
-   *     }, name --&gt; {
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
+   *     name --&gt; {
    *       assertThat(name).hasSize(4);
-   *       assertThat(name).doesNotContain("a");
+   *       assertThat(name).doesNotContain("a"); // matches "Luke", thus 1st consumer can only match "Leia"
    *     });
    *
    * // these assertions fail:
-   * assertThat(starWarsCharacterNames ).satisfy(name --&gt; {
-   *       assertThat(name).doesNotContain("L");
-   *     }, name --&gt; {
-   *       assertThat(name).doesNotContain("L");
-   *     });
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).doesNotContain("L"), 
+   *     name --&gt; assertThat(name).doesNotContain("L"));
    *
-   * assertThat(starWarsCharacterNames ).satisfy(name --&gt; {
-   *       assertThat(name).contains("L");
-   *     }, name --&gt; {
-   *       assertThat(name).contains("L");
-   *     }, name --&gt; {
-   *       assertThat(name).contains("L");
-   *     });</code></pre>
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"));</code></pre>
    *
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
